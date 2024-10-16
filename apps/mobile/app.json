@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Wave",
+    "slug": "wave",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#fc3c44"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#fc3c44"
+      },
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.itslhuis.wave"
+    },
+    "androidNavigationBar": {
+      "backgroundColor": "#fc3c44"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b22bbcd6-87c9-40bc-9870-2243efce86fa"
+      }
+    }
+  }
+}
