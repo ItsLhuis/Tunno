@@ -9,9 +9,7 @@ import { spacing, elevation, border, borderRadius } from "@constants/styles"
 
 import { Tabs } from "expo-router"
 
-import { TouchableOpacity } from "react-native"
-
-import { View, Text } from "@components/ui"
+import { View, Text, Icon, Pressable } from "@components/ui"
 
 import { TabBarIcon } from "@components/navigation"
 
@@ -31,7 +29,7 @@ export default function TabLayout() {
             elevation: elevation.none,
             borderTopWidth: border.none
           },
-          tabBarActiveTintColor: colors.tint,
+          tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.icon,
           tabBarLabelStyle: {
             fontSize: size.xxSmall,
@@ -80,19 +78,57 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-      <TouchableOpacity
+      <Pressable
         style={{
           position: "absolute",
           bottom: bottomTabBarHeight + spacing.large,
           left: spacing.large,
           right: spacing.large,
-          padding: spacing.large,
-          borderRadius: borderRadius.medium,
+          padding: spacing.medium,
+          borderRadius: borderRadius.small,
           backgroundColor: "#fc3c44"
         }}
       >
-        <Text style={{ color: "#ECEDEE" }}>Overlay Content</Text>
-      </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: spacing.xSmall
+          }}
+        >
+          <View
+            style={{
+              padding: spacing.large,
+              borderRadius: borderRadius.xSmall,
+              backgroundColor: "#ECEDEE"
+            }}
+          />
+          <View style={{ flex: 1, flexDirection: "column" }}>
+            <Text variant="bold" style={{ color: "#ECEDEE" }} numberOfLines={1}>
+              Overlay Content
+            </Text>
+            <Text
+              style={{ fontSize: size.xSmall, color: "#ECEDEE", opacity: 0.8 }}
+              numberOfLines={1}
+            >
+              Overlay Content
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: spacing.xSmall
+            }}
+          >
+            <Icon name="play-back" style={{ color: "#ECEDEE" }} />
+            <Icon name="play" style={{ color: "#ECEDEE" }} />
+            <Icon name="play-forward" style={{ color: "#ECEDEE" }} />
+          </View>
+        </View>
+      </Pressable>
     </View>
   )
 }

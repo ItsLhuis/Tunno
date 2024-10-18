@@ -50,11 +50,13 @@ export default function RootLayout() {
 
   return (
     <Splash isAppLoaded={isAppReady}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
         <ThemeProvider value={theme}>
           <StatusBar translucent style="auto" />
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="settings" options={{ headerShown: false }} />
+            <Stack.Screen name="downloads" options={{ headerShown: false }} />
           </Stack>
         </ThemeProvider>
       </GestureHandlerRootView>

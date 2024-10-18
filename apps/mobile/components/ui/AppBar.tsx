@@ -1,13 +1,15 @@
-import { type ViewProps, type StyleProp, type ViewStyle } from "react-native"
-
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+
 import { useThemeColor } from "@hooks/useThemeColor"
 
 import { size } from "@constants/font"
 import { spacing } from "@constants/styles"
 
-import { View } from "./View"
+import { type StyleProp, type ViewStyle } from "react-native"
+
+import { View, ViewProps } from "./View"
 import { Text } from "./Text"
+import { Icon } from "./Icon"
 import { SearchInput } from "./SearchInput"
 
 export type AppBarProps = ViewProps & {
@@ -15,8 +17,9 @@ export type AppBarProps = ViewProps & {
   renderLeft?: () => React.ReactNode
   renderRight?: () => React.ReactNode
   containerStyle?: StyleProp<ViewStyle>
+  hideSearch?: boolean
   searchPlaceholder?: string
-  searchValue?: string
+  value?: string
   onSearchChange?: (text: string) => void
 }
 
@@ -25,8 +28,9 @@ export function AppBar({
   renderLeft,
   renderRight,
   containerStyle,
+  hideSearch = false,
   searchPlaceholder = "Search",
-  searchValue,
+  value,
   onSearchChange,
   ...rest
 }: AppBarProps) {
@@ -38,9 +42,9 @@ export function AppBar({
     <View
       style={[
         {
-          paddingHorizontal: spacing.large,
-          paddingTop: insets.top + spacing.xxLarge + spacing.small,
+          paddingTop: insets.top + spacing.medium,
           paddingBottom: spacing.large,
+          paddingHorizontal: spacing.large,
           gap: spacing.small
         },
         containerStyle
@@ -49,43 +53,53 @@ export function AppBar({
     >
       <View
         style={{
+          minHeight: 30,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
           gap: spacing.medium
         }}
       >
-        {renderLeft && (
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            {renderLeft()}
-          </View>
-        )}
-        <Text type="bold" style={{ flex: 1, color: colors.text, fontSize: size.xxLarge }}>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          {renderLeft ? renderLeft() : <Icon name="information" style={{ opacity: 0 }} />}
+        </View>
+        {/*         <Text
+          numberOfLines={1}
+          variant="bold"
+          style={{ flex: 1, textAlign: "center", color: colors.text, fontSize: size.medium }}
+        >
           {title}
-        </Text>
-        {renderRight && (
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            {renderRight()}
-          </View>
-        )}
+        </Text> */}
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          {renderRight ? renderRight() : <Icon name="information" style={{ opacity: 0 }} />}
+        </View>
       </View>
-      <SearchInput
-        placeholder={searchPlaceholder}
-        placeholderTextColor={colors.placeholder}
-        onChangeText={onSearchChange}
-        value={searchValue}
-        style={{ backgroundColor: colors.tabBarBackground }}
-      />
+      <Text
+        numberOfLines={2}
+        variant="bold"
+        style={{ color: colors.text, fontSize: size.xxLarge, marginTop: spacing.medium }}
+      >
+        {title}
+      </Text>
+      {!hideSearch && (
+        <SearchInput
+          placeholder={searchPlaceholder}
+          placeholderTextColor={colors.placeholder}
+          value={value}
+          onChangeText={onSearchChange}
+          style={{ backgroundColor: colors.tabBarBackground }}
+        />
+      )}
     </View>
   )
 }

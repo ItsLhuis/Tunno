@@ -1,3 +1,13 @@
+export const iconSize = {
+  xxLarge: 48,
+  xLarge: 32,
+  large: 24,
+  medium: 16,
+  small: 12,
+  xSmall: 8,
+  xxSmall: 4
+}
+
 export const spacing = {
   xxLarge: 48,
   xLarge: 32,
