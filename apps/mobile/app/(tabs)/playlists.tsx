@@ -10,7 +10,7 @@ export default function Playlists() {
         return <IconButton name="download-outline" onPress={() => router.push("/downloads")} />
       }}
       renderRight={() => {
-        return <IconButton name="settings-outline" onPress={() => router.push("/downloads")} />
+        return <IconButton name="settings-outline" onPress={() => router.push("/settings")} />
       }}
     />
   )

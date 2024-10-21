@@ -54,13 +54,17 @@ export function Splash({ isAppLoaded = true, children }: SplashProps) {
       setIsAppReady(false)
     } finally {
       configureNavigationBar()
-      opacity.value = withTiming(1, { duration: 250 }, () => runOnJS(setIsAppReady)(true))
+      opacity.value = withTiming(1, { duration: 250 }, (finished) => {
+        if (finished) runOnJS(setIsAppReady)(true)
+      })
     }
   }, [])
 
   useEffect(() => {
     if (isAppFinished) {
-      opacity.value = withTiming(0, { duration: 250 }, () => runOnJS(setIsSplashComplete)(true))
+      opacity.value = withTiming(0, { duration: 250 }, (finished) => {
+        if (finished) runOnJS(setIsSplashComplete)(true)
+      })
     }
   }, [isAppFinished])
 

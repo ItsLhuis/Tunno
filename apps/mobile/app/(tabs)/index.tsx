@@ -21,10 +21,15 @@ export default function Songs() {
           return <IconButton name="download-outline" onPress={() => router.push("/downloads")} />
         }}
         renderRight={() => {
-          return <IconButton name="settings-outline" onPress={() => router.push("/downloads")} />
+          return <IconButton name="settings-outline" onPress={() => router.push("/settings")} />
         }}
       />
-      <View style={{ paddingHorizontal: spacing.large, gap: spacing.small }}>
+      <View
+        style={{
+          marginHorizontal: spacing.medium + spacing.xSmall,
+          gap: spacing.small
+        }}
+      >
         <Button title="Press!" onPress={() => setIsLoading(!isLoading)} />
         <Button title="Press!" loading={isLoading} onPress={() => setIsLoading(!isLoading)} />
         <Button

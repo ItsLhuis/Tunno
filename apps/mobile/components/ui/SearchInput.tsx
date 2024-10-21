@@ -4,7 +4,7 @@ import { useThemeColor } from "@hooks/useThemeColor"
 
 import { spacing, borderRadius } from "@constants/styles"
 
-import { TextInput as RNTextInput } from "react-native"
+import { TextInput as RNTextInput, StyleProp, ViewStyle } from "react-native"
 import { TextInput, TextInputProps } from "./TextInput"
 import { Pressable } from "./Pressable"
 import { Button } from "./Button"
@@ -19,7 +19,17 @@ import Animated, {
   interpolate
 } from "react-native-reanimated"
 
-export function SearchInput({ style, value, onChangeText, ...rest }: TextInputProps) {
+export type SearchInputProps = TextInputProps & {
+  containerStyle?: StyleProp<ViewStyle>
+}
+
+export function SearchInput({
+  style,
+  value,
+  onChangeText,
+  containerStyle,
+  ...rest
+}: SearchInputProps) {
   const inputRef = useRef<RNTextInput>(null)
 
   const colors = useThemeColor()
@@ -64,18 +74,19 @@ export function SearchInput({ style, value, onChangeText, ...rest }: TextInputPr
     >
       <Pressable
         onPress={handlePress}
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: colors.tabBarBackground,
-          borderRadius: borderRadius.xSmall,
-          paddingHorizontal: spacing.small
-        }}
+        style={[
+          {
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: colors.tabBarBackground,
+            borderRadius: borderRadius.xSmall,
+            paddingHorizontal: spacing.small
+          },
+          containerStyle
+        ]}
       >
-        <View>
-          <Icon name="search" size={18} color={colors.placeholder} />
-        </View>
+        <Icon name="search" size={18} color={colors.placeholder} />
         <TextInput
           ref={inputRef}
           onFocus={handleFocus}
@@ -111,7 +122,7 @@ export function SearchInput({ style, value, onChangeText, ...rest }: TextInputPr
           variant="text"
           title="Cancel"
           onPress={handleBlur}
-          style={{ paddingRight: 0, paddingLeft: spacing.xSmall }}
+          style={{ paddingRight: spacing.none, paddingLeft: spacing.xSmall }}
           textStyle={{ color: colors.primary }}
         />
       </Animated.View>

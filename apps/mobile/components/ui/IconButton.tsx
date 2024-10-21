@@ -2,6 +2,7 @@ import { borderRadius, spacing } from "@constants/styles"
 
 import { Icon, IconProps } from "./Icon"
 import { Button, type ButtonProps } from "./Button"
+import { View } from "./View"
 
 export type IconButtonProps = Omit<ButtonProps, "title" | "children" | "textStyle" | "color"> & {
   name: IconProps["name"]
@@ -19,23 +20,25 @@ export function IconButton({
   ...rest
 }: IconButtonProps) {
   return (
-    <Button
-      variant="text"
-      color="secondary"
-      loading={loading}
-      disabled={disabled}
-      style={[
-        {
-          paddingVertical: spacing.xSmall,
-          paddingHorizontal: spacing.xSmall,
-          margin: -spacing.xSmall,
-          borderRadius: borderRadius.round
-        },
-        style
-      ]}
-      {...rest}
-    >
-      <Icon name={name} size={size} color={color} />
-    </Button>
+    <View>
+      <Button
+        variant="text"
+        color="secondary"
+        loading={loading}
+        disabled={disabled}
+        style={[
+          {
+            paddingVertical: spacing.xSmall,
+            paddingHorizontal: spacing.xSmall,
+            margin: -spacing.xSmall,
+            borderRadius: borderRadius.round
+          },
+          style
+        ]}
+        {...rest}
+      >
+        <Icon name={name} size={size} color={color} />
+      </Button>
+    </View>
   )
 }
