@@ -25,7 +25,7 @@ export function Player() {
     <Pressable
       onLayout={(event) => {
         const { height } = event.nativeEvent.layout
-        setPlayerHeight(height)
+        setPlayerHeight(height + spacing.small)
       }}
       style={{
         position: "absolute",

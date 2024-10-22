@@ -48,7 +48,6 @@ export function Header({
 
   const [headerHeight, setHeaderHeight] = useState<number>(0)
 
-  const [titleHeight, setTitleHeight] = useState<number>(0)
   const [searchInputHeight, setSearchInputHeight] = useState<number>(0)
 
   const headerTitleTranslateY =
@@ -58,7 +57,7 @@ export function Header({
           outputRange: [headerHeight, 0],
           extrapolate: "clamp"
         })
-      : headerHeight
+      : -headerHeight
 
   const headerTitleOpacity =
     isAnimated && scrollY
@@ -83,7 +82,7 @@ export function Header({
   const bigHeaderTitleOpacity =
     isAnimated && scrollY
       ? scrollY.interpolate({
-          inputRange: [0, (5 * headerHeight) / 7],
+          inputRange: [0, (5 * (headerHeight + searchInputHeight)) / 7],
           outputRange: [1, 0],
           extrapolate: "clamp"
         })
@@ -95,7 +94,7 @@ export function Header({
         {
           marginTop: insets.top,
           marginBottom: !hideSearch ? searchInputHeight + spacing.large : 0,
-          paddingBottom: hideSearch ? spacing.medium : spacing.medium,
+          paddingBottom: spacing.large,
           paddingHorizontal: spacing.large,
           zIndex: zIndex.high
         },
@@ -166,16 +165,10 @@ export function Header({
                 transform: [{ translateY: bigHeaderTitleTranslateY }]
               }
             : {},
-          { gap: spacing.small }
+          { gap: spacing.medium }
         ]}
       >
-        <Animated.View
-          onLayout={(event) => {
-            const { height } = event.nativeEvent.layout
-            setTitleHeight(height || 0)
-          }}
-          style={{ opacity: isAnimated ? bigHeaderTitleOpacity : 1 }}
-        >
+        <Animated.View style={{ opacity: isAnimated ? bigHeaderTitleOpacity : 1 }}>
           <Text
             numberOfLines={2}
             variant="bold"
@@ -196,7 +189,7 @@ export function Header({
               }
 
               if (onHeaderHeightChange) {
-                onHeaderHeightChange(headerHeight + height + spacing.small)
+                onHeaderHeightChange(headerHeight + height + spacing.xxSmall)
               }
             }}
             placeholder={searchPlaceholder}
