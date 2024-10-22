@@ -4,14 +4,14 @@ import { usePlayerContext } from "@contexts/PlayerContext"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
-import { spacing, zIndex } from "@constants/styles"
+import { iconSize, spacing, zIndex } from "@constants/styles"
 
 import { Animated as RNAnimated, StyleSheet } from "react-native"
 
-import { View } from "./View"
-import { AppBar, type AppBarProps } from "./AppBar"
+import { View } from "../View"
+import { Header, type HeaderProps } from "./Header"
 import { FlashList, type FlashListProps } from "@shopify/flash-list"
-import { ActivityIndicator } from "./ActivityIndicator"
+import { ActivityIndicator } from "../ActivityIndicator"
 
 import Animated, {
   useSharedValue,
@@ -20,16 +20,18 @@ import Animated, {
   runOnJS
 } from "react-native-reanimated"
 
-export type AppBarListProps<T> = AppBarProps & FlashListProps<T>
+export type ListProps<T> = FlashListProps<T> & {
+  headerProps: HeaderProps
+  hasPlayer?: boolean
+}
 
-export function AppBarList<T>({
-  title,
-  renderLeft,
-  renderRight,
+export function List<T>({
+  headerProps,
+  hasPlayer = true,
   contentContainerStyle,
   ...rest
-}: AppBarListProps<T>) {
-  const { playerHeight } = usePlayerContext()
+}: ListProps<T>) {
+  const playerHeight = hasPlayer ? usePlayerContext()?.playerHeight || 0 : 0
 
   const colors = useThemeColor()
 
@@ -44,7 +46,7 @@ export function AppBarList<T>({
       opacity.value = withTiming(0, { duration: 300 }, () => {
         runOnJS(setIsLayoutComplete)(true)
       })
-    }, 300)
+    }, 100)
   }
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -59,11 +61,17 @@ export function AppBarList<T>({
     useNativeDriver: false
   })
 
+  const headerSeparatorOpacity = scrollY.interpolate({
+    inputRange: [0, headerHeight * 0.6, headerHeight],
+    outputRange: [0, 0.1, 1],
+    extrapolate: "clamp"
+  })
+
   const combinedContentContainerStyle = StyleSheet.flatten([
     contentContainerStyle,
     {
       paddingBottom: playerHeight + (spacing.small + spacing.xxSmall) * 2,
-      paddingTop: headerHeight,
+      paddingTop: headerProps.isAnimated ? headerHeight - spacing.medium : 0,
       paddingHorizontal: spacing.large
     }
   ])
@@ -83,18 +91,19 @@ export function AppBarList<T>({
             animatedStyle
           ]}
         >
-          <ActivityIndicator size={31} color={colors.primary} />
+          <ActivityIndicator size={iconSize.xLarge} color={colors.primary} />
         </Animated.View>
       )}
-      <AppBar
-        isForList
-        scrollY={scrollY}
-        title={title}
-        renderLeft={renderLeft}
-        renderRight={renderRight}
-        onHeaderHeightChange={setHeaderHeight}
+      <Header {...headerProps} scrollY={scrollY} onHeaderHeightChange={setHeaderHeight} />
+      <RNAnimated.View
+        style={{
+          opacity: headerSeparatorOpacity,
+          backgroundColor: colors.tabBarBackground,
+          height: 1,
+          width: "100%"
+        }}
       />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, zIndex: headerProps.hideSearch ? zIndex.high : zIndex.low }}>
         <FlashList
           {...rest}
           scrollEventThrottle={16}

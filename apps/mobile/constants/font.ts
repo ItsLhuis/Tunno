@@ -2,7 +2,7 @@ export const family = {
   bold: "SpaceGrotesk-Bold",
   medium: "SpaceGrotesk-Medium",
   regular: "SpaceGrotesk-Regular",
-  light: "SpaceGrotesk-Light",
+  light: "SpaceGrotesk-Light"
 }
 
 export const size = {

@@ -3,23 +3,26 @@ import { useThemeColor } from "@hooks/useThemeColor"
 import { size } from "@constants/font"
 import { borderRadius, spacing } from "@constants/styles"
 
-import { AppBarList, Icon, IconButton, Text, View } from "@components/ui"
+import { List, Icon, IconButton, Text, View } from "@components/ui"
 
 import { router } from "expo-router"
 
-const data = Array.from({ length: 20 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
+const data = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
 
 export default function Favorites() {
   const colors = useThemeColor()
 
   return (
-    <AppBarList
-      title="Favorites"
-      renderLeft={() => {
-        return <IconButton name="download-outline" onPress={() => router.push("/downloads")} />
-      }}
-      renderRight={() => {
-        return <IconButton name="settings-outline" onPress={() => router.push("/settings")} />
+    <List
+      headerProps={{
+        isAnimated: true,
+        title: "Favorites",
+        renderLeft: () => {
+          return <IconButton name="download-outline" onPress={() => router.push("/downloads")} />
+        },
+        renderRight: () => {
+          return <IconButton name="settings-outline" onPress={() => router.push("/settings")} />
+        }
       }}
       data={data}
       renderItem={({ item, index }) => (

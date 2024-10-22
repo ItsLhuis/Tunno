@@ -9,12 +9,12 @@ import { spacing, zIndex } from "@constants/styles"
 
 import { Animated, type StyleProp, type ViewStyle } from "react-native"
 
-import { View, ViewProps } from "./View"
-import { Text } from "./Text"
-import { Icon } from "./Icon"
-import { SearchInput } from "./SearchInput"
+import { View, ViewProps } from "../View"
+import { Text } from "../Text"
+import { Icon } from "../Icon"
+import { SearchInput } from "../SearchInput"
 
-export type AppBarProps = ViewProps & {
+export type HeaderProps = ViewProps & {
   title?: string
   renderLeft?: () => React.ReactNode
   renderRight?: () => React.ReactNode
@@ -24,11 +24,11 @@ export type AppBarProps = ViewProps & {
   value?: string
   onSearchChange?: (text: string) => void
   scrollY?: Animated.Value
-  isForList?: boolean
+  isAnimated?: boolean
   onHeaderHeightChange?: (height: number) => void
 }
 
-export function AppBar({
+export function Header({
   title = "Title",
   renderLeft,
   renderRight,
@@ -38,56 +38,66 @@ export function AppBar({
   value,
   onSearchChange,
   scrollY,
-  isForList = false,
+  isAnimated = false,
   onHeaderHeightChange,
   ...rest
-}: AppBarProps) {
+}: HeaderProps) {
   const insets = useSafeAreaInsets()
 
   const colors = useThemeColor()
 
   const [headerHeight, setHeaderHeight] = useState<number>(0)
 
-  const headerTitleTranslateY = scrollY
-    ? scrollY.interpolate({
-        inputRange: [0, headerHeight],
-        outputRange: [headerHeight, 0],
-        extrapolate: "clamp"
-      })
-    : headerHeight
+  const [titleHeight, setTitleHeight] = useState<number>(0)
+  const [searchInputHeight, setSearchInputHeight] = useState<number>(0)
 
-  const headerTitleOpacity = scrollY
-    ? scrollY.interpolate({
-        inputRange: [0, headerHeight * 0.6, headerHeight],
-        outputRange: [0, 0.1, 1],
-        extrapolate: "clamp"
-      })
-    : 0
+  const headerTitleTranslateY =
+    isAnimated && scrollY
+      ? scrollY.interpolate({
+          inputRange: [0, headerHeight],
+          outputRange: [headerHeight, 0],
+          extrapolate: "clamp"
+        })
+      : headerHeight
 
-  const bigHeaderTitleTranslateY = scrollY
-    ? scrollY.interpolate({
-        inputRange: [0, headerHeight],
-        outputRange: [0, -headerHeight],
-        extrapolate: "clamp"
-      })
-    : 0
+  const headerTitleOpacity =
+    isAnimated && scrollY
+      ? scrollY.interpolate({
+          inputRange: [0, headerHeight * 0.6, headerHeight],
+          outputRange: [0, 0.1, 1],
+          extrapolate: "clamp"
+        })
+      : 0
 
-  const bigHeaderTitleOpacity = scrollY
-    ? scrollY.interpolate({
-        inputRange: [0, (5 * headerHeight) / 7],
-        outputRange: [1, 0],
-        extrapolate: "clamp"
-      })
-    : 1
+  const adjustedHeaderInputRange = Math.max(headerHeight + searchInputHeight - spacing.small, 0)
+
+  const bigHeaderTitleTranslateY =
+    isAnimated && scrollY
+      ? scrollY.interpolate({
+          inputRange: [0, adjustedHeaderInputRange],
+          outputRange: [0, -adjustedHeaderInputRange],
+          extrapolate: "clamp"
+        })
+      : 0
+
+  const bigHeaderTitleOpacity =
+    isAnimated && scrollY
+      ? scrollY.interpolate({
+          inputRange: [0, (5 * headerHeight) / 7],
+          outputRange: [1, 0],
+          extrapolate: "clamp"
+        })
+      : 1
 
   return (
     <View
       style={[
         {
-          marginBottom: spacing.large,
+          marginTop: insets.top,
+          marginBottom: !hideSearch ? searchInputHeight + spacing.large : 0,
+          paddingBottom: hideSearch ? spacing.medium : spacing.medium,
           paddingHorizontal: spacing.large,
-          paddingBottom: isForList ? headerHeight - spacing.xSmall : 0,
-          gap: spacing.small
+          zIndex: zIndex.high
         },
         containerStyle
       ]}
@@ -102,12 +112,12 @@ export function AppBar({
           }
         }}
         style={{
-          paddingTop: insets.top + spacing.medium,
+          paddingTop: spacing.medium,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
           gap: spacing.medium,
-          zIndex: zIndex.medium
+          zIndex: zIndex.high
         }}
       >
         <View
@@ -118,7 +128,7 @@ export function AppBar({
         >
           {renderLeft ? renderLeft() : <Icon name="information" style={{ opacity: 0 }} />}
         </View>
-        {isForList && (
+        {isAnimated && (
           <Animated.View
             style={{
               transform: [{ translateY: headerTitleTranslateY }],
@@ -146,20 +156,26 @@ export function AppBar({
       </View>
       <Animated.View
         style={[
-          isForList
+          isAnimated
             ? {
                 position: "absolute",
-                top: headerHeight + spacing.small,
+                top: headerHeight + spacing.medium,
                 left: 0,
                 right: 0,
                 paddingHorizontal: spacing.large,
                 transform: [{ translateY: bigHeaderTitleTranslateY }]
               }
             : {},
-          { gap: spacing.small, zIndex: zIndex.xLow }
+          { gap: spacing.small }
         ]}
       >
-        <Animated.View style={{ opacity: isForList ? bigHeaderTitleOpacity : 1 }}>
+        <Animated.View
+          onLayout={(event) => {
+            const { height } = event.nativeEvent.layout
+            setTitleHeight(height || 0)
+          }}
+          style={{ opacity: isAnimated ? bigHeaderTitleOpacity : 1 }}
+        >
           <Text
             numberOfLines={2}
             variant="bold"
@@ -168,15 +184,28 @@ export function AppBar({
             {title}
           </Text>
         </Animated.View>
-        {!hideSearch && (
+        <View style={{ opacity: hideSearch ? 0 : 1 }}>
           <SearchInput
+            onLayout={(event) => {
+              const { height } = event.nativeEvent.layout
+              setSearchInputHeight(height || 0)
+
+              if (!hideSearch && onHeaderHeightChange) {
+                onHeaderHeightChange(headerHeight + height)
+                return
+              }
+
+              if (onHeaderHeightChange) {
+                onHeaderHeightChange(headerHeight + height + spacing.small)
+              }
+            }}
             placeholder={searchPlaceholder}
             placeholderTextColor={colors.placeholder}
             value={value}
             onChangeText={onSearchChange}
             style={{ backgroundColor: colors.tabBarBackground }}
           />
-        )}
+        </View>
       </Animated.View>
     </View>
   )

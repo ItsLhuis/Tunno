@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
-import { spacing, borderRadius } from "@constants/styles"
+import { spacing, borderRadius, iconSize } from "@constants/styles"
 
 import { TextInput as RNTextInput, StyleProp, ViewStyle } from "react-native"
 import { TextInput, TextInputProps } from "./TextInput"
@@ -86,7 +86,7 @@ export function SearchInput({
           containerStyle
         ]}
       >
-        <Icon name="search" size={18} color={colors.placeholder} />
+        <Icon name="search" size={iconSize.medium} color={colors.placeholder} />
         <TextInput
           ref={inputRef}
           onFocus={handleFocus}
@@ -99,7 +99,7 @@ export function SearchInput({
         <Animated.View style={clearStyle}>
           <IconButton
             name="close"
-            size={18}
+            size={iconSize.medium}
             color={colors.placeholder}
             onPress={() => {
               if (clearAnimation.value === 0) {
