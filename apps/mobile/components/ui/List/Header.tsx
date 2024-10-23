@@ -7,7 +7,7 @@ import { useThemeColor } from "@hooks/useThemeColor"
 import { size } from "@constants/font"
 import { spacing, zIndex } from "@constants/styles"
 
-import { Animated, type StyleProp, type ViewStyle } from "react-native"
+import { Dimensions, Animated, type StyleProp, type ViewStyle } from "react-native"
 
 import { View, ViewProps } from "../View"
 import { Text } from "../Text"
@@ -50,10 +50,12 @@ export function Header({
 
   const [searchInputHeight, setSearchInputHeight] = useState<number>(0)
 
+  const adjustedHeaderInputRange = Math.max(headerHeight + searchInputHeight - spacing.small, 0)
+
   const headerTitleTranslateY =
     isAnimated && scrollY
       ? scrollY.interpolate({
-          inputRange: [0, headerHeight],
+          inputRange: [0, adjustedHeaderInputRange],
           outputRange: [headerHeight, 0],
           extrapolate: "clamp"
         })
@@ -62,13 +64,11 @@ export function Header({
   const headerTitleOpacity =
     isAnimated && scrollY
       ? scrollY.interpolate({
-          inputRange: [0, headerHeight * 0.6, headerHeight],
-          outputRange: [0, 0.1, 1],
+          inputRange: [0, adjustedHeaderInputRange],
+          outputRange: [0, 1],
           extrapolate: "clamp"
         })
       : 0
-
-  const adjustedHeaderInputRange = Math.max(headerHeight + searchInputHeight - spacing.small, 0)
 
   const bigHeaderTitleTranslateY =
     isAnimated && scrollY
@@ -82,7 +82,7 @@ export function Header({
   const bigHeaderTitleOpacity =
     isAnimated && scrollY
       ? scrollY.interpolate({
-          inputRange: [0, (5 * (headerHeight + searchInputHeight)) / 7],
+          inputRange: [0, adjustedHeaderInputRange],
           outputRange: [1, 0],
           extrapolate: "clamp"
         })
@@ -177,19 +177,21 @@ export function Header({
             {title}
           </Text>
         </Animated.View>
-        <View style={{ opacity: hideSearch ? 0 : 1 }}>
+        <View
+          style={
+            hideSearch && {
+              opacity: 0,
+              transform: [{ translateY: -Dimensions.get("window").height }]
+            }
+          }
+        >
           <SearchInput
             onLayout={(event) => {
               const { height } = event.nativeEvent.layout
               setSearchInputHeight(height || 0)
 
-              if (!hideSearch && onHeaderHeightChange) {
-                onHeaderHeightChange(headerHeight + height)
-                return
-              }
-
               if (onHeaderHeightChange) {
-                onHeaderHeightChange(headerHeight + height + spacing.xxSmall)
+                onHeaderHeightChange(headerHeight + height)
               }
             }}
             placeholder={searchPlaceholder}
