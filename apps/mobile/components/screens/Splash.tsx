@@ -10,7 +10,10 @@ import { PRIMARY_COLOR } from "@constants/colors"
 
 import Constants from "expo-constants"
 
-import { Platform, StyleSheet, Image, View } from "react-native"
+import { Platform, StyleSheet } from "react-native"
+
+import { Image } from "../ui/Image"
+import { View } from "../ui/View"
 
 import Animated, {
   useSharedValue,
@@ -60,7 +63,7 @@ export function Splash({ isAppLoaded = true, children }: SplashProps) {
     }
   }, [])
 
-  useEffect(() => {
+  useEffect(() => {    
     if (isAppFinished) {
       opacity.value = withTiming(0, { duration: 250 }, (finished) => {
         if (finished) runOnJS(setIsSplashComplete)(true)
@@ -89,12 +92,12 @@ export function Splash({ isAppLoaded = true, children }: SplashProps) {
             style={{
               aspectRatio: 1,
               height: undefined,
-              width: "60%",
-              resizeMode: "contain"
+              width: "60%"
             }}
+            contentFit="contain"
             source={require("@assets/images/adaptive-icon.png")}
             onLoadEnd={onImageLoaded}
-            fadeDuration={0}
+            transition={0}
           />
         </Animated.View>
       )}

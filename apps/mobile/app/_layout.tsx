@@ -31,11 +31,15 @@ export default function RootLayout() {
   })
 
   useEffect(() => {
-    if (fontsLoaded) return
-
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setIsAppReady(true)
     }, 1000)
+
+    if (fontsLoaded) {
+      setIsAppReady(true)
+    }
+
+    return () => clearTimeout(timeoutId)
   }, [fontsLoaded])
 
   const themeScheme = colorScheme === "dark" ? DarkTheme : DefaultTheme
@@ -56,7 +60,6 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="settings" options={{ headerShown: false }} />
-            <Stack.Screen name="downloads" options={{ headerShown: false }} />
           </Stack>
         </ThemeProvider>
       </GestureHandlerRootView>

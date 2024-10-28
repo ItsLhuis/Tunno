@@ -3,7 +3,7 @@ import { useThemeColor } from "@hooks/useThemeColor"
 import { size } from "@constants/font"
 import { borderRadius, spacing } from "@constants/styles"
 
-import { BackIcon } from "@components/navigation"
+import { BackIcon } from "@/components/navigation"
 import { List, Icon, IconButton, Text, View } from "@components/ui"
 
 const data = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))

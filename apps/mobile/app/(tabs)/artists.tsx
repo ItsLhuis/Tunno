@@ -17,11 +17,8 @@ export default function Artists() {
       headerProps={{
         isAnimated: true,
         title: "Artists",
-        renderLeft: () => {
-          return <IconButton name="download-outline" onPress={() => router.push("/downloads")} />
-        },
         renderRight: () => {
-          return <IconButton name="settings-outline" onPress={() => router.push("/settings")} />
+          return <IconButton name="cog-outline" onPress={() => router.push("/settings")} />
         }
       }}
       data={data}

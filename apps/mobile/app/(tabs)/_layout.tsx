@@ -5,15 +5,13 @@ import { useThemeColor } from "@hooks/useThemeColor"
 import { PlayerProvider } from "@contexts/PlayerContext"
 
 import { family, size } from "@constants/font"
-import { elevation, border } from "@constants/styles"
+import { elevation, border, spacing } from "@constants/styles"
 
 import { Tabs } from "expo-router"
 
-import { View } from "@components/ui"
+import { View, Icon } from "@components/ui"
 
 import { Player } from "@components/navigation"
-
-import { TabBarIcon } from "@components/navigation"
 
 export default function TabLayout() {
   const bottomTabBarHeight = useBottomTabBarHeight()
@@ -38,6 +36,7 @@ export default function TabLayout() {
               fontSize: size.xxSmall,
               fontFamily: family.bold
             },
+            tabBarIconStyle: { marginBottom: -spacing.xSmall },
             headerShown: false
           }}
         >
@@ -46,7 +45,7 @@ export default function TabLayout() {
             options={{
               title: "Songs",
               tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon
+                <Icon
                   name={focused ? "musical-notes" : "musical-notes-outline"}
                   color={color}
                 />
@@ -58,7 +57,7 @@ export default function TabLayout() {
             options={{
               title: "Favorites",
               tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "heart" : "heart-outline"} color={color} />
+                <Icon name={focused ? "heart" : "heart-outline"} color={color} />
               )
             }}
           />
@@ -67,7 +66,7 @@ export default function TabLayout() {
             options={{
               title: "Playlists",
               tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "list" : "list"} color={color} />
+                <Icon name={focused ? "list" : "list"} color={color} />
               )
             }}
           />
@@ -76,7 +75,7 @@ export default function TabLayout() {
             options={{
               title: "Artists",
               tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "people" : "people-outline"} color={color} />
+                <Icon name={focused ? "people" : "people-outline"} color={color} />
               )
             }}
           />
