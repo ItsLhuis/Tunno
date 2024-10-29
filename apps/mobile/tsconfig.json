@@ -11,6 +11,7 @@
       "@database/*": ["./database/*"],
       "@features/*": ["./features/*"],
       "@hooks/*": ["./hooks/*"],
+      "@plugins/*": ["./plugins/*"],
       "@storage/*": ["./storage/*"],
       "@utils/*": ["./utils/*"],
     }
