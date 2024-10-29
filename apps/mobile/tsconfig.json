@@ -8,7 +8,9 @@
       "@components/*": ["./components/*"],
       "@constants/*": ["./constants/*"],
       "@contexts/*": ["./contexts/*"],
+      "@features/*": ["./features/*"],
       "@hooks/*": ["./hooks/*"],
+      "@storage/*": ["./storage/*"],
     }
   },
   "include": [
