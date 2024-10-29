@@ -14,9 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ]
+        "UIBackgroundModes": ["audio"]
       }
     },
     "android": {
@@ -30,16 +28,13 @@
     "androidNavigationBar": {
       "backgroundColor": "#fc3c44"
     },
-    "plugins": [
-      "expo-router",
-      "expo-secure-store"
-    ],
+    "plugins": ["expo-router", "expo-secure-store"],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "eas": {
-        "projectId": "a25a16ef-13c9-4ff6-914f-0c610f713758"
+        "projectId": "2aa1e6b1-07e8-42e2-99ce-2ef6664eb9ce"
       }
     }
   }

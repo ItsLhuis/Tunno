@@ -17,6 +17,9 @@ export default function Songs() {
       headerProps={{
         isAnimated: true,
         title: "Songs",
+        renderLeft: () => {
+          return <IconButton name="download-outline" />
+        },
         renderRight: () => {
           return <IconButton name="cog-outline" onPress={() => router.push("/settings")} />
         }

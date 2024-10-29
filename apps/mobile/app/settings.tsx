@@ -1,61 +1,51 @@
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useStorage } from "@storage/useStorage"
 
-import { size } from "@constants/font"
-import { borderRadius, spacing } from "@constants/styles"
+import { spacing } from "@constants/styles"
 
-import { BackIcon } from "@/components/navigation"
-import { List, Icon, IconButton, Text, View } from "@components/ui"
-
-const data = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
+import { SafeAreaView } from "react-native-safe-area-context"
+import { Button, Text, View } from "@components/ui"
 
 export default function Settings() {
-  const colors = useThemeColor()
+  const { appDirectory, backupsDirectory, isLoggedIn, setIsLoggedIn, clear } = useStorage()
 
   return (
-    <List
-      headerProps={{
-        isAnimated: true,
-        hideSearch: true,
-        title: "Settings",
-        renderLeft: () => {
-          return <BackIcon />
-        }
+    <SafeAreaView
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: spacing.medium,
+        gap: spacing.medium
       }}
-      hasPlayer={false}
-      data={data}
-      renderItem={({ item, index }) => (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: spacing.xSmall,
-            paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
-          }}
-        >
-          <View
-            style={{
-              padding: spacing.small,
-              borderRadius: borderRadius.xSmall,
-              backgroundColor: colors.placeholder,
-              opacity: 0.2
-            }}
-          >
-            <Icon name="musical-note" />
-          </View>
-          <View style={{ flex: 1, flexDirection: "column" }}>
-            <Text numberOfLines={1} variant="bold">
-              {item.name}
-            </Text>
-            <Text numberOfLines={1} style={{ fontSize: size.xSmall, opacity: 0.8 }}>
-              {item.id}
-            </Text>
-          </View>
-          <IconButton name="ellipsis-horizontal" size={21} />
+    >
+      <Button title="Limpar Tudo" onPress={() => clear()} />
+      <View
+        style={{
+          alignItems: "center",
+          gap: spacing.small,
+          borderWidth: 2,
+          borderColor: "red",
+          padding: spacing.medium
+        }}
+      >
+        <Text>AppDirectory - {appDirectory}</Text>
+        <Text>BackupsDirectory - {backupsDirectory}</Text>
+      </View>
+      <View
+        style={{
+          alignItems: "center",
+          gap: spacing.small,
+          borderWidth: 2,
+          borderColor: "red",
+          padding: spacing.medium
+        }}
+      >
+        <View style={{ flexDirection: "row", gap: spacing.small }}>
+          <Button title="Definir" onPress={() => setIsLoggedIn(!isLoggedIn)} />
+          <Button title="Limpar" onPress={() => setIsLoggedIn(false)} />
         </View>
-      )}
-      keyExtractor={(item) => item.id}
-      estimatedItemSize={40}
-    />
+        <Text>Logged In: {isLoggedIn ? "Yes" : "No"}</Text>
+      </View>
+    </SafeAreaView>
   )
 }

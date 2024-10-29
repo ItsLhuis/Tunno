@@ -1,7 +1,5 @@
 import "expo-dev-client"
 
-import { StatusBar } from "expo-status-bar"
-
 import { useEffect, useState } from "react"
 
 import { useColorScheme } from "@hooks/useColorScheme"
@@ -9,6 +7,12 @@ import { useColorScheme } from "@hooks/useColorScheme"
 import { useThemeColor } from "@hooks/useThemeColor"
 
 import { useFonts } from "expo-font"
+
+import { useStorage } from "@storage/useStorage"
+
+import { initializeAppDirectories } from "@utils/initializeAppDirectories"
+
+import { StatusBar } from "expo-status-bar"
 
 import { Splash } from "@components/screens"
 
@@ -32,16 +36,16 @@ export default function RootLayout() {
     "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf")
   })
 
+  const { appDirectory, backupsDirectory } = useStorage()
+
+  const prepareApp = async (): Promise<void> => {
+    await initializeAppDirectories(appDirectory, backupsDirectory)
+  }
+
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsAppReady(true)
-    }, 1000)
-
     if (fontsLoaded) {
-      setIsAppReady(true)
+      prepareApp().then(() => setIsAppReady(true))
     }
-
-    return () => clearTimeout(timeoutId)
   }, [fontsLoaded])
 
   const themeScheme = colorScheme === "dark" ? DarkTheme : DefaultTheme

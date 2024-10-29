@@ -81,58 +81,60 @@ export function Button({
   }))
 
   return (
-    <Animated.View style={[animatedButtonStyle, { alignSelf: "flex-start" }]}>
-      <Pressable
-        style={[
-          {
-            backgroundColor,
-            alignItems: "center",
-            justifyContent: "center",
-            paddingVertical: spacing.small,
-            paddingHorizontal: spacing.large,
-            borderRadius: borderRadius.xSmall,
-            alignSelf: "flex-start",
-            flexDirection: "row"
-          },
-          style
-        ]}
-        disabled={disabled || loading}
-        onPressIn={() => {
-          scale.value = withTiming(0.9, { duration: 100 })
-          if (isContained) {
-            opacity.value = withTiming(0.8, { duration: 100 })
-          }
-        }}
-        onPressOut={() => {
-          scale.value = withTiming(1, { duration: 100 })
-          if (isContained) {
-            opacity.value = withTiming(1, { duration: 100 })
-          }
-        }}
-        {...rest}
-      >
-        <View style={{ opacity: 0 }}>
-          {children ? (
-            children
-          ) : (
-            <Text variant="bold" style={[textStyle, { color: textColor }]}>
-              {title}
-            </Text>
-          )}
-        </View>
-        <Animated.View style={[animatedTextStyle, { position: "absolute" }]}>
-          {children ? (
-            children
-          ) : (
-            <Text variant="bold" style={[textStyle, { color: textColor }]}>
-              {title}
-            </Text>
-          )}
-        </Animated.View>
-        <Animated.View style={[animatedIndicatorStyle, { position: "absolute" }]}>
-          <ActivityIndicator color={indicatorColor} />
-        </Animated.View>
-      </Pressable>
-    </Animated.View>
+    <View>
+      <Animated.View style={[animatedButtonStyle, { alignSelf: "flex-start" }]}>
+        <Pressable
+          style={[
+            {
+              backgroundColor,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: spacing.small,
+              paddingHorizontal: spacing.large,
+              borderRadius: borderRadius.xSmall,
+              alignSelf: "flex-start",
+              flexDirection: "row"
+            },
+            style
+          ]}
+          disabled={disabled || loading}
+          onPressIn={() => {
+            scale.value = withTiming(0.94, { duration: 100 })
+            if (isContained) {
+              opacity.value = withTiming(0.8, { duration: 100 })
+            }
+          }}
+          onPressOut={() => {
+            scale.value = withTiming(1, { duration: 100 })
+            if (isContained) {
+              opacity.value = withTiming(1, { duration: 100 })
+            }
+          }}
+          {...rest}
+        >
+          <View style={{ opacity: 0 }}>
+            {children ? (
+              children
+            ) : (
+              <Text variant="bold" style={[textStyle, { color: textColor }]}>
+                {title}
+              </Text>
+            )}
+          </View>
+          <Animated.View style={[animatedTextStyle, { position: "absolute" }]}>
+            {children ? (
+              children
+            ) : (
+              <Text variant="bold" style={[textStyle, { color: textColor }]}>
+                {title}
+              </Text>
+            )}
+          </Animated.View>
+          <Animated.View style={[animatedIndicatorStyle, { position: "absolute" }]}>
+            <ActivityIndicator color={indicatorColor} />
+          </Animated.View>
+        </Pressable>
+      </Animated.View>
+    </View>
   )
 }

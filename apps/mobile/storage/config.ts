@@ -1,10 +1,12 @@
 import * as SecureStore from "expo-secure-store"
-import * as Random from "expo-random"
+import * as Crypto from "expo-crypto"
 
 import { MMKV } from "react-native-mmkv"
 
+let storage: MMKV | null = null
+
 async function generateEncryptionKey(): Promise<string> {
-  const randomBytes = await Random.getRandomBytesAsync(16)
+  const randomBytes = await Crypto.getRandomBytesAsync(16)
   return Array.from(randomBytes)
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("")
@@ -19,43 +21,35 @@ async function getOrCreateEncryptionKey(): Promise<string> {
   return encryptionKey
 }
 
-async function initializeStorage() {
-  const encryptionKey = await getOrCreateEncryptionKey()
-  return new MMKV({
-    id: "wave-storage",
-    encryptionKey: encryptionKey
-  })
+async function initializeIfNeeded(): Promise<void> {
+  if (!storage) {
+    const encryptionKey = await getOrCreateEncryptionKey()
+    storage = new MMKV({
+      id: "wave-storage",
+      encryptionKey: encryptionKey
+    })
+  }
 }
 
-let storage: MMKV
-
 export const setItem = async (key: string, value: unknown): Promise<void> => {
-  if (!storage) {
-    storage = await initializeStorage()
-  }
+  await initializeIfNeeded()
   if (value !== undefined && value !== null) {
-    storage.set(key, JSON.stringify(value))
+    storage?.set(key, JSON.stringify(value))
   }
 }
 
 export const getItem = async <T>(key: string): Promise<T | null> => {
-  if (!storage) {
-    storage = await initializeStorage()
-  }
-  const value = storage.getString(key)
+  await initializeIfNeeded()
+  const value = storage?.getString(key)
   return value ? (JSON.parse(value) as T) : null
 }
 
 export const removeItem = async (key: string): Promise<void> => {
-  if (!storage) {
-    storage = await initializeStorage()
-  }
-  storage.delete(key)
+  await initializeIfNeeded()
+  storage?.delete(key)
 }
 
 export const clearStorage = async (): Promise<void> => {
-  if (!storage) {
-    storage = await initializeStorage()
-  }
-  storage.clearAll()
+  await initializeIfNeeded()
+  storage?.clearAll()
 }

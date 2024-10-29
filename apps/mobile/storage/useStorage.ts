@@ -1,22 +1,33 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-import { getItem, setItem, removeItem } from "./config"
+import { getItem, setItem, removeItem, clearStorage } from "./config"
+
+import * as FileSystem from "expo-file-system"
 
 type StorageState = {
-  username: string
+  appDirectory: string
+  backupsDirectory: string
   isLoggedIn: boolean
-  setUsername: (username: string) => void
   setIsLoggedIn: (isLoggedIn: boolean) => void
+  clear: () => Promise<void>
+}
+
+const initialState: Omit<StorageState, "setIsLoggedIn" | "clear"> = {
+  appDirectory: FileSystem.documentDirectory + "app/",
+  backupsDirectory: FileSystem.documentDirectory + "backups/",
+  isLoggedIn: false
 }
 
 export const useStorage = create<StorageState>()(
   persist(
     (set) => ({
-      username: "",
-      isLoggedIn: false,
-      setUsername: (username: string) => set({ username }),
-      setIsLoggedIn: (isLoggedIn: boolean) => set({ isLoggedIn })
+      ...initialState,
+      setIsLoggedIn: (isLoggedIn: boolean) => set({ isLoggedIn }),
+      clear: async () => {
+        await clearStorage()
+        set(initialState)
+      }
     }),
     {
       name: "wave-storage",
