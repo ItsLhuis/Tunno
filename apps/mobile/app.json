@@ -28,7 +28,7 @@
     "androidNavigationBar": {
       "backgroundColor": "#fc3c44"
     },
-    "plugins": ["expo-router", "expo-secure-store"],
+    "plugins": ["expo-router", "expo-secure-store", "@react-native-google-signin/google-signin"],
     "experiments": {
       "typedRoutes": true
     },

@@ -39,12 +39,12 @@ export type SplashProps = {
 }
 
 export function Splash({ isAppLoaded = true, children }: SplashProps) {
-  const opacity = useSharedValue(0)
-
   const [isAppReady, setIsAppReady] = useState<boolean>(false)
   const [isSplashComplete, setIsSplashComplete] = useState(false)
 
   const isAppFinished = isAppReady && isAppLoaded
+
+  const opacity = useSharedValue(0)
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value
@@ -57,15 +57,15 @@ export function Splash({ isAppLoaded = true, children }: SplashProps) {
       setIsAppReady(false)
     } finally {
       configureNavigationBar()
-      opacity.value = withTiming(1, { duration: 250 }, (finished) => {
+      opacity.value = withTiming(1, { duration: 300 }, (finished) => {
         if (finished) runOnJS(setIsAppReady)(true)
       })
     }
   }, [])
 
-  useEffect(() => {    
+  useEffect(() => {
     if (isAppFinished) {
-      opacity.value = withTiming(0, { duration: 250 }, (finished) => {
+      opacity.value = withTiming(0, { duration: 300 }, (finished) => {
         if (finished) runOnJS(setIsSplashComplete)(true)
       })
     }
