@@ -16,7 +16,7 @@ import { Player } from "@components/navigation"
 export default function TabLayout() {
   const bottomTabBarHeight = useBottomTabBarHeight()
 
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   return (
     <View style={{ flex: 1 }}>
@@ -26,9 +26,9 @@ export default function TabLayout() {
             tabBarAllowFontScaling: false,
             tabBarStyle: {
               height: bottomTabBarHeight,
-              backgroundColor: colors.tabBarBackground,
-              elevation: elevation.none,
-              borderTopWidth: border.none
+              borderTopColor: colors.secondary,
+              borderTopWidth: border.thin,
+              elevation: elevation.none
             },
             tabBarActiveTintColor: colors.primary,
             tabBarInactiveTintColor: colors.icon,
@@ -45,10 +45,7 @@ export default function TabLayout() {
             options={{
               title: "Songs",
               tabBarIcon: ({ color, focused }) => (
-                <Icon
-                  name={focused ? "musical-notes" : "musical-notes-outline"}
-                  color={color}
-                />
+                <Icon name={focused ? "musical-notes" : "musical-notes-outline"} color={color} />
               )
             }}
           />

@@ -6,14 +6,14 @@ import { usePlayerContext } from "@contexts/PlayerContext"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
-import { iconSize, spacing, zIndex } from "@constants/styles"
+import { border, iconSize, spacing, zIndex } from "@constants/styles"
 
-import { Animated as RNAnimated, StyleSheet } from "react-native"
+import { Animated as RNAnimated, StyleProp, StyleSheet, ViewStyle } from "react-native"
 
-import { View } from "../View"
+import { View } from "./View"
 import { Header, type HeaderProps } from "./Header"
 import { FlashList, type FlashListProps } from "@shopify/flash-list"
-import { ActivityIndicator } from "../ActivityIndicator"
+import { ActivityIndicator } from "./ActivityIndicator"
 
 import Animated, {
   useSharedValue,
@@ -25,11 +25,13 @@ import Animated, {
 export type ListProps<T> = FlashListProps<T> & {
   headerProps: HeaderProps
   hasPlayer?: boolean
+  overlayStyle?: StyleProp<ViewStyle>
 }
 
 export function List<T>({
   headerProps,
   hasPlayer = true,
+  overlayStyle,
   contentContainerStyle,
   ...rest
 }: ListProps<T>) {
@@ -37,7 +39,7 @@ export function List<T>({
 
   const playerHeight = hasPlayer ? usePlayerContext()?.playerHeight + spacing.small || 0 : 0
 
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   const [headerHeight, setHeaderHeight] = useState<number>(0)
 
@@ -75,7 +77,7 @@ export function List<T>({
     contentContainerStyle,
     {
       paddingBottom: playerHeight ? playerHeight : insets.bottom,
-      paddingTop: headerProps.isAnimated ? headerHeight - spacing.medium : 0,
+      paddingTop: headerProps.isAnimated ? headerHeight - spacing.small - 3 : 0,
       paddingHorizontal: spacing.large
     }
   ])
@@ -85,13 +87,18 @@ export function List<T>({
       {!isLayoutComplete && (
         <Animated.View
           style={[
-            StyleSheet.absoluteFill,
             {
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
               backgroundColor: colors.background,
               justifyContent: "center",
               alignItems: "center",
-              zIndex: zIndex.max
+              zIndex: zIndex.xHigh
             },
+            overlayStyle,
             animatedStyle
           ]}
         >
@@ -102,12 +109,12 @@ export function List<T>({
       <RNAnimated.View
         style={{
           opacity: headerSeparatorOpacity,
-          backgroundColor: colors.tabBarBackground,
-          height: 1,
+          backgroundColor: colors.secondary,
+          height: border.thin,
           width: "100%"
         }}
       />
-      <View style={{ flex: 1, zIndex: headerProps.hideSearch ? zIndex.high : zIndex.low }}>
+      <View style={{ flex: 1, zIndex: -zIndex.xxxLow }}>
         <FlashList
           {...rest}
           scrollEventThrottle={16}

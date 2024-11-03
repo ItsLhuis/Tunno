@@ -32,7 +32,7 @@ export function SearchInput({
 }: SearchInputProps) {
   const inputRef = useRef<RNTextInput>(null)
 
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   const [cancelWidth, setCancelWidth] = useState<number>(0)
 
@@ -79,7 +79,7 @@ export function SearchInput({
             flex: 1,
             flexDirection: "row",
             alignItems: "center",
-            backgroundColor: colors.tabBarBackground,
+            backgroundColor: colors.secondary,
             borderRadius: borderRadius.xSmall,
             paddingHorizontal: spacing.small
           },

@@ -33,11 +33,15 @@ export const borderRadius = {
 
 export const zIndex = {
   max: 9999,
-  xHigh: 100,
-  high: 50,
-  medium: 10,
-  low: 5,
-  xLow: 1,
+  xxxHigh: 5000,
+  xxHigh: 1000,
+  xHigh: 500,
+  high: 100,
+  medium: 50,
+  low: 20,
+  xLow: 10,
+  xxLow: 5,
+  xxxLow: 1,
   none: 0
 }
 

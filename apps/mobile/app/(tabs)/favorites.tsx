@@ -1,7 +1,7 @@
 import { useThemeColor } from "@hooks/useThemeColor"
 
 import { size } from "@constants/font"
-import { borderRadius, spacing } from "@constants/styles"
+import { borderRadius, spacing, zIndex } from "@constants/styles"
 
 import { List, Icon, IconButton, Text, View } from "@components/ui"
 
@@ -10,10 +10,11 @@ import { router } from "expo-router"
 const data = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
 
 export default function Favorites() {
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   return (
     <List
+      overlayStyle={{ top: 0, zIndex: zIndex.max }}
       headerProps={{
         isAnimated: true,
         title: "Favorites",
@@ -36,11 +37,10 @@ export default function Favorites() {
             style={{
               padding: spacing.small,
               borderRadius: borderRadius.xSmall,
-              backgroundColor: colors.placeholder,
-              opacity: 0.2
+              backgroundColor: colors.secondary
             }}
           >
-            <Icon name="musical-note" />
+            <Icon color={colors.placeholder} name="musical-note" />
           </View>
           <View style={{ flex: 1, flexDirection: "column" }}>
             <Text numberOfLines={1} variant="bold">

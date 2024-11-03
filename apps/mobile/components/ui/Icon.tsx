@@ -12,7 +12,7 @@ export interface IconProps extends ComponentProps<typeof Ionicons> {
 }
 
 export function Icon({ style, size = iconSize.large, color, ...rest }: IconProps) {
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   const iconColor = color || colors.text
 

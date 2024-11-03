@@ -9,13 +9,13 @@ export type TextProps = RNTextProps & {
 }
 
 export function Text({ style, variant = "regular", ...rest }: TextProps) {
-  const color = useThemeColor().text
+  const { colors } = useThemeColor()
 
   return (
     <RNText
       maxFontSizeMultiplier={1}
       style={[
-        { color, fontSize: size.small },
+        { color: colors.text, fontSize: size.small },
         style,
         {
           fontFamily:

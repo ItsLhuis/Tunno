@@ -14,7 +14,7 @@ import { spacing, borderRadius } from "@constants/styles"
 export type TextInputProps = RNTextInputProps
 
 export const TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...rest }, ref) => {
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   return (
     <RNTextInput

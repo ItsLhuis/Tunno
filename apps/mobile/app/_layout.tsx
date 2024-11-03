@@ -2,7 +2,7 @@ import "expo-dev-client"
 
 import { useEffect, useState } from "react"
 
-import { useColorScheme } from "@hooks/useColorScheme"
+import { useColorScheme } from "react-native"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
@@ -23,9 +23,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native
 import { Stack } from "expo-router"
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme()
-
-  const colors = useThemeColor()
+  const { colors, isThemeChanging } = useThemeColor()
 
   const [isAppReady, setIsAppReady] = useState<boolean>(false)
 
@@ -48,7 +46,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded])
 
-  const themeScheme = colorScheme === "dark" ? DarkTheme : DefaultTheme
+  const themeScheme = useColorScheme() === "dark" ? DarkTheme : DefaultTheme
 
   const theme = {
     ...themeScheme,
@@ -57,6 +55,8 @@ export default function RootLayout() {
       background: colors.background
     }
   }
+
+  if (isThemeChanging) return null
 
   return (
     <Splash isAppLoaded={isAppReady}>

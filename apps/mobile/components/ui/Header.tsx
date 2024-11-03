@@ -9,12 +9,12 @@ import { spacing, zIndex } from "@constants/styles"
 
 import { Dimensions, Animated, type StyleProp, type ViewStyle } from "react-native"
 
-import { View, ViewProps } from "../View"
-import { Text } from "../Text"
-import { Icon } from "../Icon"
-import { SearchInput } from "../SearchInput"
+import { View, ViewProps } from "./View"
+import { Text } from "./Text"
+import { Icon } from "./Icon"
+import { SearchInput } from "./SearchInput"
 
-export type HeaderProps = ViewProps & {
+export type HeaderProps = Omit<ViewProps, "style"> & {
   title?: string
   renderLeft?: () => React.ReactNode
   renderRight?: () => React.ReactNode
@@ -44,10 +44,9 @@ export function Header({
 }: HeaderProps) {
   const insets = useSafeAreaInsets()
 
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   const [headerHeight, setHeaderHeight] = useState<number>(0)
-
   const [searchInputHeight, setSearchInputHeight] = useState<number>(0)
 
   const adjustedHeaderInputRange = Math.max(headerHeight + searchInputHeight - spacing.small, 0)
@@ -95,8 +94,7 @@ export function Header({
           marginTop: insets.top,
           marginBottom: !hideSearch ? searchInputHeight + spacing.large : 0,
           paddingBottom: spacing.large,
-          paddingHorizontal: spacing.large,
-          zIndex: zIndex.high
+          paddingHorizontal: spacing.large
         },
         containerStyle
       ]}
@@ -106,6 +104,7 @@ export function Header({
         onLayout={(event) => {
           const { height } = event.nativeEvent.layout
           setHeaderHeight(height || 0)
+
           if (onHeaderHeightChange) {
             onHeaderHeightChange(height)
           }
@@ -116,7 +115,7 @@ export function Header({
           alignItems: "center",
           justifyContent: "space-between",
           gap: spacing.medium,
-          zIndex: zIndex.high
+          zIndex: zIndex.xxHigh
         }}
       >
         <View
@@ -131,8 +130,7 @@ export function Header({
           <Animated.View
             style={{
               transform: [{ translateY: headerTitleTranslateY }],
-              opacity: headerTitleOpacity,
-              zIndex: zIndex.max
+              opacity: headerTitleOpacity
             }}
           >
             <Text
@@ -158,14 +156,14 @@ export function Header({
           isAnimated
             ? {
                 position: "absolute",
-                top: headerHeight + spacing.medium,
+                top: headerHeight,
                 left: 0,
                 right: 0,
                 paddingHorizontal: spacing.large,
                 transform: [{ translateY: bigHeaderTitleTranslateY }]
               }
             : {},
-          { gap: spacing.medium }
+          { gap: spacing.medium, marginTop: spacing.medium, zIndex: zIndex.high }
         ]}
       >
         <Animated.View style={{ opacity: isAnimated ? bigHeaderTitleOpacity : 1 }}>
@@ -198,7 +196,7 @@ export function Header({
             placeholderTextColor={colors.placeholder}
             value={value}
             onChangeText={onSearchChange}
-            style={{ backgroundColor: colors.tabBarBackground }}
+            style={{ backgroundColor: colors.secondary }}
           />
         </View>
       </Animated.View>

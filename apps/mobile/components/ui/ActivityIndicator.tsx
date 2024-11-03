@@ -10,7 +10,7 @@ import {
 export type ActivityIndicatorProps = RNActivityIndicatorProps
 
 export function ActivityIndicator({ style, size, ...rest }: ActivityIndicatorProps) {
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   return (
     <RNActivityIndicator

@@ -37,7 +37,7 @@ export function Button({
   children,
   ...rest
 }: ButtonProps) {
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   const isContained = variant === "contained"
 

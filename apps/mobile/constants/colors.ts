@@ -4,7 +4,6 @@ export const colors = {
   light: {
     text: "#11181C",
     background: "#f5f5f5",
-    tabBarBackground: "#E3E3E3",
     primary: PRIMARY_COLOR,
     secondary: "#E3E3E3",
     placeholder: "#687076",
@@ -15,7 +14,6 @@ export const colors = {
   dark: {
     text: "#ECEDEE",
     background: "#111111",
-    tabBarBackground: "#2E2E2E",
     primary: PRIMARY_COLOR,
     secondary: "#2E2E2E",
     placeholder: "#9BA1A6",

@@ -17,7 +17,7 @@ import { Text } from "../ui/Text"
 export function Player() {
   const bottomTabBarHeight = useBottomTabBarHeight()
 
-  const colors = useThemeColor()
+  const { colors } = useThemeColor()
 
   const { setPlayerHeight } = usePlayerContext()
 
