@@ -10,7 +10,11 @@ import { useFonts } from "expo-font"
 
 import { useStorage } from "@storage/useStorage"
 
+import Constants from "expo-constants"
+
 import { initializeAppDirectories } from "@utils/initializeAppDirectories"
+
+import { GoogleSignin } from "@react-native-google-signin/google-signin"
 
 import { StatusBar } from "expo-status-bar"
 
@@ -37,6 +41,14 @@ export default function RootLayout() {
   const { appDirectory, backupsDirectory } = useStorage()
 
   const prepareApp = async (): Promise<void> => {
+    await GoogleSignin.configure({
+      webClientId: Constants.expoConfig?.extra?.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+      scopes: [
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/drive.file"
+      ]
+    })
     await initializeAppDirectories(appDirectory, backupsDirectory)
   }
 

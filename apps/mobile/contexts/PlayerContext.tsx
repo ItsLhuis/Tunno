@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react"
+import React, { ReactNode, createContext, useContext, useState } from "react"
 
 interface PlayerContextType {
   playerHeight: number

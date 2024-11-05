@@ -5,25 +5,27 @@ import { getItem, setItem, removeItem, clearStorage } from "./config"
 
 import * as FileSystem from "expo-file-system"
 
+import { type User } from "@react-native-google-signin/google-signin"
+
 type StorageState = {
   appDirectory: string
   backupsDirectory: string
-  isLoggedIn: boolean
-  setIsLoggedIn: (isLoggedIn: boolean) => void
+  user: User | null | undefined
+  setUser: (user: User | null | undefined) => void
   clear: () => Promise<void>
 }
 
-const initialState: Omit<StorageState, "setIsLoggedIn" | "clear"> = {
+const initialState: Omit<StorageState, "setUser" | "clear"> = {
   appDirectory: FileSystem.documentDirectory + "app/",
   backupsDirectory: FileSystem.documentDirectory + "backups/",
-  isLoggedIn: false
+  user: null
 }
 
 export const useStorage = create<StorageState>()(
   persist(
     (set) => ({
       ...initialState,
-      setIsLoggedIn: (isLoggedIn: boolean) => set({ isLoggedIn }),
+      setUser: (user) => set({ user }),
       clear: async () => {
         await clearStorage()
         set(initialState)

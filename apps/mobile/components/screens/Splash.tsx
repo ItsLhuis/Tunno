@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { ReactNode, useState, useEffect, useCallback } from "react"
 
 import * as SystemUI from "expo-system-ui"
 
@@ -35,7 +35,7 @@ const configureNavigationBar = async () => {
 
 export type SplashProps = {
   isAppLoaded?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export function Splash({ isAppLoaded = true, children }: SplashProps) {

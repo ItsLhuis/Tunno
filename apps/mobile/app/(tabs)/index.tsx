@@ -3,6 +3,8 @@ import { useThemeColor } from "@hooks/useThemeColor"
 import { size } from "@constants/font"
 import { borderRadius, spacing, zIndex } from "@constants/styles"
 
+import { TouchableOpacity } from "react-native"
+
 import { List, Icon, IconButton, Text, View } from "@components/ui"
 
 import { router } from "expo-router"
@@ -18,43 +20,41 @@ export default function Songs() {
       headerProps={{
         isAnimated: true,
         title: "Songs",
-        renderLeft: () => {
-          return <IconButton name="download-outline" />
-        },
-        renderRight: () => {
-          return <IconButton name="cog-outline" onPress={() => router.push("/settings")} />
-        }
+        renderLeft: <IconButton name="download-outline" />,
+        renderRight: <IconButton name="cog-outline" onPress={() => router.push("/settings")} />
       }}
       data={data}
       renderItem={({ item, index }) => (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: spacing.xSmall,
-            paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
-          }}
-        >
+        <TouchableOpacity activeOpacity={0.6}>
           <View
             style={{
-              padding: spacing.small,
-              borderRadius: borderRadius.xSmall,
-              backgroundColor: colors.secondary
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: spacing.xSmall,
+              paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
             }}
           >
-            <Icon color={colors.placeholder} name="musical-note" />
+            <View
+              style={{
+                padding: spacing.small,
+                borderRadius: borderRadius.xSmall,
+                backgroundColor: colors.secondary
+              }}
+            >
+              <Icon color={colors.placeholder} name="musical-note" />
+            </View>
+            <View style={{ flex: 1, flexDirection: "column" }}>
+              <Text numberOfLines={1} variant="bold">
+                {item.name}
+              </Text>
+              <Text numberOfLines={1} style={{ fontSize: size.xSmall, opacity: 0.8 }}>
+                {item.id}
+              </Text>
+            </View>
+            <IconButton name="ellipsis-horizontal" size={21} />
           </View>
-          <View style={{ flex: 1, flexDirection: "column" }}>
-            <Text numberOfLines={1} variant="bold">
-              {item.name}
-            </Text>
-            <Text numberOfLines={1} style={{ fontSize: size.xSmall, opacity: 0.8 }}>
-              {item.id}
-            </Text>
-          </View>
-          <IconButton name="ellipsis-horizontal" size={21} />
-        </View>
+        </TouchableOpacity>
       )}
       keyExtractor={(item) => item.id}
       estimatedItemSize={40}

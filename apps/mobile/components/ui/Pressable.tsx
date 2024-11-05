@@ -1,7 +1,9 @@
+import { ReactNode } from "react"
+
 import { Pressable as RNPressable, type PressableProps as RNPressableProps } from "react-native"
 
 export type PressableProps = RNPressableProps & {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export function Pressable({ children, style, ...rest }: PressableProps) {

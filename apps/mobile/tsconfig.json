@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"], 
+      "@/*": ["./*"],
       "@assets/*": ["./assets/*"],
       "@components/*": ["./components/*"],
       "@constants/*": ["./constants/*"],
@@ -13,13 +13,8 @@
       "@hooks/*": ["./hooks/*"],
       "@plugins/*": ["./plugins/*"],
       "@storage/*": ["./storage/*"],
-      "@utils/*": ["./utils/*"],
+      "@utils/*": ["./utils/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "global.d.ts"]
 }

@@ -1,32 +1,23 @@
-import { useState } from "react"
-
-import { useThemeColor } from "@hooks/useThemeColor"
-
 import { useStorage } from "@storage/useStorage"
 
-import { borderRadius, spacing } from "@constants/styles"
+import { borderRadius, iconSize } from "@constants/styles"
 
 import { BackIcon } from "@components/navigation"
-import { List, Text, View, Button, Image } from "@components/ui"
+import { Button, Image, List } from "@components/ui"
 
-import {
-  GoogleSignin,
-  isSuccessResponse,
-  type User
-} from "@react-native-google-signin/google-signin"
+import { SettingButton } from "@features/settings/components"
 
-const data = Array.from({ length: 1 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
+import { GoogleSignin, isSuccessResponse } from "@react-native-google-signin/google-signin"
+
+type Setting = {
+  id: string
+  title?: string
+  description?: string
+  onPress?: () => void
+}
 
 export default function Settings() {
-  const { colors } = useThemeColor()
-
-  const [user, setUser] = useState<User>()
-
-  GoogleSignin.configure({
-    webClientId: "165216942939-k05gp10c450kdmagucifc898tv13p1bb.apps.googleusercontent.com"
-  })
-
-  const { appDirectory, backupsDirectory, isLoggedIn, setIsLoggedIn, clear } = useStorage()
+  const { user, setUser } = useStorage()
 
   const signIn = async () => {
     try {
@@ -49,8 +40,33 @@ export default function Settings() {
     }
   }
 
+  const data: Setting[] = [
+    {
+      id: "1",
+      title: "Sign In",
+      description: "Authenticate to enable cloud backups",
+      onPress: () => signIn()
+    },
+    {
+      id: "2",
+      title: "Music",
+      description: "Settings related to music playback, including audio preferences and playlists"
+    },
+    {
+      id: "3",
+      title: "General",
+      description: "General app settings, such as language and notification preferences"
+    },
+    {
+      id: "4",
+      title: "Multimedia",
+      description: "Adjustments for multimedia, such as video quality and image display settings"
+    }
+  ]
+
   return (
     <List
+      contentContainerStyle={{ paddingHorizontal: 0 }}
       headerProps={{
         isAnimated: true,
         hideSearch: true,
@@ -60,58 +76,38 @@ export default function Settings() {
         }
       }}
       hasPlayer={false}
-      extraData={user}
       data={data}
       renderItem={({ item }) => (
-        <View style={{ flex: 1, gap: spacing.small }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xSmall }}>
-            <Image
-              style={{
-                height: 50,
-                width: 50,
-                borderRadius: borderRadius.round
-              }}
-              source={user?.user.photo}
-            />
-            <View style={{}}>
-              <Text variant="bold">{user?.user.name}</Text>
-              <Text style={{ color: colors.placeholder }}>{user?.user.email}</Text>
-            </View>
-          </View>
-          <Button title="Login" onPress={() => signIn()} />
-          <Button title="Logout" color="secondary" onPress={() => signOut()} />
-          <Button title="Limpar Tudo" onPress={() => clear()} />
-          <Text>{item.name}</Text>
-          <View
-            style={{
-              gap: spacing.small,
-              borderWidth: 2,
-              borderColor: "red",
-              padding: spacing.medium
-            }}
-          >
-            <Text>AppDirectory - {appDirectory}</Text>
-            <Text>BackupsDirectory - {backupsDirectory}</Text>
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              gap: spacing.small,
-              borderWidth: 2,
-              borderColor: "red",
-              padding: spacing.medium
-            }}
-          >
-            <View style={{ flexDirection: "row", gap: spacing.small }}>
-              <Button title="Definir" onPress={() => setIsLoggedIn(!isLoggedIn)} />
-              <Button title="Limpar" onPress={() => setIsLoggedIn(false)} />
-            </View>
-            <Text>Logged In: {isLoggedIn ? "Yes" : "No"}</Text>
-          </View>
-        </View>
+        <SettingButton
+          disabled={item.id === "1" && user ? true : false}
+          onPress={item.onPress}
+          title={item.id === "1" && user ? user?.user.name : item.title}
+          description={item.id === "1" && user ? user?.user.email : item.description}
+          renderLeft={
+            item.id === "1" ? (
+              <Image
+                style={{
+                  width: iconSize.xxLarge,
+                  height: iconSize.xxLarge,
+                  borderRadius: borderRadius.round
+                }}
+                source={
+                  user && user.user.photo
+                    ? { uri: user.user.photo }
+                    : require("@assets/images/google.png")
+                }
+              />
+            ) : undefined
+          }
+          renderRight={
+            item.id === "1" && user && user.user.photo ? (
+              <Button title="Log Out" onPress={signOut} />
+            ) : undefined
+          }
+        />
       )}
       keyExtractor={(item) => item.id}
-      estimatedItemSize={60}
+      estimatedItemSize={80}
     />
   )
 }

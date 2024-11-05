@@ -1,5 +1,5 @@
 export const iconSize = {
-  xxLarge: 48,
+  xxLarge: 44,
   xLarge: 32,
   large: 24,
   medium: 16,

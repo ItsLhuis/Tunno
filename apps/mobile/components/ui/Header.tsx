@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -14,10 +14,12 @@ import { Text } from "./Text"
 import { Icon } from "./Icon"
 import { SearchInput } from "./SearchInput"
 
+import { renderContent } from "@utils/renderContent"
+
 export type HeaderProps = Omit<ViewProps, "style"> & {
   title?: string
-  renderLeft?: () => React.ReactNode
-  renderRight?: () => React.ReactNode
+  renderLeft?: ReactNode | (() => ReactNode)
+  renderRight?: ReactNode | (() => ReactNode)
   containerStyle?: StyleProp<ViewStyle>
   hideSearch?: boolean
   searchPlaceholder?: string
@@ -124,7 +126,11 @@ export function Header({
             justifyContent: "center"
           }}
         >
-          {renderLeft ? renderLeft() : <Icon name="information" style={{ opacity: 0 }} />}
+          {renderLeft ? (
+            renderContent(renderLeft)
+          ) : (
+            <Icon name="information" style={{ opacity: 0 }} />
+          )}
         </View>
         {isAnimated && (
           <Animated.View
@@ -148,7 +154,11 @@ export function Header({
             justifyContent: "center"
           }}
         >
-          {renderRight ? renderRight() : <Icon name="information" style={{ opacity: 0 }} />}
+          {renderRight ? (
+            renderContent(renderRight)
+          ) : (
+            <Icon name="information" style={{ opacity: 0 }} />
+          )}
         </View>
       </View>
       <Animated.View
@@ -163,7 +173,11 @@ export function Header({
                 transform: [{ translateY: bigHeaderTitleTranslateY }]
               }
             : {},
-          { gap: spacing.medium, marginTop: spacing.medium, zIndex: zIndex.high }
+          {
+            gap: spacing.medium,
+            marginTop: spacing.medium,
+            zIndex: hideSearch ? -zIndex.xxxLow : zIndex.high
+          }
         ]}
       >
         <Animated.View style={{ opacity: isAnimated ? bigHeaderTitleOpacity : 1 }}>

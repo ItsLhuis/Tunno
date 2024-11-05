@@ -74,11 +74,11 @@ export function List<T>({
   })
 
   const combinedContentContainerStyle = StyleSheet.flatten([
+    { paddingHorizontal: spacing.large },
     contentContainerStyle,
     {
       paddingBottom: playerHeight ? playerHeight : insets.bottom,
-      paddingTop: headerProps.isAnimated ? headerHeight - spacing.small - 3 : 0,
-      paddingHorizontal: spacing.large
+      paddingTop: headerProps.isAnimated ? headerHeight - spacing.small - 3 : 0
     }
   ])
 

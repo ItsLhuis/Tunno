@@ -7,6 +7,10 @@ module.exports = ({ config }: ConfigContext): Partial<ExpoConfig> => {
 
   return {
     ...config,
-    plugins: [...plugins, require("./plugins/withSplashScreen").withSplashScreen]
+    plugins: [...plugins, require("./plugins/withSplashScreen").withSplashScreen],
+    extra: {
+      ...config.extra,
+      EXPO_PUBLIC_GOOGLE_CLIENT_ID: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID
+    }
   }
 }

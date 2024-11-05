@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { ReactNode, useEffect } from "react"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
@@ -9,32 +9,35 @@ import { borderRadius, spacing } from "@constants/styles"
 import { ViewStyle, TextStyle } from "react-native"
 
 import { Pressable, type PressableProps } from "./Pressable"
-import { View } from "./View"
 import { Text } from "./Text"
 import { ActivityIndicator } from "./ActivityIndicator"
 
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated"
 
 export type ButtonProps = PressableProps & {
-  title?: string
+  title?: string | null | undefined
   loading?: boolean
   disabled?: boolean
+  containerStyle?: ViewStyle
   style?: ViewStyle
   textStyle?: TextStyle
   variant?: "contained" | "text"
-  color?: "primary" | "secondary"
-  children?: React.ReactNode
+  color?: "primary" | "secondary" | "transparent"
+  disablePressAnimation?: boolean
+  children?: ReactNode
 }
 
 export function Button({
   title,
   loading = false,
   disabled = false,
+  containerStyle,
   style,
   textStyle,
   variant = "contained",
   color = "primary",
   children,
+  disablePressAnimation = false,
   ...rest
 }: ButtonProps) {
   const { colors } = useThemeColor()
@@ -44,8 +47,11 @@ export function Button({
   const backgroundColor = isContained
     ? color === "primary"
       ? colors.primary
-      : colors.secondary
+      : color === "secondary"
+      ? colors.secondary
+      : "transparent"
     : "transparent"
+
   const textColor = isContained
     ? color === "primary"
       ? colorList.dark.text
@@ -81,60 +87,67 @@ export function Button({
   }))
 
   return (
-    <View>
-      <Animated.View style={[animatedButtonStyle, { alignSelf: "flex-start" }]}>
-        <Pressable
-          style={[
-            {
-              backgroundColor,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingVertical: spacing.small,
-              paddingHorizontal: spacing.large,
-              borderRadius: borderRadius.xSmall,
-              alignSelf: "flex-start",
-              flexDirection: "row"
-            },
-            style
-          ]}
-          disabled={disabled || loading}
-          onPressIn={() => {
+    <Animated.View style={[animatedButtonStyle, { alignSelf: "flex-start" }, containerStyle]}>
+      <Pressable
+        style={[
+          {
+            position: "relative",
+            backgroundColor,
+            alignItems: "center",
+            justifyContent: "center",
+            paddingVertical: spacing.small,
+            paddingHorizontal: spacing.large,
+            borderRadius: borderRadius.xSmall,
+            alignSelf: "flex-start",
+            flexDirection: "row"
+          },
+          style
+        ]}
+        disabled={disabled || loading}
+        onPressIn={() => {
+          if (!disablePressAnimation) {
             scale.value = withTiming(0.94, { duration: 100 })
-            if (isContained) {
-              opacity.value = withTiming(0.8, { duration: 100 })
-            }
-          }}
-          onPressOut={() => {
+          }
+          if (isContained) {
+            opacity.value = withTiming(0.6, { duration: 100 })
+          }
+        }}
+        onPressOut={() => {
+          if (!disablePressAnimation) {
             scale.value = withTiming(1, { duration: 100 })
-            if (isContained) {
-              opacity.value = withTiming(1, { duration: 100 })
+          }
+          if (isContained) {
+            opacity.value = withTiming(1, { duration: 100 })
+          }
+        }}
+        {...rest}
+      >
+        <Animated.View style={animatedTextStyle}>
+          {children ? (
+            children
+          ) : (
+            <Text variant="bold" style={[textStyle, { color: textColor }]}>
+              {title}
+            </Text>
+          )}
+        </Animated.View>
+        <Animated.View
+          style={[
+            animatedIndicatorStyle,
+            {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              alignItems: "center",
+              justifyContent: "center"
             }
-          }}
-          {...rest}
+          ]}
         >
-          <View style={{ opacity: 0 }}>
-            {children ? (
-              children
-            ) : (
-              <Text variant="bold" style={[textStyle, { color: textColor }]}>
-                {title}
-              </Text>
-            )}
-          </View>
-          <Animated.View style={[animatedTextStyle, { position: "absolute" }]}>
-            {children ? (
-              children
-            ) : (
-              <Text variant="bold" style={[textStyle, { color: textColor }]}>
-                {title}
-              </Text>
-            )}
-          </Animated.View>
-          <Animated.View style={[animatedIndicatorStyle, { position: "absolute" }]}>
-            <ActivityIndicator color={indicatorColor} />
-          </Animated.View>
-        </Pressable>
-      </Animated.View>
-    </View>
+          <ActivityIndicator color={indicatorColor} />
+        </Animated.View>
+      </Pressable>
+    </Animated.View>
   )
 }
