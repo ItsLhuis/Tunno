@@ -1,14 +1,12 @@
 import { ReactNode } from "react"
 
-import { useThemeColor } from "@hooks/useThemeColor"
-
 import { borderRadius, iconSize, spacing } from "@constants/styles"
 
 import { TouchableOpacity, type TouchableOpacityProps } from "react-native"
 
-import { Text, View, Icon } from "@components/ui"
+import { View, Icon, ListItemText } from "@components/ui"
 
-import { renderContent } from "@utils/renderContent"
+import { renderContent } from "@utils/components"
 
 export type SettingButtonProps = TouchableOpacityProps & {
   title?: string | null | undefined
@@ -25,8 +23,6 @@ export function SettingButton({
   renderRight,
   ...rest
 }: SettingButtonProps) {
-  const { colors } = useThemeColor()
-
   return (
     <TouchableOpacity
       activeOpacity={0.6}
@@ -51,10 +47,7 @@ export function SettingButton({
         }}
       >
         {renderLeft && <View style={{ marginRight: "auto" }}>{renderContent(renderLeft)}</View>}
-        <View style={{ flex: 1 }}>
-          <Text variant="bold">{title}</Text>
-          <Text style={{ color: colors.placeholder }}>{description}</Text>
-        </View>
+        <ListItemText title={title} description={description} />
         {renderRight ? (
           <View style={{ marginLeft: "auto" }}>{renderContent(renderRight)}</View>
         ) : (

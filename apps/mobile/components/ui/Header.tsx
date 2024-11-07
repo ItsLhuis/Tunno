@@ -14,7 +14,7 @@ import { Text } from "./Text"
 import { Icon } from "./Icon"
 import { SearchInput } from "./SearchInput"
 
-import { renderContent } from "@utils/renderContent"
+import { renderContent } from "@utils/components"
 
 export type HeaderProps = Omit<ViewProps, "style"> & {
   title?: string

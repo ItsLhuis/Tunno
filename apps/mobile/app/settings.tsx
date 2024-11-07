@@ -2,12 +2,12 @@ import { useStorage } from "@storage/useStorage"
 
 import { borderRadius, iconSize } from "@constants/styles"
 
+import { signIn, signOut } from "@utils/google"
+
 import { BackIcon } from "@components/navigation"
 import { Button, Image, List } from "@components/ui"
 
 import { SettingButton } from "@features/settings/components"
-
-import { GoogleSignin, isSuccessResponse } from "@react-native-google-signin/google-signin"
 
 type Setting = {
   id: string
@@ -17,28 +17,7 @@ type Setting = {
 }
 
 export default function Settings() {
-  const { user, setUser } = useStorage()
-
-  const signIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices()
-      const response = await GoogleSignin.signIn()
-      if (isSuccessResponse(response)) {
-        setUser(response.data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const signOut = async () => {
-    try {
-      await GoogleSignin.signOut()
-      setUser(undefined)
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  const { user } = useStorage()
 
   const data: Setting[] = [
     {
@@ -86,6 +65,7 @@ export default function Settings() {
           renderLeft={
             item.id === "1" ? (
               <Image
+                cachePolicy="memory-disk"
                 style={{
                   width: iconSize.xxLarge,
                   height: iconSize.xxLarge,
@@ -100,9 +80,7 @@ export default function Settings() {
             ) : undefined
           }
           renderRight={
-            item.id === "1" && user && user.user.photo ? (
-              <Button title="Log Out" onPress={signOut} />
-            ) : undefined
+            item.id === "1" && user ? <Button title="Log Out" onPress={signOut} /> : undefined
           }
         />
       )}

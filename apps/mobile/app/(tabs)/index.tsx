@@ -20,7 +20,7 @@ export default function Songs() {
       headerProps={{
         isAnimated: true,
         title: "Songs",
-        renderLeft: <IconButton name="download-outline" />,
+        renderLeft: <IconButton name="download-outline" onPress={() => router.push("/drive")} />,
         renderRight: <IconButton name="cog-outline" onPress={() => router.push("/settings")} />
       }}
       data={data}

@@ -1,4 +1,5 @@
-import React, { forwardRef } from "react"
+import { forwardRef } from "react"
+
 import { View as RNView, type ViewProps as RNViewProps } from "react-native"
 
 export type ViewProps = RNViewProps

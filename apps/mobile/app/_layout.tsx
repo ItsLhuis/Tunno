@@ -10,11 +10,9 @@ import { useFonts } from "expo-font"
 
 import { useStorage } from "@storage/useStorage"
 
-import Constants from "expo-constants"
+import { initializeAppDirectories } from "@utils/app"
 
-import { initializeAppDirectories } from "@utils/initializeAppDirectories"
-
-import { GoogleSignin } from "@react-native-google-signin/google-signin"
+import { initializeGoogleSignin } from "@utils/google"
 
 import { StatusBar } from "expo-status-bar"
 
@@ -41,15 +39,8 @@ export default function RootLayout() {
   const { appDirectory, backupsDirectory } = useStorage()
 
   const prepareApp = async (): Promise<void> => {
-    await GoogleSignin.configure({
-      webClientId: Constants.expoConfig?.extra?.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-      scopes: [
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email",
-        "https://www.googleapis.com/auth/drive.file"
-      ]
-    })
     await initializeAppDirectories(appDirectory, backupsDirectory)
+    await initializeGoogleSignin()
   }
 
   useEffect(() => {
@@ -78,6 +69,7 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="settings" options={{ headerShown: false }} />
+            <Stack.Screen name="drive" options={{ headerShown: false }} />
           </Stack>
         </ThemeProvider>
       </GestureHandlerRootView>
