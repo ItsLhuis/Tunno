@@ -1,9 +1,9 @@
-import { useStorage } from "@storage/useStorage"
+import { useAppStore } from "@stores/app"
 
 import { GoogleSignin, isSuccessResponse } from "@react-native-google-signin/google-signin"
 
 export const signIn = async (): Promise<void> => {
-  const { setUser } = useStorage.getState()
+  const { setUser } = useAppStore.getState()
 
   await GoogleSignin.hasPlayServices()
 
@@ -14,7 +14,7 @@ export const signIn = async (): Promise<void> => {
 }
 
 export const signInSilently = async (): Promise<void> => {
-  const { user, setUser } = useStorage.getState()
+  const { user, setUser } = useAppStore.getState()
 
   if (!user) return
 
@@ -22,7 +22,7 @@ export const signInSilently = async (): Promise<void> => {
 }
 
 export const signOut = async (): Promise<void> => {
-  const { setUser } = useStorage.getState()
+  const { setUser } = useAppStore.getState()
 
   await GoogleSignin.signOut().then(() => setUser(undefined))
 }

@@ -12,7 +12,7 @@
       "@features/*": ["./features/*"],
       "@hooks/*": ["./hooks/*"],
       "@plugins/*": ["./plugins/*"],
-      "@storage/*": ["./storage/*"],
+      "@stores/*": ["./stores/*"],
       "@utils/*": ["./utils/*"]
     }
   },

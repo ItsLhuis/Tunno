@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { usePlayerContext } from "@contexts/PlayerContext"
+import { usePlayer } from "@contexts/PlayerContext"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
@@ -37,7 +37,7 @@ export function List<T>({
 }: ListProps<T>) {
   const insets = useSafeAreaInsets()
 
-  const playerHeight = hasPlayer ? usePlayerContext()?.playerHeight + spacing.small || 0 : 0
+  const bottomPlayerHeight = hasPlayer ? usePlayer()?.bottomPlayerHeight + spacing.small || 0 : 0
 
   const { colors } = useThemeColor()
 
@@ -77,7 +77,7 @@ export function List<T>({
     { paddingHorizontal: spacing.large },
     contentContainerStyle,
     {
-      paddingBottom: playerHeight ? playerHeight : insets.bottom,
+      paddingBottom: bottomPlayerHeight ? bottomPlayerHeight : insets.bottom,
       paddingTop: headerProps.isAnimated ? headerHeight - spacing.small - 3 : 0
     }
   ])

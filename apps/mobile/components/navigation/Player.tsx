@@ -2,7 +2,7 @@ import { useBottomTabBarHeight } from "@hooks/useBottomTabBarHeight"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
-import { usePlayerContext } from "@contexts/PlayerContext"
+import { usePlayer } from "@contexts/PlayerContext"
 
 import { colors as colorList } from "@constants/colors"
 
@@ -19,13 +19,13 @@ export function Player() {
 
   const { colors } = useThemeColor()
 
-  const { setPlayerHeight } = usePlayerContext()
+  const { setBottomPlayerHeight } = usePlayer()
 
   return (
     <Pressable
       onLayout={(event) => {
         const { height } = event.nativeEvent.layout
-        setPlayerHeight(height + spacing.small)
+        setBottomPlayerHeight(height + spacing.small)
       }}
       style={{
         position: "absolute",

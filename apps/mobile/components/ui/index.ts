@@ -1,4 +1,5 @@
 export { ActivityIndicator } from "./ActivityIndicator"
+export { BottomSheet } from "./BottomSheet"
 export { Button } from "./Button"
 export { Header } from "./Header"
 export { Icon } from "./Icon"

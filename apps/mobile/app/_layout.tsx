@@ -8,7 +8,7 @@ import { useThemeColor } from "@hooks/useThemeColor"
 
 import { useFonts } from "expo-font"
 
-import { useStorage } from "@storage/useStorage"
+import { useAppStore } from "@stores/app"
 
 import { initializeAppDirectories } from "@utils/app"
 
@@ -18,9 +18,11 @@ import { StatusBar } from "expo-status-bar"
 
 import { Splash } from "@components/screens"
 
+import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
+
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
 import { Stack } from "expo-router"
 
@@ -36,7 +38,7 @@ export default function RootLayout() {
     "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf")
   })
 
-  const { appDirectory, backupsDirectory } = useStorage()
+  const { appDirectory, backupsDirectory } = useAppStore()
 
   const prepareApp = async (): Promise<void> => {
     await initializeAppDirectories(appDirectory, backupsDirectory)
@@ -63,16 +65,18 @@ export default function RootLayout() {
 
   return (
     <Splash isAppLoaded={isAppReady}>
-      <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
-        <ThemeProvider value={theme}>
-          <StatusBar translucent style="auto" />
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="settings" options={{ headerShown: false }} />
-            <Stack.Screen name="drive" options={{ headerShown: false }} />
-          </Stack>
-        </ThemeProvider>
-      </GestureHandlerRootView>
+      <ThemeProvider value={theme}>
+        <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
+          <BottomSheetModalProvider>
+            <StatusBar translucent style="auto" />
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="settings" options={{ headerShown: false }} />
+              <Stack.Screen name="drive" options={{ headerShown: false }} />
+            </Stack>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </ThemeProvider>
     </Splash>
   )
 }

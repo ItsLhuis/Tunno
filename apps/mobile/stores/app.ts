@@ -1,13 +1,15 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-import { getItem, setItem, removeItem, clearStorage } from "./config"
+import { persistStorage } from "@stores/config/persist"
 
 import * as FileSystem from "expo-file-system"
 
 import { type User } from "@react-native-google-signin/google-signin"
 
-type StorageState = {
+const APP_STORE_NAME = "wave-app-store"
+
+type AppState = {
   appDirectory: string
   backupsDirectory: string
   user: User | null | undefined
@@ -15,29 +17,25 @@ type StorageState = {
   clear: () => Promise<void>
 }
 
-const initialState: Omit<StorageState, "setUser" | "clear"> = {
+const initialState: Omit<AppState, "setUser" | "clear"> = {
   appDirectory: FileSystem.documentDirectory + "app/",
   backupsDirectory: FileSystem.documentDirectory + "backups/",
   user: null
 }
 
-export const useStorage = create<StorageState>()(
+export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
       ...initialState,
       setUser: (user) => set({ user }),
       clear: async () => {
-        await clearStorage()
+        await persistStorage(APP_STORE_NAME).clearAll()
         set(initialState)
       }
     }),
     {
-      name: "wave-storage",
-      storage: {
-        getItem: (name: string) => getItem<any>(name),
-        setItem: (name: string, value: unknown) => setItem(name, value),
-        removeItem: (name: string) => removeItem(name)
-      }
+      name: "wave-app-store",
+      storage: persistStorage(APP_STORE_NAME)
     }
   )
 )
