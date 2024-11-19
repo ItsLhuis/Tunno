@@ -5,7 +5,7 @@ import { useThemeColor } from "@hooks/useThemeColor"
 import { PlayerProvider } from "@contexts/PlayerContext"
 
 import { family, size } from "@constants/font"
-import { elevation, border, spacing } from "@constants/styles"
+import { elevation, border } from "@constants/styles"
 
 import { Tabs } from "expo-router"
 
@@ -36,7 +36,6 @@ export default function TabLayout() {
               fontSize: size.xxSmall,
               fontFamily: family.bold
             },
-            tabBarIconStyle: { marginBottom: -spacing.xSmall },
             headerShown: false
           }}
         >

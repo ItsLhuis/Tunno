@@ -1,4 +1,4 @@
-import { ReactNode, forwardRef, useCallback, useEffect, useMemo } from "react"
+import { ReactNode, forwardRef, useState, useEffect, useCallback, useMemo } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -30,6 +30,8 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
 
     const snap = useMemo(() => snapPoints, [snapPoints])
 
+    const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false)
+
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
         <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -39,7 +41,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
 
     useEffect(() => {
       const onBackPress = () => {
-        if (ref && typeof ref === "object" && ref.current) {
+        if (isBottomSheetOpen && ref && typeof ref === "object" && ref.current) {
           ref.current.close()
           return true
         }
@@ -51,7 +53,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
       return () => {
         BackHandler.removeEventListener("hardwareBackPress", onBackPress)
       }
-    }, [ref])
+    }, [isBottomSheetOpen, ref])
 
     return (
       <BottomSheetModal
@@ -70,6 +72,12 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         enableOverDrag={false}
         enablePanDownToClose={true}
         {...rest}
+        onChange={(index, position, type) => {
+          setIsBottomSheetOpen(index >= 0)
+          if (typeof rest.onChange === "function") {
+            rest.onChange(index, position, type)
+          }
+        }}
       >
         <BottomSheetView style={{ paddingBottom: insets.bottom }}>{children}</BottomSheetView>
       </BottomSheetModal>

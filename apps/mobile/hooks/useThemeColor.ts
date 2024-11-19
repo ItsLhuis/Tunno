@@ -32,5 +32,5 @@ export function useThemeColor() {
     return () => listener.remove()
   }, [theme])
 
-  return { colors: colors[theme], isThemeChanging }
+  return { theme, colors: colors[theme], isThemeChanging }
 }

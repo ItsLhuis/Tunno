@@ -1,8 +1,8 @@
 import "expo-dev-client"
 
-import { useEffect, useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 
-import { useColorScheme } from "react-native"
+import { useColorScheme, Platform } from "react-native"
 
 import { useThemeColor } from "@hooks/useThemeColor"
 
@@ -16,7 +16,11 @@ import { initializeGoogleSignin } from "@utils/google"
 
 import { StatusBar } from "expo-status-bar"
 
-import { Splash } from "@components/screens"
+import * as SystemUI from "expo-system-ui"
+
+import * as SplashScreen from "expo-splash-screen"
+
+import * as NavigationBar from "expo-navigation-bar"
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
 
@@ -24,10 +28,23 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
+import { View } from "@components/ui"
+
 import { Stack } from "expo-router"
+
+SplashScreen.preventAutoHideAsync()
+
+const configureNavigationBar = async () => {
+  if (Platform.OS === "android") {
+    await NavigationBar.setPositionAsync("absolute")
+    await NavigationBar.setBackgroundColorAsync("#ffffff00")
+  }
+}
 
 export default function RootLayout() {
   const { colors, isThemeChanging } = useThemeColor()
+
+  SystemUI.setBackgroundColorAsync(colors.background)
 
   const [isAppReady, setIsAppReady] = useState<boolean>(false)
 
@@ -43,6 +60,7 @@ export default function RootLayout() {
   const prepareApp = async (): Promise<void> => {
     await initializeAppDirectories(appDirectory, backupsDirectory)
     await initializeGoogleSignin()
+    await configureNavigationBar()
   }
 
   useEffect(() => {
@@ -50,6 +68,12 @@ export default function RootLayout() {
       prepareApp().then(() => setIsAppReady(true))
     }
   }, [fontsLoaded])
+
+  const onChildrenLayout = useCallback(() => {
+    if (isAppReady) {
+      SplashScreen.hide()
+    }
+  }, [isAppReady])
 
   const themeScheme = useColorScheme() === "dark" ? DarkTheme : DefaultTheme
 
@@ -63,20 +87,22 @@ export default function RootLayout() {
 
   if (isThemeChanging) return null
 
+  if (!isAppReady) return null
+
   return (
-    <Splash isAppLoaded={isAppReady}>
-      <ThemeProvider value={theme}>
-        <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
-          <BottomSheetModalProvider>
-            <StatusBar translucent style="auto" />
+    <ThemeProvider value={theme}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <StatusBar translucent />
+          <View onLayout={onChildrenLayout} style={{ flex: 1, backgroundColor: colors.background }}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="settings" options={{ headerShown: false }} />
               <Stack.Screen name="drive" options={{ headerShown: false }} />
             </Stack>
-          </BottomSheetModalProvider>
-        </GestureHandlerRootView>
-      </ThemeProvider>
-    </Splash>
+          </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   )
 }
