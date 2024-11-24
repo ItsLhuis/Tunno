@@ -16,23 +16,24 @@
         "title": "Wave",
         "width": 1280,
         "height": 720,
+        "fullscreen": false,
         "decorations": false,
         "resizable": true,
-        "fullscreen": false,
         "transparent": true,
         "visible": false
       },
       {
-        "label": "tray",
-        "url": "tray.html",
-        "width": 260,
-        "height": 380,
+        "label": "overlay",
+        "url": "overlay.html",
+        "width": 280,
+        "height": 210,
         "fullscreen": false,
-        "resizable": false,
         "decorations": false,
+        "resizable": true,
+        "transparent": true,
         "skipTaskbar": true,
-        "visible": false,
-        "transparent": true
+        "alwaysOnTop": true,
+        "visible": false
       }
     ],
     "security": {

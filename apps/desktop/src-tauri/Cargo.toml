@@ -22,7 +22,5 @@ tauri = { version = "2", features = ["tray-icon"] }
 tauri-plugin-shell = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tauri-plugin-positioner = { version = "2.0.0", features = ["tray-icon"] }
 tauri-plugin-prevent-default = "0.7"
 window-vibrancy = "0.5.2"
-
