@@ -4,12 +4,7 @@ import { cn } from "@lib/utils"
 
 import { Button } from "@components/ui"
 
-import {
-  Subtract12Regular,
-  Square12Regular,
-  SquareMultiple16Regular,
-  Dismiss12Regular
-} from "@fluentui/react-icons"
+import { MinimizeIcon, MaximizeIcon, RestoreIcon, CloseIcon } from "./win/icons"
 
 export interface TitleBarProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
@@ -24,10 +19,7 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
     return (
       <div
         data-tauri-drag-region
-        className={cn(
-          "relative flex items-center justify-between text-neutral-100 select-none min-h-9",
-          className
-        )}
+        className={cn("relative flex items-center min-h-9", className)}
         ref={ref}
         {...props}
       >
@@ -39,8 +31,9 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
               onClick={onMinimize}
               aria-label="Minimize"
               className="h-full rounded-none"
+              tabIndex={-1}
             >
-              <Subtract12Regular />
+              <MinimizeIcon />
             </Button>
           )}
           {onMaximize && (
@@ -49,8 +42,9 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
               onClick={onMaximize}
               aria-label={isMaximize ? "Restore" : "Maximize"}
               className="h-full rounded-none"
+              tabIndex={-1}
             >
-              {isMaximize ? <SquareMultiple16Regular /> : <Square12Regular />}
+              {isMaximize ? <RestoreIcon /> : <MaximizeIcon />}
             </Button>
           )}
           {onClose && (
@@ -58,9 +52,10 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
               variant="ghost"
               onClick={onClose}
               aria-label="Close"
-              className="h-full rounded-none hover:bg-destructive hover:active:bg-destructive/70 hover:text-white"
+              className="h-full rounded-none hover:bg-destructive hover:text-destructive-foreground"
+              tabIndex={-1}
             >
-              <Dismiss12Regular />
+              <CloseIcon />
             </Button>
           )}
         </div>

@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react"
 
+import { mainWindow } from "@/utils/window/main"
+import { overlayWindow } from "@/utils/window/overlay"
+
 type Theme = "dark" | "light" | "system"
 
 type ThemeProviderProps = {
@@ -31,19 +34,29 @@ export function ThemeProvider({
   )
 
   useEffect(() => {
+    mainWindow.setTheme(theme !== "system" ? theme : undefined)
+    overlayWindow?.setTheme(theme !== "system" ? theme : undefined)
+  }, [])
+
+  useEffect(() => {
     const root = window.document.documentElement
+    const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
 
-    root.classList.remove("light", "dark")
-
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-
+    const applySystemTheme = () => {
+      const systemTheme = matchMedia.matches ? "dark" : "light"
+      root.classList.remove("light", "dark")
       root.classList.add(systemTheme)
-      return
     }
 
+    if (theme === "system") {
+      applySystemTheme()
+      matchMedia.addEventListener("change", applySystemTheme)
+      return () => {
+        matchMedia.removeEventListener("change", applySystemTheme)
+      }
+    }
+
+    root.classList.remove("light", "dark")
     root.classList.add(theme)
   }, [theme])
 
@@ -52,6 +65,8 @@ export function ThemeProvider({
     setTheme: (theme: Theme) => {
       localStorage.setItem(storageKey, theme)
       setTheme(theme)
+      mainWindow.setTheme(theme !== "system" ? theme : undefined)
+      overlayWindow?.setTheme(theme !== "system" ? theme : undefined)
     }
   }
 

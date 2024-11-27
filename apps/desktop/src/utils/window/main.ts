@@ -1,31 +1,31 @@
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-const appWindow = getCurrentWindow()
+export const mainWindow = getCurrentWindow()
 
 export async function getWindowTitle() {
-  return await appWindow.title()
+  return await mainWindow.title()
 }
 
 export async function showCurrentWindow() {
-  if (appWindow) {
-    appWindow.show()
+  if (mainWindow) {
+    mainWindow.show()
   }
 }
 
 export async function hideCurrentWindow() {
-  if (appWindow) {
-    appWindow.hide()
+  if (mainWindow) {
+    mainWindow.hide()
   }
 }
 
 export async function minimizeCurrentWindow() {
-  return await appWindow.minimize()
+  return await mainWindow.minimize()
 }
 
 export async function toggleMaximizeCurrentWindow() {
-  return await appWindow.toggleMaximize()
+  return await mainWindow.toggleMaximize()
 }
 
 export async function isCurrentWindowMaximized() {
-  return await appWindow.isMaximized()
+  return await mainWindow.isMaximized()
 }

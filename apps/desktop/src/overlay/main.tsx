@@ -5,7 +5,7 @@ import { ThemeProvider } from "@contexts/ThemeContext"
 
 import App from "./App"
 
-import "../index.css"
+import "../global.css"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

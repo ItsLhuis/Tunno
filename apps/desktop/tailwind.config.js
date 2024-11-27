@@ -4,6 +4,12 @@ export default {
   content: ["./index.html", "./overlay.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
+      transitionDuration: {
+        DEFAULT: "200ms"
+      },
+      scale: {
+        80: ".8"
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

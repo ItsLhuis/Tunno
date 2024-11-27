@@ -1,2 +1,4 @@
-export { Button } from "./Button"
-export { Typography } from "./Typography"
+export * from "./Button"
+export * from "./DropdownMenu"
+export * from "./Input"
+export * from "./Typography"

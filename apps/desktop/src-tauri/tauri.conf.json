@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "wave",
+  "productName": "Wave",
   "version": "0.1.0",
   "identifier": "com.itslhuis.wave",
   "build": {
@@ -24,6 +24,7 @@
       },
       {
         "label": "overlay",
+        "title": "Wave",
         "url": "overlay.html",
         "width": 280,
         "height": 210,

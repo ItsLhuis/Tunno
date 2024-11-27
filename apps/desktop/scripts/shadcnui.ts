@@ -96,7 +96,7 @@ async function renameExistingFiles() {
       const newFileName = renamer(file.replace(fileExt, ""))
       const newFilePath = resolve(base, `${newFileName}${fileExt}`)
       if (filePath !== newFilePath) {
-        console.log(chalk.blue(`Renaming file: ${file} -> ${newFileName}${fileExt}`))
+        console.log(chalk.blue(`Renaming file: ${file} -> ${newFileName}${fileExt}\n`))
         await rename(filePath, newFilePath)
       }
     }
@@ -151,7 +151,7 @@ async function updateIndexFile() {
   let exportStatements = tsxFiles
     .map((file) => {
       const componentName = renamer(file.replace(extname(file), ""))
-      return `export { ${componentName} } from "./${componentName}"`
+      return `export * from "./${componentName}"`
     })
     .join("\n")
 

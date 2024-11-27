@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./assets/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./assets/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@layer base {
+  :root {
+    --background: 0 0% 96%;
+    --foreground: 210 13% 11%;
+    --card: 0 0% 96%;
+    --card-foreground: 210 13% 11%;
+    --popover: 0 0% 96%;
+    --popover-foreground: 210 13% 11%;
+    --primary: 0 84.2% 60.2%;
+    --primary-foreground: 210 8% 92%;
+    --secondary: 0 0% 89%;
+    --secondary-foreground: 210 13% 11%;
+    --muted: 0 0% 89%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 89%;
+    --accent-foreground: 210 13% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 8% 92%;
+    --scroll-bar: 0 0% 45.1%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 210 13% 11%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 210 8% 92%;
+    --card: 0 0% 7%;
+    --card-foreground: 210 8% 92%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 210 8% 92%;
+    --primary: 357 96% 59%;
+    --primary-foreground: 210 8% 92%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 210 8% 92%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 18%;
+    --accent-foreground: 210 8% 92%;
+    --destructive: 357 96% 59%;
+    --destructive-foreground: 210 8% 92%;
+    --scroll-bar: 0 0% 63.9%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+@layer base {
+  * {
+    @apply border-border;
+    @apply select-none;
+  }
+  html {
+    @apply text-foreground;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  body {
+    overflow: hidden;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--scroll-bar));
+    border: 6px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    border: 5px solid transparent;
+  }
+  ::-webkit-scrollbar {
+    cursor: pointer !important;
+    width: 16px;
+    height: 16px;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}

@@ -1,12 +1,14 @@
 import { Window } from "@tauri-apps/api/window"
 
-export async function getOverlayWindow() {
-  const overlayWindow = await Window.getByLabel("overlay")
-  return overlayWindow
+let overlayWindow: Window | null = null
+
+export async function initializeOverlayWindow() {
+  overlayWindow = await Window.getByLabel("overlay")
 }
 
+export { overlayWindow }
+
 export async function showOverlayWindow() {
-  const overlayWindow = await getOverlayWindow()
   if (overlayWindow) {
     await overlayWindow.setFocus()
     await overlayWindow.show()
@@ -14,9 +16,7 @@ export async function showOverlayWindow() {
 }
 
 export async function hideOverlayWindow() {
-  const overlayWindow = await getOverlayWindow()
   if (overlayWindow) {
     await overlayWindow.hide()
   }
 }
-

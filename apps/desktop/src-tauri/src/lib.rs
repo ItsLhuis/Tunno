@@ -4,11 +4,13 @@ use tauri::{
     Manager,
 };
 
-use window_vibrancy::apply_mica;
+use tauri_plugin_window_state::StateFlags;
 
 #[tauri::command]
 fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+    let message = format!("Hello, {}! You've been greeted from Rust!", name);
+    println!("{}", message);
+    message
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -16,6 +18,19 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_prevent_default::init())
         .plugin(tauri_plugin_shell::init())
+        .plugin(
+            tauri_plugin_window_state::Builder::default()
+                .with_state_flags(StateFlags::all().difference(
+                    StateFlags::VISIBLE | StateFlags::DECORATIONS | StateFlags::FULLSCREEN,
+                ))
+                .build(),
+        )
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            if let Some(main_window) = app.get_webview_window("main") {
+                let _ = main_window.show();
+                let _ = main_window.set_focus();
+            }
+        }))
         .setup(|app| {
             #[cfg(desktop)]
             {
@@ -23,10 +38,30 @@ pub fn run() {
                 let overlay_window = app.get_webview_window("overlay").unwrap();
 
                 #[cfg(target_os = "windows")]
-                apply_mica(&main_window, None)
-                    .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
-                apply_mica(&overlay_window, None)
-                    .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
+                {
+                    window_vibrancy::apply_mica(&main_window, None)
+                        .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
+                    window_vibrancy::apply_mica(&overlay_window, None)
+                        .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
+                }
+
+                #[cfg(target_os = "macos")]
+                {
+                    window_vibrancy::apply_vibrancy(
+                        &main_window,
+                        window_vibrancy::NSVisualEffectMaterial::HudWindow,
+                        None,
+                        None,
+                    )
+                    .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
+                    window_vibrancy::apply_vibrancy(
+                        &overlay_window,
+                        window_vibrancy::NSVisualEffectMaterial::HudWindow,
+                        None,
+                        None,
+                    )
+                    .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
+                }
 
                 let quit_item = MenuItem::with_id(app, "quit", "&Quit", true, None::<&str>)?;
 
@@ -54,16 +89,6 @@ pub fn run() {
                         _ => {}
                     })
                     .on_menu_event(|app, event| match event.id.as_ref() {
-                        "minimize" => {
-                            if let Some(window) = app.get_webview_window("main") {
-                                if window.is_visible().unwrap_or(false) {
-                                    let _ = window.hide();
-                                } else {
-                                    let _ = window.show();
-                                    let _ = window.set_focus();
-                                }
-                            }
-                        }
                         "quit" => {
                             for (_, win) in app.webview_windows() {
                                 let _ = win.close();
