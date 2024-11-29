@@ -42,7 +42,7 @@ export default defineConfig(async () => ({
       "@lib": path.resolve(root, "lib/"),
       "@main": path.resolve(root, "main/"),
       "@overlay": path.resolve(root, "overlay/"),
-      "@utils": path.resolve(root, "utils/")
+      "@tauri": path.resolve(root, "tauri/")
     }
   }
 }))

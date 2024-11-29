@@ -1,11 +1,8 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Capability for the main window",
-  "windows": [
-    "main",
-    "overlay"
-  ],
+  "description": "Capability for all windows",
+  "windows": ["*"],
   "permissions": [
     "shell:allow-open",
     "core:default",
@@ -18,6 +15,9 @@
     "core:window:allow-start-dragging",
     "core:window:allow-toggle-maximize",
     "core:window:allow-set-focus",
-    "core:window:allow-set-theme"
+    "core:window:allow-set-theme",
+    "store:allow-load",
+    "store:allow-get",
+    "store:allow-set"
   ]
 }

@@ -4,24 +4,22 @@ use tauri::{
     Manager,
 };
 
-use tauri_plugin_window_state::StateFlags;
+use serde_json::json;
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    let message = format!("Hello, {}! You've been greeted from Rust!", name);
-    println!("{}", message);
-    message
-}
+use tauri_plugin_store::StoreExt;
+
+use tauri_plugin_window_state::StateFlags;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_prevent_default::init())
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_prevent_default::init())
+        .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_state_flags(StateFlags::all().difference(
-                    StateFlags::VISIBLE | StateFlags::DECORATIONS | StateFlags::FULLSCREEN,
+                    StateFlags::VISIBLE | StateFlags::FULLSCREEN | StateFlags::DECORATIONS,
                 ))
                 .build(),
         )
@@ -34,8 +32,29 @@ pub fn run() {
         .setup(|app| {
             #[cfg(desktop)]
             {
-                let main_window = app.get_webview_window("main").unwrap();
+                let main_window: tauri::WebviewWindow = app.get_webview_window("main").unwrap();
                 let overlay_window = app.get_webview_window("overlay").unwrap();
+
+                let settings_store = app.store(".settings.json")?;
+
+                if !settings_store.has("theme") {
+                    settings_store.set("theme", json!("system"));
+                }
+
+                if let Some(theme_value) = settings_store.get("theme") {
+                    let theme = if let Some(theme_str) = theme_value.as_str() {
+                        match theme_str {
+                            "light" => Some(tauri::Theme::Light),
+                            "dark" => Some(tauri::Theme::Dark),
+                            _ => None,
+                        }
+                    } else {
+                        None
+                    };
+
+                    main_window.set_theme(theme)?;
+                    overlay_window.set_theme(theme)?;
+                }
 
                 #[cfg(target_os = "windows")]
                 {
@@ -100,6 +119,8 @@ pub fn run() {
                     })
                     .build(app)?;
 
+                main_window.show()?;
+
                 Ok(())
             }
         })
@@ -112,7 +133,6 @@ pub fn run() {
             }
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())
         .expect("Error while running tauri application");
 }

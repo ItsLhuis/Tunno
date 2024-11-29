@@ -12,20 +12,8 @@
   "app": {
     "windows": [
       {
-        "label": "main",
-        "title": "Wave",
-        "width": 1280,
-        "height": 720,
-        "fullscreen": false,
-        "decorations": false,
-        "resizable": true,
-        "transparent": true,
-        "visible": false
-      },
-      {
         "label": "overlay",
         "title": "Wave",
-        "url": "overlay.html",
         "width": 280,
         "height": 210,
         "fullscreen": false,
@@ -34,6 +22,17 @@
         "transparent": true,
         "skipTaskbar": true,
         "alwaysOnTop": true,
+        "visible": false
+      },
+      {
+        "label": "main",
+        "title": "Wave",
+        "width": 960,
+        "height": 540,
+        "fullscreen": false,
+        "decorations": false,
+        "resizable": true,
+        "transparent": true,
         "visible": false
       }
     ],

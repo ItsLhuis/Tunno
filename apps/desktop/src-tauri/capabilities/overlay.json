@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "overlay",
+  "description": "Capability for overlay window",
+  "windows": ["overlay"],
+  "permissions": ["core:window:allow-set-position"]
+}

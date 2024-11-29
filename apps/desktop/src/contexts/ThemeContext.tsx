@@ -1,19 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react"
 
-import { mainWindow } from "@/utils/window/main"
-import { overlayWindow } from "@/utils/window/overlay"
+import { getSettingsStore } from "@tauri/stores/settings"
+
+import { getAllWindows, Window } from "@tauri-apps/api/window"
 
 type Theme = "dark" | "light" | "system"
 
-type ThemeProviderProps = {
-  children: React.ReactNode
-  defaultTheme?: Theme
-  storageKey?: string
-}
-
 type ThemeProviderState = {
   theme: Theme
-  setTheme: (theme: Theme) => void
+  setTheme: (theme: Theme, updateStore?: boolean) => void
 }
 
 const initialState: ThemeProviderState = {
@@ -23,19 +18,23 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
-export function ThemeProvider({
-  children,
-  defaultTheme = "system",
-  storageKey = "theme",
-  ...props
-}: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("system")
 
   useEffect(() => {
-    mainWindow.setTheme(theme !== "system" ? theme : undefined)
-    overlayWindow?.setTheme(theme !== "system" ? theme : undefined)
+    async function loadTheme() {
+      const store = await getSettingsStore()
+      const storedTheme = await store.get<string>("theme")
+
+      if (storedTheme && ["dark", "light", "system"].includes(storedTheme)) {
+        setTheme(storedTheme as Theme)
+      } else {
+        setTheme("system")
+        await store.set("theme", "system")
+      }
+    }
+
+    loadTheme()
   }, [])
 
   useEffect(() => {
@@ -62,19 +61,21 @@ export function ThemeProvider({
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
+    setTheme: async (theme: Theme, updateStore: boolean = true) => {
+      if (updateStore) {
+        const store = await getSettingsStore()
+        await store.set("theme", theme)
+      }
       setTheme(theme)
-      mainWindow.setTheme(theme !== "system" ? theme : undefined)
-      overlayWindow?.setTheme(theme !== "system" ? theme : undefined)
+      getAllWindows().then((windows: Window[]) => {
+        windows.forEach((win) => {
+          win.setTheme(theme !== "system" ? theme : undefined)
+        })
+      })
     }
   }
 
-  return (
-    <ThemeProviderContext.Provider {...props} value={value}>
-      {children}
-    </ThemeProviderContext.Provider>
-  )
+  return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>
 }
 
 export const useTheme = () => {

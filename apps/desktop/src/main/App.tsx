@@ -4,15 +4,10 @@ import { useTheme } from "@contexts/ThemeContext"
 
 import { listen } from "@tauri-apps/api/event"
 
-import {
-  getWindowTitle,
-  isCurrentWindowMaximized,
-  minimizeCurrentWindow,
-  toggleMaximizeCurrentWindow,
-  hideCurrentWindow,
-  showCurrentWindow
-} from "@/utils/window/main"
-import { initializeOverlayWindow, showOverlayWindow } from "@/utils/window/overlay"
+import { getCurrentWindow } from "@tauri-apps/api/window"
+import { getOverlayWindow } from "@tauri/window/overlay"
+
+import Logo from "@assets/images/appicon-primary.png"
 
 import { Moon, Sun, Laptop, User, Settings, LogOut, Check } from "lucide-react"
 
@@ -29,7 +24,8 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  Input
 } from "@components/ui"
 
 import { TitleBar } from "@components/window"
@@ -40,21 +36,22 @@ function App() {
   const [windowTitle, setWindowTitle] = useState<string>("")
   const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(false)
 
+  const showOverlayWindow = async () => {
+    const overlayWindow = await getOverlayWindow()
+    overlayWindow.show()
+  }
+
   useEffect(() => {
     async function initializeWindowState() {
-      await initializeOverlayWindow()
-
-      const title = await getWindowTitle()
+      const title = await getCurrentWindow().title()
       setWindowTitle(title)
-
-      showCurrentWindow()
     }
 
     initializeWindowState()
 
     const initializeResizeListener = async () => {
       return listen("tauri://resize", async () => {
-        const maximized = await isCurrentWindowMaximized()
+        const maximized = await getCurrentWindow().isMaximized()
         setIsWindowMaximized(maximized)
       })
     }
@@ -74,15 +71,18 @@ function App() {
     <main className="flex flex-col h-dvh w-dvw">
       <TitleBar
         className="border-b"
-        onMinimize={minimizeCurrentWindow}
-        onMaximize={toggleMaximizeCurrentWindow}
-        onClose={hideCurrentWindow}
+        onMinimize={() => getCurrentWindow().minimize()}
+        onMaximize={() => getCurrentWindow().toggleMaximize()}
+        onClose={() => getCurrentWindow().hide()}
         isMaximize={isWindowMaximized}
       >
         <div data-tauri-drag-region className="flex-1 flex items-center justify-between">
-          <Typography variant="h6" affects="muted" className="m-3 ml-4">
-            {windowTitle}
-          </Typography>
+          <div data-tauri-drag-region className="flex items-center m-4 ml-6 gap-4">
+            <img src={Logo} className="w-4" />
+            <Typography variant="h6" affects="muted">
+              {windowTitle}
+            </Typography>
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="mr-40">
@@ -162,6 +162,7 @@ function App() {
           <Button variant="destructive" onClick={showOverlayWindow}>
             getValueFromStore
           </Button>
+          <Input />
         </main>
       </div>
       <div className="h-16 border-t flex-shrink-0"></div>

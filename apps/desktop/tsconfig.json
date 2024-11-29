@@ -10,7 +10,7 @@
       "@assets/*": ["./src/assets/*"],
       "@main/*": ["./src/main/*"],
       "@overlay/*": ["./src/overlay/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@tauri/*": ["./src/tauri/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
