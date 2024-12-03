@@ -14,7 +14,7 @@
       {
         "label": "overlay",
         "title": "Wave",
-        "width": 280,
+        "width": 250,
         "height": 210,
         "fullscreen": false,
         "decorations": false,

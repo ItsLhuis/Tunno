@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { cn } from "@lib/utils"
 
-import { Button } from "@components/ui"
+import { Button } from "@/components/ui"
 
 import { MinimizeIcon, MaximizeIcon, RestoreIcon, CloseIcon } from "./win/icons"
 
@@ -19,12 +19,12 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
     return (
       <div
         data-tauri-drag-region
-        className={cn("relative flex items-center min-h-9", className)}
+        className={cn("flex items-center flex-nowrap min-h-9", className)}
         ref={ref}
         {...props}
       >
-        {children}
-        <div className="absolute top-0 bottom-0 right-0 flex items-center z-50 ">
+        <div className="flex-1 overflow-hidden">{children}</div>
+        <div className="h-full flex items-center flex-shrink-0">
           {onMinimize && (
             <Button
               variant="ghost"

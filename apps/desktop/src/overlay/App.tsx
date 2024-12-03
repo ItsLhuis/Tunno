@@ -13,7 +13,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger
-} from "@components/ui"
+} from "@/components/ui"
 
 import { Layout, GripHorizontal } from "lucide-react"
 
@@ -91,7 +91,7 @@ function App() {
         <div data-tauri-drag-region className="flex flex-1 h-9 justify-between items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="p-5 rounded-none">
+              <Button variant="ghost" className="rounded-none">
                 <Layout />
               </Button>
             </DropdownMenuTrigger>
@@ -118,12 +118,12 @@ function App() {
               />
             </DropdownMenuContent>
           </DropdownMenu>
-          <div data-tauri-drag-region className="cursor-grab active:cursor-grabbing p-2">
+          <div
+            data-tauri-drag-region
+            className="mr-auto ml-auto cursor-grab active:cursor-grabbing p-2"
+          >
             <GripHorizontal data-tauri-drag-region size={20} />
           </div>
-          <Button variant="ghost" className="p-5 text-transparent -z-50">
-            <Layout />
-          </Button>
         </div>
       </TitleBar>
       <Typography variant="h1" affects="lead">
