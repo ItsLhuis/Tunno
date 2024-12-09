@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { useTheme } from "@contexts/ThemeContext"
 
@@ -7,8 +7,6 @@ import { getSettingsStore } from "@tauri/stores/settings"
 import { getCurrentWindow, currentMonitor, LogicalPosition } from "@tauri-apps/api/window"
 
 import { Layout, GripHorizontal, Play, SkipBack, SkipForward } from "lucide-react"
-
-import { motion } from "motion/react"
 
 import { TitleBar } from "@components/window"
 import {
@@ -23,9 +21,7 @@ import {
 function App() {
   const { setTheme } = useTheme()
 
-  const [showOverlayActions, setShowOverlayActions] = useState<boolean>(false)
-
-  const [isDropdownOpen, setDropdownOpen] = useState(false)
+  const [isDropdownOpen, setDropdownOpen] = useState<boolean>(false)
 
   const handleOpenChange = (open: boolean) => {
     setDropdownOpen(open)
@@ -104,22 +100,8 @@ function App() {
   }
 
   return (
-    <main
-      onMouseEnter={() => {
-        setShowOverlayActions(true)
-      }}
-      onMouseLeave={() => {
-        setShowOverlayActions(false)
-      }}
-      className="relative group flex flex-col h-dvh w-dvw"
-    >
-      <motion.div
-        className="flex flex-col absolute inset-0 bg-background/50 z-50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showOverlayActions ? 1 : 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-      >
+    <main className="relative group flex flex-col h-dvh w-dvw">
+      <div className="flex flex-col absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
         <TitleBar className="absolute w-full" onClose={() => getCurrentWindow().hide()}>
           <div data-tauri-drag-region className="flex flex-1 h-9 justify-between items-center">
             <DropdownMenu open={isDropdownOpen} onOpenChange={handleOpenChange}>
@@ -128,12 +110,7 @@ function App() {
                   <Layout />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                onMouseEnter={() => {
-                  setShowOverlayActions(false)
-                }}
-                className="ml-2 -mt-8 grid grid-cols-2 gap-1"
-              >
+              <DropdownMenuContent className="ml-2 -mt-8 grid grid-cols-2 gap-1">
                 <Button
                   variant="secondary"
                   className="p-1 rounded-none rounded-tl-sm hover:bg-primary"
@@ -191,19 +168,12 @@ function App() {
           <Typography variant="h6" affects="tiny">
             0:01
           </Typography>
-          <Slider
-            onValueChange={() => {
-              setShowOverlayActions(true)
-            }}
-            onBlur={() => {
-              setShowOverlayActions(false)
-            }}
-          />
+          <Slider />
           <Typography variant="h6" affects="tiny">
             2:24
           </Typography>
         </div>
-      </motion.div>
+      </div>
       <div className="absolute top-0 bottom-0 left-0 right-0 flex-1 flex flex-col items-center justify-center">
         <img
           src="https://lh3.googleusercontent.com/Ngkk0l6jdQ0hlmrNKFBIvvVmduC-YaWbjq4cQHciDtZo9xy2p4KVyZ68zyFeWqBjYGt2rgZUacMpfdFC=w120-h120-l90-rj"
