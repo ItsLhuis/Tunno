@@ -37,7 +37,7 @@ SplashScreen.preventAutoHideAsync()
 const configureNavigationBar = async () => {
   if (Platform.OS === "android") {
     await NavigationBar.setPositionAsync("absolute")
-    await NavigationBar.setBackgroundColorAsync("#ffffff00")
+    await NavigationBar.setBackgroundColorAsync("#ffffff01")
   }
 }
 

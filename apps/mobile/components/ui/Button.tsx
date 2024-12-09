@@ -6,7 +6,7 @@ import { colors as colorList } from "@constants/colors"
 
 import { borderRadius, spacing } from "@constants/styles"
 
-import { ViewStyle, TextStyle } from "react-native"
+import { ViewStyle, TextStyle, StyleProp } from "react-native"
 
 import { Pressable, type PressableProps } from "./Pressable"
 import { Text } from "./Text"
@@ -18,9 +18,9 @@ export type ButtonProps = PressableProps & {
   title?: string | null | undefined
   loading?: boolean
   disabled?: boolean
-  containerStyle?: ViewStyle
-  style?: ViewStyle
-  textStyle?: TextStyle
+  containerStyle?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
+  textStyle?: StyleProp<TextStyle>
   variant?: "contained" | "text"
   color?: "primary" | "secondary" | "transparent"
   disablePressAnimation?: boolean

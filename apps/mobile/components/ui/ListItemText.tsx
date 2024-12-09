@@ -2,7 +2,7 @@ import { useThemeColor } from "@hooks/useThemeColor"
 
 import { spacing } from "@constants/styles"
 
-import { ViewStyle } from "react-native"
+import { StyleProp, ViewStyle } from "react-native"
 
 import { View } from "./View"
 import { Text, TextProps } from "./Text"
@@ -10,7 +10,7 @@ import { Text, TextProps } from "./Text"
 export type ListItemTextProps = {
   title?: string | null | undefined
   description?: string | null | undefined
-  containerStyle?: ViewStyle
+  containerStyle?: StyleProp<ViewStyle>
   titleProps?: TextProps
   descriptionProps?: TextProps
 }
