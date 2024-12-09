@@ -19,7 +19,10 @@ pub fn run() {
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_state_flags(StateFlags::all().difference(
-                    StateFlags::VISIBLE | StateFlags::FULLSCREEN | StateFlags::DECORATIONS,
+                    StateFlags::VISIBLE
+                        | StateFlags::FULLSCREEN
+                        | StateFlags::DECORATIONS
+                        | StateFlags::SIZE,
                 ))
                 .build(),
         )

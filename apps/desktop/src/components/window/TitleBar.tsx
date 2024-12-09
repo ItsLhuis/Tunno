@@ -19,7 +19,7 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
     return (
       <div
         data-tauri-drag-region
-        className={cn("flex items-center flex-nowrap min-h-9", className)}
+        className={cn("flex items-center flex-nowrap min-h-9 z-50", className)}
         ref={ref}
         {...props}
       >

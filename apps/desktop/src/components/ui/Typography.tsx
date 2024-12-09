@@ -21,8 +21,9 @@ export const typographyVariants = cva("inline", {
     affects: {
       default: "",
       lead: "text-xl text-muted-foreground",
-      large: "text-lg font-semibold",
-      small: "text-sm font-medium leading-none",
+      large: "text-lg",
+      small: "text-sm leading-none",
+      tiny: "text-xs leading-none",
       muted: "text-muted-foreground",
       bold: "font-bold",
       removePMargin: "[&:not(:first-child)]:mt-0"

@@ -27,8 +27,7 @@ export default defineConfig(async () => ({
   build: {
     rollupOptions: {
       input: {
-        main: "index.html",
-        overlay: "overlay.html"
+        main: "index.html"
       }
     }
   },
