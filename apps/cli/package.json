@@ -5,18 +5,22 @@
   "bin": {
     "wave": "dist/bin/wave.js"
   },
+  "type": "commonjs",
   "scripts": {
-    "dev": "ts-node bin/wave.ts",
     "build": "tsc",
     "start": "npm run build && node dist/bin/wave.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.10.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^12.1.0",
+    "sharp": "^0.33.5",
+    "ytdl-core": "^4.11.5"
   }
 }
