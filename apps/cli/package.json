@@ -1,0 +1,22 @@
+{
+  "name": "wave",
+  "version": "1.0.0",
+  "main": "dist/bin/wave.js",
+  "bin": {
+    "wave": "dist/bin/wave.js"
+  },
+  "scripts": {
+    "dev": "ts-node bin/wave.ts",
+    "build": "tsc",
+    "start": "npm run build && node dist/bin/wave.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
