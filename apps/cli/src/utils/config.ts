@@ -56,9 +56,9 @@ const validateDownloadPath = async (downloadPath: string, currentPath: string): 
       {
         type: "confirm",
         name: "createDir",
-        message: chalk.yellow(
-          `The directory "${chalk.bold(resolvedPath)}" does not exist. Do you want to create it?`
-        ),
+        message: `The directory ${chalk.blue(
+          chalk.bold(resolvedPath)
+        )} does not exist. ${chalk.yellow("Do you want to create it?")}`,
         default: true
       }
     ])

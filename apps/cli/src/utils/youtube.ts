@@ -4,6 +4,8 @@ import path from "path"
 import ytdl from "@distube/ytdl-core"
 import chalk from "chalk"
 
+import sanitize from "sanitize-filename"
+
 import { getDownloadPath } from "./config"
 
 import { downloadThumbnail } from "./utils"
@@ -13,13 +15,12 @@ export const download = async (videoId: string): Promise<void> => {
 
   const url = `https://www.youtube.com/watch?v=${videoId}`
 
-  const info = await ytdl.getInfo(url)
+  const info = await ytdl.getBasicInfo(url)
 
-  const videoTitle = info.videoDetails.title
+  const videoTitle = sanitize(info.videoDetails.title, { replacement: "-" })
   const videoThumbnail = info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1].url
   const authorThumbnail =
     info.videoDetails.author?.thumbnails?.[info.videoDetails.author.thumbnails.length - 1]?.url
-  const authorName = info.videoDetails.author?.name || "Unknown"
 
   const videoDir = path.join(downloadPath, videoTitle)
   const songDir = path.join(videoDir, "song")
@@ -35,17 +36,18 @@ export const download = async (videoId: string): Promise<void> => {
   const authorMetadataPath = path.join(authorDir, "metadata.json")
 
   await downloadThumbnail(videoThumbnail, videoThumbnailPath, 800)
-  if (authorThumbnail) await downloadThumbnail(authorThumbnail, authorThumbnailPath, 200)
+  if (authorThumbnail) await downloadThumbnail(authorThumbnail, authorThumbnailPath, 100)
+
+  const { author, ...songDetails } = info.videoDetails
 
   const songMetadata = {
-    title: videoTitle,
-    thumbnail: videoThumbnailPath
+    ...songDetails
   }
   fs.writeFileSync(songMetadataPath, JSON.stringify(songMetadata, null, 2))
 
   const authorMetadata = {
-    name: authorName,
-    thumbnail: authorThumbnail ? authorThumbnailPath : null
+    ...author,
+    name: info.videoDetails.author?.name || "Unknown"
   }
   fs.writeFileSync(authorMetadataPath, JSON.stringify(authorMetadata, null, 2))
 

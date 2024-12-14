@@ -16,11 +16,12 @@ export default function help(program: Command) {
       console.log("")
 
       console.log(chalk.yellow("  wave set-path <PATH>"))
-      console.log("    Sets the download directory for media files.")
+      console.log("    Sets the download directory.")
       console.log("")
 
       console.log(chalk.yellow("  wave youtube --id <VIDEO_ID>"))
-      console.log("    Downloads the audio from the YouTube video with the given ID.")
+      console.log("    Downloads the media and metadata from the YouTube video with the given ID.")
+      console.log("    This includes the audio, thumbnail, and relevant data about the music and its creator.")
       console.log("")
 
       console.log(chalk.blue("Options:"))
