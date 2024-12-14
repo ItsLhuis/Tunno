@@ -2,58 +2,113 @@ import fs from "fs"
 import path from "path"
 import os from "os"
 
-const configPath: string = path.join(process.cwd(), "config/default.json")
-const defaultDownloadPath: string = path.join(os.homedir(), "Downloads")
+import chalk from "chalk"
+
+import inquirer from "inquirer"
+
+const appName = "Wave"
+const defaultDownloadPath = path.join(os.homedir(), "Downloads")
+
+const getConfigPath = (): string => {
+  const baseConfigPath =
+    process.platform === "win32"
+      ? path.join(process.env.APPDATA || "", appName)
+      : path.join(os.homedir(), ".config", appName)
+
+  if (!fs.existsSync(baseConfigPath)) {
+    fs.mkdirSync(baseConfigPath, { recursive: true })
+  }
+
+  return path.join(baseConfigPath, "config.json")
+}
+
+const configPath = getConfigPath()
 
 interface Config {
   downloadPath?: string
 }
 
-const validateDownloadPath = (downloadPath: string): string => {
-  downloadPath = downloadPath.replace(/^\/+|\/+$/g, "").replace(/\\+/g, "/")
+const normalizePath = (filePath: string): string => {
+  return path.normalize(filePath).endsWith(path.sep)
+    ? path.normalize(filePath)
+    : path.normalize(filePath) + path.sep
+}
 
-  const invalidChars = /[<>:"|?*\\]/
-  if (invalidChars.test(downloadPath)) {
+const validateDownloadPath = async (downloadPath: string, currentPath: string): Promise<string> => {
+  let resolvedPath = path.isAbsolute(downloadPath)
+    ? normalizePath(downloadPath)
+    : normalizePath(path.join(os.homedir(), downloadPath))
+
+  if (process.platform === "win32") {
+    if (!/^[A-Za-z]:\\/.test(resolvedPath)) {
+      resolvedPath = path.join("C:\\", resolvedPath)
+    }
+  }
+
+  const invalidChars = /[<>:"|?*]/
+  if (invalidChars.test(path.basename(resolvedPath))) {
     return defaultDownloadPath
   }
 
-  const isAbsolutePath = path.isAbsolute(downloadPath)
-  const resolvedPath = isAbsolutePath ? downloadPath : path.join(os.homedir(), downloadPath)
+  if (!fs.existsSync(resolvedPath)) {
+    console.log("")
+    const { createDir } = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "createDir",
+        message: chalk.yellow(
+          `The directory "${chalk.bold(resolvedPath)}" does not exist. Do you want to create it?`
+        ),
+        default: true
+      }
+    ])
+
+    if (createDir) {
+      try {
+        fs.mkdirSync(resolvedPath, { recursive: true })
+      } catch (error) {
+        return currentPath
+      }
+    } else {
+      return currentPath
+    }
+  }
+
   return resolvedPath.endsWith(path.sep) ? resolvedPath : resolvedPath + path.sep
 }
 
-const ensureConfigFileExists = (): void => {
+const ensureConfigFileExists = async (): Promise<void> => {
   if (!fs.existsSync(configPath)) {
     const defaultConfig: Config = { downloadPath: defaultDownloadPath }
+
     fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), "utf-8")
   } else {
     try {
       let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
-      if (!config.downloadPath) {
-        config.downloadPath = defaultDownloadPath
-      } else {
-        config.downloadPath = validateDownloadPath(config.downloadPath)
-      }
+      config.downloadPath = await validateDownloadPath(
+        config.downloadPath || defaultDownloadPath,
+        config.downloadPath || defaultDownloadPath
+      )
 
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
     } catch (error) {
-      if (error instanceof SyntaxError) {
-        const defaultConfig: Config = { downloadPath: defaultDownloadPath }
-        fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), "utf-8")
-      } else {
-        throw error
-      }
+      const defaultConfig: Config = { downloadPath: defaultDownloadPath }
+
+      fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), "utf-8")
     }
   }
 }
 
-export const setDownloadPath = (downloadPath: string): string => {
-  ensureConfigFileExists()
+export const setDownloadPath = async (downloadPath: string): Promise<string> => {
+  await ensureConfigFileExists()
 
   let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
-  const resolvedPath = validateDownloadPath(downloadPath)
+  const resolvedPath = await validateDownloadPath(
+    downloadPath,
+    config.downloadPath || defaultDownloadPath
+  )
   config.downloadPath = resolvedPath
 
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
@@ -61,12 +116,10 @@ export const setDownloadPath = (downloadPath: string): string => {
   return resolvedPath
 }
 
-export const getDownloadPath = (): string => {
-  ensureConfigFileExists()
+export const getDownloadPath = async (): Promise<string> => {
+  await ensureConfigFileExists()
 
-  let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+  const config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
-  const downloadPath = config.downloadPath || defaultDownloadPath
-
-  return downloadPath.endsWith(path.sep) ? downloadPath : downloadPath + path.sep
+  return config.downloadPath || defaultDownloadPath
 }

@@ -7,4 +7,7 @@ help(program)
 import path from "../src/commands/path"
 path(program)
 
+import youtube from "../src/commands/youtube"
+youtube(program)
+
 program.parse(process.argv)

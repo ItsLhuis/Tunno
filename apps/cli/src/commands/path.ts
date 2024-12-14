@@ -8,11 +8,11 @@ export default function path(program: Command) {
   program
     .command("get-path")
     .description("Displays the current download directory.")
-    .action(() => {
-      const path = getDownloadPath()
+    .action(async () => {
+      const path = await getDownloadPath()
       if (path) {
         console.log("")
-        console.log(chalk.white("Current download path:"), chalk.yellow(path))
+        console.log("Current download path:", chalk.green(path))
         console.log("")
       } else {
         console.log("")
@@ -23,10 +23,10 @@ export default function path(program: Command) {
   program
     .command("set-path <PATH>")
     .description("Sets the download directory for media files.")
-    .action((path: string) => {
-      const newPath = setDownloadPath(path)
+    .action(async (path: string) => {
+      const newPath = await setDownloadPath(path)
       console.log("")
-      console.log(chalk.white("Download path set to:"), chalk.yellow(newPath))
+      console.log("Download path set to:", chalk.green(newPath))
       console.log("")
     })
 }
