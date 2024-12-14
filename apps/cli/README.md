@@ -98,7 +98,6 @@ The project follows a organized structure:
 wave-cli/
 ├── bin/                # Executable scripts
 │   └── wave.ts         # Main CLI script
-├── config/             # Project configs
 ├── src/                # Source code
 │   └── commands/       # Individual commands (e.g., youtube, set-path)
 │   └── utils/          # Utility functions (e.g., file handling, path resolution)
