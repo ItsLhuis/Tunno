@@ -27,7 +27,7 @@
 
    ```bash
    git clone https://github.com/ItsLhuis/Wave-CLI.git
-   cd wave-cli
+   cd Wave-CLI
    ```
 
 2. Install dependencies:
@@ -111,24 +111,6 @@ wave-cli/
 
 ---
 
-## Development
-
-To contribute or modify the CLI:
-
-1. Start the TypeScript watcher for continuous compilation:
-
-   ```bash
-   npm run dev
-   ```
-
-2. Run the CLI locally with:
-
-   ```bash
-   npx ts-node bin/wave.ts
-   ```
-
----
-
 ## Example Workflow
 
 1. **Set Path**: Define the directory for downloads:
@@ -149,5 +131,8 @@ To contribute or modify the CLI:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-**Important Notice**:  
+---
+
+## Important Notice
+
 While this tool allows you to download audio from YouTube for personal use, please be aware that downloading YouTube content may violate YouTube's [Terms of Service](https://www.youtube.com/t/terms). It is your responsibility to ensure compliance with any applicable laws or regulations. This tool is intended for personal use only, and the authors do not endorse or support using it for unauthorized purposes. Use it responsibly.
