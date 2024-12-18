@@ -10,11 +10,25 @@ use tauri_plugin_store::StoreExt;
 
 use tauri_plugin_window_state::StateFlags;
 
+#[cfg(debug_assertions)]
+fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+  use tauri_plugin_prevent_default::Flags;
+
+  tauri_plugin_prevent_default::Builder::new()
+    .with_flags(Flags::all().difference(Flags::DEV_TOOLS | Flags::RELOAD))
+    .build()
+}
+
+#[cfg(not(debug_assertions))]
+fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+  tauri_plugin_prevent_default::Builder::new().build()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_prevent_default::init())
+        .plugin(prevent_default())
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(
             tauri_plugin_window_state::Builder::default()
