@@ -51,11 +51,11 @@
     --sidebar-ring: 210 13% 11%;
   }
   .dark {
-    --background: 0 0% 7%;
+    --background: 0 0% 9%;
     --foreground: 210 8% 92%;
-    --card: 0 0% 7%;
+    --card: 0 0% 9%;
     --card-foreground: 210 8% 92%;
-    --popover: 0 0% 7%;
+    --popover: 0 0% 9%;
     --popover-foreground: 210 8% 92%;
     --primary: 357 96% 59%;
     --primary-foreground: 210 8% 92%;
@@ -76,7 +76,7 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 0 0% 7%;
+    --sidebar-background: 0 0% 9%;
     --sidebar-foreground: 210 8% 92%;
     --sidebar-primary: 357 96% 59%;
     --sidebar-primary-foreground: 210 8% 92%;

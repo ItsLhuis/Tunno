@@ -1,6 +1,7 @@
 export * from "./Button"
 export * from "./DropdownMenu"
 export * from "./Input"
+export * from "./Marquee"
 export * from "./Separator"
 export * from "./Skeleton"
 export * from "./Slider"

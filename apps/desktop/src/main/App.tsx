@@ -29,6 +29,8 @@ import { motion } from "motion/react"
 import {
   Button,
   Typography,
+  Marquee,
+  Separator,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -40,7 +42,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
-} from "@/components/ui"
+} from "@components/ui"
 
 import { TitleBar } from "@components/window"
 
@@ -120,14 +122,14 @@ function App() {
         transition={{ duration: 0.2 }}
       >
         <TitleBar
-          className="h-full border-b"
+          className="h-full"
           onMinimize={() => getCurrentWindow().minimize()}
           onMaximize={() => getCurrentWindow().toggleMaximize()}
           onClose={() => getCurrentWindow().hide()}
           isMaximize={isWindowMaximized}
         >
           <div data-tauri-drag-region className="flex-1 flex items-center justify-between gap-4">
-            <div data-tauri-drag-region className="flex items-center m-4 gap-4">
+            <div data-tauri-drag-region className="flex items-center gap-4 m-4">
               <img src={Logo} className="w-4" />
               <Typography variant="h6" affects="muted">
                 {windowTitle}
@@ -206,6 +208,7 @@ function App() {
             </div>
           </div>
         </TitleBar>
+        <Separator />
       </motion.div>
       <motion.main
         className="flex flex-col h-full w-full"
@@ -214,7 +217,7 @@ function App() {
         transition={{ duration: 0.2 }}
       >
         <div className="flex flex-1 overflow-hidden">
-          <div className="border-r flex-shrink-0 overflow-auto">
+          <div className="flex flex-row flex-shrink-0 overflow-auto">
             <div className="min-h-full relative">
               <div
                 className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary z-10 transition-transform"
@@ -245,10 +248,19 @@ function App() {
                 ))}
               </div>
             </div>
+            <Separator orientation="vertical" />
           </div>
-          <main className="flex flex-1 flex-col p-4 items-start bg-background overflow-auto transition-colors"></main>
+          <main className="flex flex-1 flex-col py-4 items-start bg-background overflow-auto transition-colors">
+            <div className="w-full">
+              <Marquee className="px-4">
+                1 2 3 4 5 6 7 8 9 9 8 7 6 5 4 3 2 1 1 2 3 4 5 6 7 8 9 9 8 7 6 5 4 3 2 1 1 2 3 4 5 6
+                7 8 9 9 8 7 6 5 4 3 2 1 1 2 3 4 5 6 7 8 9 9 8 7 6 5 4 3 2 1
+              </Marquee>
+            </div>
+          </main>
         </div>
-        <div className="flex items-center border-t flex-shrink-0">
+        <div className="flex flex-col items-center flex-shrink-0">
+          <Separator />
           <Button
             tooltip={{ children: "Open miniplayer", side: "top" }}
             variant="ghost"
