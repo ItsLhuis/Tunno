@@ -36,7 +36,7 @@ export const download = async (videoId: string): Promise<void> => {
   const authorMetadataPath = path.join(authorDir, "metadata.json")
 
   await downloadThumbnail(videoThumbnail, videoThumbnailPath, 800)
-  if (authorThumbnail) await downloadThumbnail(authorThumbnail, authorThumbnailPath, 100)
+  if (authorThumbnail) await downloadThumbnail(authorThumbnail, authorThumbnailPath, 150)
 
   const { author, ...songDetails } = info.videoDetails
 
