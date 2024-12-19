@@ -18,7 +18,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@distube/ytdl-core": "^4.15.1",
+    "@distube/ytdl-core": "^4.15.6",
     "axios": "^1.7.9",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
