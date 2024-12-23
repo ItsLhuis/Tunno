@@ -13,10 +13,10 @@ export const typographyVariants = cva("inline", {
       h5: "scroll-m-20 text-lg font-semibold tracking-tight",
       h6: "scroll-m-20 text-base font-semibold tracking-tight",
       p: "leading-7 [&:not(:first-child)]:mt-6",
-      blockquote: "border-l-4 pl-4 italic text-muted-foreground",
-      code: "font-mono text-sm bg-muted text-accent rounded p-1",
-      pre: "font-mono text-sm bg-muted text-accent rounded p-2 overflow-x-auto",
-      span: "inline text-sm text-muted-foreground"
+      blockquote: "border-l-4 pl-4 italic text-muted-foreground transition-[border-color]",
+      code: "font-mono text-sm bg-muted rounded p-1 transition-[background-color]",
+      pre: "font-mono text-sm bg-muted rounded p-2 overflow-x-auto transition-[background-color]",
+      span: "text-xs"
     },
     affects: {
       default: "",

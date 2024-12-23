@@ -2,16 +2,17 @@
 
 import * as React from "react"
 
-import { motion, useAnimation, useAnimationFrame } from "framer-motion"
+import { motion, useAnimation, useAnimationFrame } from "motion/react"
 
 import { cn } from "@lib/utils"
 
 interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   speed?: number
+  shadow?: boolean
 }
 
-const Marquee = ({ children, speed = 10, className, ...props }: MarqueeProps) => {
+const Marquee = ({ children, speed = 20, shadow = true, className, ...props }: MarqueeProps) => {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
   const [shouldAnimate, setShouldAnimate] = React.useState(false)
@@ -32,14 +33,15 @@ const Marquee = ({ children, speed = 10, className, ...props }: MarqueeProps) =>
   }, [])
 
   React.useEffect(() => {
-    if (shouldAnimate) {
+    if (shouldAnimate && contentRef.current) {
+      const contentWidth = contentRef.current.scrollWidth
+
       controls.start({
         x: "-100%",
         transition: {
           repeat: Infinity,
-          repeatDelay: 1,
-          duration: 100 / speed,
-          ease: "easeInOut"
+          duration: contentWidth / speed,
+          ease: "linear"
         }
       })
     } else {
@@ -51,7 +53,7 @@ const Marquee = ({ children, speed = 10, className, ...props }: MarqueeProps) =>
   useAnimationFrame(() => {
     if (!containerRef.current || !contentRef.current) return
 
-    const containerWidth = containerRef.current.offsetWidth
+    const containerWidth = containerRef.current.offsetWidth + 32 // Add content padding
     const contentWidth = contentRef.current.scrollWidth
     if (contentWidth <= containerWidth && shouldAnimate) {
       setShouldAnimate(false)
@@ -63,21 +65,26 @@ const Marquee = ({ children, speed = 10, className, ...props }: MarqueeProps) =>
   return (
     <div
       ref={containerRef}
-      className={cn("flex flex-row overflow-hidden whitespace-nowrap relative", className)}
+      className={cn("flex flex-row truncate relative transition-all", className)}
+      style={{
+        maskImage:
+          shadow && shouldAnimate
+            ? "linear-gradient(to right, transparent 0, #000000 3rem, #000000 calc(100% - 3rem), transparent 100%)"
+            : ""
+      }}
       {...props}
     >
-      <motion.div ref={contentRef} className="inline-block pr-10" animate={controls}>
+      <motion.div ref={contentRef} className="inline-block pr-8" animate={controls}>
         {children}
       </motion.div>
       {shouldAnimate && (
-        <motion.div className="inline-block pr-10" animate={controls}>
+        <motion.div className="inline-block pr-8" animate={controls}>
           {children}
         </motion.div>
       )}
     </div>
   )
 }
-
 Marquee.displayName = "Marquee"
 
 export { Marquee }
