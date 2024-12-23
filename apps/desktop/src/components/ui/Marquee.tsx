@@ -15,13 +15,13 @@ interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
 const Marquee = ({ children, speed = 20, shadow = true, className, ...props }: MarqueeProps) => {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
-  const [shouldAnimate, setShouldAnimate] = React.useState(false)
+  const [shouldAnimate, setShouldAnimate] = React.useState<boolean>(false)
   const controls = useAnimation()
 
   const checkOverflow = React.useCallback(() => {
     if (!containerRef.current || !contentRef.current) return
 
-    const containerWidth = containerRef.current.offsetWidth
+    const containerWidth = containerRef.current.offsetWidth + 32 // Add content padding
     const contentWidth = contentRef.current.scrollWidth
     setShouldAnimate(contentWidth > containerWidth)
   }, [])
