@@ -19,6 +19,8 @@ import {
   Typography
 } from "@components/ui"
 
+import Thumbnail from "./thumbnail.jpg"
+
 function App() {
   const { setTheme } = useTheme()
 
@@ -102,7 +104,7 @@ function App() {
 
   return (
     <main className="relative group flex flex-col h-dvh w-dvw">
-      <div className="flex flex-col absolute inset-0 bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity z-50">
+      <div className="flex flex-col absolute inset-0 bg-background/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-50">
         <TitleBar onClose={() => getCurrentWindow().hide()}>
           <div data-tauri-drag-region className="flex flex-1 h-9 justify-between items-center">
             <DropdownMenu open={isDropdownOpen} onOpenChange={handleOpenChange}>
@@ -166,16 +168,16 @@ function App() {
               <SkipForward />
             </Button>
           </div>
-          <div className="flex flex-col gap-3 mt-auto p-4">
-            <Marquee>
-              <Typography variant="h6">Luis Fonsi, Stefflon Don - Calypso</Typography>
+          <div className="flex flex-col gap-3 mt-auto py-4">
+            <Marquee className="px-4">
+              <Typography variant="h6">MALA (feat. Anuel AA)</Typography>
             </Marquee>
-            <div className="flex gap-2 items-center justify-center">
-              <Typography variant="h6" affects="tiny">
+            <div className="flex items-center justify-center gap-2 px-4">
+              <Typography variant="span" affects="bold">
                 0:01
               </Typography>
               <Slider />
-              <Typography variant="h6" affects="tiny">
+              <Typography variant="span" affects="bold">
                 2:24
               </Typography>
             </div>
@@ -183,13 +185,10 @@ function App() {
         </div>
       </div>
       <div className="absolute top-0 bottom-0 left-0 right-0 flex-1 flex flex-col items-center justify-center">
+        <img src={Thumbnail} className="absolute inset-0 w-full h-full object-cover z-10 blur-xl" />
         <img
-          src="https://lh3.googleusercontent.com/Ngkk0l6jdQ0hlmrNKFBIvvVmduC-YaWbjq4cQHciDtZo9xy2p4KVyZ68zyFeWqBjYGt2rgZUacMpfdFC=w120-h120-l90-rj"
-          className="absolute inset-0 w-full h-full object-cover z-10 blur-xl"
-        />
-        <img
-          src="https://lh3.googleusercontent.com/Ngkk0l6jdQ0hlmrNKFBIvvVmduC-YaWbjq4cQHciDtZo9xy2p4KVyZ68zyFeWqBjYGt2rgZUacMpfdFC=w800-h800-l90-rj"
-          className="z-20 w-[70%] h-[70%] max-w-[1200px] max-h-[1200px] rounded-lg object-contain"
+          src={Thumbnail}
+          className="z-20 w-[70%] h-[70%] max-w-[800px] max-h-[800px] rounded-lg object-cover"
         />
       </div>
     </main>
