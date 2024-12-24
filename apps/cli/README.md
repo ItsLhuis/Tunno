@@ -90,26 +90,6 @@
 
 ---
 
-## Folder Structure
-
-The project follows a organized structure:
-
-```
-wave-cli/
-├── bin/                # Executable scripts
-│   └── wave.ts         # Main CLI script
-├── src/                # Source code
-│   └── commands/       # Individual commands (e.g., youtube, set-path)
-│   └── utils/          # Utility functions (e.g., file handling, path resolution)
-├── dist/               # Compiled JavaScript files (output of TypeScript build)
-├── package.json        # Project metadata and scripts
-├── tsconfig.json       # TypeScript configuration
-└── README.md           # Project documentation
-...
-```
-
----
-
 ## Example Workflow
 
 1. **Set Path**: Define the directory for downloads:
