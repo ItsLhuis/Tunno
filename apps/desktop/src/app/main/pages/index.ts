@@ -1,0 +1,5 @@
+export { default as Artists } from "./Artists"
+export { default as Favorites } from "./Favorites"
+export { default as Playlists } from "./Playlists"
+export { default as Settings } from "./Settings"
+export { default as Songs } from "./Songs"

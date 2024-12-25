@@ -8,7 +8,7 @@ import { getCurrentWindow, currentMonitor, LogicalPosition } from "@tauri-apps/a
 
 import { Layout, GripHorizontal, Play, SkipBack, SkipForward } from "lucide-react"
 
-import { TitleBar } from "@components/window"
+import { Titlebar } from "@components/window"
 import {
   Button,
   Marquee,
@@ -105,7 +105,7 @@ function App() {
   return (
     <main className="relative group flex flex-col h-dvh w-dvw">
       <div className="flex flex-col absolute inset-0 bg-background/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-50">
-        <TitleBar onClose={() => getCurrentWindow().hide()}>
+        <Titlebar onClose={() => getCurrentWindow().hide()}>
           <div data-tauri-drag-region className="flex flex-1 h-9 justify-between items-center">
             <DropdownMenu open={isDropdownOpen} onOpenChange={handleOpenChange}>
               <DropdownMenuTrigger asChild>
@@ -143,7 +143,7 @@ function App() {
               <GripHorizontal data-tauri-drag-region size={20} />
             </div>
           </div>
-        </TitleBar>
+        </Titlebar>
         <div className="absolute flex flex-col h-full w-full">
           <div className="absolute flex h-full w-full items-center justify-center">
             <Button

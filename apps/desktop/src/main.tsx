@@ -7,15 +7,15 @@ import { ThemeProvider } from "@contexts/ThemeContext"
 
 import { AnimatePresence } from "motion/react"
 
-import MainApp from "@main/App"
-import OverlayApp from "@overlay/App"
+import MainApp from "@app/main/App"
+import OverlayApp from "@app/overlay/App"
 
 import "./global.css"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {getCurrentWindow().label === "main" ? <MainApp /> : <OverlayApp />}
       </AnimatePresence>
     </ThemeProvider>

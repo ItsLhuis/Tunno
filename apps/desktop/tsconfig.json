@@ -3,13 +3,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@contexts/*": ["./src/contexts/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/lib/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@main/*": ["./src/main/*"],
-      "@overlay/*": ["./src/overlay/*"],
       "@tauri/*": ["./src/tauri/*"]
     },
     "target": "ES2020",
