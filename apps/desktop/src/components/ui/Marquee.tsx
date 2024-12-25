@@ -6,7 +6,7 @@ import { motion, useAnimation, useAnimationFrame } from "motion/react"
 
 import { cn } from "@lib/utils"
 
-interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   speed?: number
   shadow?: boolean

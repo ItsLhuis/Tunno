@@ -10,7 +10,7 @@ import { Button } from "@/components/ui"
 
 import { MinimizeIcon, MaximizeIcon, RestoreIcon, CloseIcon } from "./win/icons"
 
-export interface TitleBarProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TitlebarProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
   onMinimize?: () => void
   onMaximize?: () => void
@@ -18,7 +18,7 @@ export interface TitleBarProps extends React.HTMLAttributes<HTMLDivElement> {
   isMaximize?: boolean
 }
 
-const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
+const Titlebar = React.forwardRef<HTMLDivElement, TitlebarProps>(
   ({ className, children, onMinimize, onMaximize, onClose, isMaximize, ...props }, ref) => {
     const [isWindowFocused, setIsWindowFocused] = React.useState<boolean>(false)
 
@@ -69,14 +69,13 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
         {...props}
       >
         <div className="flex-1 overflow-hidden">{children}</div>
-        <div className="h-full flex items-center flex-shrink-0">
+        <div className="h-full flex items-center shrink-0">
           {onMinimize && (
             <Button
               variant="ghost"
               onClick={onMinimize}
               aria-label="Minimize"
               className="h-full rounded-none"
-              tabIndex={-1}
             >
               <MinimizeIcon />
             </Button>
@@ -87,18 +86,18 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
               onClick={onMaximize}
               aria-label={isMaximize ? "Restore" : "Maximize"}
               className="h-full rounded-none"
-              tabIndex={-1}
             >
               {isMaximize ? <RestoreIcon /> : <MaximizeIcon />}
             </Button>
           )}
           {onClose && (
             <Button
-              variant="ghost"
               onClick={onClose}
               aria-label="Close"
-              className="h-full rounded-none hover:bg-destructive hover:text-destructive-foreground"
-              tabIndex={-1}
+              className={cn(
+                "h-full rounded-none bg-transparent text-foreground hover:bg-destructive hover:text-destructive-foreground focus-visible::text-destructive-foreground",
+                isWindowFocused ? "" : "text-muted-foreground"
+              )}
             >
               <CloseIcon />
             </Button>
@@ -108,7 +107,6 @@ const TitleBar = React.forwardRef<HTMLDivElement, TitleBarProps>(
     )
   }
 )
+Titlebar.displayName = "Titlebar"
 
-TitleBar.displayName = "TitleBar"
-
-export { TitleBar }
+export { Titlebar }

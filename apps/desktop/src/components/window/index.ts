@@ -1,1 +1,1 @@
-export { TitleBar } from "./TitleBar"
+export * from "./Titlebar"
