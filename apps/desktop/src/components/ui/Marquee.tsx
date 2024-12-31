@@ -2,9 +2,9 @@
 
 import * as React from "react"
 
-import { motion, useAnimation, useAnimationFrame } from "motion/react"
-
 import { cn } from "@lib/utils"
+
+import { motion, useAnimation, useAnimationFrame } from "motion/react"
 
 export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode

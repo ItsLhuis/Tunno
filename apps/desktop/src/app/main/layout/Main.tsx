@@ -16,22 +16,20 @@ function Main() {
   const location = useLocation()
 
   return (
-    <main className="flex flex-1 flex-col gap-2 items-start bg-background overflow-auto transition-colors">
-      <motion.div
-        key={location.pathname}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="w-full h-full"
-      >
-        <Routes location={location} key={location.pathname}>
-          {routes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
-        </Routes>
-      </motion.div>
-    </main>
+    <motion.div
+      key={location.pathname}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-1 w-full"
+    >
+      <Routes location={location} key={location.pathname}>
+        {routes.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
+      </Routes>
+    </motion.div>
   )
 }
 

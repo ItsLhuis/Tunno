@@ -85,7 +85,7 @@ function Footer() {
                 <Volume1 />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="flex items-center p-2 max-w-60">
+            <PopoverContent className="flex items-center p-2 m-3 mb-0 max-w-60">
               <Button
                 tooltip={{ children: "Mute", side: "top" }}
                 variant="ghost"
@@ -101,7 +101,7 @@ function Footer() {
             </PopoverContent>
           </Popover>
           <Button
-            tooltip={{ children: "Open miniplayer", side: "top" }}
+            tooltip={{ children: "Open miniplayer", side: "top", align: "end" }}
             variant="ghost"
             size="icon"
             onClick={showOverlayWindow}

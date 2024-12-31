@@ -9,7 +9,8 @@
       "@contexts/*": ["./src/contexts/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/lib/*"],
-      "@tauri/*": ["./src/tauri/*"]
+      "@tauri/*": ["./src/tauri/*"],
+      "@utils/*": ["./src/utils/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
