@@ -18,7 +18,7 @@ import type {
   HoveringTableState
 } from "./types"
 
-export const HoveringFeature = {
+export const Hovering = {
   createRow<TData extends RowData>(row: Row<TData>, table: Table<TData>): void {
     type RowWithHover = Row<TData> & HoveringRow
     ;(row as RowWithHover).getIsHovered = () =>

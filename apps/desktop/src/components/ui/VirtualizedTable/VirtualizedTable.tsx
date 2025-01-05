@@ -4,9 +4,11 @@ import * as React from "react"
 
 import { cn } from "@lib/utils"
 
-import { HoveringFeature } from "./features/hover"
+import { Focusing } from "./features/focus"
+import { Hovering } from "./features/hover"
 
 import {
+  Table as TanStackTable,
   ColumnDef,
   ColumnFiltersState,
   SortingState,
@@ -41,24 +43,33 @@ import {
   Button
 } from "@components/ui"
 
-export interface VirtualizedTableProps<TData, TValue> {
-  parentRef: React.MutableRefObject<HTMLDivElement | null>
+export interface VirtualizedTableHeaderProps<TData> {
+  containerProps?: React.HTMLAttributes<HTMLDivElement>
+  children?: (table: TanStackTable<TData>) => React.ReactNode
   placeholder?: string
+  saveVisibleColumns?: (visibleColumns: VisibilityState) => void
+}
+
+export interface VirtualizedTableProps<TData, TValue> {
+  header?: VirtualizedTableHeaderProps<TData>
+  parentRef: React.MutableRefObject<HTMLDivElement | null>
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   estimateSize: number
   rowClassName?: string
   rowStyle?: React.CSSProperties
+  initialVisibleColumns?: VisibilityState
 }
 
 const VirtualizedTable = <TData, TValue>({
   parentRef,
-  placeholder = "Search",
+  header,
   columns,
   data,
   estimateSize,
   rowClassName = "",
-  rowStyle = {}
+  rowStyle = {},
+  initialVisibleColumns = {}
 }: VirtualizedTableProps<TData, TValue>) => {
   const [globalFilter, setGlobalFilter] = React.useState<string | null>(null)
 
@@ -66,23 +77,25 @@ const VirtualizedTable = <TData, TValue>({
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>(initialVisibleColumns)
 
   const [rowSelection, setRowSelection] = React.useState({})
 
-  const dataMemo = React.useMemo(() => data, [data])
-  const columnsMemo = React.useMemo(() => columns, [columns])
-
   const table = useReactTable({
-    _features: [HoveringFeature],
-    data: dataMemo,
-    columns: columnsMemo,
+    _features: [Focusing, Hovering],
+    data,
+    columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
+    onColumnVisibilityChange: (updater) => {
+      const columns = typeof updater === "function" ? updater(columnVisibility) : updater
+      setColumnVisibility(columns)
+      header?.saveVisibleColumns?.(columns)
+    },
     onRowSelectionChange: setRowSelection,
     state: {
       globalFilter,
@@ -119,44 +132,47 @@ const VirtualizedTable = <TData, TValue>({
 
   return (
     <div className="flex flex-col flex-1 w-full">
-      <div className="flex items-center gap-3 py-3">
-        <Input
-          placeholder={placeholder}
-          value={globalFilter ?? ""}
-          onChange={handleGlobalFilterChange}
-          className="flex-1"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="ml-auto">
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="m-3 mt-0">
-            <DropdownMenuLabel>Visibility</DropdownMenuLabel>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex flex-col gap-3 pt-3" {...header?.containerProps}>
+        {header?.children?.(table)}
+        <div className="flex items-center gap-3">
+          <Input
+            placeholder={header?.placeholder ?? "Search"}
+            value={globalFilter ?? ""}
+            onChange={handleGlobalFilterChange}
+            className="flex-1"
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="ml-auto">
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="m-3 mt-0">
+              <DropdownMenuLabel>Visibility</DropdownMenuLabel>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className="rounded-md">
-        <Table className="relative overflow-hidden">
+        <Table className="relative overflow-hidden mt-3">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
@@ -207,6 +223,8 @@ const VirtualizedTable = <TData, TValue>({
                       transform: `translateY(${virtualRow.start}px)`,
                       ...rowStyle
                     }}
+                    onFocus={() => row.toggleFocused()}
+                    onBlur={() => row.toggleFocused()}
                     onMouseEnter={() => row.toggleHovered()}
                     onMouseLeave={() => row.toggleHovered()}
                   >
