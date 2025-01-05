@@ -92,10 +92,11 @@ const Titlebar = React.forwardRef<HTMLDivElement, TitlebarProps>(
           )}
           {onClose && (
             <Button
+              variant="ghost"
               onClick={onClose}
               aria-label="Close"
               className={cn(
-                "h-full rounded-none bg-transparent text-foreground hover:bg-destructive hover:text-destructive-foreground focus-visible::text-destructive-foreground",
+                "h-full rounded-none hover:bg-destructive hover:text-destructive-foreground focus-visible:bg-destructive focus-visible:text-destructive-foreground",
                 isWindowFocused ? "" : "text-muted-foreground"
               )}
             >
