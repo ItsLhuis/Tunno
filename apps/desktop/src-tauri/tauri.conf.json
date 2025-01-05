@@ -10,6 +10,7 @@
     "beforeBuildCommand": "npm run build:vite"
   },
   "app": {
+    "macOSPrivateApi": true,
     "windows": [
       {
         "label": "overlay",
@@ -20,8 +21,8 @@
         "minHeight": 210,
         "fullscreen": false,
         "decorations": false,
-        "resizable": true,
         "transparent": true,
+        "resizable": true,
         "skipTaskbar": true,
         "alwaysOnTop": true,
         "visible": false
@@ -35,8 +36,8 @@
         "minHeight": 360,
         "fullscreen": false,
         "decorations": false,
-        "resizable": true,
         "transparent": true,
+        "resizable": true,
         "visible": false
       }
     ],

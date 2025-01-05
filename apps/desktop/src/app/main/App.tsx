@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 
+import { getCurrentWindow } from "@tauri-apps/api/window"
+
 import { BrowserRouter } from "react-router-dom"
 
 import Logo from "@assets/images/appicon-primary.png"
@@ -12,18 +14,28 @@ function App() {
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true)
 
   useEffect(() => {
-    const splashTimeout = setTimeout(() => {
-      setIsSplashVisible(false)
-    }, 2000)
+    const initializeApp = async () => {
+      const showMainWindowTimeout = setTimeout(async () => {
+        await getCurrentWindow().show()
+        await getCurrentWindow().setFocus()
+      }, 200)
 
-    return () => {
-      clearTimeout(splashTimeout)
+      const splashTimeout = setTimeout(() => {
+        setIsSplashVisible(false)
+      }, 2000)
+
+      return () => {
+        clearTimeout(showMainWindowTimeout)
+        clearTimeout(splashTimeout)
+      }
     }
+
+    initializeApp()
   }, [])
 
   return (
     <BrowserRouter>
-      <div className="flex flex-col h-dvh w-dvw relative">
+      <div className="flex flex-col h-dvh w-dvw relative bg-background transition-[background-color]">
         {isSplashVisible && (
           <motion.div
             className="absolute inset-0 flex items-center justify-center z-40"

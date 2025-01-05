@@ -12,16 +12,16 @@ use tauri_plugin_window_state::StateFlags;
 
 #[cfg(debug_assertions)]
 fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
-  use tauri_plugin_prevent_default::Flags;
+    use tauri_plugin_prevent_default::Flags;
 
-  tauri_plugin_prevent_default::Builder::new()
-    .with_flags(Flags::all().difference(Flags::DEV_TOOLS | Flags::RELOAD))
-    .build()
+    tauri_plugin_prevent_default::Builder::new()
+        .with_flags(Flags::all().difference(Flags::DEV_TOOLS | Flags::RELOAD))
+        .build()
 }
 
 #[cfg(not(debug_assertions))]
 fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
-  tauri_plugin_prevent_default::Builder::new().build()
+    tauri_plugin_prevent_default::Builder::new().build()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -73,32 +73,6 @@ pub fn run() {
                     overlay_window.set_theme(theme)?;
                 }
 
-                #[cfg(target_os = "windows")]
-                {
-                    window_vibrancy::apply_mica(&main_window, None)
-                        .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
-                    window_vibrancy::apply_mica(&overlay_window, None)
-                        .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
-                }
-
-                #[cfg(target_os = "macos")]
-                {
-                    window_vibrancy::apply_vibrancy(
-                        &main_window,
-                        window_vibrancy::NSVisualEffectMaterial::HudWindow,
-                        None,
-                        None,
-                    )
-                    .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
-                    window_vibrancy::apply_vibrancy(
-                        &overlay_window,
-                        window_vibrancy::NSVisualEffectMaterial::HudWindow,
-                        None,
-                        None,
-                    )
-                    .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
-                }
-
                 let quit_item = MenuItem::with_id(app, "quit", "&Quit", true, None::<&str>)?;
 
                 let menu = Menu::with_items(app, &[&quit_item])?;
@@ -135,8 +109,6 @@ pub fn run() {
                         }
                     })
                     .build(app)?;
-
-                main_window.show()?;
 
                 Ok(())
             }
