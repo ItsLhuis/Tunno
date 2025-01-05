@@ -41,7 +41,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 96%;
+    --sidebar-background: 0 0% 94%;
     --sidebar-foreground: 210 13% 11%;
     --sidebar-primary: 0 84.2% 60.2%;
     --sidebar-primary-foreground: 210 13% 11%;
@@ -76,7 +76,7 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 0 0% 9%;
+    --sidebar-background: 0 0% 11%;
     --sidebar-foreground: 210 8% 92%;
     --sidebar-primary: 357 96% 59%;
     --sidebar-primary-foreground: 210 8% 92%;
@@ -98,6 +98,10 @@
   }
   img {
     pointer-events: none;
+  }
+  svg {
+    width: 1rem;
+    height: 1rem;
   }
   body {
     overflow: hidden;

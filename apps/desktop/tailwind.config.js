@@ -4,6 +4,13 @@ export default {
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
+      screens: {
+        "sm-h": { raw: `(min-height: ${640 * 0.7}px)` },
+        "md-h": { raw: `(min-height: ${768 * 0.7}px)` },
+        "lg-h": { raw: `(min-height: ${1024 * 0.7}px)` },
+        "xl-h": { raw: `(min-height: ${1280 * 0.7}px)` },
+        "2xl-h": { raw: `(min-height: ${1536 * 0.7}px)` }
+      },
       transitionDuration: {
         DEFAULT: "200ms"
       },
