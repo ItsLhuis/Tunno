@@ -5,5 +5,5 @@
   "windows": [
     "overlay"
   ],
-  "permissions": []
+  "permissions": ["core:window:allow-set-position"]
 }
