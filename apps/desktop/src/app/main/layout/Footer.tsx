@@ -23,8 +23,8 @@ function Footer() {
   }
 
   return (
-    <footer className="flex flex-col items-center w-full border-t">
-      <div className="flex items-center justify-center w-full p-3 pb-0 gap-3">
+    <footer className="flex flex-col items-center w-full border-t bg-sidebar transition-colors">
+      <div className="flex items-center justify-center w-full p-3 pb-0 gap-3 transition-colors">
         <Typography variant="span" affects="bold">
           0:01
         </Typography>

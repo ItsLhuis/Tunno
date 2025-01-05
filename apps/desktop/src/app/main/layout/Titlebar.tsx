@@ -59,7 +59,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
   }, [])
 
   return (
-    <div className="h-full border-b">
+    <div className="h-full border-b bg-sidebar transition-colors">
       <WindowTitlebar
         className="h-full"
         onMinimize={() => getCurrentWindow().minimize()}

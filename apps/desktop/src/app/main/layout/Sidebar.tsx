@@ -17,7 +17,7 @@ function Sidebar() {
   const activeIndex = sidebarItems.findIndex((item) => item.href === location.pathname)
 
   return (
-    <aside className="flex flex-row h-full border-r">
+    <aside className="flex flex-row h-full border-r bg-sidebar transition-colors">
       <div className="relative h-full overflow-hidden overflow-y-auto">
         <div
           className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary z-10 transition-[transform,opacity]"
@@ -27,7 +27,7 @@ function Sidebar() {
           }}
         />
         <div className="flex flex-col bg-transparent">
-          {sidebarItems.map((item, index) => (
+          {sidebarItems.map((item) => (
             <Button
               key={item.label}
               tooltip={item.label}
@@ -37,9 +37,6 @@ function Sidebar() {
             >
               <Link to={item.href}>
                 <item.icon
-                  className={`transition-colors ${
-                    activeIndex === index ? "text-primary" : "text-current"
-                  }`}
                 />
                 <span className="sr-only">Open {item.label} screen</span>
               </Link>
