@@ -103,7 +103,7 @@ function App() {
   }
 
   return (
-    <main className="relative group flex flex-col h-dvh w-dvw">
+    <main className="flex flex-col group h-dvh w-dvw relative bg-background transition-colors">
       <div className="flex flex-col absolute inset-0 bg-background/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-50">
         <Titlebar onClose={() => getCurrentWindow().hide()}>
           <div data-tauri-drag-region className="flex flex-1 h-9 justify-between items-center">
