@@ -2,45 +2,57 @@ import { useRef } from "react"
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { ArrowUpDown, MoreHorizontal, Play, Timer } from "lucide-react"
+import { MoreHorizontal, Play, Shuffle, Timer } from "lucide-react"
 
 import { motion } from "motion/react"
 
-import { Button, Typography, VirtualizedTable } from "@components/ui"
+import { Button, Checkbox, Typography, VirtualizedTable } from "@components/ui"
 
 import { Song } from "@utils/types"
 
 const columns: ColumnDef<Song>[] = [
   {
-    id: "play",
-    cell: ({ row }) => (
-      <Button variant="ghost" size="icon" onClick={() => console.log(row.original.id)}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: row.getIsHovered() ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <Play />
-        </motion.div>
-      </Button>
+    id: "select",
+    header: ({ table }) => (
+      <div className="flex justify-center items-center">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      </div>
     ),
+    cell: ({ row }) => (
+      <div className="flex justify-center items-center">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
+    ),
+    meta: { width: "100%" },
     enableSorting: false,
     enableHiding: false
   },
   {
-    accessorKey: "id",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          #
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+    id: "media",
+    cell: ({ row }) => (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: row.getIsFocused() || row.getIsHovered() ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Button size="icon" onClick={() => console.log(row.original.id)}>
+          <Play />
         </Button>
-      )
-    },
-    meta: { width: "100%", className: "truncate" },
+      </motion.div>
+    ),
+    meta: { width: "100%" },
+    enableSorting: false,
     enableHiding: false
   },
   {
@@ -61,28 +73,34 @@ const columns: ColumnDef<Song>[] = [
   },
   {
     accessorKey: "duration",
-    header: () => <Timer className="size-4"/>,
-    meta: { width: "100%", className: "truncate" }
+    header: () => <Timer />,
+    cell: ({ row }) => (
+      <div className="flex justify-center items-center">
+        <Typography className="truncate">{row.getValue("duration")}</Typography>
+      </div>
+    ),
+    meta: { width: "100%", className: "flex justify-center" }
   },
   {
     id: "options",
     cell: ({ row }) => (
-      <Button variant="ghost" size="icon" onClick={() => console.log(row.original.id)}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: row.getIsHovered() ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: row.getIsFocused() || row.getIsHovered() ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Button variant="ghost" size="icon" onClick={() => console.log(row.original.id)}>
           <MoreHorizontal />
-        </motion.div>
-      </Button>
+        </Button>
+      </motion.div>
     ),
+    meta: { width: "100%", className: "truncate" },
     enableSorting: false,
     enableHiding: false
   }
 ]
 
-const data: Song[] = Array.from({ length: 362 }, (_, index) => ({
+const data: Song[] = Array.from({ length: 372 }, (_, index) => ({
   id: (index + 1).toString(),
   title: `Song ${index + 1}`,
   artist: `Artist ${index + 1}`,
@@ -96,17 +114,36 @@ function Songs() {
   return (
     <main
       ref={mainRef}
-      className="flex flex-1 flex-col items-start gap-2 p-3 sm:p-9 bg-background overflow-auto transition-all"
+      className="relative flex-1 p-3 md:p-9 pt-0 md:pt-0 overflow-auto transition-all"
     >
-      <div className="mt-2 sm:mt-0">
-        <Typography variant="h1">Songs</Typography>
-      </div>
       <VirtualizedTable
         parentRef={mainRef}
+        header={{
+          containerProps: {
+            className:
+              "flex flex-col sticky bg-background z-10 top-0 gap-6 pt-6 md:pt-9 hidden sm-h:flex transition-all"
+          },
+          children: (table) => {
+            const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+
+            return (
+              <div className="flex flex-col items-start gap-6">
+                <Typography variant="h1">Songs</Typography>
+                <div className="flex items-center gap-3">
+                  <Button>
+                    <Shuffle />
+                    Shuffle and play
+                  </Button>
+                  {hasSelectedRows && ` ${table.getSelectedRowModel().flatRows.length} songs`}
+                </div>
+              </div>
+            )
+          }
+        }}
         columns={columns}
-        data={data}
-        estimateSize={30}
-        rowClassName="grid grid-cols-[2.25rem_minmax(100px,_0.2fr)_1fr_1fr_1fr_minmax(50px,_0.2fr)_3.75rem] gap-4 w-full"
+        data={data ?? []}
+        estimateSize={70}
+        rowClassName="grid grid-cols-[2.5rem_3.75rem_1fr_1fr_0.5fr_minmax(50px,_0.2fr)_3.75rem] gap-3 w-full"
       />
     </main>
   )
