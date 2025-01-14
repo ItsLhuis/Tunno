@@ -10,7 +10,7 @@ import { Button } from "@/components/ui"
 
 import { MinimizeIcon, MaximizeIcon, RestoreIcon, CloseIcon } from "./win/icons"
 
-export interface TitlebarProps extends React.HTMLAttributes<HTMLDivElement> {
+export type TitlebarProps = React.HTMLAttributes<HTMLDivElement> & {
   children?: React.ReactNode
   onMinimize?: () => void
   onMaximize?: () => void
