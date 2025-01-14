@@ -163,18 +163,25 @@ async function updateImports(paths: string[]) {
 async function updateIndexFile() {
   const files = await fs.promises.readdir(componentsBase)
   const tsxFiles = files.filter((file) => extname(file) === ".tsx")
+  const folders = files.filter(
+    (file) => !extname(file) && fs.lstatSync(resolve(componentsBase, file)).isDirectory()
+  )
 
-  if (tsxFiles.length === 0) {
-    console.log(chalk.magenta("No components found to update index.ts"))
+  if (tsxFiles.length === 0 && folders.length === 0) {
+    console.log(chalk.magenta("No components or folders found to update index.ts"))
     return
   }
 
-  let exportStatements = tsxFiles
-    .map((file) => {
-      const componentName = pascalCaseRenamer(file.replace(extname(file), ""))
-      return `export * from "./${componentName}"`
-    })
-    .join("\n")
+  let exportStatements = ""
+
+  tsxFiles.forEach((file) => {
+    const componentName = pascalCaseRenamer(file.replace(extname(file), ""))
+    exportStatements += `export * from "./${componentName}"\n`
+  })
+
+  folders.forEach((folder) => {
+    exportStatements += `export * from "./${folder}/${folder}"\n`
+  })
 
   await fs.promises.writeFile(indexFilePath, exportStatements, "utf-8")
 }
