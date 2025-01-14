@@ -6,7 +6,7 @@ import { cn } from "@lib/utils"
 
 import { motion, useAnimation, useAnimationFrame } from "motion/react"
 
-export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
+export type MarqueeProps = React.HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode
   speed?: number
   shadow?: boolean
@@ -65,7 +65,7 @@ const Marquee = ({ children, speed = 20, shadow = true, className, ...props }: M
   return (
     <div
       ref={containerRef}
-      className={cn("flex flex-row truncate relative transition-all", className)}
+      className={cn("flex flex-row truncate relative", className)}
       style={{
         maskImage:
           shadow && shouldAnimate
