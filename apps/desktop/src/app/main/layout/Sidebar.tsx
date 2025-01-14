@@ -1,6 +1,8 @@
-import { useLocation, Link } from "react-router-dom"
+import { useState, useEffect } from "react"
 
 import { Music, Heart, List, Users } from "lucide-react"
+
+import { useLocation, Link } from "react-router-dom"
 
 import { Button } from "@components/ui"
 
@@ -16,18 +18,29 @@ function Sidebar() {
 
   const activeIndex = sidebarItems.findIndex((item) => item.href === location.pathname)
 
+  const [lastValidIndex, setLastValidIndex] = useState(activeIndex)
+
+  useEffect(() => {
+    if (activeIndex !== -1) {
+      setLastValidIndex(activeIndex)
+    }
+  }, [activeIndex])
+
+  const isVisible = activeIndex !== -1
+
   return (
-    <aside className="flex flex-row h-full border-r bg-sidebar transition-colors">
+    <aside className="flex flex-row h-full border-r bg-sidebar transition-[background-color,border-color,text-decoration-color,fill,stroke]">
       <div className="relative h-full overflow-hidden overflow-y-auto">
         <div
           className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary z-10 transition-[transform,opacity]"
           style={{
-            transform: `translateY(${activeIndex * 3.5}rem)`,
-            height: "3.5rem"
+            transform: `translateY(${lastValidIndex * 3.5}rem)`,
+            height: "3.5rem",
+            opacity: isVisible ? 1 : 0
           }}
         />
         <div className="flex flex-col bg-transparent">
-          {sidebarItems.map((item) => (
+          {sidebarItems.map((item, index) => (
             <Button
               key={item.label}
               tooltip={item.label}
@@ -37,6 +50,9 @@ function Sidebar() {
             >
               <Link to={item.href}>
                 <item.icon
+                  className={`transition-colors ${
+                    activeIndex === index ? "text-primary" : "text-current"
+                  }`}
                 />
                 <span className="sr-only">Open {item.label} screen</span>
               </Link>

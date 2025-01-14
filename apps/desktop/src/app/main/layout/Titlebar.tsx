@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 
-import { useNavigate } from "react-router-dom"
-
 import { listen } from "@tauri-apps/api/event"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
@@ -13,6 +11,8 @@ import { ArrowLeft, ArrowRight, Settings, Zap } from "lucide-react"
 import { Titlebar as WindowTitlebar } from "@components/window"
 
 import { motion } from "motion/react"
+
+import { useNavigate, Link } from "react-router-dom"
 
 import { Button, Typography } from "@components/ui"
 
@@ -59,7 +59,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
   }, [])
 
   return (
-    <div className="h-full border-b bg-sidebar transition-colors">
+    <div className="h-full border-b bg-sidebar transition-[background-color,border-color,text-decoration-color,fill,stroke]">
       <WindowTitlebar
         className="h-full"
         onMinimize={() => getCurrentWindow().minimize()}
@@ -96,7 +96,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
           </div>
           {!isSplashVisible && (
             <motion.div
-              className="flex items-center gap-1"
+              className="flex items-center gap-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -116,10 +116,12 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                 variant="ghost"
                 size="icon"
                 className="mr-1"
-                onClick={() => navigate("/settings")}
+                asChild
               >
-                <Settings />
-                <span className="sr-only">Open settings menu</span>
+                <Link to="/settings">
+                  <Settings />
+                  <span className="sr-only">Open settings screen</span>
+                </Link>
               </Button>
             </motion.div>
           )}

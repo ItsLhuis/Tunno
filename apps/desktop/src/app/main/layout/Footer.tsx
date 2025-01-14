@@ -23,15 +23,11 @@ function Footer() {
   }
 
   return (
-    <footer className="flex flex-col items-center w-full border-t bg-sidebar transition-colors">
-      <div className="flex items-center justify-center w-full p-3 pb-0 gap-3 transition-colors">
-        <Typography variant="span" affects="bold">
-          0:01
-        </Typography>
+    <footer className="flex flex-col items-center w-full border-t bg-sidebar transition-[background-color,border-color,text-decoration-color,fill,stroke]">
+      <div className="flex items-center justify-center w-full p-3 pb-0 gap-3">
+        <Typography affects={["bold", "tiny"]}>0:01</Typography>
         <Slider />
-        <Typography variant="span" affects="bold">
-          2:24
-        </Typography>
+        <Typography affects={["bold", "tiny"]}>2:24</Typography>
       </div>
       <div className="flex flex-row items-center gap-3 p-3 w-full">
         <div className="flex items-center gap-3 truncate flex-1">
@@ -40,10 +36,8 @@ function Footer() {
             <Marquee>
               <Typography variant="h6">MALA (feat. Anuel AA)</Typography>
             </Marquee>
-            <Marquee className="-mt-1">
-              <Typography affects="small" className="text-muted-foreground truncate">
-                6ix9ine - Topic
-              </Typography>
+            <Marquee>
+              <Typography affects={["small", "muted"]}>6ix9ine - Topic</Typography>
             </Marquee>
           </div>
         </div>
@@ -78,7 +72,7 @@ function Footer() {
             </Button>
           </div>
         </div>
-        <div className="flex items-center justify-end gap-1 truncate flex-1">
+        <div className="flex items-center justify-end gap-2 truncate flex-1">
           <Popover>
             <PopoverTrigger asChild>
               <Button tooltip={{ children: "Volume", side: "top" }} variant="ghost" size="icon">
@@ -95,7 +89,7 @@ function Footer() {
                 <Volume1 />
               </Button>
               <Slider />
-              <Typography variant="span" affects="bold" className="ml-3">
+              <Typography affects={["bold", "tiny"]} className="ml-3 mr-2">
                 15%
               </Typography>
             </PopoverContent>
