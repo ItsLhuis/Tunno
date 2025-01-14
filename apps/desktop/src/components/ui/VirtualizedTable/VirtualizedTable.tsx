@@ -56,6 +56,7 @@ export interface VirtualizedTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   estimateSize: number
+  rowGridCols?: Array<string | number>
   rowClassName?: string
   rowStyle?: React.CSSProperties
   initialVisibleColumns?: VisibilityState
@@ -67,6 +68,7 @@ const VirtualizedTable = <TData, TValue>({
   columns,
   data,
   estimateSize,
+  rowGridCols = [],
   rowClassName = "",
   rowStyle = {},
   initialVisibleColumns = {}
@@ -130,11 +132,25 @@ const VirtualizedTable = <TData, TValue>({
     []
   )
 
+  const visibleColumns = React.useMemo(
+    () => table.getAllColumns().filter((col) => col.getIsVisible()),
+    [columnVisibility]
+  )
+
+  const dynamicGridCols = React.useMemo(() => {
+    return visibleColumns
+      .map((column) => {
+        const columnIndex = table.getAllColumns().indexOf(column)
+        return rowGridCols[columnIndex] || "1fr"
+      })
+      .join(" ")
+  }, [visibleColumns])
+
   return (
     <div className="flex flex-col flex-1 w-full">
       <div className="flex flex-col gap-3 pt-3" {...header?.containerProps}>
         {header?.children?.(table)}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Input
             placeholder={header?.placeholder ?? "Search"}
             value={globalFilter ?? ""}
@@ -177,8 +193,8 @@ const VirtualizedTable = <TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className={cn("flex w-full hover:bg-transparent mb-3", rowClassName)}
-                style={rowStyle}
+                className={cn("grid w-full hover:bg-transparent mb-3", rowClassName)}
+                style={{ gridTemplateColumns: dynamicGridCols, ...rowStyle }}
               >
                 {headerGroup.headers.map((header) => {
                   return (
@@ -218,9 +234,10 @@ const VirtualizedTable = <TData, TValue>({
                     data-index={virtualRow.index}
                     ref={rowVirtualizer.measureElement}
                     data-state={row.getIsSelected() && "selected"}
-                    className={cn("flex absolute w-full border-none rounded-md", rowClassName)}
+                    className={cn("grid absolute w-full border-none rounded-md", rowClassName)}
                     style={{
                       transform: `translateY(${virtualRow.start}px)`,
+                      gridTemplateColumns: dynamicGridCols,
                       ...rowStyle
                     }}
                     onFocus={() => row.toggleFocused()}
