@@ -173,13 +173,9 @@ function App() {
               <Typography variant="h6">MALA (feat. Anuel AA)</Typography>
             </Marquee>
             <div className="flex items-center justify-center gap-2 px-4">
-              <Typography variant="span" affects="bold">
-                0:01
-              </Typography>
+              <Typography affects={["bold", "tiny"]}>0:01</Typography>
               <Slider />
-              <Typography variant="span" affects="bold">
-                2:24
-              </Typography>
+              <Typography affects={["bold", "tiny"]}>2:24</Typography>
             </div>
           </div>
         </div>
