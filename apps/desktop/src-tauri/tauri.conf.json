@@ -21,7 +21,6 @@
         "minHeight": 210,
         "fullscreen": false,
         "decorations": false,
-        "transparent": true,
         "resizable": true,
         "skipTaskbar": true,
         "alwaysOnTop": true,
@@ -36,7 +35,6 @@
         "minHeight": 360,
         "fullscreen": false,
         "decorations": false,
-        "transparent": true,
         "resizable": true,
         "visible": false
       }

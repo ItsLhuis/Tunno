@@ -1,17 +1,14 @@
 use tauri::{
     menu::{Menu, MenuItem},
-    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    Manager,
+    plugin::TauriPlugin,
+    tray::{MouseButton, MouseButtonState, TrayIcon, TrayIconBuilder, TrayIconEvent},
+    Manager, WebviewWindow, WindowEvent,
 };
-
-use serde_json::json;
-
-use tauri_plugin_store::StoreExt;
 
 use tauri_plugin_window_state::StateFlags;
 
 #[cfg(debug_assertions)]
-fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+fn prevent_default() -> TauriPlugin<tauri::Wry> {
     use tauri_plugin_prevent_default::Flags;
 
     tauri_plugin_prevent_default::Builder::new()
@@ -20,7 +17,7 @@ fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
 }
 
 #[cfg(not(debug_assertions))]
-fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+fn prevent_default() -> TauriPlugin<tauri::Wry> {
     tauri_plugin_prevent_default::Builder::new().build()
 }
 
@@ -32,12 +29,9 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(
             tauri_plugin_window_state::Builder::default()
-                .with_state_flags(StateFlags::all().difference(
-                    StateFlags::VISIBLE
-                        | StateFlags::FULLSCREEN
-                        | StateFlags::DECORATIONS
-                        | StateFlags::SIZE,
-                ))
+                .with_state_flags(
+                    StateFlags::all().difference(StateFlags::VISIBLE | StateFlags::DECORATIONS),
+                )
                 .build(),
         )
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
@@ -49,29 +43,7 @@ pub fn run() {
         .setup(|app| {
             #[cfg(desktop)]
             {
-                let main_window: tauri::WebviewWindow = app.get_webview_window("main").unwrap();
-                let overlay_window = app.get_webview_window("overlay").unwrap();
-
-                let settings_store = app.store(".settings.json")?;
-
-                if !settings_store.has("theme") {
-                    settings_store.set("theme", json!("system"));
-                }
-
-                if let Some(theme_value) = settings_store.get("theme") {
-                    let theme = if let Some(theme_str) = theme_value.as_str() {
-                        match theme_str {
-                            "light" => Some(tauri::Theme::Light),
-                            "dark" => Some(tauri::Theme::Dark),
-                            _ => None,
-                        }
-                    } else {
-                        None
-                    };
-
-                    main_window.set_theme(theme)?;
-                    overlay_window.set_theme(theme)?;
-                }
+                let main_window: WebviewWindow = app.get_webview_window("main").unwrap();
 
                 let quit_item = MenuItem::with_id(app, "quit", "&Quit", true, None::<&str>)?;
 
@@ -81,8 +53,8 @@ pub fn run() {
                     .icon(app.default_window_icon().unwrap().clone())
                     .tooltip(main_window.title().unwrap_or_else(|_| "Wave".to_string()))
                     .menu(&menu)
-                    .menu_on_left_click(false)
-                    .on_tray_icon_event(|tray_handle: &tauri::tray::TrayIcon, event| match event {
+                    .show_menu_on_left_click(false)
+                    .on_tray_icon_event(|tray_handle: &TrayIcon, event| match event {
                         TrayIconEvent::Click {
                             button: MouseButton::Left,
                             button_state: MouseButtonState::Up,
@@ -91,6 +63,7 @@ pub fn run() {
                             let app = tray_handle.app_handle();
                             if let Some(window) = app.get_webview_window("main") {
                                 if !window.is_focused().unwrap_or(false) {
+                                    let _ = window.unminimize();
                                     let _ = window.show();
                                     let _ = window.set_focus();
                                 }
@@ -114,7 +87,7 @@ pub fn run() {
             }
         })
         .on_window_event(|window, event| match event {
-            tauri::WindowEvent::CloseRequested { .. } => {
+            WindowEvent::CloseRequested { .. } => {
                 let app = window.app_handle();
                 for (_, win) in app.webview_windows() {
                     let _ = win.close();
