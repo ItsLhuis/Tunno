@@ -2,8 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react"
 
 import { getSettingsStore } from "@tauri/stores/settings"
 
-import { getAllWindows, Window } from "@tauri-apps/api/window"
-
 type Theme = "dark" | "light" | "system"
 
 type ThemeProviderState = {
@@ -67,11 +65,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         await store.set("theme", theme)
       }
       setTheme(theme)
-      getAllWindows().then((windows: Window[]) => {
-        windows.forEach((win) => {
-          win.setTheme(theme !== "system" ? theme : undefined)
-        })
-      })
     }
   }
 
