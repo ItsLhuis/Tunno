@@ -120,11 +120,12 @@ export const download = async (
     await runCommand("yt-dlp", [
       "--extract-audio",
       "--audio-format",
-      "opus",
+      options?.basicDownload ? "m4a" : "opus",
       "--audio-quality",
       "0",
       "--format",
       "bestaudio",
+      ...(options?.basicDownload ? ["--add-metadata", "--embed-thumbnail"] : []),
       "--output",
       `"${songFilePath}"`,
       url
@@ -132,7 +133,7 @@ export const download = async (
 
     console.log(
       "Download completed:",
-      chalk.green(options?.basicDownload ? `${songFilePath}.opus` : videoDir)
+      chalk.green(options?.basicDownload ? `${songFilePath}.m4a` : videoDir)
     )
   } catch (error) {
     if (error instanceof Error) {
