@@ -19,13 +19,17 @@ const getConfigPath = (): string => {
     fs.mkdirSync(baseConfigPath, { recursive: true })
   }
 
-  return path.join(baseConfigPath, "config.json")
+  return path.join(baseConfigPath, ".config.json")
 }
 
 const configPath = getConfigPath()
 
-interface Config {
+type Config = {
   downloadPath?: string
+  env: {
+    SPOTIFY_CLIENT_ID?: string
+    SPOTIFY_CLIENT_SECRET?: string
+  }
 }
 
 const normalizePath = (filePath: string): string => {
@@ -34,7 +38,7 @@ const normalizePath = (filePath: string): string => {
     : path.normalize(filePath) + path.sep
 }
 
-const validateDownloadPath = async (downloadPath: string, currentPath: string): Promise<string> => {
+const validateDownloadPath = async (downloadPath: string): Promise<string> => {
   let resolvedPath = path.isAbsolute(downloadPath)
     ? normalizePath(downloadPath)
     : normalizePath(path.join(os.homedir(), downloadPath))
@@ -51,7 +55,6 @@ const validateDownloadPath = async (downloadPath: string, currentPath: string): 
   }
 
   if (!fs.existsSync(resolvedPath)) {
-    console.log("")
     const { createDir } = await inquirer.prompt([
       {
         type: "confirm",
@@ -63,14 +66,16 @@ const validateDownloadPath = async (downloadPath: string, currentPath: string): 
       }
     ])
 
+    console.log("")
+
     if (createDir) {
       try {
         fs.mkdirSync(resolvedPath, { recursive: true })
       } catch (error) {
-        return currentPath
+        return defaultDownloadPath
       }
     } else {
-      return currentPath
+      return defaultDownloadPath
     }
   }
 
@@ -79,21 +84,18 @@ const validateDownloadPath = async (downloadPath: string, currentPath: string): 
 
 const ensureConfigFileExists = async (): Promise<void> => {
   if (!fs.existsSync(configPath)) {
-    const defaultConfig: Config = { downloadPath: defaultDownloadPath }
+    const defaultConfig: Config = { downloadPath: defaultDownloadPath, env: {} }
 
     fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), "utf-8")
   } else {
     try {
       let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
-      config.downloadPath = await validateDownloadPath(
-        config.downloadPath || defaultDownloadPath,
-        config.downloadPath || defaultDownloadPath
-      )
+      config.downloadPath = await validateDownloadPath(config.downloadPath || defaultDownloadPath)
 
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
     } catch (error) {
-      const defaultConfig: Config = { downloadPath: defaultDownloadPath }
+      const defaultConfig: Config = { downloadPath: defaultDownloadPath, env: {} }
 
       fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), "utf-8")
     }
@@ -105,10 +107,7 @@ export const setDownloadPath = async (downloadPath: string): Promise<string> => 
 
   let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
-  const resolvedPath = await validateDownloadPath(
-    downloadPath,
-    config.downloadPath || defaultDownloadPath
-  )
+  const resolvedPath = await validateDownloadPath(downloadPath)
   config.downloadPath = resolvedPath
 
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
@@ -122,4 +121,28 @@ export const getDownloadPath = async (): Promise<string> => {
   const config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
   return config.downloadPath || defaultDownloadPath
+}
+
+type EnvKey = keyof Config["env"]
+
+export const setEnvKey = async (key: EnvKey, value: string): Promise<void> => {
+  await ensureConfigFileExists()
+
+  let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+
+  if (!config.env) {
+    config.env = {}
+  }
+
+  config.env[key] = value
+
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
+}
+
+export const getEnvKey = async (key: EnvKey): Promise<string | undefined> => {
+  await ensureConfigFileExists()
+
+  const config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+
+  return config.env?.[key]
 }

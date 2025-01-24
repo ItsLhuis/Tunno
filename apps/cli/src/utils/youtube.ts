@@ -1,85 +1,144 @@
 import fs from "fs"
 import path from "path"
 
-import ytdl from "@distube/ytdl-core"
+import { v4 as uuid } from "uuid"
+
 import chalk from "chalk"
 
 import sanitize from "sanitize-filename"
 
 import { getDownloadPath } from "./config"
 
-import { downloadThumbnail } from "./utils"
+import { downloadThumbnail, runCommand, execPromise } from "./utils"
 
-export const download = async (videoId: string): Promise<void> => {
-  const downloadPath = await getDownloadPath()
+import { getTrack } from "./spotify"
 
-  const url = `https://www.youtube.com/watch?v=${videoId}`
+import { type Song } from "../shared/types"
 
-  const info = await ytdl.getBasicInfo(url)
+type YoutubeSong = {
+  title: string
+  thumbnail: string
+  duration: number
+  uploader: string
+  release_date?: string | null | undefined
+  upload_date: string
+}
 
-  const videoTitle = sanitize(info.videoDetails.title, { replacement: "-" })
-  const videoThumbnail = info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1].url
-  const authorThumbnail =
-    info.videoDetails.author?.thumbnails?.[info.videoDetails.author.thumbnails.length - 1]?.url
-
-  const videoDir = path.join(downloadPath, videoTitle)
-  const songDir = path.join(videoDir, "song")
-  const authorDir = path.join(videoDir, "author")
-
-  fs.mkdirSync(songDir, { recursive: true })
-  fs.mkdirSync(authorDir, { recursive: true })
-
-  const songFilePath = path.join(songDir, `${videoTitle}.mp3`)
-  const authorThumbnailPath = path.join(authorDir, "thumbnail.jpg")
-  const videoThumbnailPath = path.join(songDir, "thumbnail.jpg")
-  const songMetadataPath = path.join(songDir, "metadata.json")
-  const authorMetadataPath = path.join(authorDir, "metadata.json")
-
-  await downloadThumbnail(videoThumbnail, videoThumbnailPath, 800)
-  if (authorThumbnail) await downloadThumbnail(authorThumbnail, authorThumbnailPath, 150)
-
-  const { author, ...songDetails } = info.videoDetails
-
-  const songMetadata = {
-    ...songDetails
+export const download = async (
+  videoId: string,
+  options?: {
+    title?: string
+    artist?: string
+    releaseYear?: string
+    basicDownload?: boolean
   }
-  fs.writeFileSync(songMetadataPath, JSON.stringify(songMetadata, null, 2))
+): Promise<void> => {
+  try {
+    const downloadPath = await getDownloadPath()
 
-  const authorMetadata = {
-    ...author,
-    name: info.videoDetails.author?.name || "Unknown"
-  }
-  fs.writeFileSync(authorMetadataPath, JSON.stringify(authorMetadata, null, 2))
+    const url = `https://music.youtube.com/watch?v=${videoId}`
 
-  const videoStream = ytdl(url, { filter: "audioonly", quality: "highestaudio" })
+    console.log(`[youtube] Extracting video info from: ${url}`)
+    const { stdout: videoJson } = await execPromise(`yt-dlp --dump-json ${url}`)
 
-  let downloadedBytes = 0
-  let totalBytes = 0
+    const videoInfo: YoutubeSong = JSON.parse(videoJson)
 
-  console.log("")
-  videoStream.on("progress", (chunkLength, downloaded, total) => {
-    downloadedBytes = downloaded
-    totalBytes = total
+    let videoDir = options?.basicDownload
+      ? downloadPath
+      : path.join(downloadPath, sanitize(videoInfo.title, { replacement: "" }))
 
-    const progress = (downloadedBytes / totalBytes) * 100
-    const progressBar = `${chalk.green(
-      "[" + "=".repeat(progress / 5) + " ".repeat(20 - progress / 5) + "]"
-    )}`
-    process.stdout.write(
-      `\r${"Progress:"} ${progressBar} ${chalk.yellow(progress.toFixed(2) + "%")}`
+    if (!options?.basicDownload) {
+      const searchTitle = options?.title || videoInfo.title
+      const searchArtist = options?.artist || videoInfo.uploader
+      const searchYear =
+        options?.releaseYear || (videoInfo.release_date ? videoInfo.release_date.slice(0, 4) : null)
+
+      console.log(
+        `[spotify] Extracting metadata for ${chalk.blue(searchTitle)} by ${chalk.blue(
+          searchArtist
+        )}`
+      )
+      const track = await getTrack(searchTitle, searchArtist, searchYear)
+
+      if (!track) {
+        console.log(chalk.red("Track not found on Spotify"))
+        console.log(
+          chalk.yellow("Suggestion:"),
+          "You can either download just the track and manually update the metadata later, or provide additional fields related to the Spotify search to improve metadata accuracy. Mismatching the YouTube video ID with unrelated metadata fields may result in incorrect metadata"
+        )
+        return
+      }
+
+      videoDir = path.join(downloadPath, sanitize(track.title, { replacement: "" }))
+      fs.mkdirSync(videoDir, { recursive: true })
+
+      const videoMetadata: Song = {
+        title: track.title,
+        thumbnail: "",
+        duration: videoInfo.duration,
+        artists: [],
+        album: track.album,
+        releaseYear: track.releaseYear
+      }
+
+      const trackThumbnailUUID = uuid() + ".jpg"
+      await downloadThumbnail(videoInfo.thumbnail, path.join(videoDir, trackThumbnailUUID), 640)
+      videoMetadata.thumbnail = trackThumbnailUUID
+
+      const albumThumbnailUUID = uuid() + ".jpg"
+      await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
+      videoMetadata.album.thumbnail = albumThumbnailUUID
+
+      for (const artist of track.artists) {
+        if (artist.thumbnail) {
+          const artistThumbnailUUID = uuid() + ".jpg"
+          await downloadThumbnail(artist.thumbnail, path.join(videoDir, artistThumbnailUUID), 640)
+
+          videoMetadata.artists.push({
+            name: artist.name,
+            thumbnail: artistThumbnailUUID,
+            genres: artist.genres
+          })
+        } else {
+          videoMetadata.artists.push({
+            name: artist.name,
+            thumbnail: null,
+            genres: artist.genres
+          })
+        }
+      }
+
+      fs.writeFileSync(path.join(videoDir, "metadata.json"), JSON.stringify(videoMetadata, null, 2))
+    }
+
+    const songFileName = options?.basicDownload
+      ? sanitize(videoInfo.title, { replacement: "" })
+      : "song"
+
+    const songFilePath = path.join(videoDir, `${songFileName}`)
+
+    await runCommand("yt-dlp", [
+      "--extract-audio",
+      "--audio-format",
+      "opus",
+      "--audio-quality",
+      "0",
+      "--format",
+      "bestaudio",
+      "--output",
+      `"${songFilePath}"`,
+      url
+    ])
+
+    console.log(
+      "Download completed:",
+      chalk.green(options?.basicDownload ? `${songFilePath}.opus` : videoDir)
     )
-  })
-
-  videoStream.on("end", () => {
-    console.log("")
-    console.log("\nDownload completed:", chalk.green(videoDir))
-    console.log("")
-  })
-
-  videoStream.on("error", (error) => {
-    console.error(chalk.red("Error during download:"), error)
-  })
-
-  const file = fs.createWriteStream(songFilePath)
-  videoStream.pipe(file)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(`[youtube] Failed to download from youtube. ${chalk.red(error.message)}`)
+    } else {
+      console.error("[youtube] Unknown error occurred")
+    }
+  }
 }
