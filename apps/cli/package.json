@@ -7,8 +7,7 @@
   },
   "type": "commonjs",
   "scripts": {
-    "build": "tsc",
-    "start": "npm run build && node dist/bin/wave.js"
+    "build": "tsc"
   },
   "license": "MIT",
   "devDependencies": {
@@ -18,12 +17,12 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@distube/ytdl-core": "^4.15.6",
     "axios": "^1.7.9",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
     "inquirer": "^12.2.0",
     "sanitize-filename": "^1.6.3",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "uuid": "^11.0.5"
   }
 }
