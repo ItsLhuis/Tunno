@@ -178,8 +178,6 @@ Before using **Wave CLI**, make sure you have the following installed on your sy
 
   This command downloads all audio tracks from the specified playlist without processing metadata or album covers.
 
----
-
 ### Spotify Integration
 
 - **Refine Metadata with Spotify**:
