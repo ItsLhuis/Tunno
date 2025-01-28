@@ -1,15 +1,14 @@
 import { useRef, useState } from "react"
 
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
 import { spacing, borderRadius, iconSize } from "@constants/styles"
 
-import { TextInput as RNTextInput, StyleProp, ViewStyle } from "react-native"
-import { TextInput, TextInputProps } from "./TextInput"
-import { Pressable } from "./Pressable"
+import { Pressable, TextInput as RNTextInput, View, StyleProp, ViewStyle } from "react-native"
+
+import { Input, type InputProps } from "./Input"
 import { Button } from "./Button"
 import { IconButton } from "./IconButton"
-import { View } from "./View"
 import { Icon } from "./Icon"
 
 import Animated, {
@@ -19,20 +18,21 @@ import Animated, {
   interpolate
 } from "react-native-reanimated"
 
-export type SearchInputProps = TextInputProps & {
+export type SearchInputProps = InputProps & {
   containerStyle?: StyleProp<ViewStyle>
 }
 
 export function SearchInput({
   style,
   value,
+  placeholderTextColor,
   onChangeText,
   containerStyle,
-  ...rest
+  ...props
 }: SearchInputProps) {
   const inputRef = useRef<RNTextInput>(null)
 
-  const { colors } = useThemeColor()
+  const { colors } = useColorTheme()
 
   const [cancelWidth, setCancelWidth] = useState<number>(0)
 
@@ -86,21 +86,22 @@ export function SearchInput({
           containerStyle
         ]}
       >
-        <Icon name="search" size={iconSize.medium} color={colors.placeholder} />
-        <TextInput
+        <Icon name="Search" size={iconSize.medium} color={colors.text} />
+        <Input
           ref={inputRef}
           onFocus={handleFocus}
           onBlur={handleBlur}
           value={value}
           onChangeText={onChangeText}
+          placeholderTextColor={placeholderTextColor || colors.placeholder}
           style={[style, { flex: 1, paddingHorizontal: spacing.xSmall }]}
-          {...rest}
+          {...props}
         />
         <Animated.View style={clearStyle}>
           <IconButton
-            name="close"
+            name="X"
             size={iconSize.medium}
-            color={colors.placeholder}
+            color={colors.text}
             onPress={() => {
               if (clearAnimation.value === 0) {
                 handlePress()
@@ -112,10 +113,7 @@ export function SearchInput({
         </Animated.View>
       </Pressable>
       <Animated.View
-        onLayout={(event) => {
-          const { width } = event.nativeEvent.layout
-          setCancelWidth(width)
-        }}
+        onLayout={(event) => setCancelWidth(event.nativeEvent.layout.width)}
         style={cancelStyle}
       >
         <Button
@@ -123,9 +121,9 @@ export function SearchInput({
           title="Cancel"
           onPress={handleBlur}
           style={{ paddingRight: spacing.none, paddingLeft: spacing.xSmall }}
-          textStyle={{ color: colors.primary }}
         />
       </Animated.View>
     </View>
   )
 }
+SearchInput.displayName = "SearchInput"

@@ -2,9 +2,9 @@ import "expo-dev-client"
 
 import { useState, useEffect, useCallback } from "react"
 
-import { useColorScheme, Platform } from "react-native"
+import { useColorScheme, View, Platform } from "react-native"
 
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useFonts } from "expo-font"
 
@@ -28,8 +28,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
-import { View } from "@components/ui"
-
 import { Stack } from "expo-router"
 
 SplashScreen.preventAutoHideAsync()
@@ -42,7 +40,7 @@ const configureNavigationBar = async () => {
 }
 
 export default function RootLayout() {
-  const { colors, isThemeChanging } = useThemeColor()
+  const { colors, isThemeChanging } = useColorTheme()
 
   SystemUI.setBackgroundColorAsync(colors.background)
 

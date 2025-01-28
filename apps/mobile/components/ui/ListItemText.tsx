@@ -1,11 +1,10 @@
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
 import { spacing } from "@constants/styles"
 
-import { StyleProp, ViewStyle } from "react-native"
+import { View, StyleProp, ViewStyle } from "react-native"
 
-import { View } from "./View"
-import { Text, TextProps } from "./Text"
+import { Text, type TextProps } from "@components/ui/Text"
 
 export type ListItemTextProps = {
   title?: string | null | undefined
@@ -22,16 +21,17 @@ export function ListItemText({
   titleProps,
   descriptionProps
 }: ListItemTextProps) {
-  const { colors } = useThemeColor()
+  const { colors } = useColorTheme()
 
   return (
-    <View style={[{ flex: 1, gap: spacing.xxSmall }, containerStyle]}>
-      <Text variant="bold" {...titleProps}>
+    <View style={[{ flex: 1, gap: spacing.xxSmall / 2 }, containerStyle]}>
+      <Text variant="bold" size={titleProps?.size || "medium"} {...titleProps}>
         {title}
       </Text>
-      <Text style={[{ color: colors.placeholder }]} {...descriptionProps}>
+      <Text style={[{ color: colors.placeholder }]} size={descriptionProps?.size || "small"} {...descriptionProps}>
         {description}
       </Text>
     </View>
   )
 }
+ListItemText.displayName = "ListItemText"

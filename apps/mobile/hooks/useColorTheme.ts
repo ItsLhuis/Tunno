@@ -4,7 +4,7 @@ import { Appearance } from "react-native"
 
 import { colors } from "@constants/colors"
 
-export function useThemeColor() {
+export function useColorTheme() {
   const [isThemeChanging, setIsThemeChanging] = useState(false)
 
   const [theme, setTheme] = useState(Appearance.getColorScheme() || "light")

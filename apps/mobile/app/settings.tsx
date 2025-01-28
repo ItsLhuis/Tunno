@@ -1,15 +1,27 @@
 import { Fragment, useCallback, useRef } from "react"
 
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+
 import { useAppStore } from "@stores/app"
 
-import { size } from "@constants/font"
+import { fontSize } from "@constants/font"
 import { borderRadius, iconSize, spacing } from "@constants/styles"
-import Constants from "@constants/expo"
 
 import { signIn, signOut } from "@utils/google"
 
-import { BackIcon } from "@components/navigation"
-import { Button, Image, List, BottomSheet, View, ListItemText } from "@components/ui"
+import { View } from "react-native"
+
+import {
+  BackButton,
+  Button,
+  Image,
+  ScrollViewWithHeaders,
+  Header,
+  LargeHeader,
+  BottomSheet,
+  ListItemText,
+  Text
+} from "@components/ui"
 import { BottomSheetModal } from "@gorhom/bottom-sheet"
 
 import { SettingButton } from "@features/settings/components"
@@ -22,6 +34,8 @@ type Setting = {
 }
 
 export default function Settings() {
+  const insets = useSafeAreaInsets()
+
   const { user } = useAppStore()
 
   const data: Setting[] = [
@@ -60,51 +74,62 @@ export default function Settings() {
 
   return (
     <Fragment>
-      <List
-        contentContainerStyle={{ paddingHorizontal: 0 }}
-        headerProps={{
-          isAnimated: true,
-          hideSearch: true,
-          title: "Settings",
-          renderLeft: () => {
-            return <BackIcon />
-          }
-        }}
-        hasPlayer={false}
-        data={data}
-        renderItem={({ item }) => (
-          <SettingButton
-            disabled={item.id === "1" && user ? true : false}
-            onPress={item.onPress}
-            title={item.id === "1" && user ? user?.user.name : item.title}
-            description={item.id === "1" && user ? user?.user.email : item.description}
-            renderLeft={
-              item.id === "1" ? (
-                <Image
-                  cachePolicy="memory-disk"
-                  style={{
-                    width: iconSize.xxLarge,
-                    height: iconSize.xxLarge,
-                    borderRadius: borderRadius.round
-                  }}
-                  source={
-                    user && user.user.photo
-                      ? { uri: user.user.photo }
-                      : require("@assets/images/google.png")
-                  }
-                />
-              ) : undefined
+      <ScrollViewWithHeaders
+        HeaderComponent={({ showHeader }) => (
+          <Header
+            showHeader={showHeader}
+            headerCenter={
+              <Text variant="bold" size="large" numberOfLines={1}>
+                Settings
+              </Text>
             }
-            renderRight={
-              item.id === "1" && user ? (
-                <Button title="Log Out" onPress={handleOpenBottomSheet} />
-              ) : undefined
-            }
+            headerLeft={<BackButton />}
           />
         )}
-        keyExtractor={(item) => item.id}
-        estimatedItemSize={80}
-      />
+        LargeHeaderComponent={() => (
+          <LargeHeader style={{ paddingBottom: spacing.small }}>
+            <Text variant="bold" size="xxxLarge" numberOfLines={1}>
+              Settings
+            </Text>
+          </LargeHeader>
+        )}
+        automaticallyAdjustsScrollIndicatorInsets={false}
+        contentContainerStyle={{ paddingHorizontal: spacing.large, paddingBottom: insets.bottom }}
+      >
+        <View style={{ paddingTop: spacing.medium, gap: spacing.large }}>
+          {data.map((item, index) => (
+            <SettingButton
+              key={item.id}
+              disabled={item.id === "1" && user ? true : false}
+              onPress={item.onPress}
+              title={item.id === "1" && user ? user?.user.name : item.title}
+              description={item.id === "1" && user ? user?.user.email : item.description}
+              renderLeft={
+                item.id === "1" ? (
+                  <Image
+                    cachePolicy="memory-disk"
+                    style={{
+                      width: iconSize.xxLarge,
+                      height: iconSize.xxLarge,
+                      borderRadius: borderRadius.round
+                    }}
+                    source={
+                      user && user.user.photo
+                        ? { uri: user.user.photo }
+                        : require("@assets/images/google.png")
+                    }
+                  />
+                ) : undefined
+              }
+              renderRight={
+                item.id === "1" && user ? (
+                  <Button title="Log Out" onPress={handleOpenBottomSheet} />
+                ) : undefined
+              }
+            />
+          ))}
+        </View>
+      </ScrollViewWithHeaders>
       <BottomSheet ref={bottomSheetModalRef}>
         <View
           style={{
@@ -116,7 +141,7 @@ export default function Settings() {
         >
           <ListItemText
             title="Log Out"
-            titleProps={{ style: { fontSize: size.medium, textAlign: "center" } }}
+            titleProps={{ style: { fontSize: fontSize.medium, textAlign: "center" } }}
             description="Are you sure you want to log out? Once logged out, you won't be able to sync data to the cloud."
             descriptionProps={{ style: { textAlign: "center" } }}
           />

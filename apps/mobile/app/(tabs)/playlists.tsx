@@ -1,30 +1,64 @@
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
-import { size } from "@constants/font"
-import { borderRadius, spacing, zIndex } from "@constants/styles"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { TouchableOpacity } from "react-native"
+import { borderRadius, spacing } from "@constants/styles"
 
-import { List, Icon, IconButton, Text, View } from "@components/ui"
+import { View } from "react-native"
+
+import {
+  Icon,
+  IconButton,
+  Text,
+  Pressable,
+  SearchInput,
+  Header,
+  LargeHeader,
+  LargeHeaderSubtitle,
+  FlashListWithHeaders,
+  ListItemText
+} from "@components/ui"
 
 import { router } from "expo-router"
 
 const data = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
 
 export default function Playlists() {
-  const { colors } = useThemeColor()
+  const { colors } = useColorTheme()
+
+  const insets = useSafeAreaInsets()
 
   return (
-    <List
-      overlayStyle={{ top: 0, zIndex: zIndex.max }}
-      headerProps={{
-        isAnimated: true,
-        title: "Playlists",
-        renderRight: <IconButton name="cog-outline" onPress={() => router.push("/settings")} />
-      }}
+    <FlashListWithHeaders
+      HeaderComponent={({ showHeader }) => (
+        <Header
+          showHeader={showHeader}
+          headerCenter={
+            <Text variant="bold" size="large" numberOfLines={1}>
+              Playlists
+            </Text>
+          }
+          headerRight={<IconButton name="Settings" onPress={() => router.push("/settings")} />}
+        />
+      )}
+      LargeHeaderComponent={() => (
+        <LargeHeader>
+          <Text variant="bold" size="xxxLarge" numberOfLines={1}>
+            Playlists
+          </Text>
+        </LargeHeader>
+      )}
+      LargeHeaderSubtitleComponent={() => (
+        <LargeHeaderSubtitle style={{ paddingTop: spacing.small }}>
+          <SearchInput placeholder="Search" />
+        </LargeHeaderSubtitle>
+      )}
+      automaticallyAdjustsScrollIndicatorInsets={false}
+      scrollIndicatorInsets={{ bottom: insets.bottom }}
+      contentContainerStyle={{ paddingBottom: spacing.medium, paddingHorizontal: spacing.large }}
       data={data}
       renderItem={({ item, index }) => (
-        <TouchableOpacity activeOpacity={0.6}>
+        <Pressable>
           <View
             style={{
               flexDirection: "row",
@@ -41,19 +75,12 @@ export default function Playlists() {
                 backgroundColor: colors.secondary
               }}
             >
-              <Icon color={colors.placeholder} name="musical-note" />
+              <Icon color={colors.placeholder} name="Music2" />
             </View>
-            <View style={{ flex: 1, flexDirection: "column" }}>
-              <Text numberOfLines={1} variant="bold">
-                {item.name}
-              </Text>
-              <Text numberOfLines={1} style={{ fontSize: size.xSmall, opacity: 0.8 }}>
-                {item.id}
-              </Text>
-            </View>
-            <IconButton name="ellipsis-horizontal" size={21} />
+            <ListItemText title={item.name} description={item.id} />
+            <IconButton name="Ellipsis" />
           </View>
-        </TouchableOpacity>
+        </Pressable>
       )}
       keyExtractor={(item) => item.id}
       estimatedItemSize={40}

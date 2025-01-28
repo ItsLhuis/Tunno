@@ -1,16 +1,17 @@
-export const family = {
+export const fontFamily = {
   bold: "SpaceGrotesk-Bold",
   medium: "SpaceGrotesk-Medium",
   regular: "SpaceGrotesk-Regular",
   light: "SpaceGrotesk-Light"
 }
 
-export const size = {
-  xxSmall: 9,
+export const fontSize = {
+  xxxLarge: 36,
+  xxLarge: 28,
+  xLarge: 22,
+  large: 16,
+  medium: 13,
+  small: 12,
   xSmall: 11,
-  small: 13,
-  medium: 16,
-  large: 22,
-  xLarge: 28,
-  xxLarge: 36
+  xxSmall: 9
 }

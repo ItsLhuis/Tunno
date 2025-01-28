@@ -2,29 +2,29 @@ import { forwardRef } from "react"
 
 import {
   Platform,
-  TextInput as RNTextInput,
-  type TextInputProps as RNTextInputProps
+  TextInput,
+  type TextInputProps
 } from "react-native"
 
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
-import { family, size } from "@constants/font"
+import { fontFamily, fontSize } from "@constants/font"
 import { spacing, borderRadius } from "@constants/styles"
 
-export type TextInputProps = RNTextInputProps
+export type InputProps = TextInputProps
 
-export const TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...rest }, ref) => {
-  const { colors } = useThemeColor()
+export const Input = forwardRef<TextInput, TextInputProps>(({ style, ...props }, ref) => {
+  const { colors } = useColorTheme()
 
   return (
-    <RNTextInput
+    <TextInput
       ref={ref}
       maxFontSizeMultiplier={1}
       selectionColor={colors.primary}
       style={[
         {
-          fontFamily: family.regular,
-          fontSize: size.small,
+          fontFamily: fontFamily.regular,
+          fontSize: fontSize.medium,
           color: colors.text,
           borderRadius: borderRadius.xSmall,
           paddingHorizontal: spacing.small,
@@ -32,7 +32,8 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(({ style, ...re
         },
         style
       ]}
-      {...rest}
+      {...props}
     />
   )
 })
+Input.displayName = "Input"

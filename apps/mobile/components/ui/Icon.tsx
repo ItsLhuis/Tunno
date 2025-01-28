@@ -1,23 +1,26 @@
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
 import { iconSize } from "@constants/styles"
 
-import { type ComponentProps } from "react"
+import { ColorValue } from "react-native"
 
-import { StyleProp, TextStyle } from "react-native"
+import { icons, type LucideProps } from "lucide-react-native"
 
-import Ionicons from "@expo/vector-icons/Ionicons"
-
-export interface IconProps extends ComponentProps<typeof Ionicons> {
-  size?: number
-  color?: string
-  style?: StyleProp<TextStyle>
+export type IconProps = LucideProps & {
+  name: keyof typeof icons
+  isFilled?: boolean
+  color?: ColorValue
 }
 
-export function Icon({ style, size = iconSize.large, color, ...rest }: IconProps) {
-  const { colors } = useThemeColor()
+export function Icon({ name, isFilled, size = iconSize.large, color, ...props }: IconProps) {
+  const { colors } = useColorTheme()
 
   const iconColor = color || colors.text
 
-  return <Ionicons size={size} style={[{ color: iconColor }, style]} {...rest} />
+  const iconFill = isFilled ? color : "transparent"
+
+  const LucideIcon = icons[name] ?? icons["Info"]
+
+  return <LucideIcon color={iconColor} fill={iconFill} size={size} {...props} />
 }
+Icon.displayName = "Icon"

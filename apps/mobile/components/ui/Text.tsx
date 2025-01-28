@@ -1,34 +1,29 @@
 import { Text as RNText, type TextProps as RNTextProps } from "react-native"
 
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
-import { family, size } from "@constants/font"
+import { fontFamily, fontSize } from "@constants/font"
 
 export type TextProps = RNTextProps & {
-  variant?: "regular" | "bold" | "light"
+  variant?: keyof typeof fontFamily
+  size?: keyof typeof fontSize
 }
 
-export function Text({ style, variant = "regular", ...rest }: TextProps) {
-  const { colors } = useThemeColor()
+export function Text({ style, variant = "regular", size = "medium", ...props }: TextProps) {
+  const { colors } = useColorTheme()
 
   return (
     <RNText
       maxFontSizeMultiplier={1}
       style={[
-        { color: colors.text, fontSize: size.small },
+        { color: colors.text, fontSize: fontSize[size] },
         style,
         {
-          fontFamily:
-            variant === "regular"
-              ? family.regular
-              : variant === "bold"
-              ? family.bold
-              : variant === "light"
-              ? family.light
-              : family.regular
+          fontFamily: fontFamily[variant]
         }
       ]}
-      {...rest}
+      {...props}
     />
   )
 }
+Text.displayName = "Text"

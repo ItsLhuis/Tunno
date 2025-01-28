@@ -1,1 +1,1 @@
-export { SettingButton } from "./SettingButton"
+export * from "./SettingButton"

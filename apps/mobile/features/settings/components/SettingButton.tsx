@@ -2,41 +2,36 @@ import { ReactNode } from "react"
 
 import { borderRadius, iconSize, spacing } from "@constants/styles"
 
-import { TouchableOpacity, type TouchableOpacityProps } from "react-native"
+import { View } from "react-native"
 
-import { View, Icon, ListItemText } from "@components/ui"
+import { Icon, ListItemText, Pressable, type PressableProps } from "@components/ui"
 
-import { renderContent } from "@utils/components"
-
-export type SettingButtonProps = TouchableOpacityProps & {
+export type SettingButtonProps = PressableProps & {
   title?: string | null | undefined
   description?: string | null | undefined
-  renderLeft?: ReactNode | (() => ReactNode)
-  renderRight?: ReactNode | (() => ReactNode)
+  renderLeft?: ReactNode
+  renderRight?: ReactNode
 }
 
 export function SettingButton({
-  style,
+  containerStyle,
   title,
   description,
   renderLeft,
   renderRight,
-  ...rest
+  ...props
 }: SettingButtonProps) {
   return (
-    <TouchableOpacity
-      activeOpacity={0.6}
-      style={[
-        style,
+    <Pressable
+      containerStyle={[
         {
           borderRadius: borderRadius.none,
           width: "100%",
-          justifyContent: "flex-start",
-          paddingVertical: spacing.small,
-          paddingHorizontal: spacing.large
-        }
+          justifyContent: "flex-start"
+        },
+        containerStyle
       ]}
-      {...rest}
+      {...props}
     >
       <View
         style={{
@@ -46,14 +41,14 @@ export function SettingButton({
           gap: spacing.small
         }}
       >
-        {renderLeft && <View style={{ marginRight: "auto" }}>{renderContent(renderLeft)}</View>}
+        {renderLeft && <View style={{ marginRight: "auto" }}>{renderLeft}</View>}
         <ListItemText title={title} description={description} />
         {renderRight ? (
-          <View style={{ marginLeft: "auto" }}>{renderContent(renderRight)}</View>
+          <View style={{ marginLeft: "auto" }}>{renderRight}</View>
         ) : (
-          <Icon style={{ marginLeft: "auto" }} size={iconSize.medium} name="chevron-forward" />
+          <Icon style={{ marginLeft: "auto" }} size={iconSize.medium} name="ChevronRight" />
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }

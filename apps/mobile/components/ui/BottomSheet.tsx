@@ -2,7 +2,7 @@ import { ReactNode, forwardRef, useState, useEffect, useCallback, useMemo } from
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
 import { borderRadius } from "@constants/styles"
 
@@ -13,20 +13,20 @@ import {
   type BottomSheetModalProps,
   BottomSheetView,
   BottomSheetBackdrop,
-  BottomSheetBackdropProps
+  type BottomSheetBackdropProps
 } from "@gorhom/bottom-sheet"
 
-type BottomSheetProps = BottomSheetModalProps & {
+export type BottomSheetProps = BottomSheetModalProps & {
   backgroundStyle?: StyleProp<Omit<ViewStyle, "position" | "top" | "left" | "bottom" | "right">>
   handleIndicatorStyle?: StyleProp<ViewStyle>
   children: ReactNode
 }
 
 export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
-  ({ snapPoints, backgroundStyle, handleIndicatorStyle, children, ...rest }, ref) => {
+  ({ snapPoints, backgroundStyle, handleIndicatorStyle, children, ...props }, ref) => {
     const insets = useSafeAreaInsets()
 
-    const { colors } = useThemeColor()
+    const { colors } = useColorTheme()
 
     const snap = useMemo(() => snapPoints, [snapPoints])
 
@@ -71,11 +71,11 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         handleIndicatorStyle={[handleIndicatorStyle, { backgroundColor: colors.icon }]}
         enableOverDrag={false}
         enablePanDownToClose={true}
-        {...rest}
+        {...props}
         onChange={(index, position, type) => {
           setIsBottomSheetOpen(index >= 0)
-          if (typeof rest.onChange === "function") {
-            rest.onChange(index, position, type)
+          if (typeof props.onChange === "function") {
+            props.onChange(index, position, type)
           }
         }}
       >
@@ -84,3 +84,4 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
     )
   }
 )
+BottomSheet.displayName = "BottomSheet"

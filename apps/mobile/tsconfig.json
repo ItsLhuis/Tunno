@@ -3,18 +3,46 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"],
-      "@assets/*": ["./assets/*"],
-      "@components/*": ["./components/*"],
-      "@constants/*": ["./constants/*"],
-      "@contexts/*": ["./contexts/*"],
-      "@database/*": ["./database/*"],
-      "@features/*": ["./features/*"],
-      "@hooks/*": ["./hooks/*"],
-      "@plugins/*": ["./plugins/*"],
-      "@stores/*": ["./stores/*"],
-      "@utils/*": ["./utils/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@constants/*": [
+        "./constants/*"
+      ],
+      "@contexts/*": [
+        "./contexts/*"
+      ],
+      "@database/*": [
+        "./database/*"
+      ],
+      "@features/*": [
+        "./features/*"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ],
+      "@plugins/*": [
+        "./plugins/*"
+      ],
+      "@stores/*": [
+        "./stores/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "global.d.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "global.d.ts"
+  ]
 }

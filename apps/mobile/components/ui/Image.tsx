@@ -2,6 +2,7 @@ import { Image as ExpoImage, type ImageProps as ExpoImageProps } from "expo-imag
 
 export type ImageProps = ExpoImageProps
 
-export function Image({ ...rest }: ImageProps) {
-  return <ExpoImage {...rest} />
+export function Image({ ...props }: ImageProps) {
+  return <ExpoImage {...props} />
 }
+Image.displayName = "Image"

@@ -1,16 +1,16 @@
 import { ReactNode, useEffect } from "react"
 
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
 import { colors as colorList } from "@constants/colors"
 
 import { borderRadius, spacing } from "@constants/styles"
 
-import { ViewStyle, TextStyle, StyleProp } from "react-native"
+import { View, type ViewStyle, type StyleProp } from "react-native"
 
-import { Pressable, type PressableProps } from "./Pressable"
-import { Text } from "./Text"
-import { ActivityIndicator } from "./ActivityIndicator"
+import { Pressable, type PressableProps } from "@components/ui/Pressable"
+import { Text, type TextProps } from "@components/ui/Text"
+import { ActivityIndicator } from "@components/ui/ActivityIndicator"
 
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated"
 
@@ -20,10 +20,9 @@ export type ButtonProps = PressableProps & {
   disabled?: boolean
   containerStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
-  textStyle?: StyleProp<TextStyle>
   variant?: "contained" | "text"
   color?: "primary" | "secondary" | "transparent"
-  disablePressAnimation?: boolean
+  titleProps?: TextProps
   children?: ReactNode
 }
 
@@ -33,14 +32,13 @@ export function Button({
   disabled = false,
   containerStyle,
   style,
-  textStyle,
   variant = "contained",
   color = "primary",
+  titleProps,
   children,
-  disablePressAnimation = false,
-  ...rest
+  ...props
 }: ButtonProps) {
-  const { colors } = useThemeColor()
+  const { colors } = useColorTheme()
 
   const isContained = variant === "contained"
 
@@ -62,14 +60,6 @@ export function Button({
 
   const indicatorColor = textColor
 
-  const scale = useSharedValue(1)
-  const opacity = useSharedValue(1)
-
-  const animatedButtonStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: opacity.value
-  }))
-
   const textOpacity = useSharedValue(loading ? 0 : 1)
   const indicatorOpacity = useSharedValue(loading ? 1 : 0)
 
@@ -87,12 +77,13 @@ export function Button({
   }))
 
   return (
-    <Animated.View style={[animatedButtonStyle, { alignSelf: "flex-start" }, containerStyle]}>
+    <View style={[{ alignSelf: "flex-start" }, containerStyle]}>
       <Pressable
         style={[
           {
             position: "relative",
             backgroundColor,
+            opacity: disabled ? 0.5 : 1,
             alignItems: "center",
             justifyContent: "center",
             paddingVertical: spacing.small,
@@ -104,29 +95,17 @@ export function Button({
           style
         ]}
         disabled={disabled || loading}
-        onPressIn={() => {
-          if (!disablePressAnimation) {
-            scale.value = withTiming(0.94, { duration: 100 })
-          }
-          if (isContained) {
-            opacity.value = withTiming(0.6, { duration: 100 })
-          }
-        }}
-        onPressOut={() => {
-          if (!disablePressAnimation) {
-            scale.value = withTiming(1, { duration: 100 })
-          }
-          if (isContained) {
-            opacity.value = withTiming(1, { duration: 100 })
-          }
-        }}
-        {...rest}
+        {...props}
       >
         <Animated.View style={animatedTextStyle}>
           {children ? (
             children
           ) : (
-            <Text variant="bold" style={[textStyle, { color: textColor }]}>
+            <Text
+              variant={titleProps?.variant ?? "bold"}
+              style={[titleProps?.style, { color: textColor }]}
+              {...titleProps}
+            >
               {title}
             </Text>
           )}
@@ -148,6 +127,7 @@ export function Button({
           <ActivityIndicator color={indicatorColor} />
         </Animated.View>
       </Pressable>
-    </Animated.View>
+    </View>
   )
 }
+Button.displayName = "Button"

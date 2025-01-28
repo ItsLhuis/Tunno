@@ -1,83 +1,129 @@
-import { useBottomTabBarHeight } from "@hooks/useBottomTabBarHeight"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useThemeColor } from "@hooks/useThemeColor"
+import { useColorTheme } from "@hooks/useColorTheme"
 
-import { PlayerProvider } from "@contexts/PlayerContext"
-
-import { family, size } from "@constants/font"
-import { elevation, border } from "@constants/styles"
+import { spacing } from "@constants/styles"
 
 import { Tabs } from "expo-router"
 
-import { View, Icon } from "@components/ui"
+import { View } from "react-native"
 
-import { Player } from "@components/navigation"
+import { Icon, Pressable, Text } from "@components/ui"
+import { Player } from "@components/navigation/Player"
 
 export default function TabLayout() {
-  const bottomTabBarHeight = useBottomTabBarHeight()
+  const insets = useSafeAreaInsets()
 
-  const { colors } = useThemeColor()
+  const { colors } = useColorTheme()
 
   return (
     <View style={{ flex: 1 }}>
-      <PlayerProvider>
-        <Tabs
-          screenOptions={{
-            tabBarAllowFontScaling: false,
-            tabBarStyle: {
-              height: bottomTabBarHeight,
-              borderTopColor: colors.secondary,
-              borderTopWidth: border.thin,
-              elevation: elevation.none
-            },
-            tabBarActiveTintColor: colors.primary,
-            tabBarInactiveTintColor: colors.icon,
-            tabBarLabelStyle: {
-              fontSize: size.xxSmall,
-              fontFamily: family.bold
-            },
-            headerShown: false
+      <Tabs
+        tabBar={(props) => (
+          <View>
+            {props.state.routes && props.state.routes.length > 0 && <Player />}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around"
+              }}
+            >
+              {props.state.routes.map((route, index) => {
+                const { options } = props.descriptors[route.key]
+
+                const isFocused = props.state.index === index
+
+                const icon = options.tabBarIcon
+                  ? options.tabBarIcon({
+                      color: isFocused ? colors.primary : colors.icon,
+                      focused: isFocused,
+                      size: 24
+                    })
+                  : null
+
+                const onPress = () => {
+                  const event = props.navigation.emit({
+                    type: "tabPress",
+                    target: route.key,
+                    canPreventDefault: true
+                  })
+
+                  if (!isFocused && !event.defaultPrevented) {
+                    props.navigation.navigate(route.name, route.params)
+                  }
+                }
+
+                const onLongPress = () => {
+                  props.navigation.emit({
+                    type: "tabLongPress",
+                    target: route.key
+                  })
+                }
+
+                return (
+                  <Pressable
+                    onPress={onPress}
+                    onLongPress={onLongPress}
+                    key={route.key}
+                    containerStyle={{
+                      flex: 1
+                    }}
+                    style={{
+                      paddingTop: spacing.small,
+                      paddingBottom: spacing.small + insets.bottom,
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: spacing.xxSmall
+                    }}
+                  >
+                    {icon}
+                    <Text
+                      variant="bold"
+                      size="xxSmall"
+                      style={{ color: props.state.index === index ? colors.primary : colors.icon }}
+                    >
+                      {options.title}
+                    </Text>
+                  </Pressable>
+                )
+              })}
+            </View>
+          </View>
+        )}
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Songs",
+            tabBarIcon: ({ color }) => <Icon name="Music" color={color} />
           }}
-        >
-          <Tabs.Screen
-            name="index"
-            options={{
-              title: "Songs",
-              tabBarIcon: ({ color, focused }) => (
-                <Icon name={focused ? "musical-notes" : "musical-notes-outline"} color={color} />
-              )
-            }}
-          />
-          <Tabs.Screen
-            name="favorites"
-            options={{
-              title: "Favorites",
-              tabBarIcon: ({ color, focused }) => (
-                <Icon name={focused ? "heart" : "heart-outline"} color={color} />
-              )
-            }}
-          />
-          <Tabs.Screen
-            name="playlists"
-            options={{
-              title: "Playlists",
-              tabBarIcon: ({ color, focused }) => (
-                <Icon name={focused ? "list" : "list"} color={color} />
-              )
-            }}
-          />
-          <Tabs.Screen
-            name="artists"
-            options={{
-              title: "Artists",
-              tabBarIcon: ({ color, focused }) => (
-                <Icon name={focused ? "people" : "people-outline"} color={color} />
-              )
-            }}
-          />
-        </Tabs>
-        <Player />
-      </PlayerProvider>
+        />
+        <Tabs.Screen
+          name="favorites"
+          options={{
+            title: "Favorites",
+            tabBarIcon: ({ color }) => <Icon name="Heart" color={color} />
+          }}
+        />
+        <Tabs.Screen
+          name="playlists"
+          options={{
+            title: "Playlists",
+            tabBarIcon: ({ color }) => <Icon name="List" color={color} />
+          }}
+        />
+        <Tabs.Screen
+          name="artists"
+          options={{
+            title: "Artists",
+            tabBarIcon: ({ color }) => <Icon name="Users" color={color} />
+          }}
+        />
+      </Tabs>
     </View>
   )
 }

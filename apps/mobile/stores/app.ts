@@ -34,7 +34,7 @@ export const useAppStore = create<AppState>()(
       }
     }),
     {
-      name: "wave-app-store",
+      name: APP_STORE_NAME,
       storage: persistStorage(APP_STORE_NAME)
     }
   )
