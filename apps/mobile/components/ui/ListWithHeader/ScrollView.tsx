@@ -51,7 +51,7 @@ export const ScrollViewWithHeaders = forwardRef<Animated.ScrollView, ScrollViewW
       headerFadeInThreshold = 1,
       scrollIndicatorInsets = {},
       disableLargeHeaderFadeAnim = false,
-      ...rest
+      ...props
     }: ScrollViewWithHeadersProps,
     ref: React.Ref<Animated.ScrollView | null>
   ) => {
@@ -62,7 +62,7 @@ export const ScrollViewWithHeaders = forwardRef<Animated.ScrollView, ScrollViewW
     }
 
     const insets = useSafeAreaInsets()
-    
+
     const scrollRef = useAnimatedRef<Animated.ScrollView>()
     useImperativeHandle(ref, () => scrollRef.current)
 
@@ -105,6 +105,7 @@ export const ScrollViewWithHeaders = forwardRef<Animated.ScrollView, ScrollViewW
           showsHorizontalScrollIndicator={false}
           onScroll={scrollHandler}
           automaticallyAdjustContentInsets={false}
+          keyboardShouldPersistTaps="handled"
           onScrollBeginDrag={(e) => {
             debouncedFixScroll.cancel()
             if (onScrollBeginDrag) onScrollBeginDrag(e)
@@ -134,7 +135,7 @@ export const ScrollViewWithHeaders = forwardRef<Animated.ScrollView, ScrollViewW
             top: absoluteHeader ? absoluteHeaderHeight : 0,
             ...scrollIndicatorInsets
           }}
-          {...rest}
+          {...props}
         >
           {LargeHeaderComponent && (
             <View

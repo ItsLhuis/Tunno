@@ -8,7 +8,7 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useFonts } from "expo-font"
 
-import { useAppStore } from "@stores/app"
+import { useSettings } from "@stores/settings"
 
 import { initializeAppDirectories } from "@utils/app"
 
@@ -35,7 +35,7 @@ SplashScreen.preventAutoHideAsync()
 const configureNavigationBar = async () => {
   if (Platform.OS === "android") {
     await NavigationBar.setPositionAsync("absolute")
-    await NavigationBar.setBackgroundColorAsync("#ffffff01")
+    await NavigationBar.setBackgroundColorAsync("#ffffff00")
   }
 }
 
@@ -53,7 +53,7 @@ export default function RootLayout() {
     "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf")
   })
 
-  const { appDirectory, backupsDirectory } = useAppStore()
+  const { appDirectory, backupsDirectory } = useSettings()
 
   const prepareApp = async (): Promise<void> => {
     await initializeAppDirectories(appDirectory, backupsDirectory)
@@ -89,13 +89,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={theme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
         <BottomSheetModalProvider>
-          <StatusBar translucent />
-          <View onLayout={onChildrenLayout} style={{ flex: 1, backgroundColor: colors.background }}>
+          <StatusBar />
+          <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="settings" options={{ headerShown: false }} />
               <Stack.Screen name="drive" options={{ headerShown: false }} />
             </Stack>
           </View>

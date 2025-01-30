@@ -1,18 +1,17 @@
-import { Fragment, useCallback, useRef } from "react"
+import { useRef, useCallback } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useAppStore } from "@stores/app"
+import { useSettings } from "@stores/settings"
 
-import { fontSize } from "@constants/font"
 import { borderRadius, iconSize, spacing } from "@constants/styles"
 
 import { signIn, signOut } from "@utils/google"
 
 import { View } from "react-native"
 
+import { FadingScreen } from "@components/navigation"
 import {
-  BackButton,
   Button,
   Image,
   ScrollViewWithHeaders,
@@ -36,7 +35,7 @@ type Setting = {
 export default function Settings() {
   const insets = useSafeAreaInsets()
 
-  const { user } = useAppStore()
+  const { user } = useSettings()
 
   const data: Setting[] = [
     {
@@ -73,7 +72,7 @@ export default function Settings() {
   }, [])
 
   return (
-    <Fragment>
+    <FadingScreen style={{ flex: 1 }}>
       <ScrollViewWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
@@ -83,7 +82,6 @@ export default function Settings() {
                 Settings
               </Text>
             }
-            headerLeft={<BackButton />}
           />
         )}
         LargeHeaderComponent={() => (
@@ -141,7 +139,7 @@ export default function Settings() {
         >
           <ListItemText
             title="Log Out"
-            titleProps={{ style: { fontSize: fontSize.medium, textAlign: "center" } }}
+            titleProps={{ style: { textAlign: "center" }, size: "large" }}
             description="Are you sure you want to log out? Once logged out, you won't be able to sync data to the cloud."
             descriptionProps={{ style: { textAlign: "center" } }}
           />
@@ -171,6 +169,6 @@ export default function Settings() {
           </View>
         </View>
       </BottomSheet>
-    </Fragment>
+    </FadingScreen>
   )
 }

@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { useWindowDimensions, View, type StyleProp, type ViewStyle } from "react-native"
+import { ColorValue, useWindowDimensions, View, type StyleProp, type ViewStyle } from "react-native"
 
 import { border, spacing } from "@constants/styles"
 
@@ -39,7 +39,7 @@ export function Header({
   const headerCenterExists = !!headerCenter
 
   const { centerWidth, minSideHeaderWidth } = useMemo(() => {
-    const centerWidth = headerCenterExists ? 0.5 * dimensions.width : 0
+    const centerWidth = headerCenterExists ? 0.4 * dimensions.width : 0
     const minSideHeaderWidth = (dimensions.width - centerWidth) / 2
 
     return { centerWidth, minSideHeaderWidth }
@@ -191,7 +191,7 @@ export function HeaderBottomBorder({
 }: {
   opacity: DerivedValue<0 | 1> | DerivedValue<number>
   style?: StyleProp<ViewStyle>
-  borderColor?: string
+  borderColor?: ColorValue
   borderWidth?: number
 }) {
   const { colors } = useColorTheme()
@@ -217,6 +217,7 @@ export function LargeHeader({ style, children }: LargeHeaderProps) {
         {
           width: "100%",
           flexDirection: "row",
+          alignItems: "center",
           justifyContent: "space-between"
         },
         style

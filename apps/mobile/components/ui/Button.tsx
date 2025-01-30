@@ -4,7 +4,7 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { colors as colorList } from "@constants/colors"
 
-import { borderRadius, spacing } from "@constants/styles"
+import { borderRadius, iconSize, spacing } from "@constants/styles"
 
 import { View, type ViewStyle, type StyleProp } from "react-native"
 
@@ -16,7 +16,7 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-na
 
 export type ButtonProps = PressableProps & {
   title?: string | null | undefined
-  loading?: boolean
+  isLoading?: boolean
   disabled?: boolean
   containerStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
@@ -28,7 +28,7 @@ export type ButtonProps = PressableProps & {
 
 export function Button({
   title,
-  loading = false,
+  isLoading = false,
   disabled = false,
   containerStyle,
   style,
@@ -60,13 +60,13 @@ export function Button({
 
   const indicatorColor = textColor
 
-  const textOpacity = useSharedValue(loading ? 0 : 1)
-  const indicatorOpacity = useSharedValue(loading ? 1 : 0)
+  const textOpacity = useSharedValue(isLoading ? 0 : 1)
+  const indicatorOpacity = useSharedValue(isLoading ? 1 : 0)
 
   useEffect(() => {
-    textOpacity.value = withTiming(loading ? 0 : 1, { duration: 300 })
-    indicatorOpacity.value = withTiming(loading ? 1 : 0, { duration: 300 })
-  }, [loading])
+    textOpacity.value = withTiming(isLoading ? 0 : 1, { duration: 300 })
+    indicatorOpacity.value = withTiming(isLoading ? 1 : 0, { duration: 300 })
+  }, [isLoading])
 
   const animatedTextStyle = useAnimatedStyle(() => ({
     opacity: textOpacity.value
@@ -94,7 +94,7 @@ export function Button({
           },
           style
         ]}
-        disabled={disabled || loading}
+        disabled={disabled || isLoading}
         {...props}
       >
         <Animated.View style={animatedTextStyle}>
@@ -124,7 +124,7 @@ export function Button({
             }
           ]}
         >
-          <ActivityIndicator color={indicatorColor} />
+          <ActivityIndicator size={iconSize.large} color={indicatorColor} />
         </Animated.View>
       </Pressable>
     </View>

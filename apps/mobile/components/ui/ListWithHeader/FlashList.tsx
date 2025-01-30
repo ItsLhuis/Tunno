@@ -1,28 +1,16 @@
-import { forwardRef, useState, useImperativeHandle, Fragment } from "react"
+import { useState, forwardRef, useImperativeHandle, isValidElement } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useScroll } from "./useSroll"
 
-import { useColorTheme } from "@hooks/useColorTheme"
-
-import { iconSize, zIndex } from "@constants/styles"
-
-import { StyleSheet, View } from "react-native"
+import { Dimensions, StyleSheet, View } from "react-native"
 
 import { FlashList, FlashListProps } from "@shopify/flash-list"
 
 import { FadingView } from "../FadingView"
-import { ActivityIndicator } from "../ActivityIndicator"
 
-import Animated, {
-  AnimatedProps,
-  runOnJS,
-  useAnimatedRef,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from "react-native-reanimated"
+import Animated, { AnimatedProps, FadeIn, useAnimatedRef } from "react-native-reanimated"
 
 import type { SharedScrollContainerProps } from "./types"
 
@@ -65,7 +53,9 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
     disableLargeHeaderFadeAnim = false,
     scrollIndicatorInsets = {},
     inverted,
-    ...rest
+    data,
+    ListEmptyComponent,
+    ...props
   }: FlashListWithHeadersProps<ItemT>,
   ref: React.Ref<FlashList<ItemT>>
 ) => {
@@ -77,28 +67,11 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
 
   const insets = useSafeAreaInsets()
 
-  const { colors } = useColorTheme()
+  const [listHeight, setListHeight] = useState<number>(0)
+  const [headerListHeight, setHeaderListHeight] = useState<number>(0)
 
   const scrollRef = useAnimatedRef<any>()
   useImperativeHandle(ref, () => scrollRef.current)
-
-  const [isLayoutComplete, setIsLayoutComplete] = useState<boolean>(false)
-
-  const opacity = useSharedValue(1)
-
-  const handleLayout = () => {
-    setTimeout(() => {
-      opacity.value = withTiming(0, { duration: 300 }, () => {
-        runOnJS(setIsLayoutComplete)(true)
-      })
-    }, 100)
-  }
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value
-    }
-  })
 
   const {
     scrollY,
@@ -128,7 +101,6 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
 
   return (
     <View
-      onLayout={handleLayout}
       style={[
         { flex: 1 },
         containerStyle,
@@ -136,89 +108,98 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
         !ignoreRightSafeArea && { paddingRight: insets.right }
       ]}
     >
-      {!isLayoutComplete && (
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              backgroundColor: colors.background,
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: zIndex.xHigh
-            },
-            animatedStyle
-          ]}
-        >
-          <ActivityIndicator size={iconSize.xLarge} color={colors.primary} />
-        </Animated.View>
-      )}
       {!absoluteHeader && HeaderComponent({ showHeader, scrollY })}
-      <View style={{ flex: 1, zIndex: -zIndex.xxxLow }}>
-        <AnimatedFlashList
-          ref={scrollRef}
-          scrollEventThrottle={16}
-          overScrollMode="never"
-          onScroll={scrollHandler}
-          automaticallyAdjustContentInsets={false}
-          onScrollBeginDrag={(e) => {
-            debouncedFixScroll.cancel()
-            if (onScrollBeginDrag) onScrollBeginDrag(e)
-          }}
-          onScrollEndDrag={(e) => {
-            debouncedFixScroll()
-            if (onScrollEndDrag) onScrollEndDrag(e)
-          }}
-          onMomentumScrollBegin={(e) => {
-            debouncedFixScroll.cancel()
-            if (onMomentumScrollBegin) onMomentumScrollBegin(e)
-          }}
-          onMomentumScrollEnd={(e) => {
-            debouncedFixScroll()
-            if (onMomentumScrollEnd) onMomentumScrollEnd(e)
-          }}
-          contentContainerStyle={combinedContentContainerStyle}
-          automaticallyAdjustsScrollIndicatorInsets={
-            automaticallyAdjustsScrollIndicatorInsets !== undefined
-              ? automaticallyAdjustsScrollIndicatorInsets
-              : !absoluteHeader
-          }
-          scrollIndicatorInsets={{
-            ...scrollViewAdjustments.scrollIndicatorInsets,
-            ...scrollIndicatorInsets
-          }}
-          ListHeaderComponent={
-            <Fragment>
-              {LargeHeaderComponent && (
-                <View
-                  onLayout={(e) => {
-                    largeHeaderHeight.value = e.nativeEvent.layout.height
+      <AnimatedFlashList
+        ref={scrollRef}
+        onLayout={(e) => setListHeight(e.nativeEvent.layout.height)}
+        data={data}
+        scrollEnabled={
+          Array.isArray(data)
+            ? data.length > 0
+            : data && "value" in data && Array.isArray(data.value) && data.value.length > 0
+            ? true
+            : false
+        }
+        scrollEventThrottle={16}
+        overScrollMode="never"
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        onScroll={scrollHandler}
+        automaticallyAdjustContentInsets={false}
+        keyboardShouldPersistTaps="handled"
+        onScrollBeginDrag={(e) => {
+          debouncedFixScroll.cancel()
+          if (onScrollBeginDrag) onScrollBeginDrag(e)
+        }}
+        onScrollEndDrag={(e) => {
+          debouncedFixScroll()
+          if (onScrollEndDrag) onScrollEndDrag(e)
+        }}
+        onMomentumScrollBegin={(e) => {
+          debouncedFixScroll.cancel()
+          if (onMomentumScrollBegin) onMomentumScrollBegin(e)
+        }}
+        onMomentumScrollEnd={(e) => {
+          debouncedFixScroll()
+          if (onMomentumScrollEnd) onMomentumScrollEnd(e)
+        }}
+        contentContainerStyle={combinedContentContainerStyle}
+        automaticallyAdjustsScrollIndicatorInsets={
+          automaticallyAdjustsScrollIndicatorInsets !== undefined
+            ? automaticallyAdjustsScrollIndicatorInsets
+            : !absoluteHeader
+        }
+        scrollIndicatorInsets={{
+          ...scrollViewAdjustments.scrollIndicatorInsets,
+          ...scrollIndicatorInsets
+        }}
+        ListHeaderComponent={
+          <View onLayout={(e) => setHeaderListHeight(e.nativeEvent.layout.height)}>
+            {LargeHeaderComponent && (
+              <View
+                onLayout={(e) => {
+                  largeHeaderHeight.value = e.nativeEvent.layout.height
 
-                    if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout)
-                  }}
-                >
-                  {!disableLargeHeaderFadeAnim ? (
-                    <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                      {LargeHeaderComponent({ scrollY, showHeader })}
-                    </FadingView>
-                  ) : (
-                    <View style={largeHeaderContainerStyle}>
-                      {LargeHeaderComponent({ scrollY, showHeader })}
-                    </View>
-                  )}
-                </View>
-              )}
-              {LargeHeaderSubtitleComponent &&
-                LargeHeaderSubtitleComponent({ showHeader, scrollY })}
-            </Fragment>
-          }
-          inverted={inverted}
-          {...rest}
-        />
-      </View>
+                  if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout)
+                }}
+              >
+                {!disableLargeHeaderFadeAnim ? (
+                  <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showHeader })}
+                  </FadingView>
+                ) : (
+                  <View style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showHeader })}
+                  </View>
+                )}
+              </View>
+            )}
+            {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showHeader, scrollY })}
+          </View>
+        }
+        ListEmptyComponent={
+          listHeight !== 0 ? (
+            <Animated.View
+              entering={FadeIn}
+              style={{ height: listHeight - headerListHeight - insets.top }}
+            >
+              {ListEmptyComponent ? (
+                typeof ListEmptyComponent === "function" ? (
+                  <ListEmptyComponent />
+                ) : isValidElement(ListEmptyComponent) ? (
+                  ListEmptyComponent
+                ) : null
+              ) : null}
+            </Animated.View>
+          ) : null
+        }
+        inverted={inverted}
+        estimatedListSize={{
+          height: Dimensions.get("screen").height,
+          width: Dimensions.get("screen").width
+        }}
+        {...props}
+      />
       {absoluteHeader && (
         <View
           style={{

@@ -16,6 +16,7 @@
         "exclude": [
           "@expo/config-plugins",
           "lucide-react-native",
+          "lodash",
           "react-native-track-player",
           "drizzle-orm",
           "ts-node"
@@ -36,19 +37,19 @@
     "axios": "^1.7.7",
     "drizzle-orm": "^0.35.3",
     "expo": "~52.0.26",
-    "expo-constants": "~17.0.3",
+    "expo-constants": "~17.0.5",
     "expo-crypto": "~14.0.2",
     "expo-dev-client": "~5.0.10",
     "expo-document-picker": "~13.0.2",
     "expo-file-system": "~18.0.3",
     "expo-font": "~13.0.1",
     "expo-image": "~2.0.4",
-    "expo-linking": "~7.0.4",
+    "expo-linking": "~7.0.5",
     "expo-navigation-bar": "~4.0.7",
     "expo-router": "~4.0.17",
     "expo-secure-store": "~14.0.1",
     "expo-splash-screen": "~0.29.21",
-    "expo-sqlite": "~15.0.6",
+    "expo-sqlite": "~15.1.0",
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.7",
     "lodash": "^4.17.21",
@@ -64,7 +65,8 @@
     "react-native-svg": "15.8.0",
     "react-native-track-player": "^4.1.1",
     "ts-node": "^10.9.2",
-    "zustand": "^5.0.0"
+    "zustand": "^5.0.0",
+    "expo-linear-gradient": "~14.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

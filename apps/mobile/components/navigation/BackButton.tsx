@@ -1,6 +1,6 @@
 import { Platform } from "react-native"
 
-import { IconButton, type IconButtonProps } from "./IconButton"
+import { IconButton, type IconButtonProps } from "../ui/IconButton"
 
 import { router } from "expo-router"
 

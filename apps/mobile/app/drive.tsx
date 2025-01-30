@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { View } from "react-native"
-import { BackButton, Button, Header, Text } from "@components/ui"
+import { ScrollView, View } from "react-native"
+import { Button, Text } from "@components/ui"
+import { BackButton } from "@/components/navigation"
 import { spacing } from "@/constants/styles"
 import * as DocumentPicker from "expo-document-picker"
 import TrackPlayer, { Capability, State } from "react-native-track-player"
@@ -102,9 +103,9 @@ export default function Drive() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView edges={{ top: "maximum", bottom: "off" }} style={{ flex: 1 }}>
       <BackButton />
-      <View style={{ flex: 1, gap: spacing.medium }}>
+      <ScrollView style={{ flex: 1, gap: spacing.medium }}>
         <Button title="Selecionar Áudio" onPress={pickAudio} disabled={!isPlayerReady} />
         {currentTrack && (
           <>
@@ -116,7 +117,95 @@ export default function Drive() {
             />
           </>
         )}
-      </View>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+        <Text>Arquivo atual</Text>
+      </ScrollView>
     </SafeAreaView>
   )
 }

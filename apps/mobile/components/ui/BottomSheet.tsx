@@ -63,7 +63,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         backdropComponent={renderBackdrop}
         backgroundStyle={[
           {
-            backgroundColor: colors.elevation,
+            backgroundColor: colors.background,
             borderRadius: borderRadius.small
           },
           backgroundStyle

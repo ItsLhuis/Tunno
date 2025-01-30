@@ -1,11 +1,16 @@
+import { useEffect, useState } from "react"
+
 import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+
+import { useApp } from "@stores/app"
 
 import { borderRadius, spacing } from "@constants/styles"
 
 import { View } from "react-native"
 
+import { FadingScreen } from "@components/navigation"
 import {
   Icon,
   IconButton,
@@ -16,75 +21,125 @@ import {
   LargeHeader,
   LargeHeaderSubtitle,
   FlashListWithHeaders,
-  ListItemText
+  ListItemText,
+  ActivityIndicator,
+  FadingView
 } from "@components/ui"
+
+import Animated, { FadeIn } from "react-native-reanimated"
 
 import { router } from "expo-router"
 
-const data = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
+type Song = {
+  id: string
+  name: string
+}
+
+const songs = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
 
 export default function Songs() {
   const { colors } = useColorTheme()
 
   const insets = useSafeAreaInsets()
 
+  const { playerHeight } = useApp()
+
+  const [data, setData] = useState<Song[]>([])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setData(songs)
+    }, 200)
+  }, [])
+
   return (
-    <FlashListWithHeaders
-      HeaderComponent={({ showHeader }) => (
-        <Header
-          showHeader={showHeader}
-          headerCenter={
-            <Text variant="bold" size="large" numberOfLines={1}>
-              Songs
-            </Text>
-          }
-          headerLeft={<IconButton name="Download" onPress={() => router.push("/drive")} />}
-          headerRight={<IconButton name="Settings" onPress={() => router.push("/settings")} />}
-        />
-      )}
-      LargeHeaderComponent={() => (
-        <LargeHeader>
-          <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-            Songs
-          </Text>
-        </LargeHeader>
-      )}
-      LargeHeaderSubtitleComponent={() => (
-        <LargeHeaderSubtitle style={{ paddingTop: spacing.small }}>
-          <SearchInput placeholder="Search" />
-        </LargeHeaderSubtitle>
-      )}
-      automaticallyAdjustsScrollIndicatorInsets={false}
-      scrollIndicatorInsets={{ bottom: insets.bottom }}
-      contentContainerStyle={{ paddingBottom: spacing.medium, paddingHorizontal: spacing.large }}
-      data={data}
-      renderItem={({ item, index }) => (
-        <Pressable>
+    <FadingScreen style={{ flex: 1 }} removeClippedSubviews>
+      <FlashListWithHeaders
+        HeaderComponent={({ showHeader }) => (
+          <Header
+            showHeader={showHeader}
+            headerCenter={
+              <Text variant="bold" size="large" numberOfLines={1}>
+                Songs
+              </Text>
+            }
+            headerLeft={
+              <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.medium }}>
+                <IconButton name="Plus" onPress={() => router.push("/drive")} />
+                <FadingView opacity={showHeader}>
+                  <IconButton color={colors.primary} name="Shuffle" />
+                </FadingView>
+              </View>
+            }
+            headerRight={<IconButton name="More" />}
+            headerRightFadesIn
+          />
+        )}
+        LargeHeaderComponent={() => (
+          <LargeHeader>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.small }}>
+              <IconButton noMargin buttonColor="primary" name="Shuffle" />
+              <Text variant="bold" size="xxxLarge" numberOfLines={1}>
+                Songs
+              </Text>
+            </View>
+            <IconButton name="More" />
+          </LargeHeader>
+        )}
+        LargeHeaderSubtitleComponent={() => (
+          <LargeHeaderSubtitle style={{ paddingTop: spacing.small }}>
+            <SearchInput placeholder="Search" />
+          </LargeHeaderSubtitle>
+        )}
+        automaticallyAdjustsScrollIndicatorInsets={false}
+        scrollIndicatorInsets={{ bottom: insets.bottom }}
+        contentContainerStyle={{
+          paddingBottom: playerHeight + spacing.medium,
+          paddingHorizontal: spacing.large
+        }}
+        data={data}
+        renderItem={({ item, index }) => (
+          <Animated.View entering={FadeIn}>
+            <Pressable>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: spacing.xSmall,
+                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
+                }}
+              >
+                <View
+                  style={{
+                    padding: spacing.small,
+                    borderRadius: borderRadius.xSmall,
+                    backgroundColor: colors.secondary
+                  }}
+                >
+                  <Icon color={colors.placeholder} name="Music" />
+                </View>
+                <ListItemText title={item.name} description={item.id} />
+                <IconButton name="More" />
+              </View>
+            </Pressable>
+          </Animated.View>
+        )}
+        keyExtractor={(item) => item.id}
+        estimatedItemSize={60}
+        ListEmptyComponent={
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
+              flex: 1,
+              paddingBottom: playerHeight,
               justifyContent: "center",
-              gap: spacing.xSmall,
-              paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
+              alignItems: "center"
             }}
           >
-            <View
-              style={{
-                padding: spacing.small,
-                borderRadius: borderRadius.xSmall,
-                backgroundColor: colors.secondary
-              }}
-            >
-              <Icon color={colors.placeholder} name="Music2" />
-            </View>
-            <ListItemText title={item.name} description={item.id} />
-            <IconButton name="Ellipsis" />
+            <ActivityIndicator color={colors.primary} />
           </View>
-        </Pressable>
-      )}
-      keyExtractor={(item) => item.id}
-      estimatedItemSize={40}
-    />
+        }
+      />
+    </FadingScreen>
   )
 }

@@ -58,20 +58,20 @@ export const useScroll = ({
   )
 
   const showHeader = useDerivedValue(() => {
-    if (!largeHeaderExists) return withTiming(scrollY.value <= 0 ? 0 : 1, { duration: 250 })
+    if (!largeHeaderExists) return withTiming(scrollY.value <= 0 ? 0 : 1, { duration: 300 })
 
     if (largeHeaderHeight.value < adjustmentOffset) return 0
 
     if (largeHeaderShown) {
       largeHeaderShown.value = withTiming(
         scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
-        { duration: 250 }
+        { duration: 300 }
       )
     }
 
     return withTiming(
       scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
-      { duration: 250 }
+      { duration: 300 }
     )
   }, [largeHeaderExists])
 

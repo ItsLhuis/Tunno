@@ -1,6 +1,7 @@
 import { ReactNode } from "react"
 
 import {
+  ColorValue,
   type LayoutRectangle,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
@@ -28,7 +29,7 @@ export type HeaderProps = {
   ignoreTopSafeArea?: boolean
   showHeader: DerivedValue<0 | 1>
   bottomBorder?: boolean
-  borderColor?: string
+  borderColor?: ColorValue
   borderWidth?: number
   SurfaceComponent?: (props: SurfaceHeaderProps) => ReactNode
 }

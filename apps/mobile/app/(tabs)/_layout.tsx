@@ -1,29 +1,41 @@
+import { useEffect } from "react"
+
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { spacing } from "@constants/styles"
+import { border, spacing } from "@constants/styles"
 
 import { Tabs } from "expo-router"
 
 import { View } from "react-native"
 
-import { Icon, Pressable, Text } from "@components/ui"
+import { FadingView, Icon, Pressable, Text } from "@components/ui"
 import { Player } from "@components/navigation/Player"
+
+import { useSharedValue, withTiming } from "react-native-reanimated"
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets()
 
   const { colors } = useColorTheme()
 
+  const opacity = useSharedValue(0)
+
+  useEffect(() => {
+    opacity.value = withTiming(1, { duration: 300 })
+  }, [])
+
   return (
     <View style={{ flex: 1 }}>
       <Tabs
         tabBar={(props) => (
-          <View>
+          <FadingView opacity={opacity}>
             {props.state.routes && props.state.routes.length > 0 && <Player />}
             <View
               style={{
+                borderTopColor: colors.secondary,
+                borderTopWidth: border.thin,
                 flexDirection: "row",
                 justifyContent: "space-around"
               }}
@@ -89,10 +101,14 @@ export default function TabLayout() {
                 )
               })}
             </View>
-          </View>
+          </FadingView>
         )}
         screenOptions={{
-          headerShown: false
+          headerShown: false,
+          sceneStyle: {
+            backgroundColor: colors.background
+          },
+          freezeOnBlur: true
         }}
       >
         <Tabs.Screen
@@ -121,6 +137,13 @@ export default function TabLayout() {
           options={{
             title: "Artists",
             tabBarIcon: ({ color }) => <Icon name="Users" color={color} />
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: "Settings",
+            tabBarIcon: ({ color }) => <Icon name="Settings" color={color} />
           }}
         />
       </Tabs>
