@@ -98,8 +98,6 @@ export const download = async (
         track = await getTrack(searchTitle, searchArtist, null, {
           onlySearchTrackTitle: true
         })
-
-        if (!track) console.log("[spotify]", chalk.red("Track not found on Spotify"))
       }
 
       if (!track) {

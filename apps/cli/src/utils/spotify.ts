@@ -4,9 +4,12 @@ import { getEnvKey } from "./config"
 
 import { JaroWinklerDistance } from "natural"
 
-import { calculateTrackSimilarity } from "./utils"
+import { calculateTrackSimilarity, cleanTrackName } from "./utils"
 
 import { RateLimiter } from "../classes/rateLimiter"
+
+import inquirer from "inquirer"
+import chalk from "chalk"
 
 const SPOTIFY_API_BASE_URL = "https://api.spotify.com/v1"
 const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/api/token"
@@ -95,6 +98,34 @@ async function getArtist(artistId: string): Promise<SpotifyArtistDetails | null>
   }
 }
 
+async function buildTrackResult(track: any): Promise<SpotifyTrack | null> {
+  if (!track) return null
+
+  const result: SpotifyTrack = {
+    title: track.name,
+    releaseYear: Number(track.album.release_date.slice(0, 4)),
+    album: {
+      name: track.album.name || "Unknown",
+      thumbnail:
+        track.album.images && track.album.images.length > 0 ? track.album.images[0].url : undefined,
+      isSingle: track.album.album_type === "single"
+    },
+    artists: []
+  }
+
+  for (const artist of track.artists) {
+    const artistDetails = await getArtist(artist.id)
+    if (artistDetails) {
+      result.artists.push({
+        name: artistDetails.name,
+        thumbnail: artistDetails.images?.[0]?.url || null
+      })
+    }
+  }
+
+  return result
+}
+
 export async function getTrack(
   trackName: string,
   artistName: string | null | undefined,
@@ -105,14 +136,16 @@ export async function getTrack(
 
   if (!accessToken) return null
 
+  const cleanedtrackName = cleanTrackName(trackName)
+
   try {
     await rateLimiter.rateLimitRequest()
 
     let query = ""
     if (options.onlySearchTrackTitle) {
-      query = trackName
+      query = cleanedtrackName
     } else {
-      query = `track:${trackName}`
+      query = `track:${cleanedtrackName}`
       if (artistName) {
         query += ` artist:${artistName}`
       }
@@ -134,59 +167,83 @@ export async function getTrack(
     const tracks = response.data.tracks.items
     if (tracks.length === 0) return null
 
-    let track = tracks.find((item: any) => item.name.toLowerCase() === trackName.toLowerCase())
+    const firstTrack = tracks[0]
+
+    let wasTrackFound = true
+
+    let track = tracks.find(
+      (item: any) => item.name.toLowerCase() === cleanedtrackName.toLowerCase()
+    )
 
     if (!track && tracks.length > 0) {
       let bestMatch = tracks[0]
       let highestSimilarity = 0
 
       for (let i = 1; i < tracks.length; i++) {
-        const similarity = calculateTrackSimilarity(trackName, tracks[i].name)
+        const similarity = calculateTrackSimilarity(cleanedtrackName, tracks[i].name)
         if (similarity > highestSimilarity) {
           highestSimilarity = similarity
           bestMatch = tracks[i]
         }
       }
 
-      track = bestMatch
+      if (highestSimilarity >= 0.7) {
+        track = bestMatch
+      } else {
+        wasTrackFound = false
+      }
     }
 
-    if (options.onlySearchTrackTitle && artistName) {
-      const trackArtistNames = track.artists.map((artist: any) =>
-        artist.name.toLowerCase()
-      )
+    if (options.onlySearchTrackTitle && artistName && track && track.artists) {
+      const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
       const similarity = trackArtistNames.some(
         (name: string) => JaroWinklerDistance(artistName.toLowerCase(), name) > 0.8
       )
 
-      if (!similarity) return null
+      if (!similarity) wasTrackFound = false
+    } else {
+      wasTrackFound = false
     }
 
-    const result: SpotifyTrack = {
-      title: track.name,
-      releaseYear: Number(track.album.release_date.slice(0, 4)),
-      album: {
-        name: track.album.name || "Unknown",
-        thumbnail:
-          track.album.images && track.album.images.length > 0
-            ? track.album.images[0].url
-            : undefined,
-        isSingle: track.album.album_type === "single"
-      },
-      artists: []
+    let trackReleaseYear: number | null = null
+
+    if (track && track.album && track.album.release_date) {
+      trackReleaseYear = Number(track.album.release_date.slice(0, 4))
     }
 
-    for (const artist of track.artists) {
-      const artistDetails = await getArtist(artist.id)
-      if (artistDetails) {
-        result.artists.push({
-          name: artistDetails.name,
-          thumbnail: artistDetails.images?.[0]?.url || null
-        })
+    if (options.onlySearchTrackTitle && year && trackReleaseYear !== null) {
+      const parsedYear = Number(year)
+      const yearDifference = Math.abs(parsedYear - trackReleaseYear)
+
+      if (yearDifference > 1) wasTrackFound = false
+    } else {
+      wasTrackFound = false
+    }
+
+    if (!wasTrackFound) {
+      console.log("[spotify]", chalk.red("Track not found on Spotify"))
+
+      const { isCorrect } = await inquirer.prompt([
+        {
+          type: "confirm",
+          name: "isCorrect",
+          message: `[spotify] The first item found is ${chalk.blue(
+            firstTrack.name
+          )} by ${chalk.blue(
+            firstTrack.artists.map((artist: any) => artist.name).join(", ")
+          )}. ${chalk.yellow("Does this match what you were looking for?")}`,
+          default: true
+        }
+      ])
+
+      if (isCorrect) {
+        return await buildTrackResult(firstTrack)
       }
+
+      return null
     }
 
-    return result
+    return await buildTrackResult(track)
   } catch (error) {
     console.error(error)
     return null

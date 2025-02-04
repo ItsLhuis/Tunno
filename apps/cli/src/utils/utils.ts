@@ -48,21 +48,27 @@ export const runCommand = (command: string, args: string[]): Promise<void> => {
 
 export const execPromise = promisify(exec)
 
-const cleanTrackName = (trackName: string): string => {
+export const cleanTrackName = (trackName: string): string => {
   return trackName
     .toLowerCase()
     .replace(/[\(\)\[\]\{\}]/g, "")
     .replace(/"[^"]+"/g, "")
-    .replace(/\b(ft|feat|official|video|version|audio|prod|explicit|live|lyrics)\b/gi, "")
-    .replace(/[^\w\s]/g, "")
+    .replace(
+      /\b(ft|feat|official|oficial|video|version|audio|prod|explicit|live|lyrics|visualizer|instrumental|acoustic|edit|demo|radio edit|cover|remaster)\b/gi,
+      ""
+    )
+    .replace(/[^\p{L}\s\d]/gu, "")
+    .replace(/\s+/g, " ")
     .trim()
 }
 
 const tokenizeTrackName = (trackName: string): string[] => {
-  return cleanTrackName(trackName).split(/\s+/)
+  return trackName.split(/\s+/)
 }
 
 const calculateTfIdfSimilarity = (track1: string, track2: string): number => {
+  if (!track1 || !track2) return 0
+
   const tfidf = new TfIdf()
   tfidf.addDocument(track1)
   tfidf.addDocument(track2)
@@ -85,16 +91,15 @@ const calculateTfIdfSimilarity = (track1: string, track2: string): number => {
 }
 
 export const calculateTrackSimilarity = (track1: string, track2: string): number => {
-  const cleanedTrack1 = cleanTrackName(track1)
   const tokens1 = tokenizeTrackName(track1)
   const track2Lower = track2.toLowerCase()
 
-  const jaroScore = JaroWinklerDistance(cleanedTrack1, track2Lower)
+  const jaroScore = JaroWinklerDistance(track1, track2Lower)
 
-  const commonWords = tokens1.filter((word) => track2Lower.includes(word)).length
+  const commonWords = new Set(tokens1.filter((word) => track2Lower.includes(word))).size
   const wordMatchScore = commonWords / Math.max(tokens1.length, track2Lower.split(/\s+/).length)
 
   const tfidfScore = calculateTfIdfSimilarity(track1, track2)
 
-  return jaroScore * 0.6 + wordMatchScore * 0.2 + tfidfScore * 0.3
+  return jaroScore * 0.5 + wordMatchScore * 0.3 + tfidfScore * 0.2
 }
