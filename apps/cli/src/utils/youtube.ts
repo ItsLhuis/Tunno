@@ -19,6 +19,7 @@ type YoutubeSong = {
   title: string
   thumbnail: string
   duration: number
+  artists?: string[]
   uploader: string
   release_date?: string | null | undefined
   upload_date: string
@@ -31,6 +32,7 @@ export const download = async (
     artist?: string
     releaseYear?: string
     basicDownload?: boolean
+    extension?: string
   }
 ): Promise<void> => {
   try {
@@ -58,11 +60,51 @@ export const download = async (
           searchArtist
         )}`
       )
-      const track = await getTrack(searchTitle, searchArtist, searchYear)
+      let track = await getTrack(searchTitle, searchArtist, searchYear)
 
       if (!track) {
-        console.log(chalk.red("Track not found on Spotify"))
+        console.log("[spotify]", chalk.red("Track not found on Spotify"))
+
+        if (videoInfo.artists && Array.isArray(videoInfo.artists)) {
+          console.log("[spotify]", chalk.yellow("Trying other artists"))
+
+          for (let i = 0; i < videoInfo.artists.length; i++) {
+            const currentArtist = videoInfo.artists[i]
+
+            if (currentArtist === searchArtist) {
+              continue
+            }
+
+            console.log(
+              `[spotify] Trying to search for ${chalk.blue(searchTitle)} by ${chalk.blue(
+                currentArtist
+              )}`
+            )
+            track = await getTrack(searchTitle, currentArtist, searchYear)
+
+            if (!track) {
+              console.log("[spotify]", chalk.red("Track not found on Spotify"))
+            } else {
+              break
+            }
+          }
+        }
+      }
+
+      if (!track) {
         console.log(
+          `[spotify] Trying to search using only the track title: ${chalk.blue(searchTitle)}`
+        )
+        track = await getTrack(searchTitle, searchArtist, null, {
+          onlySearchTrackTitle: true
+        })
+
+        if (!track) console.log("[spotify]", chalk.red("Track not found on Spotify"))
+      }
+
+      if (!track) {
+        console.log(
+          "[spotify]",
           chalk.yellow("Suggestion:"),
           "You can either download just the track and manually update the metadata later, or provide additional fields related to the Spotify search to improve metadata accuracy. Mismatching the YouTube video ID with unrelated metadata fields may result in incorrect metadata"
         )
@@ -70,6 +112,7 @@ export const download = async (
       }
 
       videoDir = path.join(downloadPath, sanitize(track.title, { replacement: "" }))
+      if (fs.existsSync(videoDir)) fs.rmSync(videoDir, { recursive: true, force: true })
       fs.mkdirSync(videoDir, { recursive: true })
 
       const videoMetadata: Song = {
@@ -86,8 +129,11 @@ export const download = async (
       videoMetadata.thumbnail = trackThumbnailUUID
 
       const albumThumbnailUUID = uuid() + ".jpg"
-      await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
-      videoMetadata.album.thumbnail = albumThumbnailUUID
+      if (!track.album.isSingle)
+        await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
+      videoMetadata.album.thumbnail = !track.album.isSingle
+        ? albumThumbnailUUID
+        : trackThumbnailUUID
 
       for (const artist of track.artists) {
         if (artist.thumbnail) {
@@ -96,14 +142,12 @@ export const download = async (
 
           videoMetadata.artists.push({
             name: artist.name,
-            thumbnail: artistThumbnailUUID,
-            genres: artist.genres
+            thumbnail: artistThumbnailUUID
           })
         } else {
           videoMetadata.artists.push({
             name: artist.name,
-            thumbnail: null,
-            genres: artist.genres
+            thumbnail: null
           })
         }
       }
@@ -120,7 +164,7 @@ export const download = async (
     await runCommand("yt-dlp", [
       "--extract-audio",
       "--audio-format",
-      options?.basicDownload ? "m4a" : "opus",
+      options?.basicDownload ? options?.extension || "opus" : "opus",
       "--audio-quality",
       "0",
       "--format",
@@ -133,7 +177,9 @@ export const download = async (
 
     console.log(
       "Download completed:",
-      chalk.green(options?.basicDownload ? `${songFilePath}.m4a` : videoDir)
+      chalk.green(
+        options?.basicDownload ? `${songFilePath}.${options?.extension || "opus"}` : videoDir
+      )
     )
   } catch (error) {
     if (error instanceof Error) {

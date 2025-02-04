@@ -10,11 +10,7 @@ export default function path(program: Command) {
     .description("Displays the current download directory")
     .action(async () => {
       const path = await getDownloadPath()
-      if (path) {
-        console.log("Current download path:", chalk.green(path))
-      } else {
-        console.log(chalk.red("No download path set."))
-      }
+      console.log("Current download path:", chalk.green(path))
     })
   program
     .command("set-path <PATH>")

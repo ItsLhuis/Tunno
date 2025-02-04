@@ -6,6 +6,8 @@ import { download } from "../utils/youtube"
 
 import { execPromise } from "../utils/utils"
 
+const VALID_EXTENSIONS = new Set(["opus", "m4a", "mp3", "flac", "wav"])
+
 export default function youtube(program: Command) {
   program
     .command("youtube")
@@ -16,12 +18,23 @@ export default function youtube(program: Command) {
     .option("--artist <artist>", "Override artist for Spotify search")
     .option("--year <year>", "Override release year for Spotify search")
     .option("--basic", "Download only audio without metadata")
+    .option(
+      "--ext <ext>",
+      `Specify the output audio file extension (${[...VALID_EXTENSIONS].join(", ")})`
+    )
     .action(async (options) => {
-      const { id: videoId, playlistId, title, artist, year, basic } = options
+      const { id: videoId, playlistId, title, artist, year, basic, ext } = options
 
       if (!videoId && !playlistId) {
         console.error("error: either '--id' or '--playlist-id' must be provided")
         return
+      }
+
+      if (ext && !VALID_EXTENSIONS.has(ext)) {
+        console.error(
+          "[youtube]",
+          `${chalk.red(`Invalid ${ext} extension`)}. Using ${chalk.blue("opus")} extension`
+        )
       }
 
       if (playlistId) {
@@ -47,7 +60,8 @@ export default function youtube(program: Command) {
               )}`
             )
             await download(item.id, {
-              basicDownload: basic
+              basicDownload: basic,
+              extension: ext
             })
 
             if (i < playlistItems.length - 1) {
@@ -71,7 +85,8 @@ export default function youtube(program: Command) {
         title,
         artist,
         releaseYear: year,
-        basicDownload: basic
+        basicDownload: basic,
+        extension: ext
       })
     })
 }

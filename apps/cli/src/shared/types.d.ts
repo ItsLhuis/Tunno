@@ -1,12 +1,12 @@
 export type Artist = {
   name: string
   thumbnail: string | null
-  genres: string[]
 }
 
 export type Album = {
   name: string
   thumbnail: string
+  isSingle: boolean
 }
 
 export type Song = {
