@@ -95,9 +95,11 @@ export const download = async (
 
       if (!track) {
         console.log(
-          `[spotify] Trying to search using only the track title: ${chalk.blue(searchTitle)}`
+          `[spotify] Trying to search using only the track title: ${chalk.blue(
+            searchTitle
+          )}. ${chalk.yellow("This approach refines the search process to enhance accuracy")}`
         )
-        track = await getTrack(searchTitle, videoDuration, searchArtist, null, {
+        track = await getTrack(searchTitle, videoDuration, searchArtist, searchYear, {
           onlySearchTrackTitle: true
         })
       }

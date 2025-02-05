@@ -4,7 +4,12 @@ import { getEnvKey } from "./config"
 
 import { JaroWinklerDistance } from "natural"
 
-import { calculateTrackSimilarity, cleanTrackName, sigmoidSimilarity } from "./utils"
+import {
+  cleanArtistName,
+  cleanTrackName,
+  calculateTrackSimilarity,
+  proportionalSimilarity
+} from "./utils"
 
 import { RateLimiter } from "../classes/rateLimiter"
 
@@ -129,7 +134,7 @@ async function buildTrackResult(track: any): Promise<SpotifyTrack | null> {
 export async function getTrack(
   name: string,
   duration: number,
-  artistName: string | null | undefined,
+  artistName: string,
   year: string | null | undefined,
   options: { onlySearchTrackTitle?: boolean } = {}
 ): Promise<SpotifyTrack | null> {
@@ -137,7 +142,13 @@ export async function getTrack(
 
   if (!accessToken) return null
 
-  const cleanedTrackName = cleanTrackName(name)
+  let cleanedTrackName = cleanTrackName(name)
+  const cleanedArtistName = cleanArtistName(artistName)
+
+  cleanedTrackName = cleanedTrackName
+    .replace(new RegExp(cleanedArtistName, "gi"), "")
+    .replace(/\s+/g, " ")
+    .trim()
 
   try {
     await rateLimiter.rateLimitRequest()
@@ -145,7 +156,7 @@ export async function getTrack(
     let query = cleanedTrackName
     if (!options.onlySearchTrackTitle) {
       query = `track:${cleanedTrackName}`
-      if (artistName) query += ` artist:${artistName}`
+      query += ` artist:${cleanedArtistName}`
       if (year) query += ` year:${year}`
     }
 
@@ -172,9 +183,7 @@ export async function getTrack(
 
       let wasTrackFound = true
 
-      let track = tracks.find(
-        (item: any) => item.name.toLowerCase() === cleanedTrackName.toLowerCase()
-      )
+      let track = tracks.find((item: any) => item.name.toLowerCase() === cleanedTrackName)
 
       let bestTrackMatch = tracks[0]
       let highestTrackScore = 0
@@ -183,16 +192,20 @@ export async function getTrack(
         for (let i = 0; i < tracks.length; i++) {
           const track = tracks[i]
 
-          const trackDurationSeconds = Math.round(track.duration_ms / 1000)
+          if (track.artists) {
+            track.artists.forEach((artist: any) => {
+              cleanedTrackName = cleanedTrackName.replace(new RegExp(artist.name, "i"), "").trim()
+            })
+          }
 
-          const similarity = calculateTrackSimilarity(cleanedTrackName, track.name)
+          const trackSimilarity = calculateTrackSimilarity(cleanedTrackName, track.name)
 
-          const timeScore = sigmoidSimilarity(trackDurationSeconds, duration)
+          const timeScore = proportionalSimilarity(Math.round(track.duration_ms / 1000), duration)
 
-          const combinedScore = similarity * 0.7 + timeScore * 0.3
+          const finalScore = trackSimilarity * 0.7 + timeScore * 0.3
 
-          if (combinedScore > highestTrackScore) {
-            highestTrackScore = combinedScore
+          if (finalScore > highestTrackScore) {
+            highestTrackScore = finalScore
             bestTrackMatch = track
           }
         }
@@ -204,54 +217,51 @@ export async function getTrack(
         }
       }
 
-      if (artistName && track && track.artists) {
-        const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
-        const similarity = trackArtistNames.some(
-          (name: string) => JaroWinklerDistance(artistName.toLowerCase(), name) > 0.7
-        )
+      if (highestTrackScore < 0.9) {
+        if (track && track.artists) {
+          const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
+          const artistSimilarity = trackArtistNames.some(
+            (name: string) => JaroWinklerDistance(cleanedArtistName.toLowerCase(), name) > 0.7
+          )
 
-        if (!similarity) wasTrackFound = false
-      } else {
-        wasTrackFound = false
-      }
+          if (!artistSimilarity) wasTrackFound = false
+        } else {
+          wasTrackFound = false
+        }
 
-      let trackReleaseYear: number | null = null
+        let trackReleaseYear: number | null = null
 
-      if (track && track.album && track.album.release_date) {
-        trackReleaseYear = Number(track.album.release_date.slice(0, 4))
-      }
+        if (year && track && track.album && track.album.release_date) {
+          trackReleaseYear = Number(track.album.release_date.slice(0, 4))
 
-      if (year && trackReleaseYear !== null) {
-        const parsedYear = Number(year)
-        const yearDifference = Math.abs(parsedYear - trackReleaseYear)
+          if (year && trackReleaseYear) {
+            const yearDifference = Math.abs(Number(year) - trackReleaseYear)
 
-        if (yearDifference > 1) wasTrackFound = false
-      } else {
-        wasTrackFound = false
-      }
-
-      if (!wasTrackFound) {
-        console.log("[spotify]", chalk.red("Track not found on Spotify"))
-
-        if (highestTrackScore <= 0.5) return null
-
-        const { isCorrect } = await inquirer.prompt([
-          {
-            type: "confirm",
-            name: "isCorrect",
-            message: `[spotify] The best match found is ${chalk.blue(
-              bestTrackMatch.name
-            )} by ${chalk.blue(
-              bestTrackMatch.artists.map((artist: any) => artist.name).join(", ")
-            )}. ${chalk.yellow("Does this match what you were looking for?")}`,
-            default: true
+            if (yearDifference > 1) wasTrackFound = false
           }
-        ])
-
-        if (isCorrect) return await buildTrackResult(bestTrackMatch)
-
-        return null
+        }
       }
+
+      if (wasTrackFound) return await buildTrackResult(track)
+
+      console.log("[spotify]", chalk.red("Track not found on Spotify"))
+
+      if (highestTrackScore <= 0.6) return null
+
+      const { isCorrect } = await inquirer.prompt([
+        {
+          type: "confirm",
+          name: "isCorrect",
+          message: `[spotify] The best match found is ${chalk.blue(
+            bestTrackMatch.name
+          )} by ${chalk.blue(
+            bestTrackMatch.artists.map((artist: any) => artist.name).join(", ")
+          )}. ${chalk.yellow("Does this match what you were looking for?")}`,
+          default: true
+        }
+      ])
+
+      if (isCorrect) return await buildTrackResult(bestTrackMatch)
 
       return null
     }

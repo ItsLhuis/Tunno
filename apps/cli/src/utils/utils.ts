@@ -48,13 +48,28 @@ export const runCommand = (command: string, args: string[]): Promise<void> => {
 
 export const execPromise = promisify(exec)
 
+export const cleanArtistName = (artistName: string): string => {
+  return artistName
+    .toLowerCase()
+    .replace(/[\(\)\[\]\{\}]/g, "")
+    .replace(/"[^"]+"/g, "")
+    .replace(
+      /\b(vevo|topic|official|music|channel|records|tv|radio|entertainment|videos|production|productions|inc|ft|feat)\b/gi,
+      ""
+    )
+    .replace(/[^\p{L}\s\d]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b(\w)/g, (match) => match.toUpperCase())
+}
+
 export const cleanTrackName = (trackName: string): string => {
   return trackName
     .toLowerCase()
     .replace(/[\(\)\[\]\{\}]/g, "")
     .replace(/"[^"]+"/g, "")
     .replace(
-      /\b(ft|feat|official|oficial|video|version|audio|prod|explicit|live|lyrics|visualizer|instrumental|acoustic|edit|demo|radio edit|cover|remaster)\b/gi,
+      /\b(ft|feat|official|oficial|video|version|audio|prod|explicit|live|lyric|lyrics|visualizer|instrumental|acoustic|edit|demo|radio edit|cover|remaster)\b/gi,
       ""
     )
     .replace(/[^\p{L}\s\d]/gu, "")
@@ -116,16 +131,19 @@ export const calculateTrackSimilarity = (track1: string, track2: string): number
 
   const tfidfScore = calculateTfIdfSimilarity(track1, track2)
 
-  return jaroScore * 0.5 + wordMatchScore * 0.3 + tfidfScore * 0.2
+  return jaroScore * 0.5 + wordMatchScore * 0.2 + tfidfScore * 0.3
 }
 
-export const sigmoidSimilarity = (
+export const proportionalSimilarity = (
   spotifyDuration: number,
   youtubeDuration: number,
-  k: number = 0.1,
-  x0: number = 1
+  maxDifference: number = 1000
 ): number => {
   const timeDifference = Math.abs(spotifyDuration - youtubeDuration)
-  const similarity = 1 / (1 + Math.exp(k * (timeDifference - x0)))
-  return Math.max(0, Math.min(1, similarity))
+
+  const normalizedDifference = Math.min(timeDifference / maxDifference, 1)
+
+  const similarity = Math.exp(-normalizedDifference)
+
+  return similarity
 }
