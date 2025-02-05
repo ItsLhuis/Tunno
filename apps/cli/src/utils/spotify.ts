@@ -4,7 +4,7 @@ import { getEnvKey } from "./config"
 
 import { JaroWinklerDistance } from "natural"
 
-import { calculateTrackSimilarity, cleanTrackName } from "./utils"
+import { calculateTrackSimilarity, cleanTrackName, sigmoidSimilarity } from "./utils"
 
 import { RateLimiter } from "../classes/rateLimiter"
 
@@ -127,7 +127,8 @@ async function buildTrackResult(track: any): Promise<SpotifyTrack | null> {
 }
 
 export async function getTrack(
-  trackName: string,
+  name: string,
+  duration: number,
   artistName: string | null | undefined,
   year: string | null | undefined,
   options: { onlySearchTrackTitle?: boolean } = {}
@@ -136,23 +137,18 @@ export async function getTrack(
 
   if (!accessToken) return null
 
-  const cleanedtrackName = cleanTrackName(trackName)
+  const cleanedTrackName = cleanTrackName(name)
 
   try {
     await rateLimiter.rateLimitRequest()
 
-    let query = ""
-    if (options.onlySearchTrackTitle) {
-      query = cleanedtrackName
-    } else {
-      query = `track:${cleanedtrackName}`
-      if (artistName) {
-        query += ` artist:${artistName}`
-      }
-      if (year) {
-        query += ` year:${year}`
-      }
+    let query = cleanedTrackName
+    if (!options.onlySearchTrackTitle) {
+      query = `track:${cleanedTrackName}`
+      if (artistName) query += ` artist:${artistName}`
+      if (year) query += ` year:${year}`
     }
+
     const response = await axios.get(`${SPOTIFY_API_BASE_URL}/search`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -160,90 +156,105 @@ export async function getTrack(
       params: {
         q: query,
         type: "track",
-        limit: 5
+        limit: options.onlySearchTrackTitle ? 10 : 1
       }
     })
 
-    const tracks = response.data.tracks.items
-    if (tracks.length === 0) return null
+    if (!options.onlySearchTrackTitle) {
+      const track = response.data.tracks.items[0]
 
-    const firstTrack = tracks[0]
+      if (track) return await buildTrackResult(track)
 
-    let wasTrackFound = true
+      return null
+    } else {
+      const tracks = response.data.tracks.items
+      if (tracks.length === 0) return null
 
-    let track = tracks.find(
-      (item: any) => item.name.toLowerCase() === cleanedtrackName.toLowerCase()
-    )
+      let wasTrackFound = true
 
-    if (!track && tracks.length > 0) {
-      let bestMatch = tracks[0]
-      let highestSimilarity = 0
+      let track = tracks.find(
+        (item: any) => item.name.toLowerCase() === cleanedTrackName.toLowerCase()
+      )
 
-      for (let i = 1; i < tracks.length; i++) {
-        const similarity = calculateTrackSimilarity(cleanedtrackName, tracks[i].name)
-        if (similarity > highestSimilarity) {
-          highestSimilarity = similarity
-          bestMatch = tracks[i]
+      let bestTrackMatch = tracks[0]
+      let highestTrackScore = 0
+
+      if (!track && tracks.length > 0) {
+        for (let i = 0; i < tracks.length; i++) {
+          const track = tracks[i]
+
+          const trackDurationSeconds = Math.round(track.duration_ms / 1000)
+
+          const similarity = calculateTrackSimilarity(cleanedTrackName, track.name)
+
+          const timeScore = sigmoidSimilarity(trackDurationSeconds, duration)
+
+          const combinedScore = similarity * 0.7 + timeScore * 0.3
+
+          if (combinedScore > highestTrackScore) {
+            highestTrackScore = combinedScore
+            bestTrackMatch = track
+          }
+        }
+
+        if (highestTrackScore >= 0.6) {
+          track = bestTrackMatch
+        } else {
+          wasTrackFound = false
         }
       }
 
-      if (highestSimilarity >= 0.7) {
-        track = bestMatch
+      if (artistName && track && track.artists) {
+        const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
+        const similarity = trackArtistNames.some(
+          (name: string) => JaroWinklerDistance(artistName.toLowerCase(), name) > 0.7
+        )
+
+        if (!similarity) wasTrackFound = false
       } else {
         wasTrackFound = false
       }
-    }
 
-    if (options.onlySearchTrackTitle && artistName && track && track.artists) {
-      const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
-      const similarity = trackArtistNames.some(
-        (name: string) => JaroWinklerDistance(artistName.toLowerCase(), name) > 0.8
-      )
+      let trackReleaseYear: number | null = null
 
-      if (!similarity) wasTrackFound = false
-    } else {
-      wasTrackFound = false
-    }
+      if (track && track.album && track.album.release_date) {
+        trackReleaseYear = Number(track.album.release_date.slice(0, 4))
+      }
 
-    let trackReleaseYear: number | null = null
+      if (year && trackReleaseYear !== null) {
+        const parsedYear = Number(year)
+        const yearDifference = Math.abs(parsedYear - trackReleaseYear)
 
-    if (track && track.album && track.album.release_date) {
-      trackReleaseYear = Number(track.album.release_date.slice(0, 4))
-    }
+        if (yearDifference > 1) wasTrackFound = false
+      } else {
+        wasTrackFound = false
+      }
 
-    if (options.onlySearchTrackTitle && year && trackReleaseYear !== null) {
-      const parsedYear = Number(year)
-      const yearDifference = Math.abs(parsedYear - trackReleaseYear)
+      if (!wasTrackFound) {
+        console.log("[spotify]", chalk.red("Track not found on Spotify"))
 
-      if (yearDifference > 1) wasTrackFound = false
-    } else {
-      wasTrackFound = false
-    }
+        if (highestTrackScore <= 0.5) return null
 
-    if (!wasTrackFound) {
-      console.log("[spotify]", chalk.red("Track not found on Spotify"))
+        const { isCorrect } = await inquirer.prompt([
+          {
+            type: "confirm",
+            name: "isCorrect",
+            message: `[spotify] The best match found is ${chalk.blue(
+              bestTrackMatch.name
+            )} by ${chalk.blue(
+              bestTrackMatch.artists.map((artist: any) => artist.name).join(", ")
+            )}. ${chalk.yellow("Does this match what you were looking for?")}`,
+            default: true
+          }
+        ])
 
-      const { isCorrect } = await inquirer.prompt([
-        {
-          type: "confirm",
-          name: "isCorrect",
-          message: `[spotify] The first item found is ${chalk.blue(
-            firstTrack.name
-          )} by ${chalk.blue(
-            firstTrack.artists.map((artist: any) => artist.name).join(", ")
-          )}. ${chalk.yellow("Does this match what you were looking for?")}`,
-          default: true
-        }
-      ])
+        if (isCorrect) return await buildTrackResult(bestTrackMatch)
 
-      if (isCorrect) {
-        return await buildTrackResult(firstTrack)
+        return null
       }
 
       return null
     }
-
-    return await buildTrackResult(track)
   } catch (error) {
     console.error(error)
     return null

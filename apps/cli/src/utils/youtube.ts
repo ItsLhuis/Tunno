@@ -55,12 +55,14 @@ export const download = async (
       const searchYear =
         options?.releaseYear || (videoInfo.release_date ? videoInfo.release_date.slice(0, 4) : null)
 
+      const videoDuration = Number(videoInfo.duration)
+
       console.log(
         `[spotify] Extracting metadata for ${chalk.blue(searchTitle)} by ${chalk.blue(
           searchArtist
         )}`
       )
-      let track = await getTrack(searchTitle, searchArtist, searchYear)
+      let track = await getTrack(searchTitle, videoDuration, searchArtist, searchYear)
 
       if (!track) {
         console.log("[spotify]", chalk.red("Track not found on Spotify"))
@@ -80,7 +82,7 @@ export const download = async (
                 currentArtist
               )}`
             )
-            track = await getTrack(searchTitle, currentArtist, searchYear)
+            track = await getTrack(searchTitle, videoDuration, currentArtist, searchYear)
 
             if (!track) {
               console.log("[spotify]", chalk.red("Track not found on Spotify"))
@@ -95,7 +97,7 @@ export const download = async (
         console.log(
           `[spotify] Trying to search using only the track title: ${chalk.blue(searchTitle)}`
         )
-        track = await getTrack(searchTitle, searchArtist, null, {
+        track = await getTrack(searchTitle, videoDuration, searchArtist, null, {
           onlySearchTrackTitle: true
         })
       }

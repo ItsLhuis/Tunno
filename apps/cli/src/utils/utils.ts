@@ -70,6 +70,7 @@ const calculateTfIdfSimilarity = (track1: string, track2: string): number => {
   if (!track1 || !track2) return 0
 
   const tfidf = new TfIdf()
+
   tfidf.addDocument(track1)
   tfidf.addDocument(track2)
 
@@ -77,7 +78,16 @@ const calculateTfIdfSimilarity = (track1: string, track2: string): number => {
   let magnitude1 = 0
   let magnitude2 = 0
 
-  tfidf.listTerms(0).forEach((term) => {
+  const terms = tfidf.listTerms(0)
+  if (!terms || terms.length === 0) return 0
+
+  const tokens1 = track1.toLowerCase().split(/\s+/)
+  const tokens2 = track2.toLowerCase().split(/\s+/)
+  const commonWords = tokens1.filter((word) => tokens2.includes(word)).length
+
+  if (commonWords === 0) return 0
+
+  terms.forEach((term) => {
     const tfidfTrack1 = tfidf.tfidf(term.term, 0)
     const tfidfTrack2 = tfidf.tfidf(term.term, 1)
 
@@ -86,7 +96,12 @@ const calculateTfIdfSimilarity = (track1: string, track2: string): number => {
     magnitude2 += Math.pow(tfidfTrack2, 2)
   })
 
+  if (magnitude1 === 0 || magnitude2 === 0) return 0
+
   const similarity = dotProduct / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2))
+
+  if (isNaN(similarity) || !isFinite(similarity)) return 0
+
   return similarity
 }
 
@@ -102,4 +117,15 @@ export const calculateTrackSimilarity = (track1: string, track2: string): number
   const tfidfScore = calculateTfIdfSimilarity(track1, track2)
 
   return jaroScore * 0.5 + wordMatchScore * 0.3 + tfidfScore * 0.2
+}
+
+export const sigmoidSimilarity = (
+  spotifyDuration: number,
+  youtubeDuration: number,
+  k: number = 0.1,
+  x0: number = 1
+): number => {
+  const timeDifference = Math.abs(spotifyDuration - youtubeDuration)
+  const similarity = 1 / (1 + Math.exp(k * (timeDifference - x0)))
+  return Math.max(0, Math.min(1, similarity))
 }
