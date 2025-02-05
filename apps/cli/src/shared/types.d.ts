@@ -10,6 +10,7 @@ export type Album = {
 }
 
 export type Song = {
+  song: string
   title: string
   thumbnail: string
   duration: number

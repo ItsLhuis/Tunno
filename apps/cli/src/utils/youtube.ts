@@ -49,6 +49,12 @@ export const download = async (
       ? downloadPath
       : path.join(downloadPath, sanitize(videoInfo.title, { replacement: "" }))
 
+    const songUUID = uuid()
+
+    const songFileName = options?.basicDownload
+      ? sanitize(videoInfo.title, { replacement: "" })
+      : songUUID
+
     if (!options?.basicDownload) {
       const searchTitle = options?.title || videoInfo.title
       const searchArtist = options?.artist || videoInfo.uploader
@@ -118,6 +124,7 @@ export const download = async (
       fs.mkdirSync(videoDir, { recursive: true })
 
       const videoMetadata: Song = {
+        song: songUUID + "." + (options?.extension || "opus"),
         title: track.title,
         thumbnail: "",
         duration: videoInfo.duration,
@@ -127,7 +134,11 @@ export const download = async (
       }
 
       const trackThumbnailUUID = uuid() + ".jpg"
-      await downloadThumbnail(videoInfo.thumbnail, path.join(videoDir, trackThumbnailUUID), 640)
+      await downloadThumbnail(
+        track.album.isSingle ? track.album.thumbnail : videoInfo.thumbnail,
+        path.join(videoDir, trackThumbnailUUID),
+        640
+      )
       videoMetadata.thumbnail = trackThumbnailUUID
 
       const albumThumbnailUUID = uuid() + ".jpg"
@@ -156,10 +167,6 @@ export const download = async (
 
       fs.writeFileSync(path.join(videoDir, "metadata.json"), JSON.stringify(videoMetadata, null, 2))
     }
-
-    const songFileName = options?.basicDownload
-      ? sanitize(videoInfo.title, { replacement: "" })
-      : "song"
 
     const songFilePath = path.join(videoDir, `${songFileName}`)
 
