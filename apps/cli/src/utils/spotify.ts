@@ -54,8 +54,8 @@ async function getAccessToken(): Promise<string | null> {
   const clientSecret = await getEnvKey("SPOTIFY_CLIENT_SECRET")
 
   if (!clientId || !clientSecret) {
-    console.error("Spotify client ID and client secret are required")
-    return null
+    console.error("[spotify]", chalk.red("Spotify Client ID and Client Secret are required"))
+    process.exit(0)
   }
 
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64")
