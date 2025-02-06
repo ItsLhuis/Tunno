@@ -174,12 +174,19 @@ export async function getTrack(
     if (!options.onlySearchTrackTitle) {
       const track = response.data.tracks.items[0]
 
-      if (track) return await buildTrackResult(track)
+      if (track) {
+        console.log("[spotify]", chalk.green("Track found"))
+        return await buildTrackResult(track)
+      }
 
+      console.log("[spotify]", chalk.red("Track not found"))
       return null
     } else {
       const tracks = response.data.tracks.items
-      if (tracks.length === 0) return null
+      if (tracks.length === 0) {
+        console.log("[spotify]", chalk.red("Track not found"))
+        return null
+      }
 
       let wasTrackFound = true
 
@@ -242,17 +249,21 @@ export async function getTrack(
         }
       }
 
-      if (wasTrackFound) return await buildTrackResult(track)
+      if (wasTrackFound) {
+        console.log("[spotify]", chalk.green("Track found"))
+        return await buildTrackResult(track)
+      }
 
-      console.log("[spotify]", chalk.red("Track not found on Spotify"))
-
-      if (highestTrackScore <= 0.6) return null
+      if (highestTrackScore <= 0.6) {
+        console.log("[spotify]", chalk.red("Track not found"))
+        return null
+      }
 
       const { isCorrect } = await inquirer.prompt([
         {
           type: "confirm",
           name: "isCorrect",
-          message: `[spotify] The best match found is ${chalk.blue(
+          message: `[spotify] ${chalk.red("Track not found.")} The best match found is ${chalk.blue(
             bestTrackMatch.name
           )} by ${chalk.blue(
             bestTrackMatch.artists.map((artist: any) => artist.name).join(", ")
