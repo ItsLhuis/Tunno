@@ -4,8 +4,6 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useApp } from "@stores/app"
-
 import { borderRadius, spacing } from "@constants/styles"
 
 import { View } from "react-native"
@@ -22,13 +20,10 @@ import {
   LargeHeaderSubtitle,
   FlashListWithHeaders,
   ListItemText,
-  ActivityIndicator,
-  FadingView
+  ActivityIndicator
 } from "@components/ui"
 
-import Animated, { FadeIn } from "react-native-reanimated"
-
-import { router } from "expo-router"
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
 type Favorit = {
   id: string
@@ -42,8 +37,6 @@ export default function Favorites() {
 
   const insets = useSafeAreaInsets()
 
-  const { playerHeight } = useApp()
-
   const [data, setData] = useState<Favorit[]>([])
 
   useEffect(() => {
@@ -53,7 +46,7 @@ export default function Favorites() {
   }, [])
 
   return (
-    <FadingScreen style={{ flex: 1 }} removeClippedSubviews>
+    <FadingScreen style={{ flex: 1 }}>
       <FlashListWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
@@ -88,12 +81,12 @@ export default function Favorites() {
         automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
-          paddingBottom: playerHeight + spacing.medium,
-          paddingHorizontal: spacing.large
+          paddingHorizontal: spacing.large,
+          paddingBottom: spacing.large
         }}
         data={data}
         renderItem={({ item, index }) => (
-          <Animated.View entering={FadeIn}>
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
             <Pressable>
               <View
                 style={{
@@ -101,12 +94,12 @@ export default function Favorites() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: spacing.xSmall,
-                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
+                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.medium : 0
                 }}
               >
                 <View
                   style={{
-                    padding: spacing.small,
+                    padding: spacing.medium,
                     borderRadius: borderRadius.xSmall,
                     backgroundColor: colors.secondary
                   }}
@@ -125,7 +118,6 @@ export default function Favorites() {
           <View
             style={{
               flex: 1,
-              paddingBottom: playerHeight,
               justifyContent: "center",
               alignItems: "center"
             }}

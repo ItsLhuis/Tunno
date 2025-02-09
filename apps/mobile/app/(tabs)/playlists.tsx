@@ -4,11 +4,9 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useApp } from "@stores/app"
-
 import { borderRadius, spacing } from "@constants/styles"
 
-import { View } from "react-native"
+import { useWindowDimensions, View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
 import {
@@ -26,7 +24,7 @@ import {
   FadingView
 } from "@components/ui"
 
-import Animated, { FadeIn } from "react-native-reanimated"
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
 import { router } from "expo-router"
 
@@ -42,7 +40,14 @@ export default function Playlists() {
 
   const insets = useSafeAreaInsets()
 
-  const { playerHeight } = useApp()
+  const { width } = useWindowDimensions()
+
+  const minItemSize = 150
+  const itemSpacing = spacing.medium
+  const availableWidth = width - spacing.large * 2
+
+  const numColumns = Math.max(1, Math.floor(availableWidth / (minItemSize + itemSpacing)))
+  const itemSize = (availableWidth - (numColumns - 1) * itemSpacing) / numColumns
 
   const [data, setData] = useState<Playlist[]>([])
 
@@ -53,7 +58,7 @@ export default function Playlists() {
   }, [])
 
   return (
-    <FadingScreen style={{ flex: 1 }} removeClippedSubviews>
+    <FadingScreen style={{ flex: 1 }}>
       <FlashListWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
@@ -94,31 +99,43 @@ export default function Playlists() {
         automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
-          paddingBottom: playerHeight + spacing.medium,
-          paddingHorizontal: spacing.large
+          paddingHorizontal: spacing.large,
+          paddingBottom: spacing.large
         }}
         data={data}
+        numColumns={numColumns}
         renderItem={({ item, index }) => (
-          <Animated.View entering={FadeIn}>
-            <Pressable>
+          <Animated.View
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={{
+              paddingTop: index >= numColumns ? itemSpacing : 0,
+              paddingLeft: index % numColumns ? itemSpacing / 2 : 0,
+              paddingRight: index % numColumns ? 0 : itemSpacing / 2
+            }}
+          >
+            <Pressable style={{ gap: spacing.xxSmall }}>
+              <View
+                style={{
+                  width: itemSize,
+                  height: itemSize,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: spacing.small,
+                  borderRadius: borderRadius.xSmall,
+                  backgroundColor: colors.secondary
+                }}
+              >
+                <Icon color={colors.placeholder} name="List" size={itemSize / 3} />
+              </View>
               <View
                 style={{
                   flexDirection: "row",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  justifyContent: "center",
-                  gap: spacing.xSmall,
-                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
+                  gap: spacing.small
                 }}
               >
-                <View
-                  style={{
-                    padding: spacing.small,
-                    borderRadius: borderRadius.xSmall,
-                    backgroundColor: colors.secondary
-                  }}
-                >
-                  <Icon color={colors.placeholder} name="List" />
-                </View>
                 <ListItemText title={item.name} description={item.id} />
                 <IconButton name="More" />
               </View>
@@ -126,12 +143,11 @@ export default function Playlists() {
           </Animated.View>
         )}
         keyExtractor={(item) => item.id}
-        estimatedItemSize={60}
+        estimatedItemSize={itemSize + 10}
         ListEmptyComponent={
           <View
             style={{
               flex: 1,
-              paddingBottom: playerHeight,
               justifyContent: "center",
               alignItems: "center"
             }}

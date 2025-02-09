@@ -1,3 +1,4 @@
 export * from "./BackButton"
 export * from "./FadingScreen"
-export * from "./Player"
+export * from "./BottomPlayer/BottomPlayer"
+export * from "./Player/Player"

@@ -11,18 +11,20 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-na
 
 export type PressableProps = RNPressableProps & {
   containerStyle?: StyleProp<ViewStyle>
-  disablePressEffect?: boolean
+  disableScaleEffect?: boolean
+  disableOpacityEffect?: boolean
   children?: ReactNode
 }
 
 export function Pressable({
   containerStyle,
-  disablePressEffect = false,
+  disableScaleEffect = false,
+  disableOpacityEffect = false,
   children,
   ...props
 }: PressableProps) {
-  const scale = useSharedValue(1)
-  const opacity = useSharedValue(1)
+  const scale = useSharedValue<number>(1)
+  const opacity = useSharedValue<number>(1)
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -30,15 +32,19 @@ export function Pressable({
   }))
 
   const handlePressIn = () => {
-    if (!disablePressEffect) {
+    if (!disableScaleEffect) {
       scale.value = withTiming(0.96, { duration: 100 })
+    }
+    if (!disableOpacityEffect) {
       opacity.value = withTiming(0.6, { duration: 100 })
     }
   }
 
   const handlePressOut = () => {
-    if (!disablePressEffect) {
+    if (!disableScaleEffect) {
       scale.value = withTiming(1, { duration: 100 })
+    }
+    if (!disableOpacityEffect) {
       opacity.value = withTiming(1, { duration: 100 })
     }
   }

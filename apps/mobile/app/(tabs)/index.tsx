@@ -4,9 +4,7 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useApp } from "@stores/app"
-
-import { borderRadius, spacing } from "@constants/styles"
+import { borderRadius, spacing, imageSize } from "@constants/styles"
 
 import { View } from "react-native"
 
@@ -26,7 +24,7 @@ import {
   FadingView
 } from "@components/ui"
 
-import Animated, { FadeIn } from "react-native-reanimated"
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
 import { router } from "expo-router"
 
@@ -35,14 +33,15 @@ type Song = {
   name: string
 }
 
-const songs = Array.from({ length: 200 }, (_, i) => ({ id: `${i}`, name: `Item ${i}` }))
+const songs = Array.from({ length: 200 }, (_, i) => ({
+  id: `${i}`,
+  name: `Item ${i}`
+}))
 
 export default function Songs() {
   const { colors } = useColorTheme()
 
   const insets = useSafeAreaInsets()
-
-  const { playerHeight } = useApp()
 
   const [data, setData] = useState<Song[]>([])
 
@@ -94,12 +93,12 @@ export default function Songs() {
         automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
-          paddingBottom: playerHeight + spacing.medium,
-          paddingHorizontal: spacing.large
+          paddingHorizontal: spacing.large,
+          paddingBottom: spacing.large
         }}
         data={data}
         renderItem={({ item, index }) => (
-          <Animated.View entering={FadeIn}>
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
             <Pressable>
               <View
                 style={{
@@ -107,12 +106,15 @@ export default function Songs() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: spacing.xSmall,
-                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
+                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.medium : 0
                 }}
               >
                 <View
                   style={{
-                    padding: spacing.small,
+                    height: imageSize.xLow,
+                    width: imageSize.xLow,
+                    justifyContent: "center",
+                    alignItems: "center",
                     borderRadius: borderRadius.xSmall,
                     backgroundColor: colors.secondary
                   }}
@@ -131,7 +133,6 @@ export default function Songs() {
           <View
             style={{
               flex: 1,
-              paddingBottom: playerHeight,
               justifyContent: "center",
               alignItems: "center"
             }}

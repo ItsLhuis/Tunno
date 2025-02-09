@@ -2,7 +2,7 @@ import "expo-dev-client"
 
 import { useState, useEffect, useCallback } from "react"
 
-import { useColorScheme, View, Platform } from "react-native"
+import { useColorScheme, View } from "react-native"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
@@ -14,13 +14,11 @@ import { initializeAppDirectories } from "@utils/app"
 
 import { initializeGoogleSignin } from "@utils/google"
 
-import { StatusBar } from "expo-status-bar"
+import { SystemBars } from "react-native-edge-to-edge"
 
 import * as SystemUI from "expo-system-ui"
 
 import * as SplashScreen from "expo-splash-screen"
-
-import * as NavigationBar from "expo-navigation-bar"
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
 
@@ -30,14 +28,12 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
 import { Stack } from "expo-router"
 
-SplashScreen.preventAutoHideAsync()
+import { enableScreens, enableFreeze } from "react-native-screens"
 
-const configureNavigationBar = async () => {
-  if (Platform.OS === "android") {
-    await NavigationBar.setPositionAsync("absolute")
-    await NavigationBar.setBackgroundColorAsync("#ffffff00")
-  }
-}
+enableScreens()
+enableFreeze()
+
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const { colors, isThemeChanging } = useColorTheme()
@@ -58,7 +54,6 @@ export default function RootLayout() {
   const prepareApp = async (): Promise<void> => {
     await initializeAppDirectories(appDirectory, backupsDirectory)
     await initializeGoogleSignin()
-    await configureNavigationBar()
   }
 
   useEffect(() => {
@@ -91,7 +86,7 @@ export default function RootLayout() {
     <ThemeProvider value={theme}>
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
         <BottomSheetModalProvider>
-          <StatusBar />
+          <SystemBars style="auto" />
           <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

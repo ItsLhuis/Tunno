@@ -11,7 +11,7 @@ import { Tabs } from "expo-router"
 import { View } from "react-native"
 
 import { FadingView, Icon, Pressable, Text } from "@components/ui"
-import { Player } from "@components/navigation/Player"
+import { Player, BottomPlayer } from "@components/navigation"
 
 import { useSharedValue, withTiming } from "react-native-reanimated"
 
@@ -20,7 +20,7 @@ export default function TabLayout() {
 
   const { colors } = useColorTheme()
 
-  const opacity = useSharedValue(0)
+  const opacity = useSharedValue<number>(0)
 
   useEffect(() => {
     opacity.value = withTiming(1, { duration: 300 })
@@ -31,11 +31,12 @@ export default function TabLayout() {
       <Tabs
         tabBar={(props) => (
           <FadingView opacity={opacity}>
-            {props.state.routes && props.state.routes.length > 0 && <Player />}
+            {props.state.routes && props.state.routes.length > 0 && <BottomPlayer />}
             <View
               style={{
-                borderTopColor: colors.secondary,
-                borderTopWidth: border.thin,
+                // Se nao houver player...
+                /* borderTopColor: colors.secondary,
+                borderTopWidth: border.thin, */
                 flexDirection: "row",
                 justifyContent: "space-around"
               }}
@@ -82,7 +83,7 @@ export default function TabLayout() {
                     }}
                     style={{
                       paddingTop: spacing.small,
-                      paddingBottom: spacing.small + insets.bottom,
+                      paddingBottom: spacing.xSmall + insets.bottom,
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
@@ -107,8 +108,7 @@ export default function TabLayout() {
           headerShown: false,
           sceneStyle: {
             backgroundColor: colors.background
-          },
-          freezeOnBlur: true
+          }
         }}
       >
         <Tabs.Screen
@@ -147,6 +147,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
+      <Player />
     </View>
   )
 }

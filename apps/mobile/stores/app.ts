@@ -1,11 +1,13 @@
 import { create } from "zustand"
 
+import { RefObject, createRef } from "react"
+
+import { BottomSheetModal } from "@gorhom/bottom-sheet"
+
 type AppProps = {
-  playerHeight: number
-  setPlayerHeight: (height: number) => void
+  playerRef: RefObject<BottomSheetModal>
 }
 
 export const useApp = create<AppProps>((set) => ({
-  playerHeight: 0,
-  setPlayerHeight: (height) => set({ playerHeight: height })
+  playerRef: createRef<BottomSheetModal>()
 }))

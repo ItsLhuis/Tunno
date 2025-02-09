@@ -4,8 +4,6 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useApp } from "@stores/app"
-
 import { borderRadius, spacing } from "@constants/styles"
 
 import { View } from "react-native"
@@ -25,7 +23,7 @@ import {
   ActivityIndicator
 } from "@components/ui"
 
-import Animated, { FadeIn } from "react-native-reanimated"
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
 import { router } from "expo-router"
 
@@ -41,8 +39,6 @@ export default function Artists() {
 
   const insets = useSafeAreaInsets()
 
-  const { playerHeight } = useApp()
-
   const [data, setData] = useState<Artist[]>([])
 
   useEffect(() => {
@@ -52,7 +48,7 @@ export default function Artists() {
   }, [])
 
   return (
-    <FadingScreen style={{ flex: 1 }} removeClippedSubviews>
+    <FadingScreen style={{ flex: 1 }}>
       <FlashListWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
@@ -83,12 +79,12 @@ export default function Artists() {
         automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
-          paddingBottom: playerHeight + spacing.medium,
-          paddingHorizontal: spacing.large
+          paddingHorizontal: spacing.large,
+          paddingBottom: spacing.large
         }}
         data={data}
         renderItem={({ item, index }) => (
-          <Animated.View entering={FadeIn}>
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
             <Pressable>
               <View
                 style={{
@@ -96,12 +92,12 @@ export default function Artists() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: spacing.xSmall,
-                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.small : 0
+                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.medium : 0
                 }}
               >
                 <View
                   style={{
-                    padding: spacing.small,
+                    padding: spacing.medium,
                     borderRadius: borderRadius.round,
                     backgroundColor: colors.secondary
                   }}
@@ -120,7 +116,6 @@ export default function Artists() {
           <View
             style={{
               flex: 1,
-              paddingBottom: playerHeight,
               justifyContent: "center",
               alignItems: "center"
             }}

@@ -13,17 +13,33 @@ import {
   type BottomSheetModalProps,
   BottomSheetView,
   BottomSheetBackdrop,
-  type BottomSheetBackdropProps
+  type BottomSheetBackdropProps,
+  useBottomSheetTimingConfigs
 } from "@gorhom/bottom-sheet"
+
+import { Easing } from "react-native-reanimated"
 
 export type BottomSheetProps = BottomSheetModalProps & {
   backgroundStyle?: StyleProp<Omit<ViewStyle, "position" | "top" | "left" | "bottom" | "right">>
   handleIndicatorStyle?: StyleProp<ViewStyle>
+  containerViewStyle?: StyleProp<ViewStyle>
   children: ReactNode
 }
 
 export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
-  ({ snapPoints, backgroundStyle, handleIndicatorStyle, children, ...props }, ref) => {
+  (
+    {
+      snapPoints,
+      backgroundStyle,
+      handleIndicatorStyle,
+      containerViewStyle,
+      topInset,
+      bottomInset,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const insets = useSafeAreaInsets()
 
     const { colors } = useColorTheme()
@@ -38,6 +54,11 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
       ),
       []
     )
+
+    const timingConfig = useBottomSheetTimingConfigs({
+      duration: 300,
+      easing: Easing.bezier(0.4, 0, 0.2, 1).factory()
+    })
 
     useEffect(() => {
       const onBackPress = () => {
@@ -58,7 +79,8 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
     return (
       <BottomSheetModal
         ref={ref}
-        topInset={insets.top}
+        topInset={topInset ?? insets.top}
+        bottomInset={bottomInset ?? 0}
         snapPoints={snap}
         backdropComponent={renderBackdrop}
         backgroundStyle={[
@@ -68,6 +90,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
           },
           backgroundStyle
         ]}
+        animationConfigs={timingConfig}
         handleIndicatorStyle={[handleIndicatorStyle, { backgroundColor: colors.icon }]}
         enableOverDrag={false}
         enablePanDownToClose={true}
@@ -79,7 +102,9 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
           }
         }}
       >
-        <BottomSheetView style={{ paddingBottom: insets.bottom }}>{children}</BottomSheetView>
+        <BottomSheetView style={[{ paddingBottom: insets.bottom }, containerViewStyle]}>
+          {children}
+        </BottomSheetView>
       </BottomSheetModal>
     )
   }

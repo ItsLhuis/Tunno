@@ -13,5 +13,6 @@ export const fontSize = {
   medium: 13,
   small: 12,
   xSmall: 11,
-  xxSmall: 9
+  xxSmall: 9,
+  xxxSmall: 8
 }

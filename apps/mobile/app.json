@@ -35,6 +35,15 @@
           "resizeMode": "contain"
         }
       ],
+      [
+        "react-native-edge-to-edge",
+        {
+          "android": {
+            "parentTheme": "Default",
+            "enforceNavigationBarContrast": false
+          }
+        }
+      ],
       "expo-sqlite",
       "expo-router",
       "expo-secure-store",

@@ -42,11 +42,11 @@ export const useScroll = ({
   inverted,
   onScrollWorklet
 }: UseScrollProps) => {
-  const scrollY = useSharedValue(0)
+  const scrollY = useSharedValue<number>(0)
 
-  const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState(initialAbsoluteHeaderHeight)
+  const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState<number>(initialAbsoluteHeaderHeight)
 
-  const largeHeaderHeight = useSharedValue(0)
+  const largeHeaderHeight = useSharedValue<number>(0)
 
   const scrollHandler = useAnimatedScrollHandler(
     (event) => {

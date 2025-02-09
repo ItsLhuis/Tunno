@@ -36,8 +36,8 @@ export function SearchInput({
 
   const [cancelWidth, setCancelWidth] = useState<number>(0)
 
-  const clearAnimation = useSharedValue(0)
-  const cancelAnimation = useSharedValue(0)
+  const clearAnimation = useSharedValue<number>(0)
+  const cancelAnimation = useSharedValue<number>(0)
 
   const handleFocus = () => {
     clearAnimation.value = withTiming(1, { duration: 300 })

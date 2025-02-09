@@ -68,7 +68,7 @@ export default function Settings() {
   }, [])
 
   const handleCloseBottomSheet = useCallback(() => {
-    bottomSheetModalRef.current?.close()
+    bottomSheetModalRef.current?.dismiss()
   }, [])
 
   return (

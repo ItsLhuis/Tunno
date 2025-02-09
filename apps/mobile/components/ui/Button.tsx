@@ -3,14 +3,13 @@ import { ReactNode, useEffect } from "react"
 import { useColorTheme } from "@hooks/useColorTheme"
 
 import { colors as colorList } from "@constants/colors"
-
 import { borderRadius, iconSize, spacing } from "@constants/styles"
 
 import { View, type ViewStyle, type StyleProp } from "react-native"
 
-import { Pressable, type PressableProps } from "@components/ui/Pressable"
-import { Text, type TextProps } from "@components/ui/Text"
-import { ActivityIndicator } from "@components/ui/ActivityIndicator"
+import { Pressable, type PressableProps } from "./Pressable"
+import { Text, type TextProps } from "./Text"
+import { ActivityIndicator } from "./ActivityIndicator"
 
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated"
 
@@ -60,8 +59,8 @@ export function Button({
 
   const indicatorColor = textColor
 
-  const textOpacity = useSharedValue(isLoading ? 0 : 1)
-  const indicatorOpacity = useSharedValue(isLoading ? 1 : 0)
+  const textOpacity = useSharedValue<number>(isLoading ? 0 : 1)
+  const indicatorOpacity = useSharedValue<number>(isLoading ? 1 : 0)
 
   useEffect(() => {
     textOpacity.value = withTiming(isLoading ? 0 : 1, { duration: 300 })

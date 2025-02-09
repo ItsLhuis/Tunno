@@ -1,3 +1,11 @@
+export const imageSize = {
+  xLarge: 640,
+  large: 304,
+  medium: 154,
+  low: 80,
+  xLow: 56
+}
+
 export const iconSize = {
   xxLarge: 44,
   xLarge: 32,

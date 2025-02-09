@@ -16,7 +16,7 @@ export function FadingScreen({
   children,
   ...props
 }: FadingScreenProps) {
-  const opacity = useSharedValue(0)
+  const opacity = useSharedValue<number>(0)
 
   useFocusEffect(
     useCallback(() => {
