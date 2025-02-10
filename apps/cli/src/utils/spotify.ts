@@ -4,12 +4,7 @@ import { getEnvKey } from "./config"
 
 import { JaroWinklerDistance } from "natural"
 
-import {
-  cleanArtistName,
-  cleanTrackName,
-  calculateTrackSimilarity,
-  proportionalSimilarity
-} from "./utils"
+import { calculateTrackSimilarity, proportionalSimilarity } from "./utils"
 
 import { RateLimiter } from "../classes/rateLimiter"
 
@@ -142,21 +137,13 @@ export async function getTrack(
 
   if (!accessToken) return null
 
-  let cleanedTrackName = cleanTrackName(name)
-  const cleanedArtistName = cleanArtistName(artistName)
-
-  cleanedTrackName = cleanedTrackName
-    .replace(new RegExp(cleanedArtistName, "gi"), "")
-    .replace(/\s+/g, " ")
-    .trim()
-
   try {
     await rateLimiter.rateLimitRequest()
 
-    let query = cleanedTrackName
+    let query = name
     if (!options.onlySearchTrackTitle) {
-      query = `track:${cleanedTrackName}`
-      query += ` artist:${cleanedArtistName}`
+      query = `track:${name}`
+      query += ` artist:${artistName}`
       if (year) query += ` year:${year}`
     }
 
@@ -167,45 +154,53 @@ export async function getTrack(
       params: {
         q: query,
         type: "track",
-        limit: options.onlySearchTrackTitle ? 10 : 1
+        limit: options.onlySearchTrackTitle ? 10 : 5
       }
     })
 
+    const tracks = response.data.tracks.items
+    if (tracks.length === 0) {
+      console.log("[spotify]", chalk.red("Track not found"))
+      return null
+    }
+
     if (!options.onlySearchTrackTitle) {
-      const track = response.data.tracks.items[0]
+      let track = tracks.find((track: any) => track.name.toLowerCase() === name.toLowerCase())
 
       if (track) {
         console.log("[spotify]", chalk.green("Track found"))
         return await buildTrackResult(track)
       }
 
+      let trackSimilarity = 0
+      for (const currentTrack of tracks) {
+        trackSimilarity = calculateTrackSimilarity(name, currentTrack.name)
+
+        if (trackSimilarity > 0.9) {
+          console.log("[spotify]", chalk.green("Track found"))
+          return await buildTrackResult(currentTrack)
+        }
+      }
+
       console.log("[spotify]", chalk.red("Track not found"))
       return null
     } else {
-      const tracks = response.data.tracks.items
-      if (tracks.length === 0) {
-        console.log("[spotify]", chalk.red("Track not found"))
-        return null
-      }
-
       let wasTrackFound = true
 
-      let track = tracks.find((item: any) => item.name.toLowerCase() === cleanedTrackName)
+      let track = tracks.find((item: any) => item.name.toLowerCase() === name)
 
       let bestTrackMatch = tracks[0]
       let highestTrackScore = 0
 
       if (!track && tracks.length > 0) {
-        for (let i = 0; i < tracks.length; i++) {
-          const track = tracks[i]
-
+        for (const track of tracks) {
           if (track.artists) {
             track.artists.forEach((artist: any) => {
-              cleanedTrackName = cleanedTrackName.replace(new RegExp(artist.name, "i"), "").trim()
+              name = name.replace(new RegExp(artist.name, "i"), "").trim()
             })
           }
 
-          const trackSimilarity = calculateTrackSimilarity(cleanedTrackName, track.name)
+          const trackSimilarity = calculateTrackSimilarity(name, track.name)
 
           const timeScore = proportionalSimilarity(Math.round(track.duration_ms / 1000), duration)
 
@@ -228,7 +223,7 @@ export async function getTrack(
         if (track && track.artists) {
           const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
           const artistSimilarity = trackArtistNames.some(
-            (name: string) => JaroWinklerDistance(cleanedArtistName.toLowerCase(), name) > 0.7
+            (name: string) => JaroWinklerDistance(artistName.toLowerCase(), name) > 0.7
           )
 
           if (!artistSimilarity) wasTrackFound = false

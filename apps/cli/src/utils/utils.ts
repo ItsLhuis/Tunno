@@ -50,6 +50,7 @@ export const execPromise = promisify(exec)
 
 export const cleanArtistName = (artistName: string): string => {
   return artistName
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
     .toLowerCase()
     .replace(/[\(\)\[\]\{\}]/g, "")
     .replace(/"[^"]+"/g, "")
@@ -74,7 +75,7 @@ export const cleanTrackName = (trackName: string): string => {
     )
     .replace(/[^\p{L}\s\d]/gu, "")
     .replace(/\s+/g, " ")
-    .replace(/\s*x\s*/gi, "")
+    .replace(/(?<=\s)x(?=\s)/gi, " ")
     .trim()
 }
 

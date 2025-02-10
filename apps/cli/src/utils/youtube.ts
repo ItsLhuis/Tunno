@@ -9,7 +9,13 @@ import sanitize from "sanitize-filename"
 
 import { getDownloadPath } from "./config"
 
-import { downloadThumbnail, runCommand, execPromise } from "./utils"
+import {
+  downloadThumbnail,
+  runCommand,
+  execPromise,
+  cleanTrackName,
+  cleanArtistName
+} from "./utils"
 
 import { getTrack } from "./spotify"
 
@@ -61,12 +67,22 @@ export const download = async (
       const searchYear =
         options?.releaseYear || (videoInfo.release_date ? videoInfo.release_date.slice(0, 4) : null)
 
+      let cleanedTrackName = options?.title ? searchTitle : cleanTrackName(searchTitle)
+      const cleanedArtistName = options?.artist ? searchArtist : cleanArtistName(searchArtist)
+
+      if (!options?.title) {
+        cleanedTrackName = cleanedTrackName
+          .replace(new RegExp(cleanedArtistName, "gi"), "")
+          .replace(/\s+/g, " ")
+          .trim()
+      }
+
       const videoDuration = Number(videoInfo.duration)
 
       console.log(
         `[spotify] Searching for ${chalk.blue(searchTitle)} by ${chalk.blue(searchArtist)}`
       )
-      let track = await getTrack(searchTitle, videoDuration, searchArtist, searchYear)
+      let track = await getTrack(cleanedTrackName, videoDuration, cleanedArtistName, searchYear)
 
       if (!track) {
         if (videoInfo.artists && Array.isArray(videoInfo.artists)) {
@@ -84,13 +100,14 @@ export const download = async (
                 currentArtist
               )}`
             )
-            track = await getTrack(searchTitle, videoDuration, currentArtist, searchYear)
+            track = await getTrack(
+              cleanedTrackName,
+              videoDuration,
+              cleanArtistName(currentArtist),
+              searchYear
+            )
 
-            if (!track) {
-              console.log("[spotify]", chalk.red("Track not found"))
-            } else {
-              break
-            }
+            if (track) break
           }
         }
       }
@@ -101,7 +118,7 @@ export const download = async (
             "This approach refines the search process to enhance accuracy"
           )}`
         )
-        track = await getTrack(searchTitle, videoDuration, searchArtist, searchYear, {
+        track = await getTrack(cleanedTrackName, videoDuration, cleanedArtistName, searchYear, {
           onlySearchTrackTitle: true
         })
       }
