@@ -1,0 +1,150 @@
+import { sqliteTable, index, text, integer } from "drizzle-orm/sqlite-core"
+import { relations, sql, type InferSelectModel } from "drizzle-orm"
+
+// Songs
+export const songs = sqliteTable(
+  "songs",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
+    thumbnail: text("thumbnail"),
+    duration: integer("duration"),
+    isFavorite: integer("is_favorite", { mode: "boolean" }),
+    releaseYear: integer("release_year"),
+    albumId: integer("album_id").references(() => albums.id),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(current_timestamp)`)
+  },
+  (table) => [index("songs_name_idx").on(table.name), index("songs_albumId_idx").on(table.albumId)]
+)
+
+export const songsRelations = relations(songs, ({ one, many }) => ({
+  album: one(albums, {
+    fields: [songs.albumId],
+    references: [albums.id]
+  }),
+  artists: many(songsToArtists),
+  playlists: many(playlistsToSongs)
+}))
+export type Song = InferSelectModel<typeof songs> & {
+  album?: Album | null
+  artists?: Artist | null
+  playlists?: Playlist | null
+}
+
+// Artists
+export const artists = sqliteTable(
+  "artists",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
+    thumbnail: text("thumbnail"),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(current_timestamp)`)
+  },
+  (table) => [index("artists_name_idx").on(table.name)]
+)
+
+export const artistsRelations = relations(artists, ({ many }) => ({
+  songs: many(songsToArtists)
+}))
+export type Artist = InferSelectModel<typeof artists> & {
+  songs?: Song[] | null
+}
+
+// Playlists
+export const playlists = sqliteTable(
+  "playlists",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
+    thumbnail: text("thumbnail"),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(current_timestamp)`)
+  },
+  (table) => [index("playlists_name_idx").on(table.name)]
+)
+
+export const playlistsRelations = relations(playlists, ({ many }) => ({
+  songs: many(playlistsToSongs)
+}))
+export type Playlist = InferSelectModel<typeof playlists> & {
+  songs?: Song[] | null
+}
+
+// Albums
+export const albums = sqliteTable(
+  "albums",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
+    thumbnail: text("thumbnail"),
+    releaseYear: integer("release_year"),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(current_timestamp)`)
+  },
+  (table) => [index("albums_name_idx").on(table.name)]
+)
+export type Album = InferSelectModel<typeof albums> & {
+  songs?: Song[] | null
+}
+
+// Songs to Artists
+export const songsToArtists = sqliteTable(
+  "song_artists",
+  {
+    songId: integer("song_id")
+      .notNull()
+      .references(() => songs.id),
+    artistId: integer("artist_id")
+      .notNull()
+      .references(() => artists.id)
+  },
+  (table) => [
+    index("song_artists_songId_idx").on(table.songId),
+    index("song_artists_artistId_idx").on(table.artistId)
+  ]
+)
+
+export const songsToArtistsRelations = relations(songsToArtists, ({ one }) => ({
+  song: one(songs, {
+    fields: [songsToArtists.songId],
+    references: [songs.id]
+  }),
+  artist: one(artists, {
+    fields: [songsToArtists.artistId],
+    references: [artists.id]
+  })
+}))
+
+// Playlists to Songs
+export const playlistsToSongs = sqliteTable(
+  "playlist_songs",
+  {
+    playlistId: integer("playlist_id")
+      .notNull()
+      .references(() => playlists.id),
+    songId: integer("song_id")
+      .notNull()
+      .references(() => songs.id)
+  },
+  (table) => [
+    index("playlist_songs_playlistId_idx").on(table.playlistId),
+    index("playlist_songs_songId_idx").on(table.songId)
+  ]
+)
+
+export const playlistsToSongsRelations = relations(playlistsToSongs, ({ one }) => ({
+  playlist: one(playlists, {
+    fields: [playlistsToSongs.playlistId],
+    references: [playlists.id]
+  }),
+  song: one(songs, {
+    fields: [playlistsToSongs.songId],
+    references: [songs.id]
+  })
+}))

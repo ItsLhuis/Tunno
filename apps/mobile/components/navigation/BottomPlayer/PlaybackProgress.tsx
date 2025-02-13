@@ -1,24 +1,33 @@
-import { useColorTheme } from "@hooks/useColorTheme"
+import { useEffect, useState } from "react"
 
-import { Platform, View } from "react-native"
+import { border } from "@constants/styles"
 
-import Slider from "@react-native-community/slider"
+import { Slider } from "../../ui/Slider"
 
 export function PlaybackProgress() {
-  const { colors } = useColorTheme()
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prevValue) => {
+        if (prevValue >= 1) {
+          return 0
+        }
+        return prevValue + 0.01
+      })
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <View style={{ width: "100%" }} pointerEvents="none">
-      <Slider
-        value={0.3}
-        thumbTintColor="transparent"
-        minimumTrackTintColor={colors.primary}
-        maximumTrackTintColor={colors.placeholder}
-        style={{
-          height: 1,
-          marginHorizontal: Platform.select({ ios: 0, android: -16 })
-        }}
-      />
-    </View>
+    <Slider
+      disabled
+      value={value}
+      containerStyle={{ height: "auto" }}
+      trackStyle={{ height: border.thin }}
+      minimumTrackStyle={{ height: border.medium }}
+      thumbStyle={{ height: 0, width: 0 }}
+    />
   )
 }

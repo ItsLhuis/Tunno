@@ -1,16 +1,12 @@
-import { useColorTheme } from "@hooks/useColorTheme"
-
 import { borderRadius, spacing } from "@constants/styles"
 
 import { View } from "react-native"
 
 import { Image } from "../../ui/Image"
-import { Text } from "../../ui/Text"
+import { ListItemText } from "../../ui/ListItemText"
 import { IconButton } from "../../ui/IconButton"
 
 export function TrackInfo() {
-  const { colors } = useColorTheme()
-
   return (
     <View style={{ width: "100%", alignItems: "center", gap: spacing.large }}>
       <Image
@@ -21,17 +17,24 @@ export function TrackInfo() {
           aspectRatio: 1,
           borderRadius: borderRadius.small
         }}
-        source={require("@assets/images/thumb.jpg")}
+        source={require("@assets/thumbs/1.jpg")}
       />
-      <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.small }}>
-        <View style={{ flex: 1 }}>
-          <Text variant="bold" size="xxLarge" numberOfLines={1}>
-            Marisola - Remix
-          </Text>
-          <Text size="large" numberOfLines={1} style={{ color: colors.placeholder }}>
-            Cris Mj, Duki, Nicki Nicole, Standly, Stars Music Chile
-          </Text>
-        </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: spacing.small
+        }}
+      >
+        <ListItemText
+          title="Marisola - Remix"
+          titleProps={{ size: "xxLarge", numberOfLines: 1 }}
+          description="Cris Mj, Duki, Nicki Nicole, Standly, Stars Music Chile"
+          descriptionProps={{
+            size: "large",
+            numberOfLines: 1
+          }}
+        />
         <IconButton name="More" />
       </View>
     </View>

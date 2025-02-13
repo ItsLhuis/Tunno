@@ -24,6 +24,9 @@
       "@database/*": [
         "./database/*"
       ],
+      "@drizzle/*": [
+        "./drizzle/*"
+      ],
       "@features/*": [
         "./features/*"
       ],

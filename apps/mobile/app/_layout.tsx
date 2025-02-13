@@ -8,11 +8,18 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useFonts } from "expo-font"
 
-import { useSettings } from "@stores/settings"
+import { useSettings } from "@stores/useSettings"
 
 import { initializeAppDirectories } from "@utils/app"
 
 import { initializeGoogleSignin } from "@utils/google"
+
+import { openDatabaseSync } from "expo-sqlite"
+import { drizzle } from "drizzle-orm/expo-sqlite"
+import { useMigrations } from "drizzle-orm/expo-sqlite/migrator"
+import migrations from "@drizzle/migrations"
+
+import { databaseName } from "@database/client"
 
 import { SystemBars } from "react-native-edge-to-edge"
 
@@ -56,8 +63,12 @@ export default function RootLayout() {
     await initializeGoogleSignin()
   }
 
+  const { success, error } = useMigrations(drizzle(openDatabaseSync(databaseName)), migrations)
+
   useEffect(() => {
     if (fontsLoaded) {
+      if (!success) console.error("Migration failed:", error)
+
       prepareApp().then(() => setIsAppReady(true))
     }
   }, [fontsLoaded])
@@ -78,9 +89,7 @@ export default function RootLayout() {
     }
   }
 
-  if (isThemeChanging) return null
-
-  if (!isAppReady) return null
+  if (isThemeChanging || !isAppReady) return null
 
   return (
     <ThemeProvider value={theme}>

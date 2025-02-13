@@ -1,7 +1,5 @@
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { spacing } from "@constants/styles"
-
 import { View } from "react-native"
 
 import { IconButton } from "../../ui/IconButton"
@@ -14,8 +12,7 @@ export function PlaybackOptions() {
       style={{
         width: "100%",
         flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: spacing.large
+        justifyContent: "space-between"
       }}
     >
       <IconButton name="Heart" color={colors.primary} isFilled />

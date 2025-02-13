@@ -1,6 +1,6 @@
 import Constants from "@constants/expo"
 
-import { useSettings } from "@stores/settings"
+import { useSettings } from "@stores/useSettings"
 
 import { GoogleSignin, isSuccessResponse } from "@react-native-google-signin/google-signin"
 

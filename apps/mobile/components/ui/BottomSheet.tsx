@@ -36,6 +36,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
       topInset,
       bottomInset,
       children,
+      onChange,
       ...props
     },
     ref
@@ -97,8 +98,8 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         {...props}
         onChange={(index, position, type) => {
           setIsBottomSheetOpen(index >= 0)
-          if (typeof props.onChange === "function") {
-            props.onChange(index, position, type)
+          if (typeof onChange === "function") {
+            onChange(index, position, type)
           }
         }}
       >

@@ -24,11 +24,19 @@ export function ListItemText({
   const { colors } = useColorTheme()
 
   return (
-    <View style={[{ flex: 1, gap: spacing.xxSmall / 2 }, containerStyle]}>
-      <Text variant="bold" size={titleProps?.size || "medium"} {...titleProps}>
+    <View style={[{ flex: 1, gap: spacing.xxSmall }, containerStyle]}>
+      <Text
+        variant={titleProps?.variant || "bold"}
+        size={titleProps?.size || "medium"}
+        {...titleProps}
+      >
         {title}
       </Text>
-      <Text style={[{ color: colors.placeholder }]} size={descriptionProps?.size || "small"} {...descriptionProps}>
+      <Text
+        style={[{ color: colors.placeholder }, descriptionProps?.style]}
+        size={descriptionProps?.size || "small"}
+        {...descriptionProps}
+      >
         {description}
       </Text>
     </View>

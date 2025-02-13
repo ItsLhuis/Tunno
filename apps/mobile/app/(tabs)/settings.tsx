@@ -2,7 +2,7 @@ import { useRef, useCallback } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useSettings } from "@stores/settings"
+import { useSettings } from "@stores/useSettings"
 
 import { borderRadius, iconSize, spacing } from "@constants/styles"
 
@@ -95,7 +95,7 @@ export default function Settings() {
         contentContainerStyle={{ paddingHorizontal: spacing.large, paddingBottom: insets.bottom }}
       >
         <View style={{ paddingTop: spacing.medium, gap: spacing.large }}>
-          {data.map((item, index) => (
+          {data.map((item) => (
             <SettingButton
               key={item.id}
               disabled={item.id === "1" && user ? true : false}
@@ -105,11 +105,11 @@ export default function Settings() {
               renderLeft={
                 item.id === "1" ? (
                   <Image
-                    cachePolicy="memory-disk"
+                    containerStyle={{ borderRadius: borderRadius.round }}
                     style={{
                       width: iconSize.xxLarge,
                       height: iconSize.xxLarge,
-                      borderRadius: borderRadius.round
+                      aspectRatio: 1
                     }}
                     source={
                       user && user.user.photo

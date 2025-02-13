@@ -1,8 +1,8 @@
-import { useCallback, useEffect } from "react"
+import { Fragment, useCallback, useEffect } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { useApp } from "@stores/app"
+import { useApp } from "@stores/useApp"
 
 import { border } from "@constants/styles"
 
@@ -35,18 +35,20 @@ export function BottomPlayer() {
   }, [])
 
   return (
-    <FadingView opacity={opacity}>
-      <View
-        style={{
-          borderTopColor: colors.secondary,
-          borderTopWidth: border.thin
-        }}
-      >
-        <Pressable onPress={handleOpenPlayer} disableOpacityEffect>
-          <TrackInfo />
-        </Pressable>
-      </View>
+    <Fragment>
+      <FadingView opacity={opacity}>
+        <View
+          style={{
+            borderTopColor: colors.secondary,
+            borderTopWidth: border.thin
+          }}
+        >
+          <Pressable onPress={handleOpenPlayer} disableOpacityEffect>
+            <TrackInfo />
+          </Pressable>
+        </View>
+      </FadingView>
       <PlaybackProgress />
-    </FadingView>
+    </Fragment>
   )
 }

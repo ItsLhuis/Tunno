@@ -17,10 +17,12 @@ type SettingsProps = {
   clear: () => Promise<void>
 }
 
-const initialState: Omit<SettingsProps, "setUser" | "clear"> = {
+const initialState: SettingsProps = {
   appDirectory: FileSystem.documentDirectory + "app/",
   backupsDirectory: FileSystem.documentDirectory + "backups/",
-  user: null
+  user: null,
+  setUser: () => {},
+  clear: async () => {}
 }
 
 export const useSettings = create<SettingsProps>()(

@@ -1,17 +1,13 @@
-import { useColorTheme } from "@hooks/useColorTheme"
-
 import { spacing, borderRadius, imageSize } from "@constants/styles"
 
 import { View } from "react-native"
 
 import { Image } from "../../ui/Image"
-import { Text } from "../../ui/Text"
+import { ListItemText } from "../../ui/ListItemText"
 
 import { PlaybackControls } from "./PlaybackControls"
 
 export function TrackInfo() {
-  const { colors } = useColorTheme()
-
   return (
     <View
       style={{
@@ -23,21 +19,22 @@ export function TrackInfo() {
       }}
     >
       <Image
+        containerStyle={{ borderRadius: borderRadius.xSmall }}
         style={{
           width: imageSize.low,
-          aspectRatio: 1,
-          borderRadius: borderRadius.xSmall
+          aspectRatio: 1
         }}
-        source={require("@assets/images/thumb.jpg")}
+        source={require("@assets/thumbs/1.jpg")}
       />
-      <View style={{ flex: 1 }}>
-        <Text size="large" variant="bold" numberOfLines={1}>
-          Marisola - Remix
-        </Text>
-        <Text size="xSmall" numberOfLines={1} style={{ color: colors.placeholder }}>
-          Cris Mj, Duki, Nicki Nicole, Standly, Stars Music Chile
-        </Text>
-      </View>
+      <ListItemText
+        title="Marisola - Remix"
+        titleProps={{ size: "large", numberOfLines: 1 }}
+        description="Cris Mj, Duki, Nicki Nicole, Standly, Stars Music Chile"
+        descriptionProps={{
+          size: "xSmall",
+          numberOfLines: 1
+        }}
+      />
       <PlaybackControls />
     </View>
   )

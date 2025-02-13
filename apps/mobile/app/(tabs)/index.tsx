@@ -4,7 +4,7 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { borderRadius, spacing, imageSize } from "@constants/styles"
+import { borderRadius, spacing, imageSize, border } from "@constants/styles"
 
 import { View } from "react-native"
 
@@ -21,7 +21,8 @@ import {
   FlashListWithHeaders,
   ListItemText,
   ActivityIndicator,
-  FadingView
+  FadingView,
+  Image
 } from "@components/ui"
 
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
@@ -109,19 +110,26 @@ export default function Songs() {
                   paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.medium : 0
                 }}
               >
-                <View
-                  style={{
-                    height: imageSize.xLow,
-                    width: imageSize.xLow,
+                <Image
+                  containerStyle={{
                     justifyContent: "center",
                     alignItems: "center",
                     borderRadius: borderRadius.xSmall,
-                    backgroundColor: colors.secondary
+                    backgroundColor: colors.secondary,
+                    borderColor: colors.secondary,
+                    borderWidth: border.thin
                   }}
-                >
-                  <Icon color={colors.placeholder} name="Music" />
-                </View>
-                <ListItemText title={item.name} description={item.id} />
+                  style={{
+                    height: imageSize.xLow,
+                    width: imageSize.xLow
+                  }}
+                  source={require("@assets/thumbs/1.jpg")}
+                />
+                <ListItemText
+                  title={item.name}
+                  description={item.id}
+                  descriptionProps={{ numberOfLines: 1 }}
+                />
                 <IconButton name="More" />
               </View>
             </Pressable>

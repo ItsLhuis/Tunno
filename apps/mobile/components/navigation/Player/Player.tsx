@@ -1,6 +1,6 @@
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useApp } from "@stores/app"
+import { useApp } from "@stores/useApp"
 
 import { borderRadius, spacing } from "@constants/styles"
 
@@ -34,13 +34,15 @@ export function Player() {
       ref={playerRef}
     >
       <BottomSheetScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           flexGrow: 1,
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: spacing.large,
-          gap: spacing.large
+          gap: spacing.large,
+          padding: spacing.large
         }}
       >
         <View style={{ width: "100%", gap: spacing.large }}>
