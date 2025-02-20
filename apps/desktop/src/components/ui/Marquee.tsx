@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useRef, useState, useCallback, useEffect } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -12,13 +12,13 @@ export type MarqueeProps = React.HTMLAttributes<HTMLDivElement> & {
   shadow?: boolean
 }
 
-const Marquee = ({ children, speed = 20, shadow = true, className, ...props }: MarqueeProps) => {
-  const containerRef = React.useRef<HTMLDivElement>(null)
-  const contentRef = React.useRef<HTMLDivElement>(null)
-  const [shouldAnimate, setShouldAnimate] = React.useState<boolean>(false)
+const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: MarqueeProps) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [shouldAnimate, setShouldAnimate] = useState<boolean>(false)
   const controls = useAnimation()
 
-  const checkOverflow = React.useCallback(() => {
+  const checkOverflow = useCallback(() => {
     if (!containerRef.current || !contentRef.current) return
 
     const containerWidth = containerRef.current.offsetWidth + 32 // Add content padding
@@ -26,13 +26,13 @@ const Marquee = ({ children, speed = 20, shadow = true, className, ...props }: M
     setShouldAnimate(contentWidth > containerWidth)
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     checkOverflow()
     window.addEventListener("resize", checkOverflow)
     return () => window.removeEventListener("resize", checkOverflow)
-  }, [])
+  }, [checkOverflow])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (shouldAnimate && contentRef.current) {
       const contentWidth = contentRef.current.scrollWidth
 

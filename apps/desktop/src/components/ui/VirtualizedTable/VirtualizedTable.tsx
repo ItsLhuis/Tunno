@@ -1,6 +1,15 @@
 "use client"
 
-import * as React from "react"
+import {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  type MutableRefObject,
+  type HTMLAttributes,
+  type ChangeEvent,
+  type ReactNode
+} from "react"
 
 import { cn } from "@lib/utils"
 
@@ -24,14 +33,11 @@ import { useVirtualizer } from "@tanstack/react-virtual"
 
 import { MoreHorizontal } from "lucide-react"
 
+import { SearchInput } from "@components/ui/SearchInput"
+import { Button } from "@components/ui/Button"
+import { Spinner } from "@components/ui/Spinner"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
 import {
-  Input,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -39,20 +45,27 @@ import {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-  DropdownMenuCheckboxItem,
-  Button
-} from "@components/ui"
+  DropdownMenuCheckboxItem
+} from "@components/ui/DropdownMenu"
 
-export interface VirtualizedTableHeaderProps<TData> {
-  containerProps?: React.HTMLAttributes<HTMLDivElement>
-  children?: (table: TanStackTable<TData>) => React.ReactNode
+import { AnimatePresence, motion } from "motion/react"
+
+export type VirtualizedTableHeaderProps<TData> = {
+  containerProps?: HTMLAttributes<HTMLDivElement>
+  children?: (table: TanStackTable<TData>) => ReactNode
   placeholder?: string
   saveVisibleColumns?: (visibleColumns: VisibilityState) => void
+  sticky?: {
+    containerProps?: HTMLAttributes<HTMLDivElement>
+    tableHeaderProps?: HTMLAttributes<HTMLDivElement>
+    children?: (table: TanStackTable<TData>) => ReactNode
+    threshold?: number
+  }
 }
 
-export interface VirtualizedTableProps<TData, TValue> {
+export type VirtualizedTableProps<TData, TValue> = HTMLAttributes<HTMLDivElement> & {
   header?: VirtualizedTableHeaderProps<TData>
-  parentRef: React.MutableRefObject<HTMLDivElement | null>
+  parentRef: MutableRefObject<HTMLDivElement | null>
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   estimateSize: number
@@ -60,6 +73,7 @@ export interface VirtualizedTableProps<TData, TValue> {
   rowClassName?: string
   rowStyle?: React.CSSProperties
   initialVisibleColumns?: VisibilityState
+  isLoading?: boolean
 }
 
 const VirtualizedTable = <TData, TValue>({
@@ -71,18 +85,22 @@ const VirtualizedTable = <TData, TValue>({
   rowGridCols = [],
   rowClassName = "",
   rowStyle = {},
-  initialVisibleColumns = {}
+  initialVisibleColumns = {},
+  isLoading = false,
+  className,
+  ...props
 }: VirtualizedTableProps<TData, TValue>) => {
-  const [globalFilter, setGlobalFilter] = React.useState<string | null>(null)
+  const [isScrolled, setIsScrolled] = useState(false)
 
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState<string | null>(null)
 
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>([])
 
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>(initialVisibleColumns)
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(initialVisibleColumns)
+
+  const [rowSelection, setRowSelection] = useState({})
 
   const table = useReactTable({
     _features: [Focusing, Hovering],
@@ -110,7 +128,7 @@ const VirtualizedTable = <TData, TValue>({
 
   const { rows } = table.getRowModel()
 
-  const estimateRowSize = React.useCallback(() => estimateSize, [estimateSize])
+  const estimateRowSize = useCallback(() => estimateSize, [estimateSize])
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
@@ -125,19 +143,16 @@ const VirtualizedTable = <TData, TValue>({
 
   const virtualRows = rowVirtualizer.getVirtualItems()
 
-  const handleGlobalFilterChange = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setGlobalFilter(event.target.value)
-    },
-    []
-  )
+  const handleGlobalFilterChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setGlobalFilter(event.target.value)
+  }, [])
 
-  const visibleColumns = React.useMemo(
+  const visibleColumns = useMemo(
     () => table.getAllColumns().filter((col) => col.getIsVisible()),
     [columnVisibility]
   )
 
-  const dynamicGridCols = React.useMemo(() => {
+  const dynamicGridCols = useMemo(() => {
     return visibleColumns
       .map((column) => {
         const columnIndex = table.getAllColumns().indexOf(column)
@@ -146,49 +161,123 @@ const VirtualizedTable = <TData, TValue>({
       .join(" ")
   }, [visibleColumns])
 
+  const handleScroll = useCallback(() => {
+    if (parentRef.current) {
+      const scrollTop = parentRef.current.scrollTop
+      const threshold = header?.sticky?.threshold ?? 260
+      setIsScrolled(scrollTop > threshold)
+    }
+  }, [parentRef, header?.sticky?.threshold])
+
+  useEffect(() => {
+    const parent = parentRef.current
+    if (parent) {
+      parent.addEventListener("scroll", handleScroll)
+      return () => parent.removeEventListener("scroll", handleScroll)
+    }
+  }, [parentRef])
+
   return (
-    <div className="flex flex-col flex-1 w-full">
-      <div className="flex flex-col gap-3 pt-3" {...header?.containerProps}>
+    <div className={cn("relative flex flex-col flex-1 w-full", isLoading && "h-full")}>
+      <AnimatePresence mode="popLayout">
+        {isScrolled && (
+          <motion.div
+            className="sticky top-0 left-0 right-0 bg-background/60 backdrop-blur z-50 w-full transition-[background-color]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div
+              className={header?.sticky?.containerProps?.className}
+              {...header?.sticky?.containerProps}
+            >
+              {header?.sticky?.children?.(table)}
+              <div
+                className={header?.sticky?.tableHeaderProps?.className}
+                {...header?.sticky?.tableHeaderProps}
+              >
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <div
+                    key={headerGroup.id}
+                    className={cn("grid w-full hover:bg-transparent", rowClassName)}
+                    style={{ gridTemplateColumns: dynamicGridCols, ...rowStyle }}
+                  >
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <div
+                          key={header.id}
+                          className={cn(
+                            "p-3 flex items-center font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                            header.column.columnDef.meta?.className
+                          )}
+                          style={{
+                            width: header.column.columnDef.meta?.width
+                              ? header.column.columnDef.meta?.width
+                              : header.getSize()
+                          }}
+                        >
+                          <div className="text-sm truncate">
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(header.column.columnDef.header, header.getContext())}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div
+        className={cn("flex flex-col gap-3 pt-3", header?.containerProps?.className)}
+        {...header?.containerProps}
+      >
         {header?.children?.(table)}
         <div className="flex items-center gap-2">
-          <Input
+          <SearchInput
             placeholder={header?.placeholder ?? "Search"}
             value={globalFilter ?? ""}
             onChange={handleGlobalFilterChange}
             className="flex-1"
+            renderRight={
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <MoreHorizontal />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Visibility</DropdownMenuLabel>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      {table
+                        .getAllColumns()
+                        .filter((column) => column.getCanHide())
+                        .map((column) => (
+                          <DropdownMenuCheckboxItem
+                            key={column.id}
+                            className="capitalize"
+                            checked={column.getIsVisible()}
+                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                          >
+                            {column.id}
+                          </DropdownMenuCheckboxItem>
+                        ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            }
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="ml-auto">
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="m-3 mt-0">
-              <DropdownMenuLabel>Visibility</DropdownMenuLabel>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
-                  {table
-                    .getAllColumns()
-                    .filter((column) => column.getCanHide())
-                    .map((column) => (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                      >
-                        {column.id}
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
-      <div className="rounded-md">
-        <Table className="relative overflow-hidden mt-3">
+      <div className={cn("h-full", className)} {...props}>
+        <Table className={cn("relative overflow-hidden mt-3", isLoading && "h-full")}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
@@ -218,52 +307,62 @@ const VirtualizedTable = <TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
-            {rows.length === 0 ? (
-              <TableRow className="flex w-full justify-center rounded-md">
-                <TableCell colSpan={columns.length} className="text-center py-4">
-                  No results found
-                </TableCell>
-              </TableRow>
-            ) : (
-              virtualRows.map((virtualRow) => {
-                const row = rows[virtualRow.index]
-                return (
-                  <TableRow
-                    key={row.id}
-                    data-index={virtualRow.index}
-                    ref={rowVirtualizer.measureElement}
-                    data-state={row.getIsSelected() && "selected"}
-                    className={cn("grid absolute w-full border-none rounded-md", rowClassName)}
-                    style={{
-                      transform: `translateY(${virtualRow.start}px)`,
-                      gridTemplateColumns: dynamicGridCols,
-                      ...rowStyle
-                    }}
-                    onFocus={() => row.toggleFocused()}
-                    onBlur={() => row.toggleFocused()}
-                    onMouseEnter={() => row.toggleHovered()}
-                    onMouseLeave={() => row.toggleHovered()}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cell.column.columnDef.meta?.className}
-                        style={{
-                          width: cell.column.columnDef.meta?.width
-                            ? cell.column.columnDef.meta?.width
-                            : cell.column.getSize()
-                        }}
-                      >
-                        <div className="truncate">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                )
-              })
-            )}
+          <TableBody style={{ height: isLoading ? "100%" : `${rowVirtualizer.getTotalSize()}px` }}>
+            <motion.div
+              key={String(isLoading)}
+              className={cn(isLoading && "flex justify-center items-center h-full")}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isLoading ? (
+                <Spinner />
+              ) : rows.length === 0 ? (
+                <TableRow className="flex w-full justify-center rounded-md">
+                  <TableCell colSpan={columns.length} className="text-center py-4">
+                    No results found
+                  </TableCell>
+                </TableRow>
+              ) : (
+                virtualRows.map((virtualRow) => {
+                  const row = rows[virtualRow.index]
+                  return (
+                    <TableRow
+                      key={row.id}
+                      data-index={virtualRow.index}
+                      ref={rowVirtualizer.measureElement}
+                      data-state={row.getIsSelected() && "selected"}
+                      className={cn("grid absolute w-full border-none rounded-md", rowClassName)}
+                      style={{
+                        transform: `translateY(${virtualRow.start}px)`,
+                        gridTemplateColumns: dynamicGridCols,
+                        ...rowStyle
+                      }}
+                      onFocus={() => row.toggleFocused()}
+                      onBlur={() => row.toggleFocused()}
+                      onMouseEnter={() => row.toggleHovered()}
+                      onMouseLeave={() => row.toggleHovered()}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          className={cell.column.columnDef.meta?.className}
+                          style={{
+                            width: cell.column.columnDef.meta?.width
+                              ? cell.column.columnDef.meta?.width
+                              : cell.column.getSize()
+                          }}
+                        >
+                          <div className="truncate">
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </div>
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  )
+                })
+              )}
+            </motion.div>
           </TableBody>
         </Table>
       </div>

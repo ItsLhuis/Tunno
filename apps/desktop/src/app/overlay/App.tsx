@@ -1,20 +1,25 @@
-import { useState, useEffect } from "react"
-
-import { useTheme } from "@contexts/ThemeContext"
-
-import { getSettingsStore } from "@tauri/stores/settings"
-
 import { getCurrentWindow, currentMonitor, LogicalPosition } from "@tauri-apps/api/window"
 
-import { Layout, GripHorizontal, Play, SkipBack, SkipForward } from "lucide-react"
+import {
+  Layout,
+  GripHorizontal,
+  X,
+  Play,
+  SkipBack,
+  SkipForward,
+  ArrowDownLeft,
+  ArrowUpLeft,
+  ArrowUpRight,
+  ArrowDownRight
+} from "lucide-react"
 
-import { Titlebar } from "@components/window"
 import {
   Button,
   Marquee,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuItem,
   Slider,
   Typography
 } from "@components/ui"
@@ -22,35 +27,6 @@ import {
 import Thumbnail from "./thumbnail.jpg"
 
 function App() {
-  const { setTheme } = useTheme()
-
-  const [isDropdownOpen, setDropdownOpen] = useState<boolean>(false)
-
-  const handleOpenChange = (open: boolean) => {
-    setDropdownOpen(open)
-  }
-
-  useEffect(() => {
-    const watchSettingsChange = async () => {
-      const store = await getSettingsStore()
-      const unlisten = await store.onKeyChange<string>("theme", (theme) => {
-        setTheme(theme as "dark" | "light" | "system", false)
-      })
-
-      return unlisten
-    }
-
-    let unlisten: () => void
-
-    watchSettingsChange().then((listener) => {
-      unlisten = listener
-    })
-
-    return () => {
-      if (unlisten) unlisten()
-    }
-  }, [])
-
   const moveToCorner = async (
     corner: "bottom-left" | "bottom-right" | "top-left" | "top-right"
   ) => {
@@ -97,53 +73,58 @@ function App() {
       )
 
       await getCurrentWindow().setPosition(newPosition)
-
-      setDropdownOpen(false)
     }
   }
 
   return (
     <main className="flex flex-col group h-dvh w-dvw relative bg-background transition-colors">
-      <div className="flex flex-col absolute inset-0 bg-background/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-50">
-        <Titlebar onClose={() => getCurrentWindow().hide()}>
-          <div data-tauri-drag-region className="flex flex-1 h-9 justify-between items-center">
-            <DropdownMenu open={isDropdownOpen} onOpenChange={handleOpenChange}>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="hover:bg-background/50 rounded-none">
-                  <Layout />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="grid grid-cols-2 gap-1 ml-2 -mt-8">
-                <Button
-                  variant="secondary"
-                  className="p-1 rounded-none rounded-tl-sm hover:bg-primary"
-                  onClick={() => moveToCorner("top-left")}
-                />
-                <Button
-                  variant="secondary"
-                  className="p-1 rounded-none rounded-tr-sm hover:bg-primary"
-                  onClick={() => moveToCorner("top-right")}
-                />
-                <Button
-                  variant="secondary"
-                  className="p-1 rounded-none rounded-bl-sm hover:bg-primary"
-                  onClick={() => moveToCorner("bottom-left")}
-                />
-                <Button
-                  variant="secondary"
-                  className="p-1 rounded-none rounded-br-sm hover:bg-primary"
-                  onClick={() => moveToCorner("bottom-right")}
-                />
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <div
-              data-tauri-drag-region
-              className="mr-auto ml-auto cursor-grab active:cursor-grabbing p-2"
-            >
-              <GripHorizontal data-tauri-drag-region size={20} />
-            </div>
+      <div className="flex flex-1 flex-col inset-0 bg-background/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-50">
+        <div data-tauri-drag-region className="flex justify-between items-center z-50 p-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="hover:bg-background/50">
+                <Layout />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="grid grid-cols-2 gap-1">
+              <DropdownMenuItem
+                className="rounded-none rounded-tl-sm justify-center"
+                onClick={() => moveToCorner("top-left")}
+              >
+                <ArrowUpLeft />
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-none rounded-tr-sm justify-center"
+                onClick={() => moveToCorner("top-right")}
+              >
+                <ArrowUpRight />
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-none rounded-bl-sm justify-center"
+                onClick={() => moveToCorner("bottom-left")}
+              >
+                <ArrowDownLeft />
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-none rounded-br-sm justify-center"
+                onClick={() => moveToCorner("bottom-left")}
+              >
+                <ArrowDownRight />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <div data-tauri-drag-region className="cursor-grab active:cursor-grabbing p-2">
+            <GripHorizontal data-tauri-drag-region size={20} />
           </div>
-        </Titlebar>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-background/50"
+            onClick={() => getCurrentWindow().hide()}
+          >
+            <X />
+          </Button>
+        </div>
         <div className="absolute flex flex-col h-full w-full">
           <div className="absolute flex h-full w-full items-center justify-center">
             <Button
@@ -170,7 +151,7 @@ function App() {
           </div>
           <div className="flex flex-col gap-3 mt-auto py-4">
             <Marquee className="px-4">
-              <Typography variant="h6">MALA (feat. Anuel AA)</Typography>
+              <Typography variant="h6">Marisola - Remix</Typography>
             </Marquee>
             <div className="flex items-center justify-center gap-2 px-4">
               <Typography affects={["bold", "tiny"]}>0:01</Typography>

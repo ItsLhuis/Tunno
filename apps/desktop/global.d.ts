@@ -4,15 +4,12 @@ import {
   type FocusingOptions,
   type FocusingRow,
   type FocusingTable,
-  type FocusingTableState
-} from "@components/ui/VirtualizedTable/features/focus/types"
-
-import {
+  type FocusingTableState,
   type HoveringOptions,
   type HoveringRow,
   type HoveringTable,
   type HoveringTableState
-} from "@components/ui/VirtualizedTable/features/hover/types"
+} from "@components/ui/VirtualizedTable/features/types"
 
 declare module "@tanstack/react-table" {
   interface TableState extends FocusingTableState, HoveringTableState {}

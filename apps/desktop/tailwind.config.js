@@ -22,7 +22,7 @@ export default {
         }
       },
       transitionDuration: {
-        DEFAULT: "200ms"
+        DEFAULT: "300ms"
       },
       scale: {
         80: ".8"

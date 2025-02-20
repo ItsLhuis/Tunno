@@ -29,7 +29,7 @@ function Sidebar() {
   const isVisible = activeIndex !== -1
 
   return (
-    <aside className="flex flex-row h-full border-r bg-sidebar transition-[background-color,border-color,text-decoration-color,fill,stroke]">
+    <aside className="flex flex-row h-full border-r bg-sidebar transition-[background-color,border-color]">
       <div className="relative h-full overflow-hidden overflow-y-auto">
         <div
           className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary z-10 transition-[transform,opacity]"

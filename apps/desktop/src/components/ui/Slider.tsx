@@ -1,17 +1,17 @@
-import * as React from "react"
+import { forwardRef, useState, type ElementRef, type ComponentPropsWithoutRef } from "react"
 import * as SliderPrimitive from "@radix-ui/react-slider"
 
 import { cn } from "@lib/utils"
 
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@components/ui/Tooltip"
 
-const Slider = React.forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+const Slider = forwardRef<
+  ElementRef<typeof SliderPrimitive.Root>,
+  ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 >(({ className, ...props }, ref) => {
-  const [value, setValue] = React.useState(props.defaultValue || [0])
+  const [value, setValue] = useState(props.defaultValue || [0])
 
-  const [tooltipOpen, setTooltipOpen] = React.useState(false)
+  const [tooltipOpen, setTooltipOpen] = useState(false)
 
   return (
     <TooltipProvider delayDuration={0}>

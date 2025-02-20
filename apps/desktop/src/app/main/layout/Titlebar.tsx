@@ -59,7 +59,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
   }, [])
 
   return (
-    <div className="h-full border-b bg-sidebar transition-[background-color,border-color,text-decoration-color,fill,stroke]">
+    <div className="h-full border-b bg-sidebar transition-[background-color,border-color]">
       <WindowTitlebar
         className="h-full"
         onMinimize={() => getCurrentWindow().minimize()}
@@ -68,7 +68,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
         isMaximize={isWindowMaximized}
       >
         <div data-tauri-drag-region className="flex-1 flex items-center justify-between">
-          <div data-tauri-drag-region className="flex items-center gap-4 m-3">
+          <div data-tauri-drag-region className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <Button
                 tooltip={{ children: "Go Back", side: "bottom", align: "start" }}
@@ -100,13 +100,12 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3 }}
             >
               <Button
                 tooltip={{ children: "Upload fast", side: "bottom" }}
                 variant="ghost"
                 size="icon"
-                className="mr-1"
               >
                 <Zap />
                 <span className="sr-only">Open upload fast menu</span>
@@ -115,7 +114,6 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                 tooltip={{ children: "Settings", side: "bottom" }}
                 variant="ghost"
                 size="icon"
-                className="mr-1"
                 asChild
               >
                 <Link to="/settings">

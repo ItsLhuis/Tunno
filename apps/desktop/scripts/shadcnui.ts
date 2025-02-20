@@ -12,45 +12,31 @@ const indexFilePath = resolve(componentsBase, "index.ts")
 
 const hooksBase = resolve(__dirname, "..", "src", "hooks")
 
-let interrupted = false
-
-process.on("SIGINT", () => {
-  interrupted = true
-  console.log(chalk.red("\nOperation interrupted by user. Exiting...\n"))
-  process.exit(1)
-})
-
-async function main() {
+async function shadcnui() {
   const componentName = process.argv[2]
   if (!componentName) {
-    console.error(chalk.red("Please provide a component name."))
+    console.error(chalk.red("Please provide a component name"))
     process.exit(1)
   }
 
   try {
     console.log(chalk.blue("Starting component creation\n"))
     await createComponent(componentName)
-    if (interrupted) return
 
     console.log(chalk.blue("Renaming existing files"))
     await renameExistingFiles(componentsBase, pascalCaseRenamer)
-    if (interrupted) return
 
     console.log(chalk.blue("\nRenaming hooks"))
     await renameExistingFiles(hooksBase, camelCaseRenamer)
-    if (interrupted) return
 
     console.log(chalk.blue("\nUpdating imports\n"))
     await updateImports([componentsBase, hooksBase])
-    if (interrupted) return
 
     console.log(chalk.blue("Updating index.ts\n"))
     await updateIndexFile()
-    if (interrupted) return
 
     console.log(chalk.blue("Running prettier"))
     await runPrettier()
-    if (interrupted) return
 
     console.log(chalk.green("\nAll tasks completed successfully!\n"))
   } catch (error) {
@@ -77,10 +63,6 @@ async function runCommand(command: string): Promise<void> {
     })
 
     process.on("close", (code) => {
-      if (interrupted) {
-        reject(new Error("Operation interrupted by user."))
-        return
-      }
       if (code === 0) {
         resolve()
       } else {
@@ -168,7 +150,7 @@ async function updateIndexFile() {
   )
 
   if (tsxFiles.length === 0 && folders.length === 0) {
-    console.log(chalk.magenta("No components or folders found to update index.ts"))
+    console.log(chalk.red("No components or folders found to update index.ts"))
     return
   }
 
@@ -180,7 +162,7 @@ async function updateIndexFile() {
   })
 
   folders.forEach((folder) => {
-    exportStatements += `export * from "./${folder}/${folder}"\n`
+    exportStatements += `export * from "./${folder}"\n`
   })
 
   await fs.promises.writeFile(indexFilePath, exportStatements, "utf-8")
@@ -192,4 +174,4 @@ async function runPrettier() {
   await runCommand(command)
 }
 
-main()
+shadcnui()

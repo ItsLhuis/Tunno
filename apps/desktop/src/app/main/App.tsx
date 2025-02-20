@@ -44,7 +44,7 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
           >
             <img src={Logo} className="w-20" />
           </motion.div>
@@ -53,7 +53,7 @@ function App() {
           className="z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.3 }}
         >
           <Titlebar isSplashVisible={isSplashVisible} />
         </motion.div>
@@ -62,7 +62,7 @@ function App() {
             className="flex flex-col h-full w-full overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: isSplashVisible ? 0 : 1 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
           >
             <div className="flex flex-1 overflow-hidden">
               <Sidebar />

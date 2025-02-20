@@ -24,6 +24,7 @@ fn prevent_default() -> TauriPlugin<tauri::Wry> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(prevent_default())
         .plugin(tauri_plugin_store::Builder::new().build())
@@ -44,6 +45,9 @@ pub fn run() {
             #[cfg(desktop)]
             {
                 let main_window: WebviewWindow = app.get_webview_window("main").unwrap();
+
+                #[cfg(not(target_os = "macos"))]
+                main_window.set_decorations(false)?;
 
                 let quit_item = MenuItem::with_id(app, "quit", "&Quit", true, None::<&str>)?;
 

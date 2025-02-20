@@ -1,4 +1,4 @@
-import React from "react"
+import { forwardRef, type HTMLAttributes, type ElementType } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@lib/utils"
@@ -34,7 +34,7 @@ export const typographyVariants = cva("", {
   }
 })
 
-const variantToElementMap: Record<string, React.ElementType> = {
+const variantToElementMap: Record<string, ElementType> = {
   h1: "h1",
   h2: "h2",
   h3: "h3",
@@ -52,13 +52,13 @@ type TypographyVariants = VariantProps<typeof typographyVariants>
 
 type AffectType = NonNullable<TypographyVariants["affects"]>
 
-export type TypographyProps = React.HTMLAttributes<HTMLElement> &
+export type TypographyProps = HTMLAttributes<HTMLElement> &
   Omit<TypographyVariants, "affects"> & {
     variant?: NonNullable<TypographyVariants["variant"]>
     affects?: AffectType | AffectType[]
   }
 
-const Typography = React.forwardRef<HTMLElement, TypographyProps>(
+const Typography = forwardRef<HTMLElement, TypographyProps>(
   ({ className, variant = "span", affects = "default", ...props }, ref) => {
     const affectsArray = Array.isArray(affects) ? affects : [affects]
     const affectsClasses = affectsArray.map((affect) => typographyVariants({ affects: affect }))
@@ -74,7 +74,6 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
     )
   }
 )
-
 Typography.displayName = "Typography"
 
 export { Typography }

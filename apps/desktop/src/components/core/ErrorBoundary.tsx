@@ -50,12 +50,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.3 }}
           className="flex h-screen p-6 overflow-auto"
         >
           {process.env.NODE_ENV === "development" ? (
             <div className="w-full m-auto flex flex-col items-center">
-              <div className="relative rounded-md bg-sidebar shadow-2xl transition-[background-color,border-color,text-decoration-color,fill,stroke,padding]">
+              <div className="relative rounded-md bg-sidebar shadow-2xl transition-[background-color]">
                 <div className="absolute top-0 left-0 right-0 h-2 bg-destructive rounded-tl-md rounded-tr-md" />
                 <div className="text-destructive p-4 pt-6 pb-0 rounded-md ">
                   <Typography variant="h2">

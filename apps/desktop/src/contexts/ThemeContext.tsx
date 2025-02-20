@@ -6,7 +6,7 @@ type Theme = "dark" | "light" | "system"
 
 type ThemeProviderState = {
   theme: Theme
-  setTheme: (theme: Theme, updateStore?: boolean) => void
+  setTheme: (theme: Theme) => void
 }
 
 const initialState: ThemeProviderState = {
@@ -59,11 +59,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     theme,
-    setTheme: async (theme: Theme, updateStore: boolean = true) => {
-      if (updateStore) {
-        const store = await getSettingsStore()
-        await store.set("theme", theme)
-      }
+    setTheme: async (theme: Theme) => {
+      const store = await getSettingsStore()
+      await store.set("theme", theme)
       setTheme(theme)
     }
   }
