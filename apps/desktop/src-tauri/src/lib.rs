@@ -46,9 +46,6 @@ pub fn run() {
             {
                 let main_window: WebviewWindow = app.get_webview_window("main").unwrap();
 
-                #[cfg(not(target_os = "macos"))]
-                main_window.set_decorations(false)?;
-
                 let quit_item = MenuItem::with_id(app, "quit", "&Quit", true, None::<&str>)?;
 
                 let menu = Menu::with_items(app, &[&quit_item])?;

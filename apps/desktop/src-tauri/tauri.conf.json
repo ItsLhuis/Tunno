@@ -34,8 +34,7 @@
         "height": 540,
         "minWidth": 720,
         "minHeight": 405,
-        "fullscreen": false,
-        "titleBarStyle": "Overlay",
+        "decorations": false,
         "resizable": true,
         "visible": false
       }

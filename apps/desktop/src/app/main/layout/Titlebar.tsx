@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 
-import { listen } from "@tauri-apps/api/event"
-
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import Logo from "@assets/images/appicon-primary.png"
@@ -24,48 +22,32 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
   const navigate = useNavigate()
 
   const [windowTitle, setWindowTitle] = useState<string>("")
-  const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(false)
 
   const canGoBack = window.history.state.idx !== 0
   const canGoForward = window.history.state.idx < window.history.length - 1
+
+  const toggleFullScreen = async () => {
+    const window = getCurrentWindow()
+    const fullscreenState = await window.isFullscreen()
+    await window.setFullscreen(!fullscreenState)
+  }
 
   useEffect(() => {
     async function initializeWindowState() {
       const title = await getCurrentWindow().title()
       setWindowTitle(title)
-
-      const maximized = await getCurrentWindow().isMaximized()
-      setIsWindowMaximized(maximized)
     }
 
     initializeWindowState()
-
-    const initializeResizeListener = async () => {
-      return listen("tauri://resize", async () => {
-        const maximized = await getCurrentWindow().isMaximized()
-        setIsWindowMaximized(maximized)
-      })
-    }
-
-    let unlisten: () => void
-
-    initializeResizeListener().then((listener) => {
-      unlisten = listener
-    })
-
-    return () => {
-      if (unlisten) unlisten()
-    }
   }, [])
 
   return (
     <div className="h-full border-b bg-sidebar transition-[background-color,border-color]">
       <WindowTitlebar
-        className="h-full"
         onMinimize={() => getCurrentWindow().minimize()}
         onMaximize={() => getCurrentWindow().toggleMaximize()}
+        onFullSceen={() => toggleFullScreen()}
         onClose={() => getCurrentWindow().hide()}
-        isMaximize={isWindowMaximized}
       >
         <div data-tauri-drag-region className="flex-1 flex items-center justify-between">
           <div data-tauri-drag-region className="flex items-center gap-4">
