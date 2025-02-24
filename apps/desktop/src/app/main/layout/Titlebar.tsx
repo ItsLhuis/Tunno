@@ -51,9 +51,9 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
       >
         <div data-tauri-drag-region className="flex-1 flex items-center justify-between">
           <div data-tauri-drag-region className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <Button
-                tooltip={{ children: "Go Back", side: "bottom", align: "start" }}
+                tooltip={{ children: "Go Back", side: "bottom" }}
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate(-1)}

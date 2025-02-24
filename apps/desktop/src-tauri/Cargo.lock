@@ -1847,9 +1847,9 @@ dependencies = [
 
 [[package]]
 name = "itertools"
-version = "0.13.0"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
+checksum = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
 dependencies = [
  "either",
 ]
@@ -3950,9 +3950,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-prevent-default"
-version = "0.7.8"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a027800d6ed79607d5f42f576265614bf2b984a57b81276bb9203060d6afc678"
+checksum = "f193196a5c3cd34c719b67ecc002763047717cf3d74f8f1961b5fdfdd4212664"
 dependencies = [
  "bitflags 2.8.0",
  "itertools",
@@ -4746,8 +4746,9 @@ dependencies = [
 
 [[package]]
 name = "wave"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
+ "log",
  "serde",
  "serde_json",
  "tauri",

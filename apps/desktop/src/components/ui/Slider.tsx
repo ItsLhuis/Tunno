@@ -24,7 +24,7 @@ const Slider = forwardRef<
         }}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-primary/20">
+        <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-muted transition-colors">
           <SliderPrimitive.Range className="absolute h-full bg-primary" />
         </SliderPrimitive.Track>
         <Tooltip open={tooltipOpen}>

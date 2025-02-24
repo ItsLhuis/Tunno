@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client"
 
 import { ThemeProvider } from "@contexts/ThemeContext"
 
-import App from "@app/main/App"
+import App from "./App"
 
 import "../../global.css"
 

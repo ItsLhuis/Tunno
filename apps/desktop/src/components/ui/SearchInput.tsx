@@ -53,7 +53,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           animate={{ opacity: isFocused ? 1 : 0, width: isFocused ? "auto" : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <Button variant="text" className="ml-2">
+          <Button tabIndex={-1} variant="text" className="ml-2">
             Cancel
           </Button>
         </motion.div>
