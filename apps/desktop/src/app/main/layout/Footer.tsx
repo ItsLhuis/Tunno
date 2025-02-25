@@ -8,7 +8,8 @@ import {
   Volume1,
   Repeat,
   Shuffle,
-  MonitorSpeaker
+  MonitorSpeaker,
+  Heart
 } from "lucide-react"
 
 import {
@@ -40,8 +41,11 @@ function Footer() {
       </div>
       <div className="flex flex-row items-center gap-3 p-3 w-full">
         <div className="flex items-center gap-3 truncate flex-1">
-          <img src={Thumbnail120x120} className="size-20 object-cover rounded-md" />
+          <img src={Thumbnail120x120} className="size-24 object-cover rounded-md" />
           <div className="w-full truncate">
+            <Button tooltip={{ children: "Favorite", side: "top" }} variant="ghost" size="icon">
+              <Heart className="text-primary fill-current" />
+            </Button>
             <Marquee>
               <Typography variant="h6">Marisola - Remix</Typography>
             </Marquee>

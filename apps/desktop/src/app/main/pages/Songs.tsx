@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "motion/react"
 import { Link } from "react-router-dom"
 
 import {
+  ScrollArea,
   Button,
   Checkbox,
   DropdownMenu,
@@ -155,7 +156,7 @@ function Songs() {
   const mainRef = useRef<HTMLDivElement | null>(null)
 
   return (
-    <main ref={mainRef} className="relative flex-1 overflow-x-hidden overflow-auto">
+    <ScrollArea ref={mainRef} className="relative flex-1 overflow-x-hidden">
       <VirtualizedTable
         parentRef={mainRef}
         className="p-3 md:p-9 pt-0 md:pt-0 transition-[background-color,padding]"
@@ -333,7 +334,7 @@ function Songs() {
         rowGridCols={["2.5rem", "3.75rem", "1fr", "0.5fr", "minmax(50px,0.2fr)", "3.75rem"]}
         rowClassName="gap-1 w-full"
       />
-    </main>
+    </ScrollArea>
   )
 }
 

@@ -4,7 +4,7 @@ import { Music, Heart, List, Users } from "lucide-react"
 
 import { useLocation, Link } from "react-router-dom"
 
-import { Button } from "@components/ui"
+import { Button, ScrollArea } from "@components/ui"
 
 const sidebarItems = [
   { icon: Music, label: "Songs", href: "/" },
@@ -30,7 +30,7 @@ function Sidebar() {
 
   return (
     <aside className="flex flex-row h-full border-r bg-sidebar transition-[background-color,border-color]">
-      <div className="relative h-full overflow-hidden overflow-y-auto">
+      <ScrollArea className="relative h-full">
         <div
           className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary z-10 transition-[transform,opacity]"
           style={{
@@ -59,7 +59,7 @@ function Sidebar() {
             </Button>
           ))}
         </div>
-      </div>
+      </ScrollArea>
     </aside>
   )
 }

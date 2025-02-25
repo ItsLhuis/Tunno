@@ -36,7 +36,7 @@ import { MoreHorizontal } from "lucide-react"
 import { SearchInput } from "@components/ui/SearchInput"
 import { Button } from "@components/ui/Button"
 import { Spinner } from "@components/ui/Spinner"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
+import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -307,63 +307,62 @@ const VirtualizedTable = <TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody style={{ height: isLoading ? "100%" : `${rowVirtualizer.getTotalSize()}px` }}>
-            <motion.div
-              key={String(isLoading)}
-              className={cn(isLoading && "flex justify-center items-center h-full")}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isLoading ? (
-                <Spinner />
-              ) : rows.length === 0 ? (
-                <TableRow className="flex w-full justify-center rounded-md">
-                  <TableCell colSpan={columns.length} className="text-center py-4">
-                    No results found
-                  </TableCell>
-                </TableRow>
-              ) : (
-                virtualRows.map((virtualRow) => {
-                  const row = rows[virtualRow.index]
-                  return (
-                    <TableRow
-                      key={row.id}
-                      data-index={virtualRow.index}
-                      ref={rowVirtualizer.measureElement}
-                      data-state={row.getIsSelected() && "selected"}
-                      className={cn("grid absolute w-full border-none rounded-md", rowClassName)}
-                      style={{
-                        transform: `translateY(${virtualRow.start}px)`,
-                        gridTemplateColumns: dynamicGridCols,
-                        ...rowStyle
-                      }}
-                      onFocus={() => row.toggleFocused()}
-                      onBlur={() => row.toggleFocused()}
-                      onMouseEnter={() => row.toggleHovered()}
-                      onMouseLeave={() => row.toggleHovered()}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell
-                          key={cell.id}
-                          className={cell.column.columnDef.meta?.className}
-                          style={{
-                            width: cell.column.columnDef.meta?.width
-                              ? cell.column.columnDef.meta?.width
-                              : cell.column.getSize()
-                          }}
-                        >
-                          <div className="truncate">
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </div>
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  )
-                })
-              )}
-            </motion.div>
-          </TableBody>
+          <motion.tbody
+            key={String(isLoading)}
+            style={{ height: isLoading ? "100%" : `${rowVirtualizer.getTotalSize()}px` }}
+            className={cn(isLoading && "flex justify-center items-center h-full")}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isLoading ? (
+              <Spinner />
+            ) : rows.length === 0 ? (
+              <TableRow className="flex w-full justify-center rounded-md border-none">
+                <TableCell colSpan={columns.length} className="text-center py-4">
+                  No results found
+                </TableCell>
+              </TableRow>
+            ) : (
+              virtualRows.map((virtualRow) => {
+                const row = rows[virtualRow.index]
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-index={virtualRow.index}
+                    ref={rowVirtualizer.measureElement}
+                    data-state={row.getIsSelected() && "selected"}
+                    className={cn("grid absolute w-full border-none rounded-md", rowClassName)}
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`,
+                      gridTemplateColumns: dynamicGridCols,
+                      ...rowStyle
+                    }}
+                    onFocus={() => row.toggleFocused()}
+                    onBlur={() => row.toggleFocused()}
+                    onMouseEnter={() => row.toggleHovered()}
+                    onMouseLeave={() => row.toggleHovered()}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className={cell.column.columnDef.meta?.className}
+                        style={{
+                          width: cell.column.columnDef.meta?.width
+                            ? cell.column.columnDef.meta?.width
+                            : cell.column.getSize()
+                        }}
+                      >
+                        <div className="truncate">
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                )
+              })
+            )}
+          </motion.tbody>
         </Table>
       </div>
     </div>

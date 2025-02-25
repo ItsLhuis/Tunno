@@ -31,7 +31,6 @@
     --accent-foreground: 210 13% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 8% 92%;
-    --scroll-bar: 0 0% 45.1%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 210 13% 11%;
@@ -67,7 +66,6 @@
     --accent-foreground: 210 8% 92%;
     --destructive: 357 96% 59%;
     --destructive-foreground: 210 8% 92%;
-    --scroll-bar: 0 0% 63.9%;
     --border: 0 0% 18%;
     --input: 0 0% 18%;
     --ring: 0 0% 83.1%;
@@ -88,7 +86,6 @@
 }
 @layer base {
   * {
-    @apply border-border;
     @apply select-none;
   }
   html {
@@ -107,13 +104,10 @@
     overflow: hidden;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--scroll-bar));
+    background-color: hsl(var(--scrollbar));
     border: 6px solid transparent;
     border-radius: 8px;
     background-clip: padding-box;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    border: 5px solid transparent;
   }
   ::-webkit-scrollbar {
     cursor: pointer !important;
