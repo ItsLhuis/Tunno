@@ -31,8 +31,7 @@ import {
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
-import { MoreHorizontal } from "lucide-react"
-
+import { Icon } from "@components/ui/Icon"
 import { SearchInput } from "@components/ui/SearchInput"
 import { Button } from "@components/ui/Button"
 import { Spinner } from "@components/ui/Spinner"
@@ -247,7 +246,7 @@ const VirtualizedTable = <TData, TValue>({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">
-                    <MoreHorizontal />
+                    <Icon name="MoreHorizontal" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -316,7 +315,9 @@ const VirtualizedTable = <TData, TValue>({
             transition={{ duration: 0.3 }}
           >
             {isLoading ? (
-              <Spinner />
+              <div className="flex items-center min-h-14">
+                <Spinner />
+              </div>
             ) : rows.length === 0 ? (
               <TableRow className="flex w-full justify-center rounded-md border-none">
                 <TableCell colSpan={columns.length} className="text-center py-4">

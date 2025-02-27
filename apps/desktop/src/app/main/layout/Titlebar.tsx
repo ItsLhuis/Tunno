@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react"
 
+import { useNavigate } from "react-router-dom"
+
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import Logo from "@assets/images/appicon-primary.png"
-
-import { ArrowLeft, ArrowRight, Settings, Zap } from "lucide-react"
+import Logo from "@assets/images/app/icons/primary.png"
 
 import { Titlebar as WindowTitlebar } from "@components/window"
+import { IconButton, SafeLink, Typography } from "@components/ui"
 
 import { motion } from "motion/react"
-
-import { useNavigate, Link } from "react-router-dom"
-
-import { Button, Typography } from "@components/ui"
 
 type TitleBarProps = {
   isSplashVisible: boolean
@@ -52,26 +49,22 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
         <div data-tauri-drag-region className="flex-1 flex items-center justify-between">
           <div data-tauri-drag-region className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Button
+              <IconButton
+                name="ArrowLeft"
                 tooltip={{ children: "Go Back", side: "bottom" }}
                 variant="ghost"
-                size="icon"
                 onClick={() => navigate(-1)}
                 disabled={!canGoBack}
-              >
-                <ArrowLeft />
-              </Button>
-              <Button
+              />
+              <IconButton
+                name="ArrowRight"
                 tooltip={{ children: "Go Forward", side: "bottom" }}
                 variant="ghost"
-                size="icon"
                 onClick={() => navigate(1)}
                 disabled={!canGoForward}
-              >
-                <ArrowRight />
-              </Button>
+              />
             </div>
-            <img src={Logo} className="w-4" />
+            <img src={Logo} alt="App logo" className="w-4 aspect-auto" />
             <Typography variant="h6" affects="muted">
               {windowTitle}
             </Typography>
@@ -84,25 +77,18 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Button
+              <IconButton
+                name="Zap"
                 tooltip={{ children: "Upload fast", side: "bottom" }}
                 variant="ghost"
-                size="icon"
-              >
-                <Zap />
-                <span className="sr-only">Open upload fast menu</span>
-              </Button>
-              <Button
-                tooltip={{ children: "Settings", side: "bottom" }}
-                variant="ghost"
-                size="icon"
-                asChild
-              >
-                <Link to="/settings">
-                  <Settings />
-                  <span className="sr-only">Open settings screen</span>
-                </Link>
-              </Button>
+              />
+              <SafeLink to="/settings">
+                <IconButton
+                  name="Settings"
+                  tooltip={{ children: "Settings", side: "bottom" }}
+                  variant="ghost"
+                />
+              </SafeLink>
             </motion.div>
           )}
         </div>

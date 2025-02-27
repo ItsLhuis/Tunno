@@ -1,18 +1,9 @@
 import { getOverlayWindow } from "@tauri/window/overlay"
 
 import {
-  MonitorStop,
-  Play,
-  SkipBack,
-  SkipForward,
-  Volume1,
-  Repeat,
-  Shuffle,
-  MonitorSpeaker,
-  Heart
-} from "lucide-react"
-
-import {
+  Image,
+  Icon,
+  IconButton,
   Button,
   Typography,
   Marquee,
@@ -41,11 +32,20 @@ function Footer() {
       </div>
       <div className="flex flex-row items-center gap-3 p-3 w-full">
         <div className="flex items-center gap-3 truncate flex-1">
-          <img src={Thumbnail120x120} className="size-24 object-cover rounded-md" />
+          <Image
+            src={Thumbnail120x120}
+            alt="Song thumbnail"
+            containerClassName="border border-muted rounded-md"
+            className="size-24 object-cover"
+          />
           <div className="w-full truncate">
-            <Button tooltip={{ children: "Favorite", side: "top" }} variant="ghost" size="icon">
-              <Heart className="text-primary fill-current" />
-            </Button>
+            <IconButton
+              name="Heart"
+              isFilled
+              tooltip={{ children: "Favorite", side: "top" }}
+              variant="text"
+              className="shrink-0"
+            />
             <Marquee>
               <Typography variant="h6">Marisola - Remix</Typography>
             </Marquee>
@@ -63,27 +63,27 @@ function Footer() {
               variant="ghost"
               size="icon"
             >
-              <Shuffle />
+              <Icon name="Shuffle" />
             </Button>
             <Button tooltip={{ children: "Previous", side: "top" }} variant="ghost" size="icon">
-              <SkipBack />
+              <Icon name="SkipBack" />
             </Button>
             <Button
               className="rounded-full [&_svg]:size-5 w-11 h-11"
               tooltip={{ children: "Play", side: "top" }}
               size="icon"
             >
-              <Play />
+              <Icon name="Play" />
             </Button>
             <Button tooltip={{ children: "Next", side: "top" }} variant="ghost" size="icon">
-              <SkipForward />
+              <Icon name="SkipForward" />
             </Button>
             <Button
               tooltip={{ children: "Enable repeat", side: "top" }}
               variant="ghost"
               size="icon"
             >
-              <Repeat />
+              <Icon name="Repeat" />
             </Button>
           </div>
         </div>
@@ -95,12 +95,12 @@ function Footer() {
             size="icon"
             onClick={showOverlayWindow}
           >
-            <MonitorSpeaker />
+            <Icon name="MonitorSpeaker" />
           </Button>
           <Popover>
             <PopoverTrigger asChild>
               <Button tooltip={{ children: "Volume", side: "top" }} variant="ghost" size="icon">
-                <Volume1 />
+                <Icon name="Volume1" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="flex items-center p-2 max-w-60">
@@ -110,7 +110,7 @@ function Footer() {
                 size="icon"
                 className="shrink-0"
               >
-                <Volume1 />
+                <Icon name="Volume1" />
               </Button>
               <Slider />
               <Typography affects={["bold", "tiny"]} className="ml-3 mr-2">
@@ -124,7 +124,7 @@ function Footer() {
             size="icon"
             onClick={showOverlayWindow}
           >
-            <MonitorStop />
+            <Icon name="MonitorStop" />
           </Button>
         </div>
       </div>

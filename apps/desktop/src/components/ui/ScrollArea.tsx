@@ -8,11 +8,14 @@ const ScrollArea = forwardRef<
   ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>
 >(({ className, children, scrollHideDelay = 300, ...props }, ref) => (
   <ScrollAreaPrimitive.Root
-    className={cn("overflow-hidden scroll-smooth", className)}
+    className={cn("relative overflow-hidden scroll-smooth", className)}
     scrollHideDelay={scrollHideDelay}
     {...props}
   >
-    <ScrollAreaPrimitive.Viewport ref={ref} className="relative h-full w-full rounded-[inherit]">
+    <ScrollAreaPrimitive.Viewport
+      ref={ref}
+      className="h-full w-full rounded-[inherit] [&>div]:h-full"
+    >
       {children}
     </ScrollAreaPrimitive.Viewport>
     <ScrollBar />

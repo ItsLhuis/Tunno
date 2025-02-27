@@ -4,7 +4,7 @@ import { type HTMLAttributes } from "react"
 
 import { cn } from "@lib/utils"
 
-import { Loader } from "lucide-react"
+import { Icon } from "@components/ui/Icon"
 
 function Spinner({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
@@ -15,7 +15,7 @@ function Spinner({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
       )}
       {...props}
     >
-      <Loader className="text-primary" />
+      <Icon name="Loader" className="text-primary" />
     </div>
   )
 }

@@ -2,8 +2,7 @@ import { forwardRef, useState, type FocusEvent, type ComponentProps } from "reac
 
 import { cn } from "@lib/utils"
 
-import { Search } from "lucide-react"
-
+import { Icon } from "@components/ui/Icon"
 import { Button } from "@components/ui/Button"
 
 import { motion } from "motion/react"
@@ -36,7 +35,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             className
           )}
         >
-          <Search className="ml-2" />
+          <Icon name="Search" className="ml-2" />
           <input
             type={type}
             ref={ref}

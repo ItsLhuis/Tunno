@@ -4,13 +4,13 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import { BrowserRouter } from "react-router-dom"
 
-import Logo from "@assets/images/appicon-primary.png"
-
-import { motion } from "motion/react"
+import Logo from "@assets/images/app/icons/primary.png"
 
 import { ErrorBoundary } from "@components/core"
 
 import { Titlebar, Sidebar, Main, Footer } from "@app/main/layout"
+
+import { motion } from "motion/react"
 
 function App() {
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true)
@@ -46,7 +46,7 @@ function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <img src={Logo} className="w-20" />
+            <img src={Logo} alt="App logo" className="w-20" />
           </motion.div>
         )}
         <motion.div

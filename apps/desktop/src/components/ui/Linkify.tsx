@@ -2,6 +2,7 @@
 
 import { Typography, type TypographyProps } from "@components/ui/Typography"
 import { Button } from "@components/ui/Button"
+import { SafeLink } from "@components/ui/SafeLink"
 
 export type LinkifyProps = TypographyProps & {
   text: string
@@ -17,9 +18,7 @@ const Linkify = ({ text, ...props }: LinkifyProps) => {
       {parts.map((part, index) =>
         linkRegex.test(part) ? (
           <Button key={index} variant="link" className="whitespace-normal" asChild>
-            <a href={part} target="_blank" rel="noopener noreferrer">
-              {part}
-            </a>
+            <SafeLink to={part}>{part}</SafeLink>
           </Button>
         ) : (
           part

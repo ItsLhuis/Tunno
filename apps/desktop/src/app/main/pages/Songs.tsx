@@ -1,15 +1,15 @@
 import { useRef } from "react"
 
+import { formatRelativeDate } from "@utils/format"
+
 import { ColumnDef } from "@tanstack/react-table"
-
-import { Edit, Forward, ListVideo, MoreHorizontal, Play, Plus, Shuffle, Timer } from "lucide-react"
-
-import { AnimatePresence, motion } from "motion/react"
-
-import { Link } from "react-router-dom"
 
 import {
   ScrollArea,
+  Icon,
+  IconButton,
+  Image,
+  SafeLink,
   Button,
   Checkbox,
   DropdownMenu,
@@ -26,12 +26,14 @@ import {
   DropdownMenuSubContent
 } from "@components/ui"
 
+import { AnimatePresence, motion } from "motion/react"
+
 import Thumbnail120x120 from "../thumbnail.jpg"
 
 type Song = {
   id: string
   title: string
-  date: string
+  date: Date | string
   duration: number
   artist: string
 }
@@ -72,9 +74,7 @@ const columns: ColumnDef<Song>[] = [
         animate={{ opacity: row.getIsFocused() || row.getIsHovered() ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <Button size="icon" onClick={() => console.log(row.original.id)}>
-          <Play />
-        </Button>
+        <IconButton name="Play" onClick={() => console.log(row.original.id)} />
       </motion.div>
     ),
     meta: { width: "100%" },
@@ -87,20 +87,25 @@ const columns: ColumnDef<Song>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3 truncate flex-1">
-          <img src={Thumbnail120x120} className="size-14 object-cover rounded-md" />
+          <Image
+            src={Thumbnail120x120}
+            alt="thumbnail"
+            containerClassName="border border-muted rounded-md"
+            className="size-14 object-cover"
+          />
           <div className="w-full truncate">
             <Marquee>
               <Button variant="link" asChild>
-                <Link to="/">
+                <SafeLink to="/favorites">
                   <Typography>{row.getValue("title")}</Typography>
-                </Link>
+                </SafeLink>
               </Button>
             </Marquee>
             <Marquee>
               <Button variant="link" asChild>
-                <Link to="/">
+                <SafeLink to="/">
                   <Typography affects="muted">{row.original.artist}</Typography>
-                </Link>
+                </SafeLink>
               </Button>
             </Marquee>
           </div>
@@ -113,11 +118,12 @@ const columns: ColumnDef<Song>[] = [
   {
     accessorKey: "date",
     header: "Date",
+    cell: ({ row }) => formatRelativeDate(row.getValue("date")),
     meta: { width: "100%", className: "truncate" }
   },
   {
     accessorKey: "duration",
-    header: () => <Timer />,
+    header: () => <Icon name="Timer" />,
     cell: ({ row }) => (
       <div className="flex justify-center items-center">
         <Typography className="truncate">{row.getValue("duration")}</Typography>
@@ -134,7 +140,7 @@ const columns: ColumnDef<Song>[] = [
         transition={{ duration: 0.3 }}
       >
         <Button variant="ghost" size="icon" onClick={() => console.log(row.original.id)}>
-          <MoreHorizontal />
+          <Icon name="MoreHorizontal" />
         </Button>
       </motion.div>
     ),
@@ -144,11 +150,17 @@ const columns: ColumnDef<Song>[] = [
   }
 ]
 
+const getRandomPastDate = () => {
+  const now = Date.now()
+  const pastTime = now - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365 * 5)
+  return new Date(pastTime)
+}
+
 const data: Song[] = Array.from({ length: 127 }, (_, index) => ({
   id: (index + 1).toString(),
   title: `Song ${index + 1}`,
   artist: `Artist ${index + 1}`,
-  date: new Date().toISOString(),
+  date: getRandomPastDate(),
   duration: 3 * (index + 1)
 }))
 
@@ -156,7 +168,7 @@ function Songs() {
   const mainRef = useRef<HTMLDivElement | null>(null)
 
   return (
-    <ScrollArea ref={mainRef} className="relative flex-1 overflow-x-hidden">
+    <ScrollArea ref={mainRef} className="flex-1 overflow-x-hidden">
       <VirtualizedTable
         parentRef={mainRef}
         className="p-3 md:p-9 pt-0 md:pt-0 transition-[background-color,padding]"
@@ -177,7 +189,7 @@ function Songs() {
                       tooltip={{ children: "Shuffle and play", side: "bottom" }}
                       size="icon"
                     >
-                      <Shuffle />
+                      <Icon name="Shuffle" />
                     </Button>
                     <Typography variant="h3">Songs</Typography>
                   </div>
@@ -196,41 +208,41 @@ function Songs() {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="icon" className="ml-auto">
-                              <MoreHorizontal />
+                              <Icon name="MoreHorizontal" />
                               <span className="sr-only">Selected songs options</span>
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
                             <DropdownMenuLabel>Playback</DropdownMenuLabel>
                             <DropdownMenuItem>
-                              <Play />
+                              <Icon name="Play" />
                               Play
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                              <Forward />
+                              <Icon name="Forward" />
                               Play next
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSub>
                               <DropdownMenuSubTrigger>
-                                <Plus />
+                                <Icon name="Plus" />
                                 Add to
                               </DropdownMenuSubTrigger>
                               <DropdownMenuSubContent>
                                 <DropdownMenuItem>
-                                  <ListVideo />
+                                  <Icon name="ListVideo" />
                                   Play queue
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  <Plus />
+                                  <Icon name="Plus" />
                                   New playlist
                                 </DropdownMenuItem>
                               </DropdownMenuSubContent>
                             </DropdownMenuSub>
                             {table.getSelectedRowModel().flatRows.length === 1 && (
                               <DropdownMenuItem>
-                                <Edit />
+                                <Icon name="Edit" />
                                 Edit
                               </DropdownMenuItem>
                             )}
@@ -262,7 +274,7 @@ function Songs() {
                     transition={{ duration: 0.3 }}
                   >
                     <Button disabled={hasSelectedRows}>
-                      <Shuffle />
+                      <Icon name="Shuffle" />
                       Shuffle and play
                     </Button>
                   </motion.div>
@@ -281,41 +293,41 @@ function Songs() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="outline" size="icon" className="ml-auto">
-                            <MoreHorizontal />
+                            <Icon name="MoreHorizontal" />
                             <span className="sr-only">Selected songs options</span>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuLabel>Playback</DropdownMenuLabel>
                           <DropdownMenuItem>
-                            <Play />
+                            <Icon name="Play" />
                             Play
                           </DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Forward />
+                            <Icon name="Forward" />
                             Play next
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuSub>
                             <DropdownMenuSubTrigger>
-                              <Plus />
+                              <Icon name="Plus" />
                               Add to
                             </DropdownMenuSubTrigger>
                             <DropdownMenuSubContent>
                               <DropdownMenuItem>
-                                <ListVideo />
+                                <Icon name="ListVideo" />
                                 Play queue
                               </DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Plus />
+                                <Icon name="Plus" />
                                 New playlist
                               </DropdownMenuItem>
                             </DropdownMenuSubContent>
                           </DropdownMenuSub>
                           {table.getSelectedRowModel().flatRows.length === 1 && (
                             <DropdownMenuItem>
-                              <Edit />
+                              <Icon name="Edit" />
                               Edit
                             </DropdownMenuItem>
                           )}

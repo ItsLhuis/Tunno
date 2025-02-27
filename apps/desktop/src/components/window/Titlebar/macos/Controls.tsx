@@ -15,7 +15,7 @@ type MacOsProps = {
 
 function MacOs({ onClose, onMinimize, onFullSceen, onMaximize }: MacOsProps) {
   const [isAltKeyPressed, setIsAltKeyPressed] = useState(false)
-  const [isHovering, setIsHovering] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const lastKeyPressedIcon = isAltKeyPressed ? <Maximize /> : <Full />
 
@@ -43,29 +43,29 @@ function MacOs({ onClose, onMinimize, onFullSceen, onMaximize }: MacOsProps) {
   return (
     <div
       className="h-full flex items-center space-x-2 ml-3 text-black active:text-black dark:text-black"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <ControlButton
         onClick={onClose}
         aria-label="Close"
         className={cn(macOsButtonClassName, "bg-[#ff544d] hover:bg-[#ff544d] active:bg-[#bf403a]")}
       >
-        {isHovering && <Close />}
+        {isHovered && <Close />}
       </ControlButton>
       <ControlButton
         onClick={onMinimize}
         aria-label="Minimize"
         className={cn(macOsButtonClassName, "bg-[#ffbd2e] hover:bg-[#ffbd2e] active:bg-[#bf9122]")}
       >
-        {isHovering && <Minimize />}
+        {isHovered && <Minimize />}
       </ControlButton>
       <ControlButton
         onClick={isAltKeyPressed ? onMaximize : onFullSceen}
         aria-label="FullScreen"
         className={cn(macOsButtonClassName, "bg-[#28c93f] hover:bg-[#28c93f] active:bg-[#1e9930]")}
       >
-        {isHovering && lastKeyPressedIcon}
+        {isHovered && lastKeyPressedIcon}
       </ControlButton>
     </div>
   )
