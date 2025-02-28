@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import { cn } from "@lib/utils"
 
-import { Close, Maximize, Full, Minimize } from "./icons"
+import { Close, Full, Maximize, Minimize } from "./icons"
 
 import { ControlButton } from "../ControlButton"
 

@@ -1,7 +1,8 @@
-import { forwardRef, type ElementRef, type ComponentPropsWithoutRef } from "react"
-import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
+import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react"
 
 import { cn } from "@lib/utils"
+
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 
 const ScrollArea = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.Viewport>,

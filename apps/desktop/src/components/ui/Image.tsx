@@ -1,6 +1,6 @@
 "use client"
 
-import { forwardRef, useState, useEffect, useRef, type ReactNode } from "react"
+import { forwardRef, useEffect, useRef, useState, type ReactNode } from "react"
 
 import { AnimatePresence, motion } from "motion/react"
 
@@ -55,7 +55,10 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
 
     const defaultPlaceholder = <div className="w-full h-full bg-muted" />
 
-    const containerStyles = ["relative overflow-hidden shrink-0", containerClassName]
+    const containerStyles = [
+      "relative overflow-hidden shrink-0 transition-colors",
+      containerClassName
+    ]
       .filter(Boolean)
       .join(" ")
 

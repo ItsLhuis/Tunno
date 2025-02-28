@@ -5,34 +5,35 @@ import { formatRelativeDate } from "@utils/format"
 import { ColumnDef } from "@tanstack/react-table"
 
 import {
-  ScrollArea,
-  Icon,
-  IconButton,
-  Image,
-  SafeLink,
   Button,
   Checkbox,
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuItem,
-  Marquee,
-  Typography,
-  VirtualizedTable,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuSub,
+  DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuSubContent
+  DropdownMenuTrigger,
+  Icon,
+  IconButton,
+  Image,
+  Marquee,
+  SafeLink,
+  ScrollArea,
+  Typography,
+  VirtualizedTable
 } from "@components/ui"
 
 import { AnimatePresence, motion } from "motion/react"
 
-import Thumbnail120x120 from "../thumbnail.jpg"
+import Thumbnail from "@assets/thumbs/1.jpg"
 
 type Song = {
   id: string
   title: string
+  album: string
   date: Date | string
   duration: number
   artist: string
@@ -42,25 +43,20 @@ const columns: ColumnDef<Song>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex justify-center items-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
     ),
     cell: ({ row }) => (
-      <div className="flex justify-center items-center">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
     ),
     meta: { width: "100%" },
     enableSorting: false,
@@ -88,10 +84,10 @@ const columns: ColumnDef<Song>[] = [
       return (
         <div className="flex items-center gap-3 truncate flex-1">
           <Image
-            src={Thumbnail120x120}
+            src={Thumbnail}
             alt="thumbnail"
             containerClassName="border border-muted rounded-md"
-            className="size-14 object-cover"
+            className="size-12 object-cover"
           />
           <div className="w-full truncate">
             <Marquee>
@@ -104,7 +100,7 @@ const columns: ColumnDef<Song>[] = [
             <Marquee>
               <Button variant="link" asChild>
                 <SafeLink to="/">
-                  <Typography affects="muted">{row.original.artist}</Typography>
+                  <Typography affects={["muted", "small"]}>{row.original.artist}</Typography>
                 </SafeLink>
               </Button>
             </Marquee>
@@ -114,6 +110,11 @@ const columns: ColumnDef<Song>[] = [
     },
     meta: { width: "100%", className: "truncate" },
     enableHiding: false
+  },
+  {
+    accessorKey: "album",
+    header: "Album",
+    meta: { width: "100%", className: "truncate" }
   },
   {
     accessorKey: "date",
@@ -159,6 +160,7 @@ const getRandomPastDate = () => {
 const data: Song[] = Array.from({ length: 127 }, (_, index) => ({
   id: (index + 1).toString(),
   title: `Song ${index + 1}`,
+  album: `Album ${index + 1}`,
   artist: `Artist ${index + 1}`,
   date: getRandomPastDate(),
   duration: 3 * (index + 1)
@@ -343,7 +345,7 @@ function Songs() {
         columns={columns}
         data={data ?? []}
         estimateSize={70}
-        rowGridCols={["2.5rem", "3.75rem", "1fr", "0.5fr", "minmax(50px,0.2fr)", "3.75rem"]}
+        rowGridCols={["2.5rem", "3.75rem", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "3.75rem"]}
         rowClassName="gap-1 w-full"
       />
     </ScrollArea>

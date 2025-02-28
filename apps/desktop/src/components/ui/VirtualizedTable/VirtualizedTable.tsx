@@ -1,13 +1,13 @@
 "use client"
 
 import {
-  useState,
   useCallback,
-  useMemo,
   useEffect,
-  type MutableRefObject,
-  type HTMLAttributes,
+  useMemo,
+  useState,
   type ChangeEvent,
+  type HTMLAttributes,
+  type MutableRefObject,
   type ReactNode
 } from "react"
 
@@ -17,10 +17,10 @@ import { Focusing } from "./features/focus"
 import { Hovering } from "./features/hover"
 
 import {
-  Table as TanStackTable,
   ColumnDef,
   ColumnFiltersState,
   SortingState,
+  Table as TanStackTable,
   VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -31,21 +31,21 @@ import {
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
-import { Icon } from "@components/ui/Icon"
-import { SearchInput } from "@components/ui/SearchInput"
 import { Button } from "@components/ui/Button"
-import { Spinner } from "@components/ui/Spinner"
-import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSub,
-  DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-  DropdownMenuCheckboxItem
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger
 } from "@components/ui/DropdownMenu"
+import { Icon } from "@components/ui/Icon"
+import { SearchInput } from "@components/ui/SearchInput"
+import { Spinner } from "@components/ui/Spinner"
+import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
 
 import { AnimatePresence, motion } from "motion/react"
 
@@ -354,7 +354,7 @@ const VirtualizedTable = <TData, TValue>({
                             : cell.column.getSize()
                         }}
                       >
-                        <div className="truncate">
+                        <div className="flex-1 truncate">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>
                       </TableCell>

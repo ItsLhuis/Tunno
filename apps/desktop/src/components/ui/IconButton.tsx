@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 
-import { type ButtonProps, Button } from "@components/ui/Button"
+import { Button, type ButtonProps } from "@components/ui/Button"
 import { Icon, type IconProps } from "@components/ui/Icon"
 
 export type IconButtonProps = Omit<ButtonProps, "size" | "asChild" | "children"> & {

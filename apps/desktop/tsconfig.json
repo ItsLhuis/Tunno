@@ -2,41 +2,19 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@app/*": [
-        "./src/app/*"
-      ],
-      "@assets/*": [
-        "./src/assets/*"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@contexts/*": [
-        "./src/contexts/*"
-      ],
-      "@hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@lib/*": [
-        "./src/lib/*"
-      ],
-      "@tauri/*": [
-        "./src/tauri/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ]
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@tauri/*": ["./src/tauri/*"],
+      "@utils/*": ["./src/utils/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
@@ -50,14 +28,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "src"
-  ],
-  "exclude": [
-    "vite.config.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", "src"],
+  "exclude": ["vite.config.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"

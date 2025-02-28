@@ -2,12 +2,12 @@ import { Component, type ErrorInfo, type ReactNode } from "react"
 
 import {
   Accordion,
-  AccordionTrigger,
   AccordionContent,
   AccordionItem,
-  Typography,
+  AccordionTrigger,
   Linkify,
-  ScrollArea
+  ScrollArea,
+  Typography
 } from "@components/ui"
 
 import { motion } from "motion/react"

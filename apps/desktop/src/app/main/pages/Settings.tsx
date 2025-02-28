@@ -1,10 +1,10 @@
 import {
-  Icon,
   Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  Icon
 } from "@components/ui"
 
 import { useTheme } from "@contexts/ThemeContext"

@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { useLocation } from "react-router-dom"
 
-import { SafeLink, Icon, Button, ScrollArea } from "@components/ui"
+import { Button, Icon, SafeLink, ScrollArea } from "@components/ui"
 
 const sidebarItems = [
   { icon: "Music", label: "Songs", href: "/" },

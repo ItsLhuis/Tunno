@@ -3,18 +3,19 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 import { moveCurrentWindowToCorner } from "@tauri/window/utils"
 
 import {
-  Icon,
-  IconButton,
-  Marquee,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuTrigger,
   DropdownMenuItem,
+  DropdownMenuTrigger,
+  Icon,
+  IconButton,
+  Image,
+  Marquee,
   Slider,
   Typography
 } from "@components/ui"
 
-import Thumbnail from "./thumbnail.jpg"
+import Thumbnail from "@assets/thumbs/1.jpg"
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="rounded-none rounded-br-sm justify-center"
-                onClick={() => moveCurrentWindowToCorner("bottom-left")}
+                onClick={() => moveCurrentWindowToCorner("bottom-right")}
               >
                 <Icon name="ArrowDownRight" />
               </DropdownMenuItem>
@@ -82,23 +83,25 @@ function App() {
               <Typography variant="h6">Marisola - Remix</Typography>
             </Marquee>
             <div className="flex items-center justify-center gap-2 px-4">
-              <Typography affects={["tiny"]}>0:01</Typography>
+              <Typography affects={["small"]}>0:01</Typography>
               <Slider />
-              <Typography affects={["tiny"]}>2:24</Typography>
+              <Typography affects={["small"]}>2:24</Typography>
             </div>
           </div>
         </div>
       </div>
       <div className="absolute top-0 bottom-0 left-0 right-0 flex-1 flex flex-col items-center justify-center">
-        <img
+        <Image
           alt="Thumbnail"
           src={Thumbnail}
-          className="absolute inset-0 w-full h-full object-cover z-10 blur-xl"
+          containerClassName="!absolute inset-0 w-full h-full bg-background"
+          className="w-full h-full object-cover z-10 blur-xl"
         />
-        <img
+        <Image
           alt="Thumbnail"
           src={Thumbnail}
-          className="z-20 w-[70%] h-[70%] max-w-[800px] max-h-[800px] rounded-lg object-cover"
+          containerClassName="z-20 w-[70%] h-[70%] max-w-[600px] max-h-[600px] bg-background"
+          className="h-full w-full rounded-lg object-cover"
         />
       </div>
     </main>

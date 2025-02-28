@@ -11,11 +11,11 @@ import {
 } from "@tanstack/table-core"
 
 import type {
+  FocusingOptions,
   FocusingRow,
   FocusingTable,
-  FocusingOptions,
-  RowFocusingState,
-  FocusingTableState
+  FocusingTableState,
+  RowFocusingState
 } from "./types"
 
 export const Focusing = {

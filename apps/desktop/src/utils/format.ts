@@ -1,4 +1,4 @@
-import { format, isToday, isYesterday, differenceInHours, parseISO } from "date-fns"
+import { differenceInHours, format, isToday, isYesterday, parseISO } from "date-fns"
 
 export function formatRelativeDate(data: Date | string): string {
   const date = typeof data === "string" ? parseISO(data) : data

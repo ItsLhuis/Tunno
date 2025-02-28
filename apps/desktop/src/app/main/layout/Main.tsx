@@ -1,8 +1,8 @@
-import { useLocation, Routes, Route } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 
 import { motion } from "framer-motion"
 
-import { Songs, Favorites, Playlists, Artists, Settings } from "@app/main/pages"
+import { Artists, Favorites, Playlists, Settings, Songs } from "@app/main/pages"
 
 const routes = [
   { path: "/", element: <Songs /> },

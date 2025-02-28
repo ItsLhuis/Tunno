@@ -6,8 +6,8 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import Logo from "@assets/images/app/icons/primary.png"
 
+import { Button, Icon, IconButton, SafeLink, Typography } from "@components/ui"
 import { Titlebar as WindowTitlebar } from "@components/window"
-import { IconButton, SafeLink, Typography } from "@components/ui"
 
 import { motion } from "motion/react"
 
@@ -79,16 +79,19 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
             >
               <IconButton
                 name="Zap"
-                tooltip={{ children: "Upload fast", side: "bottom" }}
+                tooltip={{ children: "Fast upload", side: "bottom" }}
                 variant="ghost"
               />
-              <SafeLink to="/settings">
-                <IconButton
-                  name="Settings"
-                  tooltip={{ children: "Settings", side: "bottom" }}
-                  variant="ghost"
-                />
-              </SafeLink>
+              <Button
+                tooltip={{ children: "Settings", side: "bottom" }}
+                variant="ghost"
+                size="icon"
+                asChild
+              >
+                <SafeLink to="/settings">
+                  <Icon name="Settings" />
+                </SafeLink>
+              </Button>
             </motion.div>
           )}
         </div>

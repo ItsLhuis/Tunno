@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
@@ -8,7 +8,7 @@ import Logo from "@assets/images/app/icons/primary.png"
 
 import { ErrorBoundary } from "@components/core"
 
-import { Titlebar, Sidebar, Main, Footer } from "@app/main/layout"
+import { Footer, Main, Sidebar, Titlebar } from "@app/main/layout"
 
 import { motion } from "motion/react"
 

@@ -1,8 +1,8 @@
 import { type Platform } from "@tauri-apps/plugin-os"
 
-import Windows from "./windows/Controls"
 import Linux from "./linux/Controls"
 import MacOs from "./macos/Controls"
+import Windows from "./windows/Controls"
 
 export type ConotrolsProps = {
   platform: Platform

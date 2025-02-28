@@ -1,11 +1,11 @@
-import { useState, useEffect, forwardRef, type HTMLAttributes, type ReactNode } from "react"
+import { forwardRef, useEffect, useState, type HTMLAttributes, type ReactNode } from "react"
 
 import { cn } from "@lib/utils"
 
 import { listen } from "@tauri-apps/api/event"
 
-import { platform } from "@tauri-apps/plugin-os"
 import { getCurrentWindow } from "@tauri-apps/api/window"
+import { platform } from "@tauri-apps/plugin-os"
 
 import Controls from "./Controls"
 

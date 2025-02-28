@@ -1,8 +1,8 @@
 "use client"
 
-import { Typography, type TypographyProps } from "@components/ui/Typography"
 import { Button } from "@components/ui/Button"
 import { SafeLink } from "@components/ui/SafeLink"
+import { Typography, type TypographyProps } from "@components/ui/Typography"
 
 export type LinkifyProps = TypographyProps & {
   text: string

@@ -1,7 +1,8 @@
-import { forwardRef, type HTMLAttributes, type ElementType } from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import { forwardRef, type ElementType, type HTMLAttributes } from "react"
 
 import { cn } from "@lib/utils"
+
+import { cva, type VariantProps } from "class-variance-authority"
 
 export const typographyVariants = cva("", {
   variants: {
@@ -22,8 +23,7 @@ export const typographyVariants = cva("", {
       default: "",
       lead: "text-xl text-muted-foreground",
       large: "text-lg",
-      small: "text-sm leading-none",
-      tiny: "text-xs leading-none",
+      small: "text-xs leading-none",
       muted: "text-muted-foreground",
       bold: "font-bold",
       removePMargin: "[&:not(:first-child)]:mt-0"

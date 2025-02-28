@@ -11,11 +11,11 @@ import {
 } from "@tanstack/table-core"
 
 import type {
+  HoveringOptions,
   HoveringRow,
   HoveringTable,
-  HoveringOptions,
-  RowHoveringState,
-  HoveringTableState
+  HoveringTableState,
+  RowHoveringState
 } from "./types"
 
 export const Hovering = {

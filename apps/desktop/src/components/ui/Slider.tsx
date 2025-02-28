@@ -1,19 +1,23 @@
-import { forwardRef, useState, type ElementRef, type ComponentPropsWithoutRef } from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider"
+import { forwardRef, useRef, useState, type ComponentPropsWithoutRef, type ElementRef } from "react"
 
 import { cn } from "@lib/utils"
 
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@components/ui/Tooltip"
+import * as SliderPrimitive from "@radix-ui/react-slider"
+
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/Tooltip"
 
 const Slider = forwardRef<
   ElementRef<typeof SliderPrimitive.Root>,
   ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ onMouseEnter, onMouseLeave, onValueChange, className, ...props }, ref) => {
+>(({ onMouseEnter, onMouseLeave, onFocus, onBlur, onValueChange, className, ...props }, ref) => {
   const [value, setValue] = useState<number[]>(props.defaultValue || [0])
 
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false)
 
+  const hoverDelay = useRef<NodeJS.Timeout | null>(null)
+
   const [isHovered, setIsHovered] = useState<boolean>(false)
+  const [isFocused, setIsFocused] = useState<boolean>(false)
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -21,12 +25,24 @@ const Slider = forwardRef<
         ref={ref}
         className={cn("relative flex w-full touch-none select-none items-center", className)}
         onMouseEnter={(e) => {
+          if (hoverDelay.current) clearTimeout(hoverDelay.current)
           setIsHovered(true)
           if (onMouseEnter) onMouseEnter(e)
         }}
         onMouseLeave={(e) => {
-          setIsHovered(false)
+          if (!isFocused) hoverDelay.current = setTimeout(() => setIsHovered(false), 300)
           if (onMouseLeave) onMouseLeave(e)
+        }}
+        onFocus={(e) => {
+          if (hoverDelay.current) clearTimeout(hoverDelay.current)
+          setIsHovered(true)
+          setIsFocused(true)
+          if (onFocus) onFocus(e)
+        }}
+        onBlur={(e) => {
+          setIsFocused(false)
+          hoverDelay.current = setTimeout(() => setIsHovered(false), 300)
+          if (onBlur) onBlur(e)
         }}
         onValueChange={(value) => {
           setTooltipOpen(true)

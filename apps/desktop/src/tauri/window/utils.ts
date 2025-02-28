@@ -1,8 +1,27 @@
-import { getCurrentWindow, currentMonitor, LogicalPosition } from "@tauri-apps/api/window"
+import { currentMonitor, getCurrentWindow, LogicalPosition, Window } from "@tauri-apps/api/window"
+
+let overlayWindow: Window | null = null
+
+export async function getOverlayWindow(): Promise<Window> {
+  if (!overlayWindow) {
+    overlayWindow = await Window.getByLabel("overlay")
+    if (!overlayWindow) {
+      throw new Error("Overlay window could not be created or retrieved.")
+    }
+  }
+  return overlayWindow
+}
+
+export const showOverlayWindow = async (): Promise<void> => {
+  const overlayWindow = await getOverlayWindow()
+  await overlayWindow.unminimize()
+  await overlayWindow.show()
+  await overlayWindow.setFocus()
+}
 
 export const moveCurrentWindowToCorner = async (
   corner: "bottom-left" | "bottom-right" | "top-left" | "top-right"
-) => {
+): Promise<void> => {
   const monitor = await currentMonitor()
 
   if (monitor) {
