@@ -10,7 +10,7 @@ import { border, spacing } from "@constants/styles"
 
 import { FadingView } from "../FadingView"
 
-import Animated, { DerivedValue, useAnimatedStyle } from "react-native-reanimated"
+import Animated, { DerivedValue, interpolateColor, useAnimatedStyle } from "react-native-reanimated"
 
 import { type HeaderProps, type LargeHeaderProps, type LargeHeaderSubtitleProps } from "./types"
 
@@ -36,6 +36,8 @@ export function Header({
 
   const dimensions = useWindowDimensions()
 
+  const { colors } = useColorTheme()
+
   const headerCenterExists = !!headerCenter
 
   const { centerWidth, minSideHeaderWidth } = useMemo(() => {
@@ -47,10 +49,21 @@ export function Header({
 
   const noHeaderLeftRight = !headerLeft && !headerRight
 
+  const headerBackgroundStyle = useAnimatedStyle(
+    () => ({
+      backgroundColor: interpolateColor(
+        showHeader.value,
+        [0, 1],
+        [colors.background, colors.secondary]
+      )
+    }),
+    [colors.background, colors.secondary]
+  )
+
   return (
     <View>
       {SurfaceComponent && SurfaceComponent({ showHeader })}
-      <View
+      <Animated.View
         style={[
           {
             flexDirection: "row",
@@ -60,6 +73,7 @@ export function Header({
             paddingTop: (ignoreTopSafeArea ? 0 : insets.top) + spacing.large,
             paddingBottom: spacing.large
           },
+          headerBackgroundStyle,
           headerStyle
         ]}
       >
@@ -170,7 +184,7 @@ export function Header({
             {headerRight}
           </View>
         )}
-      </View>
+      </Animated.View>
       {!bottomBorder && (
         <HeaderBottomBorder
           opacity={showHeader}
@@ -199,9 +213,9 @@ export function HeaderBottomBorder({
   const borderBottomStyle = useAnimatedStyle(
     () => ({
       opacity: opacity.value,
-      backgroundColor: borderColor || colors.secondary
+      backgroundColor: borderColor || colors.border
     }),
-    [borderColor, colors.secondary]
+    [borderColor, colors.border]
   )
 
   return (

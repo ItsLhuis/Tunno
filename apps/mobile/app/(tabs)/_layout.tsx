@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { border, spacing } from "@constants/styles"
+import { spacing } from "@constants/styles"
 
 import { Tabs } from "expo-router"
 
@@ -30,13 +30,10 @@ export default function TabLayout() {
     <View style={{ flex: 1 }}>
       <Tabs
         tabBar={(props) => (
-          <FadingView opacity={opacity}>
+          <FadingView opacity={opacity} style={{ backgroundColor: colors.secondary }}>
             {props.state.routes && props.state.routes.length > 0 && <BottomPlayer />}
             <View
               style={{
-                // Se nao houver player...
-                /* borderTopColor: colors.secondary,
-                borderTopWidth: border.thin, */
                 flexDirection: "row",
                 justifyContent: "space-around"
               }}

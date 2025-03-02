@@ -99,7 +99,7 @@ export default function Artists() {
                   style={{
                     padding: spacing.medium,
                     borderRadius: borderRadius.round,
-                    backgroundColor: colors.secondary
+                    backgroundColor: colors.border
                   }}
                 >
                   <Icon color={colors.placeholder} name="User" />

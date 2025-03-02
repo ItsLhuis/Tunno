@@ -123,7 +123,7 @@ export default function Playlists() {
                   alignItems: "center",
                   padding: spacing.small,
                   borderRadius: borderRadius.xSmall,
-                  backgroundColor: colors.secondary
+                  backgroundColor: colors.border
                 }}
               >
                 <Icon color={colors.placeholder} name="List" size={itemSize / 3} />

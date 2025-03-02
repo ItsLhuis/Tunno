@@ -101,7 +101,7 @@ export default function Favorites() {
                   style={{
                     padding: spacing.medium,
                     borderRadius: borderRadius.xSmall,
-                    backgroundColor: colors.secondary
+                    backgroundColor: colors.border
                   }}
                 >
                   <Icon color={colors.placeholder} name="Heart" />

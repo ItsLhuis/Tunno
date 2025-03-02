@@ -1,24 +1,25 @@
 import { sqliteTable, index, text, integer } from "drizzle-orm/sqlite-core"
-import { relations, sql, type InferSelectModel } from "drizzle-orm"
+import { relations, sql } from "drizzle-orm"
+
+import { type InferQueryModel } from "./helpers"
 
 // Songs
 export const songs = sqliteTable(
   "songs",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").notNull(),
+    name: text("name").unique().notNull(),
     thumbnail: text("thumbnail"),
     duration: integer("duration"),
     isFavorite: integer("is_favorite", { mode: "boolean" }),
     releaseYear: integer("release_year"),
     albumId: integer("album_id").references(() => albums.id),
-    createdAt: integer("created_at", { mode: "timestamp" })
+    createdAt: text("created_at")
       .notNull()
       .default(sql`(current_timestamp)`)
   },
   (table) => [index("songs_name_idx").on(table.name), index("songs_albumId_idx").on(table.albumId)]
 )
-
 export const songsRelations = relations(songs, ({ one, many }) => ({
   album: one(albums, {
     fields: [songs.albumId],
@@ -27,71 +28,64 @@ export const songsRelations = relations(songs, ({ one, many }) => ({
   artists: many(songsToArtists),
   playlists: many(playlistsToSongs)
 }))
-export type Song = InferSelectModel<typeof songs> & {
-  album?: Album | null
-  artists?: Artist | null
-  playlists?: Playlist | null
-}
+export type Song = InferQueryModel<"songs">
+export type SongWithRelations = InferQueryModel<
+  "songs",
+  { artists: true; playlists: true; album: true }
+>
 
 // Artists
 export const artists = sqliteTable(
   "artists",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").notNull(),
+    name: text("name").unique().notNull(),
     thumbnail: text("thumbnail"),
-    createdAt: integer("created_at", { mode: "timestamp" })
+    createdAt: text("created_at")
       .notNull()
       .default(sql`(current_timestamp)`)
   },
   (table) => [index("artists_name_idx").on(table.name)]
 )
-
 export const artistsRelations = relations(artists, ({ many }) => ({
   songs: many(songsToArtists)
 }))
-export type Artist = InferSelectModel<typeof artists> & {
-  songs?: Song[] | null
-}
+export type Artist = InferQueryModel<"artists">
+export type ArtistWithRelations = InferQueryModel<"artists", { songs: true }>
 
 // Playlists
 export const playlists = sqliteTable(
   "playlists",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").notNull(),
+    name: text("name").unique().notNull(),
     thumbnail: text("thumbnail"),
-    createdAt: integer("created_at", { mode: "timestamp" })
+    createdAt: text("created_at")
       .notNull()
       .default(sql`(current_timestamp)`)
   },
   (table) => [index("playlists_name_idx").on(table.name)]
 )
-
 export const playlistsRelations = relations(playlists, ({ many }) => ({
   songs: many(playlistsToSongs)
 }))
-export type Playlist = InferSelectModel<typeof playlists> & {
-  songs?: Song[] | null
-}
+export type Playlist = InferQueryModel<"playlists">
 
 // Albums
 export const albums = sqliteTable(
   "albums",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").notNull(),
+    name: text("name").unique().notNull(),
     thumbnail: text("thumbnail"),
-    releaseYear: integer("release_year"),
-    createdAt: integer("created_at", { mode: "timestamp" })
+    createdAt: text("created_at")
       .notNull()
       .default(sql`(current_timestamp)`)
   },
   (table) => [index("albums_name_idx").on(table.name)]
 )
-export type Album = InferSelectModel<typeof albums> & {
-  songs?: Song[] | null
-}
+export type Album = InferQueryModel<"albums">
+export type AlbumWithRelations = InferQueryModel<"albums", { songs: true }>
 
 // Songs to Artists
 export const songsToArtists = sqliteTable(
@@ -109,7 +103,6 @@ export const songsToArtists = sqliteTable(
     index("song_artists_artistId_idx").on(table.artistId)
   ]
 )
-
 export const songsToArtistsRelations = relations(songsToArtists, ({ one }) => ({
   song: one(songs, {
     fields: [songsToArtists.songId],
@@ -137,7 +130,6 @@ export const playlistsToSongs = sqliteTable(
     index("playlist_songs_songId_idx").on(table.songId)
   ]
 )
-
 export const playlistsToSongsRelations = relations(playlistsToSongs, ({ one }) => ({
   playlist: one(playlists, {
     fields: [playlistsToSongs.playlistId],

@@ -45,7 +45,7 @@ export function Button({
     ? color === "primary"
       ? colors.primary
       : color === "secondary"
-      ? colors.secondary
+      ? colors.border
       : "transparent"
     : "transparent"
 
@@ -59,20 +59,18 @@ export function Button({
 
   const indicatorColor = textColor
 
-  const textOpacity = useSharedValue<number>(isLoading ? 0 : 1)
-  const indicatorOpacity = useSharedValue<number>(isLoading ? 1 : 0)
+  const opacity = useSharedValue<number>(isLoading ? 0 : 1)
 
   useEffect(() => {
-    textOpacity.value = withTiming(isLoading ? 0 : 1, { duration: 300 })
-    indicatorOpacity.value = withTiming(isLoading ? 1 : 0, { duration: 300 })
+    opacity.value = withTiming(isLoading ? 0 : 1, { duration: 300 })
   }, [isLoading])
 
   const animatedTextStyle = useAnimatedStyle(() => ({
-    opacity: textOpacity.value
+    opacity: opacity.value
   }))
 
   const animatedIndicatorStyle = useAnimatedStyle(() => ({
-    opacity: indicatorOpacity.value
+    opacity: 1 - opacity.value
   }))
 
   return (

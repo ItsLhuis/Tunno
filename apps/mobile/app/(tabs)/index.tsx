@@ -4,25 +4,24 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { borderRadius, spacing, imageSize, border } from "@constants/styles"
+import { border, borderRadius, imageSize, spacing } from "@constants/styles"
 
 import { View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
 import {
-  Icon,
-  IconButton,
-  Text,
-  Pressable,
-  SearchInput,
-  Header,
-  LargeHeader,
-  LargeHeaderSubtitle,
-  FlashListWithHeaders,
-  ListItemText,
   ActivityIndicator,
   FadingView,
-  Image
+  FlashListWithHeaders,
+  Header,
+  IconButton,
+  Image,
+  LargeHeader,
+  LargeHeaderSubtitle,
+  ListItemText,
+  Pressable,
+  SearchInput,
+  Text
 } from "@components/ui"
 
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
@@ -32,11 +31,20 @@ import { router } from "expo-router"
 type Song = {
   id: string
   name: string
+  thumbnail: any
 }
 
 const songs = Array.from({ length: 200 }, (_, i) => ({
   id: `${i}`,
-  name: `Item ${i}`
+  name: `Item ${i}`,
+  thumbnail: [
+    require("@assets/thumbs/1.jpg"),
+    require("@assets/thumbs/2.jpg"),
+    require("@assets/thumbs/3.jpg"),
+    require("@assets/thumbs/4.jpg"),
+    require("@assets/thumbs/5.jpg"),
+    require("@assets/thumbs/6.jpg")
+  ][Math.floor(Math.random() * 6)]
 }))
 
 export default function Songs() {
@@ -53,7 +61,7 @@ export default function Songs() {
   }, [])
 
   return (
-    <FadingScreen style={{ flex: 1 }} removeClippedSubviews>
+    <FadingScreen style={{ flex: 1 }}>
       <FlashListWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
@@ -111,19 +119,21 @@ export default function Songs() {
                 }}
               >
                 <Image
+                  key={item.id}
+                  recyclingKey={item.id}
                   containerStyle={{
                     justifyContent: "center",
                     alignItems: "center",
                     borderRadius: borderRadius.xSmall,
-                    backgroundColor: colors.secondary,
-                    borderColor: colors.secondary,
+                    backgroundColor: colors.border,
+                    borderColor: colors.border,
                     borderWidth: border.thin
                   }}
                   style={{
                     height: imageSize.xLow,
                     width: imageSize.xLow
                   }}
-                  source={require("@assets/thumbs/1.jpg")}
+                  source={item.thumbnail}
                 />
                 <ListItemText
                   title={item.name}

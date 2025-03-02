@@ -1,4 +1,4 @@
-import { useState, useEffect, forwardRef } from "react"
+import { useState, useEffect, forwardRef, type ReactNode } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
@@ -14,20 +14,13 @@ import { runOnJS, useSharedValue, withTiming } from "react-native-reanimated"
 
 export type ImageProps = ExpoImageProps & {
   containerStyle?: StyleProp<ViewStyle>
-  placeholderComponent?: React.ReactNode
+  placeholderComponent?: ReactNode
   shadow?: boolean
 }
 
 export const Image = forwardRef<ExpoImage, ImageProps>(
   (
-    {
-      containerStyle,
-      placeholderComponent,
-      shadow = false,
-      source,
-      onLoad,
-      ...props
-    }: ImageProps,
+    { containerStyle, placeholderComponent, shadow = false, source, onLoad, ...props }: ImageProps,
     ref
   ) => {
     const { colors } = useColorTheme()
@@ -44,22 +37,18 @@ export const Image = forwardRef<ExpoImage, ImageProps>(
 
     const resetLoadingState = () => {
       setLoaded(false)
-      loadOpacity.value = withTiming(1, { duration: 300 }, () => {
-        runOnJS(setCurrentSource)(source)
-      })
+      loadOpacity.value = withTiming(1, { duration: 300 }, () => runOnJS(setCurrentSource)(source))
     }
 
     useEffect(() => {
-      if (currentSource !== source) {
-        resetLoadingState()
-      }
+      if (currentSource !== source) resetLoadingState()
     }, [source])
 
     const defaultPlaceholder = (
       <View
         style={{
           flex: 1,
-          backgroundColor: colors.secondary
+          backgroundColor: colors.border
         }}
       />
     )

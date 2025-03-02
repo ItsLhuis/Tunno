@@ -14,9 +14,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useScroll } from "./useSroll"
 
-import { Dimensions, StyleSheet, View } from "react-native"
+import { View } from "react-native"
 
-import { FlashList, type FlashListProps } from "@shopify/flash-list"
+import { AnimatedLegendList } from "@legendapp/list/reanimated"
+import { type LegendListProps } from "@legendapp/list"
 
 import { FadingView } from "../FadingView"
 
@@ -24,19 +25,14 @@ import Animated, { AnimatedProps, FadeIn, useAnimatedRef } from "react-native-re
 
 import type { SharedScrollContainerProps } from "./types"
 
-type AnimatedFlashListType<ItemT> = ComponentProps<
-  ComponentClass<AnimatedProps<FlashListProps<ItemT>>, any>
+type AnimatedLegendListType<ItemT> = ComponentProps<
+  ComponentClass<AnimatedProps<LegendListProps<ItemT>>, any>
 > &
   SharedScrollContainerProps
 
-const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as ComponentClass<
-  AnimatedProps<FlashListProps<any>>,
-  unknown
->
+export type LegendListWithHeadersProps<ItemT> = Omit<AnimatedLegendListType<ItemT>, "onScroll">
 
-export type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, "onScroll">
-
-const FlashListWithHeadersComp = <ItemT extends any = any>(
+const LegendListWithHeadersComp = <ItemT extends any = any>(
   {
     largeHeaderShown,
     containerStyle,
@@ -62,12 +58,11 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
     scrollIndicatorInsets = {},
-    inverted,
     data,
     ListEmptyComponent,
     ...props
-  }: FlashListWithHeadersProps<ItemT>,
-  ref: Ref<FlashList<ItemT>>
+  }: LegendListWithHeadersProps<ItemT>,
+  ref: Ref<LegendListProps<ItemT>>
 ) => {
   if (_unusedOnScroll) {
     throw new Error(
@@ -100,14 +95,8 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
     absoluteHeader,
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
-    inverted: !!inverted,
     onScrollWorklet
   })
-
-  const combinedContentContainerStyle = StyleSheet.flatten([
-    scrollViewAdjustments.contentContainerStyle,
-    contentContainerStyle
-  ])
 
   return (
     <View
@@ -119,9 +108,10 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
       ]}
     >
       {!absoluteHeader && HeaderComponent({ showHeader, scrollY })}
-      <AnimatedFlashList
+      <AnimatedLegendList
         ref={scrollRef}
         onLayout={(e) => setListHeight(e.nativeEvent.layout.height)}
+        // @ts-ignore
         data={data}
         scrollEnabled={
           Array.isArray(data)
@@ -154,7 +144,7 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
           debouncedFixScroll()
           if (onMomentumScrollEnd) onMomentumScrollEnd(e)
         }}
-        contentContainerStyle={combinedContentContainerStyle}
+        contentContainerStyle={[scrollViewAdjustments.contentContainerStyle, contentContainerStyle]}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
             ? automaticallyAdjustsScrollIndicatorInsets
@@ -164,6 +154,7 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
           ...scrollViewAdjustments.scrollIndicatorInsets,
           ...scrollIndicatorInsets
         }}
+        // @ts-ignore
         ListHeaderComponent={
           <View onLayout={(e) => setHeaderListHeight(e.nativeEvent.layout.height)}>
             {LargeHeaderComponent && (
@@ -204,11 +195,6 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
             </Animated.View>
           ) : null
         }
-        inverted={inverted}
-        estimatedListSize={{
-          height: Dimensions.get("screen").height,
-          width: Dimensions.get("screen").width
-        }}
         {...props}
       />
       {absoluteHeader && (
@@ -227,12 +213,12 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
     </View>
   )
 }
-FlashListWithHeadersComp.displayName = "FlashListWithHeaders"
+LegendListWithHeadersComp.displayName = "LegendListWithHeaders"
 
-const FlashListWithHeaders = forwardRef(FlashListWithHeadersComp) as <ItemT = any>(
-  props: FlashListWithHeadersProps<ItemT> & {
-    ref?: RefObject<FlashList<ItemT>>
+const LegendListWithHeaders = forwardRef(LegendListWithHeadersComp) as <ItemT = any>(
+  props: LegendListWithHeadersProps<ItemT> & {
+    ref?: RefObject<LegendListProps<ItemT>>
   }
 ) => ReactElement | null
 
-export { FlashListWithHeaders }
+export { LegendListWithHeaders }

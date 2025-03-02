@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "32f22caf-8e6b-49a1-9f5b-d03558b42ff0",
+  "id": "1688ef01-6b48-4f9c-b28b-708d8de182b3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "albums": {
@@ -28,16 +28,9 @@
           "notNull": false,
           "autoincrement": false
         },
-        "release_year": {
-          "name": "release_year",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -45,6 +38,13 @@
         }
       },
       "indexes": {
+        "albums_name_unique": {
+          "name": "albums_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        },
         "albums_name_idx": {
           "name": "albums_name_idx",
           "columns": [
@@ -84,7 +84,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -92,6 +92,13 @@
         }
       },
       "indexes": {
+        "artists_name_unique": {
+          "name": "artists_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        },
         "artists_name_idx": {
           "name": "artists_name_idx",
           "columns": [
@@ -131,7 +138,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -139,6 +146,13 @@
         }
       },
       "indexes": {
+        "playlists_name_unique": {
+          "name": "playlists_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        },
         "playlists_name_idx": {
           "name": "playlists_name_idx",
           "columns": [
@@ -272,7 +286,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -280,6 +294,13 @@
         }
       },
       "indexes": {
+        "songs_name_unique": {
+          "name": "songs_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        },
         "songs_name_idx": {
           "name": "songs_name_idx",
           "columns": [

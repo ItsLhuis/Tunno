@@ -1,4 +1,10 @@
-import { forwardRef, useImperativeHandle } from "react"
+import {
+  forwardRef,
+  useImperativeHandle,
+  type ReactNode,
+  type ComponentProps,
+  type Ref
+} from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -14,8 +20,8 @@ import { type SharedScrollContainerProps } from "./types"
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 
-type AnimatedScrollViewProps = React.ComponentProps<typeof AnimatedScrollView> & {
-  children?: React.ReactNode
+type AnimatedScrollViewProps = ComponentProps<typeof AnimatedScrollView> & {
+  children?: ReactNode
 }
 
 type ScrollViewWithHeadersProps = Omit<
@@ -53,7 +59,7 @@ export const ScrollViewWithHeaders = forwardRef<Animated.ScrollView, ScrollViewW
       disableLargeHeaderFadeAnim = false,
       ...props
     }: ScrollViewWithHeadersProps,
-    ref: React.Ref<Animated.ScrollView | null>
+    ref: Ref<Animated.ScrollView | null>
   ) => {
     if (_unusedOnScroll) {
       throw new Error(

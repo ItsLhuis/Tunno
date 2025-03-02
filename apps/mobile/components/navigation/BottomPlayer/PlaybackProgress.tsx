@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 
-import { border } from "@constants/styles"
-
 import { Slider } from "../../ui/Slider"
 
 export function PlaybackProgress() {
@@ -25,8 +23,6 @@ export function PlaybackProgress() {
       disabled
       value={value}
       containerStyle={{ height: "auto" }}
-      trackStyle={{ height: border.thin }}
-      minimumTrackStyle={{ height: border.medium }}
       thumbStyle={{ height: 0, width: 0 }}
     />
   )

@@ -1,8 +1,8 @@
-import { Text as RNText, type TextProps as RNTextProps } from "react-native"
-
 import { useColorTheme } from "@hooks/useColorTheme"
 
 import { fontFamily, fontSize } from "@constants/font"
+
+import { Text as RNText, type TextProps as RNTextProps } from "react-native"
 
 export type TextProps = RNTextProps & {
   variant?: keyof typeof fontFamily

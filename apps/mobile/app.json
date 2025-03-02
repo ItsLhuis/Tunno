@@ -4,10 +4,15 @@
     "slug": "wave",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/app/icon.png",
+    "scheme": "wave",
     "userInterfaceStyle": "automatic",
     "ios": {
+      "icon": {
+        "light": "./assets/images/ios/icons/default.png",
+        "dark": "./assets/images/ios/icons/default.png",
+        "tinted": "./assets/images/ios/icons/tinted.png"
+      },
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": ["audio"]
@@ -15,8 +20,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#fc3c44"
+        "foregroundImage": "./assets/images/android/icons/default.png",
+        "monochromeImage": "./assets/images/android/icons/monochrome.png",
+        "backgroundColor": "#FC3C44"
       },
       "softwareKeyboardLayoutMode": "pan",
       "package": "com.itslhuis.wave"
@@ -25,11 +31,11 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/appicon-light.png",
-          "backgroundColor": "#f5f5f5",
+          "image": "./assets/images/splash/light.png",
+          "backgroundColor": "#F5F5F5",
           "dark": {
-            "image": "./assets/images/appicon-dark.png",
-            "backgroundColor": "#111111"
+            "image": "./assets/images/splash/dark.png",
+            "backgroundColor": "#161616"
           },
           "imageWidth": 200,
           "resizeMode": "contain"

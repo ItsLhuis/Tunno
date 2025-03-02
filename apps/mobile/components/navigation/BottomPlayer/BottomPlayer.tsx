@@ -39,7 +39,7 @@ export function BottomPlayer() {
       <FadingView opacity={opacity}>
         <View
           style={{
-            borderTopColor: colors.secondary,
+            borderTopColor: colors.border,
             borderTopWidth: border.thin
           }}
         >
