@@ -103,7 +103,7 @@
     overflow: hidden;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--scrollbar));
+    background-color: hsl(var(--foreground) / 0.2);
     border: 6px solid transparent;
     border-radius: 8px;
     background-clip: padding-box;
