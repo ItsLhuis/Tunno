@@ -32,6 +32,7 @@ import {
 import { useVirtualizer } from "@tanstack/react-virtual"
 
 import { Button } from "@components/ui/Button"
+import { ContextMenu, ContextMenuTrigger } from "@components/ui/ContextMenu"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -68,6 +69,7 @@ export type VirtualizedTableProps<TData, TValue> = HTMLAttributes<HTMLDivElement
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   estimateSize: number
+  rowContextMenuContent?: (table: TanStackTable<TData>) => ReactNode
   rowGridCols?: Array<string | number>
   rowClassName?: string
   rowStyle?: React.CSSProperties
@@ -81,6 +83,7 @@ const VirtualizedTable = <TData, TValue>({
   columns,
   data,
   estimateSize,
+  rowContextMenuContent,
   rowGridCols = [],
   rowClassName = "",
   rowStyle = {},
@@ -328,38 +331,42 @@ const VirtualizedTable = <TData, TValue>({
               virtualRows.map((virtualRow) => {
                 const row = rows[virtualRow.index]
                 return (
-                  <TableRow
-                    key={row.id}
-                    data-index={virtualRow.index}
-                    ref={rowVirtualizer.measureElement}
-                    data-state={row.getIsSelected() && "selected"}
-                    className={cn("grid absolute w-full border-none rounded-md", rowClassName)}
-                    style={{
-                      transform: `translateY(${virtualRow.start}px)`,
-                      gridTemplateColumns: dynamicGridCols,
-                      ...rowStyle
-                    }}
-                    onFocus={() => row.toggleFocused()}
-                    onBlur={() => row.toggleFocused()}
-                    onMouseEnter={() => row.toggleHovered()}
-                    onMouseLeave={() => row.toggleHovered()}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cell.column.columnDef.meta?.className}
+                  <ContextMenu key={row.id}>
+                    <ContextMenuTrigger asChild>
+                      <TableRow
+                        data-index={virtualRow.index}
+                        ref={rowVirtualizer.measureElement}
+                        data-state={row.getIsSelected() && "selected"}
+                        className={cn("grid absolute w-full border-none rounded-md", rowClassName)}
                         style={{
-                          width: cell.column.columnDef.meta?.width
-                            ? cell.column.columnDef.meta?.width
-                            : cell.column.getSize()
+                          transform: `translateY(${virtualRow.start}px)`,
+                          gridTemplateColumns: dynamicGridCols,
+                          ...rowStyle
                         }}
+                        onFocus={() => row.toggleFocused()}
+                        onBlur={() => row.toggleFocused()}
+                        onMouseEnter={() => row.toggleHovered()}
+                        onMouseLeave={() => row.toggleHovered()}
                       >
-                        <div className="flex-1 truncate">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>
-                      </TableCell>
-                    ))}
-                  </TableRow>
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            key={cell.id}
+                            className={cell.column.columnDef.meta?.className}
+                            style={{
+                              width: cell.column.columnDef.meta?.width
+                                ? cell.column.columnDef.meta?.width
+                                : cell.column.getSize()
+                            }}
+                          >
+                            <div className="flex-1 truncate">
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </div>
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </ContextMenuTrigger>
+                    {rowContextMenuContent?.(table)}
+                  </ContextMenu>
                 )
               })
             )}

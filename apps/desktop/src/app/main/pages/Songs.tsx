@@ -7,6 +7,17 @@ import { ColumnDef } from "@tanstack/react-table"
 import {
   Button,
   Checkbox,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -347,6 +358,50 @@ function Songs() {
         estimateSize={70}
         rowGridCols={["2.5rem", "3.75rem", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "3.75rem"]}
         rowClassName="gap-1 w-full"
+        rowContextMenuContent={() => {
+          return (
+            <ContextMenuContent className="w-64">
+              <ContextMenuItem inset>
+                Back
+                <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem inset disabled>
+                Forward
+                <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem inset>
+                Reload
+                <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuSub>
+                <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+                <ContextMenuSubContent className="w-48">
+                  <ContextMenuItem>
+                    Save Page As...
+                    <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+                  </ContextMenuItem>
+                  <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                  <ContextMenuItem>Name Window...</ContextMenuItem>
+                  <ContextMenuSeparator />
+                  <ContextMenuItem>Developer Tools</ContextMenuItem>
+                </ContextMenuSubContent>
+              </ContextMenuSub>
+              <ContextMenuSeparator />
+              <ContextMenuCheckboxItem checked>
+                Show Bookmarks Bar
+                <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+              </ContextMenuCheckboxItem>
+              <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+              <ContextMenuSeparator />
+              <ContextMenuRadioGroup value="pedro">
+                <ContextMenuLabel inset>People</ContextMenuLabel>
+                <ContextMenuSeparator />
+                <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
+                <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+              </ContextMenuRadioGroup>
+            </ContextMenuContent>
+          )
+        }}
       />
     </ScrollArea>
   )
