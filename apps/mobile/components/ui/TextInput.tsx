@@ -36,7 +36,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
     const isFocused = useSharedValue<number>(0)
 
     const borderStyle = useAnimatedStyle(() => ({
-      borderColor: interpolateColor(isFocused.value, [0, 1], [colors.border, colors.primary])
+      borderColor: interpolateColor(isFocused.value, [0, 1], [colors.muted, colors.primary])
     }))
 
     const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -64,7 +64,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
             paddingHorizontal: spacing.small,
             paddingVertical: Platform.OS === "android" ? spacing.xSmall : spacing.small,
             borderRadius: borderRadius.xSmall,
-            borderColor: colors.border,
+            borderColor: colors.muted,
             borderWidth: border.thin
           },
           borderStyle,

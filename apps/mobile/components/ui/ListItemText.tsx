@@ -7,7 +7,7 @@ import { View, StyleProp, ViewStyle } from "react-native"
 import { Text, type TextProps } from "@components/ui/Text"
 
 export type ListItemTextProps = {
-  title?: string | null | undefined
+  title: string
   description?: string | null | undefined
   containerStyle?: StyleProp<ViewStyle>
   titleProps?: TextProps
@@ -32,13 +32,15 @@ export function ListItemText({
       >
         {title}
       </Text>
-      <Text
-        style={[{ color: colors.placeholder }, descriptionProps?.style]}
-        size={descriptionProps?.size || "small"}
-        {...descriptionProps}
-      >
-        {description}
-      </Text>
+      {description && (
+        <Text
+          style={[{ color: colors.placeholder }, descriptionProps?.style]}
+          size={descriptionProps?.size || "small"}
+          {...descriptionProps}
+        >
+          {description}
+        </Text>
+      )}
     </View>
   )
 }

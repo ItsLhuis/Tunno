@@ -45,7 +45,7 @@ export function Button({
     ? color === "primary"
       ? colors.primary
       : color === "secondary"
-      ? colors.border
+      ? colors.muted
       : "transparent"
     : "transparent"
 

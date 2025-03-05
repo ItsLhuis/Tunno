@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { borderRadius, spacing } from "@constants/styles"
 
-import { View } from "react-native"
+import { useWindowDimensions, View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
 import {
@@ -38,6 +38,15 @@ export default function Artists() {
   const { colors } = useColorTheme()
 
   const insets = useSafeAreaInsets()
+
+  const { width } = useWindowDimensions()
+
+  const minItemSize = 150
+  const itemSpacing = spacing.medium
+  const availableWidth = width - spacing.large * 2
+
+  const numColumns = Math.max(1, Math.floor(availableWidth / (minItemSize + itemSpacing)))
+  const itemSize = (availableWidth - (numColumns - 1) * itemSpacing) / numColumns
 
   const [data, setData] = useState<Artist[]>([])
 
@@ -83,27 +92,39 @@ export default function Artists() {
           paddingBottom: spacing.large
         }}
         data={data}
+        numColumns={numColumns}
         renderItem={({ item, index }) => (
-          <Animated.View entering={FadeIn} exiting={FadeOut}>
-            <Pressable>
+          <Animated.View
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={{
+              paddingTop: index >= numColumns ? itemSpacing : 0,
+              paddingLeft: index % numColumns ? itemSpacing / 2 : 0,
+              paddingRight: index % numColumns ? 0 : itemSpacing / 2
+            }}
+          >
+            <Pressable style={{ gap: spacing.xxSmall }}>
+              <View
+                style={{
+                  width: itemSize,
+                  height: itemSize,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: spacing.small,
+                  borderRadius: borderRadius.round,
+                  backgroundColor: colors.muted
+                }}
+              >
+                <Icon color={colors.placeholder} name="User" size={itemSize / 3} />
+              </View>
               <View
                 style={{
                   flexDirection: "row",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  justifyContent: "center",
-                  gap: spacing.xSmall,
-                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.medium : 0
+                  gap: spacing.small
                 }}
               >
-                <View
-                  style={{
-                    padding: spacing.medium,
-                    borderRadius: borderRadius.round,
-                    backgroundColor: colors.border
-                  }}
-                >
-                  <Icon color={colors.placeholder} name="User" />
-                </View>
                 <ListItemText title={item.name} description={item.id} />
                 <IconButton name="More" />
               </View>
@@ -111,7 +132,7 @@ export default function Artists() {
           </Animated.View>
         )}
         keyExtractor={(item) => item.id}
-        estimatedItemSize={60}
+        estimatedItemSize={itemSize + 10}
         ListEmptyComponent={
           <View
             style={{

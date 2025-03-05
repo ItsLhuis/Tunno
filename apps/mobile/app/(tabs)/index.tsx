@@ -125,8 +125,8 @@ export default function Songs() {
                     justifyContent: "center",
                     alignItems: "center",
                     borderRadius: borderRadius.xSmall,
-                    backgroundColor: colors.border,
-                    borderColor: colors.border,
+                    backgroundColor: colors.muted,
+                    borderColor: colors.muted,
                     borderWidth: border.thin
                   }}
                   style={{

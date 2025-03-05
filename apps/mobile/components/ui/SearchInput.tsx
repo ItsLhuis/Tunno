@@ -79,7 +79,7 @@ export const SearchInput = forwardRef<RNTextInput, SearchInputProps>(function Se
   }))
 
   const borderStyle = useAnimatedStyle(() => ({
-    borderColor: interpolateColor(isFocused.value, [0, 1], [colors.border, colors.primary])
+    borderColor: interpolateColor(isFocused.value, [0, 1], [colors.muted, colors.primary])
   }))
 
   return (
@@ -99,7 +99,7 @@ export const SearchInput = forwardRef<RNTextInput, SearchInputProps>(function Se
             alignItems: "center",
             paddingHorizontal: spacing.small,
             borderRadius: borderRadius.xSmall,
-            borderColor: colors.border,
+            borderColor: colors.muted,
             borderWidth: border.thin
           },
           borderStyle,

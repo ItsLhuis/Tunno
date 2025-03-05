@@ -13,8 +13,10 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false,
         "exclude": [
           "@expo/config-plugins",
+          "@legendapp/list",
           "lucide-react-native",
           "lodash",
           "react-native-track-player",

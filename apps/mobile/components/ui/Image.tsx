@@ -48,7 +48,7 @@ export const Image = forwardRef<ExpoImage, ImageProps>(
       <View
         style={{
           flex: 1,
-          backgroundColor: colors.border
+          backgroundColor: colors.muted
         }}
       />
     )

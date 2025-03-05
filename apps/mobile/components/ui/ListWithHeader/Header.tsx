@@ -213,9 +213,9 @@ export function HeaderBottomBorder({
   const borderBottomStyle = useAnimatedStyle(
     () => ({
       opacity: opacity.value,
-      backgroundColor: borderColor || colors.border
+      backgroundColor: borderColor || colors.muted
     }),
-    [borderColor, colors.border]
+    [borderColor, colors.muted]
   )
 
   return (
