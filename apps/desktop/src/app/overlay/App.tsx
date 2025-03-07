@@ -100,8 +100,8 @@ function App() {
         <Image
           alt="Thumbnail"
           src={Thumbnail}
-          containerClassName="z-20 w-[70%] h-[70%] max-w-[600px] max-h-[600px] bg-background"
-          className="h-full w-full rounded-lg object-cover"
+          containerClassName="z-20 w-[70%] h-[70%] max-w-[600px] max-h-[600px] bg-background rounded-lg"
+          className="h-full w-full object-cover"
         />
       </div>
     </main>

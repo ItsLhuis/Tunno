@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react"
-
-import { getCurrentWindow } from "@tauri-apps/api/window"
+import { useSplashScreen } from "@hooks/useSplashScreen"
 
 import { BrowserRouter } from "react-router-dom"
 
@@ -13,27 +11,7 @@ import { Footer, Main, Sidebar, Titlebar } from "@app/main/layout"
 import { motion } from "motion/react"
 
 function App() {
-  const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true)
-
-  useEffect(() => {
-    const initializeApp = async () => {
-      const showMainWindowTimeout = setTimeout(async () => {
-        await getCurrentWindow().show()
-        await getCurrentWindow().setFocus()
-      }, 200)
-
-      const splashTimeout = setTimeout(() => {
-        setIsSplashVisible(false)
-      }, 2000)
-
-      return () => {
-        clearTimeout(showMainWindowTimeout)
-        clearTimeout(splashTimeout)
-      }
-    }
-
-    initializeApp()
-  }, [])
+  const { isSplashVisible } = useSplashScreen()
 
   return (
     <BrowserRouter>

@@ -42,10 +42,10 @@ export const Restore = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
     <line y1="9.5" x2="8" y2="9.5" stroke="currentColor" />
     <line y1="2.5" x2="8" y2="2.5" stroke="currentColor" />
     <line x1="7.5" y1="3" x2="7.5" y2="9" stroke="currentColor" />
-    <line x1="2" y1="0.5" x2="10" y2="0.5" stroke="currentColor" stroke-opacity="0.3" />
-    <line x1="2" y1="0.5" x2="10" y2="0.5" stroke="currentColor" stroke-opacity="0.3" />
-    <line x1="9.5" y1="1" x2="9.5" y2="8" stroke="currentColor" stroke-opacity="0.3" />
-    <line x1="9.5" y1="1" x2="9.5" y2="8" stroke="currentColor" stroke-opacity="0.3" />
+    <line x1="2" y1="0.5" x2="10" y2="0.5" stroke="currentColor" strokeOpacity="0.3" />
+    <line x1="2" y1="0.5" x2="10" y2="0.5" stroke="currentColor" strokeOpacity="0.3" />
+    <line x1="9.5" y1="1" x2="9.5" y2="8" stroke="currentColor" strokeOpacity="0.3" />
+    <line x1="9.5" y1="1" x2="9.5" y2="8" stroke="currentColor" strokeOpacity="0.3" />
   </svg>
 )
 

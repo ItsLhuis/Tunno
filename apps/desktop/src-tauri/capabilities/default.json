@@ -6,7 +6,6 @@
     "*"
   ],
   "permissions": [
-    "shell:allow-open",
     "core:default",
     "core:window:allow-hide",
     "core:window:allow-show",
@@ -22,6 +21,15 @@
     "core:window:allow-set-theme",
     "store:allow-load",
     "store:allow-get",
-    "store:allow-set"
+    "store:allow-set",
+    "shell:allow-open",
+    "fs:default",
+    {
+      "identifier": "fs:scope",
+      "allow": [{  "path": "$RESOURCE/**" }, {  "path": "$APPDATA/**" }]
+    },
+    "sql:default",
+    "sql:allow-load",
+    "sql:allow-execute"
   ]
 }

@@ -57,10 +57,7 @@ const TableHead = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLTableCel
   ({ className, ...props }, ref) => (
     <th
       ref={ref}
-      className={cn(
-        "p-3 flex items-center font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className
-      )}
+      className={cn("p-3 flex items-center font-medium text-muted-foreground", className)}
       {...props}
     />
   )
@@ -69,14 +66,7 @@ TableHead.displayName = "TableHead"
 
 const TableCell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLTableCellElement>>(
   ({ className, ...props }, ref) => (
-    <td
-      ref={ref}
-      className={cn(
-        "p-3 flex items-center [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className
-      )}
-      {...props}
-    />
+    <td ref={ref} className={cn("p-3 flex items-center", className)} {...props} />
   )
 )
 TableCell.displayName = "TableCell"

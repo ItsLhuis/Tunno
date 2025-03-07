@@ -34,7 +34,7 @@ import {
   SafeLink,
   ScrollArea,
   Typography,
-  VirtualizedTable
+  VirtualizedTableGrid
 } from "@components/ui"
 
 import { AnimatePresence, motion } from "motion/react"
@@ -75,6 +75,7 @@ const columns: ColumnDef<Song>[] = [
   },
   {
     id: "media",
+    header: () => <IconButton name="Play" className="invisible" />,
     cell: ({ row }) => (
       <motion.div
         initial={{ opacity: 0 }}
@@ -145,15 +146,18 @@ const columns: ColumnDef<Song>[] = [
   },
   {
     id: "options",
+    header: () => <IconButton name="MoreHorizontal" variant="ghost" className="invisible" />,
     cell: ({ row }) => (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: row.getIsFocused() || row.getIsHovered() ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <Button variant="ghost" size="icon" onClick={() => console.log(row.original.id)}>
-          <Icon name="MoreHorizontal" />
-        </Button>
+        <IconButton
+          name="MoreHorizontal"
+          variant="ghost"
+          onClick={() => console.log(row.original.id)}
+        />
       </motion.div>
     ),
     meta: { width: "100%", className: "truncate" },
@@ -182,7 +186,7 @@ function Songs() {
 
   return (
     <ScrollArea ref={mainRef} className="flex-1 overflow-x-hidden">
-      <VirtualizedTable
+      <VirtualizedTableGrid
         parentRef={mainRef}
         className="p-3 md:p-9 pt-0 md:pt-0 transition-[background-color,padding]"
         header={{
@@ -194,7 +198,7 @@ function Songs() {
               const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
               return (
-                <div className="flex items-center justify-between gap-3 p-3 pt-6 md:px-9 transition-[background-color,padding]">
+                <div className="flex items-center justify-between gap-3 p-3 md:pt-9 md:px-9 transition-[background-color,padding]">
                   <div className="flex items-center gap-3">
                     <Button
                       disabled={hasSelectedRows}
@@ -270,7 +274,7 @@ function Songs() {
           },
           containerProps: {
             className:
-              "flex flex-col px-3 md:px-9 gap-6 pt-6 md:pt-9 transition-[background-color,padding]"
+              "flex flex-col px-3 gap-6 md:px-9 pt-3 md:pt-9 transition-[background-color,padding]"
           },
           children: (table) => {
             const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
@@ -279,18 +283,10 @@ function Songs() {
               <div className="flex flex-col items-start gap-6">
                 <Typography variant="h1">Songs</Typography>
                 <div className="flex items-center w-full gap-3">
-                  <motion.div
-                    key="shuffle"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Button disabled={hasSelectedRows}>
-                      <Icon name="Shuffle" />
-                      Shuffle and play
-                    </Button>
-                  </motion.div>
+                  <Button disabled={hasSelectedRows}>
+                    <Icon name="Shuffle" />
+                    Shuffle and play
+                  </Button>
                   {hasSelectedRows && (
                     <motion.div
                       key="selected"
@@ -356,11 +352,11 @@ function Songs() {
         columns={columns}
         data={data ?? []}
         estimateSize={70}
-        rowGridCols={["2.5rem", "3.75rem", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "3.75rem"]}
+        rowGridCols={["auto", "auto", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "auto"]}
         rowClassName="gap-1 w-full"
         rowContextMenuContent={() => {
           return (
-            <ContextMenuContent className="w-64">
+            <ContextMenuContent>
               <ContextMenuItem inset>
                 Back
                 <ContextMenuShortcut>⌘[</ContextMenuShortcut>
@@ -389,7 +385,7 @@ function Songs() {
               <ContextMenuSeparator />
               <ContextMenuCheckboxItem checked>
                 Show Bookmarks Bar
-                <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+                <ContextMenuShortcut className="ml-3">⌘⇧B</ContextMenuShortcut>
               </ContextMenuCheckboxItem>
               <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
               <ContextMenuSeparator />

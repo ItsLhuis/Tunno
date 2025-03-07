@@ -19,6 +19,7 @@ import { Hovering } from "./features/hover"
 import {
   ColumnDef,
   ColumnFiltersState,
+  RowSelectionState,
   SortingState,
   Table as TanStackTable,
   VisibilityState,
@@ -50,11 +51,11 @@ import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/
 
 import { AnimatePresence, motion } from "motion/react"
 
-export type VirtualizedTableHeaderProps<TData> = {
+export type VirtualizedTableGridHeaderProps<TData> = {
   containerProps?: HTMLAttributes<HTMLDivElement>
   children?: (table: TanStackTable<TData>) => ReactNode
   placeholder?: string
-  saveVisibleColumns?: (visibleColumns: VisibilityState) => void
+  onVisibleColumnsChange?: (visibleColumns: VisibilityState) => void
   sticky?: {
     containerProps?: HTMLAttributes<HTMLDivElement>
     tableHeaderProps?: HTMLAttributes<HTMLDivElement>
@@ -63,8 +64,8 @@ export type VirtualizedTableHeaderProps<TData> = {
   }
 }
 
-export type VirtualizedTableProps<TData, TValue> = HTMLAttributes<HTMLDivElement> & {
-  header?: VirtualizedTableHeaderProps<TData>
+export type VirtualizedTableGridProps<TData, TValue> = HTMLAttributes<HTMLDivElement> & {
+  header?: VirtualizedTableGridHeaderProps<TData>
   parentRef: MutableRefObject<HTMLDivElement | null>
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -77,7 +78,7 @@ export type VirtualizedTableProps<TData, TValue> = HTMLAttributes<HTMLDivElement
   isLoading?: boolean
 }
 
-const VirtualizedTable = <TData, TValue>({
+const VirtualizedTableGrid = <TData, TValue>({
   parentRef,
   header,
   columns,
@@ -91,8 +92,8 @@ const VirtualizedTable = <TData, TValue>({
   isLoading = false,
   className,
   ...props
-}: VirtualizedTableProps<TData, TValue>) => {
-  const [isScrolled, setIsScrolled] = useState(false)
+}: VirtualizedTableGridProps<TData, TValue>) => {
+  const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
   const [globalFilter, setGlobalFilter] = useState<string | null>(null)
 
@@ -102,7 +103,7 @@ const VirtualizedTable = <TData, TValue>({
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(initialVisibleColumns)
 
-  const [rowSelection, setRowSelection] = useState({})
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
   const table = useReactTable({
     _features: [Focusing, Hovering],
@@ -116,7 +117,7 @@ const VirtualizedTable = <TData, TValue>({
     onColumnVisibilityChange: (updater) => {
       const columns = typeof updater === "function" ? updater(columnVisibility) : updater
       setColumnVisibility(columns)
-      header?.saveVisibleColumns?.(columns)
+      header?.onVisibleColumnsChange?.(columns)
     },
     onRowSelectionChange: setRowSelection,
     state: {
@@ -210,7 +211,7 @@ const VirtualizedTable = <TData, TValue>({
                         <div
                           key={header.id}
                           className={cn(
-                            "p-3 flex items-center font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                            "p-3 flex items-center font-medium text-muted-foreground",
                             header.column.columnDef.meta?.className
                           )}
                           style={{
@@ -376,6 +377,6 @@ const VirtualizedTable = <TData, TValue>({
     </div>
   )
 }
-VirtualizedTable.displayName = "VirtualizedTable"
+VirtualizedTableGrid.displayName = "VirtualizedTableGrid"
 
-export { VirtualizedTable }
+export { VirtualizedTableGrid }

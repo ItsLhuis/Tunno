@@ -39,6 +39,7 @@ export default defineConfig(async () => ({
       "@assets": path.resolve(root, "assets/"),
       "@components": path.resolve(root, "components/"),
       "@contexts": path.resolve(root, "contexts/"),
+      "@database": path.resolve(root, "database/"),
       "@hooks": path.resolve(root, "hooks/"),
       "@lib": path.resolve(root, "lib/"),
       "@tauri": path.resolve(root, "tauri/"),

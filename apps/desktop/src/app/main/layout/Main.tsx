@@ -2,13 +2,14 @@ import { Route, Routes, useLocation } from "react-router-dom"
 
 import { motion } from "framer-motion"
 
-import { Artists, Favorites, Playlists, Settings, Songs } from "@app/main/pages"
+import { Artists, FastUpload, Favorites, Playlists, Settings, Songs } from "@app/main/pages"
 
 const routes = [
   { path: "/", element: <Songs /> },
   { path: "/favorites", element: <Favorites /> },
   { path: "/playlists", element: <Playlists /> },
   { path: "/artists", element: <Artists /> },
+  { path: "/fast-upload", element: <FastUpload /> },
   { path: "/settings", element: <Settings /> }
 ]
 
