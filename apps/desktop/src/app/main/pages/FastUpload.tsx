@@ -4,7 +4,7 @@ import { Button, ScrollArea, TextInput, Typography } from "@components/ui"
 
 function FastUpload() {
   const [name, setName] = useState("")
-  const [songs, setSongs] = useState<schema.Song[]>([])
+  const [songs, setSongs] = useState<schema.SongWithRelations[]>([])
 
   async function addSong() {
     await database.insert(schema.songs).values({ name })
@@ -12,9 +12,9 @@ function FastUpload() {
     loadSongs()
   }
 
-  const loadSongs = async () => {
+  async function loadSongs() {
     database.query.songs
-      .findMany()
+      .findMany({ with: { album: true, artists: true, playlists: true } })
       .execute()
       .then((results) => {
         setSongs(results)
@@ -69,7 +69,7 @@ function FastUpload() {
                 </div>
                 <div className="mt-4">
                   <Typography variant="h4">JSON Representation</Typography>
-                  <div className="p-4 rounded-md overflow-x-auto" style={{ maxHeight: "300px" }}>
+                  <div className="p-4 rounded-md">
                     <pre className="whitespace-pre-wrap break-words">
                       <code>{JSON.stringify(item, null, 2)}</code>
                     </pre>

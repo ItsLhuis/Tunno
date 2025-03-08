@@ -15,15 +15,9 @@ export const database = drizzle<typeof schema>(
     let results = []
 
     if (isSelectQuery(sql)) {
-      rows = await sqlite.select(sql, params).catch((e) => {
-        console.error("SQL Error:", e)
-        return []
-      })
+      rows = await sqlite.select(sql, params).catch(() => [])
     } else {
-      rows = await sqlite.execute(sql, params).catch((e) => {
-        console.error("SQL Error:", e)
-        return []
-      })
+      rows = await sqlite.execute(sql, params).catch(() => [])
       return { rows: [] }
     }
 
@@ -35,7 +29,7 @@ export const database = drizzle<typeof schema>(
 
     return { rows: results }
   },
-  { schema: schema, logger: true }
+  { schema: schema }
 )
 
 function isSelectQuery(sql: string): boolean {

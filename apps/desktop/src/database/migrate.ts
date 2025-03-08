@@ -7,6 +7,7 @@ export async function migrate(): Promise<void> {
   const sqlite = await getSQLiteDatabase()
 
   const resourcePath = await resourceDir()
+
   const files = await readDir(`${resourcePath}/migrations`)
 
   let migrations = files.filter((file) => file.name?.endsWith(".sql"))
@@ -15,9 +16,7 @@ export async function migrate(): Promise<void> {
     const aHash = a.name?.replace(".sql", "").slice(0, 4)
     const bHash = b.name?.replace(".sql", "").slice(0, 4)
 
-    if (aHash && bHash) {
-      return aHash.localeCompare(bHash)
-    }
+    if (aHash && bHash) return aHash.localeCompare(bHash)
 
     return 0
   })
@@ -47,8 +46,8 @@ export async function migrate(): Promise<void> {
     if (hash && hasBeenRun(hash) === undefined) {
       const sql = await readTextFile(`${resourcePath}/migrations/${migration.name}`)
 
-      sqlite.execute(sql, [])
-      sqlite.execute(`INSERT INTO "__drizzle_migrations" (hash, created_at) VALUES ($1, $2)`, [
+      await sqlite.execute(sql, [])
+      await sqlite.execute(`INSERT INTO "__drizzle_migrations" (hash, created_at) VALUES ($1, $2)`, [
         hash,
         Date.now()
       ])
