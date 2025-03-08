@@ -3,7 +3,7 @@ import { defineConfig } from "vite"
 
 import path from "path"
 
-const root = path.resolve(__dirname, "src/")
+const root = path.resolve(__dirname, "src")
 const host = process.env.TAURI_DEV_HOST
 
 export default defineConfig(async () => ({

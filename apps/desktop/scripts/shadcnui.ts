@@ -1,18 +1,18 @@
 import { spawn } from "child_process"
 
-import { dirname, resolve, extname } from "path"
+import path from "path"
 import { fileURLToPath } from "url"
 
 import fs from "fs"
 
 import chalk from "chalk"
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const componentsBase = resolve(__dirname, "..", "src", "components", "ui")
-const indexFilePath = resolve(componentsBase, "index.ts")
+const componentsBase = path.resolve(__dirname, "..", "src", "components", "ui")
+const indexFilePath = path.resolve(componentsBase, "index.ts")
 
-const hooksBase = resolve(__dirname, "..", "src", "hooks")
+const hooksBase = path.resolve(__dirname, "..", "src", "hooks")
 
 async function shadcnui() {
   const componentName = process.argv[2]
@@ -78,13 +78,13 @@ async function renameExistingFiles(basePath: string, renamer: (name: string) => 
   const files = await fs.promises.readdir(basePath)
 
   for (const file of files) {
-    const filePath = resolve(basePath, file)
-    const fileExt = extname(file)
+    const filePath = path.resolve(basePath, file)
+    const fileExt = path.extname(file)
 
     if (fileExt === ".tsx" || (fileExt === ".ts" && file.replace(fileExt, "") !== "index")) {
       const fileNameWithoutExt = file.replace(fileExt, "")
       const newFileName = renamer(fileNameWithoutExt)
-      const newFilePath = resolve(basePath, `${newFileName}${fileExt}`)
+      const newFilePath = path.resolve(basePath, `${newFileName}${fileExt}`)
 
       if (filePath !== newFilePath) {
         console.log(chalk.gray(`Renaming file: ${file} -> ${newFileName}${fileExt}`))
@@ -114,8 +114,8 @@ async function updateImports(paths: string[]) {
     const files = await fs.promises.readdir(basePath)
 
     for (const file of files) {
-      const filePath = resolve(basePath, file)
-      const fileExt = extname(file)
+      const filePath = path.resolve(basePath, file)
+      const fileExt = path.extname(file)
 
       if (fileExt === ".tsx" || fileExt === ".ts") {
         let data = await fs.promises.readFile(filePath, "utf-8")
@@ -146,9 +146,9 @@ async function updateImports(paths: string[]) {
 
 async function updateIndexFile() {
   const files = await fs.promises.readdir(componentsBase)
-  const tsxFiles = files.filter((file) => extname(file) === ".tsx")
+  const tsxFiles = files.filter((file) => path.extname(file) === ".tsx")
   const folders = files.filter(
-    (file) => !extname(file) && fs.lstatSync(resolve(componentsBase, file)).isDirectory()
+    (file) => !path.extname(file) && fs.lstatSync(path.resolve(componentsBase, file)).isDirectory()
   )
 
   if (tsxFiles.length === 0 && folders.length === 0) {
@@ -159,7 +159,7 @@ async function updateIndexFile() {
   let exportStatements = ""
 
   tsxFiles.forEach((file) => {
-    const componentName = pascalCaseRenamer(file.replace(extname(file), ""))
+    const componentName = pascalCaseRenamer(file.replace(path.extname(file), ""))
     exportStatements += `export * from "./${componentName}"\n`
   })
 

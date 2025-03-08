@@ -3,7 +3,7 @@ import { defineConfig } from "drizzle-kit"
 import fs from "fs"
 import path from "path"
 
-const tauriConfigPath = path.resolve(__dirname, "./src-tauri/tauri.conf.json")
+const tauriConfigPath = path.resolve(__dirname, ".", "src-tauri", "tauri.conf.json")
 
 const defaultBundleId = "com.itslhuis.wave"
 
