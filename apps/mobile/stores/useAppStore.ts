@@ -8,6 +8,6 @@ type AppProps = {
   playerRef: RefObject<BottomSheetModal>
 }
 
-export const useApp = create<AppProps>((set) => ({
+export const useAppStore = create<AppProps>((set) => ({
   playerRef: createRef<BottomSheetModal>()
 }))

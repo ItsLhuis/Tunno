@@ -10,13 +10,13 @@ export function TrackInfo() {
   return (
     <View style={{ width: "100%", alignItems: "center", gap: spacing.large }}>
       <Image
-        style={{
+        containerStyle={{
           width: "100%",
           maxWidth: 640,
           maxHeight: 640,
-          aspectRatio: 1,
           borderRadius: borderRadius.small
         }}
+        style={{width: "100%", aspectRatio: 1}}
         source={require("@assets/thumbs/1.jpg")}
       />
       <View

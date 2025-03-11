@@ -6,8 +6,6 @@ import { View, type StyleProp, type ViewStyle } from "react-native"
 
 import { Image as ExpoImage, type ImageProps as ExpoImageProps } from "expo-image"
 
-import { Shadow } from "react-native-shadow-2"
-
 import { FadingView } from "./FadingView"
 
 import { runOnJS, useSharedValue, withTiming } from "react-native-reanimated"
@@ -15,14 +13,10 @@ import { runOnJS, useSharedValue, withTiming } from "react-native-reanimated"
 export type ImageProps = ExpoImageProps & {
   containerStyle?: StyleProp<ViewStyle>
   placeholderComponent?: ReactNode
-  shadow?: boolean
 }
 
 export const Image = forwardRef<ExpoImage, ImageProps>(
-  (
-    { containerStyle, placeholderComponent, shadow = false, source, onLoad, ...props }: ImageProps,
-    ref
-  ) => {
+  ({ containerStyle, placeholderComponent, source, onLoad, ...props }: ImageProps, ref) => {
     const { colors } = useColorTheme()
 
     const [loaded, setLoaded] = useState<boolean>(false)
@@ -53,10 +47,8 @@ export const Image = forwardRef<ExpoImage, ImageProps>(
       />
     )
 
-    const Component = shadow ? Shadow : View
-
     return (
-      <Component style={[{ position: "relative", overflow: "hidden" }, containerStyle]}>
+      <View style={[{ position: "relative", overflow: "hidden" }, containerStyle]}>
         <ExpoImage
           ref={ref}
           source={currentSource}
@@ -80,7 +72,7 @@ export const Image = forwardRef<ExpoImage, ImageProps>(
             {placeholderComponent ?? defaultPlaceholder}
           </FadingView>
         )}
-      </Component>
+      </View>
     )
   }
 )

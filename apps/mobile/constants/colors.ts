@@ -10,7 +10,11 @@ export const colors = {
     placeholder: "#737373",
     icon: "#737373",
     tabIconDefault: "#737373",
-    tabIconSelected: PRIMARY_COLOR
+    tabIconSelected: PRIMARY_COLOR,
+    info: "#4DAFFF",
+    success: "#4D8F40",
+    warning: "#FFB366",
+    error: "#CC0000"
   },
   dark: {
     text: "#ECEDEE",
@@ -21,6 +25,10 @@ export const colors = {
     placeholder: "#A1A1A1",
     icon: "#A1A1A1",
     tabIconDefault: "#A1A1A1",
-    tabIconSelected: PRIMARY_COLOR
+    tabIconSelected: PRIMARY_COLOR,
+    info: "#4DAFFF",
+    success: "#4D8F40",
+    warning: "#FFB366",
+    error: "#CC0000"
   }
 }

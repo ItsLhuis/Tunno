@@ -1,6 +1,6 @@
 import "expo-dev-client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import { useColorScheme, View } from "react-native"
 
@@ -8,16 +8,10 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useFonts } from "expo-font"
 
-import { useSettings } from "@stores/useSettings"
-
-import { initializeAppDirectories } from "@utils/app"
-
-import { initializeGoogleSignin } from "@utils/google"
-
-import { openDatabaseSync } from "expo-sqlite"
+import migrations from "@migrations/migrations"
 import { drizzle } from "drizzle-orm/expo-sqlite"
-import { useMigrations } from "drizzle-orm/expo-sqlite/migrator"
-import migrations from "@drizzle/migrations"
+import { migrate } from "drizzle-orm/expo-sqlite/migrator"
+import { openDatabaseSync } from "expo-sqlite"
 
 import { databaseName } from "@database/client"
 
@@ -33,9 +27,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
+import { Toaster } from "@components/ui"
+
 import { Stack } from "expo-router"
 
-import { enableScreens, enableFreeze } from "react-native-screens"
+import { enableFreeze, enableScreens } from "react-native-screens"
 
 enableScreens()
 enableFreeze()
@@ -56,21 +52,12 @@ export default function RootLayout() {
     "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf")
   })
 
-  const { appDirectory, backupsDirectory } = useSettings()
-
   const prepareApp = async (): Promise<void> => {
-    await initializeAppDirectories(appDirectory, backupsDirectory)
-    await initializeGoogleSignin()
+    await migrate(drizzle(openDatabaseSync(databaseName)), migrations)
   }
 
-  const { success, error } = useMigrations(drizzle(openDatabaseSync(databaseName)), migrations)
-
   useEffect(() => {
-    if (fontsLoaded) {
-      if (!success) console.error("Migration failed:", error)
-
-      prepareApp().then(() => setIsAppReady(true))
-    }
+    if (fontsLoaded) prepareApp().then(() => setIsAppReady(true))
   }, [fontsLoaded])
 
   const onChildrenLayout = useCallback(() => {
@@ -102,6 +89,7 @@ export default function RootLayout() {
               <Stack.Screen name="drive" options={{ headerShown: false }} />
             </Stack>
           </View>
+          <Toaster />
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </ThemeProvider>

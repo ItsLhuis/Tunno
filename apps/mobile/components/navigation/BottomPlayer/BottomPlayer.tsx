@@ -2,7 +2,7 @@ import { Fragment, useCallback, useEffect } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { useApp } from "@stores/useApp"
+import { useAppStore } from "@stores/useAppStore"
 
 import { border } from "@constants/styles"
 
@@ -19,7 +19,7 @@ import { useSharedValue, withTiming } from "react-native-reanimated"
 export function BottomPlayer() {
   const { colors } = useColorTheme()
 
-  const { playerRef } = useApp()
+  const { playerRef } = useAppStore()
 
   const opacity = useSharedValue<number>(0)
 

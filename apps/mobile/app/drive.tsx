@@ -5,6 +5,7 @@ import { database } from "@database/client"
 import { artists } from "@database/schema"
 import { eq } from "drizzle-orm"
 import { FlashList } from "@shopify/flash-list"
+import { useSettingsStore } from "@/stores/useSettingsStore"
 
 const ArtistManager: React.FC = () => {
   const [name, setName] = useState("")
@@ -75,14 +76,13 @@ const ArtistManager: React.FC = () => {
     fetchArtists()
   }, [])
 
+  const { appDirectory, backupsDirectory } = useSettingsStore()
+
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Nome do Artista"
-        value={name}
-        onChangeText={setName}
-      />
+      <Text>{appDirectory}</Text>
+      <Text>{backupsDirectory}</Text>
+      <TextInput placeholder="Nome do Artista" value={name} onChangeText={setName} />
       <Button title="Adicionar Artista" onPress={handleAddArtist} />
       <Button title="Remover tudo" onPress={handleRemoveAll} />
       <Text>{artistList.length}</Text>
@@ -106,13 +106,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 44
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8
   },
   artistItem: {
     paddingVertical: 8,

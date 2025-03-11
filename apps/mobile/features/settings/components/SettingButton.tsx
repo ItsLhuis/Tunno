@@ -7,7 +7,7 @@ import { View } from "react-native"
 import { Icon, ListItemText, Pressable, type PressableProps } from "@components/ui"
 
 export type SettingButtonProps = PressableProps & {
-  title?: string | null | undefined
+  title: string
   description?: string | null | undefined
   renderLeft?: ReactNode
   renderRight?: ReactNode

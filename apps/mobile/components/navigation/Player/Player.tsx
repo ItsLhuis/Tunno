@@ -1,6 +1,6 @@
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useApp } from "@stores/useApp"
+import { useAppStore } from "@stores/useAppStore"
 
 import { borderRadius, spacing } from "@constants/styles"
 
@@ -19,7 +19,7 @@ import { PlaybackOptions } from "./PlaybackOptions"
 export function Player() {
   const insets = useSafeAreaInsets()
 
-  const { playerRef } = useApp()
+  const { playerRef } = useAppStore()
 
   return (
     <BottomSheet

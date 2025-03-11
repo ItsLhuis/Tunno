@@ -24,14 +24,14 @@
       "@database/*": [
         "./database/*"
       ],
-      "@drizzle/*": [
-        "./drizzle/*"
-      ],
       "@features/*": [
         "./features/*"
       ],
       "@hooks/*": [
         "./hooks/*"
+      ],
+      "@migrations/*": [
+        "./migrations/*"
       ],
       "@plugins/*": [
         "./plugins/*"

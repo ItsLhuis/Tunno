@@ -2,9 +2,7 @@ import Constants from "expo-constants"
 import { ExpoConfig as DefaultExpoConfig } from "@expo/config"
 
 type ExtraConfig = {
-  env: {
-    EXPO_PUBLIC_GOOGLE_CLIENT_ID: string
-  }
+  env: {}
 }
 
 type ExpoConfig = {
