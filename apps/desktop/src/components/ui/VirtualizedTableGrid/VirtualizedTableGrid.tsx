@@ -32,6 +32,7 @@ import {
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
+import { Loader } from "@/components/ui/Loader"
 import { Button } from "@components/ui/Button"
 import { ContextMenu, ContextMenuTrigger } from "@components/ui/ContextMenu"
 import {
@@ -46,7 +47,6 @@ import {
 } from "@components/ui/DropdownMenu"
 import { Icon } from "@components/ui/Icon"
 import { SearchInput } from "@components/ui/SearchInput"
-import { Spinner } from "@components/ui/Spinner"
 import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
 
 import { AnimatePresence, motion } from "motion/react"
@@ -320,7 +320,7 @@ const VirtualizedTableGrid = <TData, TValue>({
           >
             {isLoading ? (
               <div className="flex items-center min-h-14">
-                <Spinner />
+                <Loader />
               </div>
             ) : rows.length === 0 ? (
               <TableRow className="flex w-full justify-center rounded-md border-none">

@@ -2,10 +2,14 @@ import { drizzle } from "drizzle-orm/sqlite-proxy"
 import Database from "@tauri-apps/plugin-sql"
 
 import * as schema from "./schema"
-
 export { schema }
 
-export const getSQLiteDatabase = async () => await Database.load("sqlite:database.db")
+import { type InferQueryModel } from "./helpers"
+export { InferQueryModel }
+
+export const databaseName = "database.db"
+
+export const getSQLiteDatabase = async () => await Database.load(`sqlite:${databaseName}`)
 
 export const database = drizzle<typeof schema>(
   async (sql, params, method) => {
@@ -21,9 +25,7 @@ export const database = drizzle<typeof schema>(
       return { rows: [] }
     }
 
-    rows = rows.map((row: any) => {
-      return Object.values(row)
-    })
+    rows = rows.map((row: any) => Object.values(row))
 
     results = method === "all" ? rows : rows[0]
 

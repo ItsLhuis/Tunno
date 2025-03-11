@@ -1,5 +1,7 @@
 import { useSplashScreen } from "@hooks/useSplashScreen"
 
+import { migrate } from "@database/migrate"
+
 import { BrowserRouter } from "react-router-dom"
 
 import Logo from "@assets/images/app/icons/primary.png"
@@ -11,7 +13,11 @@ import { Footer, Main, Sidebar, Titlebar } from "@app/main/layout"
 import { motion } from "motion/react"
 
 function App() {
-  const { isSplashVisible } = useSplashScreen()
+  const { isSplashVisible } = useSplashScreen({
+    onConfig: async () => {
+      await migrate()
+    }
+  })
 
   return (
     <BrowserRouter>

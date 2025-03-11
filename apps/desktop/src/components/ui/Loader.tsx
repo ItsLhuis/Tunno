@@ -6,7 +6,7 @@ import { cn } from "@lib/utils"
 
 import { Icon } from "@components/ui/Icon"
 
-function Spinner({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+function Loader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
@@ -19,6 +19,6 @@ function Spinner({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
     </div>
   )
 }
-Spinner.displayName = "Spinner"
+Loader.displayName = "Loader"
 
-export { Spinner }
+export { Loader }

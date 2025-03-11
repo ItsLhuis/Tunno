@@ -10,6 +10,7 @@
       "@database/*": ["./src/database/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/lib/*"],
+      "@stores/*": ["./src/stores/*"],
       "@tauri/*": ["./src/tauri/*"],
       "@utils/*": ["./src/utils/*"]
     },

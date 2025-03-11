@@ -18,7 +18,7 @@ function getBundleId() {
 
 const bundleId = getBundleId()
 
-const dbPath =
+const databasePath =
   process.platform === "win32"
     ? path.join(process.env.APPDATA || "", bundleId)
     : process.platform === "darwin"
@@ -35,6 +35,6 @@ export default defineConfig({
   verbose: true,
   strict: true,
   dbCredentials: {
-    url: `file:///${path.resolve(path.join(dbPath, "database.db"))}`
+    url: `file:///${path.resolve(path.join(databasePath, "database.db"))}`
   }
 })

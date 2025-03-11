@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect } from "react"
 
-import { getSettingsStore } from "@tauri/stores/settings"
+import { useSettingsStore } from "@stores/useSettingsStore"
 
 type Theme = "dark" | "light" | "system"
 
@@ -9,31 +9,10 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void
 }
 
-const initialState: ThemeProviderState = {
-  theme: "system",
-  setTheme: () => null
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("system")
-
-  useEffect(() => {
-    async function loadTheme() {
-      const store = await getSettingsStore()
-      const storedTheme = await store.get<string>("theme")
-
-      if (storedTheme && ["dark", "light", "system"].includes(storedTheme)) {
-        setTheme(storedTheme as Theme)
-      } else {
-        setTheme("system")
-        await store.set("theme", "system")
-      }
-    }
-
-    loadTheme()
-  }, [])
+  const { theme, setTheme } = useSettingsStore()
 
   useEffect(() => {
     const root = window.document.documentElement
@@ -59,11 +38,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     theme,
-    setTheme: async (theme: Theme) => {
-      const store = await getSettingsStore()
-      await store.set("theme", theme)
-      setTheme(theme)
-    }
+    setTheme
   }
 
   return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>

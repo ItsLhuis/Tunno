@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
-import { database, schema } from "@database/client"
+
+import { database, schema, type InferQueryModel } from "@database/client"
+
 import { Button, ScrollArea, TextInput, Typography } from "@components/ui"
 
 function FastUpload() {
   const [name, setName] = useState("")
-  const [songs, setSongs] = useState<schema.SongWithRelations[]>([])
+  const [songs, setSongs] = useState<
+    InferQueryModel<"songs", { artists: true; playlists: true; album: true }>[]
+  >([])
 
   async function addSong() {
     await database.insert(schema.songs).values({ name })
@@ -14,7 +18,13 @@ function FastUpload() {
 
   async function loadSongs() {
     database.query.songs
-      .findMany({ with: { album: true, artists: true, playlists: true } })
+      .findMany({
+        with: {
+          album: true,
+          artists: { with: { artist: true } },
+          playlists: { with: { playlist: true } }
+        }
+      })
       .execute()
       .then((results) => {
         setSongs(results)
@@ -46,7 +56,7 @@ function FastUpload() {
         <Button>Insert</Button>
       </form>
       <div className="flex flex-col flex-1 overflow-hidden">
-        <Typography variant="h4">List of Songs from the Database:</Typography>
+        <Typography variant="h4">List of Songs from the Database ({songs.length}):</Typography>
         <ScrollArea className="flex-1 rounded-md border overflow-auto mt-4">
           <div className="divide-y space-y-4">
             {songs.map((item) => (

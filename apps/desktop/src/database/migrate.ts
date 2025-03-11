@@ -3,6 +3,8 @@ import { resourceDir } from "@tauri-apps/api/path"
 
 import { getSQLiteDatabase } from "./client"
 
+export type ProxyMigrator = (migrationQueries: string[]) => Promise<void>
+
 export async function migrate(): Promise<void> {
   const sqlite = await getSQLiteDatabase()
 
@@ -47,10 +49,10 @@ export async function migrate(): Promise<void> {
       const sql = await readTextFile(`${resourcePath}/migrations/${migration.name}`)
 
       await sqlite.execute(sql, [])
-      await sqlite.execute(`INSERT INTO "__drizzle_migrations" (hash, created_at) VALUES ($1, $2)`, [
-        hash,
-        Date.now()
-      ])
+      await sqlite.execute(
+        `INSERT INTO "__drizzle_migrations" (hash, created_at) VALUES ($1, $2)`,
+        [hash, Date.now()]
+      )
     }
   }
 

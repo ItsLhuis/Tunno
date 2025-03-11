@@ -1,8 +1,6 @@
 import { sqliteTable, index, text, integer } from "drizzle-orm/sqlite-core"
 import { relations, sql } from "drizzle-orm"
 
-import { type InferQueryModel } from "./helpers"
-
 // Songs
 export const songs = sqliteTable(
   "songs",
@@ -28,11 +26,6 @@ export const songsRelations = relations(songs, ({ one, many }) => ({
   artists: many(songsToArtists),
   playlists: many(playlistsToSongs)
 }))
-export type Song = InferQueryModel<"songs">
-export type SongWithRelations = InferQueryModel<
-  "songs",
-  { artists: true; playlists: true; album: true }
->
 
 // Artists
 export const artists = sqliteTable(
@@ -50,8 +43,6 @@ export const artists = sqliteTable(
 export const artistsRelations = relations(artists, ({ many }) => ({
   songs: many(songsToArtists)
 }))
-export type Artist = InferQueryModel<"artists">
-export type ArtistWithRelations = InferQueryModel<"artists", { songs: true }>
 
 // Playlists
 export const playlists = sqliteTable(
@@ -69,7 +60,6 @@ export const playlists = sqliteTable(
 export const playlistsRelations = relations(playlists, ({ many }) => ({
   songs: many(playlistsToSongs)
 }))
-export type Playlist = InferQueryModel<"playlists">
 
 // Albums
 export const albums = sqliteTable(
@@ -84,8 +74,6 @@ export const albums = sqliteTable(
   },
   (table) => [index("albums_name_idx").on(table.name)]
 )
-export type Album = InferQueryModel<"albums">
-export type AlbumWithRelations = InferQueryModel<"albums", { songs: true }>
 
 // Songs to Artists
 export const songsToArtists = sqliteTable(

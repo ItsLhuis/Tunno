@@ -48,6 +48,10 @@
     --sidebar-accent-foreground: 210 13% 11%;
     --sidebar-border: 0 0% 89.8%;
     --sidebar-ring: 210 13% 11%;
+    --info: 207 100% 65%;
+    --success: 144 60% 50%;
+    --warning: 30 100% 70%;
+    --error: 0 100% 40%;
   }
   .dark {
     --background: 0 0% 9%;
@@ -82,6 +86,10 @@
     --sidebar-accent-foreground: 210 8% 92%;
     --sidebar-border: 0 0% 18%;
     --sidebar-ring: 0 0% 83.1%;
+    --info: 207 100% 65%;
+    --success: 144 60% 50%;
+    --warning: 30 100% 70%;
+    --error: 0 100% 40%;
   }
 }
 @layer base {
@@ -89,8 +97,9 @@
     @apply select-none;
   }
   html {
-    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family:
+      "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", "Noto Color Emoji";
   }
   img {
     pointer-events: none;

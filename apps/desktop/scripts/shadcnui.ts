@@ -37,10 +37,10 @@ async function shadcnui() {
     console.log(chalk.blue("Updating index.ts\n"))
     await updateIndexFile()
 
-    console.log(chalk.blue("Running prettier"))
+    console.log(chalk.blue("Running prettier\n"))
     await runPrettier()
 
-    console.log(chalk.green("\nAll tasks completed successfully!\n"))
+    console.log(chalk.green("\nAll tasks completed successfully"))
   } catch (error) {
     console.error(chalk.red(`\nError: ${error}\n`))
     process.exit(1)
@@ -171,7 +171,7 @@ async function updateIndexFile() {
 }
 
 async function runPrettier() {
-  const command = `npx prettier --write .`
+  const command = `npx prettier --write "src/components/ui" "src/lib" "src/hooks"`
   console.log(chalk.yellow(`Executing: ${command}`))
   await runCommand(command)
 }

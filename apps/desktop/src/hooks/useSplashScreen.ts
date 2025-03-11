@@ -20,11 +20,16 @@ export const useSplashScreen = ({ onConfig }: UseSplashScreenProps = {}) => {
       }, 200)
 
       if (onConfig) {
-        await onConfig().then(() => setIsSplashVisible(false))
+        await onConfig().then(
+          () =>
+            (splashTimeout = setTimeout(() => {
+              setIsSplashVisible(false)
+            }, 800))
+        )
       } else {
         splashTimeout = setTimeout(() => {
           setIsSplashVisible(false)
-        }, 1000)
+        }, 800)
       }
 
       return () => {
