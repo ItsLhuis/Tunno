@@ -1,3 +1,5 @@
+import { useTheme } from "@contexts/ThemeContext"
+
 import {
   Button,
   DropdownMenu,
@@ -7,32 +9,57 @@ import {
   Icon
 } from "@components/ui"
 
-import { useTheme } from "@contexts/ThemeContext"
+import { toast } from "sonner"
+
+function getRandomPromise() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      Math.random() > 0.5 ? resolve("Success") : reject("Error");
+    }, 5000);
+  });
+}
 
 function Settings() {
   const { setTheme } = useTheme()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="m-9">
-          <Icon
-            name="Sun"
-            className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-          />
-          <Icon
-            name="Moon"
-            className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-          />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex flex-col gap-3 m-9">
+      <Button
+        onClick={() =>
+          toast.promise(getRandomPromise, {
+            loading: "Loading",
+            success: "Success",
+            error: "Error",
+            description:
+              "Vivamus maximus. Morbi non eros vitae diam lacinia mattis. Aliquam pharetra enim vitae leo condimentum molestie",
+            cancel: { label: "Cancel", onClick: () => {} },
+            action: { label: "Continue", onClick: () => {} }
+          })
+        }
+      >
+        Show Toast
+      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <Icon
+              name="Sun"
+              className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+            />
+            <Icon
+              name="Moon"
+              className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+            />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }
 

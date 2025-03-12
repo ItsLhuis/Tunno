@@ -1,3 +1,5 @@
+import { type ComponentProps } from "react"
+
 import { useTheme } from "@contexts/ThemeContext"
 
 import { Icon } from "@components/ui/Icon"
@@ -5,19 +7,21 @@ import { Loader } from "@components/ui/Loader"
 
 import { Toaster as Sonner, toast } from "sonner"
 
-type ToasterProps = React.ComponentProps<typeof Sonner>
+type ToasterProps = ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme } = useTheme()
 
   return (
     <Sonner
+      duration={Infinity}
       theme={theme as ToasterProps["theme"]}
       style={{
         fontFamily:
           '"Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
       }}
       className="toaster group"
+      offset={"0.75rem"}
       icons={{
         close: <Icon name="X" className="size-3" />,
         loading: <Loader />,
@@ -29,15 +33,19 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg transition-all",
-          description: "group-[.toast]:text-muted-foreground",
-          actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
-          cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
-          closeButton: "!bg-background !border-border !transition-colors"
+            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg group-[.toaster]:gap-2 group-[.toaster]:grid group-[.toaster]:grid-cols-[auto_1fr_auto] group-[.toaster]:grid-rows-[auto_1fr_auto] group-[.toaster]:grid-cols-3 group-[.toaster]:grid-rows-3 group-[.toaster]:transition-all",
+          content: "!col-span-2 !col-start-2 !row-span-2 !row-start-1",
+          title: "!font-bold !text-sm",
+          description: "!text-muted-foreground !text-xs !transition-colors",
+          cancelButton:
+            "!cursor-default !h-9 !px-4 !py-2 !mt-3 !col-start-2 !row-start-3 !rounded-md !bg-accent !text-accent-foreground hover:!bg-accent/80 focus-visible:!bg-accent/80 focus:!outline-none focus:!ring-0 !transition-colors",
+          actionButton:
+            "!cursor-default !h-9 !px-4 !py-2 !mt-3 col-start-3 row-start-3 !rounded-md !bg-primary !text-primary-foreground hover:!text-primary-foreground/90 hover:!bg-primary/80 focus-visible:!bg-primary/80 focus:!outline-none focus:!ring-0 !transition-colors",
+          closeButton:
+            "!cursor-default !border-border !bg-background !text-accent-foreground hover:!bg-accent/80 focus-visible:!bg-accent/80 focus:!outline-none focus:!ring-0 !transition-colors"
         }
       }}
       closeButton
-      position="bottom-center"
       {...props}
     />
   )
