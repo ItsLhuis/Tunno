@@ -39,7 +39,21 @@ const Toaster = ({ ...props }: ToasterProps) => {
             width: 0
           },
           elevation: 0
-        }
+        },
+        actionButtonStyle: {
+          borderRadius: borderRadius.xSmall,
+          backgroundColor: colors.primary,
+          paddingVertical: spacing.small,
+          paddingHorizontal: spacing.large
+        },
+        actionButtonTextStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.medium },
+        cancelButtonStyle: {
+          borderRadius: borderRadius.xSmall,
+          backgroundColor: colors.muted,
+          paddingVertical: spacing.small,
+          paddingHorizontal: spacing.large
+        },
+        cancelButtonTextStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.medium }
       }}
       closeButton
       position="bottom-center"

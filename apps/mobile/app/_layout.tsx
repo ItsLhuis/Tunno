@@ -61,9 +61,7 @@ export default function RootLayout() {
   }, [fontsLoaded])
 
   const onChildrenLayout = useCallback(() => {
-    if (isAppReady) {
-      SplashScreen.hide()
-    }
+    if (isAppReady) SplashScreen.hide()
   }, [isAppReady])
 
   const themeScheme = useColorScheme() === "dark" ? DarkTheme : DefaultTheme

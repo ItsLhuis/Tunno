@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { View, StyleSheet, Alert } from "react-native"
-import { TextInput, Text, Button } from "@/components/ui"
+import { TextInput, Text, Button, toast, IconButton } from "@/components/ui"
 import { database } from "@database/client"
 import { artists } from "@database/schema"
 import { eq } from "drizzle-orm"
@@ -80,6 +80,18 @@ const ArtistManager: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Button
+        title="Show Toast"
+        onPress={() => {
+          const id = toast("Lorem ipsum dolor sit amet, consectetur adipiscing elit", {
+            description:
+              "Suspendisse sed augue in nisi porta suscipit. Vestibulum placerat dolor nec aliquet luctus. Ut convallis augue orci, a aliquet felis tincidunt eget. In venenatis sed neque quis commodo. Aliquam auctor dignissim nunc at pellentesque. Etiam hendrerit, felis eu bibendum finibus, quam quam bibendum augue, quis convallis ligula libero in dui. Praesent faucibus lectus neque, non mollis augue egestas sed",
+            close: <IconButton name="X" onPress={() => toast.dismiss(id)} />,
+            action: <Button title="Continue" />,
+            cancel: <Button color="secondary" title="Cancel" onPress={() => toast.dismiss(id)} />
+          })
+        }}
+      />
       <Text>{appDirectory}</Text>
       <Text>{backupsDirectory}</Text>
       <TextInput placeholder="Nome do Artista" value={name} onChangeText={setName} />
@@ -105,7 +117,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    paddingTop: 44
+    paddingTop: 44,
+    gap: 16
   },
   artistItem: {
     paddingVertical: 8,
