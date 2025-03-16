@@ -4,23 +4,25 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { borderRadius, spacing } from "@constants/styles"
 
 import { useWindowDimensions, View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
 import {
+  ActivityIndicator,
+  FlashListWithHeaders,
+  Header,
   Icon,
   IconButton,
-  Text,
-  Pressable,
-  SearchInput,
-  Header,
   LargeHeader,
   LargeHeaderSubtitle,
-  FlashListWithHeaders,
   ListItemText,
-  ActivityIndicator
+  Pressable,
+  SearchInput,
+  Text
 } from "@components/ui"
 
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
@@ -38,6 +40,8 @@ export default function Artists() {
   const { colors } = useColorTheme()
 
   const insets = useSafeAreaInsets()
+
+  const { t } = useTranslation()
 
   const { width } = useWindowDimensions()
 
@@ -64,7 +68,7 @@ export default function Artists() {
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
-                Artists
+                {t("pages.artists.title")}
               </Text>
             }
             headerLeft={<IconButton name="Plus" onPress={() => router.push("/drive")} />}
@@ -75,7 +79,7 @@ export default function Artists() {
         LargeHeaderComponent={() => (
           <LargeHeader>
             <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-              Artists
+              {t("pages.artists.title")}
             </Text>
             <IconButton name="More" />
           </LargeHeader>

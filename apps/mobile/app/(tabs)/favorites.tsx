@@ -4,23 +4,25 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { borderRadius, spacing } from "@constants/styles"
 
 import { View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
 import {
+  ActivityIndicator,
+  FlashListWithHeaders,
+  Header,
   Icon,
   IconButton,
-  Text,
-  Pressable,
-  SearchInput,
-  Header,
   LargeHeader,
   LargeHeaderSubtitle,
-  FlashListWithHeaders,
   ListItemText,
-  ActivityIndicator
+  Pressable,
+  SearchInput,
+  Text
 } from "@components/ui"
 
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
@@ -36,6 +38,8 @@ export default function Favorites() {
   const { colors } = useColorTheme()
 
   const insets = useSafeAreaInsets()
+
+  const { t } = useTranslation()
 
   const [data, setData] = useState<Favorit[]>([])
 
@@ -53,7 +57,7 @@ export default function Favorites() {
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
-                Favorites
+                {t("pages.favorites.title")}
               </Text>
             }
             headerLeft={<IconButton color={colors.primary} name="Shuffle" />}
@@ -67,7 +71,7 @@ export default function Favorites() {
             <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.small }}>
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-                Favorites
+                {t("pages.favorites.title")}
               </Text>
             </View>
             <IconButton name="More" />

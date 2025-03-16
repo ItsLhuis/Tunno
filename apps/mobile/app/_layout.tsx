@@ -8,6 +8,10 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useFonts } from "expo-font"
 
+import { useSettingsStore } from "@stores/useSettingsStore"
+
+import { useTranslation } from "@i18n/hooks"
+
 import migrations from "@migrations/migrations"
 import { drizzle } from "drizzle-orm/expo-sqlite"
 import { migrate } from "drizzle-orm/expo-sqlite/migrator"
@@ -45,6 +49,10 @@ export default function RootLayout() {
 
   const [isAppReady, setIsAppReady] = useState<boolean>(false)
 
+  const { hasHydrated, language } = useSettingsStore()
+
+  const { i18n } = useTranslation()
+
   const [fontsLoaded] = useFonts({
     "SpaceGrotesk-Bold": require("@assets/fonts/SpaceGrotesk-Bold.ttf"),
     "SpaceGrotesk-Medium": require("@assets/fonts/SpaceGrotesk-Medium.ttf"),
@@ -54,11 +62,19 @@ export default function RootLayout() {
 
   const prepareApp = async (): Promise<void> => {
     await migrate(drizzle(openDatabaseSync(databaseName)), migrations)
+    i18n.changeLanguage(language)
   }
 
   useEffect(() => {
-    if (fontsLoaded) prepareApp().then(() => setIsAppReady(true))
-  }, [fontsLoaded])
+    if (!hasHydrated || !fontsLoaded) return
+
+    const startApp = async () => {
+      await prepareApp()
+      setIsAppReady(true)
+    }
+
+    startApp()
+  }, [hasHydrated, fontsLoaded])
 
   const onChildrenLayout = useCallback(() => {
     if (isAppReady) SplashScreen.hide()

@@ -1,3 +1,5 @@
+import { type ComponentProps } from "react"
+
 import { useColorTheme } from "@hooks/useColorTheme"
 
 import { fontFamily, fontSize } from "@constants/font"
@@ -8,7 +10,7 @@ import { Icon } from "@components/ui/Icon"
 
 import { Toaster as Sonner, toast } from "sonner-native"
 
-type ToasterProps = React.ComponentProps<typeof Sonner>
+type ToasterProps = ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme, colors } = useColorTheme()
@@ -17,15 +19,19 @@ const Toaster = ({ ...props }: ToasterProps) => {
     <Sonner
       theme={theme as ToasterProps["theme"]}
       icons={{
-        loading: <ActivityIndicator color={colors.primary} size={iconSize.large} />,
+        loading: (
+          <ActivityIndicator
+            color={colors.primary}
+            size={iconSize.large}
+            style={{ alignSelf: "flex-start" }}
+          />
+        ),
         info: <Icon name="Info" color={colors.info} size={iconSize.large} />,
         success: <Icon name="CircleCheck" color={colors.success} size={iconSize.large} />,
         warning: <Icon name="TriangleAlert" color={colors.warning} size={iconSize.large} />,
         error: <Icon name="CircleAlert" color={colors.error} size={iconSize.large} />
       }}
       toastOptions={{
-        titleStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.medium },
-        descriptionStyle: { fontFamily: fontFamily["regular"], fontSize: fontSize.small },
         style: {
           backgroundColor: colors.background,
           borderWidth: border.thin,
@@ -39,6 +45,12 @@ const Toaster = ({ ...props }: ToasterProps) => {
             width: 0
           },
           elevation: 0
+        },
+        titleStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.large, marginTop: 2 },
+        descriptionStyle: { fontFamily: fontFamily["regular"], fontSize: fontSize.small },
+        buttonsStyle: {
+          flexDirection: "row-reverse",
+          gap: spacing.xSmall
         },
         actionButtonStyle: {
           borderRadius: borderRadius.xSmall,

@@ -83,12 +83,10 @@ const ArtistManager: React.FC = () => {
       <Button
         title="Show Toast"
         onPress={() => {
-          const id = toast("Lorem ipsum dolor sit amet, consectetur adipiscing elit", {
+          const id = toast.warning("Lorem ipsum dolor sit amet", {
             description:
-              "Suspendisse sed augue in nisi porta suscipit. Vestibulum placerat dolor nec aliquet luctus. Ut convallis augue orci, a aliquet felis tincidunt eget. In venenatis sed neque quis commodo. Aliquam auctor dignissim nunc at pellentesque. Etiam hendrerit, felis eu bibendum finibus, quam quam bibendum augue, quis convallis ligula libero in dui. Praesent faucibus lectus neque, non mollis augue egestas sed",
+              "Vivamus maximus. Morbi non eros vitae diam lacinia mattis. Aliquam pharetra enim vitae leo condimentum molestie",
             close: <IconButton name="X" onPress={() => toast.dismiss(id)} />,
-            action: <Button title="Continue" />,
-            cancel: <Button color="secondary" title="Cancel" onPress={() => toast.dismiss(id)} />
           })
         }}
       />

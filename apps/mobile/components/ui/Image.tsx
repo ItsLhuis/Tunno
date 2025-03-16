@@ -26,12 +26,12 @@ export const Image = forwardRef<ExpoImage, ImageProps>(
     const loadOpacity = useSharedValue(1)
 
     const handleLoad = () => {
-      loadOpacity.value = withTiming(0, { duration: 300 }, () => runOnJS(setLoaded)(true))
+      loadOpacity.value = withTiming(0, { duration: 150 }, () => runOnJS(setLoaded)(true))
     }
 
     const resetLoadingState = () => {
       setLoaded(false)
-      loadOpacity.value = withTiming(1, { duration: 300 }, () => runOnJS(setCurrentSource)(source))
+      loadOpacity.value = withTiming(1, { duration: 150 }, () => runOnJS(setCurrentSource)(source))
     }
 
     useEffect(() => {

@@ -4,6 +4,8 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { border, borderRadius, imageSize, spacing } from "@constants/styles"
 
 import { View } from "react-native"
@@ -52,6 +54,8 @@ export default function Songs() {
 
   const insets = useSafeAreaInsets()
 
+  const { t } = useTranslation()
+
   const [data, setData] = useState<Song[]>([])
 
   useEffect(() => {
@@ -68,7 +72,7 @@ export default function Songs() {
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
-                Songs
+                {t("pages.songs.title")}
               </Text>
             }
             headerLeft={
@@ -88,7 +92,7 @@ export default function Songs() {
             <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.small }}>
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-                Songs
+                {t("pages.songs.title")}
               </Text>
             </View>
             <IconButton name="More" />

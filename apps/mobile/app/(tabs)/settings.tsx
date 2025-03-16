@@ -1,11 +1,15 @@
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { spacing } from "@constants/styles"
+import { useSettingsStore } from "@stores/useSettingsStore"
+
+import { useTranslation } from "@i18n/hooks"
+
+import { iconSize, spacing } from "@constants/styles"
 
 import { View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
-import { Header, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
+import { Button, Header, Image, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
 
 import { SettingButton } from "@features/settings/components"
 
@@ -17,6 +21,10 @@ type Setting = {
 
 export default function Settings() {
   const insets = useSafeAreaInsets()
+
+  const { language, setLanguage } = useSettingsStore()
+
+  const { t, languages } = useTranslation()
 
   const data: Setting[] = [
     {
@@ -38,7 +46,17 @@ export default function Settings() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <ScrollViewWithHeaders
+      <Text style={{ marginTop: insets.top + spacing.large }}>{t("pages.settings.title")}</Text>
+      <Image
+        source={languages[language].flag}
+        containerStyle={{ height: iconSize.large, aspectRatio: 4 / 3 }}
+        style={{ flex: 1 }}
+      />
+      <Button title="English" onPress={() => setLanguage("en")} />
+      <Button title="Spanish" onPress={() => setLanguage("es")} />
+      <Button title="French" onPress={() => setLanguage("fr")} />
+      <Button title="Portuguese" onPress={() => setLanguage("pt")} />
+      {/* <ScrollViewWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
             showHeader={showHeader}
@@ -61,14 +79,10 @@ export default function Settings() {
       >
         <View style={{ paddingTop: spacing.medium, gap: spacing.large }}>
           {data.map((item) => (
-            <SettingButton
-              key={item.id}
-              title={item.title}
-              description={item.description}
-            />
+            <SettingButton key={item.id} title={item.title} description={item.description} />
           ))}
         </View>
-      </ScrollViewWithHeaders>
+      </ScrollViewWithHeaders> */}
     </FadingScreen>
   )
 }

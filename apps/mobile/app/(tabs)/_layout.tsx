@@ -4,6 +4,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { spacing } from "@constants/styles"
 
 import { Tabs } from "expo-router"
@@ -19,6 +21,8 @@ export default function TabLayout() {
   const insets = useSafeAreaInsets()
 
   const { colors } = useColorTheme()
+
+  const {t} = useTranslation()
 
   const opacity = useSharedValue<number>(0)
 
@@ -111,35 +115,35 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: "Songs",
+            title: t("pages.songs.title"),
             tabBarIcon: ({ color }) => <Icon name="Music" color={color} />
           }}
         />
         <Tabs.Screen
           name="favorites"
           options={{
-            title: "Favorites",
+            title: t("pages.favorites.title"),
             tabBarIcon: ({ color }) => <Icon name="Heart" color={color} />
           }}
         />
         <Tabs.Screen
           name="playlists"
           options={{
-            title: "Playlists",
+            title: t("pages.playlists.title"),
             tabBarIcon: ({ color }) => <Icon name="List" color={color} />
           }}
         />
         <Tabs.Screen
           name="artists"
           options={{
-            title: "Artists",
+            title: t("pages.artists.title"),
             tabBarIcon: ({ color }) => <Icon name="Users" color={color} />
           }}
         />
         <Tabs.Screen
           name="settings"
           options={{
-            title: "Settings",
+            title: t("pages.settings.title"),
             tabBarIcon: ({ color }) => <Icon name="Settings" color={color} />
           }}
         />

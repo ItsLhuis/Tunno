@@ -4,24 +4,26 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { borderRadius, spacing } from "@constants/styles"
 
 import { useWindowDimensions, View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
 import {
+  ActivityIndicator,
+  FadingView,
+  FlashListWithHeaders,
+  Header,
   Icon,
   IconButton,
-  Text,
-  Pressable,
-  SearchInput,
-  Header,
   LargeHeader,
   LargeHeaderSubtitle,
-  FlashListWithHeaders,
   ListItemText,
-  ActivityIndicator,
-  FadingView
+  Pressable,
+  SearchInput,
+  Text
 } from "@components/ui"
 
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
@@ -39,6 +41,8 @@ export default function Playlists() {
   const { colors } = useColorTheme()
 
   const insets = useSafeAreaInsets()
+
+  const { t } = useTranslation()
 
   const { width } = useWindowDimensions()
 
@@ -65,7 +69,7 @@ export default function Playlists() {
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
-                Playlists
+                {t("pages.playlists.title")}
               </Text>
             }
             headerLeft={
@@ -85,7 +89,7 @@ export default function Playlists() {
             <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.small }}>
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-                Playlists
+                {t("pages.playlists.title")}
               </Text>
             </View>
             <IconButton name="More" />

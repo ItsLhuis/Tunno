@@ -1,10 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": [
         "./*"
@@ -30,6 +26,9 @@
       "@hooks/*": [
         "./hooks/*"
       ],
+      "@i18n/*": [
+        "./i18n/*"
+      ],
       "@migrations/*": [
         "./migrations/*"
       ],
@@ -42,13 +41,18 @@
       "@utils/*": [
         "./utils/*"
       ]
-    }
+    },
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "global.d.ts"
+    "global.d.ts",
+    "image.d.ts"
   ]
 }
