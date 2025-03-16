@@ -48,9 +48,7 @@ function Sidebar() {
                 <SafeLink to={item.href}>
                   <Icon
                     name={item.icon}
-                    className={`transition-colors ${
-                      activeIndex === index ? "text-primary" : "text-current"
-                    }`}
+                    className={`${activeIndex === index ? "text-primary" : "text-current"}`}
                   />
                   <span className="sr-only">Open {item.label} screen</span>
                 </SafeLink>

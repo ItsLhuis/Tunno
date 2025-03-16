@@ -35,7 +35,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             className
           )}
         >
-          <Icon name="Search" className="ml-2" />
+          <Icon name="Search" className="ml-2 transition-colors" />
           <input
             type={type}
             ref={ref}

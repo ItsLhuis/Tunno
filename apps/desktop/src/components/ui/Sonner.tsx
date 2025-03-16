@@ -14,7 +14,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
   return (
     <Sonner
-      duration={Infinity}
       theme={theme as ToasterProps["theme"]}
       style={{
         fontFamily:
@@ -33,7 +32,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg group-[.toaster]:gap-2 group-[.toaster]:grid group-[.toaster]:grid-cols-[auto_1fr_auto] group-[.toaster]:grid-rows-[auto_1fr_auto] group-[.toaster]:grid-cols-3 group-[.toaster]:grid-rows-3 group-[.toaster]:transition-all",
+            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg group-[.toaster]:gap-2 group-[.toaster]:grid group-[.toaster]:grid-cols-[auto_1fr_auto] has-[button:not([data-close-button='true'])]:group-[.toaster]:grid-rows-[auto_1fr_auto] has-[:not(button[data-close-button='true'])]:group-[.toaster]:grid-rows-[auto_1fr] group-[.toaster]:transition-all",
           content: "!col-span-2 !col-start-2 !row-span-2 !row-start-1",
           title: "!font-bold !text-sm",
           description: "!text-muted-foreground !text-xs !transition-colors",

@@ -1,11 +1,10 @@
-import { drizzle } from "drizzle-orm/sqlite-proxy"
 import Database from "@tauri-apps/plugin-sql"
+import { drizzle } from "drizzle-orm/sqlite-proxy"
 
 import * as schema from "./schema"
 export { schema }
 
-import { type InferQueryModel } from "./helpers"
-export { InferQueryModel }
+export { type InferQueryModel } from "./helpers"
 
 export const databaseName = "database.db"
 

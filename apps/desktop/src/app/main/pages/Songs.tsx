@@ -1,5 +1,7 @@
 import { useRef } from "react"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { formatRelativeDate } from "@utils/format"
 
 import { ColumnDef } from "@tanstack/react-table"
@@ -103,16 +105,18 @@ const columns: ColumnDef<Song>[] = [
           />
           <div className="w-full truncate">
             <Marquee>
-              <Button variant="link" asChild>
+              <Button className="transition-none" variant="link" asChild>
                 <SafeLink to="/favorites">
-                  <Typography>{row.getValue("title")}</Typography>
+                  <Typography className="transition-none">{row.getValue("title")}</Typography>
                 </SafeLink>
               </Button>
             </Marquee>
             <Marquee>
-              <Button variant="link" asChild>
+              <Button className="transition-none" variant="link" asChild>
                 <SafeLink to="/">
-                  <Typography affects={["muted", "small"]}>{row.original.artist}</Typography>
+                  <Typography className="transition-none" affects={["muted", "small"]}>
+                    {row.original.artist}
+                  </Typography>
                 </SafeLink>
               </Button>
             </Marquee>
@@ -139,7 +143,7 @@ const columns: ColumnDef<Song>[] = [
     header: () => <Icon name="Timer" />,
     cell: ({ row }) => (
       <div className="flex justify-center items-center">
-        <Typography className="truncate">{row.getValue("duration")}</Typography>
+        <Typography className="truncate transition-none">{row.getValue("duration")}</Typography>
       </div>
     ),
     meta: { width: "100%", className: "flex justify-center" }
@@ -182,6 +186,8 @@ const data: Song[] = Array.from({ length: 127 }, (_, index) => ({
 }))
 
 function Songs() {
+  const { t } = useTranslation()
+
   const mainRef = useRef<HTMLDivElement | null>(null)
 
   return (
@@ -208,7 +214,7 @@ function Songs() {
                     >
                       <Icon name="Shuffle" />
                     </Button>
-                    <Typography variant="h3">Songs</Typography>
+                    <Typography variant="h3">{t("pages.songs.title")}</Typography>
                   </div>
                   <AnimatePresence>
                     {hasSelectedRows && (
@@ -281,7 +287,7 @@ function Songs() {
 
             return (
               <div className="flex flex-col items-start gap-6">
-                <Typography variant="h1">Songs</Typography>
+                <Typography variant="h1">{t("pages.songs.title")}</Typography>
                 <div className="flex items-center w-full gap-3">
                   <Button disabled={hasSelectedRows}>
                     <Icon name="Shuffle" />

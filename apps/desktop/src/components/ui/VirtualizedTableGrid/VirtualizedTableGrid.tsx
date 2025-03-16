@@ -220,7 +220,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                               : header.getSize()
                           }}
                         >
-                          <div className="text-sm truncate">
+                          <div className="text-sm truncate transition-colors">
                             {header.isPlaceholder
                               ? null
                               : flexRender(header.column.columnDef.header, header.getContext())}
@@ -299,7 +299,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                           : header.getSize()
                       }}
                     >
-                      <div className="truncate">
+                      <div className="truncate transition-colors">
                         {header.isPlaceholder
                           ? null
                           : flexRender(header.column.columnDef.header, header.getContext())}
@@ -359,7 +359,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                                 : cell.column.getSize()
                             }}
                           >
-                            <div className="flex-1 truncate">
+                            <div className="flex-1 truncate transition-colors">
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </div>
                           </TableCell>

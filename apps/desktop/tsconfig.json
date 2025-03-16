@@ -9,6 +9,7 @@
       "@contexts/*": ["./src/contexts/*"],
       "@database/*": ["./src/database/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@i18n/*": ["./src/i18n/*"],
       "@lib/*": ["./src/lib/*"],
       "@stores/*": ["./src/stores/*"],
       "@tauri/*": ["./src/tauri/*"],
