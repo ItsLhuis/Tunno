@@ -7,7 +7,7 @@ function Artists() {
 
   return (
     <div className="p-9">
-      <Typography variant="h1">{t("pages.artists.title")}</Typography>
+      <Typography variant="h1">{t("artists.title")}</Typography>
     </div>
   )
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 
-import { useTranslation } from "@i18n/hooks"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
+
+import { useTranslation } from "@i18n/hooks"
 
 import { migrate } from "@database/migrate"
 

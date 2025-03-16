@@ -7,7 +7,7 @@ function Playlists() {
 
   return (
     <div className="p-9">
-      <Typography variant="h1">{t("pages.playlists.title")}</Typography>
+      <Typography variant="h1">{t("playlists.title")}</Typography>
     </div>
   )
 }

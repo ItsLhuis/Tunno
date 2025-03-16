@@ -22,7 +22,7 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       theme: "system",
       setTheme: (theme) => set({ theme }),
-      language: "en",
+      language: "en" as LocaleKeys,
       setLanguage: (code) => {
         set({ language: code })
         i18n.changeLanguage(code)

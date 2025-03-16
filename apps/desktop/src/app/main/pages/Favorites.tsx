@@ -7,7 +7,7 @@ function Favorites() {
 
   return (
     <div className="p-9">
-      <Typography variant="h1">{t("pages.favorites.title")}</Typography>
+      <Typography variant="h1">{t("favorites.title")}</Typography>
     </div>
   )
 }

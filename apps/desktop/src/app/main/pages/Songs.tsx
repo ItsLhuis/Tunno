@@ -214,7 +214,7 @@ function Songs() {
                     >
                       <Icon name="Shuffle" />
                     </Button>
-                    <Typography variant="h3">{t("pages.songs.title")}</Typography>
+                    <Typography variant="h3">{t("songs.title")}</Typography>
                   </div>
                   <AnimatePresence>
                     {hasSelectedRows && (
@@ -287,7 +287,7 @@ function Songs() {
 
             return (
               <div className="flex flex-col items-start gap-6">
-                <Typography variant="h1">{t("pages.songs.title")}</Typography>
+                <Typography variant="h1">{t("songs.title")}</Typography>
                 <div className="flex items-center w-full gap-3">
                   <Button disabled={hasSelectedRows}>
                     <Icon name="Shuffle" />

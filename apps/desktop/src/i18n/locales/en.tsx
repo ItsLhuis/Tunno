@@ -6,20 +6,22 @@ export const english: Language = {
   code: "en",
   name: "English",
   flag: en,
+  isRtl: false,
   translations: {
-    pages: {
-      songs: {
-        title: "Songs"
-      },
-      favorites: {
-        title: "Favorites"
-      },
-      playlists: {
-        title: "Playlists"
-      },
-      artists: {
-        title: "Artists"
-      }
+    songs: {
+      title: "Songs"
+    },
+    favorites: {
+      title: "Favorites"
+    },
+    playlists: {
+      title: "Playlists"
+    },
+    artists: {
+      title: "Artists"
+    },
+    settings: {
+      title: "Settings"
     }
   }
 }
