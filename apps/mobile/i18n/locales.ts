@@ -1,15 +1,27 @@
+import { german } from "./locales/de"
 import { english } from "./locales/en"
 import { spanish } from "./locales/es"
 import { french } from "./locales/fr"
+import { italian } from "./locales/it"
+import { japanese } from "./locales/ja"
+import { korean } from "./locales/ko"
 import { portuguese } from "./locales/pt"
+import { russian } from "./locales/ru"
+import { chinese } from "./locales/zh"
 
 import { type Language } from "./types"
 
 export const Locales = {
+  de: german,
   en: english,
-  pt: portuguese,
   es: spanish,
-  fr: french
+  fr: french,
+  it: italian,
+  ja: japanese,
+  ko: korean,
+  pt: portuguese,
+  ru: russian,
+  zh: chinese
 } as const
 
 export type LocaleKeys = keyof typeof Locales

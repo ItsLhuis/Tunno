@@ -6,23 +6,22 @@ export const spanish: Language = {
   code: "es",
   name: "Español",
   flag: es,
+  isRtl: false,
   translations: {
-    pages: {
-      songs: {
-        title: "Canciones"
-      },
-      favorites: {
-        title: "Favoritos"
-      },
-      playlists: {
-        title: "Listas"
-      },
-      artists: {
-        title: "Artistas"
-      },
-      settings: {
-        title: "Ajustes"
-      }
+    songs: {
+      title: "Canciones"
+    },
+    favorites: {
+      title: "Favoritos"
+    },
+    playlists: {
+      title: "Listas"
+    },
+    artists: {
+      title: "Artistas"
+    },
+    settings: {
+      title: "Ajustes"
     }
   }
 }

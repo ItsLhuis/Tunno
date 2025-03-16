@@ -68,7 +68,7 @@ export default function Artists() {
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
-                {t("pages.artists.title")}
+                {t("artists.title")}
               </Text>
             }
             headerLeft={<IconButton name="Plus" onPress={() => router.push("/drive")} />}
@@ -78,8 +78,8 @@ export default function Artists() {
         )}
         LargeHeaderComponent={() => (
           <LargeHeader>
-            <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-              {t("pages.artists.title")}
+            <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
+              {t("artists.title")}
             </Text>
             <IconButton name="More" />
           </LargeHeader>

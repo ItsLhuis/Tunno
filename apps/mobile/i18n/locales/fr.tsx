@@ -6,23 +6,22 @@ export const french: Language = {
   code: "fr",
   name: "Français",
   flag: fr,
+  isRtl: false,
   translations: {
-    pages: {
-      songs: {
-        title: "Chansons"
-      },
-      favorites: {
-        title: "Favoris"
-      },
-      playlists: {
-        title: "Listes"
-      },
-      artists: {
-        title: "Artistes"
-      },
-      settings: {
-        title: "Paramètres"
-      }
+    songs: {
+      title: "Chansons"
+    },
+    favorites: {
+      title: "Favoris"
+    },
+    playlists: {
+      title: "Listes"
+    },
+    artists: {
+      title: "Artistes"
+    },
+    settings: {
+      title: "Paramètres"
     }
   }
 }

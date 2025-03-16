@@ -57,7 +57,7 @@ export default function Favorites() {
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
-                {t("pages.favorites.title")}
+                {t("favorites.title")}
               </Text>
             }
             headerLeft={<IconButton color={colors.primary} name="Shuffle" />}
@@ -68,10 +68,12 @@ export default function Favorites() {
         )}
         LargeHeaderComponent={() => (
           <LargeHeader>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.small }}>
+            <View
+              style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: spacing.small }}
+            >
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
-              <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-                {t("pages.favorites.title")}
+              <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
+                {t("favorites.title")}
               </Text>
             </View>
             <IconButton name="More" />

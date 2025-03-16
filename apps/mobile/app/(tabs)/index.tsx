@@ -72,7 +72,7 @@ export default function Songs() {
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
-                {t("pages.songs.title")}
+                {t("songs.title")}
               </Text>
             }
             headerLeft={
@@ -89,10 +89,12 @@ export default function Songs() {
         )}
         LargeHeaderComponent={() => (
           <LargeHeader>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.small }}>
+            <View
+              style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: spacing.small }}
+            >
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
-              <Text variant="bold" size="xxxLarge" numberOfLines={1}>
-                {t("pages.songs.title")}
+              <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
+                {t("songs.title")}
               </Text>
             </View>
             <IconButton name="More" />

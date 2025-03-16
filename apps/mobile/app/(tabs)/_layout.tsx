@@ -12,8 +12,8 @@ import { Tabs } from "expo-router"
 
 import { View } from "react-native"
 
+import { BottomPlayer, Player } from "@components/navigation"
 import { FadingView, Icon, Pressable, Text } from "@components/ui"
-import { Player, BottomPlayer } from "@components/navigation"
 
 import { useSharedValue, withTiming } from "react-native-reanimated"
 
@@ -22,7 +22,7 @@ export default function TabLayout() {
 
   const { colors } = useColorTheme()
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const opacity = useSharedValue<number>(0)
 
@@ -95,7 +95,11 @@ export default function TabLayout() {
                     <Text
                       variant="bold"
                       size="xxSmall"
-                      style={{ color: props.state.index === index ? colors.primary : colors.icon }}
+                      style={{
+                        color: props.state.index === index ? colors.primary : colors.icon,
+                        paddingHorizontal: spacing.small
+                      }}
+                      numberOfLines={1}
                     >
                       {options.title}
                     </Text>
@@ -115,35 +119,35 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: t("pages.songs.title"),
+            title: t("songs.title"),
             tabBarIcon: ({ color }) => <Icon name="Music" color={color} />
           }}
         />
         <Tabs.Screen
           name="favorites"
           options={{
-            title: t("pages.favorites.title"),
+            title: t("favorites.title"),
             tabBarIcon: ({ color }) => <Icon name="Heart" color={color} />
           }}
         />
         <Tabs.Screen
           name="playlists"
           options={{
-            title: t("pages.playlists.title"),
+            title: t("playlists.title"),
             tabBarIcon: ({ color }) => <Icon name="List" color={color} />
           }}
         />
         <Tabs.Screen
           name="artists"
           options={{
-            title: t("pages.artists.title"),
+            title: t("artists.title"),
             tabBarIcon: ({ color }) => <Icon name="Users" color={color} />
           }}
         />
         <Tabs.Screen
           name="settings"
           options={{
-            title: t("pages.settings.title"),
+            title: t("settings.title"),
             tabBarIcon: ({ color }) => <Icon name="Settings" color={color} />
           }}
         />

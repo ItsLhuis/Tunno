@@ -46,7 +46,7 @@ export default function Settings() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <Text style={{ marginTop: insets.top + spacing.large }}>{t("pages.settings.title")}</Text>
+      <Text style={{ marginTop: insets.top + spacing.large }}>{t("settings.title")}</Text>
       <Image
         source={languages[language].flag}
         containerStyle={{ height: iconSize.large, aspectRatio: 4 / 3 }}
@@ -56,6 +56,7 @@ export default function Settings() {
       <Button title="Spanish" onPress={() => setLanguage("es")} />
       <Button title="French" onPress={() => setLanguage("fr")} />
       <Button title="Portuguese" onPress={() => setLanguage("pt")} />
+      <Button title="Chinese" onPress={() => setLanguage("zh")} />
       {/* <ScrollViewWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
