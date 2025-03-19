@@ -1,11 +1,11 @@
-import de from "@assets/images/flags/de.svg"
+import De from "@assets/images/flags/de.svg"
 
 import { type Language } from "../types"
 
 export const german: Language = {
   code: "de",
   name: "Deutsch",
-  flag: de,
+  flag: De,
   isRtl: false,
   translations: {
     songs: {

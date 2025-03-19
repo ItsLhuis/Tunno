@@ -1,11 +1,11 @@
-import ja from "@assets/images/flags/ja.svg"
+import Ja from "@assets/images/flags/ja.svg"
 
 import { type Language } from "../types"
 
 export const japanese: Language = {
   code: "ja",
   name: "日本語",
-  flag: ja,
+  flag: Ja,
   isRtl: false,
   translations: {
     songs: {

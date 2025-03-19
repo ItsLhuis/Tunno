@@ -1,11 +1,11 @@
-import ru from "@assets/images/flags/ru.svg"
+import Ru from "@assets/images/flags/ru.svg"
 
 import { type Language } from "../types"
 
 export const russian: Language = {
   code: "ru",
   name: "Русский",
-  flag: ru,
+  flag: Ru,
   isRtl: false,
   translations: {
     songs: {

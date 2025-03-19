@@ -1,11 +1,11 @@
-import fr from "@assets/images/flags/fr.svg"
+import Fr from "@assets/images/flags/fr.svg"
 
 import { type Language } from "../types"
 
 export const french: Language = {
   code: "fr",
   name: "Français",
-  flag: fr,
+  flag: Fr,
   isRtl: false,
   translations: {
     songs: {

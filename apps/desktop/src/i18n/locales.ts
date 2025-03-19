@@ -26,7 +26,7 @@ export const Locales = {
 
 export type LocaleKeys = keyof typeof Locales
 
-export const getLanguages = (): { [key in LocaleKeys]: Language } => {
+export const getLocales = (): { [key in LocaleKeys]: Language } => {
   const result: { [key in LocaleKeys]: Language } = {} as { [key in LocaleKeys]: Language }
 
   for (const key in Locales) {

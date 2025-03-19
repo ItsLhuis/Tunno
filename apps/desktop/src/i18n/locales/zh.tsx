@@ -1,11 +1,11 @@
-import zh from "@assets/images/flags/zh.svg"
+import Zh from "@assets/images/flags/zh.svg"
 
 import { type Language } from "../types"
 
 export const chinese: Language = {
   code: "zh",
   name: "中文",
-  flag: zh,
+  flag: Zh,
   isRtl: false,
   translations: {
     songs: {
