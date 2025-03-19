@@ -29,7 +29,7 @@ function Settings() {
 
   const { setLanguage, language } = useSettingsStore()
 
-  const { languages } = useTranslation()
+  const { locales } = useTranslation()
 
   return (
     <div className="flex flex-col gap-3 m-9">
@@ -52,18 +52,18 @@ function Settings() {
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
             <Image
-              className="size-4"
-              src={languages[language].flag}
-              alt={languages[language].name}
+              className="h-3 aspect-4/3"
+              src={locales[language].flag}
+              alt={locales[language].name}
             />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {Object.values(languages).map((language) => {
+        <DropdownMenuContent>
+          {Object.values(locales).map((locale) => {
             return (
-              <DropdownMenuItem key={language.code} onClick={() => setLanguage(language.code)}>
-                <Image className="size-4" src={language.flag} alt={language.name} />
-                {language.name}
+              <DropdownMenuItem key={locale.code} onClick={() => setLanguage(locale.code)}>
+                <Image className="h-3 aspect-4/3" src={locale.flag} alt={locale.name} />
+                {locale.name}
               </DropdownMenuItem>
             )
           })}
@@ -83,7 +83,7 @@ function Settings() {
             <span className="sr-only">Toggle theme</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent>
           <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
           <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
           <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>

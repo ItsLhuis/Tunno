@@ -6,7 +6,7 @@ function ControlButton({ className, children, ...props }: ButtonHTMLAttributes<H
   return (
     <button
       className={cn(
-        "cursor-default inline-flex items-center justify-center focus:outline-none focus:ring-0 transition-[background-color,border-color,text-decoration-color,fill,stroke]",
+        "cursor-default inline-flex items-center justify-center focus:outline-none focus:ring-0 transition-colors",
         className
       )}
       {...props}

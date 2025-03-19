@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { useLocation } from "react-router-dom"
 
 import { Button, Icon, SafeLink, ScrollArea } from "@components/ui"
 
 const sidebarItems = [
-  { icon: "Music", label: "Songs", href: "/" },
-  { icon: "Heart", label: "Favorites", href: "/favorites" },
-  { icon: "List", label: "Playlists", href: "/playlists" },
-  { icon: "Users", label: "Artists", href: "/artists" }
+  { icon: "Music", label: "songs.title", href: "/" },
+  { icon: "Heart", label: "favorites.title", href: "/favorites" },
+  { icon: "List", label: "playlists.title", href: "/playlists" },
+  { icon: "Users", label: "artists.title", href: "/artists" }
 ] as const
 
 function Sidebar() {
+  const { t } = useTranslation()
+
   const location = useLocation()
 
   const activeIndex = sidebarItems.findIndex((item) => item.href === location.pathname)
@@ -29,7 +33,7 @@ function Sidebar() {
       <ScrollArea className="h-full">
         <div className="relative">
           <div
-            className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary z-10 transition-[transform,opacity]"
+            className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary transition-[transform,opacity]"
             style={{
               transform: `translateY(${lastValidIndex * 3.5}rem)`,
               height: "3.5rem",
@@ -40,7 +44,7 @@ function Sidebar() {
             {sidebarItems.map((item, index) => (
               <Button
                 key={item.label}
-                tooltip={item.label}
+                tooltip={t(item.label)}
                 variant="ghost"
                 className="h-14 w-14 rounded-none"
                 asChild
@@ -50,7 +54,7 @@ function Sidebar() {
                     name={item.icon}
                     className={`${activeIndex === index ? "text-primary" : "text-current"}`}
                   />
-                  <span className="sr-only">Open {item.label} screen</span>
+                  <span className="sr-only">Open {t(item.label)} screen</span>
                 </SafeLink>
               </Button>
             ))}

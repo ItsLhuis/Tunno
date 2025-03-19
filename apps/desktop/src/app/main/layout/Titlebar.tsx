@@ -6,7 +6,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import Logo from "@assets/images/app/icons/primary.png"
 
-import { Button, Icon, IconButton, SafeLink, Typography } from "@components/ui"
+import { Button, Icon, IconButton, Image, SafeLink, Typography } from "@components/ui"
 import { Titlebar as WindowTitlebar } from "@components/window"
 
 import { motion } from "motion/react"
@@ -64,7 +64,12 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                 disabled={!canGoForward}
               />
             </div>
-            <img src={Logo} alt="App logo" className="w-4 aspect-auto" />
+            <Image
+              src={Logo}
+              alt="App logo"
+              containerClassName="bg-transparent"
+              className="w-4 aspect-auto"
+            />
             <Typography variant="h6" affects="muted">
               {windowTitle}
             </Typography>

@@ -65,8 +65,8 @@ export type VirtualizedTableGridHeaderProps<TData> = {
 }
 
 export type VirtualizedTableGridProps<TData, TValue> = HTMLAttributes<HTMLDivElement> & {
-  header?: VirtualizedTableGridHeaderProps<TData>
-  parentRef: MutableRefObject<HTMLDivElement | null>
+  headerProps?: VirtualizedTableGridHeaderProps<TData>
+  containerRef: MutableRefObject<HTMLDivElement | null>
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   estimateSize: number
@@ -79,8 +79,8 @@ export type VirtualizedTableGridProps<TData, TValue> = HTMLAttributes<HTMLDivEle
 }
 
 const VirtualizedTableGrid = <TData, TValue>({
-  parentRef,
-  header,
+  containerRef,
+  headerProps,
   columns,
   data,
   estimateSize,
@@ -117,7 +117,7 @@ const VirtualizedTableGrid = <TData, TValue>({
     onColumnVisibilityChange: (updater) => {
       const columns = typeof updater === "function" ? updater(columnVisibility) : updater
       setColumnVisibility(columns)
-      header?.onVisibleColumnsChange?.(columns)
+      headerProps?.onVisibleColumnsChange?.(columns)
     },
     onRowSelectionChange: setRowSelection,
     state: {
@@ -136,7 +136,7 @@ const VirtualizedTableGrid = <TData, TValue>({
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     estimateSize: estimateRowSize,
-    getScrollElement: () => parentRef.current,
+    getScrollElement: () => containerRef.current,
     measureElement:
       typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
         ? (element) => element?.getBoundingClientRect().height
@@ -165,45 +165,45 @@ const VirtualizedTableGrid = <TData, TValue>({
   }, [visibleColumns])
 
   const handleScroll = useCallback(() => {
-    if (parentRef.current) {
-      const scrollTop = parentRef.current.scrollTop
-      const threshold = header?.sticky?.threshold ?? 260
+    if (containerRef.current) {
+      const scrollTop = containerRef.current.scrollTop
+      const threshold = headerProps?.sticky?.threshold ?? 260
       setIsScrolled(scrollTop > threshold)
     }
-  }, [parentRef, header?.sticky?.threshold])
+  }, [containerRef, headerProps?.sticky?.threshold])
 
   useEffect(() => {
-    const parent = parentRef.current
+    const parent = containerRef.current
     if (parent) {
       parent.addEventListener("scroll", handleScroll)
       return () => parent.removeEventListener("scroll", handleScroll)
     }
-  }, [parentRef])
+  }, [containerRef])
 
   return (
     <div className={cn("relative flex flex-col flex-1 w-full", isLoading && "h-full")}>
       <AnimatePresence mode="popLayout">
         {isScrolled && (
           <motion.div
-            className="sticky top-0 left-0 right-0 bg-background/60 backdrop-blur z-50 w-full transition-[background-color]"
+            className="flex flex-1 sticky top-0 left-0 right-0 bg-background/60 backdrop-blur z-50 w-full transition-[background-color]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
             <div
-              className={header?.sticky?.containerProps?.className}
-              {...header?.sticky?.containerProps}
+              className={headerProps?.sticky?.containerProps?.className}
+              {...headerProps?.sticky?.containerProps}
             >
-              {header?.sticky?.children?.(table)}
+              {headerProps?.sticky?.children?.(table)}
               <div
-                className={header?.sticky?.tableHeaderProps?.className}
-                {...header?.sticky?.tableHeaderProps}
+                className={headerProps?.sticky?.tableHeaderProps?.className}
+                {...headerProps?.sticky?.tableHeaderProps}
               >
                 {table.getHeaderGroups().map((headerGroup) => (
                   <div
                     key={headerGroup.id}
-                    className={cn("grid w-full hover:bg-transparent", rowClassName)}
+                    className={cn("grid w-full", rowClassName)}
                     style={{ gridTemplateColumns: dynamicGridCols, ...rowStyle }}
                   >
                     {headerGroup.headers.map((header) => {
@@ -211,13 +211,13 @@ const VirtualizedTableGrid = <TData, TValue>({
                         <div
                           key={header.id}
                           className={cn(
-                            "p-3 flex items-center font-medium text-muted-foreground",
+                            "p-3 flex items-center font-medium text-muted-foreground truncate",
                             header.column.columnDef.meta?.className
                           )}
                           style={{
                             width: header.column.columnDef.meta?.width
                               ? header.column.columnDef.meta?.width
-                              : header.getSize()
+                              : "100%"
                           }}
                         >
                           <div className="text-sm truncate transition-colors">
@@ -236,13 +236,13 @@ const VirtualizedTableGrid = <TData, TValue>({
         )}
       </AnimatePresence>
       <div
-        className={cn("flex flex-col gap-3 pt-3", header?.containerProps?.className)}
-        {...header?.containerProps}
+        className={cn("flex flex-col gap-3", headerProps?.containerProps?.className)}
+        {...headerProps?.containerProps}
       >
-        {header?.children?.(table)}
+        {headerProps?.children?.(table)}
         <div className="flex items-center gap-2">
           <SearchInput
-            placeholder={header?.placeholder ?? "Search"}
+            placeholder={headerProps?.placeholder ?? "Search"}
             value={globalFilter ?? ""}
             onChange={handleGlobalFilterChange}
             className="flex-1"
@@ -292,11 +292,11 @@ const VirtualizedTableGrid = <TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className={header.column.columnDef.meta?.className}
+                      className={cn("truncate", header.column.columnDef.meta?.className)}
                       style={{
                         width: header.column.columnDef.meta?.width
                           ? header.column.columnDef.meta?.width
-                          : header.getSize()
+                          : "100%"
                       }}
                     >
                       <div className="truncate transition-colors">
@@ -319,9 +319,11 @@ const VirtualizedTableGrid = <TData, TValue>({
             transition={{ duration: 0.3 }}
           >
             {isLoading ? (
-              <div className="flex items-center min-h-14">
-                <Loader />
-              </div>
+              <TableRow className="flex items-center min-h-14 hover:bg-transparent border-none">
+                <TableCell>
+                  <Loader />
+                </TableCell>
+              </TableRow>
             ) : rows.length === 0 ? (
               <TableRow className="flex w-full justify-center rounded-md border-none">
                 <TableCell colSpan={columns.length} className="text-center py-4">
@@ -352,11 +354,11 @@ const VirtualizedTableGrid = <TData, TValue>({
                         {row.getVisibleCells().map((cell) => (
                           <TableCell
                             key={cell.id}
-                            className={cell.column.columnDef.meta?.className}
+                            className={cn("truncate", cell.column.columnDef.meta?.className)}
                             style={{
                               width: cell.column.columnDef.meta?.width
                                 ? cell.column.columnDef.meta?.width
-                                : cell.column.getSize()
+                                : "100%"
                             }}
                           >
                             <div className="flex-1 truncate transition-colors">

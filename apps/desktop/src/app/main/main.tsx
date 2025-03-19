@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import ReactDOM from "react-dom/client"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import { ThemeProvider } from "@contexts/ThemeContext"
+
+import { useSettingsStore } from "@stores/useSettingsStore"
 
 import App from "./App"
 import { Toaster } from "@components/ui"
@@ -12,24 +14,32 @@ import "@i18n/config"
 
 import "../../global.css"
 
-const showMainWindow = async () => {
-  let showMainWindowTimeout: NodeJS.Timeout
+const Main = () => {
+  const { hasHydrated } = useSettingsStore()
 
-  showMainWindowTimeout = setTimeout(async () => {
-    await getCurrentWindow().show()
-    await getCurrentWindow().setFocus()
-  }, 200)
+  useEffect(() => {
+    if (!hasHydrated) return
 
-  return () => clearTimeout(showMainWindowTimeout)
-}
+    let showMainWindowTimeout: NodeJS.Timeout
 
-showMainWindow()
+    showMainWindowTimeout = setTimeout(async () => {
+      await getCurrentWindow().show()
+      await getCurrentWindow().setFocus()
+    }, 200)
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+    return () => clearTimeout(showMainWindowTimeout)
+  }, [hasHydrated])
+
+  return (
     <ThemeProvider>
       <App />
       <Toaster />
     </ThemeProvider>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <Main />
   </React.StrictMode>
 )

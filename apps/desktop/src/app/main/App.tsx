@@ -11,6 +11,7 @@ import { BrowserRouter } from "react-router-dom"
 import Logo from "@assets/images/app/icons/primary.png"
 
 import { ErrorBoundary } from "@components/core"
+import { Image } from "@components/ui"
 
 import { Footer, Main, Sidebar, Titlebar } from "@app/main/layout"
 
@@ -26,7 +27,7 @@ function App() {
   const prepareApp = async (): Promise<void> => {
     await migrate()
     i18n.changeLanguage(language)
-    
+
     await new Promise((resolve) => setTimeout(resolve, 500))
   }
 
@@ -52,7 +53,7 @@ function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <img src={Logo} alt="App logo" className="w-20" />
+            <Image src={Logo} alt="App logo" containerClassName="bg-transparent" className="w-20" />
           </motion.div>
         )}
         <motion.div

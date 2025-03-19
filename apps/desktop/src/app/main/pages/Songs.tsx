@@ -39,7 +39,7 @@ import {
   VirtualizedTableGrid
 } from "@components/ui"
 
-import { AnimatePresence, motion } from "motion/react"
+import { motion } from "motion/react"
 
 import Thumbnail from "@assets/thumbs/1.jpg"
 
@@ -71,7 +71,6 @@ const columns: ColumnDef<Song>[] = [
         aria-label="Select row"
       />
     ),
-    meta: { width: "100%" },
     enableSorting: false,
     enableHiding: false
   },
@@ -87,7 +86,6 @@ const columns: ColumnDef<Song>[] = [
         <IconButton name="Play" onClick={() => console.log(row.original.id)} />
       </motion.div>
     ),
-    meta: { width: "100%" },
     enableSorting: false,
     enableHiding: false
   },
@@ -101,7 +99,7 @@ const columns: ColumnDef<Song>[] = [
             src={Thumbnail}
             alt="thumbnail"
             containerClassName="border border-muted rounded-md"
-            className="size-12 object-cover"
+            className="size-12 object-cover rounded-md"
           />
           <div className="w-full truncate">
             <Marquee>
@@ -124,19 +122,16 @@ const columns: ColumnDef<Song>[] = [
         </div>
       )
     },
-    meta: { width: "100%", className: "truncate" },
     enableHiding: false
   },
   {
     accessorKey: "album",
-    header: "Album",
-    meta: { width: "100%", className: "truncate" }
+    header: "Album"
   },
   {
     accessorKey: "date",
     header: "Date",
-    cell: ({ row }) => formatRelativeDate(row.getValue("date")),
-    meta: { width: "100%", className: "truncate" }
+    cell: ({ row }) => formatRelativeDate(row.getValue("date"))
   },
   {
     accessorKey: "duration",
@@ -146,11 +141,61 @@ const columns: ColumnDef<Song>[] = [
         <Typography className="truncate transition-none">{row.getValue("duration")}</Typography>
       </div>
     ),
-    meta: { width: "100%", className: "flex justify-center" }
+    meta: { className: "flex justify-center" }
   },
   {
     id: "options",
-    header: () => <IconButton name="MoreHorizontal" variant="ghost" className="invisible" />,
+    header: ({ table }) => {
+      const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+      return (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: hasSelectedRows ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <IconButton name="MoreHorizontal" variant="ghost" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Playback</DropdownMenuLabel>
+              <DropdownMenuItem>
+                <Icon name="Play" />
+                Play
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Icon name="Forward" />
+                Play next
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Icon name="Plus" />
+                  Add to
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>
+                    <Icon name="ListVideo" />
+                    Play queue
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Icon name="Plus" />
+                    New playlist
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              {table.getSelectedRowModel().flatRows.length === 1 && (
+                <DropdownMenuItem>
+                  <Icon name="Edit" />
+                  Edit
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </motion.div>
+      )
+    },
     cell: ({ row }) => (
       <motion.div
         initial={{ opacity: 0 }}
@@ -164,7 +209,6 @@ const columns: ColumnDef<Song>[] = [
         />
       </motion.div>
     ),
-    meta: { width: "100%", className: "truncate" },
     enableSorting: false,
     enableHiding: false
   }
@@ -193,10 +237,11 @@ function Songs() {
   return (
     <ScrollArea ref={mainRef} className="flex-1 overflow-x-hidden">
       <VirtualizedTableGrid
-        parentRef={mainRef}
+        containerRef={mainRef}
         className="p-3 md:p-9 pt-0 md:pt-0 transition-[background-color,padding]"
-        header={{
+        headerProps={{
           sticky: {
+            containerProps: { className: "flex-1" },
             tableHeaderProps: {
               className: "px-3 md:px-9 border-b transition-[background-color,border-color,padding]"
             },
@@ -204,152 +249,52 @@ function Songs() {
               const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
               return (
-                <div className="flex items-center justify-between gap-3 p-3 md:pt-9 md:px-9 transition-[background-color,padding]">
-                  <div className="flex items-center gap-3">
-                    <Button
-                      disabled={hasSelectedRows}
-                      className="rounded-full [&_svg]:size-5 w-11 h-11"
-                      tooltip={{ children: "Shuffle and play", side: "bottom" }}
-                      size="icon"
-                    >
-                      <Icon name="Shuffle" />
-                    </Button>
-                    <Typography variant="h3">{t("songs.title")}</Typography>
-                  </div>
-                  <AnimatePresence>
-                    {hasSelectedRows && (
-                      <motion.div
-                        className="flex items-center gap-2"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Typography>
-                          {table.getSelectedRowModel().flatRows.length} songs selected
-                        </Typography>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="icon" className="ml-auto">
-                              <Icon name="MoreHorizontal" />
-                              <span className="sr-only">Selected songs options</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuLabel>Playback</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                              <Icon name="Play" />
-                              Play
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <Icon name="Forward" />
-                              Play next
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuSub>
-                              <DropdownMenuSubTrigger>
-                                <Icon name="Plus" />
-                                Add to
-                              </DropdownMenuSubTrigger>
-                              <DropdownMenuSubContent>
-                                <DropdownMenuItem>
-                                  <Icon name="ListVideo" />
-                                  Play queue
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <Icon name="Plus" />
-                                  New playlist
-                                </DropdownMenuItem>
-                              </DropdownMenuSubContent>
-                            </DropdownMenuSub>
-                            {table.getSelectedRowModel().flatRows.length === 1 && (
-                              <DropdownMenuItem>
-                                <Icon name="Edit" />
-                                Edit
-                              </DropdownMenuItem>
-                            )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                <div className="flex items-center gap-3 p-3 pt-6 pb-0 md:pt-9 md:px-9 transition-[background-color,padding]">
+                  <IconButton
+                    name="Plus"
+                    className="[&_svg]:size-5"
+                    variant="ghost"
+                    tooltip={{ children: "Add song", side: "bottom" }}
+                  />
+                  <IconButton
+                    name="Shuffle"
+                    variant="text"
+                    className="w-11 h-11 [&_svg]:size-5"
+                    disabled={hasSelectedRows}
+                    tooltip={{ children: "Shuffle and play", side: "bottom" }}
+                  />
+                  <Typography variant="h4" className="truncate">
+                    {t("songs.title")}
+                  </Typography>
                 </div>
               )
             }
           },
           containerProps: {
             className:
-              "flex flex-col px-3 gap-6 md:px-9 pt-3 md:pt-9 transition-[background-color,padding]"
+              "flex flex-col gap-6 p-3 pt-6 pb-0 md:pt-9 md:px-9 transition-[background-color,padding]"
           },
           children: (table) => {
             const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
             return (
-              <div className="flex flex-col items-start gap-6">
-                <Typography variant="h1">{t("songs.title")}</Typography>
-                <div className="flex items-center w-full gap-3">
-                  <Button disabled={hasSelectedRows}>
-                    <Icon name="Shuffle" />
-                    Shuffle and play
-                  </Button>
-                  {hasSelectedRows && (
-                    <motion.div
-                      key="selected"
-                      className="flex items-center ml-auto gap-2"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Typography>
-                        {table.getSelectedRowModel().flatRows.length} songs selected
-                      </Typography>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="icon" className="ml-auto">
-                            <Icon name="MoreHorizontal" />
-                            <span className="sr-only">Selected songs options</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuLabel>Playback</DropdownMenuLabel>
-                          <DropdownMenuItem>
-                            <Icon name="Play" />
-                            Play
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Icon name="Forward" />
-                            Play next
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuSub>
-                            <DropdownMenuSubTrigger>
-                              <Icon name="Plus" />
-                              Add to
-                            </DropdownMenuSubTrigger>
-                            <DropdownMenuSubContent>
-                              <DropdownMenuItem>
-                                <Icon name="ListVideo" />
-                                Play queue
-                              </DropdownMenuItem>
-                              <DropdownMenuItem>
-                                <Icon name="Plus" />
-                                New playlist
-                              </DropdownMenuItem>
-                            </DropdownMenuSubContent>
-                          </DropdownMenuSub>
-                          {table.getSelectedRowModel().flatRows.length === 1 && (
-                            <DropdownMenuItem>
-                              <Icon name="Edit" />
-                              Edit
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </motion.div>
-                  )}
+              <div className="flex flex-row items-center justify-between">
+                <div className="flex items-center gap-3 min-w-0 overflow-hidden">
+                  <IconButton
+                    name="Plus"
+                    className="[&_svg]:size-5"
+                    variant="ghost"
+                    tooltip={{ children: "Add song", side: "bottom" }}
+                  />
+                  <IconButton
+                    name="Shuffle"
+                    className="shrink-0 w-11 h-11 rounded-full [&_svg]:size-5"
+                    disabled={hasSelectedRows}
+                    tooltip={{ children: "Shuffle and play", side: "bottom" }}
+                  />
+                  <Typography variant="h1" className="truncate">
+                    {t("songs.title")}
+                  </Typography>
                 </div>
               </div>
             )
@@ -359,7 +304,6 @@ function Songs() {
         data={data ?? []}
         estimateSize={70}
         rowGridCols={["auto", "auto", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "auto"]}
-        rowClassName="gap-1 w-full"
         rowContextMenuContent={() => {
           return (
             <ContextMenuContent>
