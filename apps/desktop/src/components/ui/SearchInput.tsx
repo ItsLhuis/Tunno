@@ -8,11 +8,12 @@ import { Icon } from "@components/ui/Icon"
 import { motion } from "motion/react"
 
 type SearchInputProps = ComponentProps<"input"> & {
+  containerClassName?: string
   renderRight?: React.ReactNode
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ type, className, renderRight, onFocus, onBlur, ...props }, ref) => {
+  ({ containerClassName, renderRight, type, className, onFocus, onBlur, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false)
 
     const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
@@ -26,7 +27,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     }
 
     return (
-      <div className="flex items-center w-full overflow-hidden">
+      <div className={cn("flex items-center w-full overflow-hidden", containerClassName)}>
         <div
           className={cn(
             "flex items-center gap-3 shrink-0 w-full rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-[background-color,border-color,text-decoration-color,fill,stroke] placeholder:text-muted-foreground",

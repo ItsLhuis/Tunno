@@ -53,7 +53,6 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
       }
     }, [src, currentSrc])
 
-    // Cleanup on unmount
     useEffect(() => {
       return () => {
         if (preloadRef.current) {
@@ -72,7 +71,13 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
     }
 
     return (
-      <div className={cn("bg-muted", containerClassName, "relative overflow-hidden shrink-0")}>
+      <div
+        className={cn(
+          "bg-muted",
+          containerClassName,
+          "relative overflow-hidden shrink-0 transition-colors"
+        )}
+      >
         <img
           ref={ref}
           src={currentSrc ?? undefined}

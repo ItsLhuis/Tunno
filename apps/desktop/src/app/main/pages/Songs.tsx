@@ -1,5 +1,3 @@
-import { useRef } from "react"
-
 import { useTranslation } from "@i18n/hooks"
 
 import { formatRelativeDate } from "@utils/format"
@@ -21,6 +19,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -29,12 +28,14 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  Header,
   Icon,
   IconButton,
   Image,
   Marquee,
   SafeLink,
-  ScrollArea,
+  SearchInput,
+  StickyHeader,
   Typography,
   VirtualizedTableGrid
 } from "@components/ui"
@@ -232,124 +233,146 @@ const data: Song[] = Array.from({ length: 127 }, (_, index) => ({
 function Songs() {
   const { t } = useTranslation()
 
-  const mainRef = useRef<HTMLDivElement | null>(null)
-
   return (
-    <ScrollArea ref={mainRef} className="flex-1 overflow-x-hidden">
-      <VirtualizedTableGrid
-        containerRef={mainRef}
-        className="p-3 md:p-9 pt-0 md:pt-0 transition-[background-color,padding]"
-        headerProps={{
-          sticky: {
-            containerProps: { className: "flex-1" },
-            tableHeaderProps: {
-              className: "px-3 md:px-9 border-b transition-[background-color,border-color,padding]"
-            },
-            children: (table) => {
-              const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+    <VirtualizedTableGrid
+      HeaderComponent={(table) => {
+        const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
-              return (
-                <div className="flex items-center gap-3 p-3 pt-6 pb-0 md:pt-9 md:px-9 transition-[background-color,padding]">
-                  <IconButton
-                    name="Plus"
-                    className="[&_svg]:size-5"
-                    variant="ghost"
-                    tooltip={{ children: "Add song", side: "bottom" }}
-                  />
-                  <IconButton
-                    name="Shuffle"
-                    variant="text"
-                    className="w-11 h-11 [&_svg]:size-5"
-                    disabled={hasSelectedRows}
-                    tooltip={{ children: "Shuffle and play", side: "bottom" }}
-                  />
-                  <Typography variant="h4" className="truncate">
-                    {t("songs.title")}
-                  </Typography>
-                </div>
-              )
+        return (
+          <Header className="flex items-center gap-3">
+            <IconButton
+              name="Plus"
+              className="[&_svg]:size-5"
+              variant="ghost"
+              tooltip={{ children: "Add song", side: "bottom" }}
+            />
+            <IconButton
+              name="Shuffle"
+              className="shrink-0 w-11 h-11 rounded-full [&_svg]:size-5"
+              disabled={hasSelectedRows}
+              tooltip={{ children: "Shuffle and play", side: "bottom" }}
+            />
+            <Typography variant="h1" className="truncate">
+              {t("songs.title")}
+            </Typography>
+          </Header>
+        )
+      }}
+      StickyHeaderComponent={(table) => {
+        const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+
+        return (
+          <StickyHeader className="flex items-center gap-3">
+            <IconButton
+              name="Plus"
+              className="[&_svg]:size-5"
+              variant="ghost"
+              tooltip={{ children: "Add song", side: "bottom" }}
+            />
+            <IconButton
+              name="Shuffle"
+              variant="text"
+              className="w-11 h-11 [&_svg]:size-5"
+              disabled={hasSelectedRows}
+              tooltip={{ children: "Shuffle and play", side: "bottom" }}
+            />
+            <Typography variant="h4" className="truncate">
+              {t("songs.title")}
+            </Typography>
+          </StickyHeader>
+        )
+      }}
+      ListHeaderComponent={(table) => {
+        return (
+          <SearchInput
+            containerClassName="p-3 md:p-9 pb-0 md:pb-0 pt-6 md:pt-6 transition-[padding]"
+            placeholder="Search"
+            value={table.getState().globalFilter ?? ""}
+            onChange={(e) => table.setGlobalFilter(e.target.value)}
+            className="flex-1"
+            renderRight={
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Icon name="MoreHorizontal" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Visibility</DropdownMenuLabel>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      {table
+                        .getAllColumns()
+                        .filter((column) => column.getCanHide())
+                        .map((column) => (
+                          <DropdownMenuCheckboxItem
+                            key={column.id}
+                            className="capitalize"
+                            checked={column.getIsVisible()}
+                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                          >
+                            {column.id}
+                          </DropdownMenuCheckboxItem>
+                        ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                </DropdownMenuContent>
+              </DropdownMenu>
             }
-          },
-          containerProps: {
-            className:
-              "flex flex-col gap-6 p-3 pt-6 pb-0 md:pt-9 md:px-9 transition-[background-color,padding]"
-          },
-          children: (table) => {
-            const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
-
-            return (
-              <div className="flex flex-row items-center justify-between">
-                <div className="flex items-center gap-3 min-w-0 overflow-hidden">
-                  <IconButton
-                    name="Plus"
-                    className="[&_svg]:size-5"
-                    variant="ghost"
-                    tooltip={{ children: "Add song", side: "bottom" }}
-                  />
-                  <IconButton
-                    name="Shuffle"
-                    className="shrink-0 w-11 h-11 rounded-full [&_svg]:size-5"
-                    disabled={hasSelectedRows}
-                    tooltip={{ children: "Shuffle and play", side: "bottom" }}
-                  />
-                  <Typography variant="h1" className="truncate">
-                    {t("songs.title")}
-                  </Typography>
-                </div>
-              </div>
-            )
-          }
-        }}
-        columns={columns}
-        data={data ?? []}
-        estimateSize={70}
-        rowGridCols={["auto", "auto", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "auto"]}
-        rowContextMenuContent={() => {
-          return (
-            <ContextMenuContent>
-              <ContextMenuItem inset>
-                Back
-                <ContextMenuShortcut>⌘[</ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem inset disabled>
-                Forward
-                <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem inset>
-                Reload
-                <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuSub>
-                <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
-                <ContextMenuSubContent className="w-48">
-                  <ContextMenuItem>
-                    Save Page As...
-                    <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
-                  </ContextMenuItem>
-                  <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-                  <ContextMenuItem>Name Window...</ContextMenuItem>
-                  <ContextMenuSeparator />
-                  <ContextMenuItem>Developer Tools</ContextMenuItem>
-                </ContextMenuSubContent>
-              </ContextMenuSub>
-              <ContextMenuSeparator />
-              <ContextMenuCheckboxItem checked>
-                Show Bookmarks Bar
-                <ContextMenuShortcut className="ml-3">⌘⇧B</ContextMenuShortcut>
-              </ContextMenuCheckboxItem>
-              <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
-              <ContextMenuSeparator />
-              <ContextMenuRadioGroup value="pedro">
-                <ContextMenuLabel inset>People</ContextMenuLabel>
+          />
+        )
+      }}
+      containerClassName="overflow-x-hidden"
+      columns={columns}
+      data={data ?? []}
+      estimateSize={70}
+      rowGridCols={["auto", "auto", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "auto"]}
+      rowContextMenuContent={() => {
+        return (
+          <ContextMenuContent>
+            <ContextMenuItem inset>
+              Back
+              <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem inset disabled>
+              Forward
+              <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem inset>
+              Reload
+              <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+              <ContextMenuSubContent className="w-48">
+                <ContextMenuItem>
+                  Save Page As...
+                  <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+                </ContextMenuItem>
+                <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                <ContextMenuItem>Name Window...</ContextMenuItem>
                 <ContextMenuSeparator />
-                <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
-                <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-              </ContextMenuRadioGroup>
-            </ContextMenuContent>
-          )
-        }}
-      />
-    </ScrollArea>
+                <ContextMenuItem>Developer Tools</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+            <ContextMenuSeparator />
+            <ContextMenuCheckboxItem checked>
+              Show Bookmarks Bar
+              <ContextMenuShortcut className="ml-3">⌘⇧B</ContextMenuShortcut>
+            </ContextMenuCheckboxItem>
+            <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+            <ContextMenuSeparator />
+            <ContextMenuRadioGroup value="pedro">
+              <ContextMenuLabel inset>People</ContextMenuLabel>
+              <ContextMenuSeparator />
+              <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
+              <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+            </ContextMenuRadioGroup>
+          </ContextMenuContent>
+        )
+      }}
+    />
   )
 }
 

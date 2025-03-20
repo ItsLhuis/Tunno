@@ -9,7 +9,7 @@ import {
   type HoveringRow,
   type HoveringTable,
   type HoveringTableState
-} from "@/components/ui/VirtualizedTableGrid/features/types"
+} from "@components/ui/ListWithHeader/features/types"
 
 declare module "@tanstack/react-table" {
   interface TableState extends FocusingTableState, HoveringTableState {}
