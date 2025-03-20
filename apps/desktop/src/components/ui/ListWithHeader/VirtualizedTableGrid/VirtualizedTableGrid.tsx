@@ -15,6 +15,10 @@ import { cn } from "@lib/utils"
 
 import { Focusing, Hovering } from "../features"
 
+import { useScroll } from "../hooks"
+
+import { useVirtualizer } from "@tanstack/react-virtual"
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -28,8 +32,6 @@ import {
   useReactTable,
   VisibilityState
 } from "@tanstack/react-table"
-
-import { useVirtualizer } from "@tanstack/react-virtual"
 
 import { Loader } from "@/components/ui/Loader"
 import { ContextMenu, ContextMenuTrigger } from "@components/ui/ContextMenu"
@@ -64,7 +66,7 @@ const VirtualizedTableGrid = <TData, TValue>({
   StickyHeaderComponent,
   ListHeaderComponent,
   stickyHeaderContainerClassName,
-  stickHeaderThreshold = 260,
+  stickHeaderThreshold = 10,
   containerClassName,
   columns,
   data,
@@ -80,8 +82,30 @@ const VirtualizedTableGrid = <TData, TValue>({
   ...props
 }: VirtualizedTableGridProps<TData, TValue>) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
+  const headerRef = useRef<HTMLDivElement | null>(null)
+  const tableHeaderRef = useRef<HTMLTableSectionElement | null>(null)
 
-  const [isScrolled, setIsScrolled] = useState<boolean>(false)
+  const [headerHeight, setHeaderHeight] = useState<number>(0)
+
+  const { isScrolled } = useScroll({
+    scrollRef,
+    headerHeight
+  })
+
+  const calculateHeaderHeight = useCallback(() => {
+    let totalHeight = 0
+    if (headerRef.current) {
+      totalHeight += headerRef.current.getBoundingClientRect().height
+    }
+    if (showTableColumns && tableHeaderRef.current) {
+      totalHeight += tableHeaderRef.current.getBoundingClientRect().height
+    }
+    setHeaderHeight(totalHeight + stickHeaderThreshold)
+  }, [headerRef, tableHeaderRef, showTableColumns, stickHeaderThreshold])
+
+  useEffect(() => {
+    calculateHeaderHeight()
+  }, [])
 
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -144,21 +168,6 @@ const VirtualizedTableGrid = <TData, TValue>({
       .join(" ")
   }, [visibleColumns])
 
-  const handleScroll = useCallback(() => {
-    if (scrollRef.current) {
-      const scrollTop = scrollRef.current.scrollTop
-      setIsScrolled(scrollTop > stickHeaderThreshold)
-    }
-  }, [scrollRef, stickHeaderThreshold])
-
-  useEffect(() => {
-    const parent = scrollRef.current
-    if (parent) {
-      parent.addEventListener("scroll", handleScroll)
-      return () => parent.removeEventListener("scroll", handleScroll)
-    }
-  }, [scrollRef])
-
   return (
     <ScrollArea ref={scrollRef} className={cn("flex-1 w-full h-full", containerClassName)}>
       <div className={cn("relative flex flex-col flex-1 w-full", isLoading && "h-full")}>
@@ -210,15 +219,17 @@ const VirtualizedTableGrid = <TData, TValue>({
             </motion.div>
           )}
         </AnimatePresence>
-        {HeaderComponent(table)}
-        {ListHeaderComponent && ListHeaderComponent(table)}
+        <div ref={headerRef}>
+          {HeaderComponent(table)}
+          {ListHeaderComponent && ListHeaderComponent(table)}
+        </div>
         <div
           className={cn("h-full p-3 md:p-9 pt-3 md:pt-3 transition-[padding]", className)}
           {...props}
         >
           <Table className={cn("relative overflow-hidden", isLoading && "h-full")}>
             {showTableColumns && (
-              <TableHeader>
+              <TableHeader ref={tableHeaderRef}>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}

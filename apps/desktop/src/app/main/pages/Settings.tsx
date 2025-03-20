@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import { useTheme } from "@contexts/ThemeContext"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
@@ -6,15 +8,20 @@ import { useTranslation } from "@i18n/hooks"
 
 import {
   Button,
+  Command,
+  CommandDialog,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   Icon,
-  Image
+  Image,
+  toast
 } from "@components/ui"
-
-import { toast } from "sonner"
 
 function getRandomPromise() {
   return new Promise((resolve, reject) => {
@@ -28,6 +35,8 @@ function Settings() {
   const { setTheme } = useTheme()
 
   const { setLanguage, language } = useSettingsStore()
+
+  const [open, setOpen] = useState(false)
 
   const { locales } = useTranslation()
 
@@ -51,27 +60,6 @@ function Settings() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
-            <Image
-              className="h-3 aspect-4/3"
-              src={locales[language].flag}
-              alt={locales[language].name}
-            />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {Object.values(locales).map((locale) => {
-            return (
-              <DropdownMenuItem key={locale.code} onClick={() => setLanguage(locale.code)}>
-                <Image className="h-3 aspect-4/3" src={locale.flag} alt={locale.name} />
-                {locale.name}
-              </DropdownMenuItem>
-            )
-          })}
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
             <Icon
               name="Sun"
               className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0"
@@ -89,6 +77,35 @@ function Settings() {
           <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <Button variant="outline" className="flex items-center gap-2" onClick={() => setOpen(true)}>
+        <Image
+          className="h-3 aspect-4/3"
+          src={locales[language].flag}
+          alt={locales[language].name}
+        />
+        {locales[language].name}
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <Command className="rounded-lg border shadow-md">
+          <CommandInput placeholder="Search language..." />
+          <CommandList>
+            <CommandGroup heading="Languages">
+              {Object.values(locales).map((locale) => (
+                <CommandItem
+                  key={locale.code}
+                  onSelect={() => {
+                    setLanguage(locale.code)
+                  }}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <Image className="h-4 w-6 rounded" src={locale.flag} alt={locale.name} />
+                  {locale.name}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </CommandDialog>
     </div>
   )
 }
