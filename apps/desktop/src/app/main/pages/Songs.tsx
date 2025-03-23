@@ -1,8 +1,12 @@
+import { useEffect, useMemo, useState } from "react"
+
 import { useTranslation } from "@i18n/hooks"
+
+import { debounce } from "lodash"
 
 import { formatRelativeDate } from "@utils/format"
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef, Table } from "@tanstack/react-table"
 
 import {
   Button,
@@ -148,6 +152,7 @@ const columns: ColumnDef<Song>[] = [
     id: "options",
     header: ({ table }) => {
       const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+
       return (
         <motion.div
           initial={{ opacity: 0 }}
@@ -156,7 +161,7 @@ const columns: ColumnDef<Song>[] = [
         >
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <IconButton name="MoreHorizontal" variant="ghost" />
+              <IconButton name="MoreHorizontal" variant="ghost" disabled={!hasSelectedRows} />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Playback</DropdownMenuLabel>
@@ -221,7 +226,7 @@ const getRandomPastDate = () => {
   return new Date(pastTime)
 }
 
-const data: Song[] = Array.from({ length: 127 }, (_, index) => ({
+const data: Song[] = Array.from({ length: 12237 }, (_, index) => ({
   id: (index + 1).toString(),
   title: `Song ${index + 1}`,
   album: `Album ${index + 1}`,
@@ -230,12 +235,65 @@ const data: Song[] = Array.from({ length: 127 }, (_, index) => ({
   duration: 3 * (index + 1)
 }))
 
+const SearchComponent = ({ table }: { table: Table<Song> }) => {
+  const [searchTerm, setSearchTerm] = useState("")
+
+  const debouncedSetGlobalFilter = useMemo(
+    () => debounce((value) => table.setGlobalFilter(value), 500),
+    [table]
+  )
+
+  useEffect(() => {
+    debouncedSetGlobalFilter(searchTerm)
+  }, [searchTerm, debouncedSetGlobalFilter])
+
+  return (
+    <SearchInput
+      containerClassName="p-3 md:p-9 pb-0 md:pb-0 pt-6 md:pt-6 transition-[padding]"
+      placeholder="Search"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      className="flex-1"
+      renderRight={
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Icon name="MoreHorizontal" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Visibility</DropdownMenuLabel>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      }
+    />
+  )
+}
+
 function Songs() {
   const { t } = useTranslation()
 
   return (
     <VirtualizedTableGrid
-      HeaderComponent={(table) => {
+      HeaderComponent={(table: Table<Song>) => {
         const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
         return (
@@ -258,7 +316,7 @@ function Songs() {
           </Header>
         )
       }}
-      StickyHeaderComponent={(table) => {
+      StickyHeaderComponent={(table: Table<Song>) => {
         const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
         return (
@@ -282,47 +340,7 @@ function Songs() {
           </StickyHeader>
         )
       }}
-      ListHeaderComponent={(table) => {
-        return (
-          <SearchInput
-            containerClassName="p-3 md:p-9 pb-0 md:pb-0 pt-6 md:pt-6 transition-[padding]"
-            placeholder="Search"
-            value={table.getState().globalFilter ?? ""}
-            onChange={(e) => table.setGlobalFilter(e.target.value)}
-            className="flex-1"
-            renderRight={
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Icon name="MoreHorizontal" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Visibility</DropdownMenuLabel>
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent>
-                      {table
-                        .getAllColumns()
-                        .filter((column) => column.getCanHide())
-                        .map((column) => (
-                          <DropdownMenuCheckboxItem
-                            key={column.id}
-                            className="capitalize"
-                            checked={column.getIsVisible()}
-                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                          >
-                            {column.id}
-                          </DropdownMenuCheckboxItem>
-                        ))}
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            }
-          />
-        )
-      }}
+      ListHeaderComponent={(table) => <SearchComponent table={table} />}
       containerClassName="overflow-x-hidden"
       columns={columns}
       data={data ?? []}

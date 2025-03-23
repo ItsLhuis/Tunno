@@ -1,3 +1,6 @@
+import { scan } from "react-scan"
+scan({ enabled: import.meta.env.DEV })
+
 import React, { useEffect } from "react"
 import ReactDOM from "react-dom/client"
 
@@ -8,6 +11,7 @@ import { ThemeProvider } from "@contexts/ThemeContext"
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import App from "./App"
+
 import { Toaster } from "@components/ui"
 
 import "@i18n/config"

@@ -10,6 +10,7 @@ import {
   Button,
   Command,
   CommandDialog,
+  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -20,7 +21,8 @@ import {
   DropdownMenuTrigger,
   Icon,
   Image,
-  toast
+  toast,
+  Typography
 } from "@components/ui"
 
 function getRandomPromise() {
@@ -77,29 +79,40 @@ function Settings() {
           <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button variant="outline" className="flex items-center gap-2" onClick={() => setOpen(true)}>
+      <Button
+        size="icon"
+        variant="outline"
+        className="flex items-center gap-2"
+        onClick={() => setOpen(true)}
+      >
         <Image
           className="h-3 aspect-4/3"
           src={locales[language].flag}
           alt={locales[language].name}
         />
-        {locales[language].name}
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <Command className="rounded-lg border shadow-md">
-          <CommandInput placeholder="Search language..." />
+        <Command>
+          <CommandInput placeholder="Search language" />
           <CommandList>
+            <CommandEmpty>No results found</CommandEmpty>
             <CommandGroup heading="Languages">
               {Object.values(locales).map((locale) => (
                 <CommandItem
                   key={locale.code}
                   onSelect={() => {
                     setLanguage(locale.code)
+                    setOpen(false)
                   }}
-                  className="flex items-center gap-2 cursor-pointer"
+                  className="flex flex-col items-start cursor-pointer"
                 >
-                  <Image className="h-4 w-6 rounded" src={locale.flag} alt={locale.name} />
-                  {locale.name}
+                  <div className="grid grid-cols-[auto,1fr] gap-1 gap-x-2 items-center">
+                    <Image className="h-3 aspect-4/3" src={locale.flag} alt={locale.name} />
+                    <Typography>{locale.name}</Typography>
+                    <Typography affects={["small", "muted"]} className="col-start-2">
+                      {locale.code}
+                    </Typography>
+                  </div>
                 </CommandItem>
               ))}
             </CommandGroup>
