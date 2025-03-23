@@ -8,6 +8,9 @@ export const danish: Language = {
   flag: Da,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Ingen resultater fundet"
+    },
     songs: {
       title: "Sange"
     },

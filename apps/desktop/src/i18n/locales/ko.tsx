@@ -8,6 +8,9 @@ export const korean: Language = {
   flag: Ko,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "결과를 찾을 수 없습니다"
+    },
     songs: {
       title: "노래"
     },

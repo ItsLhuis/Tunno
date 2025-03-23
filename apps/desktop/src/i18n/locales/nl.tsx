@@ -8,6 +8,9 @@ export const dutch: Language = {
   flag: Nl,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Geen resultaten gevonden"
+    },
     songs: {
       title: "Liedjes"
     },

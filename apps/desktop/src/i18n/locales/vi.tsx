@@ -8,6 +8,9 @@ export const vietnamese: Language = {
   flag: Vi,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Không tìm thấy kết quả"
+    },
     songs: {
       title: "Bài hát"
     },

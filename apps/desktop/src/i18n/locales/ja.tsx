@@ -8,6 +8,9 @@ export const japanese: Language = {
   flag: Ja,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "結果が見つかりません"
+    },
     songs: {
       title: "曲"
     },

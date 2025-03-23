@@ -8,6 +8,9 @@ export const finnish: Language = {
   flag: Fi,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Tuloksia ei löytynyt"
+    },
     songs: {
       title: "Kappaleet"
     },

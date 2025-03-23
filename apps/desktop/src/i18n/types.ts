@@ -11,6 +11,9 @@ export type Language = {
 }
 
 export type Translations = {
+  common: {
+    noResultsFound: string
+  }
   songs: {
     title: string
   }

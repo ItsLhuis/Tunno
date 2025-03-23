@@ -8,6 +8,9 @@ export const ukrainian: Language = {
   flag: Uk,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Результатів не знайдено"
+    },
     songs: {
       title: "Пісні"
     },

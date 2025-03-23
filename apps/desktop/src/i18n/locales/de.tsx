@@ -8,6 +8,9 @@ export const german: Language = {
   flag: De,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Keine Ergebnisse gefunden"
+    },
     songs: {
       title: "Lieder"
     },

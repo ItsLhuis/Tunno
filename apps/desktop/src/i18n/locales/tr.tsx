@@ -8,6 +8,9 @@ export const turkish: Language = {
   flag: Tr,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Sonuç bulunamadı"
+    },
     songs: {
       title: "Şarkılar"
     },

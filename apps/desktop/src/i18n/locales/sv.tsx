@@ -8,6 +8,9 @@ export const swedish: Language = {
   flag: Sv,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Inga resultat funna"
+    },
     songs: {
       title: "Sånger"
     },

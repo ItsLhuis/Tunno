@@ -8,6 +8,9 @@ export const polish: Language = {
   flag: Pl,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Nie znaleziono wyników"
+    },
     songs: {
       title: "Piosenki"
     },
@@ -15,7 +18,7 @@ export const polish: Language = {
       title: "Ulubione"
     },
     playlists: {
-      title: "Playlisty"
+      title: "Listy odtwarzania"
     },
     artists: {
       title: "Artyści"

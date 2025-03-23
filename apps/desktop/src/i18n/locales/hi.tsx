@@ -8,6 +8,9 @@ export const hindi: Language = {
   flag: Hi,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "कोई परिणाम नहीं मिला"
+    },
     songs: {
       title: "गाने"
     },

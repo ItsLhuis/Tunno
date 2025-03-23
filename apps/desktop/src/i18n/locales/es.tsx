@@ -8,6 +8,9 @@ export const spanish: Language = {
   flag: Es,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "No se encontraron resultados"
+    },
     songs: {
       title: "Canciones"
     },

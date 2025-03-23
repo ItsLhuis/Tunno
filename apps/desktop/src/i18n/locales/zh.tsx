@@ -8,6 +8,9 @@ export const chinese: Language = {
   flag: Zh,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "未找到结果"
+    },
     songs: {
       title: "歌曲"
     },

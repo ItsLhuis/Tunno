@@ -8,6 +8,9 @@ export const english: Language = {
   flag: En,
   isRtl: false,
   translations: {
+    common :{
+      noResultsFound: "No results found"
+    },
     songs: {
       title: "Songs"
     },

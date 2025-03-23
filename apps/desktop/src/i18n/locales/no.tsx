@@ -8,6 +8,9 @@ export const norwegian: Language = {
   flag: No,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Ingen resultater funnet"
+    },
     songs: {
       title: "Sanger"
     },

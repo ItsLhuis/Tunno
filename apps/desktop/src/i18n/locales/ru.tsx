@@ -8,6 +8,9 @@ export const russian: Language = {
   flag: Ru,
   isRtl: false,
   translations: {
+    common: {
+      noResultsFound: "Результаты не найдены"
+    },
     songs: {
       title: "Песни"
     },
