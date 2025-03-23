@@ -15,6 +15,8 @@ import { cn } from "@lib/utils"
 
 import { Focusing, Hovering } from "../features"
 
+import { useTranslation } from "@i18n/hooks"
+
 import { useScroll } from "../hooks"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
@@ -81,6 +83,8 @@ const VirtualizedTableGrid = <TData, TValue>({
   className,
   ...props
 }: VirtualizedTableGridProps<TData, TValue>) => {
+  const { t } = useTranslation()
+
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const tableHeaderRef = useRef<HTMLTableSectionElement | null>(null)
@@ -274,7 +278,7 @@ const VirtualizedTableGrid = <TData, TValue>({
               ) : rows.length === 0 ? (
                 <TableRow className="flex w-full justify-center rounded-md border-none">
                   <TableCell colSpan={columns.length} className="text-center py-4">
-                    No results found
+                    {t("common.noResultsFound")}
                   </TableCell>
                 </TableRow>
               ) : (

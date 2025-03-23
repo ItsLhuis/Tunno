@@ -26,9 +26,7 @@ export const Hovering = {
     ;(row as RowWithHover).toggleHovered = () =>
       table.setState((old: TableState & HoveringTableState) => {
         const currentHovering = Boolean(old.rowHovering?.[row.id])
-        if (currentHovering === !currentHovering) {
-          return old
-        }
+        if (currentHovering === !currentHovering) return old
         return {
           ...old,
           rowHovering: {

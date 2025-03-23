@@ -13,7 +13,7 @@ export const useScroll = ({ scrollRef, headerHeight }: UseScrollProps) => {
       const scrollTop = scrollRef.current.scrollTop
       setIsScrolled(scrollTop > headerHeight)
     }
-  }, [scrollRef])
+  }, [scrollRef, headerHeight])
 
   useEffect(() => {
     const parent = scrollRef.current
@@ -21,7 +21,7 @@ export const useScroll = ({ scrollRef, headerHeight }: UseScrollProps) => {
       parent.addEventListener("scroll", handleScroll)
       return () => parent.removeEventListener("scroll", handleScroll)
     }
-  }, [scrollRef])
+  }, [scrollRef, headerHeight])
 
   return {
     isScrolled

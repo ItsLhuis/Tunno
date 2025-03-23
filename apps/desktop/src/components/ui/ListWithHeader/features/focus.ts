@@ -26,9 +26,7 @@ export const Focusing = {
     ;(row as RowWithFocus).toggleFocused = () =>
       table.setState((old: TableState & FocusingTableState) => {
         const currentFocusing = Boolean(old.rowFocusing?.[row.id])
-        if (currentFocusing === !currentFocusing) {
-          return old
-        }
+        if (currentFocusing === !currentFocusing) return old
         return {
           ...old,
           rowFocusing: {
