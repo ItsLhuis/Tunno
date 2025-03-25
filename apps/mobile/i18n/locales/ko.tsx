@@ -1,11 +1,11 @@
-import ko from "@assets/images/flags/ko.svg"
+import Ko from "@assets/images/flags/ko.svg"
 
 import { type Language } from "../types"
 
 export const korean: Language = {
   code: "ko",
   name: "한국어",
-  flag: ko,
+  flag: Ko,
   isRtl: false,
   translations: {
     songs: {
