@@ -15,7 +15,10 @@
       },
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": [
+          "audio",
+          "audio"
+        ]
       }
     },
     "android": {
@@ -60,6 +63,12 @@
       "eas": {
         "projectId": "2aa1e6b1-07e8-42e2-99ce-2ef6664eb9ce"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2aa1e6b1-07e8-42e2-99ce-2ef6664eb9ce"
     }
   }
 }

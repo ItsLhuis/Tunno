@@ -1,16 +1,16 @@
-import { useState, useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 
-import { LayoutChangeEvent, NativeScrollEvent } from "react-native"
+import { type LayoutChangeEvent, type NativeScrollEvent } from "react-native"
 
 import Animated, {
   AnimatedRef,
   interpolate,
   runOnUI,
   scrollTo,
+  useAnimatedScrollHandler,
   useDerivedValue,
   useSharedValue,
-  withTiming,
-  useAnimatedScrollHandler
+  withTiming
 } from "react-native-reanimated"
 
 import { debounce } from "lodash"
@@ -44,7 +44,9 @@ export const useScroll = ({
 }: UseScrollProps) => {
   const scrollY = useSharedValue<number>(0)
 
-  const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState<number>(initialAbsoluteHeaderHeight)
+  const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState<number>(
+    initialAbsoluteHeaderHeight
+  )
 
   const largeHeaderHeight = useSharedValue<number>(0)
 

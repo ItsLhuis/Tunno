@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useTranslation } from "@i18n/hooks"
+
+import { debounce } from "lodash"
+
+import Fuse from "fuse.js"
 
 import { border, borderRadius, imageSize, spacing } from "@constants/styles"
 
@@ -30,24 +34,39 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
 import { router } from "expo-router"
 
+const generateRandomString = (length: number) => {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  return Array.from(
+    { length },
+    () => characters[Math.floor(Math.random() * characters.length)]
+  ).join("")
+}
+
 type Song = {
   id: string
   name: string
+  description: string
   thumbnail: any
 }
 
 const songs = Array.from({ length: 200 }, (_, i) => ({
   id: `${i}`,
   name: `Item ${i}`,
+  description: generateRandomString(10),
   thumbnail: [
     require("@assets/thumbs/1.jpg"),
     require("@assets/thumbs/2.jpg"),
     require("@assets/thumbs/3.jpg"),
     require("@assets/thumbs/4.jpg"),
     require("@assets/thumbs/5.jpg"),
-    require("@assets/thumbs/6.jpg")
-  ][Math.floor(Math.random() * 6)]
+    require("@assets/thumbs/6.jpg"),
+    require("@assets/thumbs/7.jpg")
+  ][Math.floor(Math.random() * 7)]
 }))
+
+const fuse = new Fuse(songs, {
+  keys: ["name", "description"]
+})
 
 export default function Songs() {
   const { colors } = useColorTheme()
@@ -57,6 +76,23 @@ export default function Songs() {
   const { t } = useTranslation()
 
   const [data, setData] = useState<Song[]>([])
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const handleSearch = useCallback(
+    debounce((query) => {
+      if (query) {
+        const results = fuse.search(query).map(({ item }) => item)
+        setData(results)
+      } else {
+        setData(songs)
+      }
+    }, 300),
+    []
+  )
+
+  useEffect(() => {
+    handleSearch(searchQuery)
+  }, [searchQuery])
 
   useEffect(() => {
     setTimeout(() => {
@@ -102,7 +138,11 @@ export default function Songs() {
         )}
         LargeHeaderSubtitleComponent={() => (
           <LargeHeaderSubtitle style={{ paddingTop: spacing.small }}>
-            <SearchInput placeholder="Search" />
+            <SearchInput
+              placeholder="Search"
+              value={searchQuery}
+              onChangeText={(text) => setSearchQuery(text)}
+            />
           </LargeHeaderSubtitle>
         )}
         automaticallyAdjustsScrollIndicatorInsets={false}
@@ -112,6 +152,7 @@ export default function Songs() {
           paddingBottom: spacing.large
         }}
         data={data}
+        extraData={data}
         renderItem={({ item, index }) => (
           <Animated.View entering={FadeIn} exiting={FadeOut}>
             <Pressable>
@@ -125,17 +166,11 @@ export default function Songs() {
                 }}
               >
                 <Image
-                  key={item.id}
                   recyclingKey={item.id}
-                  containerStyle={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: borderRadius.xSmall,
-                    backgroundColor: colors.muted,
-                    borderColor: colors.muted,
-                    borderWidth: border.thin
-                  }}
                   style={{
+                    borderRadius: borderRadius.xSmall,
+                    borderColor: colors.muted,
+                    borderWidth: border.thin,
                     height: imageSize.xLow,
                     width: imageSize.xLow
                   }}
@@ -143,7 +178,7 @@ export default function Songs() {
                 />
                 <ListItemText
                   title={item.name}
-                  description={item.id}
+                  description={item.description}
                   descriptionProps={{ numberOfLines: 1 }}
                 />
                 <IconButton name="More" />

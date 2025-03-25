@@ -1,4 +1,4 @@
-import { spacing, borderRadius, imageSize } from "@constants/styles"
+import { borderRadius, imageSize, spacing } from "@constants/styles"
 
 import { View } from "react-native"
 
@@ -19,10 +19,10 @@ export function TrackInfo() {
       }}
     >
       <Image
-        containerStyle={{ borderRadius: borderRadius.xSmall }}
         style={{
           width: imageSize.low,
-          aspectRatio: 1
+          aspectRatio: 1,
+          borderRadius: borderRadius.xSmall
         }}
         source={require("@assets/thumbs/1.jpg")}
       />

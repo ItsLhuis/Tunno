@@ -53,6 +53,6 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "global.d.ts",
-    "image.d.ts"
+    "declarations.d.ts"
   ]
 }

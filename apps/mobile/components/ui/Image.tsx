@@ -1,78 +1,22 @@
-import { useState, useEffect, forwardRef, type ReactNode } from "react"
+import { forwardRef } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { View, type StyleProp, type ViewStyle } from "react-native"
-
 import { Image as ExpoImage, type ImageProps as ExpoImageProps } from "expo-image"
 
-import { FadingView } from "./FadingView"
-
-import { runOnJS, useSharedValue, withTiming } from "react-native-reanimated"
-
-export type ImageProps = ExpoImageProps & {
-  containerStyle?: StyleProp<ViewStyle>
-  placeholderComponent?: ReactNode
-}
+export type ImageProps = ExpoImageProps
 
 export const Image = forwardRef<ExpoImage, ImageProps>(
-  ({ containerStyle, placeholderComponent, source, onLoad, ...props }: ImageProps, ref) => {
+  ({ style, transition, ...props }: ImageProps, ref) => {
     const { colors } = useColorTheme()
 
-    const [loaded, setLoaded] = useState<boolean>(false)
-
-    const [currentSource, setCurrentSource] = useState<typeof source>(source)
-
-    const loadOpacity = useSharedValue(1)
-
-    const handleLoad = () => {
-      loadOpacity.value = withTiming(0, { duration: 150 }, () => runOnJS(setLoaded)(true))
-    }
-
-    const resetLoadingState = () => {
-      setLoaded(false)
-      loadOpacity.value = withTiming(1, { duration: 150 }, () => runOnJS(setCurrentSource)(source))
-    }
-
-    useEffect(() => {
-      if (currentSource !== source) resetLoadingState()
-    }, [source])
-
-    const defaultPlaceholder = (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.muted
-        }}
-      />
-    )
-
     return (
-      <View style={[{ position: "relative", overflow: "hidden" }, containerStyle]}>
-        <ExpoImage
-          ref={ref}
-          source={currentSource}
-          onLoad={(e) => {
-            handleLoad()
-            if (onLoad) onLoad(e)
-          }}
-          {...props}
-        />
-        {!loaded && (
-          <FadingView
-            opacity={loadOpacity}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0
-            }}
-          >
-            {placeholderComponent ?? defaultPlaceholder}
-          </FadingView>
-        )}
-      </View>
+      <ExpoImage
+        ref={ref}
+        style={[{ backgroundColor: colors.muted }, style]}
+        transition={transition ? transition : { duration: 300 }}
+        {...props}
+      />
     )
   }
 )

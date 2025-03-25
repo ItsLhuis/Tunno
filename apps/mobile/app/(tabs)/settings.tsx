@@ -24,7 +24,7 @@ export default function Settings() {
 
   const { language, setLanguage } = useSettingsStore()
 
-  const { t, languages } = useTranslation()
+  const { t, locales } = useTranslation()
 
   const data: Setting[] = [
     {
@@ -48,9 +48,8 @@ export default function Settings() {
     <FadingScreen style={{ flex: 1 }}>
       <Text style={{ marginTop: insets.top + spacing.large }}>{t("settings.title")}</Text>
       <Image
-        source={languages[language].flag}
-        containerStyle={{ height: iconSize.large, aspectRatio: 4 / 3 }}
-        style={{ flex: 1 }}
+        source={locales[language].flag}
+        style={{ height: iconSize.large, aspectRatio: 4 / 3 }}
       />
       <Button title="English" onPress={() => setLanguage("en")} />
       <Button title="Spanish" onPress={() => setLanguage("es")} />

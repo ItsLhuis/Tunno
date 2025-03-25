@@ -8,7 +8,7 @@ import {
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useScroll } from "./useSroll"
+import { useScroll } from "./hooks"
 
 import { View, ScrollView } from "react-native"
 

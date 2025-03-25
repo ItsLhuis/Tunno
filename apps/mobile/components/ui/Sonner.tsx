@@ -67,7 +67,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
         },
         cancelButtonTextStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.medium }
       }}
-      closeButton
       position="bottom-center"
       {...props}
     />

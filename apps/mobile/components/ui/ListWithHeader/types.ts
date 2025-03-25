@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 import {
   ColorValue,
@@ -55,8 +55,8 @@ export type ScrollLargeHeaderSubtitleProps = {
 }
 
 export type ScrollHeaderProps = {
-  showHeader: DerivedValue<0 | 1>
   scrollY: SharedValue<number>
+  showHeader: DerivedValue<0 | 1>
 }
 
 export type SharedScrollContainerProps = {

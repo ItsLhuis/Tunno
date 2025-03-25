@@ -2,21 +2,21 @@ import { borderRadius, spacing } from "@constants/styles"
 
 import { View } from "react-native"
 
+import { IconButton } from "../../ui/IconButton"
 import { Image } from "../../ui/Image"
 import { ListItemText } from "../../ui/ListItemText"
-import { IconButton } from "../../ui/IconButton"
 
 export function TrackInfo() {
   return (
     <View style={{ width: "100%", alignItems: "center", gap: spacing.large }}>
       <Image
-        containerStyle={{
+        style={{
           width: "100%",
+          aspectRatio: 1,
           maxWidth: 640,
           maxHeight: 640,
           borderRadius: borderRadius.small
         }}
-        style={{width: "100%", aspectRatio: 1}}
         source={require("@assets/thumbs/1.jpg")}
       />
       <View

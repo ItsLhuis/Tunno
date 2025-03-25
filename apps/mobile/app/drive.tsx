@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react"
 import { View, StyleSheet, Alert } from "react-native"
-import { TextInput, Text, Button, toast, IconButton } from "@/components/ui"
+import { TextInput, Text, Button, toast, IconButton, Image } from "@/components/ui"
 import { database } from "@database/client"
 import { artists } from "@database/schema"
 import { eq } from "drizzle-orm"
 import { FlashList } from "@shopify/flash-list"
 import { useSettingsStore } from "@/stores/useSettingsStore"
+import { useColorTheme } from "@/hooks/useColorTheme"
+
+import Thumbnail1 from "@assets/thumbs/1.jpg"
+import Thumbnail2 from "@assets/thumbs/2.jpg"
+import Thumbnail3 from "@assets/thumbs/3.jpg"
+import Thumbnail4 from "@assets/thumbs/4.jpg"
+import Thumbnail5 from "@assets/thumbs/5.jpg"
+import Thumbnail6 from "@assets/thumbs/6.jpg"
+
+const thumbnails = [Thumbnail1, Thumbnail2, Thumbnail3, Thumbnail4, Thumbnail5, Thumbnail6]
 
 const ArtistManager: React.FC = () => {
+  const { colors } = useColorTheme()
+
   const [name, setName] = useState("")
   const [artistList, setArtistList] = useState<any[]>([])
 
@@ -76,22 +88,43 @@ const ArtistManager: React.FC = () => {
     fetchArtists()
   }, [])
 
-  const { appDirectory, backupsDirectory } = useSettingsStore()
+  const [src, setSrc] = useState<string>(thumbnails[0])
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % thumbnails.length)
+    }, 2000)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [])
+
+  useEffect(() => {
+    setSrc(thumbnails[index])
+  }, [index])
 
   return (
     <View style={styles.container}>
-      <Button
+      <Image
+        source={src}
+        style={{ width: "100%", aspectRatio: 1 }}
+      />
+      {/* <Button
         title="Show Toast"
         onPress={() => {
           const id = toast.warning("Lorem ipsum dolor sit amet", {
             description:
               "Vivamus maximus. Morbi non eros vitae diam lacinia mattis. Aliquam pharetra enim vitae leo condimentum molestie",
-            close: <IconButton name="X" onPress={() => toast.dismiss(id)} />,
+            close: <IconButton name="X" onPress={() => toast.dismiss(id)} />
           })
         }}
       />
-      <Text>{appDirectory}</Text>
-      <Text>{backupsDirectory}</Text>
+      <Image
+        style={{ height: 200, aspectRatio: 4 / 3, backgroundColor: colors.muted }}
+        source={require("@assets/thumbs/2.jpg")}
+      />
       <TextInput placeholder="Nome do Artista" value={name} onChangeText={setName} />
       <Button title="Adicionar Artista" onPress={handleAddArtist} />
       <Button title="Remover tudo" onPress={handleRemoveAll} />
@@ -106,7 +139,7 @@ const ArtistManager: React.FC = () => {
             <Button title="Remover" onPress={() => handleRemoveArtist(item.id)} />
           </View>
         )}
-      />
+      /> */}
     </View>
   )
 }
