@@ -110,23 +110,6 @@ jobs:
           releaseBody: |
             ${{needs.changelog.outputs.changelog}}
             See the assets to download this version and install.
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
-
-      - name: Upload assets to release
-        if: ${{ github.ref_type == 'tag' }}
-        run: |
-          gh release upload ${{ github.ref_name }} \
-            "src-tauri/release/bundle/**/*" \
-            "src-tauri/target/release/bundle/**/*" \
-            --repo ${{ github.repository }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish release
-        if: ${{ github.ref_type == 'tag' }}
-        run: |
-          gh release publish ${{ github.ref_name }} --repo ${{ github.repository }} --draft=false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
