@@ -83,13 +83,9 @@ const columns: ColumnDef<Song>[] = [
     id: "media",
     header: () => <IconButton name="Play" className="invisible" />,
     cell: ({ row }) => (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: row.getIsFocused() || row.getIsHovered() ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
         <IconButton name="Play" onClick={() => console.log(row.original.id)} />
-      </motion.div>
+      </div>
     ),
     enableSorting: false,
     enableHiding: false
@@ -203,17 +199,13 @@ const columns: ColumnDef<Song>[] = [
       )
     },
     cell: ({ row }) => (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: row.getIsFocused() || row.getIsHovered() ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
         <IconButton
           name="MoreHorizontal"
           variant="ghost"
           onClick={() => console.log(row.original.id)}
         />
-      </motion.div>
+      </div>
     ),
     enableSorting: false,
     enableHiding: false
@@ -226,7 +218,7 @@ const getRandomPastDate = () => {
   return new Date(pastTime)
 }
 
-const data: Song[] = Array.from({ length: 12237 }, (_, index) => ({
+const data: Song[] = Array.from({ length: 2012 }, (_, index) => ({
   id: (index + 1).toString(),
   title: `Song ${index + 1}`,
   album: `Album ${index + 1}`,
@@ -239,7 +231,7 @@ const SearchComponent = ({ table }: { table: Table<Song> }) => {
   const [searchTerm, setSearchTerm] = useState("")
 
   const debouncedSetGlobalFilter = useMemo(
-    () => debounce((value) => table.setGlobalFilter(value), 500),
+    () => debounce((value) => table.setGlobalFilter(value), 300),
     [table]
   )
 

@@ -1,6 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Wave",
+  "mainBinaryName": "Wave",
   "version": "1.0.0",
   "identifier": "com.itslhuis.wave",
   "build": {
@@ -25,7 +26,8 @@
         "resizable": true,
         "skipTaskbar": true,
         "alwaysOnTop": true,
-        "visible": false
+        "visible": false,
+        "useHttpsScheme": true
       },
       {
         "label": "main",
@@ -36,14 +38,17 @@
         "minHeight": 405,
         "decorations": false,
         "resizable": true,
-        "visible": false
+        "visible": false,
+        "useHttpsScheme": true
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'; connect-src ipc: http://ipc.localhost"
     }
   },
   "bundle": {
+    "publisher": "ItsLhuis",
+    "category": "Music",
     "active": true,
     "targets": "all",
     "icon": [
@@ -55,6 +60,29 @@
     ],
     "resources": [
       "migrations/*"
-    ]
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256"
+    },
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "",
+      "exceptionDomain": "",
+      "signingIdentity": null,
+      "entitlements": null
+    },
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [""],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K"
+    }
   }
 }

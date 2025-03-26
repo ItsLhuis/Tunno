@@ -13,7 +13,7 @@ import {
 
 import { cn } from "@lib/utils"
 
-import { Focusing, Hovering } from "../features"
+/* import { Focusing, Hovering } from "../features" */
 
 import { useTranslation } from "@i18n/hooks"
 
@@ -35,8 +35,8 @@ import {
   VisibilityState
 } from "@tanstack/react-table"
 
-import { Loader } from "@/components/ui/Loader"
 import { ContextMenu, ContextMenuTrigger } from "@components/ui/ContextMenu"
+import { Loader } from "@components/ui/Loader"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
 
@@ -120,7 +120,7 @@ const VirtualizedTableGrid = <TData, TValue>({
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
   const table = useReactTable({
-    _features: [Focusing, Hovering],
+    /* _features: [Focusing, Hovering], */
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -237,7 +237,10 @@ const VirtualizedTableGrid = <TData, TValue>({
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}
-                    className={cn("grid w-full hover:bg-transparent mb-3", rowClassName)}
+                    className={cn(
+                      "grid w-full hover:bg-transparent focus-within:bg-transparent mb-3",
+                      rowClassName
+                    )}
                     style={{ gridTemplateColumns: dynamicGridCols, ...rowStyle }}
                   >
                     {headerGroup.headers.map((header) => (
@@ -276,7 +279,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                   </TableCell>
                 </TableRow>
               ) : rows.length === 0 ? (
-                <TableRow className="flex w-full justify-center rounded-md border-none">
+                <TableRow className="flex w-full justify-center rounded-md hover:bg-transparent border-none">
                   <TableCell colSpan={columns.length} className="text-center py-4">
                     {t("common.noResultsFound")}
                   </TableCell>
@@ -293,17 +296,18 @@ const VirtualizedTableGrid = <TData, TValue>({
                           data-state={row.getIsSelected() && "selected"}
                           className={cn(
                             "grid absolute w-full border-none rounded-md",
-                            rowClassName
+                            rowClassName,
+                            "group"
                           )}
                           style={{
                             transform: `translateY(${virtualRow.start}px)`,
                             gridTemplateColumns: dynamicGridCols,
                             ...rowStyle
                           }}
-                          onFocus={() => row.toggleFocused()}
-                          onBlur={() => row.toggleFocused()}
-                          onMouseEnter={() => row.toggleHovered()}
-                          onMouseLeave={() => row.toggleHovered()}
+                          /* onFocus={() => row.toggleFocused()}
+                            onBlur={() => row.toggleFocused()}
+                            onMouseEnter={() => row.toggleHovered()}
+                            onMouseLeave={() => row.toggleHovered()} */
                         >
                           {row.getVisibleCells().map((cell) => (
                             <TableCell

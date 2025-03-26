@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+
+import { getVersion } from '@tauri-apps/api/app';
 
 import { useTheme } from "@contexts/ThemeContext"
 
@@ -42,8 +44,23 @@ function Settings() {
 
   const { locales } = useTranslation()
 
+  const [version, setVersion] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchVersion = async () => {
+      const appVersion = await getVersion()
+      setVersion(appVersion)
+    }
+    fetchVersion()
+  }, [])
+
   return (
     <div className="flex flex-col gap-3 m-9">
+      {version && (
+        <Typography>
+          App Version: {version}
+        </Typography>
+      )}
       <Button
         onClick={() =>
           toast.promise(getRandomPromise, {
