@@ -24,6 +24,8 @@ jobs:
       changelog: ${{ steps.build_changelog.outputs.changelog }}
 
   release:
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
