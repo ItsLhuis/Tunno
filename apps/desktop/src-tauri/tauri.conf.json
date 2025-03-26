@@ -63,7 +63,8 @@
     ],
     "windows": {
       "certificateThumbprint": null,
-      "digestAlgorithm": "sha256"
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "http://timestamp.comodoca.com"
     },
     "macOS": {
       "frameworks": [],
@@ -81,7 +82,7 @@
   },
   "plugins": {
     "updater": {
-      "endpoints": [""],
+      "endpoints": ["https://github.com/ItsLhuis/Wave-Desktop/releases/latest/download/latest.json"],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K"
     }
   }

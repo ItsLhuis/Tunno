@@ -17,6 +17,9 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 [build-dependencies]
 tauri-build = { version = "2.1.0", features = [] }
 
+[profile.dev]
+incremental = true
+
 [profile.release]
 panic = "abort"
 codegen-units = 1
