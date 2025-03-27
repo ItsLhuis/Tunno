@@ -1,4 +1,4 @@
-<img src="assets/appicon.png" width="100" height="100" />
+<img src="assets/icon.png" width="100" height="100" />
 
 # Wave CLI
 
