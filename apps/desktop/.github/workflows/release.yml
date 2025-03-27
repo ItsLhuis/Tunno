@@ -30,12 +30,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest"
-            args: "--target aarch64-apple-darwin"
-          - platform: "macos-latest"
-            args: "--target x86_64-apple-darwin"
-          - platform: "ubuntu-latest"
-            args: ""
+          # - platform: "macos-latest"
+          #   args: "--target aarch64-apple-darwin"
+          # - platform: "macos-latest"
+          #   args: "--target x86_64-apple-darwin"
+          # - platform: "ubuntu-latest"
+          #   args: ""
           - platform: "windows-latest"
             args: ""
     runs-on: ${{ matrix.platform }}
@@ -60,11 +60,11 @@ jobs:
         with:
           workspaces: "./src-tauri -> target"
 
-      - name: Install Ubuntu dependencies
-        if: matrix.platform == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl wget patchelf libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev libgtk-3-dev
+      # - name: Install Ubuntu dependencies
+      #   if: matrix.platform == 'ubuntu-latest'
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y curl wget patchelf libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev libgtk-3-dev
 
       - name: Install frontend dependencies
         run: |
@@ -79,22 +79,22 @@ jobs:
             src-tauri/release/bundle/msi/*.msi
             src-tauri/release/bundle/nsis/*.exe
 
-      - name: CI upload macOS
-        if: ${{ github.ref_type == 'branch' && matrix.platform == 'macos-latest' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: "macOS Installer"
-          path: |
-            src-tauri/release/bundle/dmg/*.dmg
+      # - name: CI upload macOS
+      #   if: ${{ github.ref_type == 'branch' && matrix.platform == 'macos-latest' }}
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: "macOS Installer"
+      #     path: |
+      #       src-tauri/release/bundle/dmg/*.dmg
 
-      - name: CI upload Linux
-        if: ${{ github.ref_type == 'branch' && matrix.platform == 'ubuntu-latest' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: "Linux Distributions"
-          path: |
-            src-tauri/target/release/bundle/deb/*.deb
-            src-tauri/target/release/bundle/AppImage/*.AppImage
+      # - name: CI upload Linux
+      #   if: ${{ github.ref_type == 'branch' && matrix.platform == 'ubuntu-latest' }}
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: "Linux Distributions"
+      #     path: |
+      #       src-tauri/target/release/bundle/deb/*.deb
+      #       src-tauri/target/release/bundle/AppImage/*.AppImage
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
