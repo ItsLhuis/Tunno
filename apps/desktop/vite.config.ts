@@ -27,8 +27,7 @@ export default defineConfig(async () => ({
   build: {
     rollupOptions: {
       input: {
-        main: "index.html",
-        overlay: "overlay.html"
+        main: "index.html"
       }
     }
   },
@@ -44,7 +43,6 @@ export default defineConfig(async () => ({
       "@i18n": path.resolve(root, "i18n/"),
       "@lib": path.resolve(root, "lib/"),
       "@stores": path.resolve(root, "stores/"),
-      "@tauri": path.resolve(root, "tauri/"),
       "@utils": path.resolve(root, "utils/")
     }
   }

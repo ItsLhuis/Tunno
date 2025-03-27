@@ -16,7 +16,7 @@ import { Toaster } from "@components/ui"
 
 import "@i18n/config"
 
-import "../../global.css"
+import "../global.css"
 
 const Main = () => {
   const { hasHydrated } = useSettingsStore()

@@ -13,7 +13,7 @@ import Logo from "@assets/images/app/icons/primary.png"
 import { ErrorBoundary } from "@components/core"
 import { Image } from "@components/ui"
 
-import { Footer, Main, Sidebar, Titlebar } from "@app/main/layout"
+import { Footer, Main, Sidebar, Titlebar } from "@/app/layout"
 
 import { motion } from "motion/react"
 

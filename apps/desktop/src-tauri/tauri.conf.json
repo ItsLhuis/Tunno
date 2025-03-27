@@ -14,22 +14,6 @@
     "macOSPrivateApi": true,
     "windows": [
       {
-        "label": "overlay",
-        "title": "Wave",
-        "url": "overlay.html",
-        "width": 210,
-        "height": 210,
-        "minWidth": 210,
-        "minHeight": 210,
-        "fullscreen": false,
-        "decorations": false,
-        "resizable": true,
-        "skipTaskbar": true,
-        "alwaysOnTop": true,
-        "visible": false,
-        "useHttpsScheme": true
-      },
-      {
         "label": "main",
         "title": "Wave",
         "width": 960,
@@ -64,7 +48,7 @@
     "windows": {
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",
-      "timestampUrl": "http://timestamp.comodoca.com"
+      "timestampUrl": ""
     },
     "macOS": {
       "frameworks": [],
@@ -82,8 +66,8 @@
   },
   "plugins": {
     "updater": {
-      "endpoints": ["https://github.com/ItsLhuis/Wave-Desktop/releases/latest/download/latest.json"],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K",
+      "endpoints": ["https://github.com/ItsLhuis/Wave-Desktop/releases/latest/download/latest.json"]
     }
   }
 }

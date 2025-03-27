@@ -1,5 +1,3 @@
-import { showOverlayWindow } from "@tauri/window/utils"
-
 import { IconButton, Image, Marquee, Slider, Typography } from "@components/ui"
 
 import Thumbnail from "@assets/thumbs/1.jpg"
@@ -68,16 +66,6 @@ function Footer() {
           </div>
         </div>
         <div className="flex items-center justify-end gap-2 truncate">
-          <IconButton
-            name="ListMusic"
-            tooltip={{ children: "Queue", side: "top" }}
-            variant="ghost"
-          />
-          <IconButton
-            name="MonitorSpeaker"
-            tooltip={{ children: "Devices", side: "top" }}
-            variant="text"
-          />
           <div className="flex flex-[0_1_125px]">
             <IconButton
               name="Volume1"
@@ -88,10 +76,14 @@ function Footer() {
             <Slider className="w-full" />
           </div>
           <IconButton
-            name="MonitorStop"
-            tooltip={{ children: "Open miniplayer", side: "top" }}
+            name="MonitorSpeaker"
+            tooltip={{ children: "Devices", side: "top" }}
+            variant="text"
+          />
+          <IconButton
+            name="ListMusic"
+            tooltip={{ children: "Queue", side: "top" }}
             variant="ghost"
-            onClick={showOverlayWindow}
           />
         </div>
       </div>
