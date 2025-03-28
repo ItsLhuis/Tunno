@@ -13,6 +13,7 @@ const componentsBase = path.resolve(__dirname, "..", "src", "components", "ui")
 const indexFilePath = path.resolve(componentsBase, "index.ts")
 
 const hooksBase = path.resolve(__dirname, "..", "src", "hooks")
+const libBase = path.resolve(__dirname, "..", "src", "lib")
 
 async function shadcnui() {
   const componentName = process.argv[2]
@@ -25,14 +26,25 @@ async function shadcnui() {
     console.log(chalk.blue("Starting component creation\n"))
     await createComponent(componentName)
 
-    console.log(chalk.blue("Renaming existing files"))
+    console.log(chalk.blue("Renaming components"))
     await renameExistingFiles(componentsBase, pascalCaseRenamer)
 
     console.log(chalk.blue("\nRenaming hooks"))
-    await renameExistingFiles(hooksBase, camelCaseRenamer)
+    if ((await fs.promises.readdir(hooksBase)).length > 0) {
+      await renameExistingFiles(hooksBase, camelCaseRenamer)
+    } else {
+      console.log(chalk.gray("No files found in hooks folder"))
+    }
+
+    console.log(chalk.blue("\nRenaming lib"))
+    if ((await fs.promises.readdir(libBase)).length > 0) {
+      await renameExistingFiles(libBase, camelCaseRenamer)
+    } else {
+      console.log(chalk.gray("No files found in lib folder"))
+    }
 
     console.log(chalk.blue("\nUpdating imports\n"))
-    await updateImports([componentsBase, hooksBase])
+    await updateImports([componentsBase, hooksBase, libBase])
 
     console.log(chalk.blue("Updating index.ts\n"))
     await updateIndexFile()
@@ -45,12 +57,6 @@ async function shadcnui() {
     console.error(chalk.red(`\nError: ${error}\n`))
     process.exit(1)
   }
-}
-
-async function createComponent(componentName: string) {
-  const command = `npx shadcn@latest add ${componentName}`
-  console.log(chalk.yellow(`Executing: ${command}`))
-  await runCommand(command)
 }
 
 async function runCommand(command: string): Promise<void> {
@@ -72,6 +78,12 @@ async function runCommand(command: string): Promise<void> {
       }
     })
   })
+}
+
+async function createComponent(componentName: string) {
+  const command = `npx shadcn@latest add ${componentName}`
+  console.log(chalk.yellow(`Executing: ${command}`))
+  await runCommand(command)
 }
 
 async function renameExistingFiles(basePath: string, renamer: (name: string) => string) {
