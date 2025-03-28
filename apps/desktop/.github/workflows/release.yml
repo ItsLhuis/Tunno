@@ -110,7 +110,7 @@ jobs:
           releaseBody: |
             ## Release Notes for ${{ env.APP_NAME }} v__VERSION__
 
-            ### Changelog
+            ${{ needs.changelog.outputs.changelog && '### Changelog' }}
             ${{ needs.changelog.outputs.changelog }}
 
             ### Installation
