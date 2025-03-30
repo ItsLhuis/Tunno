@@ -45,8 +45,8 @@ export function Button({
     ? color === "primary"
       ? colors.primary
       : color === "secondary"
-      ? colors.muted
-      : "transparent"
+        ? colors.muted
+        : "transparent"
     : "transparent"
 
   const textColor = isContained
@@ -54,8 +54,8 @@ export function Button({
       ? colorList.dark.text
       : colors.text
     : color === "primary"
-    ? colors.primary
-    : colors.text
+      ? colors.primary
+      : colors.text
 
   const indicatorColor = textColor
 

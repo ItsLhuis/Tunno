@@ -7,9 +7,7 @@ import { colors } from "@constants/colors"
 export function useColorTheme() {
   const [isThemeChanging, setIsThemeChanging] = useState<boolean>(false)
 
-  const [theme, setTheme] = useState<"light" | "dark">(
-    Appearance.getColorScheme() || "light"
-  )
+  const [theme, setTheme] = useState<"light" | "dark">(Appearance.getColorScheme() || "light")
 
   useEffect(() => {
     const handleThemeChange = (preferences: {

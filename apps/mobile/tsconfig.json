@@ -2,45 +2,19 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@assets/*": [
-        "./assets/*"
-      ],
-      "@components/*": [
-        "./components/*"
-      ],
-      "@constants/*": [
-        "./constants/*"
-      ],
-      "@contexts/*": [
-        "./contexts/*"
-      ],
-      "@database/*": [
-        "./database/*"
-      ],
-      "@features/*": [
-        "./features/*"
-      ],
-      "@hooks/*": [
-        "./hooks/*"
-      ],
-      "@i18n/*": [
-        "./i18n/*"
-      ],
-      "@migrations/*": [
-        "./migrations/*"
-      ],
-      "@plugins/*": [
-        "./plugins/*"
-      ],
-      "@stores/*": [
-        "./stores/*"
-      ],
-      "@utils/*": [
-        "./utils/*"
-      ]
+      "@/*": ["./*"],
+      "@assets/*": ["./assets/*"],
+      "@components/*": ["./components/*"],
+      "@constants/*": ["./constants/*"],
+      "@contexts/*": ["./contexts/*"],
+      "@database/*": ["./database/*"],
+      "@features/*": ["./features/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@i18n/*": ["./i18n/*"],
+      "@migrations/*": ["./migrations/*"],
+      "@plugins/*": ["./plugins/*"],
+      "@stores/*": ["./stores/*"],
+      "@utils/*": ["./utils/*"]
     },
     "strict": true,
     "noUnusedLocals": true,

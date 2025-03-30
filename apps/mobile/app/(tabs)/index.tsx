@@ -49,19 +49,21 @@ type Song = {
   thumbnail: any
 }
 
+const thumbnails = [
+  require("@assets/thumbs/1.jpg"),
+  require("@assets/thumbs/2.jpg"),
+  require("@assets/thumbs/3.jpg"),
+  require("@assets/thumbs/4.jpg"),
+  require("@assets/thumbs/5.jpg"),
+  require("@assets/thumbs/6.jpg"),
+  require("@assets/thumbs/7.jpg")
+]
+
 const songs = Array.from({ length: 200 }, (_, i) => ({
   id: `${i}`,
   name: `Item ${i}`,
   description: generateRandomString(10),
-  thumbnail: [
-    require("@assets/thumbs/1.jpg"),
-    require("@assets/thumbs/2.jpg"),
-    require("@assets/thumbs/3.jpg"),
-    require("@assets/thumbs/4.jpg"),
-    require("@assets/thumbs/5.jpg"),
-    require("@assets/thumbs/6.jpg"),
-    require("@assets/thumbs/7.jpg")
-  ][Math.floor(Math.random() * 7)]
+  thumbnail: thumbnails[Math.floor(Math.random() * thumbnails.length)]
 }))
 
 const fuse = new Fuse(songs, {
@@ -103,8 +105,9 @@ export default function Songs() {
   return (
     <FadingScreen style={{ flex: 1 }}>
       <FlashListWithHeaders
-        HeaderComponent={({ showHeader }) => (
+        HeaderComponent={({ scrollY, showHeader }) => (
           <Header
+            scrollY={scrollY}
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
@@ -137,7 +140,7 @@ export default function Songs() {
           </LargeHeader>
         )}
         LargeHeaderSubtitleComponent={() => (
-          <LargeHeaderSubtitle style={{ paddingTop: spacing.small }}>
+          <LargeHeaderSubtitle>
             <SearchInput
               placeholder="Search"
               value={searchQuery}

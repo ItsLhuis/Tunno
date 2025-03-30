@@ -117,8 +117,8 @@ const LegendListWithHeadersComp = <ItemT extends any = any>(
           Array.isArray(data)
             ? data.length > 0
             : data && "value" in data && Array.isArray(data.value) && data.value.length > 0
-            ? true
-            : false
+              ? true
+              : false
         }
         scrollEventThrottle={16}
         overScrollMode="never"

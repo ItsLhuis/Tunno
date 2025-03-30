@@ -4,17 +4,29 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { ColorValue, useWindowDimensions, View, type StyleProp, type ViewStyle } from "react-native"
+import {
+  type ColorValue,
+  type StyleProp,
+  useWindowDimensions,
+  View,
+  type ViewStyle
+} from "react-native"
 
 import { border, spacing } from "@constants/styles"
 
 import { FadingView } from "../FadingView"
 
-import Animated, { DerivedValue, interpolateColor, useAnimatedStyle } from "react-native-reanimated"
+import Animated, {
+  type DerivedValue,
+  interpolateColor,
+  type SharedValue,
+  useAnimatedStyle
+} from "react-native-reanimated"
 
 import { type HeaderProps, type LargeHeaderProps, type LargeHeaderSubtitleProps } from "./types"
 
 export function Header({
+  scrollY,
   showHeader,
   headerStyle,
   headerLeft = null,
@@ -26,8 +38,9 @@ export function Header({
   headerRight = null,
   headerRightStyle,
   headerRightFadesIn,
+  headerBackgroundAnimation = true,
   ignoreTopSafeArea = false,
-  bottomBorder = false,
+  bottomBorder = true,
   borderColor,
   borderWidth,
   SurfaceComponent
@@ -73,7 +86,7 @@ export function Header({
             paddingTop: (ignoreTopSafeArea ? 0 : insets.top) + spacing.large,
             paddingBottom: spacing.large
           },
-          headerBackgroundStyle,
+          headerBackgroundAnimation && headerBackgroundStyle,
           headerStyle
         ]}
       >
@@ -185,9 +198,9 @@ export function Header({
           </View>
         )}
       </Animated.View>
-      {!bottomBorder && (
+      {bottomBorder && (
         <HeaderBottomBorder
-          opacity={showHeader}
+          opacity={scrollY ? scrollY : showHeader}
           borderColor={borderColor}
           borderWidth={borderWidth}
         />
@@ -203,7 +216,7 @@ export function HeaderBottomBorder({
   borderColor,
   borderWidth = border.thin
 }: {
-  opacity: DerivedValue<0 | 1> | DerivedValue<number>
+  opacity: DerivedValue<0 | 1> | DerivedValue<number> | SharedValue<number>
   style?: StyleProp<ViewStyle>
   borderColor?: ColorValue
   borderWidth?: number
@@ -251,7 +264,7 @@ export function LargeHeaderSubtitle({ style, children }: LargeHeaderSubtitleProp
           width: "100%",
           flexDirection: "row",
           justifyContent: "space-between",
-          paddingBottom: spacing.large
+          paddingVertical: spacing.large
         },
         style
       ]}

@@ -76,7 +76,7 @@ export default function RootLayout() {
         cancel: (
           <Button title="Cancel" color="secondary" onPress={() => toast.dismiss(updateToastId)} />
         ),
-        action: <Button title="Reload" onPress={() => Updates.reloadAsync()} />,
+        action: <Button title="Reload App" onPress={() => Updates.reloadAsync()} />,
         close: <IconButton name="X" onPress={() => toast.dismiss(updateToastId)} />,
         duration: Infinity
       })

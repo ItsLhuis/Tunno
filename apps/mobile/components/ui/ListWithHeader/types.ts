@@ -26,7 +26,9 @@ export type HeaderProps = {
   headerRight?: ReactNode
   headerRightStyle?: StyleProp<ViewStyle>
   headerRightFadesIn?: boolean
+  headerBackgroundAnimation?: boolean
   ignoreTopSafeArea?: boolean
+  scrollY?: SharedValue<number>
   showHeader: DerivedValue<0 | 1>
   bottomBorder?: boolean
   borderColor?: ColorValue
