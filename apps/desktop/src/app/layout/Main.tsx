@@ -22,8 +22,7 @@ function Main() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-1 w-full"
+      className="flex w-full flex-1"
     >
       <Routes location={location} key={location.pathname}>
         {routes.map(({ path, element }) => (

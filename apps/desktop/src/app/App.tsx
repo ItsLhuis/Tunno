@@ -44,32 +44,25 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex flex-col h-dvh w-dvw relative bg-background transition-[background-color]">
+      <div className="relative flex h-dvh w-dvw flex-col bg-background transition-[background-color]">
         {!isAppReady && (
           <motion.div
-            className="absolute bg-background inset-0 flex items-center justify-center z-40"
+            className="absolute inset-0 z-40 flex items-center justify-center bg-background"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
           >
             <Image src={Logo} alt="App logo" containerClassName="bg-transparent" className="w-20" />
           </motion.div>
         )}
-        <motion.div
-          className="z-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-        >
+        <motion.div className="z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <Titlebar isSplashVisible={!isAppReady} />
         </motion.div>
         <ErrorBoundary>
           <motion.div
-            className="flex flex-col h-full w-full overflow-hidden"
+            className="flex h-full w-full flex-col overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: !isAppReady ? 0 : 1 }}
-            transition={{ duration: 0.3 }}
           >
             <div className="flex flex-1 overflow-hidden">
               <Sidebar />

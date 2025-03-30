@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { getVersion } from '@tauri-apps/api/app';
+import { getVersion } from "@tauri-apps/api/app"
 
 import { useTheme } from "@contexts/ThemeContext"
 
@@ -55,12 +55,8 @@ function Settings() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-3 m-9">
-      {version && (
-        <Typography>
-          App Version: {version}
-        </Typography>
-      )}
+    <div className="m-9 flex flex-col gap-3">
+      {version && <Typography>App Version: {version}</Typography>}
       <Button
         onClick={() =>
           toast.promise(getRandomPromise, {
@@ -103,7 +99,7 @@ function Settings() {
         onClick={() => setOpen(true)}
       >
         <Image
-          className="h-3 aspect-4/3"
+          className="aspect-4/3 h-3"
           src={locales[language].flag}
           alt={locales[language].name}
         />
@@ -121,10 +117,10 @@ function Settings() {
                     setLanguage(locale.code)
                     setOpen(false)
                   }}
-                  className="flex flex-col items-start cursor-pointer"
+                  className="flex cursor-pointer flex-col items-start"
                 >
-                  <div className="grid grid-cols-[auto,1fr] gap-1 gap-x-2 items-center">
-                    <Image className="h-3 aspect-4/3" src={locale.flag} alt={locale.name} />
+                  <div className="grid grid-cols-[auto,1fr] items-center gap-1 gap-x-2">
+                    <Image className="aspect-4/3 h-3" src={locale.flag} alt={locale.name} />
                     <Typography>{locale.name}</Typography>
                     <Typography affects={["small", "muted"]} className="col-start-2">
                       {locale.code}

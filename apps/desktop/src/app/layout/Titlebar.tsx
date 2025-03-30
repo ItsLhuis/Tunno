@@ -46,7 +46,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
         onFullSceen={() => toggleFullScreen()}
         onClose={() => getCurrentWindow().hide()}
       >
-        <div data-tauri-drag-region className="flex-1 flex items-center justify-between">
+        <div data-tauri-drag-region className="flex flex-1 items-center justify-between">
           <div data-tauri-drag-region className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <IconButton
@@ -68,7 +68,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
               src={Logo}
               alt="App logo"
               containerClassName="bg-transparent"
-              className="w-4 aspect-auto"
+              className="aspect-auto w-4"
             />
             <Typography variant="h6" affects="muted">
               {windowTitle}
@@ -80,7 +80,6 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
             >
               <Button
                 tooltip={{ children: "Settings", side: "bottom" }}

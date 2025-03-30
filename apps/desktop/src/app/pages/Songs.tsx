@@ -46,7 +46,13 @@ import {
 
 import { motion } from "motion/react"
 
-import Thumbnail from "@assets/thumbs/1.jpg"
+import Thumbnail1 from "@assets/thumbs/1.jpg"
+import Thumbnail2 from "@assets/thumbs/2.jpg"
+import Thumbnail3 from "@assets/thumbs/3.jpg"
+import Thumbnail4 from "@assets/thumbs/4.jpg"
+import Thumbnail5 from "@assets/thumbs/5.jpg"
+import Thumbnail6 from "@assets/thumbs/6.jpg"
+import Thumbnail7 from "@assets/thumbs/7.jpg"
 
 type Song = {
   id: string
@@ -55,7 +61,18 @@ type Song = {
   date: Date | string
   duration: number
   artist: string
+  thumbnail: string
 }
+
+const thumbnails = [
+  Thumbnail1,
+  Thumbnail2,
+  Thumbnail3,
+  Thumbnail4,
+  Thumbnail5,
+  Thumbnail6,
+  Thumbnail7
+]
 
 const columns: ColumnDef<Song>[] = [
   {
@@ -83,7 +100,7 @@ const columns: ColumnDef<Song>[] = [
     id: "media",
     header: () => <IconButton name="Play" className="invisible" />,
     cell: ({ row }) => (
-      <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+      <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
         <IconButton name="Play" onClick={() => console.log(row.original.id)} />
       </div>
     ),
@@ -95,12 +112,12 @@ const columns: ColumnDef<Song>[] = [
     header: "Title",
     cell: ({ row }) => {
       return (
-        <div className="flex items-center gap-3 truncate flex-1">
+        <div className="flex flex-1 items-center gap-3 truncate">
           <Image
-            src={Thumbnail}
+            src={row.original.thumbnail} // Use the thumbnail field
             alt="thumbnail"
             containerClassName="border border-muted rounded-md"
-            className="size-12 object-cover rounded-md"
+            className="size-12 rounded-md object-cover"
           />
           <div className="w-full truncate">
             <Marquee>
@@ -138,7 +155,7 @@ const columns: ColumnDef<Song>[] = [
     accessorKey: "duration",
     header: () => <Icon name="Timer" />,
     cell: ({ row }) => (
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <Typography className="truncate transition-none">{row.getValue("duration")}</Typography>
       </div>
     ),
@@ -150,11 +167,7 @@ const columns: ColumnDef<Song>[] = [
       const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
       return (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: hasSelectedRows ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: hasSelectedRows ? 1 : 0 }}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <IconButton name="MoreHorizontal" variant="ghost" disabled={!hasSelectedRows} />
@@ -199,7 +212,7 @@ const columns: ColumnDef<Song>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+      <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
         <IconButton
           name="MoreHorizontal"
           variant="ghost"
@@ -224,7 +237,8 @@ const data: Song[] = Array.from({ length: 2012 }, (_, index) => ({
   album: `Album ${index + 1}`,
   artist: `Artist ${index + 1}`,
   date: getRandomPastDate(),
-  duration: 3 * (index + 1)
+  duration: 3 * (index + 1),
+  thumbnail: thumbnails[Math.floor(Math.random() * thumbnails.length)]
 }))
 
 const SearchComponent = ({ table }: { table: Table<Song> }) => {
@@ -241,7 +255,7 @@ const SearchComponent = ({ table }: { table: Table<Song> }) => {
 
   return (
     <SearchInput
-      containerClassName="p-3 md:p-9 pb-0 md:pb-0 pt-3 md:pt-3 transition-[padding]"
+      containerClassName="p-3 md:p-9 pb-0 md:pb-0 pt-6 md:pt-6 transition-[padding]"
       placeholder="Search"
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
@@ -298,7 +312,7 @@ function Songs() {
             />
             <IconButton
               name="Shuffle"
-              className="shrink-0 w-11 h-11 rounded-full [&_svg]:size-5"
+              className="h-11 w-11 shrink-0 rounded-full [&_svg]:size-5"
               disabled={hasSelectedRows}
               tooltip={{ children: "Shuffle and play", side: "bottom" }}
             />
@@ -322,7 +336,7 @@ function Songs() {
             <IconButton
               name="Shuffle"
               variant="text"
-              className="w-11 h-11 [&_svg]:size-5"
+              className="h-11 w-11 [&_svg]:size-5"
               disabled={hasSelectedRows}
               tooltip={{ children: "Shuffle and play", side: "bottom" }}
             />

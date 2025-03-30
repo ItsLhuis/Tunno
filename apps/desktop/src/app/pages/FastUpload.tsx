@@ -39,7 +39,7 @@ function FastUpload() {
   }, [])
 
   return (
-    <div className="flex flex-col flex-1 gap-6 p-3 md:p-9 transition-[background-color,padding]">
+    <div className="flex flex-1 flex-col gap-6 p-3 transition-[background-color,padding] md:p-9">
       <Typography variant="h2">Insert Song</Typography>
       <form
         className="flex flex-col items-end gap-3"
@@ -55,12 +55,12 @@ function FastUpload() {
         />
         <Button>Insert</Button>
       </form>
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden">
         <Typography variant="h4">List of Songs from the Database ({songs.length}):</Typography>
-        <ScrollArea className="flex-1 rounded-md border overflow-auto mt-4">
-          <div className="divide-y space-y-4">
+        <ScrollArea className="mt-4 flex-1 overflow-auto rounded-md border">
+          <div className="space-y-4 divide-y">
             {songs.map((item) => (
-              <div key={item.id} className="p-4 flex flex-col gap-2">
+              <div key={item.id} className="flex flex-col gap-2 p-4">
                 <Typography variant="h3">{item.name}</Typography>
                 <div>
                   <strong>Release Year:</strong> {item.releaseYear || "N/A"}
@@ -79,7 +79,7 @@ function FastUpload() {
                 </div>
                 <div className="mt-4">
                   <Typography variant="h4">JSON Representation</Typography>
-                  <div className="p-4 rounded-md">
+                  <div className="rounded-md p-4">
                     <pre className="whitespace-pre-wrap break-words">
                       <code>{JSON.stringify(item, null, 2)}</code>
                     </pre>

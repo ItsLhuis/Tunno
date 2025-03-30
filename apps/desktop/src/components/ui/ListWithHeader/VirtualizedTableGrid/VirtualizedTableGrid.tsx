@@ -173,19 +173,18 @@ const VirtualizedTableGrid = <TData, TValue>({
   }, [visibleColumns])
 
   return (
-    <ScrollArea ref={scrollRef} className={cn("flex-1 w-full h-full", containerClassName)}>
-      <div className={cn("relative flex flex-col flex-1 w-full", isLoading && "h-full")}>
+    <ScrollArea ref={scrollRef} className={cn("h-full w-full flex-1", containerClassName)}>
+      <div className={cn("relative flex w-full flex-1 flex-col", isLoading && "h-full")}>
         <AnimatePresence mode="popLayout">
           {isScrolled && StickyHeaderComponent && (
             <motion.div
               className={cn(
-                "flex flex-col flex-1 sticky top-0 left-0 right-0 z-50 w-full border-b border-border bg-background/60 backdrop-blur px-3 md:px-9 transition-[background-color,border-color,padding]",
+                "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/60 px-3 backdrop-blur transition-[background-color,border-color,padding] md:px-9",
                 stickyHeaderContainerClassName
               )}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
             >
               {StickyHeaderComponent(table)}
               {showTableColumns && (
@@ -200,7 +199,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                         <div
                           key={header.id}
                           className={cn(
-                            "p-3 flex items-center font-medium text-muted-foreground truncate",
+                            "flex items-center truncate p-3 font-medium text-muted-foreground",
                             header.column.columnDef.meta?.className
                           )}
                           style={{
@@ -209,7 +208,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                               : "100%"
                           }}
                         >
-                          <div className="text-sm truncate transition-colors">
+                          <div className="truncate text-sm transition-colors">
                             {header.isPlaceholder
                               ? null
                               : flexRender(header.column.columnDef.header, header.getContext())}
@@ -228,7 +227,7 @@ const VirtualizedTableGrid = <TData, TValue>({
           {ListHeaderComponent && ListHeaderComponent(table)}
         </div>
         <div
-          className={cn("h-full p-3 md:p-9 pt-3 md:pt-3 transition-[padding]", className)}
+          className={cn("h-full p-3 pt-3 transition-[padding] md:p-9 md:pt-3", className)}
           {...props}
         >
           <Table className={cn("relative overflow-hidden", isLoading && "h-full")}>
@@ -238,7 +237,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                   <TableRow
                     key={headerGroup.id}
                     className={cn(
-                      "grid w-full hover:bg-transparent focus-within:bg-transparent mb-3",
+                      "mb-3 grid w-full focus-within:bg-transparent hover:bg-transparent",
                       rowClassName
                     )}
                     style={{ gridTemplateColumns: dynamicGridCols, ...rowStyle }}
@@ -267,20 +266,19 @@ const VirtualizedTableGrid = <TData, TValue>({
             <motion.tbody
               key={String(isLoading)}
               style={{ height: isLoading ? "100%" : `${rowVirtualizer.getTotalSize()}px` }}
-              className={cn(isLoading && "flex justify-center items-center h-full")}
+              className={cn(isLoading && "flex h-full items-center justify-center")}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
             >
               {isLoading ? (
-                <TableRow className="flex items-center min-h-14 hover:bg-transparent border-none">
+                <TableRow className="flex min-h-14 items-center border-none hover:bg-transparent">
                   <TableCell>
                     <Loader />
                   </TableCell>
                 </TableRow>
               ) : rows.length === 0 ? (
-                <TableRow className="flex w-full justify-center rounded-md hover:bg-transparent border-none">
-                  <TableCell colSpan={columns.length} className="text-center py-4">
+                <TableRow className="flex w-full justify-center rounded-md border-none hover:bg-transparent">
+                  <TableCell colSpan={columns.length} className="py-4 text-center">
                     {t("common.noResultsFound")}
                   </TableCell>
                 </TableRow>
@@ -295,7 +293,7 @@ const VirtualizedTableGrid = <TData, TValue>({
                           ref={rowVirtualizer.measureElement}
                           data-state={row.getIsSelected() && "selected"}
                           className={cn(
-                            "grid absolute w-full border-none rounded-md",
+                            "absolute grid w-full rounded-md border-none",
                             rowClassName,
                             "group"
                           )}

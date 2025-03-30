@@ -33,15 +33,15 @@ const ScrollBar = forwardRef<
     ref={ref}
     orientation={orientation}
     className={cn(
-      "flex touch-none select-none transition-colors z-50",
-      "data-[state=visible]:animate-fade-in data-[state=hidden]:animate-fade-out",
+      "z-50 flex touch-none select-none transition-colors",
+      "data-[state=hidden]:animate-fade-out data-[state=visible]:animate-fade-in",
       orientation === "vertical" && "h-full w-3.5 border-l border-l-transparent p-1",
       orientation === "horizontal" && "h-3.5 flex-col border-t border-t-transparent p-1",
       className
     )}
     {...props}
   >
-    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full transition-colors bg-foreground/20 hover:bg-foreground/40" />
+    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-foreground/20 transition-colors hover:bg-foreground/40" />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>
 ))
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName

@@ -27,10 +27,10 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     }
 
     return (
-      <div className={cn("flex items-center w-full overflow-hidden", containerClassName)}>
+      <div className={cn("flex w-full items-center overflow-hidden", containerClassName)}>
         <div
           className={cn(
-            "flex items-center gap-3 shrink-0 w-full rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-[background-color,border-color,text-decoration-color,fill,stroke] placeholder:text-muted-foreground",
+            "flex w-full shrink-0 items-center gap-3 rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-[background-color,border-color,text-decoration-color,fill,stroke] placeholder:text-muted-foreground",
             isFocused &&
               "focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background",
             className
@@ -43,7 +43,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             onFocus={handleFocus}
             onBlur={handleBlur}
             {...props}
-            className="w-full h-9 bg-transparent border-none outline-none selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 w-full border-none bg-transparent outline-none selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
             autoComplete="off"
           />
           <div className="shrink-0">{renderRight}</div>
@@ -51,7 +51,6 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         <motion.div
           initial={{ opacity: 0, width: 0 }}
           animate={{ opacity: isFocused ? 1 : 0, width: isFocused ? "auto" : 0 }}
-          transition={{ duration: 0.3 }}
         >
           <Button tabIndex={-1} variant="text" className="ml-2">
             Cancel

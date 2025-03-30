@@ -31,7 +31,7 @@ function Windows({ isWindowMaximized, onMinimize, onMaximize, onClose }: Windows
         onClick={onClose}
         aria-label="Close"
         className={
-          "h-full w-[46px] flex items-center justify-center hover:bg-[#c42b1c] hover:text-white focus-visible:bg-[#c42b1c] focus-visible:text-white active:bg-[#c42b1c]/70 active:text-white [&_svg]:size-auto"
+          "flex h-full w-[46px] items-center justify-center hover:bg-[#c42b1c] hover:text-white focus-visible:bg-[#c42b1c] focus-visible:text-white active:bg-[#c42b1c]/70 active:text-white [&_svg]:size-auto"
         }
       >
         <Close />

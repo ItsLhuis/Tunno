@@ -42,7 +42,7 @@ function MacOs({ onClose, onMinimize, onFullSceen, onMaximize }: MacOsProps) {
 
   return (
     <div
-      className="h-full flex items-center space-x-2 ml-3 text-black active:text-black dark:text-black"
+      className="ml-3 flex h-full items-center space-x-2 text-black active:text-black dark:text-black"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

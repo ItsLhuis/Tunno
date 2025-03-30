@@ -44,7 +44,7 @@ const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElem
     <tr
       ref={ref}
       className={cn(
-        "border-b transition-[background-color,border-color,text-decoration-color,fill,stroke] hover:bg-muted/50 focus-within:bg-muted/50 data-[state=selected]:bg-muted/50",
+        "border-b transition-[background-color,border-color,text-decoration-color,fill,stroke] focus-within:bg-muted/50 hover:bg-muted/50 data-[state=selected]:bg-muted/50",
         className
       )}
       {...props}
@@ -57,7 +57,7 @@ const TableHead = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLTableCel
   ({ className, ...props }, ref) => (
     <th
       ref={ref}
-      className={cn("p-3 flex items-center font-medium text-muted-foreground", className)}
+      className={cn("flex items-center p-3 font-medium text-muted-foreground", className)}
       {...props}
     />
   )
@@ -66,7 +66,7 @@ TableHead.displayName = "TableHead"
 
 const TableCell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLTableCellElement>>(
   ({ className, ...props }, ref) => (
-    <td ref={ref} className={cn("p-3 py-2 flex items-center", className)} {...props} />
+    <td ref={ref} className={cn("flex items-center p-3 py-2", className)} {...props} />
   )
 )
 TableCell.displayName = "TableCell"

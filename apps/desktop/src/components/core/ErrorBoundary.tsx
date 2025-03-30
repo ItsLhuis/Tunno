@@ -52,14 +52,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
             className="p-6"
           >
             {process.env.NODE_ENV === "development" ? (
-              <div className="w-full flex flex-col items-center">
+              <div className="flex w-full flex-col items-center">
                 <div className="relative rounded-md bg-sidebar shadow-2xl transition-[background-color]">
-                  <div className="absolute top-0 left-0 right-0 h-2 bg-destructive rounded-tl-md rounded-tr-md" />
-                  <div className="text-destructive p-4 pt-6 pb-0 rounded-md ">
+                  <div className="absolute left-0 right-0 top-0 h-2 rounded-tl-md rounded-tr-md bg-destructive" />
+                  <div className="rounded-md p-4 pb-0 pt-6 text-destructive">
                     <Typography variant="h2">
                       {this.state.error && this.state.error.toString()}
                     </Typography>
@@ -81,7 +80,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                                 ? this.formatStackTrace(this.state.errorInfo.componentStack)
                                 : ""
                             }
-                            className="text-muted-foreground whitespace-pre-wrap leading-relaxed"
+                            className="whitespace-pre-wrap leading-relaxed text-muted-foreground"
                           />
                         </AccordionContent>
                       </AccordionItem>

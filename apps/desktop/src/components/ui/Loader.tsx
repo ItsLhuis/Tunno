@@ -10,7 +10,7 @@ function Loader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "animate-spin flex items-center justify-center [&_svg]:size-5 text-muted-foreground",
+        "flex animate-spin items-center justify-center text-muted-foreground [&_svg]:size-5",
         className
       )}
       {...props}

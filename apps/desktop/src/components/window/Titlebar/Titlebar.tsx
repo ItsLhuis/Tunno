@@ -76,7 +76,7 @@ const Titlebar = forwardRef<HTMLDivElement, TitlebarProps>(
       <div
         data-tauri-drag-region
         className={cn(
-          "flex items-center flex-nowrap h-full min-h-9 z-50",
+          "z-50 flex h-full min-h-9 flex-nowrap items-center",
           !isMacOs && !isWindowFocused && "text-muted-foreground",
           className,
           isMacOs && "flex-row-reverse"
@@ -84,7 +84,7 @@ const Titlebar = forwardRef<HTMLDivElement, TitlebarProps>(
         ref={ref}
         {...props}
       >
-        <div className="flex-1 overflow-hidden m-3">{children}</div>
+        <div className="m-3 flex-1 overflow-hidden">{children}</div>
         <Controls
           platform={platform()}
           isWindowFocused={isWindowFocused}

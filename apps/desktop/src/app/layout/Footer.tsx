@@ -4,13 +4,13 @@ import Thumbnail from "@assets/thumbs/1.jpg"
 
 function Footer() {
   return (
-    <footer className="flex flex-col items-center w-full border-t bg-sidebar transition-[background-color,border-color]">
-      <div className="flex items-center justify-center w-full p-3 pb-0 gap-3">
+    <footer className="flex w-full flex-col items-center border-t bg-sidebar transition-[background-color,border-color]">
+      <div className="flex w-full items-center justify-center gap-3 p-3 pb-0">
         <Typography affects={["small"]}>0:01</Typography>
         <Slider />
         <Typography affects={["small"]}>2:24</Typography>
       </div>
-      <div className="grid grid-cols-[1fr,auto,1fr] items-center gap-3 p-3 w-full">
+      <div className="grid w-full grid-cols-[1fr,auto,1fr] items-center gap-3 p-3">
         <div className="flex items-center gap-3 truncate">
           <Image
             src={Thumbnail}
@@ -36,7 +36,7 @@ function Footer() {
             </Marquee>
           </div>
         </div>
-        <div className="flex flex-col gap-3 mx-3 justify-center">
+        <div className="mx-3 flex flex-col justify-center gap-3">
           <div className="flex flex-row items-center justify-center gap-2">
             <IconButton
               name="Shuffle"
@@ -50,7 +50,7 @@ function Footer() {
             />
             <IconButton
               name="Play"
-              className="rounded-full [&_svg]:size-5 w-11 h-11"
+              className="h-11 w-11 rounded-full [&_svg]:size-5"
               tooltip={{ children: "Play", side: "top" }}
             />
             <IconButton

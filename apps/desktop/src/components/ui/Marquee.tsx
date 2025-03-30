@@ -65,7 +65,7 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
   return (
     <div
       ref={containerRef}
-      className={cn("flex flex-row truncate relative", className)}
+      className={cn("relative flex flex-row truncate", className)}
       style={{
         maskImage:
           shadow && shouldAnimate

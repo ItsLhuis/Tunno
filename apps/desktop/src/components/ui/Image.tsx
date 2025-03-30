@@ -75,7 +75,7 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
         className={cn(
           "bg-muted",
           containerClassName,
-          "relative overflow-hidden shrink-0 transition-colors"
+          "relative shrink-0 overflow-hidden transition-colors"
         )}
       >
         <img
@@ -92,27 +92,25 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
         <AnimatePresence>
           {previousSrc && !isNewImageLoaded && (
             <motion.img
-              key={`previous-${previousSrc}`}
+              key={previousSrc}
               src={previousSrc}
               alt={alt}
               initial={{ opacity: 1 }}
               animate={{ opacity: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
               className={cn(className, "absolute inset-0")}
               {...props}
             />
           )}
           {!isNewImageLoaded && currentSrc && (
             <motion.img
-              key={`new-${currentSrc}`}
+              key={currentSrc}
               ref={imageRef}
               src={currentSrc}
               alt={alt}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeIn" }}
               onLoad={handleNewImageLoad}
               className={cn(className, "absolute inset-0")}
               {...props}

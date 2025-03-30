@@ -26,7 +26,7 @@ function Linux({
   }`
 
   return (
-    <div className="h-full flex items-center space-x-3 mr-3">
+    <div className="mr-3 flex h-full items-center space-x-3">
       <ControlButton
         onClick={onMinimize}
         aria-label="Minimize"

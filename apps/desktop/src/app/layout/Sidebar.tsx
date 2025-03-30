@@ -29,11 +29,11 @@ function Sidebar() {
   const isVisible = activeIndex !== -1
 
   return (
-    <aside className="flex flex-row h-full border-r bg-sidebar transition-[background-color,border-color]">
+    <aside className="flex h-full flex-row border-r bg-sidebar transition-[background-color,border-color]">
       <ScrollArea className="h-full">
         <div className="relative">
           <div
-            className="absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-primary transition-[transform,opacity]"
+            className="absolute left-0 top-0 w-1 rounded-br-lg rounded-tr-lg bg-primary transition-[transform,opacity]"
             style={{
               transform: `translateY(${lastValidIndex * 3.5}rem)`,
               height: "3.5rem",
