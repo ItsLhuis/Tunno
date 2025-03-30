@@ -33,7 +33,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
-import { Button, IconButton, toast, Toaster } from "@components/ui"
+import { Toaster } from "@components/ui"
 
 import { Stack } from "expo-router"
 
@@ -68,20 +68,6 @@ export default function RootLayout() {
     await migrate(drizzle(openDatabaseSync(databaseName)), migrations)
     i18n.changeLanguage(language)
   }
-
-  useEffect(() => {
-    if (isUpdatePending) {
-      const updateToastId = toast("Update Available", {
-        description: "A new update is ready to be installed",
-        cancel: (
-          <Button title="Cancel" color="secondary" onPress={() => toast.dismiss(updateToastId)} />
-        ),
-        action: <Button title="Reload App" onPress={() => Updates.reloadAsync()} />,
-        close: <IconButton name="X" onPress={() => toast.dismiss(updateToastId)} />,
-        duration: Infinity
-      })
-    }
-  }, [isUpdatePending])
 
   useEffect(() => {
     const checkForUpdates = async () => {
@@ -126,7 +112,7 @@ export default function RootLayout() {
           <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="drive" options={{ headerShown: false }} />
+              <Stack.Screen name="database" options={{ headerShown: false }} />
             </Stack>
           </View>
           <Toaster />

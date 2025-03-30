@@ -116,7 +116,7 @@ export default function Songs() {
             }
             headerLeft={
               <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.medium }}>
-                <IconButton name="Plus" onPress={() => router.push("/drive")} />
+                <IconButton name="Plus" onPress={() => router.push("/database")} />
                 <FadingView opacity={showHeader}>
                   <IconButton color={colors.primary} name="Shuffle" />
                 </FadingView>

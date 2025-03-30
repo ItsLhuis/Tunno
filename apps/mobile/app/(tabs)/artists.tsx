@@ -71,7 +71,7 @@ export default function Artists() {
                 {t("artists.title")}
               </Text>
             }
-            headerLeft={<IconButton name="Plus" onPress={() => router.push("/drive")} />}
+            headerLeft={<IconButton name="Plus" onPress={() => router.push("/database")} />}
             headerRight={<IconButton name="More" />}
             headerRightFadesIn
           />

@@ -16,7 +16,7 @@
       },
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["audio", "audio"]
+        "UIBackgroundModes": ["audio"]
       }
     },
     "android": {
