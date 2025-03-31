@@ -6,19 +6,19 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useTranslation } from "@i18n/hooks"
 
-import { borderRadius, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
 import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
-  FlashListWithHeaders,
   Header,
   Icon,
   IconButton,
   LargeHeader,
   LargeHeaderSubtitle,
+  LegendListWithHeaders,
   ListItemText,
   Pressable,
   SearchInput,
@@ -51,9 +51,10 @@ export default function Favorites() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <FlashListWithHeaders
-        HeaderComponent={({ showHeader }) => (
+      <LegendListWithHeaders
+        HeaderComponent={({ scrollY, showHeader }) => (
           <Header
+            scrollY={scrollY}
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
@@ -69,7 +70,12 @@ export default function Favorites() {
         LargeHeaderComponent={() => (
           <LargeHeader>
             <View
-              style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: spacing.small }}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: theme.styles.spacing.small
+              }}
             >
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
@@ -80,15 +86,15 @@ export default function Favorites() {
           </LargeHeader>
         )}
         LargeHeaderSubtitleComponent={() => (
-          <LargeHeaderSubtitle style={{ paddingTop: spacing.small }}>
+          <LargeHeaderSubtitle>
             <SearchInput placeholder="Search" />
           </LargeHeaderSubtitle>
         )}
         automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
-          paddingHorizontal: spacing.large,
-          paddingBottom: spacing.large
+          paddingHorizontal: theme.styles.spacing.large,
+          paddingBottom: theme.styles.spacing.large
         }}
         data={data}
         renderItem={({ item, index }) => (
@@ -99,18 +105,19 @@ export default function Favorites() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: spacing.xSmall,
-                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.medium : 0
+                  gap: theme.styles.spacing.xSmall,
+                  paddingBottom:
+                    index % 1 === 0 && index !== data.length - 1 ? theme.styles.spacing.medium : 0
                 }}
               >
                 <View
                   style={{
-                    padding: spacing.medium,
-                    borderRadius: borderRadius.xSmall,
+                    padding: theme.styles.spacing.medium,
+                    borderRadius: theme.styles.borderRadius.xSmall,
                     backgroundColor: colors.muted
                   }}
                 >
-                  <Icon color={colors.placeholder} name="Heart" />
+                  <Icon color={colors.mutedForeground} name="Heart" />
                 </View>
                 <ListItemText title={item.name} description={item.id} />
                 <IconButton name="More" />
@@ -118,8 +125,10 @@ export default function Favorites() {
             </Pressable>
           </Animated.View>
         )}
+        recycleItems
         keyExtractor={(item) => item.id}
-        estimatedItemSize={60}
+        estimatedItemSize={72}
+        getEstimatedItemSize={() => 72}
         ListEmptyComponent={
           <View
             style={{

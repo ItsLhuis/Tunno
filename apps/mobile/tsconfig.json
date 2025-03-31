@@ -14,6 +14,7 @@
       "@migrations/*": ["./migrations/*"],
       "@plugins/*": ["./plugins/*"],
       "@stores/*": ["./stores/*"],
+      "@styles/*": ["./styles/*"],
       "@utils/*": ["./utils/*"]
     },
     "strict": true,

@@ -2,16 +2,15 @@ import { ReactNode, useEffect } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { colors as colorList } from "@constants/colors"
-import { borderRadius, iconSize, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
-import { View, type ViewStyle, type StyleProp } from "react-native"
+import { View, type StyleProp, type ViewStyle } from "react-native"
 
+import { ActivityIndicator } from "./ActivityIndicator"
 import { Pressable, type PressableProps } from "./Pressable"
 import { Text, type TextProps } from "./Text"
-import { ActivityIndicator } from "./ActivityIndicator"
 
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated"
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 
 export type ButtonProps = PressableProps & {
   title?: string | null | undefined
@@ -45,17 +44,17 @@ export function Button({
     ? color === "primary"
       ? colors.primary
       : color === "secondary"
-        ? colors.muted
-        : "transparent"
+      ? colors.muted
+      : "transparent"
     : "transparent"
 
   const textColor = isContained
     ? color === "primary"
-      ? colorList.dark.text
-      : colors.text
+      ? colors.primaryForeground
+      : colors.foreground
     : color === "primary"
-      ? colors.primary
-      : colors.text
+    ? colors.primary
+    : colors.foreground
 
   const indicatorColor = textColor
 
@@ -83,9 +82,9 @@ export function Button({
             opacity: disabled ? 0.5 : 1,
             alignItems: "center",
             justifyContent: "center",
-            paddingVertical: spacing.small,
-            paddingHorizontal: spacing.large,
-            borderRadius: borderRadius.xSmall,
+            paddingVertical: theme.styles.spacing.small,
+            paddingHorizontal: theme.styles.spacing.large,
+            borderRadius: theme.styles.borderRadius.xSmall,
             alignSelf: "flex-start",
             flexDirection: "row"
           },
@@ -121,7 +120,7 @@ export function Button({
             }
           ]}
         >
-          <ActivityIndicator size={iconSize.large} color={indicatorColor} />
+          <ActivityIndicator size={theme.styles.icon.size.large} color={indicatorColor} />
         </Animated.View>
       </Pressable>
     </View>

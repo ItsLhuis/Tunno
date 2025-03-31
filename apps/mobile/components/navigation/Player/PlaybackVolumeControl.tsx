@@ -1,11 +1,11 @@
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { iconSize, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
-import { Slider } from "../../ui/Slider"
 import { Icon } from "../../ui/Icon"
+import { Slider } from "../../ui/Slider"
 
 export function PlaybackVolumeControl() {
   const { colors } = useColorTheme()
@@ -15,12 +15,12 @@ export function PlaybackVolumeControl() {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        gap: spacing.small
+        gap: theme.styles.spacing.small
       }}
     >
-      <Icon name="Volume" size={iconSize.medium} color={colors.placeholder} />
+      <Icon name="Volume" size={theme.styles.icon.size.medium} color={colors.mutedForeground} />
       <Slider containerStyle={{ flex: 1 }} />
-      <Icon name="Volume2" size={iconSize.medium} color={colors.placeholder} />
+      <Icon name="Volume2" size={theme.styles.icon.size.medium} color={colors.mutedForeground} />
     </View>
   )
 }

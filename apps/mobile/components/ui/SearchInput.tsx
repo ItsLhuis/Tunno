@@ -1,28 +1,30 @@
-import { useImperativeHandle, useRef, useState, forwardRef } from "react"
+import { forwardRef, useImperativeHandle, useRef, useState } from "react"
+
 import { useColorTheme } from "@hooks/useColorTheme"
-import { spacing, borderRadius, iconSize, border } from "@constants/styles"
+
+import { theme } from "@styles/theme"
 
 import {
   Pressable,
   TextInput as RNTextInput,
-  View,
   StyleProp,
+  View,
   ViewStyle,
   type NativeSyntheticEvent,
   type TextInputFocusEventData
 } from "react-native"
 
-import { TextInput, type TextInputProps } from "./TextInput"
 import { Button } from "./Button"
-import { IconButton } from "./IconButton"
 import { Icon } from "./Icon"
+import { IconButton } from "./IconButton"
+import { TextInput, type TextInputProps } from "./TextInput"
 
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
   interpolate,
-  interpolateColor
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
 } from "react-native-reanimated"
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
@@ -75,7 +77,7 @@ export const SearchInput = forwardRef<RNTextInput, SearchInputProps>(function Se
   const cancelStyle = useAnimatedStyle(() => ({
     opacity: isFocused.value,
     marginRight: interpolate(isFocused.value, [0, 1], [-cancelWidth, 0]),
-    marginLeft: interpolate(isFocused.value, [0, 1], [0, spacing.small])
+    marginLeft: interpolate(isFocused.value, [0, 1], [0, theme.styles.spacing.small])
   }))
 
   const borderStyle = useAnimatedStyle(() => ({
@@ -97,32 +99,39 @@ export const SearchInput = forwardRef<RNTextInput, SearchInputProps>(function Se
             flex: 1,
             flexDirection: "row",
             alignItems: "center",
-            paddingHorizontal: spacing.small,
-            borderRadius: borderRadius.xSmall,
+            paddingHorizontal: theme.styles.spacing.small,
+            borderRadius: theme.styles.borderRadius.xSmall,
             borderColor: colors.muted,
-            borderWidth: border.thin
+            borderWidth: theme.styles.border.thin
           },
           borderStyle,
           containerStyle
         ]}
       >
-        <Icon name="Search" size={iconSize.medium} color={colors.text} />
+        <Icon name="Search" size={theme.styles.icon.size.medium} color={colors.foreground} />
         <TextInput
           ref={inputRef}
           onFocus={handleFocus}
           onBlur={handleBlur}
           value={value}
           onChangeText={onChangeText}
-          placeholderTextColor={placeholderTextColor || colors.placeholder}
-          style={[style, { flex: 1, paddingHorizontal: spacing.xSmall, borderWidth: border.none }]}
+          placeholderTextColor={placeholderTextColor || colors.mutedForeground}
+          style={[
+            style,
+            {
+              flex: 1,
+              paddingHorizontal: theme.styles.spacing.xSmall,
+              borderWidth: theme.styles.border.none
+            }
+          ]}
           disableBorderAnimation
           {...props}
         />
         <Animated.View style={clearStyle}>
           <IconButton
             name="X"
-            size={iconSize.medium}
-            color={colors.text}
+            size={theme.styles.icon.size.medium}
+            color={colors.foreground}
             onPress={() => {
               if (isFocused.value === 0) {
                 handlePress()
@@ -141,7 +150,10 @@ export const SearchInput = forwardRef<RNTextInput, SearchInputProps>(function Se
           variant="text"
           title="Cancel"
           onPress={() => handleBlur({} as NativeSyntheticEvent<TextInputFocusEventData>)}
-          style={{ paddingRight: spacing.none, paddingLeft: spacing.xSmall }}
+          style={{
+            paddingRight: theme.styles.spacing.none,
+            paddingLeft: theme.styles.spacing.xSmall
+          }}
         />
       </Animated.View>
     </View>

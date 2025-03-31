@@ -27,7 +27,7 @@ import * as SystemUI from "expo-system-ui"
 
 import * as SplashScreen from "expo-splash-screen"
 
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
+import { DarkTheme, DefaultTheme, ThemeProvider, type Theme } from "@react-navigation/native"
 
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
@@ -45,7 +45,7 @@ enableFreeze()
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const { colors, isThemeChanging } = useColorTheme()
+  const { colors, isAppThemeChanging } = useColorTheme()
 
   SystemUI.setBackgroundColorAsync(colors.background)
 
@@ -94,15 +94,17 @@ export default function RootLayout() {
 
   const themeScheme = useColorScheme() === "dark" ? DarkTheme : DefaultTheme
 
-  const theme = {
+  const theme: Theme = {
     ...themeScheme,
     colors: {
       ...themeScheme.colors,
-      background: colors.background
+      primary: colors.primary,
+      background: colors.background,
+      text: colors.foreground
     }
   }
 
-  if (isThemeChanging || !isAppReady) return null
+  if (isAppThemeChanging || !isAppReady) return null
 
   return (
     <ThemeProvider value={theme}>

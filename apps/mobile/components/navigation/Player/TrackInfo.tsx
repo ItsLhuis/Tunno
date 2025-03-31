@@ -1,4 +1,4 @@
-import { borderRadius, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
@@ -8,14 +8,14 @@ import { ListItemText } from "../../ui/ListItemText"
 
 export function TrackInfo() {
   return (
-    <View style={{ width: "100%", alignItems: "center", gap: spacing.large }}>
+    <View style={{ width: "100%", alignItems: "center", gap: theme.styles.spacing.large }}>
       <Image
         style={{
           width: "100%",
           aspectRatio: 1,
           maxWidth: 640,
           maxHeight: 640,
-          borderRadius: borderRadius.small
+          borderRadius: theme.styles.borderRadius.small
         }}
         source={require("@assets/thumbs/1.jpg")}
       />
@@ -23,7 +23,7 @@ export function TrackInfo() {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          gap: spacing.small
+          gap: theme.styles.spacing.small
         }}
       >
         <ListItemText

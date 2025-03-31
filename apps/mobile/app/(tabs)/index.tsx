@@ -10,7 +10,7 @@ import { debounce } from "lodash"
 
 import Fuse from "fuse.js"
 
-import { border, borderRadius, imageSize, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
@@ -18,12 +18,12 @@ import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
   FadingView,
-  FlashListWithHeaders,
   Header,
   IconButton,
   Image,
   LargeHeader,
   LargeHeaderSubtitle,
+  LegendListWithHeaders,
   ListItemText,
   Pressable,
   SearchInput,
@@ -104,7 +104,7 @@ export default function Songs() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <FlashListWithHeaders
+      <LegendListWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
             scrollY={scrollY}
@@ -115,7 +115,13 @@ export default function Songs() {
               </Text>
             }
             headerLeft={
-              <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.medium }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: theme.styles.spacing.medium
+                }}
+              >
                 <IconButton name="Plus" onPress={() => router.push("/database")} />
                 <FadingView opacity={showHeader}>
                   <IconButton color={colors.primary} name="Shuffle" />
@@ -129,7 +135,12 @@ export default function Songs() {
         LargeHeaderComponent={() => (
           <LargeHeader>
             <View
-              style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: spacing.small }}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: theme.styles.spacing.small
+              }}
             >
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
@@ -151,8 +162,8 @@ export default function Songs() {
         automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
-          paddingHorizontal: spacing.large,
-          paddingBottom: spacing.large
+          paddingHorizontal: theme.styles.spacing.large,
+          paddingBottom: theme.styles.spacing.large
         }}
         data={data}
         extraData={data}
@@ -164,18 +175,19 @@ export default function Songs() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: spacing.xSmall,
-                  paddingBottom: index % 1 === 0 && index !== data.length - 1 ? spacing.medium : 0
+                  gap: theme.styles.spacing.xSmall,
+                  paddingBottom:
+                    index % 1 === 0 && index !== data.length - 1 ? theme.styles.spacing.medium : 0
                 }}
               >
                 <Image
                   recyclingKey={item.id}
                   style={{
-                    borderRadius: borderRadius.xSmall,
+                    borderRadius: theme.styles.borderRadius.xSmall,
                     borderColor: colors.muted,
-                    borderWidth: border.thin,
-                    height: imageSize.xLow,
-                    width: imageSize.xLow
+                    borderWidth: theme.styles.border.thin,
+                    height: theme.styles.image.size.xLow,
+                    width: theme.styles.image.size.xLow
                   }}
                   source={item.thumbnail}
                 />
@@ -189,8 +201,10 @@ export default function Songs() {
             </Pressable>
           </Animated.View>
         )}
+        recycleItems
         keyExtractor={(item) => item.id}
-        estimatedItemSize={60}
+        estimatedItemSize={72}
+        getEstimatedItemSize={() => 72}
         ListEmptyComponent={
           <View
             style={{

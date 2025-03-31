@@ -1,13 +1,11 @@
-import { borderRadius, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { colors as colorList } from "@constants/colors"
-
 import { ColorValue, Platform, View } from "react-native"
 
-import { Icon, type IconProps } from "./Icon"
 import { Button, type ButtonProps } from "./Button"
+import { Icon, type IconProps } from "./Icon"
 
 export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "color" | "children"> & {
   name: IconProps["name"] | "More"
@@ -33,7 +31,8 @@ export function IconButton({
   const iconName: IconProps["name"] =
     name === "More" ? (Platform.OS === "android" ? "EllipsisVertical" : "Ellipsis") : name
 
-  const iconColor = buttonColor === "primary" ? colorList.dark.text : color ? color : colors.text
+  const iconColor =
+    buttonColor === "primary" ? colors.primaryForeground : color ? color : colors.foreground
 
   return (
     <View>
@@ -42,10 +41,10 @@ export function IconButton({
         color={buttonColor || "secondary"}
         style={[
           {
-            paddingVertical: spacing.small,
-            paddingHorizontal: spacing.small,
-            margin: noMargin ? 0 : -spacing.small,
-            borderRadius: borderRadius.round
+            paddingVertical: theme.styles.spacing.small,
+            paddingHorizontal: theme.styles.spacing.small,
+            margin: noMargin ? 0 : -theme.styles.spacing.small,
+            borderRadius: theme.styles.borderRadius.round
           },
           style
         ]}

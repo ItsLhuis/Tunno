@@ -1,6 +1,6 @@
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { iconSize } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import {
   ActivityIndicator as RNActivityIndicator,
@@ -11,12 +11,12 @@ export type ActivityIndicatorProps = RNActivityIndicatorProps
 
 export function ActivityIndicator({
   style,
-  size = iconSize.xLarge,
+  size = theme.styles.icon.size.xLarge,
   color,
   ...props
 }: ActivityIndicatorProps) {
   const { colors } = useColorTheme()
 
-  return <RNActivityIndicator size={size} color={color || colors.text} style={style} {...props} />
+  return <RNActivityIndicator size={size} color={color || colors.foreground} style={style} {...props} />
 }
 ActivityIndicator.displayName = "ActivityIndicator"

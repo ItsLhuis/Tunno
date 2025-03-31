@@ -4,10 +4,10 @@ import { RefObject, createRef } from "react"
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet"
 
-type AppState = {
+type UIState = {
   playerRef: RefObject<BottomSheetModal>
 }
 
-export const useAppStore = create<AppState>((set) => ({
+export const useUIStore = create<UIState>(() => ({
   playerRef: createRef<BottomSheetModal>()
 }))

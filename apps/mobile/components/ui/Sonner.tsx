@@ -2,8 +2,7 @@ import { type ComponentProps } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { fontFamily, fontSize } from "@constants/font"
-import { border, borderRadius, iconSize, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { ActivityIndicator } from "@components/ui/ActivityIndicator"
 import { Icon } from "@components/ui/Icon"
@@ -13,31 +12,35 @@ import { Toaster as Sonner, toast } from "sonner-native"
 type ToasterProps = ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme, colors } = useColorTheme()
+  const { appTheme, colors } = useColorTheme()
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={appTheme as ToasterProps["theme"]}
       icons={{
         loading: (
           <ActivityIndicator
             color={colors.primary}
-            size={iconSize.large}
+            size={theme.styles.icon.size.large}
             style={{ alignSelf: "flex-start" }}
           />
         ),
-        info: <Icon name="Info" color={colors.info} size={iconSize.large} />,
-        success: <Icon name="CircleCheck" color={colors.success} size={iconSize.large} />,
-        warning: <Icon name="TriangleAlert" color={colors.warning} size={iconSize.large} />,
-        error: <Icon name="CircleAlert" color={colors.error} size={iconSize.large} />
+        info: <Icon name="Info" color={colors.info} size={theme.styles.icon.size.large} />,
+        success: (
+          <Icon name="CircleCheck" color={colors.success} size={theme.styles.icon.size.large} />
+        ),
+        warning: (
+          <Icon name="TriangleAlert" color={colors.warning} size={theme.styles.icon.size.large} />
+        ),
+        error: <Icon name="CircleAlert" color={colors.error} size={theme.styles.icon.size.large} />
       }}
       toastOptions={{
         style: {
           backgroundColor: colors.background,
-          borderWidth: border.thin,
+          borderWidth: theme.styles.border.thin,
           borderColor: colors.muted,
-          borderRadius: borderRadius.xSmall,
-          marginHorizontal: spacing.small,
+          borderRadius: theme.styles.borderRadius.xSmall,
+          marginHorizontal: theme.styles.spacing.small,
           shadowOpacity: 0,
           shadowRadius: 0,
           shadowOffset: {
@@ -46,26 +49,39 @@ const Toaster = ({ ...props }: ToasterProps) => {
           },
           elevation: 0
         },
-        titleStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.large, marginTop: 2 },
-        descriptionStyle: { fontFamily: fontFamily["regular"], fontSize: fontSize.small },
+        titleStyle: {
+          fontFamily: theme.font.family["bold"],
+          fontSize: theme.font.size.large,
+          marginTop: 2
+        },
+        descriptionStyle: {
+          fontFamily: theme.font.family["regular"],
+          fontSize: theme.font.size.small
+        },
         buttonsStyle: {
           flexDirection: "row-reverse",
-          gap: spacing.xSmall
+          gap: theme.styles.spacing.xSmall
         },
         actionButtonStyle: {
-          borderRadius: borderRadius.xSmall,
+          borderRadius: theme.styles.borderRadius.xSmall,
           backgroundColor: colors.primary,
-          paddingVertical: spacing.small,
-          paddingHorizontal: spacing.large
+          paddingVertical: theme.styles.spacing.small,
+          paddingHorizontal: theme.styles.spacing.large
         },
-        actionButtonTextStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.medium },
+        actionButtonTextStyle: {
+          fontFamily: theme.font.family["bold"],
+          fontSize: theme.font.size.medium
+        },
         cancelButtonStyle: {
-          borderRadius: borderRadius.xSmall,
+          borderRadius: theme.styles.borderRadius.xSmall,
           backgroundColor: colors.muted,
-          paddingVertical: spacing.small,
-          paddingHorizontal: spacing.large
+          paddingVertical: theme.styles.spacing.small,
+          paddingHorizontal: theme.styles.spacing.large
         },
-        cancelButtonTextStyle: { fontFamily: fontFamily["bold"], fontSize: fontSize.medium }
+        cancelButtonTextStyle: {
+          fontFamily: theme.font.family["bold"],
+          fontSize: theme.font.size.medium
+        }
       }}
       position="bottom-center"
       {...props}

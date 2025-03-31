@@ -1,14 +1,13 @@
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { fontFamily, fontSize } from "@constants/font"
+import { theme } from "@styles/theme"
 
 import { Text as RNText, type TextProps as RNTextProps } from "react-native"
 
 export type TextProps = RNTextProps & {
-  variant?: keyof typeof fontFamily
-  size?: keyof typeof fontSize
+  variant?: keyof typeof theme.font.family
+  size?: keyof typeof theme.font.size
 }
-
 export function Text({ style, variant = "regular", size = "medium", ...props }: TextProps) {
   const { colors } = useColorTheme()
 
@@ -16,10 +15,10 @@ export function Text({ style, variant = "regular", size = "medium", ...props }: 
     <RNText
       maxFontSizeMultiplier={1}
       style={[
-        { color: colors.text, fontSize: fontSize[size] },
+        { color: colors.foreground, fontSize: theme.font.size[size] },
         style,
         {
-          fontFamily: fontFamily[variant]
+          fontFamily: theme.font.family[variant]
         }
       ]}
       {...props}

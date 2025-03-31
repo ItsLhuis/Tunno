@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-import { borderRadius, iconSize, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
@@ -25,7 +25,7 @@ export function SettingButton({
     <Pressable
       containerStyle={[
         {
-          borderRadius: borderRadius.none,
+          borderRadius: theme.styles.borderRadius.none,
           width: "100%",
           justifyContent: "flex-start"
         },
@@ -38,7 +38,7 @@ export function SettingButton({
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
-          gap: spacing.small
+          gap: theme.styles.spacing.small
         }}
       >
         {renderLeft && <View style={{ marginRight: "auto" }}>{renderLeft}</View>}
@@ -46,7 +46,11 @@ export function SettingButton({
         {renderRight ? (
           <View style={{ marginLeft: "auto" }}>{renderRight}</View>
         ) : (
-          <Icon style={{ marginLeft: "auto" }} size={iconSize.medium} name="ChevronRight" />
+          <Icon
+            style={{ marginLeft: "auto" }}
+            size={theme.styles.icon.size.medium}
+            name="ChevronRight"
+          />
         )}
       </View>
     </Pressable>

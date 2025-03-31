@@ -4,7 +4,7 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@i18n/hooks"
 
-import { iconSize, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
@@ -46,10 +46,12 @@ export default function Settings() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <Text style={{ marginTop: insets.top + spacing.large }}>{t("settings.title")}</Text>
+      <Text style={{ marginTop: insets.top + theme.styles.spacing.large }}>
+        {t("settings.title")}
+      </Text>
       <Image
         source={locales[language].flag}
-        style={{ height: iconSize.large, aspectRatio: 4 / 3 }}
+        style={{ height: theme.styles.icon.size.large, aspectRatio: 4 / 3 }}
       />
       <Button title="English" onPress={() => setLanguage("en")} />
       <Button title="Spanish" onPress={() => setLanguage("es")} />

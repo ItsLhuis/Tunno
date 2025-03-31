@@ -1,6 +1,6 @@
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View, StyleProp, ViewStyle } from "react-native"
 
@@ -24,7 +24,7 @@ export function ListItemText({
   const { colors } = useColorTheme()
 
   return (
-    <View style={[{ flex: 1, gap: spacing.xxSmall }, containerStyle]}>
+    <View style={[{ flex: 1, gap: theme.styles.spacing.xxSmall }, containerStyle]}>
       <Text
         variant={titleProps?.variant || "bold"}
         size={titleProps?.size || "medium"}
@@ -34,7 +34,7 @@ export function ListItemText({
       </Text>
       {description && (
         <Text
-          style={[{ color: colors.placeholder }, descriptionProps?.style]}
+          style={[{ color: colors.mutedForeground }, descriptionProps?.style]}
           size={descriptionProps?.size || "small"}
           {...descriptionProps}
         >

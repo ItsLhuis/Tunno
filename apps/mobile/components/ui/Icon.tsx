@@ -1,6 +1,6 @@
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { iconSize } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { ColorValue } from "react-native"
 
@@ -12,10 +12,16 @@ export type IconProps = LucideProps & {
   color?: ColorValue
 }
 
-export function Icon({ name, isFilled, size = iconSize.large, color, ...props }: IconProps) {
+export function Icon({
+  name,
+  isFilled,
+  size = theme.styles.icon.size.large,
+  color,
+  ...props
+}: IconProps) {
   const { colors } = useColorTheme()
 
-  const iconColor = color || colors.text
+  const iconColor = color || colors.foreground
 
   const iconFill = isFilled ? color : "transparent"
 

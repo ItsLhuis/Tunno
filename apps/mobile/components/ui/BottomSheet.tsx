@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { borderRadius } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { BackHandler, StyleProp, ViewStyle } from "react-native"
 
@@ -87,12 +87,12 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         backgroundStyle={[
           {
             backgroundColor: colors.background,
-            borderRadius: borderRadius.small
+            borderRadius: theme.styles.borderRadius.small
           },
           backgroundStyle
         ]}
         animationConfigs={timingConfig}
-        handleIndicatorStyle={[handleIndicatorStyle, { backgroundColor: colors.icon }]}
+        handleIndicatorStyle={[handleIndicatorStyle, { backgroundColor: colors.mutedForeground }]}
         enableOverDrag={false}
         enablePanDownToClose={true}
         {...props}

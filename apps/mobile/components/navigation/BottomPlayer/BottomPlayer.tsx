@@ -2,24 +2,24 @@ import { Fragment, useCallback, useEffect } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { useAppStore } from "@stores/useAppStore"
+import { useUIStore } from "@stores/useUIStore"
 
-import { border } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
 import { FadingView } from "../../ui/FadingView"
 import { Pressable } from "../../ui/Pressable"
 
-import { TrackInfo } from "./TrackInfo"
 import { PlaybackProgress } from "./PlaybackProgress"
+import { TrackInfo } from "./TrackInfo"
 
 import { useSharedValue, withTiming } from "react-native-reanimated"
 
 export function BottomPlayer() {
   const { colors } = useColorTheme()
 
-  const { playerRef } = useAppStore()
+  const { playerRef } = useUIStore()
 
   const opacity = useSharedValue<number>(0)
 
@@ -40,7 +40,7 @@ export function BottomPlayer() {
         <View
           style={{
             borderTopColor: colors.muted,
-            borderTopWidth: border.thin
+            borderTopWidth: theme.styles.border.thin
           }}
         >
           <Pressable onPress={handleOpenPlayer} disableOpacityEffect>

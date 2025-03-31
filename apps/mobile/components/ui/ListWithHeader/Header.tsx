@@ -12,7 +12,7 @@ import {
   type ViewStyle
 } from "react-native"
 
-import { border, spacing } from "@constants/styles"
+import { theme } from "@/styles/theme"
 
 import { FadingView } from "../FadingView"
 
@@ -83,8 +83,8 @@ export function Header({
             width: "100%",
             alignItems: "center",
             justifyContent: "flex-start",
-            paddingTop: (ignoreTopSafeArea ? 0 : insets.top) + spacing.large,
-            paddingBottom: spacing.large
+            paddingTop: (ignoreTopSafeArea ? 0 : insets.top) + theme.styles.spacing.large,
+            paddingBottom: theme.styles.spacing.large
           },
           headerBackgroundAnimation && headerBackgroundStyle,
           headerStyle
@@ -96,7 +96,7 @@ export function Header({
             style={[
               {
                 flexDirection: "row",
-                paddingLeft: spacing.large,
+                paddingLeft: theme.styles.spacing.large,
                 justifyContent: "flex-start",
                 alignItems: "center",
                 overflow: "hidden",
@@ -113,7 +113,7 @@ export function Header({
             style={[
               {
                 flexDirection: "row",
-                paddingLeft: spacing.large,
+                paddingLeft: theme.styles.spacing.large,
                 justifyContent: "flex-start",
                 alignItems: "center",
                 overflow: "hidden",
@@ -134,7 +134,7 @@ export function Header({
                 {
                   flex: 1,
                   flexDirection: "row",
-                  paddingHorizontal: spacing.small,
+                  paddingHorizontal: theme.styles.spacing.small,
                   alignItems: "center",
                   justifyContent: "center",
                   minWidth: centerWidth
@@ -150,7 +150,7 @@ export function Header({
                 {
                   flex: 1,
                   flexDirection: "row",
-                  paddingHorizontal: spacing.small,
+                  paddingHorizontal: theme.styles.spacing.small,
                   alignItems: "center",
                   justifyContent: "center",
                   width: centerWidth
@@ -167,7 +167,7 @@ export function Header({
             style={[
               {
                 flexDirection: "row-reverse",
-                paddingRight: spacing.large,
+                paddingRight: theme.styles.spacing.large,
                 alignItems: "center",
                 justifyContent: "flex-start",
                 overflow: "hidden",
@@ -184,7 +184,7 @@ export function Header({
             style={[
               {
                 flexDirection: "row-reverse",
-                paddingRight: spacing.large,
+                paddingRight: theme.styles.spacing.large,
                 alignItems: "center",
                 justifyContent: "flex-start",
                 overflow: "hidden",
@@ -214,7 +214,7 @@ export function HeaderBottomBorder({
   opacity,
   style,
   borderColor,
-  borderWidth = border.thin
+  borderWidth = theme.styles.border.thin
 }: {
   opacity: DerivedValue<0 | 1> | DerivedValue<number> | SharedValue<number>
   style?: StyleProp<ViewStyle>
@@ -264,7 +264,7 @@ export function LargeHeaderSubtitle({ style, children }: LargeHeaderSubtitleProp
           width: "100%",
           flexDirection: "row",
           justifyContent: "space-between",
-          paddingVertical: spacing.large
+          paddingVertical: theme.styles.spacing.large
         },
         style
       ]}

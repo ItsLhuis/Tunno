@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { Appearance } from "react-native"
 
@@ -32,5 +32,5 @@ export function useColorTheme() {
     return () => listener.remove()
   }, [theme])
 
-  return { theme, colors: colors[theme], isThemeChanging }
+  return { appTheme: theme, colors: colors[theme], isAppThemeChanging: isThemeChanging }
 }

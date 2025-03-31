@@ -2,22 +2,21 @@ import { forwardRef, useImperativeHandle, useRef } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { fontFamily, fontSize } from "@constants/font"
-import { spacing, borderRadius, border } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import {
   Platform,
   TextInput as RNTextInput,
-  type TextInputProps as RNTextInputProps,
   type NativeSyntheticEvent,
+  type TextInputProps as RNTextInputProps,
   type TextInputFocusEventData
 } from "react-native"
 
 import Animated, {
-  useSharedValue,
+  interpolateColor,
   useAnimatedStyle,
-  withTiming,
-  interpolateColor
+  useSharedValue,
+  withTiming
 } from "react-native-reanimated"
 
 const AnimatedTextInput = Animated.createAnimatedComponent(RNTextInput)
@@ -58,14 +57,15 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
         selectionColor={colors.primary}
         style={[
           {
-            fontFamily: fontFamily.regular,
-            fontSize: fontSize.medium,
-            color: colors.text,
-            paddingHorizontal: spacing.small,
-            paddingVertical: Platform.OS === "android" ? spacing.xSmall : spacing.small,
-            borderRadius: borderRadius.xSmall,
+            fontFamily: theme.font.family.regular,
+            fontSize: theme.font.size.medium,
+            color: colors.foreground,
+            paddingHorizontal: theme.styles.spacing.small,
+            paddingVertical:
+              Platform.OS === "android" ? theme.styles.spacing.xSmall : theme.styles.spacing.small,
+            borderRadius: theme.styles.borderRadius.xSmall,
             borderColor: colors.muted,
-            borderWidth: border.thin
+            borderWidth: theme.styles.border.thin
           },
           borderStyle,
           style

@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useTranslation } from "@i18n/hooks"
 
-import { borderRadius, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { useWindowDimensions, View } from "react-native"
 
@@ -14,12 +14,12 @@ import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
   FadingView,
-  FlashListWithHeaders,
   Header,
   Icon,
   IconButton,
   LargeHeader,
   LargeHeaderSubtitle,
+  LegendListWithHeaders,
   ListItemText,
   Pressable,
   SearchInput,
@@ -47,8 +47,8 @@ export default function Playlists() {
   const { width } = useWindowDimensions()
 
   const minItemSize = 150
-  const itemSpacing = spacing.medium
-  const availableWidth = width - spacing.large * 2
+  const itemSpacing = theme.styles.spacing.medium
+  const availableWidth = width - theme.styles.spacing.large * 2
 
   const numColumns = Math.max(1, Math.floor(availableWidth / (minItemSize + itemSpacing)))
   const itemSize = (availableWidth - (numColumns - 1) * itemSpacing) / numColumns
@@ -63,9 +63,10 @@ export default function Playlists() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <FlashListWithHeaders
-        HeaderComponent={({ showHeader }) => (
+      <LegendListWithHeaders
+        HeaderComponent={({ scrollY, showHeader }) => (
           <Header
+            scrollY={scrollY}
             showHeader={showHeader}
             headerCenter={
               <Text variant="bold" size="large" numberOfLines={1}>
@@ -73,7 +74,13 @@ export default function Playlists() {
               </Text>
             }
             headerLeft={
-              <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.medium }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: theme.styles.spacing.medium
+                }}
+              >
                 <IconButton name="Plus" onPress={() => router.push("/database")} />
                 <FadingView opacity={showHeader}>
                   <IconButton color={colors.primary} name="Shuffle" />
@@ -87,7 +94,12 @@ export default function Playlists() {
         LargeHeaderComponent={() => (
           <LargeHeader>
             <View
-              style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: spacing.small }}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: theme.styles.spacing.small
+              }}
             >
               <IconButton noMargin buttonColor="primary" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
@@ -98,15 +110,15 @@ export default function Playlists() {
           </LargeHeader>
         )}
         LargeHeaderSubtitleComponent={() => (
-          <LargeHeaderSubtitle style={{ paddingTop: spacing.small }}>
+          <LargeHeaderSubtitle>
             <SearchInput placeholder="Search" />
           </LargeHeaderSubtitle>
         )}
         automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
-          paddingHorizontal: spacing.large,
-          paddingBottom: spacing.large
+          paddingHorizontal: theme.styles.spacing.large,
+          paddingBottom: theme.styles.spacing.large
         }}
         data={data}
         numColumns={numColumns}
@@ -120,26 +132,26 @@ export default function Playlists() {
               paddingRight: index % numColumns ? 0 : itemSpacing / 2
             }}
           >
-            <Pressable style={{ gap: spacing.xxSmall }}>
+            <Pressable style={{ gap: theme.styles.spacing.xxSmall }}>
               <View
                 style={{
                   width: itemSize,
                   height: itemSize,
                   justifyContent: "center",
                   alignItems: "center",
-                  padding: spacing.small,
-                  borderRadius: borderRadius.xSmall,
+                  padding: theme.styles.spacing.small,
+                  borderRadius: theme.styles.borderRadius.xSmall,
                   backgroundColor: colors.muted
                 }}
               >
-                <Icon color={colors.placeholder} name="List" size={itemSize / 3} />
+                <Icon color={colors.mutedForeground} name="List" size={itemSize / 3} />
               </View>
               <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  gap: spacing.small
+                  gap: theme.styles.spacing.small
                 }}
               >
                 <ListItemText title={item.name} description={item.id} />
@@ -148,8 +160,10 @@ export default function Playlists() {
             </Pressable>
           </Animated.View>
         )}
+        recycleItems
         keyExtractor={(item) => item.id}
-        estimatedItemSize={itemSize + 10}
+        estimatedItemSize={itemSize + 32}
+        getEstimatedItemSize={() => itemSize + 32}
         ListEmptyComponent={
           <View
             style={{

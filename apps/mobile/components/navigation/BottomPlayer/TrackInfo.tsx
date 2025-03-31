@@ -1,4 +1,4 @@
-import { borderRadius, imageSize, spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
@@ -11,18 +11,18 @@ export function TrackInfo() {
   return (
     <View
       style={{
-        padding: spacing.small,
+        padding: theme.styles.spacing.small,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        gap: spacing.xSmall
+        gap: theme.styles.spacing.xSmall
       }}
     >
       <Image
         style={{
-          width: imageSize.low,
+          width: theme.styles.image.size.low,
           aspectRatio: 1,
-          borderRadius: borderRadius.xSmall
+          borderRadius: theme.styles.borderRadius.xSmall
         }}
         source={require("@assets/thumbs/1.jpg")}
       />

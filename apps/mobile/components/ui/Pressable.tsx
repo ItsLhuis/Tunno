@@ -7,7 +7,7 @@ import {
   ViewStyle
 } from "react-native"
 
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated"
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 
 export type PressableProps = RNPressableProps & {
   containerStyle?: StyleProp<ViewStyle>

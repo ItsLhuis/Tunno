@@ -2,7 +2,7 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { rgba } from "polished"
 
-import { border, iconSize } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { StyleSheet } from "react-native"
 
@@ -41,9 +41,9 @@ export function Slider({
       thumbTintColor={thumbTintColor || colors.primary}
       minimumTrackTintColor={minimumTrackTintColor || colors.primary}
       maximumTrackTintColor={maximumTrackTintColor || rgba(colors.primary, 0.2)}
-      trackStyle={StyleSheet.flatten([{ height: border.medium }, trackStyle])}
+      trackStyle={StyleSheet.flatten([{ height: theme.styles.border.medium }, trackStyle])}
       thumbStyle={StyleSheet.flatten([
-        { height: iconSize.small, width: iconSize.small },
+        { height: theme.styles.icon.size.small, width: theme.styles.icon.size.small },
         thumbStyle
       ])}
       {...props}

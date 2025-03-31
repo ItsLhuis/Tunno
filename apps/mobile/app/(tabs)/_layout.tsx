@@ -6,7 +6,7 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useTranslation } from "@i18n/hooks"
 
-import { spacing } from "@constants/styles"
+import { theme } from "@styles/theme"
 
 import { Tabs } from "expo-router"
 
@@ -49,7 +49,7 @@ export default function TabLayout() {
 
                 const icon = options.tabBarIcon
                   ? options.tabBarIcon({
-                      color: isFocused ? colors.primary : colors.icon,
+                      color: isFocused ? colors.primary : colors.mutedForeground,
                       focused: isFocused,
                       size: 24
                     })
@@ -83,12 +83,12 @@ export default function TabLayout() {
                       flex: 1
                     }}
                     style={{
-                      paddingTop: spacing.small,
-                      paddingBottom: spacing.xSmall + insets.bottom,
+                      paddingTop: theme.styles.spacing.small,
+                      paddingBottom: theme.styles.spacing.xSmall + insets.bottom,
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      gap: spacing.xxSmall
+                      gap: theme.styles.spacing.xxSmall
                     }}
                   >
                     {icon}
@@ -96,8 +96,9 @@ export default function TabLayout() {
                       variant="bold"
                       size="xxSmall"
                       style={{
-                        color: props.state.index === index ? colors.primary : colors.icon,
-                        paddingHorizontal: spacing.small
+                        color:
+                          props.state.index === index ? colors.primary : colors.mutedForeground,
+                        paddingHorizontal: theme.styles.spacing.small
                       }}
                       numberOfLines={1}
                     >
