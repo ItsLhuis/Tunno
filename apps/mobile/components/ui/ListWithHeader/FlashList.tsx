@@ -1,13 +1,13 @@
 import {
-  useState,
   forwardRef,
-  useImperativeHandle,
   isValidElement,
-  type ComponentProps,
+  useImperativeHandle,
+  useState,
   type ComponentClass,
+  type ComponentProps,
+  type ReactElement,
   type Ref,
-  type RefObject,
-  type ReactElement
+  type RefObject
 } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -121,14 +121,14 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
       {!absoluteHeader && HeaderComponent({ showHeader, scrollY })}
       <AnimatedFlashList
         ref={scrollRef}
-        onLayout={(e) => setListHeight(e.nativeEvent.layout.height)}
+        onLayout={(event) => setListHeight(event.nativeEvent.layout.height)}
         data={data}
         scrollEnabled={
           Array.isArray(data)
             ? data.length > 0
             : data && "value" in data && Array.isArray(data.value) && data.value.length > 0
-              ? true
-              : false
+            ? true
+            : false
         }
         scrollEventThrottle={16}
         overScrollMode="never"
@@ -165,13 +165,13 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
           ...scrollIndicatorInsets
         }}
         ListHeaderComponent={
-          <View onLayout={(e) => setHeaderListHeight(e.nativeEvent.layout.height)}>
+          <View onLayout={(event) => setHeaderListHeight(event.nativeEvent.layout.height)}>
             {LargeHeaderComponent && (
               <View
-                onLayout={(e) => {
-                  largeHeaderHeight.value = e.nativeEvent.layout.height
+                onLayout={(event) => {
+                  largeHeaderHeight.value = event.nativeEvent.layout.height
 
-                  if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout)
+                  if (onLargeHeaderLayout) onLargeHeaderLayout(event.nativeEvent.layout)
                 }}
               >
                 {!disableLargeHeaderFadeAnim ? (

@@ -1,8 +1,8 @@
 import {
   forwardRef,
   useImperativeHandle,
-  type ReactNode,
   type ComponentProps,
+  type ReactNode,
   type Ref
 } from "react"
 
@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useScroll } from "./hooks"
 
-import { View, ScrollView } from "react-native"
+import { ScrollView, View } from "react-native"
 
 import { FadingView } from "../FadingView"
 
@@ -145,9 +145,10 @@ export const ScrollViewWithHeaders = forwardRef<Animated.ScrollView, ScrollViewW
         >
           {LargeHeaderComponent && (
             <View
-              onLayout={(e) => {
-                largeHeaderHeight.value = e.nativeEvent.layout.height
-                if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout)
+              onLayout={(event) => {
+                largeHeaderHeight.value = event.nativeEvent.layout.height
+
+                if (onLargeHeaderLayout) onLargeHeaderLayout(event.nativeEvent.layout)
               }}
             >
               {!disableLargeHeaderFadeAnim ? (

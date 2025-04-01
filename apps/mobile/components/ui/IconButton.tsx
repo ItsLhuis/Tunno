@@ -1,17 +1,16 @@
 import { theme } from "@styles/theme"
+import { readableColor } from "polished"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { ColorValue, Platform, View } from "react-native"
+import { Platform, View } from "react-native"
 
 import { Button, type ButtonProps } from "./Button"
 import { Icon, type IconProps } from "./Icon"
 
-export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "color" | "children"> & {
+export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "children"> & {
   name: IconProps["name"] | "More"
   isFilled?: boolean
-  buttonColor?: ButtonProps["color"]
-  color?: ColorValue
   size?: number
   noMargin?: boolean
 }
@@ -19,11 +18,11 @@ export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "color"
 export function IconButton({
   name,
   isFilled = false,
-  buttonColor,
-  color,
+  color = "transparent",
   size,
   noMargin = false,
   style,
+  variant = "text",
   ...props
 }: IconButtonProps) {
   const { colors } = useColorTheme()
@@ -32,13 +31,27 @@ export function IconButton({
     name === "More" ? (Platform.OS === "android" ? "EllipsisVertical" : "Ellipsis") : name
 
   const iconColor =
-    buttonColor === "primary" ? colors.primaryForeground : color ? color : colors.foreground
+    variant === "contained"
+      ? color === "primary"
+        ? colors.primaryForeground
+        : color === "secondary"
+        ? colors.mutedForeground
+        : color === "transparent"
+        ? colors.foreground
+        : readableColor(color as string)
+      : color === "primary"
+      ? colors.primary
+      : color === "secondary"
+      ? colors.mutedForeground
+      : color === "transparent"
+      ? colors.foreground
+      : color
 
   return (
     <View>
       <Button
-        variant={buttonColor ? "contained" : "text"}
-        color={buttonColor || "secondary"}
+        variant={variant}
+        color={color}
         style={[
           {
             paddingVertical: theme.styles.spacing.small,

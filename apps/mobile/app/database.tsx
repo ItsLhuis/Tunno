@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react"
 
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-
 import { useColorTheme } from "@hooks/useColorTheme"
 
 import { database, schema } from "@database/client"
 
 import { eq } from "drizzle-orm"
 
-import { ScrollView, View } from "react-native"
+import { theme } from "@styles/theme"
 
-import { Button, IconButton, Text, TextInput, toast } from "@components/ui"
-import { FlashList } from "@shopify/flash-list"
+import { Image, View } from "react-native"
+
+import { BackButton, FadingScreen } from "@components/navigation"
+import {
+  Button,
+  Header,
+  IconButton,
+  LargeHeader,
+  LargeHeaderSubtitle,
+  LegendListWithHeaders,
+  Text,
+  TextInput,
+  toast
+} from "@components/ui"
 
 export default function Artists() {
-  const insets = useSafeAreaInsets()
-
   const { colors } = useColorTheme()
 
   const [name, setName] = useState("")
@@ -97,56 +105,105 @@ export default function Artists() {
   }, [])
 
   return (
-    <ScrollView
-      contentContainerStyle={{ gap: 16, padding: 16, paddingTop: insets.top + 16 }}
-      showsVerticalScrollIndicator={false}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 8,
-          paddingBottom: 16,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.muted
-        }}
-      >
-        <Text variant="bold" size="xxLarge">
-          {artistList.length} artist(s)
-        </Text>
-        <Button title="Remove All" onPress={handleRemoveAll} />
-      </View>
-      <TextInput placeholder="Artist Name" value={name} onChangeText={setName} />
-      <View style={{ borderBottomWidth: 1, borderBottomColor: colors.muted, paddingBottom: 16 }}>
-        <Button
-          title="Add Artist"
-          containerStyle={{ marginLeft: "auto" }}
-          onPress={handleAddArtist}
-        />
-      </View>
-      <FlashList
-        data={artistList}
-        keyExtractor={(item) => item.id.toString()}
-        estimatedItemSize={60}
-        renderItem={({ item }) => (
-          <View
+    <FadingScreen style={{ flex: 1 }}>
+      <LegendListWithHeaders
+        HeaderComponent={({ scrollY, showHeader }) => (
+          <Header
+            scrollY={scrollY}
+            showHeader={showHeader}
+            headerLeft={<BackButton />}
+            headerCenter={
+              <Text variant="bold" size="large">
+                {artistList.length} artist(s)
+              </Text>
+            }
+            headerRight={<IconButton name="Trash" color="primary" onPress={handleRemoveAll} />}
+            headerRightFadesIn
+          />
+        )}
+        LargeHeaderComponent={() => (
+          <LargeHeader
             style={{
-              gap: 8,
-              paddingVertical: 8,
-              borderBottomWidth: 1,
-              borderBottomColor: colors.muted
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              gap: theme.styles.spacing.small
             }}
           >
-            <Text>{JSON.stringify(item, null, 2)}</Text>
-            <Button
-              title="Remove"
-              containerStyle={{ marginLeft: "auto" }}
-              onPress={() => handleRemoveArtist(item.id)}
+            <IconButton
+              name="Trash"
+              color="primary"
+              variant="contained"
+              noMargin
+              onPress={handleRemoveAll}
             />
+            <Text variant="bold" size="xxxLarge">
+              {artistList.length} artist(s)
+            </Text>
+          </LargeHeader>
+        )}
+        LargeHeaderSubtitleComponent={() => (
+          <LargeHeaderSubtitle style={{ gap: theme.styles.spacing.medium }}>
+            <TextInput
+              style={{ flex: 1 }}
+              placeholder="Artist Name"
+              value={name}
+              onChangeText={setName}
+            />
+            <IconButton name="Plus" onPress={handleAddArtist} />
+          </LargeHeaderSubtitle>
+        )}
+        contentContainerStyle={{
+          paddingHorizontal: theme.styles.spacing.large,
+          paddingBottom: theme.styles.spacing.large
+        }}
+        data={artistList}
+        recycleItems
+        keyExtractor={(item) => item.id.toString()}
+        estimatedItemSize={168}
+        getEstimatedItemSize={() => 168}
+        renderItem={({ item, index }) => (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              padding: theme.styles.spacing.medium,
+              borderRadius: theme.styles.borderRadius.xSmall,
+              backgroundColor: colors.secondary,
+              borderWidth: theme.styles.border.thin,
+              borderColor: colors.muted,
+              marginBottom:
+                index % 1 === 0 && index !== artistList.length - 1 ? theme.styles.spacing.medium : 0
+            }}
+          >
+            {item.thumbnail && (
+              <View style={{ marginRight: 16 }}>
+                <Image
+                  source={{ uri: item.thumbnail }}
+                  style={{ width: 64, height: 64, borderRadius: 8 }}
+                />
+              </View>
+            )}
+            <View style={{ flex: 1 }}>
+              <Text
+                variant="bold"
+                size="large"
+                style={{ marginBottom: theme.styles.spacing.xSmall }}
+              >
+                {item.name}
+              </Text>
+              <Text size="small" affects={["capitalize", "strikethrough"]}>
+                {item.releaseYear ? `Released: ${item.releaseYear}` : "Release year unknown"}
+              </Text>
+              <Text size="small">
+                {item.duration ? `Duration: ${item.duration} mins` : "Duration unknown"}
+              </Text>
+            </View>
+            <IconButton name="Trash" color="primary" onPress={() => handleRemoveArtist(item.id)} />
           </View>
         )}
       />
-    </ScrollView>
+    </FadingScreen>
   )
 }

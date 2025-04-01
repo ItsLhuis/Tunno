@@ -4,7 +4,9 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { theme } from "@styles/theme"
 
-import { View, type StyleProp, type ViewStyle } from "react-native"
+import { readableColor } from "polished"
+
+import { View, type ColorValue, type StyleProp, type ViewStyle } from "react-native"
 
 import { ActivityIndicator } from "./ActivityIndicator"
 import { Pressable, type PressableProps } from "./Pressable"
@@ -19,7 +21,7 @@ export type ButtonProps = PressableProps & {
   containerStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
   variant?: "contained" | "text"
-  color?: "primary" | "secondary" | "transparent"
+  color?: "primary" | "secondary" | "transparent" | ColorValue
   titleProps?: TextProps
   children?: ReactNode
 }
@@ -38,23 +40,29 @@ export function Button({
 }: ButtonProps) {
   const { colors } = useColorTheme()
 
-  const isContained = variant === "contained"
+  const backgroundColor =
+    variant === "contained"
+      ? color === "primary"
+        ? colors.primary
+        : color === "secondary"
+        ? colors.muted
+        : color
+      : "transparent"
 
-  const backgroundColor = isContained
-    ? color === "primary"
+  const textColor =
+    variant === "contained"
+      ? color === "primary"
+        ? colors.primaryForeground
+        : color === "secondary"
+        ? colors.mutedForeground
+        : color === "transparent"
+        ? colors.foreground
+        : readableColor(color as string)
+      : color === "primary"
       ? colors.primary
       : color === "secondary"
-      ? colors.muted
-      : "transparent"
-    : "transparent"
-
-  const textColor = isContained
-    ? color === "primary"
-      ? colors.primaryForeground
-      : colors.foreground
-    : color === "primary"
-    ? colors.primary
-    : colors.foreground
+      ? colors.mutedForeground
+      : color
 
   const indicatorColor = textColor
 

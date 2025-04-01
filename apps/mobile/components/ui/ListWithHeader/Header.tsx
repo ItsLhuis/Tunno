@@ -263,6 +263,7 @@ export function LargeHeaderSubtitle({ style, children }: LargeHeaderSubtitleProp
         {
           width: "100%",
           flexDirection: "row",
+          alignItems: "center",
           justifyContent: "space-between",
           paddingVertical: theme.styles.spacing.large
         },

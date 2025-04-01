@@ -124,7 +124,7 @@ export default function Songs() {
               >
                 <IconButton name="Plus" onPress={() => router.push("/database")} />
                 <FadingView opacity={showHeader}>
-                  <IconButton color={colors.primary} name="Shuffle" />
+                  <IconButton color="primary" name="Shuffle" />
                 </FadingView>
               </View>
             }
@@ -142,7 +142,7 @@ export default function Songs() {
                 gap: theme.styles.spacing.small
               }}
             >
-              <IconButton noMargin buttonColor="primary" name="Shuffle" />
+              <IconButton noMargin color="primary" variant="contained" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
                 {t("songs.title")}
               </Text>
@@ -159,7 +159,6 @@ export default function Songs() {
             />
           </LargeHeaderSubtitle>
         )}
-        automaticallyAdjustsScrollIndicatorInsets={false}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
         contentContainerStyle={{
           paddingHorizontal: theme.styles.spacing.large,
