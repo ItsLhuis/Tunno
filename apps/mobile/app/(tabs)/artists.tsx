@@ -13,12 +13,12 @@ import { useWindowDimensions, View } from "react-native"
 import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
+  FlashListWithHeaders,
   Header,
   Icon,
   IconButton,
   LargeHeader,
   LargeHeaderSubtitle,
-  LegendListWithHeaders,
   ListItemText,
   Pressable,
   SearchInput,
@@ -62,7 +62,7 @@ export default function Artists() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <LegendListWithHeaders
+      <FlashListWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
             scrollY={scrollY}
@@ -136,10 +136,8 @@ export default function Artists() {
             </Pressable>
           </Animated.View>
         )}
-        recycleItems
         keyExtractor={(item) => item.id}
         estimatedItemSize={itemSize + 32}
-        getEstimatedItemSize={() => itemSize + 32}
         ListEmptyComponent={
           <View
             style={{
@@ -148,7 +146,7 @@ export default function Artists() {
               alignItems: "center"
             }}
           >
-            <ActivityIndicator color={colors.primary} />
+            <ActivityIndicator />
           </View>
         }
       />

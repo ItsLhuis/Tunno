@@ -18,12 +18,12 @@ import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
   FadingView,
+  FlashListWithHeaders,
   Header,
   IconButton,
   Image,
   LargeHeader,
   LargeHeaderSubtitle,
-  LegendListWithHeaders,
   ListItemText,
   Pressable,
   SearchInput,
@@ -104,7 +104,7 @@ export default function Songs() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <LegendListWithHeaders
+      <FlashListWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
             scrollY={scrollY}
@@ -185,13 +185,14 @@ export default function Songs() {
                     borderRadius: theme.styles.borderRadius.xSmall,
                     borderColor: colors.muted,
                     borderWidth: theme.styles.border.thin,
-                    height: theme.styles.image.size.xLow,
-                    width: theme.styles.image.size.xLow
+                    height: theme.styles.image.size.medium,
+                    width: theme.styles.image.size.medium
                   }}
                   source={item.thumbnail}
                 />
                 <ListItemText
                   title={item.name}
+                  titleProps={{ numberOfLines: 1 }}
                   description={item.description}
                   descriptionProps={{ numberOfLines: 1 }}
                 />
@@ -200,10 +201,8 @@ export default function Songs() {
             </Pressable>
           </Animated.View>
         )}
-        recycleItems
         keyExtractor={(item) => item.id}
         estimatedItemSize={72}
-        getEstimatedItemSize={() => 72}
         ListEmptyComponent={
           <View
             style={{
@@ -212,7 +211,7 @@ export default function Songs() {
               alignItems: "center"
             }}
           >
-            <ActivityIndicator color={colors.primary} />
+            <ActivityIndicator />
           </View>
         }
       />

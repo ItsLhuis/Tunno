@@ -8,7 +8,7 @@ export const font = {
   size: {
     xxxLarge: 36,
     xxLarge: 28,
-    xLarge: 22,
+    xLarge: 20,
     large: 16,
     medium: 13,
     small: 12,

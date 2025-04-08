@@ -6,7 +6,7 @@ import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
-import { BottomSheet } from "../../ui/BottomSheet"
+import { BottomSheet } from "@components/ui/BottomSheet"
 
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet"
 

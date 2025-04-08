@@ -2,8 +2,7 @@ import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
-import { Image } from "../../ui/Image"
-import { ListItemText } from "../../ui/ListItemText"
+import { Image, ListItemText } from "@components/ui"
 
 import { PlaybackControls } from "./PlaybackControls"
 
@@ -20,7 +19,7 @@ export function TrackInfo() {
     >
       <Image
         style={{
-          width: theme.styles.image.size.low,
+          width: theme.styles.image.size.large,
           aspectRatio: 1,
           borderRadius: theme.styles.borderRadius.xSmall
         }}

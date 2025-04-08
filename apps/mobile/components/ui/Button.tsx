@@ -6,7 +6,7 @@ import { theme } from "@styles/theme"
 
 import { readableColor } from "polished"
 
-import { View, type ColorValue, type StyleProp, type ViewStyle } from "react-native"
+import { View, type StyleProp, type ViewStyle } from "react-native"
 
 import { ActivityIndicator } from "./ActivityIndicator"
 import { Pressable, type PressableProps } from "./Pressable"
@@ -21,7 +21,7 @@ export type ButtonProps = PressableProps & {
   containerStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
   variant?: "contained" | "text"
-  color?: "primary" | "secondary" | "transparent" | ColorValue
+  color?: "primary" | "secondary" | "transparent" | (string & {})
   titleProps?: TextProps
   children?: ReactNode
 }
@@ -62,6 +62,8 @@ export function Button({
       ? colors.primary
       : color === "secondary"
       ? colors.mutedForeground
+      : color === "transparent"
+      ? colors.foreground
       : color
 
   const indicatorColor = textColor
@@ -72,11 +74,11 @@ export function Button({
     opacity.value = withTiming(isLoading ? 0 : 1, { duration: 300 })
   }, [isLoading])
 
-  const animatedTextStyle = useAnimatedStyle(() => ({
+  const textStyle = useAnimatedStyle(() => ({
     opacity: opacity.value
   }))
 
-  const animatedIndicatorStyle = useAnimatedStyle(() => ({
+  const indicatorStyle = useAnimatedStyle(() => ({
     opacity: 1 - opacity.value
   }))
 
@@ -101,7 +103,7 @@ export function Button({
         disabled={disabled || isLoading}
         {...props}
       >
-        <Animated.View style={animatedTextStyle}>
+        <Animated.View style={textStyle}>
           {children ? (
             children
           ) : (
@@ -116,7 +118,7 @@ export function Button({
         </Animated.View>
         <Animated.View
           style={[
-            animatedIndicatorStyle,
+            indicatorStyle,
             {
               position: "absolute",
               top: 0,

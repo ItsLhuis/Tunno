@@ -27,9 +27,22 @@ import * as SystemUI from "expo-system-ui"
 
 import * as SplashScreen from "expo-splash-screen"
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      retry: 1
+    }
+  }
+})
+
 import { DarkTheme, DefaultTheme, ThemeProvider, type Theme } from "@react-navigation/native"
 
 import { GestureHandlerRootView } from "react-native-gesture-handler"
+
+import { KeyboardProvider } from "react-native-keyboard-controller"
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
@@ -107,19 +120,23 @@ export default function RootLayout() {
   if (isAppThemeChanging || !isAppReady) return null
 
   return (
-    <ThemeProvider value={theme}>
-      <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
-        <BottomSheetModalProvider>
-          <SystemBars style="auto" />
-          <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="database" options={{ headerShown: false }} />
-            </Stack>
-          </View>
-          <Toaster />
-        </BottomSheetModalProvider>
-      </GestureHandlerRootView>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={theme}>
+        <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
+          <KeyboardProvider>
+            <BottomSheetModalProvider>
+              <SystemBars style="auto" />
+              <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
+                <Stack>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="database" options={{ headerShown: false }} />
+                </Stack>
+              </View>
+              <Toaster />
+            </BottomSheetModalProvider>
+          </KeyboardProvider>
+        </GestureHandlerRootView>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }

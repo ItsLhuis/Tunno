@@ -14,16 +14,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useScroll } from "./hooks"
 
-import { Dimensions, View } from "react-native"
+import { View } from "react-native"
 
 import { type LegendListProps } from "@legendapp/list"
 import { AnimatedLegendList } from "@legendapp/list/reanimated"
 
 import { FadingView } from "../FadingView"
 
-import Animated, { AnimatedProps, FadeIn, useAnimatedRef } from "react-native-reanimated"
+import { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
 
-import type { SharedScrollContainerProps } from "./types"
+import { type SharedScrollContainerProps } from "./types"
 
 type AnimatedLegendListType<ItemT> = ComponentProps<
   ComponentClass<AnimatedProps<LegendListProps<ItemT>>, any>
@@ -60,7 +60,7 @@ const LegendListWithHeadersComp = <ItemT extends any = any>(
     scrollIndicatorInsets = {},
     data,
     ListEmptyComponent,
-    drawDistance,
+    ListFooterComponent,
     ...props
   }: LegendListWithHeadersProps<ItemT>,
   ref: Ref<LegendListProps<ItemT>>
@@ -115,7 +115,7 @@ const LegendListWithHeadersComp = <ItemT extends any = any>(
         // @ts-ignore
         data={data}
         scrollEnabled={
-          Array.isArray(data)
+          listHeight !== 0 && Array.isArray(data)
             ? data.length > 0
             : data && "value" in data && Array.isArray(data.value) && data.value.length > 0
             ? true
@@ -182,10 +182,7 @@ const LegendListWithHeadersComp = <ItemT extends any = any>(
         }
         ListEmptyComponent={
           listHeight !== 0 ? (
-            <Animated.View
-              entering={FadeIn}
-              style={{ height: listHeight - headerListHeight - insets.top }}
-            >
+            <View style={{ height: listHeight - headerListHeight - insets.top }}>
               {ListEmptyComponent ? (
                 typeof ListEmptyComponent === "function" ? (
                   <ListEmptyComponent />
@@ -193,11 +190,20 @@ const LegendListWithHeadersComp = <ItemT extends any = any>(
                   ListEmptyComponent
                 ) : null
               ) : null}
-            </Animated.View>
+            </View>
           ) : null
         }
-        // @ts-ignore
-        drawDistance={drawDistance || Dimensions.get("screen").height}
+        ListFooterComponent={
+          <View onLayout={(event) => setListHeight(listHeight - event.nativeEvent.layout.height)}>
+            {ListFooterComponent ? (
+              typeof ListFooterComponent === "function" ? (
+                <ListFooterComponent />
+              ) : isValidElement(ListFooterComponent) ? (
+                ListFooterComponent
+              ) : null
+            ) : null}
+          </View>
+        }
         {...props}
       />
       {absoluteHeader && (

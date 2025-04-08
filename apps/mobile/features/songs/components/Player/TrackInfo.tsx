@@ -2,9 +2,7 @@ import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
-import { IconButton } from "../../ui/IconButton"
-import { Image } from "../../ui/Image"
-import { ListItemText } from "../../ui/ListItemText"
+import { IconButton, Image, ListItemText } from "@components/ui"
 
 export function TrackInfo() {
   return (

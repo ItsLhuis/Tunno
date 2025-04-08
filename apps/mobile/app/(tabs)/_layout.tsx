@@ -12,7 +12,7 @@ import { Tabs } from "expo-router"
 
 import { View } from "react-native"
 
-import { BottomPlayer, Player } from "@components/navigation"
+import { BottomPlayer, Player } from "@features/songs/components"
 import { FadingView, Icon, Pressable, Text } from "@components/ui"
 
 import { useSharedValue, withTiming } from "react-native-reanimated"

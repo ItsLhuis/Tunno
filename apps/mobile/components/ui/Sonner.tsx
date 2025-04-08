@@ -4,6 +4,10 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { theme } from "@styles/theme"
 
+import { useKeyboardAnimation } from "react-native-keyboard-controller"
+
+import { Animated } from "react-native"
+
 import { ActivityIndicator } from "@components/ui/ActivityIndicator"
 import { Icon } from "@components/ui/Icon"
 
@@ -14,13 +18,14 @@ type ToasterProps = ComponentProps<typeof Sonner>
 const Toaster = ({ ...props }: ToasterProps) => {
   const { appTheme, colors } = useColorTheme()
 
+  const { height } = useKeyboardAnimation()
+
   return (
     <Sonner
       theme={appTheme as ToasterProps["theme"]}
       icons={{
         loading: (
           <ActivityIndicator
-            color={colors.primary}
             size={theme.styles.icon.size.large}
             style={{ alignSelf: "flex-start" }}
           />
@@ -34,7 +39,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
         ),
         error: <Icon name="CircleAlert" color={colors.error} size={theme.styles.icon.size.large} />
       }}
+      ToasterOverlayWrapper={({ children }) => (
+        <Animated.View style={{ transform: [{ translateY: height }] }}>{children}</Animated.View>
+      )}
+      gap={theme.styles.spacing.small}
       toastOptions={{
+        toastContainerStyle: {
+          zIndex: theme.styles.zIndex.high
+        },
         style: {
           backgroundColor: colors.background,
           borderWidth: theme.styles.border.thin,

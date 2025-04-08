@@ -10,18 +10,22 @@ import { theme } from "@styles/theme"
 
 import { Image, View } from "react-native"
 
+import LottieView from "lottie-react-native"
+
 import { BackButton, FadingScreen } from "@components/navigation"
 import {
   Button,
+  FlashListWithHeaders,
   Header,
   IconButton,
   LargeHeader,
   LargeHeaderSubtitle,
-  LegendListWithHeaders,
   Text,
   TextInput,
   toast
 } from "@components/ui"
+
+import Animated, { FadeIn } from "react-native-reanimated"
 
 export default function Artists() {
   const { colors } = useColorTheme()
@@ -106,7 +110,7 @@ export default function Artists() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <LegendListWithHeaders
+      <FlashListWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
             scrollY={scrollY}
@@ -159,12 +163,10 @@ export default function Artists() {
           paddingBottom: theme.styles.spacing.large
         }}
         data={artistList}
-        recycleItems
-        keyExtractor={(item) => item.id.toString()}
-        estimatedItemSize={168}
-        getEstimatedItemSize={() => 168}
+        extraData={artistList}
         renderItem={({ item, index }) => (
-          <View
+          <Animated.View
+            entering={FadeIn}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -177,23 +179,26 @@ export default function Artists() {
                 index % 1 === 0 && index !== artistList.length - 1 ? theme.styles.spacing.medium : 0
             }}
           >
-            {item.thumbnail && (
-              <View style={{ marginRight: 16 }}>
-                <Image
-                  source={{ uri: item.thumbnail }}
-                  style={{ width: 64, height: 64, borderRadius: 8 }}
-                />
-              </View>
-            )}
-            <View style={{ flex: 1 }}>
+            <Image
+              source={{
+                uri: "https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?cs=tinysrgb&w=2400&h=1200"
+              }}
+              style={{
+                width: theme.styles.image.size.large,
+                height: theme.styles.image.size.large,
+                borderRadius: theme.styles.borderRadius.xSmall
+              }}
+            />
+            <View style={{ flex: 1, marginHorizontal: theme.styles.spacing.small }}>
               <Text
                 variant="bold"
-                size="large"
+                size="xLarge"
                 style={{ marginBottom: theme.styles.spacing.xSmall }}
+                numberOfLines={1}
               >
                 {item.name}
               </Text>
-              <Text size="small" affects={["capitalize", "strikethrough"]}>
+              <Text size="medium" affects={["muted", "capitalize", "strikethrough"]}>
                 {item.releaseYear ? `Released: ${item.releaseYear}` : "Release year unknown"}
               </Text>
               <Text size="small">
@@ -201,8 +206,26 @@ export default function Artists() {
               </Text>
             </View>
             <IconButton name="Trash" color="primary" onPress={() => handleRemoveArtist(item.id)} />
-          </View>
+          </Animated.View>
         )}
+        keyExtractor={(item) => item.id.toString()}
+        estimatedItemSize={130}
+        ListEmptyComponent={
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <LottieView
+              autoPlay
+              loop
+              source={require("@assets/lotties/Load.json")}
+              style={{ width: "100%", height: "100%", maxHeight: theme.styles.image.size.xLarge }}
+            />
+          </View>
+        }
       />
     </FadingScreen>
   )

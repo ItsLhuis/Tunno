@@ -13,12 +13,12 @@ import { View } from "react-native"
 import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
+  FlashListWithHeaders,
   Header,
   Icon,
   IconButton,
   LargeHeader,
   LargeHeaderSubtitle,
-  LegendListWithHeaders,
   ListItemText,
   Pressable,
   SearchInput,
@@ -51,7 +51,7 @@ export default function Favorites() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <LegendListWithHeaders
+      <FlashListWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
             scrollY={scrollY}
@@ -61,7 +61,7 @@ export default function Favorites() {
                 {t("favorites.title")}
               </Text>
             }
-            headerLeft={<IconButton color={colors.primary} name="Shuffle" />}
+            headerLeft={<IconButton color="primary" name="Shuffle" />}
             headerLeftFadesIn
             headerRight={<IconButton name="More" />}
             headerRightFadesIn
@@ -77,7 +77,7 @@ export default function Favorites() {
                 gap: theme.styles.spacing.small
               }}
             >
-              <IconButton noMargin buttonColor="primary" name="Shuffle" />
+              <IconButton noMargin color="primary" variant="contained" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
                 {t("favorites.title")}
               </Text>
@@ -125,10 +125,8 @@ export default function Favorites() {
             </Pressable>
           </Animated.View>
         )}
-        recycleItems
         keyExtractor={(item) => item.id}
         estimatedItemSize={72}
-        getEstimatedItemSize={() => 72}
         ListEmptyComponent={
           <View
             style={{
@@ -137,7 +135,7 @@ export default function Favorites() {
               alignItems: "center"
             }}
           >
-            <ActivityIndicator color={colors.primary} />
+            <ActivityIndicator />
           </View>
         }
       />

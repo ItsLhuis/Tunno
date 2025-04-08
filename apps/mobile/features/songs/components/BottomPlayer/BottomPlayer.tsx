@@ -8,8 +8,7 @@ import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
-import { FadingView } from "../../ui/FadingView"
-import { Pressable } from "../../ui/Pressable"
+import { FadingView, Pressable } from "@components/ui"
 
 import { PlaybackProgress } from "./PlaybackProgress"
 import { TrackInfo } from "./TrackInfo"

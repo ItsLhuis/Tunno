@@ -46,7 +46,7 @@ export default function Settings() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <Text style={{ marginTop: insets.top + theme.styles.spacing.large }}>
+      {/* <Text style={{ marginTop: insets.top + theme.styles.spacing.large }}>
         {t("settings.title")}
       </Text>
       <Image
@@ -57,8 +57,8 @@ export default function Settings() {
       <Button title="Spanish" onPress={() => setLanguage("es")} />
       <Button title="French" onPress={() => setLanguage("fr")} />
       <Button title="Portuguese" onPress={() => setLanguage("pt")} />
-      <Button title="Chinese" onPress={() => setLanguage("zh")} />
-      {/* <ScrollViewWithHeaders
+      <Button title="Chinese" onPress={() => setLanguage("zh")} /> */}
+      <ScrollViewWithHeaders
         HeaderComponent={({ showHeader }) => (
           <Header
             showHeader={showHeader}
@@ -70,21 +70,24 @@ export default function Settings() {
           />
         )}
         LargeHeaderComponent={() => (
-          <LargeHeader style={{ paddingBottom: spacing.small }}>
+          <LargeHeader style={{ paddingBottom: theme.styles.spacing.small }}>
             <Text variant="bold" size="xxxLarge" numberOfLines={1}>
               Settings
             </Text>
           </LargeHeader>
         )}
         automaticallyAdjustsScrollIndicatorInsets={false}
-        contentContainerStyle={{ paddingHorizontal: spacing.large, paddingBottom: insets.bottom }}
+        contentContainerStyle={{
+          paddingHorizontal: theme.styles.spacing.large,
+          paddingBottom: insets.bottom
+        }}
       >
-        <View style={{ paddingTop: spacing.medium, gap: spacing.large }}>
+        <View style={{ paddingTop: theme.styles.spacing.medium, gap: theme.styles.spacing.large }}>
           {data.map((item) => (
             <SettingButton key={item.id} title={item.title} description={item.description} />
           ))}
         </View>
-      </ScrollViewWithHeaders> */}
+      </ScrollViewWithHeaders>
     </FadingScreen>
   )
 }

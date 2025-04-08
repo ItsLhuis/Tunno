@@ -47,3 +47,16 @@ type BaseQueryResult<
     with: With
   }
 >
+
+export type InferDynamicQueryModel<
+  TableName extends keyof TablesWithRelations,
+  With extends IncludeRelation<TableName> | undefined = undefined,
+  Columns extends IncludeColumns<TableName> | undefined = undefined
+> = BuildQueryResult<
+  TablesWithRelations,
+  TablesWithRelations[TableName],
+  {
+    columns: Columns;
+    with: With;
+  }
+>;

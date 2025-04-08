@@ -36,7 +36,7 @@ export function Text({
 
   const getAffectStyles = () => {
     const affectStyles: AffectStylesMap = {
-      muted: { color: colors.muted },
+      muted: { color: colors.mutedForeground },
       uppercase: { textTransform: "uppercase" },
       underline: { textDecorationLine: "underline" },
       strikethrough: { textDecorationLine: "line-through" },

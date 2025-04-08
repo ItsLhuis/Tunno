@@ -20,9 +20,9 @@ import { FlashList, type FlashListProps } from "@shopify/flash-list"
 
 import { FadingView } from "../FadingView"
 
-import Animated, { AnimatedProps, FadeIn, useAnimatedRef } from "react-native-reanimated"
+import Animated, { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
 
-import type { SharedScrollContainerProps } from "./types"
+import { type SharedScrollContainerProps } from "./types"
 
 type AnimatedFlashListType<ItemT> = ComponentProps<
   ComponentClass<AnimatedProps<FlashListProps<ItemT>>, any>
@@ -65,6 +65,7 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
     inverted,
     data,
     ListEmptyComponent,
+    ListFooterComponent,
     ...props
   }: FlashListWithHeadersProps<ItemT>,
   ref: Ref<FlashList<ItemT>>
@@ -124,7 +125,7 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
         onLayout={(event) => setListHeight(event.nativeEvent.layout.height)}
         data={data}
         scrollEnabled={
-          Array.isArray(data)
+          listHeight !== 0 && Array.isArray(data)
             ? data.length > 0
             : data && "value" in data && Array.isArray(data.value) && data.value.length > 0
             ? true
@@ -190,10 +191,7 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
         }
         ListEmptyComponent={
           listHeight !== 0 ? (
-            <Animated.View
-              entering={FadeIn}
-              style={{ height: listHeight - headerListHeight - insets.top }}
-            >
+            <View style={{ height: listHeight - headerListHeight - insets.top }}>
               {ListEmptyComponent ? (
                 typeof ListEmptyComponent === "function" ? (
                   <ListEmptyComponent />
@@ -201,8 +199,19 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
                   ListEmptyComponent
                 ) : null
               ) : null}
-            </Animated.View>
+            </View>
           ) : null
+        }
+        ListFooterComponent={
+          <View onLayout={(event) => setListHeight(listHeight - event.nativeEvent.layout.height)}>
+            {ListFooterComponent ? (
+              typeof ListFooterComponent === "function" ? (
+                <ListFooterComponent />
+              ) : isValidElement(ListFooterComponent) ? (
+                ListFooterComponent
+              ) : null
+            ) : null}
+          </View>
         }
         inverted={inverted}
         estimatedListSize={{

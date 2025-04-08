@@ -14,12 +14,12 @@ import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
   FadingView,
+  FlashListWithHeaders,
   Header,
   Icon,
   IconButton,
   LargeHeader,
   LargeHeaderSubtitle,
-  LegendListWithHeaders,
   ListItemText,
   Pressable,
   SearchInput,
@@ -63,7 +63,7 @@ export default function Playlists() {
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <LegendListWithHeaders
+      <FlashListWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
             scrollY={scrollY}
@@ -83,7 +83,7 @@ export default function Playlists() {
               >
                 <IconButton name="Plus" onPress={() => router.push("/database")} />
                 <FadingView opacity={showHeader}>
-                  <IconButton color={colors.primary} name="Shuffle" />
+                  <IconButton color="primary" name="Shuffle" />
                 </FadingView>
               </View>
             }
@@ -101,7 +101,7 @@ export default function Playlists() {
                 gap: theme.styles.spacing.small
               }}
             >
-              <IconButton noMargin buttonColor="primary" name="Shuffle" />
+              <IconButton noMargin color="primary" variant="contained" name="Shuffle" />
               <Text variant="bold" size="xxxLarge" numberOfLines={1} style={{ flex: 1 }}>
                 {t("playlists.title")}
               </Text>
@@ -160,10 +160,8 @@ export default function Playlists() {
             </Pressable>
           </Animated.View>
         )}
-        recycleItems
         keyExtractor={(item) => item.id}
         estimatedItemSize={itemSize + 32}
-        getEstimatedItemSize={() => itemSize + 32}
         ListEmptyComponent={
           <View
             style={{
@@ -172,7 +170,7 @@ export default function Playlists() {
               alignItems: "center"
             }}
           >
-            <ActivityIndicator color={colors.primary} />
+            <ActivityIndicator />
           </View>
         }
       />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { Slider } from "../../ui/Slider"
+import { Slider } from "@components/ui"
 
 export function PlaybackProgress() {
   const [value, setValue] = useState(0)

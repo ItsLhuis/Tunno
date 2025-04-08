@@ -1,11 +1,13 @@
 export const styles = {
   image: {
     size: {
-      xLarge: 640,
-      large: 304,
-      medium: 154,
-      low: 80,
-      xLow: 56
+      xxLarge: 640,
+      xLarge: 240,
+      large: 80,
+      medium: 56,
+      small: 36,
+      xSmall: 20,
+      xxSmall: 12
     }
   },
   icon: {

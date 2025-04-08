@@ -4,8 +4,7 @@ import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
-import { Slider } from "../../ui/Slider"
-import { Text } from "../../ui/Text"
+import { Slider, Text } from "@components/ui"
 
 export function PlaybackProgress() {
   const { colors } = useColorTheme()

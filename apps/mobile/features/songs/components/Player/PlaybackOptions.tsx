@@ -1,6 +1,6 @@
 import { View } from "react-native"
 
-import { IconButton } from "../../ui/IconButton"
+import { IconButton } from "@components/ui"
 
 export function PlaybackOptions() {
   return (

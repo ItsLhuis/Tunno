@@ -21,6 +21,7 @@ export function IconButton({
   color = "transparent",
   size,
   noMargin = false,
+  containerStyle,
   style,
   variant = "text",
   ...props
@@ -52,11 +53,11 @@ export function IconButton({
       <Button
         variant={variant}
         color={color}
+        containerStyle={[{ margin: noMargin ? 0 : -theme.styles.spacing.small }, containerStyle]}
         style={[
           {
             paddingVertical: theme.styles.spacing.small,
             paddingHorizontal: theme.styles.spacing.small,
-            margin: noMargin ? 0 : -theme.styles.spacing.small,
             borderRadius: theme.styles.borderRadius.round
           },
           style

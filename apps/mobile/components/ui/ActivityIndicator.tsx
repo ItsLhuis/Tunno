@@ -17,6 +17,8 @@ export function ActivityIndicator({
 }: ActivityIndicatorProps) {
   const { colors } = useColorTheme()
 
-  return <RNActivityIndicator size={size} color={color || colors.foreground} style={style} {...props} />
+  return (
+    <RNActivityIndicator size={size} color={color || colors.primary} style={style} {...props} />
+  )
 }
 ActivityIndicator.displayName = "ActivityIndicator"

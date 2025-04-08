@@ -4,8 +4,7 @@ import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
-import { Icon } from "../../ui/Icon"
-import { Slider } from "../../ui/Slider"
+import { Icon, Slider } from "@components/ui"
 
 export function PlaybackVolumeControl() {
   const { colors } = useColorTheme()
