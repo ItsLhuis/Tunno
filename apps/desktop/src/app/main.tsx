@@ -6,9 +6,22 @@ import ReactDOM from "react-dom/client"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import { ThemeProvider } from "@contexts/ThemeContext"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
+
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      retry: 1
+    }
+  }
+})
+
+import { ThemeProvider } from "@contexts/ThemeContext"
 
 import App from "./App"
 
@@ -35,10 +48,13 @@ const Main = () => {
   }, [hasHydrated])
 
   return (
-    <ThemeProvider>
-      <App />
-      <Toaster />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <App />
+        <Toaster />
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }
 

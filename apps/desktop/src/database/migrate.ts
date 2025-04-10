@@ -1,5 +1,5 @@
-import { readDir, readTextFile } from "@tauri-apps/plugin-fs"
 import { resourceDir } from "@tauri-apps/api/path"
+import { readDir, readTextFile } from "@tauri-apps/plugin-fs"
 
 import { getSQLiteDatabase } from "./client"
 
@@ -41,9 +41,7 @@ export async function migrate(): Promise<void> {
     )) as unknown as { id: number; hash: string; created_at: number }[]
 
     const hasBeenRun = (hash: string) =>
-      dbMigrations.find((dbMigration) => {
-        return dbMigration?.hash === hash
-      })
+      dbMigrations.find((dbMigration) => dbMigration?.hash === hash)
 
     if (hash && hasBeenRun(hash) === undefined) {
       const sql = await readTextFile(`${resourcePath}/migrations/${migration.name}`)
@@ -56,5 +54,6 @@ export async function migrate(): Promise<void> {
     }
   }
 
+  await sqlite.close()
   return Promise.resolve()
 }

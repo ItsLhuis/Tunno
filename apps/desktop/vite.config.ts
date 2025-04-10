@@ -34,11 +34,13 @@ export default defineConfig(async () => ({
   resolve: {
     alias: {
       "@": root,
+      "@api": path.resolve(root, "api/"),
       "@app": path.resolve(root, "app/"),
       "@assets": path.resolve(root, "assets/"),
       "@components": path.resolve(root, "components/"),
       "@contexts": path.resolve(root, "contexts/"),
       "@database": path.resolve(root, "database/"),
+      "@features": path.resolve(root, "features/"),
       "@hooks": path.resolve(root, "hooks/"),
       "@i18n": path.resolve(root, "i18n/"),
       "@lib": path.resolve(root, "lib/"),

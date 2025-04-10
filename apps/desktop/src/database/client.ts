@@ -1,38 +1,14 @@
 import Database from "@tauri-apps/plugin-sql"
-import { drizzle } from "drizzle-orm/sqlite-proxy"
+import { drizzle } from "./driver"
 
 import * as schema from "./schema"
-export { schema }
 
-export { type InferQueryModel } from "./helpers"
+import { type InferQueryModel } from "./helpers"
 
-export const databaseName = "database.db"
+const databaseName = "database.db"
 
-export const getSQLiteDatabase = async () => await Database.load(`sqlite:${databaseName}`)
+const getSQLiteDatabase = async () => await Database.load(`sqlite:${databaseName}`)
 
-export const database = drizzle<typeof schema>(
-  async (sql, params, method) => {
-    const sqlite = await getSQLiteDatabase()
+const database = drizzle(databaseName, { schema })
 
-    let rows: any = []
-    let results = []
-
-    if (isSelectQuery(sql)) {
-      rows = await sqlite.select(sql, params).catch(() => [])
-    } else {
-      rows = await sqlite.execute(sql, params).catch(() => [])
-      return { rows: [] }
-    }
-
-    rows = rows.map((row: any) => Object.values(row))
-
-    results = method === "all" ? rows : rows[0]
-
-    return { rows: results }
-  },
-  { schema: schema }
-)
-
-function isSelectQuery(sql: string): boolean {
-  return sql.trim().toLowerCase().startsWith("select")
-}
+export { database, databaseName, getSQLiteDatabase, schema, type InferQueryModel }
