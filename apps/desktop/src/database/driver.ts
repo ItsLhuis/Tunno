@@ -36,8 +36,24 @@ function extractReturningColumns(sql: string): string {
 }
 
 function isSelectQuery(sql: string): boolean {
-  const selectRegex = /^\s*SELECT\b/i
-  return selectRegex.test(sql)
+  return /^\s*SELECT\b/i.test(sql)
+}
+
+function isInsertQuery(sql: string): boolean {
+  return /^\s*INSERT\b/i.test(sql)
+}
+
+function isUpdateQuery(sql: string): boolean {
+  return /^\s*UPDATE\b/i.test(sql)
+}
+
+function isDeleteQuery(sql: string): boolean {
+  return /^\s*DELETE\b/i.test(sql)
+}
+
+function extractWhereClause(sql: string): string | null {
+  const matches = sql.match(/WHERE\s+(.*?)(?:;|\s*$)/i)
+  return matches ? matches[1] : null
 }
 
 export const getSQLiteDatabase = async (name: string): Promise<Database> =>
@@ -50,7 +66,7 @@ function processResults(results: any[]): any[] {
     if (Array.isArray(row)) return row
 
     if (typeof row === "object" && row !== null) {
-      return row
+      return Object.values(row)
     }
 
     return [row]
@@ -65,61 +81,69 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
     try {
       const sqlite = await getSQLiteDatabase(databaseName)
 
-      let rows: any[] = []
-      let results = []
-
       queryContext.lastQuery = sql
       queryContext.lastParams = params
       queryContext.lastMethod = method
       queryContext.isReturningQuery = isReturningQuery(sql)
+      queryContext.tableName = extractTableName(sql)
+
+      let result: any[] = []
 
       if (queryContext.isReturningQuery) {
-        queryContext.tableName = extractTableName(sql)
         queryContext.returningColumns = extractReturningColumns(sql)
-
         const cleanSql = sql.replace(/\s+RETURNING\s+.*?(?:;|\s*$)/i, "")
 
-        if (isSelectQuery(cleanSql)) {
-          rows = await sqlite.select(cleanSql, params)
-        } else {
-          if (cleanSql.toUpperCase().startsWith("INSERT")) {
-            const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE rowid = last_insert_rowid()`
-            const result: any[] = await sqlite.select(selectSql)
-            rows = processResults(result)
-          } else if (cleanSql.toUpperCase().startsWith("UPDATE") && queryContext.tableName) {
-            const whereClause = cleanSql.match(/WHERE\s+(.*?)(?:;|\s*$)/i)
-            if (whereClause && whereClause[1]) {
-              const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause[1]}`
-              const result: any[] = await sqlite.select(selectSql)
-              rows = processResults(result)
-            }
-          } else if (cleanSql.toUpperCase().startsWith("DELETE") && queryContext.tableName) {
-            const whereClause = cleanSql.match(/WHERE\s+(.*?)(?:;|\s*$)/i)
-            if (whereClause && whereClause[1]) {
-              const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause[1]}`
-              const result: any[] = await sqlite.select(selectSql)
-              rows = processResults(result)
-            }
+        if (isInsertQuery(cleanSql)) {
+          await sqlite.execute(cleanSql, params)
+
+          const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE rowid = last_insert_rowid()`
+          result = await sqlite.select(selectSql)
+        } else if (isUpdateQuery(cleanSql) && queryContext.tableName) {
+          await sqlite.execute(cleanSql, params)
+
+          const whereClause = extractWhereClause(cleanSql)
+          if (whereClause) {
+            const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause}`
+            result = await sqlite.select(selectSql)
+          }
+        } else if (isDeleteQuery(cleanSql) && queryContext.tableName) {
+          const whereClause = extractWhereClause(cleanSql)
+          if (whereClause) {
+            const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause}`
+            result = await sqlite.select(selectSql)
           }
 
           await sqlite.execute(cleanSql, params)
+        } else if (isSelectQuery(cleanSql)) {
+          result = await sqlite.select(cleanSql, params)
         }
       } else {
         if (isSelectQuery(sql)) {
-          rows = await sqlite.select(sql, params)
+          result = await sqlite.select(sql, params)
         } else {
           await sqlite.execute(sql, params)
-          rows = []
+
+          if (isInsertQuery(sql) && queryContext.tableName) {
+            const lastIdResult = await sqlite.select("SELECT last_insert_rowid() as id")
+            if (
+              lastIdResult &&
+              Array.isArray(lastIdResult) &&
+              lastIdResult.length > 0 &&
+              "id" in lastIdResult[0]
+            ) {
+              result = [{ id: lastIdResult[0].id }]
+            }
+          } else {
+            result = []
+          }
         }
       }
 
-      rows = rows.map((row: any) => {
-        return Object.values(row)
-      })
+      const processedRows = processResults(result)
 
-      results = method === "all" ? rows : rows[0]
+      const finalResult = method === "all" ? processedRows : processedRows[0] || []
 
-      return { rows: results }
+      return { rows: finalResult }
     } catch (error) {
       throw new Error(error as string)
     }
