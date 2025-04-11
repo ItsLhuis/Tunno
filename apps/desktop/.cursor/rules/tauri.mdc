@@ -1,0 +1,82 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Tauri Development Best Practices
+
+## General Guidelines
+
+- Use TypeScript for frontend code and Rust for backend tasks, ensuring a clear separation of concerns.
+- Follow the latest versions of Tauri, Rust, and associated libraries to ensure up-to-date features and security.
+- Structure your application to make full use of Tauri's cross-platform capabilities, ensuring compatibility with Windows, macOS, and Linux.
+- Always refer to tauri documentation
+
+## Code Quality & Practices
+
+- Always use clean, readable, and maintainable code.
+- Implement consistent naming conventions in both Rust and TypeScript.
+- Use Rust for performance-critical tasks and TypeScript/React for UI and interaction.
+- Utilize Rust for interacting with system resources, networking, or computationally intensive tasks.
+- Avoid unnecessary complexity—ensure simplicity and clarity in both Rust and TypeScript code.
+- Use proper error handling and logging in both Rust (using `log`) and TypeScript (using `console.log`).
+- Minimize the use of unsafe Rust, preferring safe abstractions when possible.
+- Follow Rust's ownership, borrowing, and lifetime rules strictly to ensure safe and efficient memory management.
+- Write modular and reusable code, especially in Rust, using traits and structs to encapsulate behavior.
+
+## Code Style
+
+- Maintain consistent whitespace and indentation throughout the codebase. Use 2 or 4 spaces for indentation based on your team's preference.
+- Avoid mixing tabs and spaces for indentation. Stick to one style throughout the project.
+- Always use semicolons in TypeScript for clarity, even when they are optional.
+- Keep lines of code under 80-100 characters to improve readability and prevent horizontal scrolling.
+- Use meaningful variable and function names that describe their purpose or behavior clearly. Avoid abbreviations unless they are widely recognized.
+- Break down large functions into smaller, reusable units to maintain clarity and readability.
+- Always explain complex logic or non-obvious code with comments. Avoid over-commenting obvious code, but explain tricky or critical sections thoroughly.
+- Avoid redundant comments. The code should be self-explanatory wherever possible.
+- Group related functions and types together logically, and consider separating them into distinct files if the file size becomes too large.
+- Prefer `const` and `let` over `var` to declare variables, following modern JavaScript best practices.
+- Ensure that code is properly formatted before committing by using automated formatting tools (e.g., `prettier` for TypeScript and `rustfmt` for Rust).
+- Use destructuring where appropriate to make your code cleaner and more concise (e.g., in function arguments or array/objects).
+- Use `async/await` consistently for asynchronous operations, and avoid callbacks in favor of modern syntax.
+- Maintain a clear distinction between frontend (React/TypeScript) and backend (Rust) code, following the separation of concerns.
+- Use type annotations and interfaces in TypeScript to enforce type safety and improve code clarity.
+- When working with third-party libraries or modules, ensure they are well-documented and used consistently across the project.
+- Use Rust’s pattern matching and enums wherever applicable to reduce boilerplate and enhance code clarity.
+- Use explicit type casting or conversion methods in both Rust and TypeScript to avoid ambiguity and improve clarity.
+- Organize imports in a clear and consistent order, grouping them logically (e.g., first standard libraries, then external libraries, then internal imports).
+
+## Security
+
+- Use Tauri's built-in security features to ensure your application is safe by default.
+- Avoid using any insecure methods for file system access, and follow best practices for sandboxing.
+- Always ensure that sensitive data (e.g., user credentials) is never hard-coded or stored insecurely.
+- Be cautious with external dependencies—use only well-maintained libraries from trusted sources.
+- Validate inputs and outputs rigorously to prevent injection attacks and other security risks.
+
+## Integration Between Tauri, Rust, and React
+
+- Ensure seamless communication between the Rust backend and the TypeScript frontend using Tauri’s API.
+- Use Tauri’s `invoke` and `listen` functions to interact between the frontend and backend, maintaining clear, organized communication.
+- Follow the correct usage of Tauri’s IPC (inter-process communication) to avoid deadlocks and ensure smooth data flow.
+- Optimize the build process by utilizing Tauri's bundling and window management features.
+
+## Performance Optimization
+
+- Profile and measure performance regularly, using tools like `cargo-bench` for Rust and browser dev tools for the frontend.
+- Ensure minimal resource usage by optimizing Rust’s handling of file operations, networking, and concurrency.
+- Implement lazy loading and other frontend performance optimizations using React’s built-in features (e.g., `React.lazy`).
+- Minimize large file operations on the frontend by delegating them to the backend (Rust).
+- Ensure memory safety and avoid memory leaks by following best practices for Rust’s ownership system.
+
+## Project Structure & Organization
+
+- Follow a clean, organized folder structure with clear separation between frontend (React/TypeScript) and backend (Rust).
+- Keep all configuration files, such as `tauri.conf.json` and `Cargo.toml`, well-documented and up-to-date.
+- Use modular organization for both Rust and TypeScript code, breaking down tasks into smaller, reusable components.
+- Follow the folder structure in this order:
+
+  1. `src-tauri/` for all Rust-related code
+  2. `src/` for all frontend (React/TypeScript) code
+
+- Keep the frontend code inside a `src/` folder, and ensure that the Rust code resides inside `src-tauri/` to maintain separation.

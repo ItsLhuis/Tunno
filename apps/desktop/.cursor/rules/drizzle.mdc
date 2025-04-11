@@ -1,0 +1,11 @@
+---
+description: Best practices for using Drizzle ORM
+globs: 
+alwaysApply: false
+---
+# Drizzle Best Practices
+
+- Use Drizzle's type-safe query builder for better maintainability
+- Implement proper schema definition using Drizzle's schema builder
+- Optimize database queries using Drizzle's query optimization features
+- Use transactions to ensure atomicity, consistency, isolation, and durability (ACID properties) when performing multiple related operations in the database
