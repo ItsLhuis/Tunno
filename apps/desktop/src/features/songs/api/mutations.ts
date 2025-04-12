@@ -18,6 +18,10 @@ export const updateSong = async (id: number, updates: UpdateSong): Promise<Song>
   return updatedSong
 }
 
-export const deleteSong = async (id: number): Promise<void> => {
-  await database.delete(schema.songs).where(eq(schema.songs.id, id)).returning()
+export const deleteSong = async (id: number): Promise<Song> => {
+  const [deletedSong] = await database
+    .delete(schema.songs)
+    .where(eq(schema.songs.id, id))
+    .returning()
+  return deletedSong
 }

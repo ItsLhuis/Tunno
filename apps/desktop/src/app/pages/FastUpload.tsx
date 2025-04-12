@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react"
 
+import { useUpdateSong } from "@/features/songs/hooks/useUpdateSong"
 import { useCreateSong } from "@features/songs/hooks/useCreateSong"
+import { useDeleteSong } from "@features/songs/hooks/useDeleteSong"
 import { useFetchSongs } from "@features/songs/hooks/useFetchSongs"
 
 import { useInView } from "react-intersection-observer"
 
 import { Button, Loader, ScrollArea, TextInput, Typography } from "@components/ui"
 
+import { UpdateSong } from "@/features/songs/api/types"
+
 function FastUpload() {
   const [name, setName] = useState<string>("")
 
   const { data, isLoading, fetchNextPage, hasNextPage } = useFetchSongs()
   const { mutate } = useCreateSong()
+  const { mutate: deleteSong } = useDeleteSong()
+  const { mutate: updateSong } = useUpdateSong()
+
   const { ref, inView } = useInView()
 
   const songs = data?.pages.flatMap((page) => page) || []
@@ -21,12 +28,17 @@ function FastUpload() {
     setName("")
   }
 
+  const handleDeleteSong = (id: number) => {
+    deleteSong({ id })
+  }
+
+  const handleUpdateSong = (id: number, updates: UpdateSong) => {
+    updateSong({ id, updates })
+  }
+
   useEffect(() => {
     if (inView && hasNextPage) {
-      const timeout = setTimeout(() => {
-        fetchNextPage()
-      }, 2000)
-      return () => clearTimeout(timeout)
+      fetchNextPage()
     }
   }, [inView, hasNextPage, fetchNextPage])
 
@@ -65,6 +77,12 @@ function FastUpload() {
                       </pre>
                     </div>
                   </div>
+                  <Button onClick={() => handleDeleteSong(song.id)}>Delete</Button>
+                  <Button
+                    onClick={() => handleUpdateSong(song.id, { ...song, name: "Updated Song" })}
+                  >
+                    Update
+                  </Button>
                 </div>
               ))}
               {hasNextPage && (
