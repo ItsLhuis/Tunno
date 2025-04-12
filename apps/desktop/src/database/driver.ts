@@ -89,12 +89,6 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
 
       let result: any[] = []
 
-      /* console.log(`SQL: ${sql}`)
-      console.log(`Params: ${JSON.stringify(params)}`)
-      console.log(`Method: ${method}`)
-      console.log(`Is Returning: ${queryContext.isReturningQuery}`)
-      console.log(`Table: ${queryContext.tableName}`) */
-
       if (queryContext.isReturningQuery) {
         queryContext.returningColumns = extractReturningColumns(sql)
         const cleanSql = sql.replace(/\s+RETURNING\s+.*?(?:;|\s*$)/i, "")
