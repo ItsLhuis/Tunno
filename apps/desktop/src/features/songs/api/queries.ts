@@ -2,6 +2,8 @@ import { database, schema } from "@database/client"
 
 import { and, asc, desc, eq, like, SQL } from "drizzle-orm"
 
+import { LIMIT } from "@api/constants"
+
 import { type PaginatedParams } from "@api/types"
 
 import { type Song } from "@features/songs/api/types"
@@ -9,7 +11,7 @@ import { type Song } from "@features/songs/api/types"
 export type PaginatedSongsParams = PaginatedParams<keyof Song>
 
 export const getAllSongs = async ({
-  limit = 20,
+  limit = LIMIT,
   offset = 0,
   orderBy,
   filters
