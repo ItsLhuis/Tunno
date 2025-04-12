@@ -1,0 +1,68 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Expo Development Best Practices
+
+## General Guidelines
+
+- Use Expo for streamlined cross-platform mobile development (iOS, Android, Web) with minimal native code configuration
+- Prefer functional components with hooks for cleaner and more modern code structure
+- Use the latest stable versions of Expo, React Native, and related libraries for improved performance and feature support
+- Structure your app to maximize modularity and reusability of components, hooks, and services
+- Rely on Expo’s managed workflow unless specific native functionality requires EAS Bare Workflow
+- Always refer to expo documentation [Expo Documentation](mdc:https:/docs.expo.dev/get-started/introduction)
+
+## Project Structure & Organization
+
+- Follow a clean and consistent folder structure organized by features or screens (e.g., `auth/`, `chat/`, `settings/`)
+- Separate business logic from UI by using service and utility layers
+- Store reusable components inside a `components/` directory and hooks inside a `hooks/` directory
+- Maintain a clear distinction between navigation, assets, context providers, and screens
+
+## Code Quality & Practices
+
+- Write clean, readable, and maintainable code
+- Keep components focused on a single responsibility
+- Minimize unnecessary state by scoping state to the smallest required component
+- Avoid anonymous functions in `renderItem`, `onPress`, or other props to improve performance
+
+## Performance Optimization
+
+- Use `memo` to avoid unnecessary re-renders of pure functional components
+- Use ListWithHeader components for better perfomance
+- Avoid excessive re-renders by managing dependencies in `useEffect` and memoizing callbacks with `useCallback`
+- Use dynamic imports or `lazy` where applicable for code-splitting
+- Use `expo-image` for efficient image loading and caching
+
+## Navigation
+
+- Use `expo-router` for file-based routing. It offers automatic deep linking, nested navigation, and web support out of the box.
+- Follow the official documentation for configuring advanced navigation patterns: [Expo Router](mdc:https:/docs.expo.dev/router/introduction)
+- Keep routes and navigation logic clean by separating navigation options and route guards from UI code.
+
+## OTA Updates & EAS
+
+- Use **Expo EAS Update** for deploying Over-the-Air (OTA) updates to users.
+- Configure `eas.json` properly for development, preview, and production builds.
+- Automate builds using **EAS Build** to support iOS and Android builds from any environment.
+- Refer to [EAS Update Documentation](mdc:https:/docs.expo.dev/eas-update/introduction) for integration and rollout strategies.
+
+## App Configuration & Assets
+
+- Keep all global configuration in `app.config.ts` or `app.json` (e.g., name, icon, splash screen, deep links).
+- Store all media assets (e.g., images, fonts) in the `assets/` folder and load them with `expo-asset` or `useFonts`.
+- Optimize splash screen and app loading performance using `expo-splash-screen`.
+
+## Permissions & Native Modules
+
+- Use `expo-permissions` or relevant modules (e.g., `expo-camera`, `expo-location`) to request and manage permissions.
+- Always check permission status before accessing sensitive APIs.
+- When necessary, use EAS Build with `prebuild` to add custom native modules and configure native behavior.
+
+## Security
+
+- Do not hard-code sensitive data like API keys or tokens. Use environment variables with `expo-constants` or `.env` files.
+- Store sensitive data using secure storage options like `expo-secure-store`.
+- Regularly audit third-party packages and only use well-maintained libraries from trusted sources.

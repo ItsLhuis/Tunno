@@ -1,0 +1,106 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# React Development Best Practices
+
+## React Core
+
+- Use functional components with hooks
+- Implement proper prop type validation (TypeScript or PropTypes)
+- Utilize memoization (`memo`, `useMemo`, `useCallback`) for performance optimization
+- Keep components small and focused on single responsibilities
+- Prefer composition over inheritance
+- Avoid anonymous functions in JSX when possible
+- Use inline styles (`style={{ flex: 1 }}`) instead of `StyleSheet.create`
+- Use strict null checks to prevent null pointer exceptions
+- Prefer types over interfaces for better type inference
+- Use type guards and assertions for runtime type checking
+- Implement proper type inference to reduce explicit type annotations
+- Always refer to tsconfig files
+
+## TypeScript Practices
+
+- Prefer `type` over `interface` for better type inference
+- Use `z.infer<typeof schema>` when using Zod for type-safe data validation
+- Leverage type guards and custom assertions for runtime checks
+- Enable strict mode in `tsconfig.json` and use strict null checks
+- Avoid unnecessary type annotations when inference is sufficient
+
+## Code Organization & Imports
+
+- Follow a consistent import structure, in the following order, separated by line breaks:
+
+  1. React imports
+  2. Hooks (grouped by origin if needed)
+  3. Constants
+  4. Utils / helpers
+  5. Components
+  6. Types and interfaces
+
+- Example:
+
+  ```tsx
+  import React, { useEffect, useState } from "react";
+
+  import { useSettingsStore } from "@stores/useSettingsStore";
+
+  import { debounce } from "lodash";
+
+  import { API_URL } from "@constants/config";
+
+  import { formatDate } from "@utils/formatDate";
+
+  import { Button } from "@components/ui/button";
+
+  import { type User } from "@types/user";
+  ```
+
+## React Query
+
+- Use query keys effectively for caching and refetching (keys must be created in a file beforehand and reused before)
+- Implement proper error and loading state handling
+- Use `useQuery` for GETs or `useInfiniteQuery` for deep lists, `useMutation` for POST/PUT/DELETE
+- Utilize `QueryClient` for global config and invalidation
+
+## Zustand
+
+- Keep stores small and scoped per feature/domain
+- Use middleware for devtools, persist, and immer
+- Slice state logically to prevent unneeded rerenders
+- Avoid overusing global state — prefer local where possible
+
+## React Hook Form
+
+- Use controlled components with `useForm` when necessary
+- Use `Controller` for 3rd party components
+- Integrate schema validation with Zod
+- Keep form logic separate from UI rendering
+
+## Zod
+
+- Use Zod schemas for form and API validation
+- Prefer `.refine()` for custom logic and detailed errors
+- Leverage `z.infer<typeof schema>` for automatic types
+- Compose schemas for reusability
+
+## i18next
+
+- Use translation **namespaces** to keep files modular
+- Define fallback languages explicitly in the config
+- Always use the `useTranlation` hook in [hooks.ts](mdc:i18n/hooks.ts)
+- Use `t()` with interpolation for dynamic strings
+- Avoid inline text — use translation keys consistently
+- Organize translations in `/i18n/locales/{lang}.ts`
+- Adjust the English language, if it exists, otherwise create it, and the remaining languages, do not change otherwise
+
+## Styling
+
+- Use inline styles with style={{}} — avoid StyleSheet.create
+- Always use [theme.ts](mdc:styles/theme.ts) for all layout, spacing, and sizing definitions in the project
+- Favor direct use of flex for responsiveness
+- Utilize `alignItems`, `justifyContent`, and `flexDirection` for layout instead of relying on fixed positioning
+- Leverage `Dimensions` from `react-native` to get screen size for responsive design decisions
+- Use `padding` and `margin` carefully to avoid unwanted overflow or layout shifts on different devices
+- Always test styles on both Android and iOS to ensure consistent behavior across platforms
