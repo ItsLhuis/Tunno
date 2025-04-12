@@ -12,7 +12,16 @@ export const dutch: Language = {
       noResultsFound: "Geen resultaten gevonden"
     },
     songs: {
-      title: "Liedjes"
+      title: "Nummers",
+      createdTitle: "Nummer Succesvol Aangemaakt",
+      createdDescription: "{{name}} is aangemaakt",
+      createdFailedTitle: "Nummer Aanmaken Mislukt",
+      updatedTitle: "Nummer Succesvol Bijgewerkt",
+      updatedDescription: "{{name}} is bijgewerkt",
+      updatedFailedTitle: "Nummer Bijwerken Mislukt",
+      deletedTitle: "Nummer Succesvol Verwijderd",
+      deletedDescription: "{{name}} is verwijderd",
+      deletedFailedTitle: "Nummer Verwijderen Mislukt"
     },
     favorites: {
       title: "Favorieten"

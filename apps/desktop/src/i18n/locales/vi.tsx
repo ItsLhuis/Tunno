@@ -12,7 +12,16 @@ export const vietnamese: Language = {
       noResultsFound: "Không tìm thấy kết quả"
     },
     songs: {
-      title: "Bài hát"
+      title: "Bài hát",
+      createdTitle: "Đã Tạo Bài Hát Thành Công",
+      createdDescription: "{{name}} đã được tạo",
+      createdFailedTitle: "Không Thể Tạo Bài Hát",
+      updatedTitle: "Đã Cập Nhật Bài Hát Thành Công",
+      updatedDescription: "{{name}} đã được cập nhật",
+      updatedFailedTitle: "Không Thể Cập Nhật Bài Hát",
+      deletedTitle: "Đã Xóa Bài Hát Thành Công",
+      deletedDescription: "{{name}} đã được xóa",
+      deletedFailedTitle: "Không Thể Xóa Bài Hát"
     },
     favorites: {
       title: "Yêu thích"

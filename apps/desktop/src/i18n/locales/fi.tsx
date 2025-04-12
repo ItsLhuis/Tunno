@@ -12,7 +12,16 @@ export const finnish: Language = {
       noResultsFound: "Tuloksia ei löytynyt"
     },
     songs: {
-      title: "Kappaleet"
+      title: "Kappaleet",
+      createdTitle: "Kappale Luotu Onnistuneesti",
+      createdDescription: "{{name}} on luotu",
+      createdFailedTitle: "Kappaleen Luominen Epäonnistui",
+      updatedTitle: "Kappale Päivitetty Onnistuneesti",
+      updatedDescription: "{{name}} on päivitetty",
+      updatedFailedTitle: "Kappaleen Päivitys Epäonnistui",
+      deletedTitle: "Kappale Poistettu Onnistuneesti",
+      deletedDescription: "{{name}} on poistettu",
+      deletedFailedTitle: "Kappaleen Poisto Epäonnistui"
     },
     favorites: {
       title: "Suosikit"

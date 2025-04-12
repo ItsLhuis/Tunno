@@ -16,6 +16,15 @@ export type Translations = {
   }
   songs: {
     title: string
+    createdTitle: string
+    createdDescription: string
+    createdFailedTitle: string
+    updatedTitle: string
+    updatedDescription: string
+    updatedFailedTitle: string
+    deletedTitle: string
+    deletedDescription: string
+    deletedFailedTitle: string
   }
   favorites: {
     title: string

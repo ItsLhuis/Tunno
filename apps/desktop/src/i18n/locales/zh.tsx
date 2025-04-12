@@ -12,7 +12,16 @@ export const chinese: Language = {
       noResultsFound: "未找到结果"
     },
     songs: {
-      title: "歌曲"
+      title: "歌曲",
+      createdTitle: "歌曲创建成功",
+      createdDescription: "{{name}} 已创建",
+      createdFailedTitle: "歌曲创建失败",
+      updatedTitle: "歌曲更新成功",
+      updatedDescription: "{{name}} 已更新",
+      updatedFailedTitle: "歌曲更新失败",
+      deletedTitle: "歌曲删除成功",
+      deletedDescription: "{{name}} 已删除",
+      deletedFailedTitle: "歌曲删除失败"
     },
     favorites: {
       title: "收藏"

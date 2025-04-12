@@ -12,7 +12,16 @@ export const polish: Language = {
       noResultsFound: "Nie znaleziono wyników"
     },
     songs: {
-      title: "Piosenki"
+      title: "Utwory",
+      createdTitle: "Utwór Został Pomyślnie Utworzony",
+      createdDescription: "{{name}} został utworzony",
+      createdFailedTitle: "Nie Udało się Utworzyć Utworu",
+      updatedTitle: "Utwór Został Pomyślnie Zaktualizowany",
+      updatedDescription: "{{name}} został zaktualizowany",
+      updatedFailedTitle: "Nie Udało się Zaktualizować Utworu",
+      deletedTitle: "Utwór Został Pomyślnie Usunięty",
+      deletedDescription: "{{name}} został usunięty",
+      deletedFailedTitle: "Nie Udało się Usunąć Utworu"
     },
     favorites: {
       title: "Ulubione"

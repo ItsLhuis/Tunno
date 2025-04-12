@@ -12,7 +12,16 @@ export const swedish: Language = {
       noResultsFound: "Inga resultat funna"
     },
     songs: {
-      title: "Sånger"
+      title: "Låtar",
+      createdTitle: "Låt Skapad Framgångsrikt",
+      createdDescription: "{{name}} har skapats",
+      createdFailedTitle: "Det Gick Inte Att Skapa Låten",
+      updatedTitle: "Låt Uppdaterad Framgångsrikt",
+      updatedDescription: "{{name}} har uppdaterats",
+      updatedFailedTitle: "Det Gick Inte Att Uppdatera Låten",
+      deletedTitle: "Låt Raderad Framgångsrikt",
+      deletedDescription: "{{name}} har raderats",
+      deletedFailedTitle: "Det Gick Inte Att Radera Låten"
     },
     favorites: {
       title: "Favoriter"

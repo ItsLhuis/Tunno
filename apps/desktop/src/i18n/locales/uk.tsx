@@ -12,7 +12,16 @@ export const ukrainian: Language = {
       noResultsFound: "Результатів не знайдено"
     },
     songs: {
-      title: "Пісні"
+      title: "Пісні",
+      createdTitle: "Пісню Успішно Створено",
+      createdDescription: "{{name}} було створено",
+      createdFailedTitle: "Не Вдалося Створити Пісню",
+      updatedTitle: "Пісню Успішно Оновлено",
+      updatedDescription: "{{name}} було оновлено",
+      updatedFailedTitle: "Не Вдалося Оновити Пісню",
+      deletedTitle: "Пісню Успішно Видалено",
+      deletedDescription: "{{name}} було видалено",
+      deletedFailedTitle: "Не Вдалося Видалити Пісню"
     },
     favorites: {
       title: "Улюблені"

@@ -12,7 +12,16 @@ export const english: Language = {
       noResultsFound: "No results found"
     },
     songs: {
-      title: "Songs"
+      title: "Songs",
+      createdTitle: "Song Created Successfully",
+      createdDescription: "{{name}} has been created",
+      createdFailedTitle: "Failed to Create Song",
+      updatedTitle: "Song Updated Successfully",
+      updatedDescription: "{{name}} has been updated",
+      updatedFailedTitle: "Failed to Update Song",
+      deletedTitle: "Song Deleted Successfully",
+      deletedDescription: "{{name}} has been deleted",
+      deletedFailedTitle: "Failed to Delete Song"
     },
     favorites: {
       title: "Favorites"

@@ -12,7 +12,16 @@ export const russian: Language = {
       noResultsFound: "Результаты не найдены"
     },
     songs: {
-      title: "Песни"
+      title: "Песни",
+      createdTitle: "Песня Успешно Создана",
+      createdDescription: "{{name}} была создана",
+      createdFailedTitle: "Не Удалось Создать Песню",
+      updatedTitle: "Песня Успешно Обновлена",
+      updatedDescription: "{{name}} была обновлена",
+      updatedFailedTitle: "Не Удалось Обновить Песню",
+      deletedTitle: "Песня Успешно Удалена",
+      deletedDescription: "{{name}} была удалена",
+      deletedFailedTitle: "Не Удалось Удалить Песню"
     },
     favorites: {
       title: "Избранное"

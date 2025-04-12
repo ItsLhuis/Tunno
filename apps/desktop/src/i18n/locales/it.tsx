@@ -12,7 +12,16 @@ export const italian: Language = {
       noResultsFound: "Nessun risultato trovato"
     },
     songs: {
-      title: "Canzoni"
+      title: "Canzoni",
+      createdTitle: "Canzone Creata con Successo",
+      createdDescription: "{{name}} è stata creata",
+      createdFailedTitle: "Impossibile Creare la Canzone",
+      updatedTitle: "Canzone Aggiornata con Successo",
+      updatedDescription: "{{name}} è stata aggiornata",
+      updatedFailedTitle: "Impossibile Aggiornare la Canzone",
+      deletedTitle: "Canzone Eliminata con Successo",
+      deletedDescription: "{{name}} è stata eliminata",
+      deletedFailedTitle: "Impossibile Eliminare la Canzone"
     },
     favorites: {
       title: "Preferiti"

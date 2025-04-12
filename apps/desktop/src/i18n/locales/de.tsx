@@ -12,7 +12,16 @@ export const german: Language = {
       noResultsFound: "Keine Ergebnisse gefunden"
     },
     songs: {
-      title: "Lieder"
+      title: "Lieder",
+      createdTitle: "Lied Erfolgreich Erstellt",
+      createdDescription: "{{name}} wurde erstellt",
+      createdFailedTitle: "Fehler beim Erstellen des Liedes",
+      updatedTitle: "Lied Erfolgreich Aktualisiert",
+      updatedDescription: "{{name}} wurde aktualisiert",
+      updatedFailedTitle: "Fehler beim Aktualisieren des Liedes",
+      deletedTitle: "Lied Erfolgreich Gelöscht",
+      deletedDescription: "{{name}} wurde gelöscht",
+      deletedFailedTitle: "Fehler beim Löschen des Liedes"
     },
     favorites: {
       title: "Favoriten"

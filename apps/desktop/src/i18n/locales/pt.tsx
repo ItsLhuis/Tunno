@@ -12,7 +12,16 @@ export const portuguese: Language = {
       noResultsFound: "Nenhum resultado encontrado"
     },
     songs: {
-      title: "Músicas"
+      title: "Músicas",
+      createdTitle: "Música Criada com Sucesso",
+      createdDescription: "{{name}} foi criada",
+      createdFailedTitle: "Falha ao Criar Música",
+      updatedTitle: "Música Atualizada com Sucesso",
+      updatedDescription: "{{name}} foi atualizada",
+      updatedFailedTitle: "Falha ao Atualizar Música",
+      deletedTitle: "Música Excluída com Sucesso",
+      deletedDescription: "{{name}} foi excluída",
+      deletedFailedTitle: "Falha ao Excluir Música"
     },
     favorites: {
       title: "Favoritos"

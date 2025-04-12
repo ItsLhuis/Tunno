@@ -12,7 +12,16 @@ export const turkish: Language = {
       noResultsFound: "Sonuç bulunamadı"
     },
     songs: {
-      title: "Şarkılar"
+      title: "Şarkılar",
+      createdTitle: "Şarkı Başarıyla Oluşturuldu",
+      createdDescription: "{{name}} oluşturuldu",
+      createdFailedTitle: "Şarkı Oluşturulamadı",
+      updatedTitle: "Şarkı Başarıyla Güncellendi",
+      updatedDescription: "{{name}} güncellendi",
+      updatedFailedTitle: "Şarkı Güncellenemedi",
+      deletedTitle: "Şarkı Başarıyla Silindi",
+      deletedDescription: "{{name}} silindi",
+      deletedFailedTitle: "Şarkı Silinemedi"
     },
     favorites: {
       title: "Favoriler"
