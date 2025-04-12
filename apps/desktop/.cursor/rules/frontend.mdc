@@ -1,7 +1,7 @@
 ---
-description: Best practices for React development, including key libraries such as React Router, React Query, Zustand, React Hook Form, Zod, i18next and more
+description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 # React Development Best Practices
 
