@@ -1,12 +1,14 @@
 import { resourceDir } from "@tauri-apps/api/path"
 import { readDir, readTextFile } from "@tauri-apps/plugin-fs"
 
-import { getSQLiteDatabase } from "./client"
+import { databaseName } from "./client"
+
+import { getSQLiteDatabase } from "./driver"
 
 export type ProxyMigrator = (migrationQueries: string[]) => Promise<void>
 
 export async function migrate(): Promise<void> {
-  const sqlite = await getSQLiteDatabase()
+  const sqlite = await getSQLiteDatabase(databaseName)
 
   const resourcePath = await resourceDir()
 

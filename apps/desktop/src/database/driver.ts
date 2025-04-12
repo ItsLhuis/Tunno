@@ -22,7 +22,7 @@ const queryContext: QueryContext = {
 }
 
 function extractTableName(sql: string): string | null {
-  const matches = sql.match(/(?:INSERT\s+INTO|UPDATE|DELETE\s+FROM)\s+([^\s(]+)/i)
+  const matches = sql.match(/(?:INSERT\s+INTO|UPDATE|DELETE\s+FROM)\s+([^\s(,]+)/i)
   return matches ? matches[1].replace(/["`]/g, "") : null
 }
 
@@ -52,7 +52,7 @@ function isDeleteQuery(sql: string): boolean {
 }
 
 function extractWhereClause(sql: string): string | null {
-  const matches = sql.match(/WHERE\s+(.*?)(?:;|\s*$)/i)
+  const matches = sql.match(/WHERE\s+(.*?)(?:;|\s*(?:ORDER|LIMIT|GROUP|HAVING|$))/i)
   return matches ? matches[1] : null
 }
 
@@ -89,6 +89,12 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
 
       let result: any[] = []
 
+      /* console.log(`SQL: ${sql}`)
+      console.log(`Params: ${JSON.stringify(params)}`)
+      console.log(`Method: ${method}`)
+      console.log(`Is Returning: ${queryContext.isReturningQuery}`)
+      console.log(`Table: ${queryContext.tableName}`) */
+
       if (queryContext.isReturningQuery) {
         queryContext.returningColumns = extractReturningColumns(sql)
         const cleanSql = sql.replace(/\s+RETURNING\s+.*?(?:;|\s*$)/i, "")
@@ -99,18 +105,23 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
           const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE rowid = last_insert_rowid()`
           result = await sqlite.select(selectSql)
         } else if (isUpdateQuery(cleanSql) && queryContext.tableName) {
+          const whereClause = extractWhereClause(cleanSql)
+          let affectedRows: any[] = []
+
+          if (whereClause) {
+            const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause}`
+            affectedRows = await sqlite.select(selectSql, params)
+          }
+
           await sqlite.execute(cleanSql, params)
 
-          const whereClause = extractWhereClause(cleanSql)
-          if (whereClause) {
-            const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause}`
-            result = await sqlite.select(selectSql)
-          }
+          result = affectedRows
         } else if (isDeleteQuery(cleanSql) && queryContext.tableName) {
           const whereClause = extractWhereClause(cleanSql)
+
           if (whereClause) {
             const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause}`
-            result = await sqlite.select(selectSql)
+            result = await sqlite.select(selectSql, params)
           }
 
           await sqlite.execute(cleanSql, params)
@@ -121,31 +132,19 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
         if (isSelectQuery(sql)) {
           result = await sqlite.select(sql, params)
         } else {
-          await sqlite.execute(sql, params)
-
-          if (isInsertQuery(sql) && queryContext.tableName) {
-            const lastIdResult = await sqlite.select("SELECT last_insert_rowid() as id")
-            if (
-              lastIdResult &&
-              Array.isArray(lastIdResult) &&
-              lastIdResult.length > 0 &&
-              "id" in lastIdResult[0]
-            ) {
-              result = [{ id: lastIdResult[0].id }]
-            }
-          } else {
-            result = []
-          }
+          await sqlite.execute(sql, params).catch(() => [])
+          result = []
         }
       }
 
       const processedRows = processResults(result)
 
-      const finalResult = method === "all" ? processedRows : processedRows[0] || []
+      const finalResult =
+        method === "all" ? processedRows : processedRows.length > 0 ? processedRows[0] : {}
 
       return { rows: finalResult }
     } catch (error) {
-      throw new Error(error as string)
+      throw new Error(typeof error === "string" ? error : JSON.stringify(error))
     }
   }
 
