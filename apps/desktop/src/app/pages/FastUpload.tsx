@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-import { useUpdateSong } from "@/features/songs/hooks/useUpdateSong"
+import { useFetchSongsWithRelations } from "@features/songs/hooks/useFetchSongsWithRelations"
+
+import { useUpdateSong } from "@features/songs/hooks/useUpdateSong"
 import { useCreateSong } from "@features/songs/hooks/useCreateSong"
 import { useDeleteSong } from "@features/songs/hooks/useDeleteSong"
-import { useFetchSongs } from "@features/songs/hooks/useFetchSongs"
 
-import { useInView } from "react-intersection-observer"
+import { Button, ScrollArea, TextInput, Typography } from "@components/ui"
 
-import { Button, Loader, ScrollArea, TextInput, Typography } from "@components/ui"
-
-import { UpdateSong } from "@/features/songs/api/types"
+import { type UpdateSong } from "@features/songs/api/types"
 
 function FastUpload() {
   const [name, setName] = useState<string>("")
 
-  const { data, isLoading, fetchNextPage, hasNextPage } = useFetchSongs()
-  const { mutate } = useCreateSong()
+  const { data: songs, isLoading } = useFetchSongsWithRelations()
+
+  const { mutate: createSong } = useCreateSong()
   const { mutate: deleteSong } = useDeleteSong()
   const { mutate: updateSong } = useUpdateSong()
 
-  const { ref, inView } = useInView()
-
-  const songs = data?.pages.flatMap((page) => page) || []
-
   const handleCreateSong = () => {
-    mutate({ name, duration: 0 })
+    createSong({ name, duration: 0 })
     setName("")
   }
 
@@ -35,12 +31,6 @@ function FastUpload() {
   const handleUpdateSong = (id: number, updates: UpdateSong) => {
     updateSong({ id, updates })
   }
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage()
-    }
-  }, [inView, hasNextPage, fetchNextPage])
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-3 transition-[background-color,padding] md:p-9">
@@ -61,7 +51,7 @@ function FastUpload() {
       </form>
       <div className="flex flex-1 flex-col overflow-hidden">
         <Typography variant="h4">List of Songs</Typography>
-        {isLoading ? (
+        {isLoading || !songs ? (
           <Typography variant="h4">Loading...</Typography>
         ) : (
           <ScrollArea className="mt-4 flex-1 overflow-auto rounded-md border">
@@ -85,11 +75,6 @@ function FastUpload() {
                   </Button>
                 </div>
               ))}
-              {hasNextPage && (
-                <div ref={ref} className="flex justify-center p-4">
-                  <Loader />
-                </div>
-              )}
             </div>
           </ScrollArea>
         )}

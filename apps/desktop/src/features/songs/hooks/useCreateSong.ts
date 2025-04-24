@@ -16,7 +16,7 @@ export function useCreateSong() {
   return useMutation({
     mutationFn: createSong,
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: songKeys.infinite() })
+      await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })
     },
     onSuccess: (song) => {
       toast.success(t("songs.createdTitle"), {
@@ -29,7 +29,7 @@ export function useCreateSong() {
       })
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: songKeys.infinite() })
+      queryClient.invalidateQueries({ queryKey: songKeys.listWithRelations() })
     }
   })
 }

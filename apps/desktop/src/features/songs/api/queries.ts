@@ -1,44 +1,61 @@
 import { database, schema } from "@database/client"
 
-import { and, asc, desc, eq, like, SQL } from "drizzle-orm"
+import { asc, desc, eq, like } from "drizzle-orm"
 
-import { LIMIT } from "@api/constants"
+import { type QueryParams } from "@api/types"
 
-import { type PaginatedParams } from "@api/types"
+import { type SongColumns, type SongWithRelations } from "@features/songs/api/types"
 
-import { type Song } from "@features/songs/api/types"
+export type QuerySongsParams = QueryParams<SongColumns>
 
-export type PaginatedSongsParams = PaginatedParams<keyof Song>
-
-export const getAllSongs = async ({
-  limit = LIMIT,
-  offset = 0,
+export const getAllSongsWithRelations = async ({
+  limit,
+  offset,
   orderBy,
   filters
-}: PaginatedSongsParams = {}): Promise<Song[]> => {
-  const orderClauses: SQL[] = orderBy
-    ? [
-        orderBy.direction === "asc"
-          ? asc(schema.songs[orderBy.column])
-          : desc(schema.songs[orderBy.column])
-      ]
-    : []
-
-  const whereClauses = filters?.search ? like(schema.songs.name, `%${filters.search}%`) : undefined
-
-  return await database
-    .select()
-    .from(schema.songs)
-    .where(whereClauses ? and(whereClauses) : undefined)
-    .orderBy(...orderClauses)
-    .limit(limit)
-    .offset(offset)
+}: QuerySongsParams = {}): Promise<SongWithRelations[]> => {
+  return await database.query.songs.findMany({
+    limit,
+    offset,
+    where: filters?.search ? like(schema.songs.name, `%${filters.search}%`) : undefined,
+    orderBy: orderBy
+      ? orderBy.direction === "asc"
+        ? asc(schema.songs[orderBy.column])
+        : desc(schema.songs[orderBy.column])
+      : undefined,
+    with: {
+      album: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      },
+      playlists: {
+        with: {
+          playlist: true
+        }
+      }
+    }
+  })
 }
 
-export const getSongById = async (id: number): Promise<Song | undefined> => {
-  return await database
-    .select()
-    .from(schema.songs)
-    .where(eq(schema.songs.id, id))
-    .then((results) => results[0])
+export const getSongByIdWithRelations = async (
+  id: number
+): Promise<SongWithRelations | undefined> => {
+  return await database.query.songs.findFirst({
+    where: eq(schema.songs.id, id),
+    with: {
+      album: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      },
+      playlists: {
+        with: {
+          playlist: true
+        }
+      }
+    }
+  })
 }

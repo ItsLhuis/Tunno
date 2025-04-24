@@ -1,7 +1,7 @@
 import { useTranslation } from "@i18n/hooks"
 
-import Lottie from "lottie-react"
 import NotFound from "@assets/lotties/NotFound.json"
+import Lottie from "lottie-react"
 
 import { Typography } from "@components/ui"
 

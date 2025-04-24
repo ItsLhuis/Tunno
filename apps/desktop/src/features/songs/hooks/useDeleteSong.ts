@@ -16,8 +16,8 @@ export function useDeleteSong() {
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deleteSong(id),
     onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: songKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: songKeys.infinite() })
+      await queryClient.cancelQueries({ queryKey: songKeys.detailsWithRelations(id) })
+      await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })
     },
     onSuccess: (song) => {
       toast.success(t("songs.deletedTitle"), {
@@ -30,8 +30,8 @@ export function useDeleteSong() {
       })
     },
     onSettled: (_data, _error, { id }) => {
-      queryClient.invalidateQueries({ queryKey: songKeys.details(id) })
-      queryClient.invalidateQueries({ queryKey: songKeys.infinite() })
+      queryClient.invalidateQueries({ queryKey: songKeys.detailsWithRelations(id) })
+      queryClient.invalidateQueries({ queryKey: songKeys.listWithRelations() })
     }
   })
 }

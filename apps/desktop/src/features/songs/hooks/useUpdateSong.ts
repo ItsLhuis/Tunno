@@ -17,8 +17,8 @@ export function useUpdateSong() {
     mutationFn: ({ id, updates }: { id: number; updates: Parameters<typeof updateSong>[1] }) =>
       updateSong(id, updates),
     onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: songKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: songKeys.infinite() })
+      await queryClient.cancelQueries({ queryKey: songKeys.detailsWithRelations(id) })
+      await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })
     },
     onSuccess: (song) => {
       toast.success(t("songs.updatedTitle"), {
@@ -31,8 +31,8 @@ export function useUpdateSong() {
       })
     },
     onSettled: (_data, _error, { id }) => {
-      queryClient.invalidateQueries({ queryKey: songKeys.details(id) })
-      queryClient.invalidateQueries({ queryKey: songKeys.infinite() })
+      queryClient.invalidateQueries({ queryKey: songKeys.detailsWithRelations(id) })
+      queryClient.invalidateQueries({ queryKey: songKeys.listWithRelations() })
     }
   })
 }
