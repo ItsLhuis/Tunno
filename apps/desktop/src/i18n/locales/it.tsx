@@ -9,7 +9,11 @@ export const italian: Language = {
   isRtl: false,
   translations: {
     common: {
-      noResultsFound: "Nessun risultato trovato"
+      noResultsFound: "Nessun risultato trovato",
+      lessThanAnHourAgo: "Meno di un'ora fa",
+      hoursAgo: "{{count}} ora{{count, plural, one {} other{e}}} fa",
+      today: "Oggi",
+      yesterday: "Ieri"
     },
     songs: {
       title: "Canzoni",
@@ -24,13 +28,37 @@ export const italian: Language = {
       deletedFailedTitle: "Impossibile Eliminare la Canzone"
     },
     favorites: {
-      title: "Preferiti"
+      title: "Preferiti",
+      addedTitle: "Aggiunto ai Preferiti",
+      addedDescription: "{{name}} è stato aggiunto ai preferiti",
+      addedFailedTitle: "Errore nell'Aggiunta ai Preferiti",
+      removedTitle: "Rimosso dai Preferiti",
+      removedDescription: "{{name}} è stato rimosso dai preferiti",
+      removedFailedTitle: "Errore nella Rimozione dai Preferiti"
     },
     playlists: {
-      title: "Playlist"
+      title: "Playlist",
+      createdTitle: "Playlist Creata con Successo",
+      createdDescription: "{{name}} è stata creata",
+      createdFailedTitle: "Errore nella Creazione della Playlist",
+      updatedTitle: "Playlist Aggiornata con Successo",
+      updatedDescription: "{{name}} è stata aggiornata",
+      updatedFailedTitle: "Errore nell'Aggiornamento della Playlist",
+      deletedTitle: "Playlist Eliminata con Successo",
+      deletedDescription: "{{name}} è stata eliminata",
+      deletedFailedTitle: "Errore nell'Eliminazione della Playlist"
     },
     artists: {
-      title: "Artisti"
+      title: "Artisti",
+      createdTitle: "Artista Creato con Successo",
+      createdDescription: "{{name}} è stato creato",
+      createdFailedTitle: "Errore nella Creazione dell'Artista",
+      updatedTitle: "Artista Aggiornato con Successo",
+      updatedDescription: "{{name}} è stato aggiornato",
+      updatedFailedTitle: "Errore nell'Aggiornamento dell'Artista",
+      deletedTitle: "Artista Eliminato con Successo",
+      deletedDescription: "{{name}} è stato eliminato",
+      deletedFailedTitle: "Errore nell'Eliminazione dell'Artista"
     },
     settings: {
       title: "Impostazioni"

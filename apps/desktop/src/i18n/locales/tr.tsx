@@ -9,7 +9,11 @@ export const turkish: Language = {
   isRtl: false,
   translations: {
     common: {
-      noResultsFound: "Sonuç bulunamadı"
+      noResultsFound: "Sonuç bulunamadı",
+      lessThanAnHourAgo: "Bir saatten az önce",
+      hoursAgo: "{{count}} saat önce",
+      today: "Bugün",
+      yesterday: "Dün"
     },
     songs: {
       title: "Şarkılar",
@@ -24,13 +28,37 @@ export const turkish: Language = {
       deletedFailedTitle: "Şarkı Silinemedi"
     },
     favorites: {
-      title: "Favoriler"
+      title: "Favoriler",
+      addedTitle: "Favorilere Eklendi",
+      addedDescription: "{{name}} favorilere eklendi",
+      addedFailedTitle: "Favorilere Ekleme Başarısız",
+      removedTitle: "Favorilerden Çıkarıldı",
+      removedDescription: "{{name}} favorilerden çıkarıldı",
+      removedFailedTitle: "Favorilerden Çıkarma Başarısız"
     },
     playlists: {
-      title: "Çalma Listeleri"
+      title: "Şarkılar",
+      createdTitle: "Şarkı Başarıyla Oluşturuldu",
+      createdDescription: "{{name}} oluşturuldu",
+      createdFailedTitle: "Şarkı Oluşturulamadı",
+      updatedTitle: "Şarkı Başarıyla Güncellendi",
+      updatedDescription: "{{name}} güncellendi",
+      updatedFailedTitle: "Şarkı Güncellenemedi",
+      deletedTitle: "Şarkı Başarıyla Silindi",
+      deletedDescription: "{{name}} silindi",
+      deletedFailedTitle: "Şarkı Silinemedi"
     },
     artists: {
-      title: "Sanatçılar"
+      title: "Sanatçılar",
+      createdTitle: "Sanatçı Başarıyla Oluşturuldu",
+      createdDescription: "{{name}} oluşturuldu",
+      createdFailedTitle: "Sanatçı Oluşturulamadı",
+      updatedTitle: "Sanatçı Başarıyla Güncellendi",
+      updatedDescription: "{{name}} güncellendi",
+      updatedFailedTitle: "Sanatçı Güncellenemedi",
+      deletedTitle: "Sanatçı Başarıyla Silindi",
+      deletedDescription: "{{name}} silindi",
+      deletedFailedTitle: "Sanatçı Silinemedi"
     },
     settings: {
       title: "Ayarlar"

@@ -9,7 +9,11 @@ export const finnish: Language = {
   isRtl: false,
   translations: {
     common: {
-      noResultsFound: "Tuloksia ei löytynyt"
+      noResultsFound: "Ei tuloksia löytynyt",
+      lessThanAnHourAgo: "Alle tunti sitten",
+      hoursAgo: "{{count}} tunti{{count, plural, one {} other{a}}} sitten",
+      today: "Tänään",
+      yesterday: "Eilen"
     },
     songs: {
       title: "Kappaleet",
@@ -24,13 +28,37 @@ export const finnish: Language = {
       deletedFailedTitle: "Kappaleen Poisto Epäonnistui"
     },
     favorites: {
-      title: "Suosikit"
+      title: "Suosikit",
+      addedTitle: "Lisätty Suosikkeihin",
+      addedDescription: "{{name}} on lisätty suosikkeihin",
+      addedFailedTitle: "Lisäys Suosikkeihin Epäonnistui",
+      removedTitle: "Poistettu Suosikeista",
+      removedDescription: "{{name}} on poistettu suosikeista",
+      removedFailedTitle: "Poisto Suosikeista Epäonnistui"
     },
     playlists: {
-      title: "Soittolistat"
+      title: "Soittolistat",
+      createdTitle: "Soittolista Luotu Onnistuneesti",
+      createdDescription: "{{name}} on luotu",
+      createdFailedTitle: "Soittolistan Luominen Epäonnistui",
+      updatedTitle: "Soittolista Päivitetty Onnistuneesti",
+      updatedDescription: "{{name}} on päivitetty",
+      updatedFailedTitle: "Soittolistan Päivitys Epäonnistui",
+      deletedTitle: "Soittolista Poistettu Onnistuneesti",
+      deletedDescription: "{{name}} on poistettu",
+      deletedFailedTitle: "Soittolistan Poisto Epäonnistui"
     },
     artists: {
-      title: "Artistit"
+      title: "Artistit",
+      createdTitle: "Artisti Luotu Onnistuneesti",
+      createdDescription: "{{name}} on luotu",
+      createdFailedTitle: "Artistin Luominen Epäonnistui",
+      updatedTitle: "Artisti Päivitetty Onnistuneesti",
+      updatedDescription: "{{name}} on päivitetty",
+      updatedFailedTitle: "Artistin Päivitys Epäonnistui",
+      deletedTitle: "Artisti Poistettu Onnistuneesti",
+      deletedDescription: "{{name}} on poistettu",
+      deletedFailedTitle: "Artistin Poisto Epäonnistui"
     },
     settings: {
       title: "Asetukset"
