@@ -4,7 +4,11 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@i18n/hooks"
 
+import { initializeAppStorage } from "@lib/appStorage"
+
 import { migrate } from "@database/migrate"
+
+import { setupAudioPlayer } from "@services/audio"
 
 import { BrowserRouter } from "react-router-dom"
 
@@ -25,7 +29,9 @@ function App() {
   const { i18n } = useTranslation()
 
   const prepareApp = async (): Promise<void> => {
+    await initializeAppStorage()
     await migrate()
+    await setupAudioPlayer()
     i18n.changeLanguage(language)
 
     await new Promise((resolve) => setTimeout(resolve, 500))
