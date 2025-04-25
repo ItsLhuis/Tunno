@@ -1,5 +1,5 @@
-import { sqliteTable, index, text, integer } from "drizzle-orm/sqlite-core"
 import { relations, sql } from "drizzle-orm"
+import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 // Songs
 export const songs = sqliteTable(
@@ -8,8 +8,8 @@ export const songs = sqliteTable(
     id: integer("id").primaryKey({ autoIncrement: true }),
     name: text("name").unique().notNull(),
     thumbnail: text("thumbnail"),
-    duration: integer("duration"),
-    isFavorite: integer("is_favorite", { mode: "boolean" }),
+    duration: integer("duration").notNull(),
+    isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
     releaseYear: integer("release_year"),
     albumId: integer("album_id").references(() => albums.id),
     createdAt: text("created_at")
