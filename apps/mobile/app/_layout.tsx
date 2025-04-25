@@ -2,7 +2,7 @@ import "expo-dev-client"
 
 import { useCallback, useEffect, useState } from "react"
 
-import { useColorScheme, View } from "react-native"
+import { Linking, useColorScheme, View } from "react-native"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
@@ -14,12 +14,17 @@ import { useTranslation } from "@i18n/hooks"
 
 import * as Updates from "expo-updates"
 
+import { initializeAppStorage } from "@lib/appStorage"
+
+import { databaseName } from "@database/client"
 import migrations from "@migrations/migrations"
 import { drizzle } from "drizzle-orm/expo-sqlite"
 import { migrate } from "drizzle-orm/expo-sqlite/migrator"
 import { openDatabaseSync } from "expo-sqlite"
 
-import { databaseName } from "@database/client"
+import TrackPlayer from "react-native-track-player"
+
+import { playback, setupAudioPlayer } from "@services/audio"
 
 import { SystemBars } from "react-native-edge-to-edge"
 
@@ -57,6 +62,8 @@ enableFreeze()
 
 SplashScreen.preventAutoHideAsync()
 
+TrackPlayer.registerPlaybackService(() => playback)
+
 export default function RootLayout() {
   const { colors, isAppThemeChanging } = useColorTheme()
 
@@ -78,7 +85,9 @@ export default function RootLayout() {
   })
 
   const prepareApp = async (): Promise<void> => {
+    await initializeAppStorage()
     await migrate(drizzle(openDatabaseSync(databaseName)), migrations)
+    await setupAudioPlayer()
     i18n.changeLanguage(language)
   }
 
@@ -104,6 +113,18 @@ export default function RootLayout() {
   const onChildrenLayout = useCallback(() => {
     if (isAppReady) SplashScreen.hide()
   }, [isAppReady])
+
+  useEffect(() => {
+    function deepLinkHandler(data: { url: string }) {
+      console.log("deepLinkHandler", data.url)
+    }
+
+    const subscription = Linking.addEventListener("url", deepLinkHandler)
+
+    Linking.getInitialURL().then((url) => console.log("getInitialURL", url))
+
+    return () => subscription.remove()
+  }, [])
 
   const themeScheme = useColorScheme() === "dark" ? DarkTheme : DefaultTheme
 
