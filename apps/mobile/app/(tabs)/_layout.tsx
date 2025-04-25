@@ -12,8 +12,8 @@ import { Tabs } from "expo-router"
 
 import { View } from "react-native"
 
-import { BottomPlayer, Player } from "@features/songs/components"
 import { FadingView, Icon, Pressable, Text } from "@components/ui"
+import { BottomPlayer, Player } from "@features/songs/components"
 
 import { useSharedValue, withTiming } from "react-native-reanimated"
 
@@ -116,6 +116,7 @@ export default function TabLayout() {
             backgroundColor: colors.background
           }
         }}
+        backBehavior="history"
       >
         <Tabs.Screen
           name="index"

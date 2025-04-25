@@ -14,6 +14,8 @@ import { theme } from "@styles/theme"
 
 import { View } from "react-native"
 
+import LottieView from "lottie-react-native"
+
 import { FadingScreen } from "@components/navigation"
 import {
   ActivityIndicator,
@@ -179,17 +181,48 @@ export default function Songs() {
                     index % 1 === 0 && index !== data.length - 1 ? theme.styles.spacing.medium : 0
                 }}
               >
-                <Image
-                  recyclingKey={item.id}
+                <View
                   style={{
-                    borderRadius: theme.styles.borderRadius.xSmall,
-                    borderColor: colors.muted,
-                    borderWidth: theme.styles.border.thin,
+                    position: "relative",
                     height: theme.styles.image.size.medium,
                     width: theme.styles.image.size.medium
                   }}
-                  source={item.thumbnail}
-                />
+                >
+                  <Image
+                    recyclingKey={item.id}
+                    style={{
+                      borderRadius: theme.styles.borderRadius.xSmall,
+                      borderColor: colors.muted,
+                      borderWidth: theme.styles.border.thin,
+                      flex: 1
+                    }}
+                    source={item.thumbnail}
+                  />
+                  {index % 2 === 0 && (
+                    <View
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        position: "absolute",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: colors.background,
+                        opacity: 0.8
+                      }}
+                    >
+                      <LottieView
+                        autoPlay
+                        loop
+                        source={require("@assets/lotties/Song.json")}
+                        style={{
+                          height: theme.styles.image.size.xSmall,
+                          width: theme.styles.image.size.xSmall
+                        }}
+                      />
+                    </View>
+                  )}
+                </View>
                 <ListItemText
                   title={item.name}
                   titleProps={{ numberOfLines: 1 }}
