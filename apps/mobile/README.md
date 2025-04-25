@@ -1,4 +1,4 @@
-<img src="assets/images/app/icon.png" width="100" height="100" style="border-radius: 50%;" />
+<img src="assets/icon.png" width="100" height="100" />
 
 # Wave Mobile
 
