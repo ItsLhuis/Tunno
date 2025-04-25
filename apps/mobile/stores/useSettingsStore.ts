@@ -8,16 +8,6 @@ import { type LocaleKeys } from "@i18n/types"
 
 const SETTINGS_STORE_NAME = "settings"
 
-/* import * as FileSystem from "expo-file-system"
-
-const appDirectory = FileSystem.documentDirectory + "app/"
-const backupsDirectory = FileSystem.documentDirectory + "backups/"
-
-const createDirectoryIfNotExists = async (dir: string): Promise<void> => {
-  const dirInfo = await FileSystem.getInfoAsync(dir)
-  if (!dirInfo.exists) await FileSystem.makeDirectoryAsync(dir, { intermediates: true })
-} */
-
 type SettingsState = {
   language: LocaleKeys
   setLanguage: (code: LocaleKeys) => void
@@ -43,7 +33,7 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: SETTINGS_STORE_NAME,
       version: 1,
-      storage: persistStorage(SETTINGS_STORE_NAME),
+      storage: persistStorage(`.${SETTINGS_STORE_NAME}.json`),
       onRehydrateStorage: (state) => {
         return () => state.setHasHydrated(true)
       }
