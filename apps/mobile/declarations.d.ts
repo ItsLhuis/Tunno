@@ -96,7 +96,6 @@ declare module "*.vtt" {
   export default src
 }
 
-// fonts
 declare module "*.woff" {
   const src: string
   export default src
