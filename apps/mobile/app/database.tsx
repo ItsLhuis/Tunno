@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
 import { useColorTheme } from "@hooks/useColorTheme"
 
-import { database, schema } from "@database/client"
+import { useFetchSongsWithRelations } from "@features/songs/hooks/useFetchSongsWithRelations"
 
-import { eq } from "drizzle-orm"
+import { useCreateSong } from "@features/songs/hooks/useCreateSong"
 
 import { theme } from "@styles/theme"
 
@@ -14,103 +14,30 @@ import LottieView from "lottie-react-native"
 
 import { BackButton, FadingScreen } from "@components/navigation"
 import {
-  Button,
-  FlashListWithHeaders,
   Header,
   IconButton,
   LargeHeader,
   LargeHeaderSubtitle,
+  LegendListWithHeaders,
+  ListItemText,
   Text,
-  TextInput,
-  toast
+  TextInput
 } from "@components/ui"
 
-import Animated, { FadeIn } from "react-native-reanimated"
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
-export default function Artists() {
+export default function Songs() {
   const { colors } = useColorTheme()
 
   const [name, setName] = useState("")
-  const [artistList, setArtistList] = useState<any[]>([])
 
-  const fetchArtists = async () => {
-    try {
-      const result = await database.query.artists.findMany()
-      setArtistList(result)
-    } catch (error) {
-      console.error("Error loading artists:", error)
-    }
-  }
+  const { data: songs } = useFetchSongsWithRelations()
 
-  const handleAddArtist = async () => {
-    if (name.trim()) {
-      try {
-        await database.insert(schema.artists).values({ name })
-        setName("")
-        fetchArtists()
-      } catch (error) {
-        console.error("Error adding artist:", error)
-      }
-    }
-  }
-
-  const handleRemoveArtist = async (id: number) => {
-    const removeArtistToastId = toast("Remove Artist", {
-      description: "Are you sure you want to remove this artist?",
-      cancel: (
-        <Button
-          title="Cancel"
-          color="secondary"
-          onPress={() => toast.dismiss(removeArtistToastId)}
-        />
-      ),
-      action: (
-        <Button
-          title="Remove Artist"
-          onPress={async () => {
-            toast.dismiss(removeArtistToastId)
-            await database.delete(schema.artists).where(eq(schema.artists.id, id))
-            fetchArtists()
-          }}
-        />
-      ),
-      close: <IconButton name="X" onPress={() => toast.dismiss(removeArtistToastId)} />,
-      duration: Infinity
-    })
-  }
-
-  const handleRemoveAll = async () => {
-    const removeAllArtistsToastId = toast("Remove All", {
-      description: "Are you sure you want to remove all artists?",
-      cancel: (
-        <Button
-          title="Cancel"
-          color="secondary"
-          onPress={() => toast.dismiss(removeAllArtistsToastId)}
-        />
-      ),
-      action: (
-        <Button
-          title="Remove All"
-          onPress={async () => {
-            toast.dismiss(removeAllArtistsToastId)
-            await database.delete(schema.artists)
-            fetchArtists()
-          }}
-        />
-      ),
-      close: <IconButton name="X" onPress={() => toast.dismiss(removeAllArtistsToastId)} />,
-      duration: Infinity
-    })
-  }
-
-  useEffect(() => {
-    fetchArtists()
-  }, [])
+  const { mutate } = useCreateSong()
 
   return (
     <FadingScreen style={{ flex: 1 }}>
-      <FlashListWithHeaders
+      <LegendListWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
             scrollY={scrollY}
@@ -118,32 +45,16 @@ export default function Artists() {
             headerLeft={<BackButton />}
             headerCenter={
               <Text variant="bold" size="large">
-                {artistList.length} artist(s)
+                Songs
               </Text>
             }
-            headerRight={<IconButton name="Trash" color="primary" onPress={handleRemoveAll} />}
             headerRightFadesIn
           />
         )}
         LargeHeaderComponent={() => (
-          <LargeHeader
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              gap: theme.styles.spacing.small
-            }}
-          >
-            <IconButton
-              name="Trash"
-              color="primary"
-              variant="contained"
-              noMargin
-              onPress={handleRemoveAll}
-            />
+          <LargeHeader>
             <Text variant="bold" size="xxxLarge">
-              {artistList.length} artist(s)
+              Songs
             </Text>
           </LargeHeader>
         )}
@@ -155,18 +66,19 @@ export default function Artists() {
               value={name}
               onChangeText={setName}
             />
-            <IconButton name="Plus" onPress={handleAddArtist} />
+            <IconButton name="Plus" onPress={() => mutate({ name, duration: 0 })} />
           </LargeHeaderSubtitle>
         )}
         contentContainerStyle={{
           paddingHorizontal: theme.styles.spacing.large,
           paddingBottom: theme.styles.spacing.large
         }}
-        data={artistList}
-        extraData={artistList}
+        data={songs ?? []}
+        extraData={songs}
         renderItem={({ item, index }) => (
           <Animated.View
             entering={FadeIn}
+            exiting={FadeOut}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -176,7 +88,9 @@ export default function Artists() {
               borderWidth: theme.styles.border.thin,
               borderColor: colors.muted,
               marginBottom:
-                index % 1 === 0 && index !== artistList.length - 1 ? theme.styles.spacing.medium : 0
+                index % 1 === 0 && index !== (songs?.length ?? 0) - 1
+                  ? theme.styles.spacing.medium
+                  : 0
             }}
           >
             <Image
@@ -189,26 +103,16 @@ export default function Artists() {
                 borderRadius: theme.styles.borderRadius.xSmall
               }}
             />
-            <View style={{ flex: 1, marginHorizontal: theme.styles.spacing.small }}>
-              <Text
-                variant="bold"
-                size="xLarge"
-                style={{ marginBottom: theme.styles.spacing.xSmall }}
-                numberOfLines={1}
-              >
-                {item.name}
-              </Text>
-              <Text size="medium" affects={["muted", "capitalize", "strikethrough"]}>
-                {item.releaseYear ? `Released: ${item.releaseYear}` : "Release year unknown"}
-              </Text>
-              <Text size="small">
-                {item.duration ? `Duration: ${item.duration} mins` : "Duration unknown"}
-              </Text>
-            </View>
-            <IconButton name="Trash" color="primary" onPress={() => handleRemoveArtist(item.id)} />
+            <ListItemText
+              style={{ marginHorizontal: theme.styles.spacing.small }}
+              title={item.name}
+              description={String(item.duration)}
+            />
           </Animated.View>
         )}
         keyExtractor={(item) => item.id.toString()}
+        recycleItems
+        getEstimatedItemSize={() => 130}
         estimatedItemSize={130}
         ListEmptyComponent={
           <View

@@ -2,17 +2,14 @@ import { database, schema } from "@database/client"
 
 import { eq } from "drizzle-orm"
 
-import { type Song } from "@features/songs/api/types"
+import { type CreateSong, type Song, type UpdateSong } from "@features/songs/api/types"
 
-export const addSong = async (song: Song): Promise<Song> => {
-  const [newSong] = await database.insert(schema.songs).values(song).returning()
-  return newSong
+export const createSong = async (song: CreateSong): Promise<Song> => {
+  const [createdSong] = await database.insert(schema.songs).values(song).returning()
+  return createdSong
 }
 
-export const updateSong = async (
-  id: number,
-  updates: Partial<Omit<Song, "id" | "createdAt">>
-): Promise<Song | undefined> => {
+export const updateSong = async (id: number, updates: UpdateSong): Promise<Song> => {
   const [updatedSong] = await database
     .update(schema.songs)
     .set(updates)
@@ -21,7 +18,10 @@ export const updateSong = async (
   return updatedSong
 }
 
-export const deleteSong = async (id: number): Promise<boolean> => {
-  const result = await database.delete(schema.songs).where(eq(schema.songs.id, id))
-  return result.changes > 0
+export const deleteSong = async (id: number): Promise<Song> => {
+  const [deletedSong] = await database
+    .delete(schema.songs)
+    .where(eq(schema.songs.id, id))
+    .returning()
+  return deletedSong
 }

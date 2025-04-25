@@ -4,28 +4,29 @@ import { useTranslation } from "@i18n/hooks"
 
 import { songKeys } from "@features/songs/api/keys"
 
-import { deleteSong } from "@features/songs/api/mutations"
+import { updateSong } from "@features/songs/api/mutations"
 
 import { toast } from "@components/ui"
 
-export function useDeleteSong() {
+export function useUpdateSong() {
   const queryClient = useQueryClient()
 
   const { t } = useTranslation()
 
   return useMutation({
-    mutationFn: ({ id }: { id: number }) => deleteSong(id),
+    mutationFn: ({ id, updates }: { id: number; updates: Parameters<typeof updateSong>[1] }) =>
+      updateSong(id, updates),
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey: songKeys.detailsWithRelations(id) })
       await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })
     },
     onSuccess: (song) => {
-      toast.success(t("songs.deletedTitle"), {
-        description: t("songs.deletedDescription", { name: song.name })
+      toast.success(t("songs.updatedTitle"), {
+        description: t("songs.updatedDescription", { name: song.name })
       })
     },
     onError: (error) => {
-      toast.error(t("songs.deletedFailedTitle"), {
+      toast.error(t("songs.updatedFailedTitle"), {
         description: error.message
       })
     },
