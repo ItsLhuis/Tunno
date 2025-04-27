@@ -1,6 +1,7 @@
 export type Artist = {
   name: string
   thumbnail: string | null
+  genres: string[] | null
 }
 
 export type Album = {

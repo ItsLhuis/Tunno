@@ -8,8 +8,8 @@ import { calculateTrackSimilarity, proportionalSimilarity } from "./utils"
 
 import { RateLimiter } from "../classes/rateLimiter"
 
-import inquirer from "inquirer"
 import chalk from "chalk"
+import inquirer from "inquirer"
 
 const SPOTIFY_API_BASE_URL = "https://api.spotify.com/v1"
 const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/api/token"
@@ -29,6 +29,7 @@ type SpotifyArtistDetails = {
 type SpotifyArtist = {
   name: string
   thumbnail: string | null
+  genres: string[] | null
 }
 
 type SpotifyAlbum = {
@@ -118,7 +119,8 @@ async function buildTrackResult(track: any): Promise<SpotifyTrack | null> {
     if (artistDetails) {
       result.artists.push({
         name: artistDetails.name,
-        thumbnail: artistDetails.images?.[0]?.url || null
+        thumbnail: artistDetails.images?.[0]?.url || null,
+        genres: artistDetails.genres.length > 0 ? artistDetails.genres : null
       })
     }
   }

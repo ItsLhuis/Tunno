@@ -10,11 +10,11 @@ import sanitize from "sanitize-filename"
 import { getDownloadPath } from "./config"
 
 import {
-  downloadThumbnail,
-  runCommand,
-  execPromise,
+  cleanArtistName,
   cleanTrackName,
-  cleanArtistName
+  downloadThumbnail,
+  execPromise,
+  runCommand
 } from "./utils"
 
 import { getTrack } from "./spotify"
@@ -168,12 +168,14 @@ export const download = async (
 
           videoMetadata.artists.push({
             name: artist.name,
-            thumbnail: artistThumbnailUUID
+            thumbnail: artistThumbnailUUID,
+            genres: artist.genres
           })
         } else {
           videoMetadata.artists.push({
             name: artist.name,
-            thumbnail: null
+            thumbnail: null,
+            genres: artist.genres
           })
         }
       }
