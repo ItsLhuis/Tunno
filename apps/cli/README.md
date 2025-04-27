@@ -99,10 +99,10 @@ Before using **Wave CLI**, make sure you have the following installed on your sy
   wave get-path
   ```
 
-- **Set Spotify Credentials**: Provide your Spotify Client ID and Client Secret:
+- **Set API Credentials**: Provide your Spotify credentials:
 
   ```bash
-  wave credentials --client-id SPOTIFY_CLIENT_ID --client-secret SPOTIFY_CLIENT_SECRET
+  wave credentials --spotify-client-id SPOTIFY_CLIENT_ID --spotify-client-secret SPOTIFY_CLIENT_SECRET
   ```
 
 ### YouTube Download
@@ -210,7 +210,7 @@ Before using **Wave CLI**, make sure you have the following installed on your sy
 2. **Set Spotify Credentials**: Provide your Spotify Client ID and Client Secret:
 
    ```bash
-   wave credentials --client-id SPOTIFY_CLIENT_ID --client-secret SPOTIFY_CLIENT_SECRET
+   wave credentials --spotify-client-id SPOTIFY_CLIENT_ID --spotify-client-secret SPOTIFY_CLIENT_SECRET
    ```
 
 3. **Download Audio**: Fetch a track from YouTube:
