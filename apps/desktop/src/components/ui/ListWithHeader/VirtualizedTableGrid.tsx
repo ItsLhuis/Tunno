@@ -34,7 +34,6 @@ import {
 } from "@tanstack/react-table"
 
 import { ContextMenu, ContextMenuTrigger } from "@components/ui/ContextMenu"
-import { Loader } from "@components/ui/Loader"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
 
@@ -47,6 +46,7 @@ export type VirtualizedTableGridWithHeadersProps<TData, TValue> = HTMLAttributes
     HeaderComponent: (table: TanStackTable<TData>) => ReactNode
     StickyHeaderComponent?: (table: TanStackTable<TData>) => ReactNode
     ListHeaderComponent?: (table: TanStackTable<TData>) => ReactNode
+    ListEmptyComponent?: () => ReactNode
     stickyHeaderContainerClassName?: string
     containerClassName?: string
     columns: ColumnDef<TData, TValue>[]
@@ -58,13 +58,13 @@ export type VirtualizedTableGridWithHeadersProps<TData, TValue> = HTMLAttributes
     rowStyle?: CSSProperties
     showTableColumns?: boolean
     initialVisibleColumns?: VisibilityState
-    isLoading?: boolean
   }
 
 const VirtualizedTableGridWithHeaders = <TData, TValue>({
   HeaderComponent,
   StickyHeaderComponent,
   ListHeaderComponent,
+  ListEmptyComponent,
   stickyHeaderContainerClassName,
   stickHeaderThreshold = 10,
   containerClassName,
@@ -77,7 +77,6 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
   rowStyle = {},
   showTableColumns = true,
   initialVisibleColumns = {},
-  isLoading = false,
   className,
   ...props
 }: VirtualizedTableGridWithHeadersProps<TData, TValue>) => {
@@ -169,9 +168,11 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
       .join(" ")
   }, [visibleColumns])
 
+  const isListEmpty = virtualRows.length === 0
+
   return (
     <ScrollArea ref={scrollRef} className={cn("h-full w-full flex-1", containerClassName)}>
-      <div className={cn("relative flex w-full flex-1 flex-col", isLoading && "h-full")}>
+      <div className={cn("relative flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
         <AnimatePresence mode="popLayout">
           {isScrolled && StickyHeaderComponent && (
             <motion.div
@@ -227,7 +228,7 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
           className={cn("h-full p-3 pt-3 transition-[padding] md:p-9 md:pt-3", className)}
           {...props}
         >
-          <Table className={cn("relative overflow-hidden", isLoading && "h-full")}>
+          <Table className={cn("relative overflow-hidden", isListEmpty && "h-full")}>
             {showTableColumns && (
               <TableHeader ref={tableHeaderRef}>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -261,22 +262,16 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
               </TableHeader>
             )}
             <motion.tbody
-              key={String(isLoading)}
-              style={{ height: isLoading ? "100%" : `${rowVirtualizer.getTotalSize()}px` }}
-              className={cn(isLoading && "flex h-full items-center justify-center")}
+              key={String(isListEmpty)}
+              style={{ height: isListEmpty ? "100%" : `${rowVirtualizer.getTotalSize()}px` }}
+              className={cn(isListEmpty && "flex h-full items-center justify-center")}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              {isLoading ? (
+              {isListEmpty ? (
                 <TableRow className="flex min-h-14 items-center border-none hover:bg-transparent">
                   <TableCell>
-                    <Loader />
-                  </TableCell>
-                </TableRow>
-              ) : rows.length === 0 ? (
-                <TableRow className="flex w-full justify-center rounded-md border-none hover:bg-transparent">
-                  <TableCell colSpan={columns.length} className="py-4 text-center">
-                    {t("common.noResultsFound")}
+                    {ListEmptyComponent ? ListEmptyComponent() : t("common.noResultsFound")}
                   </TableCell>
                 </TableRow>
               ) : (
