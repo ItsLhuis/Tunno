@@ -13,11 +13,9 @@ import {
 
 import { cn } from "@lib/utils"
 
-/* import { Focusing, Hovering } from "../features" */
-
 import { useTranslation } from "@i18n/hooks"
 
-import { useScroll } from "../hooks"
+import { useScroll } from "./hooks"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
@@ -42,9 +40,9 @@ import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/
 
 import { AnimatePresence, motion } from "motion/react"
 
-import { type SharedScrollContainerProps } from "../types"
+import { type SharedScrollContainerProps } from "./types"
 
-export type VirtualizedTableGridProps<TData, TValue> = HTMLAttributes<HTMLDivElement> &
+export type VirtualizedTableGridWithHeadersProps<TData, TValue> = HTMLAttributes<HTMLDivElement> &
   SharedScrollContainerProps & {
     HeaderComponent: (table: TanStackTable<TData>) => ReactNode
     StickyHeaderComponent?: (table: TanStackTable<TData>) => ReactNode
@@ -63,7 +61,7 @@ export type VirtualizedTableGridProps<TData, TValue> = HTMLAttributes<HTMLDivEle
     isLoading?: boolean
   }
 
-const VirtualizedTableGrid = <TData, TValue>({
+const VirtualizedTableGridWithHeaders = <TData, TValue>({
   HeaderComponent,
   StickyHeaderComponent,
   ListHeaderComponent,
@@ -82,7 +80,7 @@ const VirtualizedTableGrid = <TData, TValue>({
   isLoading = false,
   className,
   ...props
-}: VirtualizedTableGridProps<TData, TValue>) => {
+}: VirtualizedTableGridWithHeadersProps<TData, TValue>) => {
   const { t } = useTranslation()
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -120,7 +118,6 @@ const VirtualizedTableGrid = <TData, TValue>({
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
   const table = useReactTable({
-    /* _features: [Focusing, Hovering], */
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -302,10 +299,6 @@ const VirtualizedTableGrid = <TData, TValue>({
                             gridTemplateColumns: dynamicGridCols,
                             ...rowStyle
                           }}
-                          /* onFocus={() => row.toggleFocused()}
-                            onBlur={() => row.toggleFocused()}
-                            onMouseEnter={() => row.toggleHovered()}
-                            onMouseLeave={() => row.toggleHovered()} */
                         >
                           {row.getVisibleCells().map((cell) => (
                             <TableCell
@@ -336,6 +329,6 @@ const VirtualizedTableGrid = <TData, TValue>({
     </ScrollArea>
   )
 }
-VirtualizedTableGrid.displayName = "VirtualizedTableGrid"
+VirtualizedTableGridWithHeaders.displayName = "VirtualizedTableGridWithHeaders"
 
-export { VirtualizedTableGrid }
+export { VirtualizedTableGridWithHeaders }

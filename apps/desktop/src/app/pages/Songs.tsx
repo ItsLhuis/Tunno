@@ -41,7 +41,7 @@ import {
   SearchInput,
   StickyHeader,
   Typography,
-  VirtualizedTableGrid
+  VirtualizedTableGridWithHeaders
 } from "@components/ui"
 
 import { motion } from "motion/react"
@@ -231,7 +231,7 @@ const getRandomPastDate = () => {
   return new Date(pastTime)
 }
 
-const data: Song[] = Array.from({ length: 2012 }, (_, index) => ({
+const data: Song[] = Array.from({ length: 100 }, (_, index) => ({
   id: (index + 1).toString(),
   title: `Song ${index + 1}`,
   album: `Album ${index + 1}`,
@@ -298,7 +298,7 @@ function Songs() {
   const { t } = useTranslation()
 
   return (
-    <VirtualizedTableGrid
+    <VirtualizedTableGridWithHeaders
       HeaderComponent={(table: Table<Song>) => {
         const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
