@@ -1,0 +1,26 @@
+{
+  "name": "wave",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:desktop": "turbo run dev --filter=desktop",
+    "dev:mobile": "turbo run dev --filter=mobile",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@11.3.0",
+  "devDependencies": {
+    "turbo": "^2.5.2"
+  }
+}

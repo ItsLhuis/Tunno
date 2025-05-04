@@ -1,5 +1,5 @@
 {
-  "name": "wave",
+  "name": "cli",
   "version": "1.0.0",
   "main": "dist/bin/wave.js",
   "bin": {
@@ -7,14 +7,11 @@
   },
   "type": "commonjs",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/bin/wave.js"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^22.10.2",
-    "prettier": "^3.5.3",
-    "typescript": "^5.7.2"
-  },
   "dependencies": {
     "axios": "^1.7.9",
     "chalk": "^4.1.2",
@@ -24,5 +21,10 @@
     "sanitize-filename": "^1.6.3",
     "sharp": "^0.33.5",
     "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "prettier": "^3.5.3",
+    "typescript": "^5.7.2"
   }
 }

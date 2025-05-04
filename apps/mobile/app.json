@@ -19,6 +19,7 @@
         "UIBackgroundModes": ["audio"]
       }
     },
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/android/icons/default.png",

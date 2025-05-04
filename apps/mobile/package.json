@@ -1,7 +1,8 @@
 {
-  "name": "wave",
-  "main": "expo-router/entry",
+  "name": "mobile",
+  "private": true,
   "version": "1.0.0",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "dev": "expo start --dev-client",
@@ -58,7 +59,7 @@
     "fuse.js": "^7.1.0",
     "i18next": "^25.0.2",
     "lodash": "^4.17.21",
-    "lottie-react-native": "^7.1.0",
+    "lottie-react-native": "7.1.0",
     "lucide-react-native": "^0.507.0",
     "polished": "^4.3.1",
     "react": "18.3.1",
@@ -90,7 +91,5 @@
     "react-test-renderer": "18.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  },
-  "private": true,
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  }
 }

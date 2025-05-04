@@ -114,7 +114,7 @@ const columns: ColumnDef<Song>[] = [
       return (
         <div className="flex flex-1 items-center gap-3 truncate">
           <Image
-            src={row.original.thumbnail} // Use the thumbnail field
+            src={row.original.thumbnail}
             alt="thumbnail"
             containerClassName="border border-muted rounded-md"
             className="size-12 rounded-md object-cover"
