@@ -1,0 +1,83 @@
+{
+  "expo": {
+    "name": "Wave",
+    "slug": "wave",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/app/icon.png",
+    "scheme": "wave",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": false,
+    "ios": {
+      "icon": {
+        "light": "./assets/images/ios/icons/default.png",
+        "dark": "./assets/images/ios/icons/default.png",
+        "tinted": "./assets/images/ios/icons/tinted.png"
+      },
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/android/icons/default.png",
+        "monochromeImage": "./assets/images/android/icons/monochrome.png",
+        "backgroundColor": "#FC3C44"
+      },
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.itslhuis.wave"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash/light.png",
+          "backgroundColor": "#F5F5F5",
+          "dark": {
+            "image": "./assets/images/splash/dark.png",
+            "backgroundColor": "#161616"
+          },
+          "imageWidth": 200,
+          "resizeMode": "contain"
+        }
+      ],
+      [
+        "react-native-edge-to-edge",
+        {
+          "android": {
+            "parentTheme": "Default",
+            "enforceNavigationBarContrast": false
+          }
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "assets/fonts/SpaceGrotesk-Regular.ttf",
+            "assets/fonts/SpaceGrotesk-Medium.ttf",
+            "assets/fonts/SpaceGrotesk-Bold.ttf",
+            "assets/fonts/SpaceGrotesk-Light.ttf"
+          ]
+        }
+      ],
+      "expo-sqlite",
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2aa1e6b1-07e8-42e2-99ce-2ef6664eb9ce"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2aa1e6b1-07e8-42e2-99ce-2ef6664eb9ce"
+    }
+  }
+}
