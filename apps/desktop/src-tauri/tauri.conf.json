@@ -1,0 +1,73 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Wave",
+  "mainBinaryName": "Wave",
+  "version": "1.0.0",
+  "identifier": "com.itslhuis.wave",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:4535",
+    "beforeDevCommand": "npm run start",
+    "beforeBuildCommand": "npm run build:vite"
+  },
+  "app": {
+    "macOSPrivateApi": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Wave",
+        "width": 960,
+        "height": 540,
+        "minWidth": 720,
+        "minHeight": 405,
+        "decorations": false,
+        "resizable": true,
+        "visible": false,
+        "useHttpsScheme": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "publisher": "ItsLhuis",
+    "category": "Music",
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [
+      "migrations/*"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "",
+      "exceptionDomain": "",
+      "signingIdentity": null,
+      "entitlements": null
+    },
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K",
+      "endpoints": ["https://github.com/ItsLhuis/Wave-Desktop/releases/latest/download/latest.json"]
+    }
+  }
+}

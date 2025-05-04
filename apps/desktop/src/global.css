@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./assets/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./assets/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@layer base {
+  :root {
+    --background: 0 0% 96%;
+    --foreground: 210 13% 11%;
+    --card: 0 0% 96%;
+    --card-foreground: 210 13% 11%;
+    --popover: 0 0% 96%;
+    --popover-foreground: 210 13% 11%;
+    --primary: 0 84.2% 60.2%;
+    --primary-foreground: 210 8% 92%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 210 13% 11%;
+    --muted: 0 0% 89%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 89%;
+    --accent-foreground: 210 13% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 8% 92%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 210 13% 11%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 94%;
+    --sidebar-foreground: 210 13% 11%;
+    --sidebar-primary: 0 84.2% 60.2%;
+    --sidebar-primary-foreground: 210 13% 11%;
+    --sidebar-accent: 0 0% 89%;
+    --sidebar-accent-foreground: 210 13% 11%;
+    --sidebar-border: 0 0% 89.8%;
+    --sidebar-ring: 210 13% 11%;
+    --info: 207 100% 65%;
+    --success: 144 60% 50%;
+    --warning: 30 100% 70%;
+    --error: 0 100% 40%;
+  }
+  .dark {
+    --background: 0 0% 9%;
+    --foreground: 210 8% 92%;
+    --card: 0 0% 9%;
+    --card-foreground: 210 8% 92%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 210 8% 92%;
+    --primary: 357 96% 59%;
+    --primary-foreground: 210 8% 92%;
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 210 8% 92%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 18%;
+    --accent-foreground: 210 8% 92%;
+    --destructive: 357 96% 59%;
+    --destructive-foreground: 210 8% 92%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 0 0% 11%;
+    --sidebar-foreground: 210 8% 92%;
+    --sidebar-primary: 357 96% 59%;
+    --sidebar-primary-foreground: 210 8% 92%;
+    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent-foreground: 210 8% 92%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 0 0% 83.1%;
+    --info: 207 100% 65%;
+    --success: 144 60% 50%;
+    --warning: 30 100% 70%;
+    --error: 0 100% 40%;
+  }
+}
+@layer base {
+  * {
+    @apply select-none;
+  }
+  html {
+    font-family:
+      "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  img {
+    pointer-events: none;
+  }
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  body {
+    overflow: hidden;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--foreground) / 0.2);
+    border: 6px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar {
+    cursor: pointer !important;
+    width: 16px;
+    height: 16px;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
