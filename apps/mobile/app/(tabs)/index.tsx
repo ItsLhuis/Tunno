@@ -198,30 +198,6 @@ export default function Songs() {
                     }}
                     source={item.thumbnail}
                   />
-                  {index % 2 === 0 && (
-                    <View
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        position: "absolute",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: colors.background,
-                        opacity: 0.8
-                      }}
-                    >
-                      <LottieView
-                        autoPlay
-                        loop
-                        source={require("@assets/lotties/Song.json")}
-                        style={{
-                          height: theme.styles.image.size.xSmall,
-                          width: theme.styles.image.size.xSmall
-                        }}
-                      />
-                    </View>
-                  )}
                 </View>
                 <ListItemText
                   title={item.name}
@@ -229,6 +205,17 @@ export default function Songs() {
                   description={item.description}
                   descriptionProps={{ numberOfLines: 1 }}
                 />
+                {index === 0 && (
+                  <LottieView
+                    autoPlay
+                    loop
+                    source={require("@assets/lotties/Song.json")}
+                    style={{
+                      height: theme.styles.image.size.xSmall,
+                      width: theme.styles.image.size.xSmall
+                    }}
+                  />
+                )}
                 <IconButton name="More" />
               </View>
             </Pressable>
