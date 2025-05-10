@@ -1,6 +1,7 @@
 {
-  "name": "cli",
+  "name": "@wave/cli",
   "version": "1.0.0",
+  "description": "Command-line tool for managing your personal music library",
   "main": "dist/bin/wave.js",
   "bin": {
     "wave": "dist/bin/wave.js"
@@ -9,9 +10,29 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node dist/bin/wave.js"
+    "start": "node dist/bin/wave.js",
+    "lint": "prettier --write ."
   },
+  "keywords": [
+    "cli",
+    "music",
+    "youtube",
+    "spotify",
+    "downloader",
+    "audio",
+    "media"
+  ],
+  "author": "ItsLhuis",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsLhuis/Wave.git",
+    "directory": "apps/cli"
+  },
+  "homepage": "https://github.com/ItsLhuis/Wave/tree/main/apps/cli",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "axios": "^1.7.9",
     "chalk": "^4.1.2",
@@ -26,5 +47,8 @@
     "@types/node": "^22.10.2",
     "prettier": "^3.5.3",
     "typescript": "^5.7.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

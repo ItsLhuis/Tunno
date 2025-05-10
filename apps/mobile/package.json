@@ -1,8 +1,8 @@
 {
-  "name": "mobile",
+  "name": "@wave/mobile",
   "private": true,
   "version": "1.0.0",
-  "main": "expo-router/entry",
+  "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "dev": "expo start --dev-client",
@@ -21,8 +21,7 @@
           "lucide-react-native",
           "lodash",
           "react-native-track-player",
-          "drizzle-orm",
-          "i18next"
+          "drizzle-orm"
         ]
       }
     }
@@ -37,6 +36,7 @@
     "@miblanchard/react-native-slider": "^2.6.0",
     "@react-native-community/netinfo": "11.4.1",
     "@react-navigation/native": "^7.0.0",
+    "@repo/i18n": "*",
     "@shopify/flash-list": "1.7.3",
     "@tanstack/react-query": "^5.71.10",
     "axios": "^1.8.4",
@@ -57,7 +57,6 @@
     "expo-system-ui": "~4.0.9",
     "expo-updates": "~0.27.4",
     "fuse.js": "^7.1.0",
-    "i18next": "^25.0.2",
     "lodash": "^4.17.21",
     "lottie-react-native": "7.1.0",
     "lucide-react-native": "^0.507.0",
@@ -65,7 +64,6 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.55.0",
-    "react-i18next": "^15.4.1",
     "react-native": "0.76.9",
     "react-native-edge-to-edge": "^1.5.0",
     "react-native-gesture-handler": "~2.20.2",

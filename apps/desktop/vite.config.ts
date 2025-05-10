@@ -42,7 +42,6 @@ export default defineConfig(async () => ({
       "@database": path.resolve(root, "database/"),
       "@features": path.resolve(root, "features/"),
       "@hooks": path.resolve(root, "hooks/"),
-      "@i18n": path.resolve(root, "i18n/"),
       "@lib": path.resolve(root, "lib/"),
       "@services": path.resolve(root, "services/"),
       "@stores": path.resolve(root, "stores/"),

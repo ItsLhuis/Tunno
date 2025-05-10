@@ -48,32 +48,19 @@ Before using **Wave CLI**, make sure you have the following installed on your sy
   Alternatively, you can download it from [FFmpeg](https://ffmpeg.org/download.html) and follow the
   installation instructions.
 
-### Steps
+### Installation
 
-1. Clone the repository:
+You can install Wave CLI directly from npm:
 
-   ```bash
-   git clone https://github.com/ItsLhuis/Wave-CLI.git
-   cd Wave-CLI
-   ```
+```bash
+npm install -g @wave/cli
+```
 
-2. Install dependencies:
+Or using yarn:
 
-   ```bash
-   npm install
-   ```
-
-3. Build the TypeScript project:
-
-   ```bash
-   npm run build
-   ```
-
-4. Install the CLI globally:
-
-   ```bash
-   npm install -g .
-   ```
+```bash
+yarn global add @wave/cli
+```
 
 ---
 
@@ -217,6 +204,37 @@ Before using **Wave CLI**, make sure you have the following installed on your sy
 
    ```bash
    wave youtube --id VIDEO_ID
+   ```
+
+---
+
+## Development
+
+If you want to contribute to Wave CLI, you can set up the development environment:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/ItsLhuis/Wave.git
+   cd Wave/apps/cli
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   yarn install
+   ```
+
+3. Build the TypeScript project:
+
+   ```bash
+   yarn build
+   ```
+
+4. For local testing, you can link the package:
+
+   ```bash
+   npm link
    ```
 
 ---

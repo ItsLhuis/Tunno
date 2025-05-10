@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import { songKeys } from "@features/songs/api/keys"
 

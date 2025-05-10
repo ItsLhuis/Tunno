@@ -4,20 +4,15 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", "node_modules/.cache/metro/**"]
     },
     "dev": {
-      "dependsOn": ["^dev"],
       "cache": false,
       "persistent": true
     },
     "start": {
       "cache": false,
       "persistent": true
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
     }
   }
 }

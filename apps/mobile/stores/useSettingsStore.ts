@@ -3,8 +3,8 @@ import { persist } from "zustand/middleware"
 
 import { persistStorage } from "./config/persist"
 
-import i18n from "@i18n/config"
-import { type LocaleKeys } from "@i18n/types"
+
+import { i18n, type LocaleKeys } from "@repo/i18n"
 
 const SETTINGS_STORE_NAME = "settings"
 

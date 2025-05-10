@@ -6,7 +6,7 @@ import { useTheme } from "@contexts/ThemeContext"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import {
   Button,

@@ -10,7 +10,8 @@ import { useFonts } from "expo-font"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
-import { useTranslation } from "@i18n/hooks"
+import "@repo/i18n"
+import { useTranslation } from "@repo/i18n"
 
 import * as Updates from "expo-updates"
 

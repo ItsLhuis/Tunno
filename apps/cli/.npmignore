@@ -1,0 +1,14 @@
+/src
+/bin
+
+.eslintrc
+.prettierrc
+
+/example
+
+.vscode
+
+.gitignore
+.github
+
+npm-debug.log*

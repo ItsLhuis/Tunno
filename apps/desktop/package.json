@@ -1,5 +1,5 @@
 {
-  "name": "desktop",
+  "name": "@wave/desktop",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -11,9 +11,10 @@
     "build": "tauri build",
     "tauri": "tauri",
     "preview": "vite preview",
-    "studio": "npx drizzle-kit studio"
+    "studio": "yarn drizzle-kit studio"
   },
   "dependencies": {
+    "@repo/i18n": "*",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.2",
@@ -46,7 +47,6 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "drizzle-orm": "^0.40.0",
-    "i18next": "^24.2.3",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.460.0",
@@ -55,7 +55,6 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.55.0",
-    "react-i18next": "^15.4.1",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.1.1",
     "react-track-player-web": "^1.0.2",

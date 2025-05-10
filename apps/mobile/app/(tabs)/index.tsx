@@ -4,7 +4,7 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import { debounce } from "lodash"
 
@@ -206,15 +206,17 @@ export default function Songs() {
                   descriptionProps={{ numberOfLines: 1 }}
                 />
                 {index === 0 && (
-                  <LottieView
-                    autoPlay
-                    loop
-                    source={require("@assets/lotties/Song.json")}
-                    style={{
-                      height: theme.styles.image.size.xSmall,
-                      width: theme.styles.image.size.xSmall
-                    }}
-                  />
+                  <Animated.View entering={FadeIn} exiting={FadeOut}>
+                    <LottieView
+                      autoPlay
+                      loop
+                      source={require("@assets/lotties/Song.json")}
+                      style={{
+                        height: theme.styles.image.size.xSmall,
+                        width: theme.styles.image.size.xSmall
+                      }}
+                    />
+                  </Animated.View>
                 )}
                 <IconButton name="More" />
               </View>

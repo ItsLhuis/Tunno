@@ -13,7 +13,7 @@ import {
 
 import { cn } from "@lib/utils"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import { useScroll } from "./hooks"
 

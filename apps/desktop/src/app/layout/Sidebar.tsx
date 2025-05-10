@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import { useLocation } from "react-router-dom"
 

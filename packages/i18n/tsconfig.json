@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2020",
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "outDir": "dist",
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
+  },
+  "include": ["src", "declarations.d.ts"]
+}

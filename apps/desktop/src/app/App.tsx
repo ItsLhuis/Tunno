@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import { initializeAppStorage } from "@lib/appStorage"
 

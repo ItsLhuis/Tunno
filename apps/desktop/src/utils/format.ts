@@ -1,6 +1,6 @@
 import { differenceInHours, isToday, isYesterday, parseISO } from "date-fns"
 
-import i18n from "@i18n/config"
+import { i18n } from "@repo/i18n"
 
 export function formatRelativeDate(data: Date | string): string {
   const t = i18n.t

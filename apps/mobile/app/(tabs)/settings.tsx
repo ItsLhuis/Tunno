@@ -2,7 +2,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import { theme } from "@styles/theme"
 

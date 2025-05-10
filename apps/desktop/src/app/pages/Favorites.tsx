@@ -1,4 +1,4 @@
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import NotFound from "@assets/lotties/NotFound.json"
 import Lottie from "lottie-react"

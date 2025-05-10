@@ -55,7 +55,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-          cache: npm
+          cache: "yarn"
+
+      - name: Install Yarn
+        run: npm install -g yarn
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -77,7 +80,9 @@ jobs:
 
       - name: Install frontend dependencies
         run: |
-          npm install
+          cd ../../  # Move to the root of the monorepo
+          yarn install
+          cd apps/desktop  # Return to desktop directory
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0

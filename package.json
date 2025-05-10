@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",
@@ -12,14 +13,12 @@
     "dev:mobile": "turbo run dev --filter=mobile",
     "start": "turbo run start",
     "lint": "turbo run lint",
-    "test": "turbo run test",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "test": "turbo run test"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "npm@11.3.0",
+  "packageManager": "yarn@1.22.22",
   "devDependencies": {
     "turbo": "^2.5.2"
   }

@@ -1,0 +1,22 @@
+{
+  "name": "@repo/i18n",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch --preserveWatchOutput && yarn copy-assets",
+    "build": "tsc && yarn copy-assets",
+    "copy-assets": "node scripts/dirCopy.js ./src/assets ./dist/assets"
+  },
+  "dependencies": {
+    "i18next": "^25.0.2",
+    "react-i18next": "^15.5.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

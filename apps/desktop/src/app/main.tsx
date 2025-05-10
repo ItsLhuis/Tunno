@@ -27,7 +27,7 @@ import App from "./App"
 
 import { Toaster } from "@components/ui"
 
-import "@i18n/config"
+import "@repo/i18n"
 
 import "../global.css"
 

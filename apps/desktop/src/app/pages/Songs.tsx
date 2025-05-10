@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 
-import { useTranslation } from "@i18n/hooks"
+import { useTranslation } from "@repo/i18n"
 
 import { debounce } from "lodash"
 
