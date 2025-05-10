@@ -5,7 +5,7 @@ import path from "path"
 
 const tauriConfigPath = path.resolve(__dirname, ".", "src-tauri", "tauri.conf.json")
 
-const defaultBundleId = "com.itslhuis.wave"
+const defaultBundleId = "com.itslhuis.tunno"
 
 function getBundleId() {
   try {

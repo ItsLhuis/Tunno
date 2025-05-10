@@ -1,11 +1,12 @@
 {
-  "name": "@wave/mobile",
+  "name": "@tunno/mobile",
   "private": true,
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "dev": "expo start --dev-client",
+    "build": "exit 0",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "test": "jest --watchAll",

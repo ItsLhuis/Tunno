@@ -1,8 +1,8 @@
 <img src="../../assets/icon.png" width="100" height="100" />
 
-# Wave CLI
+# Tunno CLI
 
-**Wave CLI** is a command-line tool for managing your personal music library. It allows you to
+**Tunno CLI** is a command-line tool for managing your personal music library. It allows you to
 download, organize, and manage media files efficiently with a set of user-friendly commands.
 
 ---
@@ -25,7 +25,7 @@ download, organize, and manage media files efficiently with a set of user-friend
 
 ### Prerequisites
 
-Before using **Wave CLI**, make sure you have the following installed on your system:
+Before using **Tunno CLI**, make sure you have the following installed on your system:
 
 - **Node.js**: Ensure you have Node.js (version 16 or higher) installed on your system.
 
@@ -50,16 +50,16 @@ Before using **Wave CLI**, make sure you have the following installed on your sy
 
 ### Installation
 
-You can install Wave CLI directly from npm:
+You can install Tunno CLI directly from npm:
 
 ```bash
-npm install -g @wave/cli
+npm install -g @tunno/cli
 ```
 
 Or using yarn:
 
 ```bash
-yarn global add @wave/cli
+yarn global add @tunno/cli
 ```
 
 ---
@@ -71,25 +71,25 @@ yarn global add @wave/cli
 - **Help**: View available commands and usage:
 
   ```bash
-  wave -h
+  tunno -h
   ```
 
 - **Set Download Path**: Define the directory for storing downloaded media:
 
   ```bash
-  wave set-path /your/custom/path
+  tunno set-path /your/custom/path
   ```
 
 - **View Current Path**: Check the current download directory:
 
   ```bash
-  wave get-path
+  tunno get-path
   ```
 
 - **Set API Credentials**: Provide your Spotify credentials:
 
   ```bash
-  wave credentials --spotify-client-id SPOTIFY_CLIENT_ID --spotify-client-secret SPOTIFY_CLIENT_SECRET
+  tunno credentials --spotify-client-id SPOTIFY_CLIENT_ID --spotify-client-secret SPOTIFY_CLIENT_SECRET
   ```
 
 ### YouTube Download
@@ -97,13 +97,13 @@ yarn global add @wave/cli
 - **Download Audio from YouTube**:
 
   ```bash
-  wave youtube --id YOUR_VIDEO_ID
+  tunno youtube --id YOUR_VIDEO_ID
   ```
 
   Example:
 
   ```bash
-  wave youtube --id dQw4w9WgXcQ
+  tunno youtube --id dQw4w9WgXcQ
   ```
 
   This command downloads the audio, processes the album cover, and generates a JSON file with
@@ -115,13 +115,13 @@ yarn global add @wave/cli
 - **Download Playlist from YouTube**:
 
   ```bash
-  wave youtube --playlist-id YOUR_PLAYLIST_ID
+  tunno youtube --playlist-id YOUR_PLAYLIST_ID
   ```
 
   Example:
 
   ```bash
-  wave youtube --playlist-id PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI
+  tunno youtube --playlist-id PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI
   ```
 
   This command downloads all audio tracks from the specified playlist.
@@ -131,13 +131,13 @@ yarn global add @wave/cli
   You can refine the metadata used for Spotify search by providing optional fields:
 
   ```bash
-  wave youtube --id YOUR_VIDEO_ID --title "Custom Title" --artist "Custom Artist" --year 2023
+  tunno youtube --id YOUR_VIDEO_ID --title "Custom Title" --artist "Custom Artist" --year 2023
   ```
 
   Example:
 
   ```bash
-  wave youtube --id dQw4w9WgXcQ --title "Never Gonna Give You Up" --artist "Rick Astley" --year 1987
+  tunno youtube --id dQw4w9WgXcQ --title "Never Gonna Give You Up" --artist "Rick Astley" --year 1987
   ```
 
   This command overrides the default metadata with the provided title, artist, and year.
@@ -147,13 +147,13 @@ yarn global add @wave/cli
   If you want to download only the audio without any metadata processing:
 
   ```bash
-  wave youtube --id YOUR_VIDEO_ID --basic
+  tunno youtube --id YOUR_VIDEO_ID --basic
   ```
 
   Example:
 
   ```bash
-  wave youtube --id dQw4w9WgXcQ --basic
+  tunno youtube --id dQw4w9WgXcQ --basic
   ```
 
   This command downloads the audio without processing metadata or album covers.
@@ -163,13 +163,13 @@ yarn global add @wave/cli
   If you want to download only the audio from a playlist without any metadata processing:
 
   ```bash
-  wave youtube --playlist-id YOUR_PLAYLIST_ID --basic
+  tunno youtube --playlist-id YOUR_PLAYLIST_ID --basic
   ```
 
   Example:
 
   ```bash
-  wave youtube --playlist-id PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI --basic
+  tunno youtube --playlist-id PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI --basic
   ```
 
   This command downloads all audio tracks from the specified playlist without processing metadata or
@@ -179,8 +179,8 @@ yarn global add @wave/cli
 
 - **Refine Metadata with Spotify**:
 
-  By providing valid Spotify Client ID and Client Secret credentials with the `wave credentials`
-  command, Wave CLI can utilize the Spotify Web API to retrieve precise music data. This enhances
+  By providing valid Spotify Client ID and Client Secret credentials with the `tunno credentials`
+  command, Tunno CLI can utilize the Spotify Web API to retrieve precise music data. This enhances
   the accuracy of artist, album, and other metadata for the tracks you download.
 
   **Note**: If you do not use the `--basic` command to download only the audio, providing Spotify
@@ -191,32 +191,32 @@ yarn global add @wave/cli
 1. **Set Path**: Define the directory for downloads:
 
    ```bash
-   wave set-path /home/user/Music/Wave
+   tunno set-path /home/user/Music/Tunno
    ```
 
 2. **Set Spotify Credentials**: Provide your Spotify Client ID and Client Secret:
 
    ```bash
-   wave credentials --spotify-client-id SPOTIFY_CLIENT_ID --spotify-client-secret SPOTIFY_CLIENT_SECRET
+   tunno credentials --spotify-client-id SPOTIFY_CLIENT_ID --spotify-client-secret SPOTIFY_CLIENT_SECRET
    ```
 
 3. **Download Audio**: Fetch a track from YouTube:
 
    ```bash
-   wave youtube --id VIDEO_ID
+   tunno youtube --id VIDEO_ID
    ```
 
 ---
 
 ## Development
 
-If you want to contribute to Wave CLI, you can set up the development environment:
+If you want to contribute to Tunno CLI, you can set up the development environment:
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/ItsLhuis/Wave.git
-   cd Wave/apps/cli
+   git clone https://github.com/ItsLhuis/Tunno.git
+   cd Tunno/apps/cli
    ```
 
 2. Install dependencies:

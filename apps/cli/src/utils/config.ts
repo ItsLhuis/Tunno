@@ -6,7 +6,7 @@ import chalk from "chalk"
 
 import inquirer from "inquirer"
 
-const appName = "Wave"
+const appName = "Tunno"
 const defaultDownloadPath = path.join(os.homedir(), "Downloads")
 
 const getConfigPath = (): string => {

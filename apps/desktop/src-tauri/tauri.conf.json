@@ -1,9 +1,9 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "Wave",
-  "mainBinaryName": "Wave",
+  "$schema": "../../../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Tunno",
+  "mainBinaryName": "Tunno",
   "version": "1.0.0",
-  "identifier": "com.itslhuis.wave",
+  "identifier": "com.itslhuis.tunno",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:4535",
@@ -15,7 +15,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Wave",
+        "title": "Tunno",
         "width": 960,
         "height": 540,
         "minWidth": 720,
@@ -67,7 +67,7 @@
   "plugins": {
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K",
-      "endpoints": ["https://github.com/ItsLhuis/Wave-Desktop/releases/latest/download/latest.json"]
+      "endpoints": ["https://github.com/ItsLhuis/Tunno/releases/download/desktop/latest.json"]
     }
   }
 }

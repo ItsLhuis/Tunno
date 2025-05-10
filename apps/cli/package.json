@@ -1,16 +1,16 @@
 {
-  "name": "@wave/cli",
+  "name": "@tunno/cli",
   "version": "1.0.0",
   "description": "Command-line tool for managing your personal music library",
-  "main": "dist/bin/wave.js",
+  "main": "dist/bin/tunno.js",
   "bin": {
-    "wave": "dist/bin/wave.js"
+    "tunno": "dist/bin/tunno.js"
   },
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node dist/bin/wave.js",
+    "start": "node dist/bin/tunno.js",
     "lint": "prettier --write ."
   },
   "keywords": [
@@ -26,10 +26,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ItsLhuis/Wave.git",
+    "url": "git+https://github.com/ItsLhuis/Tunno.git",
     "directory": "apps/cli"
   },
-  "homepage": "https://github.com/ItsLhuis/Wave/tree/main/apps/cli",
+  "homepage": "https://github.com/ItsLhuis/Tunno/tree/main/apps/cli",
   "publishConfig": {
     "access": "public"
   },

@@ -1,8 +1,8 @@
 <img src="assets/icon.png" width="100" height="100" />
 
-# Wave
+# Tunno
 
-**Wave** is a comprehensive ecosystem for managing your personal music library across multiple platforms. This monorepo contains three applications that work together to provide a seamless music management experience.
+**Tunno** is a comprehensive ecosystem for managing your personal music library across multiple platforms. This monorepo contains three applications that work together to provide a seamless music management experience.
 
 ## Applications
 

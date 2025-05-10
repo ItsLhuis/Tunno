@@ -1,5 +1,5 @@
 import { program } from "commander"
-program.name("wave").description("Wave").version("1.0.0")
+program.name("tunno").description("Tunno").version("1.0.0")
 
 import config from "./commands/config"
 config(program)

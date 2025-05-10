@@ -56,7 +56,7 @@ pub fn run() {
 
                 TrayIconBuilder::new()
                     .icon(app.default_window_icon().unwrap().clone())
-                    .tooltip(main_window.title().unwrap_or_else(|_| "Wave".to_string()))
+                    .tooltip(main_window.title().unwrap_or_else(|_| "Tunno".to_string()))
                     .menu(&menu)
                     .show_menu_on_left_click(false)
                     .on_tray_icon_event(|tray_handle: &TrayIcon, event| match event {

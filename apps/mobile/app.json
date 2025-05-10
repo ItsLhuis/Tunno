@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Wave",
-    "slug": "wave",
+    "name": "Tunno",
+    "slug": "tunno",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/app/icon.png",
-    "scheme": "wave",
+    "scheme": "tunno",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
     "ios": {
@@ -27,7 +27,7 @@
         "backgroundColor": "#FC3C44"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.itslhuis.wave"
+      "package": "com.itslhuis.tunno"
     },
     "plugins": [
       [

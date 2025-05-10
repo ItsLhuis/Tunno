@@ -1,5 +1,5 @@
 {
-  "name": "wave",
+  "name": "tunno",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -9,8 +9,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:desktop": "turbo run dev --filter=desktop",
-    "dev:mobile": "turbo run dev --filter=mobile",
+    "dev:desktop": "turbo run dev --filter=@tunno/desktop",
+    "dev:mobile": "turbo run dev --filter=@tunno/mobile",
     "start": "turbo run start",
     "lint": "turbo run lint",
     "test": "turbo run test"
