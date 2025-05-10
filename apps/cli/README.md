@@ -2,6 +2,9 @@
 
 # Tunno CLI
 
+[![npm version](https://img.shields.io/npm/v/@tunno/cli)](https://www.npmjs.com/package/@tunno/cli)
+[![license](https://img.shields.io/npm/l/@tunno/cli)](https://github.com/ItsLhuis/Tunno/blob/main/LICENSE)
+
 **Tunno CLI** is a command-line tool for managing your personal music library. It allows you to
 download, organize, and manage media files efficiently with a set of user-friendly commands.
 
