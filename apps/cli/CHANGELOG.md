@@ -2,6 +2,14 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## 1.0.1 - 2025-05-10
+
+### Fixed
+
+- 🛠️ Fixed broken CLI binary: previously published with outdated filename `bin/wave.ts`
+- 🧱 Renamed entry point to `bin/tunno.ts` and rebuilt project correctly before publishing
+- ✅ Ensured `dist/bin/tunno.js` matches `bin` entry in `package.json`
+
 ## 1.0.0 - 2025-05-10
 
 ### Added
