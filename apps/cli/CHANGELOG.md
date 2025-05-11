@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## 1.0.2 - 2025-05-11
+
+### Changed
+
+- 🔄 CLI version refactoring - now dynamically imported from package.json file
+- 🔢 Replaced hardcoded version ("1.0.0") with dynamic reference to project version value
+
 ## 1.0.1 - 2025-05-10
 
 ### Fixed

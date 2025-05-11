@@ -1,5 +1,7 @@
+import { version } from "../package.json"
+
 import { program } from "commander"
-program.name("tunno").description("Tunno").version("1.0.0")
+program.name("tunno").description("Tunno").version(version)
 
 import config from "./commands/config"
 config(program)
