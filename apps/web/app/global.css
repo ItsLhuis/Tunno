@@ -1,0 +1,176 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar-background);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("../assets/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("../assets/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.96 0 0);
+  --foreground: oklch(0.11 0.013 270);
+  --card: oklch(0.96 0 0);
+  --card-foreground: oklch(0.11 0.013 270);
+  --popover: oklch(0.96 0 0);
+  --popover-foreground: oklch(0.11 0.013 270);
+  --primary: oklch(0.602 0.242 25);
+  --primary-foreground: oklch(0.92 0.008 270);
+  --secondary: oklch(0.94 0 0);
+  --secondary-foreground: oklch(0.11 0.013 270);
+  --muted: oklch(0.89 0 0);
+  --muted-foreground: oklch(0.451 0 0);
+  --accent: oklch(0.89 0 0);
+  --accent-foreground: oklch(0.11 0.013 270);
+  --destructive: oklch(0.602 0.242 25);
+  --destructive-foreground: oklch(0.92 0.008 270);
+  --border: oklch(0.898 0 0);
+  --input: oklch(0.898 0 0);
+  --ring: oklch(0.11 0.013 270);
+  --chart-1: oklch(0.61 0.217 30);
+  --chart-2: oklch(0.39 0.158 173);
+  --chart-3: oklch(0.24 0.097 197);
+  --chart-4: oklch(0.66 0.211 43);
+  --chart-5: oklch(0.67 0.235 27);
+  --sidebar-background: oklch(0.94 0 0);
+  --sidebar-foreground: oklch(0.11 0.013 270);
+  --sidebar-primary: oklch(0.602 0.242 25);
+  --sidebar-primary-foreground: oklch(0.11 0.013 270);
+  --sidebar-accent: oklch(0.89 0 0);
+  --sidebar-accent-foreground: oklch(0.11 0.013 270);
+  --sidebar-border: oklch(0.898 0 0);
+  --sidebar-ring: oklch(0.11 0.013 270);
+  --info: oklch(0.65 0.278 207);
+  --success: oklch(0.5 0.173 144);
+  --warning: oklch(0.7 0.226 30);
+  --error: oklch(0.4 0.29 0);
+}
+
+.dark {
+  --background: oklch(0.09 0 0);
+  --foreground: oklch(0.92 0.008 270);
+  --card: oklch(0.09 0 0);
+  --card-foreground: oklch(0.92 0.008 270);
+  --popover: oklch(0.09 0 0);
+  --popover-foreground: oklch(0.92 0.008 270);
+  --primary: oklch(0.602 0.242 25);
+  --primary-foreground: oklch(0.92 0.008 270);
+  --secondary: oklch(0.11 0 0);
+  --secondary-foreground: oklch(0.92 0.008 270);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.639 0 0);
+  --accent: oklch(0.18 0 0);
+  --accent-foreground: oklch(0.92 0.008 270);
+  --destructive: oklch(0.602 0.242 25);
+  --destructive-foreground: oklch(0.92 0.008 270);
+  --border: oklch(0.18 0 0);
+  --input: oklch(0.18 0 0);
+  --ring: oklch(0.831 0 0);
+  --chart-1: oklch(0.5 0.198 220);
+  --chart-2: oklch(0.45 0.168 160);
+  --chart-3: oklch(0.55 0.227 30);
+  --chart-4: oklch(0.6 0.185 280);
+  --chart-5: oklch(0.55 0.214 340);
+  --sidebar-background: oklch(0.11 0 0);
+  --sidebar-foreground: oklch(0.92 0.008 270);
+  --sidebar-primary: oklch(0.59 0.27 357);
+  --sidebar-primary-foreground: oklch(0.92 0.008 270);
+  --sidebar-accent: oklch(0.18 0 0);
+  --sidebar-accent-foreground: oklch(0.92 0.008 270);
+  --sidebar-border: oklch(0.18 0 0);
+  --sidebar-ring: oklch(0.831 0 0);
+  --info: oklch(0.65 0.278 207);
+  --success: oklch(0.5 0.173 144);
+  --warning: oklch(0.7 0.226 30);
+  --error: oklch(0.4 0.29 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    font-family:
+      "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  img {
+    pointer-events: none;
+  }
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  body {
+    @apply bg-background text-foreground overflow-hidden;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--foreground) / 0.2);
+    border: 6px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar {
+    cursor: pointer !important;
+    width: 16px;
+    height: 16px;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}
