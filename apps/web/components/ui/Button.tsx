@@ -7,7 +7,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/Tooltip"
 
 const buttonVariants = cva(
-  "cursor-default inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 focus:outline-none focus:ring-0",
+  "cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 focus:outline-none focus:ring-0",
   {
     variants: {
       variant: {
@@ -37,10 +37,11 @@ const buttonVariants = cva(
   }
 )
 
-interface ButtonProps extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>
-}
+type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+    tooltip?: string | React.ComponentProps<typeof TooltipContent>
+  }
 
 function Button({ className, variant, size, asChild = false, tooltip, ...props }: ButtonProps) {
   const Comp = asChild ? Slot : "button"
