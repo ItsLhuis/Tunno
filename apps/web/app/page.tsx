@@ -11,19 +11,19 @@ import { AuroraText, BlurFade, BorderBeam, Button, Spotlight } from "@components
 
 export default function Home() {
   return (
-    <div className="relative size-full">
-      <Spotlight className="-top-20 left-60 hidden md:flex" fill="#FC3C44" />
+    <BlurFade className="relative size-full">
+      <Spotlight />
       <Navbar />
       <div className="mx-auto h-full w-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
-        <BlurFade className="mt-20 mb-12 flex flex-col items-center justify-center">
+        <div className="mt-20 mb-12 flex flex-col items-center justify-center">
           <Button variant="outline" className="relative rounded-full" asChild>
             <Link href="https://github.com/ItsLhuis/tunno">
               🎊 Introduction Tunno <ArrowRight />
             </Link>
           </Button>
-        </BlurFade>
-        <BlurFade>
-          <section id="#home" className="flex flex-col items-center justify-center gap-6">
+        </div>
+        <div>
+          <section id="home" className="flex flex-col items-center justify-center gap-6">
             <h1 className="text-center text-8xl">
               Your Music, <AuroraText>Your Way</AuroraText>
             </h1>
@@ -37,8 +37,8 @@ export default function Home() {
               </Link>
             </Button>
           </section>
-        </BlurFade>
-        <BlurFade className="relative w-full bg-transparent px-2 pt-20 pb-20 md:py-32">
+        </div>
+        <div className="relative w-full bg-transparent px-2 pt-20 pb-20 md:py-32">
           <div className="gradient bg-primary absolute inset-0 left-1/2 h-1/4 w-3/4 -translate-x-1/2 blur-[4rem] md:top-[15%] md:h-1/3" />
           <div className="bg-opacity-50 ring-foreground/20 relative z-10 -m-2 rounded-2xl p-2 ring-1 backdrop-blur-3xl ring-inset lg:-m-4">
             <BorderBeam size={250} duration={12} delay={9} />
@@ -52,9 +52,9 @@ export default function Home() {
             <div className="from-background absolute inset-x-0 -bottom-4 z-40 h-1/2 w-full bg-gradient-to-t" />
             <div className="from-background absolute inset-x-0 bottom-0 z-50 h-1/4 w-full bg-gradient-to-t md:-bottom-8" />
           </div>
-        </BlurFade>
+        </div>
       </div>
       <Footer />
-    </div>
+    </BlurFade>
   )
 }
