@@ -11,7 +11,7 @@ import { AuroraText, BlurFade, BorderBeam, Button, Spotlight } from "@components
 
 export default function Home() {
   return (
-    <BlurFade className="relative size-full">
+    <BlurFade className="relative size-full overflow-x-hidden">
       <Spotlight />
       <Navbar />
       <div className="mx-auto h-full w-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
