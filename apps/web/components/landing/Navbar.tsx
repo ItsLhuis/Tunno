@@ -19,7 +19,7 @@ const navbarConfig: {
     height: 40
   },
   links: [
-    { href: "#", label: "Home" },
+    { href: "#home", label: "Home" },
     { href: "#apps", label: "Apps" },
     { href: "#features", label: "Features" }
   ],
