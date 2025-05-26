@@ -32,7 +32,7 @@ const ResizableNavbar = ({ children, className }: ResizableNavbarProps) => {
       <motion.div
         animate={{
           backdropFilter: isScrolled ? "blur(10px)" : "none",
-          width: isScrolled ? "50%" : "100%",
+          width: isScrolled ? "60%" : "100%",
           y: isScrolled ? 20 : 0
         }}
         transition={{
