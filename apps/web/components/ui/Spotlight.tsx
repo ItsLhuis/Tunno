@@ -36,7 +36,7 @@ const Spotlight = ({
       transition={{
         duration: 1.5
       }}
-      className="pointer-events-none absolute inset-0 h-full w-full"
+      className="pointer-events-none absolute inset-0 h-full w-full overflow-hidden"
     >
       <motion.div
         animate={{
@@ -59,7 +59,6 @@ const Spotlight = ({
           }}
           className={`absolute top-0 left-0`}
         />
-
         <div
           style={{
             transform: "rotate(-45deg) translate(5%, -50%)",
@@ -69,7 +68,6 @@ const Spotlight = ({
           }}
           className={`absolute top-0 left-0 origin-top-left`}
         />
-
         <div
           style={{
             transform: "rotate(-45deg) translate(-180%, -70%)",
@@ -80,7 +78,6 @@ const Spotlight = ({
           className={`absolute top-0 left-0 origin-top-left`}
         />
       </motion.div>
-
       <motion.div
         animate={{
           x: [0, -xOffset, 0]
@@ -102,7 +99,6 @@ const Spotlight = ({
           }}
           className={`absolute top-0 right-0`}
         />
-
         <div
           style={{
             transform: "rotate(45deg) translate(-5%, -50%)",
@@ -112,7 +108,6 @@ const Spotlight = ({
           }}
           className={`absolute top-0 right-0 origin-top-right`}
         />
-
         <div
           style={{
             transform: "rotate(45deg) translate(180%, -70%)",
