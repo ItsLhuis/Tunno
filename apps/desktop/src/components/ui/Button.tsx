@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes } from "react"
+import { forwardRef, type ButtonHTMLAttributes, type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -43,7 +43,7 @@ export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>
+  tooltip?: string | ComponentProps<typeof TooltipContent>
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(

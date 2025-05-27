@@ -1,3 +1,5 @@
+import { type ComponentProps } from "react"
+
 import { cn } from "@lib/utils"
 
 import { cva, type VariantProps } from "class-variance-authority"
@@ -37,10 +39,10 @@ const buttonVariants = cva(
   }
 )
 
-type ButtonProps = React.ComponentProps<"button"> &
+type ButtonProps = ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
-    tooltip?: string | React.ComponentProps<typeof TooltipContent>
+    tooltip?: string | ComponentProps<typeof TooltipContent>
   }
 
 function Button({ className, variant, size, asChild = false, tooltip, ...props }: ButtonProps) {

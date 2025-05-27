@@ -1,4 +1,4 @@
-import { forwardRef, useState, type ComponentProps, type FocusEvent } from "react"
+import { forwardRef, useState, type ComponentProps, type FocusEvent, type ReactNode } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -9,7 +9,7 @@ import { motion } from "motion/react"
 
 type SearchInputProps = ComponentProps<"input"> & {
   containerClassName?: string
-  renderRight?: React.ReactNode
+  renderRight?: ReactNode
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
@@ -63,3 +63,4 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 SearchInput.displayName = "SearchInput"
 
 export { SearchInput }
+
