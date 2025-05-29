@@ -2,15 +2,19 @@
 
 # Tunno
 
-**Tunno** is a comprehensive ecosystem for managing your personal music library across multiple platforms. This monorepo contains three applications that work together to provide a seamless music management experience.
+**Tunno** is a comprehensive ecosystem for managing your personal music library across multiple
+platforms. This monorepo contains four applications that work together to provide a seamless music
+management experience.
 
 ## Applications
 
 This monorepo includes:
 
-- Command-line tool for downloading and processing music files
-- Desktop application for organizing and playing your music collection
-- Mobile application for accessing your music library on the go
+- **CLI**: Command-line tool for downloading and processing music files
+- **Desktop**: Application for organizing and playing your music collection
+- **Mobile**: Application for accessing your music library on the go
+- **Web**: Official landing page, centralizing information, links, and demonstrations of the
+  ecosystem
 
 ## Documentation
 
@@ -19,6 +23,7 @@ Each application has its own detailed documentation:
 - [CLI](./apps/cli/README.md)
 - [Desktop](./apps/desktop/README.md)
 - [Mobile](./apps/mobile/README.md)
+- [Web](./apps/web/README.md)
 
 ## License
 
