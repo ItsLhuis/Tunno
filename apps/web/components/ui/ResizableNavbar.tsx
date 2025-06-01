@@ -31,7 +31,7 @@ const ResizableNavbar = ({ children, className }: ResizableNavbarProps) => {
     <motion.header ref={ref} className={cn("group sticky inset-x-0 top-4 z-40 w-full", className)}>
       <motion.div
         animate={{
-          backdropFilter: isScrolled ? "blur(10px)" : "none",
+          backdropFilter: isScrolled ? "blur(20px)" : "none",
           width: isScrolled ? "60%" : "100%",
           y: isScrolled ? 20 : 0
         }}

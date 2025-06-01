@@ -3,7 +3,7 @@ import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 
-import { AuroraText, BlurFade, Button, Particles, ThemeSwitcher } from "@components/ui"
+import { AuroraText, BlurFade, Button, ThemeSwitcher } from "@components/ui"
 
 const Footer = () => {
   const { theme, setTheme } = useTheme()
@@ -151,8 +151,7 @@ const Footer = () => {
             />
           </div>
         </div>
-        <AuroraText className="mt-16 pb-20 text-center text-9xl">Tunno</AuroraText>
-        <Particles className="absolute inset-0 z-0" quantity={100} ease={80} refresh />
+        <AuroraText className="mt-16 pb-20 text-center text-7xl md:text-9xl">Tunno</AuroraText>
       </footer>
     </BlurFade>
   )
