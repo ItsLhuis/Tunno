@@ -10,7 +10,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "eas-build-post-install": "turbo run build --filter='@repo/*'"
   },
   "expo": {
     "doctor": {

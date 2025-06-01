@@ -16,10 +16,15 @@
       },
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": [
+          "audio",
+          "audio"
+        ]
       }
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/android/icons/default.png",
@@ -37,7 +42,7 @@
           "backgroundColor": "#F5F5F5",
           "dark": {
             "image": "./assets/images/splash/dark.png",
-            "backgroundColor": "#161616"
+            "backgroundColor": "#171717"
           },
           "imageWidth": 200,
           "resizeMode": "contain"
@@ -78,7 +83,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/2aa1e6b1-07e8-42e2-99ce-2ef6664eb9ce"
+      "url": "https://u.expo.dev/1b263709-fe9e-440f-b6ce-e4a32cf96585"
     }
   }
 }

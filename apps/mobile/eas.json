@@ -4,12 +4,20 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "monorepo": {
+      "yarn": "1.22.22",
+      "env": {
+        "EXPO_USE_FAST_RESOLVER": "true"
+      }
+    },
     "development": {
+      "extends": "monorepo",
       "developmentClient": true,
       "distribution": "internal",
       "channel": "development"
     },
     "preview": {
+      "extends": "monorepo",
       "distribution": "internal",
       "android": {
         "buildType": "apk"
@@ -17,6 +25,7 @@
       "channel": "preview"
     },
     "production": {
+      "extends": "monorepo",
       "autoIncrement": true,
       "channel": "production"
     }
