@@ -15,7 +15,7 @@ export type IconProps = LucideProps & {
 function Icon({ name, isFilled = false, className }: IconProps) {
   const LucideIcon = (LucideIcons[name] ?? LucideIcons["Info"]) as ComponentType<LucideProps>
 
-  return <LucideIcon className={cn(isFilled && "fill-current", className)} />
+  return <LucideIcon className={cn("size-4", isFilled && "fill-current", className)} />
 }
 Icon.displayName = "Icon"
 

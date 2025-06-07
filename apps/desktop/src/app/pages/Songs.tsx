@@ -255,7 +255,7 @@ const SearchComponent = ({ table }: { table: Table<Song> }) => {
 
   return (
     <SearchInput
-      containerClassName="p-3 md:p-9 pb-0 md:pb-0 pt-6 md:pt-6 transition-[padding]"
+      containerClassName="p-9 pb-0 pt-6"
       placeholder="Search"
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}

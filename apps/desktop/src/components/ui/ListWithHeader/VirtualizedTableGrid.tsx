@@ -177,7 +177,7 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
           {isScrolled && StickyHeaderComponent && (
             <motion.div
               className={cn(
-                "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/60 px-3 backdrop-blur transition-[background-color,border-color,padding] md:px-9",
+                "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/60 px-9 backdrop-blur transition-[background-color,border-color]",
                 stickyHeaderContainerClassName
               )}
               initial={{ opacity: 0 }}
@@ -225,7 +225,11 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
           {ListHeaderComponent && ListHeaderComponent(table)}
         </div>
         <div
-          className={cn("h-full p-3 pt-3 transition-[padding] md:p-9 md:pt-3", className)}
+          className={cn(
+            "h-full p-9 pt-3 transition-[padding]",
+            !showTableColumns && "pt-6",
+            className
+          )}
           {...props}
         >
           <Table className={cn("relative overflow-hidden", isListEmpty && "h-full")}>

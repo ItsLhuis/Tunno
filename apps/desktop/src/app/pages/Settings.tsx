@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react"
-
-import { getVersion } from "@tauri-apps/api/app"
+import { Fragment, useState } from "react"
 
 import { useTheme } from "@contexts/ThemeContext"
 
@@ -21,118 +19,140 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  Header,
   Icon,
   Image,
-  toast,
+  ScrollAreaWithHeaders,
+  StickyHeader,
   Typography
 } from "@components/ui"
 
-function getRandomPromise() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      Math.random() > 0.5 ? resolve("Success") : reject("Error")
-    }, 5000)
-  })
-}
+import { SettingButton, type SettingButtonProps } from "@features/settings/components/ui"
 
 function Settings() {
-  const { setTheme } = useTheme()
+  const { t } = useTranslation()
+
+  const { setTheme, theme } = useTheme()
 
   const { setLanguage, language } = useSettingsStore()
 
-  const [open, setOpen] = useState(false)
-
   const { locales } = useTranslation()
 
-  const [version, setVersion] = useState<string | null>(null)
+  const settings: (SettingButtonProps & { key: string })[] = [
+    {
+      key: "theme",
+      title: t("settings.theme.title"),
+      description: t("settings.theme.description"),
+      renderRight: () => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              <Icon name={theme === "system" ? "Laptop" : theme === "dark" ? "Moon" : "Sun"} />
+              <Typography>{t(`settings.theme.${theme}`)}</Typography>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
+    {
+      key: "language",
+      title: t("settings.language.title"),
+      description: t("settings.language.description"),
+      renderRight: () => {
+        const [open, setOpen] = useState<boolean>(false)
 
-  useEffect(() => {
-    const fetchVersion = async () => {
-      const appVersion = await getVersion()
-      setVersion(appVersion)
+        return (
+          <Fragment>
+            <Button variant="outline" onClick={() => setOpen(true)}>
+              <Image
+                className="aspect-4/3 h-3"
+                src={locales[language].flag}
+                alt={locales[language].name}
+              />
+              <Typography>{locales[language].name}</Typography>
+            </Button>
+            <CommandDialog open={open} onOpenChange={setOpen}>
+              <Command>
+                <CommandInput placeholder="Search language" />
+                <CommandList>
+                  <CommandEmpty>No results found</CommandEmpty>
+                  <CommandGroup heading="Languages">
+                    {Object.values(locales).map((locale) => (
+                      <CommandItem
+                        key={locale.code}
+                        onSelect={() => {
+                          setLanguage(locale.code)
+                          setOpen(false)
+                        }}
+                        className="flex cursor-pointer flex-col items-start"
+                      >
+                        <div className="grid grid-cols-[auto,1fr] items-center gap-1 gap-x-2">
+                          <Image className="aspect-4/3 h-3" src={locale.flag} alt={locale.name} />
+                          <Typography>{locale.name}</Typography>
+                          <Typography affects={["small", "muted"]} className="col-start-2">
+                            {locale.code}
+                          </Typography>
+                        </div>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </CommandDialog>
+          </Fragment>
+        )
+      }
+    },
+    {
+      key: "sync",
+      title: t("settings.sync.title"),
+      description: t("settings.sync.description"),
+      renderLeft: () => (
+        <Button variant="outline" size="icon">
+          Ola
+        </Button>
+      )
     }
-    fetchVersion()
-  }, [])
+  ]
 
   return (
-    <div className="m-9 flex flex-col gap-3">
-      {version && <Typography>App Version: {version}</Typography>}
-      <Button
-        onClick={() =>
-          toast.promise(getRandomPromise, {
-            loading: "Loading",
-            success: "Success",
-            error: "Error",
-            description:
-              "Vivamus maximus. Morbi non eros vitae diam lacinia mattis. Aliquam pharetra enim vitae leo condimentum molestie",
-            cancel: { label: "Cancel", onClick: () => {} },
-            action: { label: "Continue", onClick: () => {} }
-          })
-        }
-      >
-        Show Toast
-      </Button>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
-            <Icon
-              name="Sun"
-              className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0"
-            />
-            <Icon
-              name="Moon"
-              className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100"
-            />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <Button
-        size="icon"
-        variant="outline"
-        className="flex items-center gap-2"
-        onClick={() => setOpen(true)}
-      >
-        <Image
-          className="aspect-4/3 h-3"
-          src={locales[language].flag}
-          alt={locales[language].name}
-        />
-      </Button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <Command>
-          <CommandInput placeholder="Search language" />
-          <CommandList>
-            <CommandEmpty>No results found</CommandEmpty>
-            <CommandGroup heading="Languages">
-              {Object.values(locales).map((locale) => (
-                <CommandItem
-                  key={locale.code}
-                  onSelect={() => {
-                    setLanguage(locale.code)
-                    setOpen(false)
-                  }}
-                  className="flex cursor-pointer flex-col items-start"
-                >
-                  <div className="grid grid-cols-[auto,1fr] items-center gap-1 gap-x-2">
-                    <Image className="aspect-4/3 h-3" src={locale.flag} alt={locale.name} />
-                    <Typography>{locale.name}</Typography>
-                    <Typography affects={["small", "muted"]} className="col-start-2">
-                      {locale.code}
-                    </Typography>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </CommandDialog>
-    </div>
+    <ScrollAreaWithHeaders
+      HeaderComponent={() => {
+        return (
+          <Header className="mb-3 flex items-center gap-3">
+            <Typography variant="h1" className="truncate">
+              {t("settings.title")}
+            </Typography>
+          </Header>
+        )
+      }}
+      StickyHeaderComponent={() => {
+        return (
+          <StickyHeader className="flex items-center gap-3 pb-9">
+            <Typography variant="h4" className="truncate">
+              {t("settings.title")}
+            </Typography>
+          </StickyHeader>
+        )
+      }}
+      containerClassName="overflow-x-hidden"
+    >
+      <div className="flex flex-col gap-6">
+        {settings.map((setting) => (
+          <SettingButton
+            key={setting.key}
+            title={setting.title}
+            description={setting.description}
+            renderRight={setting.renderRight}
+          />
+        ))}
+      </div>
+    </ScrollAreaWithHeaders>
   )
 }
 
