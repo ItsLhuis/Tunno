@@ -1,4 +1,5 @@
 use tauri::{
+    command,
     menu::{Menu, MenuItem},
     plugin::TauriPlugin,
     tray::{MouseButton, MouseButtonState, TrayIcon, TrayIconBuilder, TrayIconEvent},
@@ -7,10 +8,37 @@ use tauri::{
 
 use tauri_plugin_window_state::StateFlags;
 
+mod api;
+
+#[command]
+async fn start_server() -> Result<api::ServerInfo, String> {
+    api::start_api_server().await.map_err(|e| e.to_string())
+}
+
+#[command]
+async fn stop_server() -> Result<(), String> {
+    api::stop_api_server().await; 
+    Ok(())
+}
+
+#[command]
+async fn is_server_running() -> bool {
+    api::is_server_running().await
+}
+
+#[command]
+async fn get_server_info() -> Option<api::ServerInfo> {
+    api::get_server_info().await
+}
+
+#[command]
+async fn get_qr_data() -> Option<String> {
+    api::generate_qr_data().await
+}
+
 #[cfg(debug_assertions)]
 fn prevent_default() -> TauriPlugin<tauri::Wry> {
     use tauri_plugin_prevent_default::Flags;
-
     tauri_plugin_prevent_default::Builder::new()
         .with_flags(Flags::all().difference(Flags::DEV_TOOLS | Flags::RELOAD))
         .build()
@@ -45,6 +73,13 @@ pub fn run() {
                 let _ = main_window.set_focus();
             }
         }))
+        .invoke_handler(tauri::generate_handler![
+            start_server,
+            stop_server,
+            is_server_running,
+            get_server_info,
+            get_qr_data
+        ])
         .setup(|app| {
             #[cfg(desktop)]
             {
