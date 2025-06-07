@@ -65,5 +65,20 @@ export type Translations = {
   }
   settings: {
     title: string
+    theme: {
+      title: string
+      description: string
+      light: string
+      dark: string
+      system: string
+    }
+    language: {
+      title: string
+      description: string
+    }
+    sync: {
+      title: string
+      description: string
+    }
   }
 }
