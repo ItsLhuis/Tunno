@@ -61,7 +61,22 @@ export const norwegian: Language = {
       deletedFailedTitle: "Kunne Ikke Slette Kunstner"
     },
     settings: {
-      title: "Innstillinger"
+      title: "Innstillinger",
+      theme: {
+        title: "Theme",
+        description: "Select your preferred appearance mode",
+        light: "Light",
+        dark: "Dark",
+        system: "System"
+      },
+      language: {
+        title: "Language",
+        description: "Choose your preferred language"
+      },
+      sync: {
+        title: "Sync",
+        description: "Synchronize your data across devices"
+      }
     }
   }
 }

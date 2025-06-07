@@ -61,7 +61,22 @@ export const korean: Language = {
       deletedFailedTitle: "아티스트 삭제에 실패했습니다"
     },
     settings: {
-      title: "설정"
+      title: "설정",
+      theme: {
+        title: "Theme",
+        description: "Select your preferred appearance mode",
+        light: "Light",
+        dark: "Dark",
+        system: "System"
+      },
+      language: {
+        title: "Language",
+        description: "Choose your preferred language"
+      },
+      sync: {
+        title: "Sync",
+        description: "Synchronize your data across devices"
+      }
     }
   }
 }

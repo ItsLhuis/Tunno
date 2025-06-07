@@ -61,7 +61,22 @@ export const german: Language = {
       deletedFailedTitle: "Konnte Künstler Nicht Löschen"
     },
     settings: {
-      title: "Einstellungen"
+      title: "Einstellungen",
+      theme: {
+        title: "Theme",
+        description: "Select your preferred appearance mode",
+        light: "Light",
+        dark: "Dark",
+        system: "System"
+      },
+      language: {
+        title: "Language",
+        description: "Choose your preferred language"
+      },
+      sync: {
+        title: "Sync",
+        description: "Synchronize your data across devices"
+      }
     }
   }
 }
