@@ -6,7 +6,8 @@ import "./global.css"
 
 export const metadata: Metadata = {
   title: "Tunno",
-  description: "Managing your personal music library across multiple platforms"
+  description: "Managing your personal music library across multiple platforms",
+  applicationName: "Tunno"
 }
 
 export default function RootLayout({
