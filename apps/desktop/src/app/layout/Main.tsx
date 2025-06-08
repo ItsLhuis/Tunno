@@ -1,11 +1,8 @@
-import { relaunch } from "@tauri-apps/plugin-process"
-import { check } from "@tauri-apps/plugin-updater"
-import { useEffect } from "react"
-
-import { motion } from "framer-motion"
 import { Route, Routes, useLocation } from "react-router-dom"
 
 import { Artists, FastUpload, Favorites, Playlists, Settings, Songs } from "@app/pages"
+
+import { motion } from "motion/react"
 
 const routes = [
   { path: "/", element: <Songs /> },
@@ -18,35 +15,6 @@ const routes = [
 
 function Main() {
   const location = useLocation()
-
-  useEffect(() => {
-    const checkUpdate = async () => {
-      const update = await check()
-      if (update) {
-        console.log(`found update ${update.version} from ${update.date} with notes ${update.body}`)
-        let downloaded = 0
-        let contentLength: number | undefined = 0
-        await update.downloadAndInstall((event) => {
-          switch (event.event) {
-            case "Started":
-              contentLength = event.data.contentLength
-              console.log(`started downloading ${event.data.contentLength} bytes`)
-              break
-            case "Progress":
-              downloaded += event.data.chunkLength
-              console.log(`downloaded ${downloaded} from ${contentLength}`)
-              break
-            case "Finished":
-              console.log("download finished")
-              break
-          }
-        })
-        console.log("update installed")
-        await relaunch()
-      }
-    }
-    checkUpdate()
-  }, [])
 
   return (
     <motion.div
