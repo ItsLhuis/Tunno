@@ -1,5 +1,7 @@
 import { useRef, useState, type ReactNode } from "react"
 
+import { useIsMobile } from "@hooks/useIsMobile"
+
 import { cn } from "@lib/utils"
 
 import { motion, useMotionValueEvent, useScroll } from "motion/react"
@@ -11,6 +13,7 @@ type ResizableNavbarProps = {
 
 const ResizableNavbar = ({ children, className }: ResizableNavbarProps) => {
   const ref = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
 
   const { scrollY } = useScroll({
     target: ref,
@@ -33,7 +36,7 @@ const ResizableNavbar = ({ children, className }: ResizableNavbarProps) => {
         animate={{
           backdropFilter: isScrolled ? "blur(20px)" : "none",
           width: isScrolled ? "60%" : "100%",
-          y: isScrolled ? 20 : 0
+          y: !isMobile && isScrolled ? 20 : 0
         }}
         transition={{
           type: "spring",

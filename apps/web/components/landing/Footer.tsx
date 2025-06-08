@@ -40,7 +40,7 @@ const Footer = () => {
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div className="">
+              <div>
                 <h3 className="text-base font-medium">Apps</h3>
                 <ul className="text-muted-foreground mt-4 text-sm">
                   <li className="mt-2">
@@ -87,7 +87,7 @@ const Footer = () => {
               </div>
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div className="">
+              <div>
                 <h3 className="text-base font-medium">Resources</h3>
                 <ul className="text-muted-foreground mt-4 text-sm">
                   <li className="mt-2">
@@ -105,7 +105,7 @@ const Footer = () => {
               <div className="mt-10 flex flex-col md:mt-0">
                 <h3 className="text-base font-medium">Company</h3>
                 <ul className="text-muted-foreground mt-4 text-sm">
-                  <li className="">
+                  <li>
                     <Button variant="link" asChild>
                       <Link href="#" className="hover:text-foreground transition-all duration-300">
                         About Us
