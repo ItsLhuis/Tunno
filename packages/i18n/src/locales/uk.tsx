@@ -9,73 +9,79 @@ export const ukrainian: Language = {
   isRtl: false,
   translations: {
     common: {
-      noResultsFound: "Результатів не знайдено",
+      noResultsFound: "Нічого не знайдено",
       lessThanAnHourAgo: "Менше години тому",
-      hoursAgo: "{{count}} година{{count, plural, one {} other{и}}} тому",
+      hoursAgo: "{{count}} годин тому",
       today: "Сьогодні",
       yesterday: "Вчора"
     },
+    update: {
+      downloading: "Завантаження та встановлення оновлення",
+      downloadingDescription: "Доступне нове оновлення, яке встановлюється автоматично",
+      installedSuccess: "Оновлення успішно встановлено",
+      failed: "Не вдалося встановити оновлення"
+    },
     songs: {
       title: "Пісні",
-      createdTitle: "Пісню Успішно Створено",
-      createdDescription: "{{name}} було створено",
-      createdFailedTitle: "Не Вдалося Створити Пісню",
-      updatedTitle: "Пісню Успішно Оновлено",
-      updatedDescription: "{{name}} було оновлено",
-      updatedFailedTitle: "Не Вдалося Оновити Пісню",
-      deletedTitle: "Пісню Успішно Видалено",
-      deletedDescription: "{{name}} було видалено",
-      deletedFailedTitle: "Не Вдалося Видалити Пісню"
-    },
-    favorites: {
-      title: "Улюблені",
-      addedTitle: "Додано до Улюблених",
-      addedDescription: "{{name}} було додано до улюблених",
-      addedFailedTitle: "Не вдалося додати до улюблених",
-      removedTitle: "Видалено з Улюблених",
-      removedDescription: "{{name}} було видалено з улюблених",
-      removedFailedTitle: "Не вдалося видалити з улюблених"
-    },
-    playlists: {
-      title: "Пісні",
       createdTitle: "Пісню успішно створено",
-      createdDescription: "{{name}} було створено",
+      createdDescription: "{{name}} створено",
       createdFailedTitle: "Не вдалося створити пісню",
       updatedTitle: "Пісню успішно оновлено",
-      updatedDescription: "{{name}} було оновлено",
+      updatedDescription: "{{name}} оновлено",
       updatedFailedTitle: "Не вдалося оновити пісню",
       deletedTitle: "Пісню успішно видалено",
-      deletedDescription: "{{name}} було видалено",
+      deletedDescription: "{{name}} видалено",
       deletedFailedTitle: "Не вдалося видалити пісню"
     },
+    favorites: {
+      title: "Улюблене",
+      addedTitle: "Додано до улюбленого",
+      addedDescription: "{{name}} додано до улюбленого",
+      addedFailedTitle: "Не вдалося додати до улюбленого",
+      removedTitle: "Видалено з улюбленого",
+      removedDescription: "{{name}} видалено з улюбленого",
+      removedFailedTitle: "Не вдалося видалити з улюбленого"
+    },
+    playlists: {
+      title: "Плейлисти",
+      createdTitle: "Плейлист успішно створено",
+      createdDescription: "{{name}} створено",
+      createdFailedTitle: "Не вдалося створити плейлист",
+      updatedTitle: "Плейлист успішно оновлено",
+      updatedDescription: "{{name}} оновлено",
+      updatedFailedTitle: "Не вдалося оновити плейлист",
+      deletedTitle: "Плейлист успішно видалено",
+      deletedDescription: "{{name}} видалено",
+      deletedFailedTitle: "Не вдалося видалити плейлист"
+    },
     artists: {
-      title: "Артисти",
-      createdTitle: "Артиста успішно створено",
-      createdDescription: "{{name}} було створено",
-      createdFailedTitle: "Не вдалося створити артиста",
-      updatedTitle: "Артиста успішно оновлено",
-      updatedDescription: "{{name}} було оновлено",
-      updatedFailedTitle: "Не вдалося оновити артиста",
-      deletedTitle: "Артиста успішно видалено",
-      deletedDescription: "{{name}} було видалено",
-      deletedFailedTitle: "Не вдалося видалити артиста"
+      title: "Виконавці",
+      createdTitle: "Виконавця успішно створено",
+      createdDescription: "{{name}} створено",
+      createdFailedTitle: "Не вдалося створити виконавця",
+      updatedTitle: "Виконавця успішно оновлено",
+      updatedDescription: "{{name}} оновлено",
+      updatedFailedTitle: "Не вдалося оновити виконавця",
+      deletedTitle: "Виконавця успішно видалено",
+      deletedDescription: "{{name}} видалено",
+      deletedFailedTitle: "Не вдалося видалити виконавця"
     },
     settings: {
       title: "Налаштування",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        title: "Тема",
+        description: "Виберіть бажану тему оформлення",
+        light: "Світла",
+        dark: "Темна",
+        system: "Системна"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Мова",
+        description: "Виберіть бажану мову"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Синхронізація",
+        description: "Синхронізуйте дані між пристроями"
       }
     }
   }

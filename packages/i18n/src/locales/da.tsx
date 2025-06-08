@@ -15,6 +15,12 @@ export const danish: Language = {
       today: "I dag",
       yesterday: "I går"
     },
+    update: {
+      downloading: "Downloading and installing update",
+      downloadingDescription: "A new update is available and being installed automatically",
+      installedSuccess: "Update installed successfully",
+      failed: "Failed to install update"
+    },
     songs: {
       title: "Sange",
       createdTitle: "Sang Oprettet med Succes",

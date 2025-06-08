@@ -15,6 +15,12 @@ export const hindi: Language = {
       today: "आज",
       yesterday: "कल"
     },
+    update: {
+      downloading: "अपडेट डाउनलोड और इंस्टॉल हो रहा है",
+      downloadingDescription: "एक नया अपडेट उपलब्ध है और स्वचालित रूप से इंस्टॉल हो रहा है",
+      installedSuccess: "अपडेट सफलतापूर्वक इंस्टॉल हो गया",
+      failed: "अपडेट इंस्टॉलेशन विफल रहा"
+    },
     songs: {
       title: "गाने",
       createdTitle: "गाना सफलतापूर्वक बनाया गया",

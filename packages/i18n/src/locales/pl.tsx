@@ -11,71 +11,77 @@ export const polish: Language = {
     common: {
       noResultsFound: "Nie znaleziono wyników",
       lessThanAnHourAgo: "Mniej niż godzinę temu",
-      hoursAgo: "{{count}} godzina{{count, plural, one {} other{y}}} temu",
+      hoursAgo: "{{count}} godzin{{count, plural, one {ę} few {y} many {} other{y}}} temu",
       today: "Dziś",
       yesterday: "Wczoraj"
     },
+    update: {
+      downloading: "Pobieranie i instalowanie aktualizacji",
+      downloadingDescription: "Dostępna jest nowa aktualizacja i jest automatycznie instalowana",
+      installedSuccess: "Aktualizacja zainstalowana pomyślnie",
+      failed: "Nie udało się zainstalować aktualizacji"
+    },
     songs: {
       title: "Utwory",
-      createdTitle: "Utwór Został Pomyślnie Utworzony",
+      createdTitle: "Utwór utworzony pomyślnie",
       createdDescription: "{{name}} został utworzony",
-      createdFailedTitle: "Nie Udało się Utworzyć Utworu",
-      updatedTitle: "Utwór Został Pomyślnie Zaktualizowany",
+      createdFailedTitle: "Nie udało się utworzyć utworu",
+      updatedTitle: "Utwór zaktualizowany pomyślnie",
       updatedDescription: "{{name}} został zaktualizowany",
-      updatedFailedTitle: "Nie Udało się Zaktualizować Utworu",
-      deletedTitle: "Utwór Został Pomyślnie Usunięty",
+      updatedFailedTitle: "Nie udało się zaktualizować utworu",
+      deletedTitle: "Utwór usunięty pomyślnie",
       deletedDescription: "{{name}} został usunięty",
-      deletedFailedTitle: "Nie Udało się Usunąć Utworu"
+      deletedFailedTitle: "Nie udało się usunąć utworu"
     },
     favorites: {
       title: "Ulubione",
-      addedTitle: "Dodano do Ulubionych",
+      addedTitle: "Dodano do ulubionych",
       addedDescription: "{{name}} został dodany do ulubionych",
-      addedFailedTitle: "Nie Udało się Dodać do Ulubionych",
-      removedTitle: "Usunięto z Ulubionych",
+      addedFailedTitle: "Nie udało się dodać do ulubionych",
+      removedTitle: "Usunięto z ulubionych",
       removedDescription: "{{name}} został usunięty z ulubionych",
-      removedFailedTitle: "Nie Udało się Usunąć z Ulubionych"
+      removedFailedTitle: "Nie udało się usunąć z ulubionych"
     },
     playlists: {
-      title: "Listy odtwarzania",
-      createdTitle: "Utwór Został Pomyślnie Utworzony",
-      createdDescription: "{{name}} został utworzony",
-      createdFailedTitle: "Nie Udało się Utworzyć Utworu",
-      updatedTitle: "Utwór Został Pomyślnie Zaktualizowany",
-      updatedDescription: "{{name}} został zaktualizowany",
-      updatedFailedTitle: "Nie Udało się Zaktualizować Utworu",
-      deletedTitle: "Utwór Został Pomyślnie Usunięty",
-      deletedDescription: "{{name}} został usunięty",
-      deletedFailedTitle: "Nie Udało się Usunąć Utworu"
+      title: "Playlisty",
+      createdTitle: "Playlista utworzona pomyślnie",
+      createdDescription: "{{name}} została utworzona",
+      createdFailedTitle: "Nie udało się utworzyć playlisty",
+      updatedTitle: "Playlista zaktualizowana pomyślnie",
+      updatedDescription: "{{name}} została zaktualizowana",
+      updatedFailedTitle: "Nie udało się zaktualizować playlisty",
+      deletedTitle: "Playlista usunięta pomyślnie",
+      deletedDescription: "{{name}} została usunięta",
+      deletedFailedTitle: "Nie udało się usunąć playlisty"
     },
     artists: {
       title: "Artyści",
-      createdTitle: "Artysta Został Pomyślnie Utworzony",
+      createdTitle: "Artysta utworzony pomyślnie",
       createdDescription: "{{name}} został utworzony",
-      createdFailedTitle: "Nie Udało się Utworzyć Artysty",
-      updatedTitle: "Artysta Został Pomyślnie Zaktualizowany",
+      createdFailedTitle: "Nie udało się utworzyć artysty",
+      updatedTitle: "Artysta zaktualizowany pomyślnie",
       updatedDescription: "{{name}} został zaktualizowany",
-      updatedFailedTitle: "Nie Udało się Zaktualizować Artysty",
-      deletedTitle: "Artysta Został Pomyślnie Usunięty",
+      updatedFailedTitle: "Nie udało się zaktualizować artysty",
+      deletedTitle: "Artysta usunięty pomyślnie",
       deletedDescription: "{{name}} został usunięty",
-      deletedFailedTitle: "Nie Udało się Usunąć Artysty"
+      deletedFailedTitle: "Nie udało się usunąć artysty"
     },
     settings: {
       title: "Ustawienia",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        title: "Motyw",
+        description: "Wybierz preferowany tryb wyświetlania",
+        light: "Jasny",
+        dark: "Ciemny",
+        system: "Systemowy"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Język",
+        description: "Wybierz preferowany język"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Synchronizacja",
+        description: "Synchronizuj dane między urządzeniami"
       }
     }
   }

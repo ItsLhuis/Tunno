@@ -15,6 +15,12 @@ export const english: Language = {
       today: "Today",
       yesterday: "Yesterday"
     },
+    update: {
+      downloading: "Downloading and installing update",
+      downloadingDescription: "A new update is available and being installed automatically",
+      installedSuccess: "Update installed successfully",
+      failed: "Failed to install update"
+    },
     songs: {
       title: "Songs",
       createdTitle: "Song Created Successfully",

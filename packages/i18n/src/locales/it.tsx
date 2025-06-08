@@ -15,67 +15,74 @@ export const italian: Language = {
       today: "Oggi",
       yesterday: "Ieri"
     },
+    update: {
+      downloading: "Download e installazione dell'aggiornamento",
+      downloadingDescription:
+        "Un nuovo aggiornamento è disponibile e viene installato automaticamente",
+      installedSuccess: "Aggiornamento installato con successo",
+      failed: "Installazione dell'aggiornamento fallita"
+    },
     songs: {
-      title: "Canzoni",
-      createdTitle: "Canzone Creata con Successo",
-      createdDescription: "{{name}} è stata creata",
-      createdFailedTitle: "Impossibile Creare la Canzone",
-      updatedTitle: "Canzone Aggiornata con Successo",
-      updatedDescription: "{{name}} è stata aggiornata",
-      updatedFailedTitle: "Impossibile Aggiornare la Canzone",
-      deletedTitle: "Canzone Eliminata con Successo",
-      deletedDescription: "{{name}} è stata eliminata",
-      deletedFailedTitle: "Impossibile Eliminare la Canzone"
+      title: "Brani",
+      createdTitle: "Brano Creato con Successo",
+      createdDescription: "{{name}} è stato creato",
+      createdFailedTitle: "Impossibile Creare il Brano",
+      updatedTitle: "Brano Aggiornato con Successo",
+      updatedDescription: "{{name}} è stato aggiornato",
+      updatedFailedTitle: "Impossibile Aggiornare il Brano",
+      deletedTitle: "Brano Eliminato con Successo",
+      deletedDescription: "{{name}} è stato eliminato",
+      deletedFailedTitle: "Impossibile Eliminare il Brano"
     },
     favorites: {
       title: "Preferiti",
       addedTitle: "Aggiunto ai Preferiti",
       addedDescription: "{{name}} è stato aggiunto ai preferiti",
-      addedFailedTitle: "Errore nell'Aggiunta ai Preferiti",
+      addedFailedTitle: "Impossibile Aggiungere ai Preferiti",
       removedTitle: "Rimosso dai Preferiti",
       removedDescription: "{{name}} è stato rimosso dai preferiti",
-      removedFailedTitle: "Errore nella Rimozione dai Preferiti"
+      removedFailedTitle: "Impossibile Rimuovere dai Preferiti"
     },
     playlists: {
       title: "Playlist",
       createdTitle: "Playlist Creata con Successo",
       createdDescription: "{{name}} è stata creata",
-      createdFailedTitle: "Errore nella Creazione della Playlist",
+      createdFailedTitle: "Impossibile Creare la Playlist",
       updatedTitle: "Playlist Aggiornata con Successo",
       updatedDescription: "{{name}} è stata aggiornata",
-      updatedFailedTitle: "Errore nell'Aggiornamento della Playlist",
+      updatedFailedTitle: "Impossibile Aggiornare la Playlist",
       deletedTitle: "Playlist Eliminata con Successo",
       deletedDescription: "{{name}} è stata eliminata",
-      deletedFailedTitle: "Errore nell'Eliminazione della Playlist"
+      deletedFailedTitle: "Impossibile Eliminare la Playlist"
     },
     artists: {
       title: "Artisti",
       createdTitle: "Artista Creato con Successo",
       createdDescription: "{{name}} è stato creato",
-      createdFailedTitle: "Errore nella Creazione dell'Artista",
+      createdFailedTitle: "Impossibile Creare l'Artista",
       updatedTitle: "Artista Aggiornato con Successo",
       updatedDescription: "{{name}} è stato aggiornato",
-      updatedFailedTitle: "Errore nell'Aggiornamento dell'Artista",
+      updatedFailedTitle: "Impossibile Aggiornare l'Artista",
       deletedTitle: "Artista Eliminato con Successo",
       deletedDescription: "{{name}} è stato eliminato",
-      deletedFailedTitle: "Errore nell'Eliminazione dell'Artista"
+      deletedFailedTitle: "Impossibile Eliminare l'Artista"
     },
     settings: {
       title: "Impostazioni",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        title: "Tema",
+        description: "Seleziona il tuo aspetto preferito",
+        light: "Chiaro",
+        dark: "Scuro",
+        system: "Sistema"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Lingua",
+        description: "Scegli la tua lingua preferita"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Sincronizzazione",
+        description: "Sincronizza i tuoi dati tra i dispositivi"
       }
     }
   }

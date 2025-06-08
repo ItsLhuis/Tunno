@@ -15,6 +15,12 @@ export const finnish: Language = {
       today: "Tänään",
       yesterday: "Eilen"
     },
+    update: {
+      downloading: "Downloading and installing update",
+      downloadingDescription: "A new update is available and being installed automatically",
+      installedSuccess: "Update installed successfully",
+      failed: "Failed to install update"
+    },
     songs: {
       title: "Kappaleet",
       createdTitle: "Kappale Luotu Onnistuneesti",

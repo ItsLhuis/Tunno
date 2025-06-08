@@ -18,6 +18,12 @@ export type Translations = {
     today: string
     yesterday: string
   }
+  update: {
+    downloading: string
+    downloadingDescription: string
+    installedSuccess: string
+    failed: string
+  }
   songs: {
     title: string
     createdTitle: string

@@ -15,67 +15,73 @@ export const turkish: Language = {
       today: "Bugün",
       yesterday: "Dün"
     },
+    update: {
+      downloading: "Güncelleme indiriliyor ve kuruluyor",
+      downloadingDescription: "Yeni bir güncelleme mevcut ve otomatik olarak kuruluyor",
+      installedSuccess: "Güncelleme başarıyla kuruldu",
+      failed: "Güncelleme kurulumu başarısız oldu"
+    },
     songs: {
       title: "Şarkılar",
-      createdTitle: "Şarkı Başarıyla Oluşturuldu",
+      createdTitle: "Şarkı başarıyla oluşturuldu",
       createdDescription: "{{name}} oluşturuldu",
-      createdFailedTitle: "Şarkı Oluşturulamadı",
-      updatedTitle: "Şarkı Başarıyla Güncellendi",
+      createdFailedTitle: "Şarkı oluşturulamadı",
+      updatedTitle: "Şarkı başarıyla güncellendi",
       updatedDescription: "{{name}} güncellendi",
-      updatedFailedTitle: "Şarkı Güncellenemedi",
-      deletedTitle: "Şarkı Başarıyla Silindi",
+      updatedFailedTitle: "Şarkı güncellenemedi",
+      deletedTitle: "Şarkı başarıyla silindi",
       deletedDescription: "{{name}} silindi",
-      deletedFailedTitle: "Şarkı Silinemedi"
+      deletedFailedTitle: "Şarkı silinemedi"
     },
     favorites: {
       title: "Favoriler",
-      addedTitle: "Favorilere Eklendi",
+      addedTitle: "Favorilere eklendi",
       addedDescription: "{{name}} favorilere eklendi",
-      addedFailedTitle: "Favorilere Ekleme Başarısız",
-      removedTitle: "Favorilerden Çıkarıldı",
-      removedDescription: "{{name}} favorilerden çıkarıldı",
-      removedFailedTitle: "Favorilerden Çıkarma Başarısız"
+      addedFailedTitle: "Favorilere eklenemedi",
+      removedTitle: "Favorilerden kaldırıldı",
+      removedDescription: "{{name}} favorilerden kaldırıldı",
+      removedFailedTitle: "Favorilerden kaldırılamadı"
     },
     playlists: {
-      title: "Şarkılar",
-      createdTitle: "Şarkı Başarıyla Oluşturuldu",
+      title: "Çalma Listeleri",
+      createdTitle: "Çalma listesi başarıyla oluşturuldu",
       createdDescription: "{{name}} oluşturuldu",
-      createdFailedTitle: "Şarkı Oluşturulamadı",
-      updatedTitle: "Şarkı Başarıyla Güncellendi",
+      createdFailedTitle: "Çalma listesi oluşturulamadı",
+      updatedTitle: "Çalma listesi başarıyla güncellendi",
       updatedDescription: "{{name}} güncellendi",
-      updatedFailedTitle: "Şarkı Güncellenemedi",
-      deletedTitle: "Şarkı Başarıyla Silindi",
+      updatedFailedTitle: "Çalma listesi güncellenemedi",
+      deletedTitle: "Çalma listesi başarıyla silindi",
       deletedDescription: "{{name}} silindi",
-      deletedFailedTitle: "Şarkı Silinemedi"
+      deletedFailedTitle: "Çalma listesi silinemedi"
     },
     artists: {
       title: "Sanatçılar",
-      createdTitle: "Sanatçı Başarıyla Oluşturuldu",
+      createdTitle: "Sanatçı başarıyla oluşturuldu",
       createdDescription: "{{name}} oluşturuldu",
-      createdFailedTitle: "Sanatçı Oluşturulamadı",
-      updatedTitle: "Sanatçı Başarıyla Güncellendi",
+      createdFailedTitle: "Sanatçı oluşturulamadı",
+      updatedTitle: "Sanatçı başarıyla güncellendi",
       updatedDescription: "{{name}} güncellendi",
-      updatedFailedTitle: "Sanatçı Güncellenemedi",
-      deletedTitle: "Sanatçı Başarıyla Silindi",
+      updatedFailedTitle: "Sanatçı güncellenemedi",
+      deletedTitle: "Sanatçı başarıyla silindi",
       deletedDescription: "{{name}} silindi",
-      deletedFailedTitle: "Sanatçı Silinemedi"
+      deletedFailedTitle: "Sanatçı silinemedi"
     },
     settings: {
       title: "Ayarlar",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        title: "Tema",
+        description: "Tercih ettiğiniz görünüm modunu seçin",
+        light: "Açık",
+        dark: "Koyu",
+        system: "Sistem"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Dil",
+        description: "Tercih ettiğiniz dili seçin"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Senkronizasyon",
+        description: "Verilerinizi cihazlar arasında senkronize edin"
       }
     }
   }

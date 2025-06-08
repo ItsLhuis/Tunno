@@ -11,71 +11,78 @@ export const dutch: Language = {
     common: {
       noResultsFound: "Geen resultaten gevonden",
       lessThanAnHourAgo: "Minder dan een uur geleden",
-      hoursAgo: "{{count}} uur{{count, plural, one {} other{en}}} geleden",
+      hoursAgo: "{{count}} uur geleden",
       today: "Vandaag",
       yesterday: "Gisteren"
     },
+    update: {
+      downloading: "Update downloaden en installeren",
+      downloadingDescription:
+        "Er is een nieuwe update beschikbaar en wordt automatisch geïnstalleerd",
+      installedSuccess: "Update succesvol geïnstalleerd",
+      failed: "Update installeren mislukt"
+    },
     songs: {
       title: "Nummers",
-      createdTitle: "Nummer Succesvol Aangemaakt",
+      createdTitle: "Nummer succesvol aangemaakt",
       createdDescription: "{{name}} is aangemaakt",
-      createdFailedTitle: "Nummer Aanmaken Mislukt",
-      updatedTitle: "Nummer Succesvol Bijgewerkt",
+      createdFailedTitle: "Nummer aanmaken mislukt",
+      updatedTitle: "Nummer succesvol bijgewerkt",
       updatedDescription: "{{name}} is bijgewerkt",
-      updatedFailedTitle: "Nummer Bijwerken Mislukt",
-      deletedTitle: "Nummer Succesvol Verwijderd",
+      updatedFailedTitle: "Nummer bijwerken mislukt",
+      deletedTitle: "Nummer succesvol verwijderd",
       deletedDescription: "{{name}} is verwijderd",
-      deletedFailedTitle: "Nummer Verwijderen Mislukt"
+      deletedFailedTitle: "Nummer verwijderen mislukt"
     },
     favorites: {
       title: "Favorieten",
-      addedTitle: "Toegevoegd aan Favorieten",
+      addedTitle: "Toegevoegd aan favorieten",
       addedDescription: "{{name}} is toegevoegd aan favorieten",
-      addedFailedTitle: "Kon Niet Toevoegen aan Favorieten",
-      removedTitle: "Verwijderd uit Favorieten",
+      addedFailedTitle: "Toevoegen aan favorieten mislukt",
+      removedTitle: "Verwijderd uit favorieten",
       removedDescription: "{{name}} is verwijderd uit favorieten",
-      removedFailedTitle: "Kon Niet Verwijderen uit Favorieten"
+      removedFailedTitle: "Verwijderen uit favorieten mislukt"
     },
     playlists: {
       title: "Afspeellijsten",
-      createdTitle: "Nummer Succesvol Aangemaakt",
+      createdTitle: "Afspeellijst succesvol aangemaakt",
       createdDescription: "{{name}} is aangemaakt",
-      createdFailedTitle: "Nummer Aanmaken Mislukt",
-      updatedTitle: "Nummer Succesvol Bijgewerkt",
+      createdFailedTitle: "Afspeellijst aanmaken mislukt",
+      updatedTitle: "Afspeellijst succesvol bijgewerkt",
       updatedDescription: "{{name}} is bijgewerkt",
-      updatedFailedTitle: "Nummer Bijwerken Mislukt",
-      deletedTitle: "Nummer Succesvol Verwijderd",
+      updatedFailedTitle: "Afspeellijst bijwerken mislukt",
+      deletedTitle: "Afspeellijst succesvol verwijderd",
       deletedDescription: "{{name}} is verwijderd",
-      deletedFailedTitle: "Nummer Verwijderen Mislukt"
+      deletedFailedTitle: "Afspeellijst verwijderen mislukt"
     },
     artists: {
       title: "Artiesten",
-      createdTitle: "Artiest Succesvol Aangemaakt",
+      createdTitle: "Artiest succesvol aangemaakt",
       createdDescription: "{{name}} is aangemaakt",
-      createdFailedTitle: "Artiest Aanmaken Mislukt",
-      updatedTitle: "Artiest Succesvol Bijgewerkt",
+      createdFailedTitle: "Artiest aanmaken mislukt",
+      updatedTitle: "Artiest succesvol bijgewerkt",
       updatedDescription: "{{name}} is bijgewerkt",
-      updatedFailedTitle: "Artiest Bijwerken Mislukt",
-      deletedTitle: "Artiest Succesvol Verwijderd",
+      updatedFailedTitle: "Artiest bijwerken mislukt",
+      deletedTitle: "Artiest succesvol verwijderd",
       deletedDescription: "{{name}} is verwijderd",
-      deletedFailedTitle: "Artiest Verwijderen Mislukt"
+      deletedFailedTitle: "Artiest verwijderen mislukt"
     },
     settings: {
       title: "Instellingen",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        title: "Thema",
+        description: "Kies uw voorkeursweergavemodus",
+        light: "Licht",
+        dark: "Donker",
+        system: "Systeem"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Taal",
+        description: "Kies uw voorkeurstaal"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Synchronisatie",
+        description: "Synchroniseer uw gegevens tussen apparaten"
       }
     }
   }

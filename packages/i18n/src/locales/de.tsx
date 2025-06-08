@@ -11,71 +11,77 @@ export const german: Language = {
     common: {
       noResultsFound: "Keine Ergebnisse gefunden",
       lessThanAnHourAgo: "Vor weniger als einer Stunde",
-      hoursAgo: "{{count}} Stunde{{count, plural, one {} other{n}}} vor",
+      hoursAgo: "{{count}} Stunde{{count, plural, one {} other{n}}} her",
       today: "Heute",
       yesterday: "Gestern"
     },
+    update: {
+      downloading: "Update wird heruntergeladen und installiert",
+      downloadingDescription: "Ein neues Update ist verfügbar und wird automatisch installiert",
+      installedSuccess: "Update erfolgreich installiert",
+      failed: "Update-Installation fehlgeschlagen"
+    },
     songs: {
       title: "Lieder",
-      createdTitle: "Lied Erfolgreich Erstellt",
+      createdTitle: "Lied erfolgreich erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Fehler beim Erstellen des Liedes",
-      updatedTitle: "Lied Erfolgreich Aktualisiert",
+      createdFailedTitle: "Lied konnte nicht erstellt werden",
+      updatedTitle: "Lied erfolgreich aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Fehler beim Aktualisieren des Liedes",
-      deletedTitle: "Lied Erfolgreich Gelöscht",
+      updatedFailedTitle: "Lied konnte nicht aktualisiert werden",
+      deletedTitle: "Lied erfolgreich gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Fehler beim Löschen des Liedes"
+      deletedFailedTitle: "Lied konnte nicht gelöscht werden"
     },
     favorites: {
       title: "Favoriten",
-      addedTitle: "Zu Favoriten Hinzugefügt",
+      addedTitle: "Zu Favoriten hinzugefügt",
       addedDescription: "{{name}} wurde zu Favoriten hinzugefügt",
-      addedFailedTitle: "Konnte Nicht Zu Favoriten Hinzufügen",
-      removedTitle: "Von Favoriten Entfernt",
-      removedDescription: "{{name}} wurde von Favoriten entfernt",
-      removedFailedTitle: "Konnte Nicht Von Favoriten Entfernen"
+      addedFailedTitle: "Konnte nicht zu Favoriten hinzufügen",
+      removedTitle: "Aus Favoriten entfernt",
+      removedDescription: "{{name}} wurde aus Favoriten entfernt",
+      removedFailedTitle: "Konnte nicht aus Favoriten entfernen"
     },
     playlists: {
       title: "Wiedergabelisten",
-      createdTitle: "Wiedergabeliste Erfolgreich Erstellt",
+      createdTitle: "Wiedergabeliste erfolgreich erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Konnte Wiedergabeliste Nicht Erstellen",
-      updatedTitle: "Wiedergabeliste Erfolgreich Aktualisiert",
+      createdFailedTitle: "Wiedergabeliste konnte nicht erstellt werden",
+      updatedTitle: "Wiedergabeliste erfolgreich aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Konnte Wiedergabeliste Nicht Aktualisieren",
-      deletedTitle: "Wiedergabeliste Erfolgreich Gelöscht",
+      updatedFailedTitle: "Wiedergabeliste konnte nicht aktualisiert werden",
+      deletedTitle: "Wiedergabeliste erfolgreich gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Konnte Wiedergabeliste Nicht Löschen"
+      deletedFailedTitle: "Wiedergabeliste konnte nicht gelöscht werden"
     },
     artists: {
       title: "Künstler",
-      createdTitle: "Künstler Erfolgreich Erstellt",
+      createdTitle: "Künstler erfolgreich erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Konnte Künstler Nicht Erstellen",
-      updatedTitle: "Künstler Erfolgreich Aktualisiert",
+      createdFailedTitle: "Künstler konnte nicht erstellt werden",
+      updatedTitle: "Künstler erfolgreich aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Konnte Künstler Nicht Aktualisieren",
-      deletedTitle: "Künstler Erfolgreich Gelöscht",
+      updatedFailedTitle: "Künstler konnte nicht aktualisiert werden",
+      deletedTitle: "Künstler erfolgreich gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Konnte Künstler Nicht Löschen"
+      deletedFailedTitle: "Künstler konnte nicht gelöscht werden"
     },
     settings: {
       title: "Einstellungen",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
+        title: "Design",
+        description: "Wählen Sie Ihr bevorzugtes Erscheinungsbild",
+        light: "Hell",
+        dark: "Dunkel",
         system: "System"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Sprache",
+        description: "Wählen Sie Ihre bevorzugte Sprache"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Synchronisierung",
+        description: "Synchronisieren Sie Ihre Daten zwischen Geräten"
       }
     }
   }

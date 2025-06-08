@@ -15,6 +15,13 @@ export const french: Language = {
       today: "Aujourd'hui",
       yesterday: "Hier"
     },
+    update: {
+      downloading: "Téléchargement et installation de la mise à jour",
+      downloadingDescription:
+        "Une nouvelle mise à jour est disponible et s'installe automatiquement",
+      installedSuccess: "Mise à jour installée avec succès",
+      failed: "Échec de l'installation de la mise à jour"
+    },
     songs: {
       title: "Chansons",
       createdTitle: "Chanson Créée avec Succès",
@@ -37,7 +44,7 @@ export const french: Language = {
       removedFailedTitle: "Échec du Retrait des Favoris"
     },
     playlists: {
-      title: "Listes",
+      title: "Listes de Lecture",
       createdTitle: "Liste Créée avec Succès",
       createdDescription: "{{name}} a été créée",
       createdFailedTitle: "Échec de la Création de la Liste",
@@ -63,19 +70,19 @@ export const french: Language = {
     settings: {
       title: "Paramètres",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        title: "Thème",
+        description: "Sélectionnez votre mode d'apparence préféré",
+        light: "Clair",
+        dark: "Sombre",
+        system: "Système"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Langue",
+        description: "Choisissez votre langue préférée"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Synchronisation",
+        description: "Synchronisez vos données entre les appareils"
       }
     }
   }

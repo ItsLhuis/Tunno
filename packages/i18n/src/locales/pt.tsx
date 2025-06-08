@@ -10,10 +10,17 @@ export const portuguese: Language = {
   translations: {
     common: {
       noResultsFound: "Nenhum resultado encontrado",
-      lessThanAnHourAgo: "Menos de uma hora atrás",
-      hoursAgo: "{{count}} hora{{count, plural, one {} other{s}}} atrás",
+      lessThanAnHourAgo: "Há menos de uma hora",
+      hoursAgo: "Há {{count}} hora{{count, plural, one {} other{s}}}",
       today: "Hoje",
       yesterday: "Ontem"
+    },
+    update: {
+      downloading: "A transferir e instalar atualização",
+      downloadingDescription:
+        "Uma nova atualização está disponível e está a ser instalada automaticamente",
+      installedSuccess: "Atualização instalada com sucesso",
+      failed: "Falha ao instalar atualização"
     },
     songs: {
       title: "Músicas",
@@ -23,9 +30,9 @@ export const portuguese: Language = {
       updatedTitle: "Música Atualizada com Sucesso",
       updatedDescription: "{{name}} foi atualizada",
       updatedFailedTitle: "Falha ao Atualizar Música",
-      deletedTitle: "Música Excluída com Sucesso",
-      deletedDescription: "{{name}} foi excluída",
-      deletedFailedTitle: "Falha ao Excluir Música"
+      deletedTitle: "Música Eliminada com Sucesso",
+      deletedDescription: "{{name}} foi eliminada",
+      deletedFailedTitle: "Falha ao Eliminar Música"
     },
     favorites: {
       title: "Favoritos",
@@ -37,16 +44,16 @@ export const portuguese: Language = {
       removedFailedTitle: "Erro ao Remover dos Favoritos"
     },
     playlists: {
-      title: "Músicas",
-      createdTitle: "Música Criada com Sucesso",
+      title: "Listas de Reprodução",
+      createdTitle: "Lista de Reprodução Criada com Sucesso",
       createdDescription: "{{name}} foi criada",
-      createdFailedTitle: "Erro ao Criar Música",
-      updatedTitle: "Música Atualizada com Sucesso",
+      createdFailedTitle: "Erro ao Criar Lista de Reprodução",
+      updatedTitle: "Lista de Reprodução Atualizada com Sucesso",
       updatedDescription: "{{name}} foi atualizada",
-      updatedFailedTitle: "Erro ao Atualizar Música",
-      deletedTitle: "Música Excluída com Sucesso",
-      deletedDescription: "{{name}} foi excluída",
-      deletedFailedTitle: "Erro ao Excluir Música"
+      updatedFailedTitle: "Erro ao Atualizar Lista de Reprodução",
+      deletedTitle: "Lista de Reprodução Eliminada com Sucesso",
+      deletedDescription: "{{name}} foi eliminada",
+      deletedFailedTitle: "Erro ao Eliminar Lista de Reprodução"
     },
     artists: {
       title: "Artistas",
@@ -56,26 +63,26 @@ export const portuguese: Language = {
       updatedTitle: "Artista Atualizado com Sucesso",
       updatedDescription: "{{name}} foi atualizado",
       updatedFailedTitle: "Erro ao Atualizar Artista",
-      deletedTitle: "Artista Excluído com Sucesso",
-      deletedDescription: "{{name}} foi excluído",
-      deletedFailedTitle: "Erro ao Excluir Artista"
+      deletedTitle: "Artista Eliminado com Sucesso",
+      deletedDescription: "{{name}} foi eliminado",
+      deletedFailedTitle: "Erro ao Eliminar Artista"
     },
     settings: {
       title: "Definições",
       theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        title: "Tema",
+        description: "Seleccione o seu modo de aparência preferido",
+        light: "Claro",
+        dark: "Escuro",
+        system: "Sistema"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Idioma",
+        description: "Escolha o seu idioma preferido"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Sincronização",
+        description: "Sincronize os seus dados entre dispositivos"
       }
     }
   }
