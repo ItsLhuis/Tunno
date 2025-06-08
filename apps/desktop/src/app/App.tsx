@@ -4,6 +4,9 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@repo/i18n"
 
+import { relaunch } from "@tauri-apps/plugin-process"
+import { check } from "@tauri-apps/plugin-updater"
+
 import { initializeAppStorage } from "@lib/appStorage"
 
 import { migrate } from "@database/migrate"
@@ -15,7 +18,7 @@ import { BrowserRouter } from "react-router-dom"
 import Logo from "@assets/images/app/icons/primary.png"
 
 import { ErrorBoundary } from "@components/core"
-import { Image } from "@components/ui"
+import { Image, toast } from "@components/ui"
 
 import { Footer, Main, Sidebar, Titlebar } from "@app/layout"
 
@@ -26,7 +29,7 @@ function App() {
 
   const { hasHydrated, language } = useSettingsStore()
 
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const prepareApp = async (): Promise<void> => {
     await initializeAppStorage()
@@ -47,6 +50,28 @@ function App() {
 
     startApp()
   }, [hasHydrated])
+
+  useEffect(() => {
+    if (!isAppReady) return
+
+    const updateApp = async () => {
+      const update = await check()
+
+      if (!update) return
+
+      toast.promise(update.downloadAndInstall(), {
+        loading: t("update.downloading"),
+        description: t("update.downloadingDescription"),
+        success: async () => {
+          await relaunch()
+          return t("update.installedSuccess")
+        },
+        error: t("update.failed")
+      })
+    }
+
+    updateApp()
+  }, [isAppReady])
 
   return (
     <BrowserRouter>
