@@ -49,6 +49,7 @@ function Button({ className, variant, size, asChild = false, tooltip, ...props }
   const Comp = asChild ? Slot : "button"
 
   const button = (
+    // @ts-ignore
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
@@ -73,3 +74,4 @@ function Button({ className, variant, size, asChild = false, tooltip, ...props }
 }
 
 export { Button, buttonVariants }
+

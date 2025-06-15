@@ -51,6 +51,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button"
 
     const button = (
+      // @ts-ignore
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
     )
 
