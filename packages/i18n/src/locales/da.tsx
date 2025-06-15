@@ -21,6 +21,7 @@ export const danish: Language = {
       installedSuccess: "Update installed successfully",
       failed: "Failed to install update"
     },
+    home: { title: "Home" },
     songs: {
       title: "Sange",
       createdTitle: "Sang Oprettet med Succes",

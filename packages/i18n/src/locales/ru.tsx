@@ -21,6 +21,7 @@ export const russian: Language = {
       installedSuccess: "Обновление успешно установлено",
       failed: "Не удалось установить обновление"
     },
+    home: { title: "Home" },
     songs: {
       title: "Песни",
       createdTitle: "Песня успешно создана",

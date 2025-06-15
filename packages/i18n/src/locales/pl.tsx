@@ -21,6 +21,7 @@ export const polish: Language = {
       installedSuccess: "Aktualizacja zainstalowana pomyślnie",
       failed: "Nie udało się zainstalować aktualizacji"
     },
+    home: { title: "Home" },
     songs: {
       title: "Utwory",
       createdTitle: "Utwór utworzony pomyślnie",

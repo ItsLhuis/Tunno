@@ -21,6 +21,7 @@ export const vietnamese: Language = {
       installedSuccess: "Cập nhật đã được cài đặt",
       failed: "Không thể cài đặt cập nhật"
     },
+    home: { title: "Home" },
     songs: {
       title: "Bài hát",
       createdTitle: "Đã tạo bài hát thành công",

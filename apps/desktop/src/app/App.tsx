@@ -40,38 +40,50 @@ function App() {
     await new Promise((resolve) => setTimeout(resolve, 500))
   }
 
+  const checkUpdateApp = () => {
+    return new Promise(async (resolve) => {
+      try {
+        const update = await check()
+
+        if (!update) return resolve(true)
+
+        const updateAndInstall = async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+          await update.downloadAndInstall()
+          return true
+        }
+
+        toast.promise(updateAndInstall(), {
+          loading: t("update.downloading"),
+          description: t("update.downloadingDescription"),
+          success: async () => {
+            await relaunch()
+            resolve(true)
+            return t("update.installedSuccess")
+          },
+          error: (error) => {
+            resolve(error)
+            return t("update.failed")
+          }
+        })
+      } catch (error) {
+        resolve(error)
+      }
+    })
+  }
+
   useEffect(() => {
     if (!hasHydrated || isAppReady) return
 
     const startApp = async () => {
       await prepareApp()
+      await checkUpdateApp()
+
       setIsAppReady(true)
     }
 
     startApp()
   }, [hasHydrated])
-
-  useEffect(() => {
-    if (!isAppReady) return
-
-    const updateApp = async () => {
-      const update = await check()
-
-      if (!update) return
-
-      toast.promise(update.downloadAndInstall(), {
-        loading: t("update.downloading"),
-        description: t("update.downloadingDescription"),
-        success: async () => {
-          await relaunch()
-          return t("update.installedSuccess")
-        },
-        error: t("update.failed")
-      })
-    }
-
-    updateApp()
-  }, [isAppReady])
 
   return (
     <BrowserRouter>

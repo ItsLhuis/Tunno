@@ -21,6 +21,7 @@ export const norwegian: Language = {
       installedSuccess: "Oppdatering installert",
       failed: "Kunne ikke installere oppdatering"
     },
+    home: { title: "Home" },
     songs: {
       title: "Sanger",
       createdTitle: "Sang opprettet",

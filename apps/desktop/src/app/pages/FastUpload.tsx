@@ -34,7 +34,7 @@ function FastUpload() {
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-3 transition-[background-color,padding] md:p-9">
-      <Typography variant="h2">Songs</Typography>
+      <Typography variant="h1">Songs</Typography>
       <form
         className="flex flex-col items-end gap-3"
         onSubmit={(e) => {

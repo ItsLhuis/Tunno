@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react"
 
-import { useTranslation } from "@repo/i18n"
+import { useTranslation, type Translations } from "@repo/i18n"
 
 import { useLocation } from "react-router-dom"
 
-import { Button, Icon, SafeLink, ScrollArea } from "@components/ui"
+import { Button, Icon, SafeLink, ScrollArea, type IconProps } from "@components/ui"
 
-const sidebarItems = [
-  { icon: "Music", label: "songs.title", href: "/" },
+type SidebarItem = {
+  icon: IconProps["name"]
+  label: `${keyof Pick<Translations, "home" | "songs" | "favorites" | "playlists" | "artists">}.title`
+  href: string
+}
+
+const sidebar: SidebarItem[] = [
+  { icon: "Home", label: "home.title", href: "/" },
+  { icon: "Music", label: "songs.title", href: "/songs" },
   { icon: "Heart", label: "favorites.title", href: "/favorites" },
   { icon: "List", label: "playlists.title", href: "/playlists" },
   { icon: "Users", label: "artists.title", href: "/artists" }
@@ -15,11 +22,8 @@ const sidebarItems = [
 
 function Sidebar() {
   const { t } = useTranslation()
-
   const location = useLocation()
-
-  const activeIndex = sidebarItems.findIndex((item) => item.href === location.pathname)
-
+  const activeIndex = sidebar.findIndex((item) => item.href === location.pathname)
   const [lastValidIndex, setLastValidIndex] = useState<number>(activeIndex)
 
   useEffect(() => {
@@ -41,7 +45,7 @@ function Sidebar() {
             }}
           />
           <div className="flex flex-col bg-transparent">
-            {sidebarItems.map((item, index) => (
+            {sidebar.map((item, index) => (
               <Button
                 key={item.label}
                 tooltip={t(item.label)}

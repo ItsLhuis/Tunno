@@ -22,6 +22,7 @@ export const italian: Language = {
       installedSuccess: "Aggiornamento installato con successo",
       failed: "Installazione dell'aggiornamento fallita"
     },
+    home: { title: "Home" },
     songs: {
       title: "Brani",
       createdTitle: "Brano Creato con Successo",

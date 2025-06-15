@@ -21,6 +21,7 @@ export const korean: Language = {
       installedSuccess: "업데이트가 성공적으로 설치되었습니다",
       failed: "업데이트 설치 실패"
     },
+    home: { title: "Home" },
     songs: {
       title: "노래",
       createdTitle: "노래가 성공적으로 생성되었습니다",

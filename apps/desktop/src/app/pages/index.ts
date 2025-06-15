@@ -1,6 +1,7 @@
 export { default as Artists } from "./Artists"
 export { default as FastUpload } from "./FastUpload"
 export { default as Favorites } from "./Favorites"
+export { default as Home } from "./Home"
 export { default as Playlists } from "./Playlists"
 export { default as Settings } from "./Settings"
 export { default as Songs } from "./Songs"

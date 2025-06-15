@@ -24,6 +24,9 @@ export type Translations = {
     installedSuccess: string
     failed: string
   }
+  home: {
+    title: string
+  }
   songs: {
     title: string
     createdTitle: string

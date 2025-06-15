@@ -21,6 +21,7 @@ export const hindi: Language = {
       installedSuccess: "अपडेट सफलतापूर्वक इंस्टॉल हो गया",
       failed: "अपडेट इंस्टॉलेशन विफल रहा"
     },
+    home: { title: "Home" },
     songs: {
       title: "गाने",
       createdTitle: "गाना सफलतापूर्वक बनाया गया",

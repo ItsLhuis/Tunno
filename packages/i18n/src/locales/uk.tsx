@@ -21,6 +21,7 @@ export const ukrainian: Language = {
       installedSuccess: "Оновлення успішно встановлено",
       failed: "Не вдалося встановити оновлення"
     },
+    home: { title: "Home" },
     songs: {
       title: "Пісні",
       createdTitle: "Пісню успішно створено",

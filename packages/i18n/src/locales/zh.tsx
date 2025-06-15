@@ -21,6 +21,7 @@ export const chinese: Language = {
       installedSuccess: "更新安装成功",
       failed: "更新安装失败"
     },
+    home: { title: "Home" },
     songs: {
       title: "歌曲",
       createdTitle: "歌曲创建成功",

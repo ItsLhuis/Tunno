@@ -21,6 +21,7 @@ export const spanish: Language = {
       installedSuccess: "Actualización instalada con éxito",
       failed: "Error al instalar la actualización"
     },
+    home: { title: "Home" },
     songs: {
       title: "Canciones",
       createdTitle: "Canción Creada con Éxito",

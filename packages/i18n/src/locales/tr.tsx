@@ -21,6 +21,7 @@ export const turkish: Language = {
       installedSuccess: "Güncelleme başarıyla kuruldu",
       failed: "Güncelleme kurulumu başarısız oldu"
     },
+    home: { title: "Home" },
     songs: {
       title: "Şarkılar",
       createdTitle: "Şarkı başarıyla oluşturuldu",

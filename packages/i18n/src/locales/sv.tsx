@@ -21,6 +21,7 @@ export const swedish: Language = {
       installedSuccess: "Uppdatering installerad",
       failed: "Kunde inte installera uppdatering"
     },
+    home: { title: "Home" },
     songs: {
       title: "Låtar",
       createdTitle: "Låt skapad",

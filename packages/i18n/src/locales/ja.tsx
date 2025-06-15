@@ -21,6 +21,7 @@ export const japanese: Language = {
       installedSuccess: "アップデートが正常にインストールされました",
       failed: "アップデートのインストールに失敗しました"
     },
+    home: { title: "Home" },
     songs: {
       title: "曲",
       createdTitle: "曲が正常に作成されました",

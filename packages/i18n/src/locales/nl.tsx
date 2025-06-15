@@ -22,6 +22,7 @@ export const dutch: Language = {
       installedSuccess: "Update succesvol geïnstalleerd",
       failed: "Update installeren mislukt"
     },
+    home: { title: "Home" },
     songs: {
       title: "Nummers",
       createdTitle: "Nummer succesvol aangemaakt",
