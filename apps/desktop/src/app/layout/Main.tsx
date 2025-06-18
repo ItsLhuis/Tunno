@@ -4,7 +4,13 @@ import { Artists, FastUpload, Favorites, Home, Playlists, Settings, Songs } from
 
 import { AnimatePresence, motion } from "motion/react"
 
-const routes = [
+type RouteConfig = {
+  path: string
+  element: React.ReactElement
+  children?: RouteConfig[]
+}
+
+const routes: RouteConfig[] = [
   { path: "/", element: <Home /> },
   { path: "/songs", element: <Songs /> },
   { path: "/favorites", element: <Favorites /> },
@@ -13,6 +19,14 @@ const routes = [
   { path: "/fast-upload", element: <FastUpload /> },
   { path: "/settings", element: <Settings /> }
 ]
+
+function renderRoutes(routeList: RouteConfig[]) {
+  return routeList.map(({ path, element, children }) => (
+    <Route key={path} path={path} element={element}>
+      {children && renderRoutes(children)}
+    </Route>
+  ))
+}
 
 function Main() {
   const location = useLocation()
@@ -27,9 +41,7 @@ function Main() {
         className="flex w-full flex-1"
       >
         <Routes location={location} key={location.pathname}>
-          {routes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
+          {renderRoutes(routes)}
         </Routes>
       </motion.div>
     </AnimatePresence>

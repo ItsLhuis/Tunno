@@ -54,7 +54,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             exit={{ opacity: 0 }}
             className="p-6"
           >
-            {process.env.NODE_ENV === "development" ? (
+            {!import.meta.env.PROD ? (
               <div className="flex w-full flex-col items-center">
                 <div className="relative rounded-md bg-sidebar shadow-2xl transition-[background-color]">
                   <div className="absolute left-0 right-0 top-0 h-2 rounded-tl-md rounded-tr-md bg-destructive" />

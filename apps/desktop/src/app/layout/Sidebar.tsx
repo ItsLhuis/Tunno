@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { useTranslation, type Translations } from "@repo/i18n"
+import { useTranslation } from "@repo/i18n"
 
 import { useLocation } from "react-router-dom"
 
@@ -8,7 +8,7 @@ import { Button, Icon, SafeLink, ScrollArea, type IconProps } from "@components/
 
 type SidebarItem = {
   icon: IconProps["name"]
-  label: `${keyof Pick<Translations, "home" | "songs" | "favorites" | "playlists" | "artists">}.title`
+  label: "home.title" | "songs.title" | "favorites.title" | "playlists.title" | "artists.title"
   href: string
 }
 
@@ -22,7 +22,9 @@ const sidebar: SidebarItem[] = [
 
 function Sidebar() {
   const { t } = useTranslation()
+
   const location = useLocation()
+
   const activeIndex = sidebar.findIndex((item) => item.href === location.pathname)
   const [lastValidIndex, setLastValidIndex] = useState<number>(activeIndex)
 

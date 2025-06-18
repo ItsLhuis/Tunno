@@ -1,10 +1,24 @@
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
+
+import { useTranslation } from "@repo/i18n"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import Logo from "@assets/images/app/icons/primary.png"
 
-import { Button, Icon, IconButton, Image, SafeLink } from "@components/ui"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  Button,
+  Icon,
+  IconButton,
+  Image,
+  SafeLink
+} from "@components/ui"
 import { Titlebar as WindowTitlebar } from "@components/window"
 
 import { motion } from "motion/react"
@@ -14,7 +28,11 @@ type TitleBarProps = {
 }
 
 function TitleBar({ isSplashVisible }: TitleBarProps) {
+  const location = useLocation()
+
   const navigate = useNavigate()
+
+  const { t } = useTranslation()
 
   const canGoBack = window.history.state.idx !== 0
   const canGoForward = window.history.state.idx < window.history.length - 1
@@ -25,6 +43,61 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
     await window.setFullscreen(!fullscreenState)
   }
 
+  const getTranslatedLabel = (segment: string): string => {
+    const segmentMap: Record<string, string> = {
+      home: t("breadcrumbs.home.title"),
+      songs: t("breadcrumbs.songs.title"),
+      favorites: t("breadcrumbs.favorites.title"),
+      playlists: t("breadcrumbs.playlists.title"),
+      artists: t("breadcrumbs.artists.title"),
+      settings: t("breadcrumbs.settings.title"),
+      appearance: t("breadcrumbs.settings.appearance.title"),
+      language: t("breadcrumbs.settings.language.title"),
+      sync: t("breadcrumbs.settings.sync.title"),
+      "fast-upload": t("breadcrumbs.fastUpload.title")
+    }
+
+    return (
+      segmentMap[segment] ||
+      segment
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+    )
+  }
+
+  const generateBreadcrumbs = () => {
+    const pathSegments = location.pathname.split("/").filter(Boolean)
+    const searchParams = new URLSearchParams(location.search)
+
+    if (pathSegments.length === 0) return [{ label: t("breadcrumbs.home.title"), path: "/" }]
+
+    const breadcrumbs = [{ label: t("breadcrumbs.home.title"), path: "/" }]
+
+    pathSegments.forEach((segment, index) => {
+      const path = "/" + pathSegments.slice(0, index + 1).join("/")
+      const label = getTranslatedLabel(segment)
+
+      breadcrumbs.push({ label, path })
+    })
+
+    if (searchParams.size > 0) {
+      searchParams.forEach((value) => {
+        const queryLabel = getTranslatedLabel(value)
+        const fullPath = location.pathname + location.search
+
+        breadcrumbs.push({
+          label: queryLabel,
+          path: fullPath
+        })
+      })
+    }
+
+    return breadcrumbs
+  }
+
+  const breadcrumbs = generateBreadcrumbs()
+
   return (
     <div className="h-full border-b bg-sidebar transition-[background-color,border-color]">
       <WindowTitlebar
@@ -34,7 +107,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
         onClose={() => getCurrentWindow().hide()}
       >
         <div data-tauri-drag-region className="flex flex-1 items-center justify-between">
-          <div data-tauri-drag-region className="flex items-center gap-4">
+          <div data-tauri-drag-region className="flex w-full items-center gap-3">
             <div className="flex items-center gap-2">
               <IconButton
                 name="ArrowLeft"
@@ -57,10 +130,50 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
               containerClassName="bg-transparent"
               className="aspect-auto w-4"
             />
+            {!isSplashVisible && (
+              <motion.div
+                className="ml-3 w-full rounded-md bg-muted p-2 px-3 text-sm transition-[background-color]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                data-tauri-drag-region
+              >
+                <Breadcrumb data-tauri-drag-region>
+                  <BreadcrumbList data-tauri-drag-region className="gap-0 sm:gap-0">
+                    {breadcrumbs.map((breadcrumb, index) => {
+                      const isLast = index === breadcrumbs.length - 1
+                      const hasParams = new URLSearchParams(location.search).size > 0
+                      const isSecondToLast = index === breadcrumbs.length - 2
+
+                      const shouldBeNonClickable = hasParams && isSecondToLast
+
+                      return (
+                        <div key={breadcrumb.path} className="flex items-center">
+                          <BreadcrumbItem>
+                            {isLast || shouldBeNonClickable ? (
+                              <BreadcrumbPage data-tauri-drag-region>
+                                {breadcrumb.label}
+                              </BreadcrumbPage>
+                            ) : (
+                              <BreadcrumbLink onClick={() => navigate(breadcrumb.path)}>
+                                {breadcrumb.label}
+                              </BreadcrumbLink>
+                            )}
+                          </BreadcrumbItem>
+                          {index < breadcrumbs.length - 1 && (
+                            <BreadcrumbSeparator className="mx-2" />
+                          )}
+                        </div>
+                      )
+                    })}
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </motion.div>
+            )}
           </div>
           {!isSplashVisible && (
             <motion.div
-              className="flex items-center gap-2"
+              className="ml-3 flex items-center gap-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -81,7 +194,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                 size="icon"
                 asChild
               >
-                <SafeLink to="/settings">
+                <SafeLink to="/settings?tab=appearance">
                   <Icon name="Settings" />
                 </SafeLink>
               </Button>
