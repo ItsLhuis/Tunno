@@ -11,29 +11,60 @@ export const dutch: Language = {
     common: {
       noResultsFound: "Geen resultaten gevonden",
       lessThanAnHourAgo: "Minder dan een uur geleden",
-      hoursAgo: "{{count}} uur geleden",
+      hoursAgo: "{{count}} uur{{count, plural, one {} other{}} geleden",
       today: "Vandaag",
       yesterday: "Gisteren"
     },
     update: {
       downloading: "Update downloaden en installeren",
-      downloadingDescription:
-        "Er is een nieuwe update beschikbaar en wordt automatisch geïnstalleerd",
+      downloadingDescription: "Een nieuwe update is beschikbaar en wordt automatisch geïnstalleerd",
       installedSuccess: "Update succesvol geïnstalleerd",
       failed: "Update installeren mislukt"
     },
+    breadcrumbs: {
+      home: {
+        title: "Home"
+      },
+      songs: {
+        title: "Liedjes"
+      },
+      favorites: {
+        title: "Favorieten"
+      },
+      playlists: {
+        title: "Afspeellijsten"
+      },
+      artists: {
+        title: "Artiesten"
+      },
+      fastUpload: {
+        title: "Snelle upload"
+      },
+      settings: {
+        title: "Instellingen",
+        appearance: {
+          title: "Uiterlijk"
+        },
+        language: {
+          title: "Taal"
+        },
+        sync: {
+          title: "Synchronisatie"
+        }
+      }
+    },
     home: { title: "Home" },
     songs: {
-      title: "Nummers",
-      createdTitle: "Nummer succesvol aangemaakt",
+      title: "Liedjes",
+      createdTitle: "Liedje succesvol aangemaakt",
       createdDescription: "{{name}} is aangemaakt",
-      createdFailedTitle: "Nummer aanmaken mislukt",
-      updatedTitle: "Nummer succesvol bijgewerkt",
+      createdFailedTitle: "Liedje aanmaken mislukt",
+      updatedTitle: "Liedje succesvol bijgewerkt",
       updatedDescription: "{{name}} is bijgewerkt",
-      updatedFailedTitle: "Nummer bijwerken mislukt",
-      deletedTitle: "Nummer succesvol verwijderd",
+      updatedFailedTitle: "Liedje bijwerken mislukt",
+      deletedTitle: "Liedje succesvol verwijderd",
       deletedDescription: "{{name}} is verwijderd",
-      deletedFailedTitle: "Nummer verwijderen mislukt"
+      deletedFailedTitle: "Liedje verwijderen mislukt"
     },
     favorites: {
       title: "Favorieten",
@@ -70,21 +101,46 @@ export const dutch: Language = {
     },
     settings: {
       title: "Instellingen",
-      theme: {
-        title: "Thema",
-        description: "Kies uw voorkeursweergavemodus",
+      appearance: {
+        title: "Uiterlijk",
+        description: "Selecteer je voorkeursweergavemodus",
         light: "Licht",
         dark: "Donker",
         system: "Systeem"
       },
       language: {
         title: "Taal",
-        description: "Kies uw voorkeurstaal"
+        description: "Kies je voorkeurstaal"
       },
       sync: {
         title: "Synchronisatie",
-        description: "Synchroniseer uw gegevens tussen apparaten"
+        description: "Synchroniseer je gegevens tussen apparaten"
       }
+    },
+    fastUpload: {
+      title: "Snelle upload"
+    },
+    languages: {
+      da: "Deens",
+      de: "Duits",
+      en: "Engels",
+      es: "Spaans",
+      fi: "Fins",
+      fr: "Frans",
+      hi: "Hindi",
+      it: "Italiaans",
+      ja: "Japans",
+      ko: "Koreaans",
+      nl: "Nederlands",
+      no: "Noors",
+      pl: "Pools",
+      pt: "Portugees",
+      ru: "Russisch",
+      sv: "Zweeds",
+      tr: "Turks",
+      uk: "Oekraïens",
+      vi: "Vietnamees",
+      zh: "Chinees"
     }
   }
 }

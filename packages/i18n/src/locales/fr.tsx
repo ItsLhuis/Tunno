@@ -11,7 +11,7 @@ export const french: Language = {
     common: {
       noResultsFound: "Aucun résultat trouvé",
       lessThanAnHourAgo: "Il y a moins d'une heure",
-      hoursAgo: "{{count}} heure{{count, plural, one {} other{s}}} avant",
+      hoursAgo: "Il y a {{count}} heure{{count, plural, one {} other{s}}}",
       today: "Aujourd'hui",
       yesterday: "Hier"
     },
@@ -22,7 +22,39 @@ export const french: Language = {
       installedSuccess: "Mise à jour installée avec succès",
       failed: "Échec de l'installation de la mise à jour"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "Accueil"
+      },
+      songs: {
+        title: "Chansons"
+      },
+      favorites: {
+        title: "Favoris"
+      },
+      playlists: {
+        title: "Listes de Lecture"
+      },
+      artists: {
+        title: "Artistes"
+      },
+      fastUpload: {
+        title: "Téléchargement Rapide"
+      },
+      settings: {
+        title: "Paramètres",
+        appearance: {
+          title: "Apparence"
+        },
+        language: {
+          title: "Langue"
+        },
+        sync: {
+          title: "Synchronisation"
+        }
+      }
+    },
+    home: { title: "Accueil" },
     songs: {
       title: "Chansons",
       createdTitle: "Chanson Créée avec Succès",
@@ -70,8 +102,8 @@ export const french: Language = {
     },
     settings: {
       title: "Paramètres",
-      theme: {
-        title: "Thème",
+      appearance: {
+        title: "Apparence",
         description: "Sélectionnez votre mode d'apparence préféré",
         light: "Clair",
         dark: "Sombre",
@@ -83,8 +115,33 @@ export const french: Language = {
       },
       sync: {
         title: "Synchronisation",
-        description: "Synchronisez vos données entre les appareils"
+        description: "Synchronisez vos données entre appareils"
       }
+    },
+    fastUpload: {
+      title: "Téléchargement Rapide"
+    },
+    languages: {
+      da: "Danois",
+      de: "Allemand",
+      en: "Anglais",
+      es: "Espagnol",
+      fi: "Finnois",
+      fr: "Français",
+      hi: "Hindi",
+      it: "Italien",
+      ja: "Japonais",
+      ko: "Coréen",
+      nl: "Néerlandais",
+      no: "Norvégien",
+      pl: "Polonais",
+      pt: "Portugais",
+      ru: "Russe",
+      sv: "Suédois",
+      tr: "Turc",
+      uk: "Ukrainien",
+      vi: "Vietnamien",
+      zh: "Chinois"
     }
   }
 }

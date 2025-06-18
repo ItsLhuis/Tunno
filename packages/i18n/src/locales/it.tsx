@@ -16,24 +16,55 @@ export const italian: Language = {
       yesterday: "Ieri"
     },
     update: {
-      downloading: "Download e installazione dell'aggiornamento",
-      downloadingDescription:
-        "Un nuovo aggiornamento è disponibile e viene installato automaticamente",
+      downloading: "Scaricamento e installazione dell'aggiornamento",
+      downloadingDescription: "Un nuovo aggiornamento è disponibile e viene installato automaticamente",
       installedSuccess: "Aggiornamento installato con successo",
-      failed: "Installazione dell'aggiornamento fallita"
+      failed: "Impossibile installare l'aggiornamento"
+    },
+    breadcrumbs: {
+      home: {
+        title: "Home"
+      },
+      songs: {
+        title: "Canzoni"
+      },
+      favorites: {
+        title: "Preferiti"
+      },
+      playlists: {
+        title: "Playlist"
+      },
+      artists: {
+        title: "Artisti"
+      },
+      fastUpload: {
+        title: "Caricamento Rapido"
+      },
+      settings: {
+        title: "Impostazioni",
+        appearance: {
+          title: "Aspetto"
+        },
+        language: {
+          title: "Lingua"
+        },
+        sync: {
+          title: "Sincronizzazione"
+        }
+      }
     },
     home: { title: "Home" },
     songs: {
-      title: "Brani",
-      createdTitle: "Brano Creato con Successo",
-      createdDescription: "{{name}} è stato creato",
-      createdFailedTitle: "Impossibile Creare il Brano",
-      updatedTitle: "Brano Aggiornato con Successo",
-      updatedDescription: "{{name}} è stato aggiornato",
-      updatedFailedTitle: "Impossibile Aggiornare il Brano",
-      deletedTitle: "Brano Eliminato con Successo",
-      deletedDescription: "{{name}} è stato eliminato",
-      deletedFailedTitle: "Impossibile Eliminare il Brano"
+      title: "Canzoni",
+      createdTitle: "Canzone Creata con Successo",
+      createdDescription: "{{name}} è stata creata",
+      createdFailedTitle: "Impossibile Creare la Canzone",
+      updatedTitle: "Canzone Aggiornata con Successo",
+      updatedDescription: "{{name}} è stata aggiornata",
+      updatedFailedTitle: "Impossibile Aggiornare la Canzone",
+      deletedTitle: "Canzone Eliminata con Successo",
+      deletedDescription: "{{name}} è stata eliminata",
+      deletedFailedTitle: "Impossibile Eliminare la Canzone"
     },
     favorites: {
       title: "Preferiti",
@@ -70,9 +101,9 @@ export const italian: Language = {
     },
     settings: {
       title: "Impostazioni",
-      theme: {
-        title: "Tema",
-        description: "Seleziona il tuo aspetto preferito",
+      appearance: {
+        title: "Aspetto",
+        description: "Seleziona la modalità di aspetto preferita",
         light: "Chiaro",
         dark: "Scuro",
         system: "Sistema"
@@ -83,8 +114,33 @@ export const italian: Language = {
       },
       sync: {
         title: "Sincronizzazione",
-        description: "Sincronizza i tuoi dati tra i dispositivi"
+        description: "Sincronizza i tuoi dati tra dispositivi"
       }
+    },
+    fastUpload: {
+      title: "Caricamento Rapido"
+    },
+    languages: {
+      da: "Danese",
+      de: "Tedesco",
+      en: "Inglese",
+      es: "Spagnolo",
+      fi: "Finlandese",
+      fr: "Francese",
+      hi: "Hindi",
+      it: "Italiano",
+      ja: "Giapponese",
+      ko: "Coreano",
+      nl: "Olandese",
+      no: "Norvegese",
+      pl: "Polacco",
+      pt: "Portoghese",
+      ru: "Russo",
+      sv: "Svedese",
+      tr: "Turco",
+      uk: "Ucraino",
+      vi: "Vietnamita",
+      zh: "Cinese"
     }
   }
 }

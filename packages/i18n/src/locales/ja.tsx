@@ -10,29 +10,61 @@ export const japanese: Language = {
   translations: {
     common: {
       noResultsFound: "結果が見つかりません",
-      lessThanAnHourAgo: "1時間以内",
+      lessThanAnHourAgo: "1時間未満前",
       hoursAgo: "{{count}}時間前",
       today: "今日",
       yesterday: "昨日"
     },
     update: {
-      downloading: "アップデートをダウンロードしてインストール中",
+      downloading: "アップデートをダウンロード・インストール中",
       downloadingDescription: "新しいアップデートが利用可能で、自動的にインストールされています",
       installedSuccess: "アップデートが正常にインストールされました",
       failed: "アップデートのインストールに失敗しました"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "ホーム"
+      },
+      songs: {
+        title: "楽曲"
+      },
+      favorites: {
+        title: "お気に入り"
+      },
+      playlists: {
+        title: "プレイリスト"
+      },
+      artists: {
+        title: "アーティスト"
+      },
+      fastUpload: {
+        title: "高速アップロード"
+      },
+      settings: {
+        title: "設定",
+        appearance: {
+          title: "外観"
+        },
+        language: {
+          title: "言語"
+        },
+        sync: {
+          title: "同期"
+        }
+      }
+    },
+    home: { title: "ホーム" },
     songs: {
-      title: "曲",
-      createdTitle: "曲が正常に作成されました",
+      title: "楽曲",
+      createdTitle: "楽曲が正常に作成されました",
       createdDescription: "{{name}}が作成されました",
-      createdFailedTitle: "曲の作成に失敗しました",
-      updatedTitle: "曲が正常に更新されました",
+      createdFailedTitle: "楽曲の作成に失敗しました",
+      updatedTitle: "楽曲が正常に更新されました",
       updatedDescription: "{{name}}が更新されました",
-      updatedFailedTitle: "曲の更新に失敗しました",
-      deletedTitle: "曲が正常に削除されました",
+      updatedFailedTitle: "楽曲の更新に失敗しました",
+      deletedTitle: "楽曲が正常に削除されました",
       deletedDescription: "{{name}}が削除されました",
-      deletedFailedTitle: "曲の削除に失敗しました"
+      deletedFailedTitle: "楽曲の削除に失敗しました"
     },
     favorites: {
       title: "お気に入り",
@@ -69,8 +101,8 @@ export const japanese: Language = {
     },
     settings: {
       title: "設定",
-      theme: {
-        title: "テーマ",
+      appearance: {
+        title: "外観",
         description: "お好みの外観モードを選択してください",
         light: "ライト",
         dark: "ダーク",
@@ -84,6 +116,31 @@ export const japanese: Language = {
         title: "同期",
         description: "デバイス間でデータを同期します"
       }
+    },
+    fastUpload: {
+      title: "高速アップロード"
+    },
+    languages: {
+      da: "デンマーク語",
+      de: "ドイツ語",
+      en: "英語",
+      es: "スペイン語",
+      fi: "フィンランド語",
+      fr: "フランス語",
+      hi: "ヒンディー語",
+      it: "イタリア語",
+      ja: "日本語",
+      ko: "韓国語",
+      nl: "オランダ語",
+      no: "ノルウェー語",
+      pl: "ポーランド語",
+      pt: "ポルトガル語",
+      ru: "ロシア語",
+      sv: "スウェーデン語",
+      tr: "トルコ語",
+      uk: "ウクライナ語",
+      vi: "ベトナム語",
+      zh: "中国語"
     }
   }
 }

@@ -9,81 +9,138 @@ export const finnish: Language = {
   isRtl: false,
   translations: {
     common: {
-      noResultsFound: "Ei tuloksia löytynyt",
+      noResultsFound: "Tuloksia ei löytynyt",
       lessThanAnHourAgo: "Alle tunti sitten",
       hoursAgo: "{{count}} tunti{{count, plural, one {} other{a}}} sitten",
       today: "Tänään",
       yesterday: "Eilen"
     },
     update: {
-      downloading: "Downloading and installing update",
-      downloadingDescription: "A new update is available and being installed automatically",
-      installedSuccess: "Update installed successfully",
-      failed: "Failed to install update"
+      downloading: "Ladataan ja asennetaan päivitys",
+      downloadingDescription: "Uusi päivitys on saatavilla ja asennetaan automaattisesti",
+      installedSuccess: "Päivitys asennettu onnistuneesti",
+      failed: "Päivityksen asennus epäonnistui"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "Koti"
+      },
+      songs: {
+        title: "Kappaleet"
+      },
+      favorites: {
+        title: "Suosikit"
+      },
+      playlists: {
+        title: "Soittolistat"
+      },
+      artists: {
+        title: "Esittäjät"
+      },
+      fastUpload: {
+        title: "Nopea lataus"
+      },
+      settings: {
+        title: "Asetukset",
+        appearance: {
+          title: "Ulkoasu"
+        },
+        language: {
+          title: "Kieli"
+        },
+        sync: {
+          title: "Synkronointi"
+        }
+      }
+    },
+    home: { title: "Koti" },
     songs: {
       title: "Kappaleet",
-      createdTitle: "Kappale Luotu Onnistuneesti",
+      createdTitle: "Kappale luotu onnistuneesti",
       createdDescription: "{{name}} on luotu",
-      createdFailedTitle: "Kappaleen Luominen Epäonnistui",
-      updatedTitle: "Kappale Päivitetty Onnistuneesti",
+      createdFailedTitle: "Kappaleen luonti epäonnistui",
+      updatedTitle: "Kappale päivitetty onnistuneesti",
       updatedDescription: "{{name}} on päivitetty",
-      updatedFailedTitle: "Kappaleen Päivitys Epäonnistui",
-      deletedTitle: "Kappale Poistettu Onnistuneesti",
+      updatedFailedTitle: "Kappaleen päivitys epäonnistui",
+      deletedTitle: "Kappale poistettu onnistuneesti",
       deletedDescription: "{{name}} on poistettu",
-      deletedFailedTitle: "Kappaleen Poisto Epäonnistui"
+      deletedFailedTitle: "Kappaleen poisto epäonnistui"
     },
     favorites: {
       title: "Suosikit",
-      addedTitle: "Lisätty Suosikkeihin",
+      addedTitle: "Lisätty suosikkeihin",
       addedDescription: "{{name}} on lisätty suosikkeihin",
-      addedFailedTitle: "Lisäys Suosikkeihin Epäonnistui",
-      removedTitle: "Poistettu Suosikeista",
+      addedFailedTitle: "Suosikkeihin lisääminen epäonnistui",
+      removedTitle: "Poistettu suosikeista",
       removedDescription: "{{name}} on poistettu suosikeista",
-      removedFailedTitle: "Poisto Suosikeista Epäonnistui"
+      removedFailedTitle: "Suosikeista poisto epäonnistui"
     },
     playlists: {
       title: "Soittolistat",
-      createdTitle: "Soittolista Luotu Onnistuneesti",
+      createdTitle: "Soittolista luotu onnistuneesti",
       createdDescription: "{{name}} on luotu",
-      createdFailedTitle: "Soittolistan Luominen Epäonnistui",
-      updatedTitle: "Soittolista Päivitetty Onnistuneesti",
+      createdFailedTitle: "Soittolistan luonti epäonnistui",
+      updatedTitle: "Soittolista päivitetty onnistuneesti",
       updatedDescription: "{{name}} on päivitetty",
-      updatedFailedTitle: "Soittolistan Päivitys Epäonnistui",
-      deletedTitle: "Soittolista Poistettu Onnistuneesti",
+      updatedFailedTitle: "Soittolistan päivitys epäonnistui",
+      deletedTitle: "Soittolista poistettu onnistuneesti",
       deletedDescription: "{{name}} on poistettu",
-      deletedFailedTitle: "Soittolistan Poisto Epäonnistui"
+      deletedFailedTitle: "Soittolistan poisto epäonnistui"
     },
     artists: {
-      title: "Artistit",
-      createdTitle: "Artisti Luotu Onnistuneesti",
+      title: "Esittäjät",
+      createdTitle: "Esittäjä luotu onnistuneesti",
       createdDescription: "{{name}} on luotu",
-      createdFailedTitle: "Artistin Luominen Epäonnistui",
-      updatedTitle: "Artisti Päivitetty Onnistuneesti",
+      createdFailedTitle: "Esittäjän luonti epäonnistui",
+      updatedTitle: "Esittäjä päivitetty onnistuneesti",
       updatedDescription: "{{name}} on päivitetty",
-      updatedFailedTitle: "Artistin Päivitys Epäonnistui",
-      deletedTitle: "Artisti Poistettu Onnistuneesti",
+      updatedFailedTitle: "Esittäjän päivitys epäonnistui",
+      deletedTitle: "Esittäjä poistettu onnistuneesti",
       deletedDescription: "{{name}} on poistettu",
-      deletedFailedTitle: "Artistin Poisto Epäonnistui"
+      deletedFailedTitle: "Esittäjän poisto epäonnistui"
     },
     settings: {
       title: "Asetukset",
-      theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+      appearance: {
+        title: "Ulkoasu",
+        description: "Valitse haluamasi ulkoasutila",
+        light: "Vaalea",
+        dark: "Tumma",
+        system: "Järjestelmä"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Kieli",
+        description: "Valitse haluamasi kieli"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Synkronointi",
+        description: "Synkronoi tietosi laitteiden välillä"
       }
+    },
+    fastUpload: {
+      title: "Nopea lataus"
+    },
+    languages: {
+      da: "Tanska",
+      de: "Saksa",
+      en: "Englanti",
+      es: "Espanja",
+      fi: "Suomi",
+      fr: "Ranska",
+      hi: "Hindi",
+      it: "Italia",
+      ja: "Japani",
+      ko: "Korea",
+      nl: "Hollanti",
+      no: "Norja",
+      pl: "Puola",
+      pt: "Portugali",
+      ru: "Venäjä",
+      sv: "Ruotsi",
+      tr: "Turkki",
+      uk: "Ukraina",
+      vi: "Vietnam",
+      zh: "Kiina"
     }
   }
 }

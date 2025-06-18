@@ -11,7 +11,7 @@ export const german: Language = {
     common: {
       noResultsFound: "Keine Ergebnisse gefunden",
       lessThanAnHourAgo: "Vor weniger als einer Stunde",
-      hoursAgo: "{{count}} Stunde{{count, plural, one {} other{n}}} her",
+      hoursAgo: "Vor {{count}} Stunde{{count, plural, one {n} other{n}}}",
       today: "Heute",
       yesterday: "Gestern"
     },
@@ -21,57 +21,89 @@ export const german: Language = {
       installedSuccess: "Update erfolgreich installiert",
       failed: "Update-Installation fehlgeschlagen"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "Startseite"
+      },
+      songs: {
+        title: "Lieder"
+      },
+      favorites: {
+        title: "Favoriten"
+      },
+      playlists: {
+        title: "Wiedergabelisten"
+      },
+      artists: {
+        title: "Künstler"
+      },
+      fastUpload: {
+        title: "Schneller Upload"
+      },
+      settings: {
+        title: "Einstellungen",
+        appearance: {
+          title: "Erscheinungsbild"
+        },
+        language: {
+          title: "Sprache"
+        },
+        sync: {
+          title: "Synchronisation"
+        }
+      }
+    },
+    home: { title: "Startseite" },
     songs: {
       title: "Lieder",
-      createdTitle: "Lied erfolgreich erstellt",
+      createdTitle: "Lied Erfolgreich Erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Lied konnte nicht erstellt werden",
-      updatedTitle: "Lied erfolgreich aktualisiert",
+      createdFailedTitle: "Lied Erstellen Fehlgeschlagen",
+      updatedTitle: "Lied Erfolgreich Aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Lied konnte nicht aktualisiert werden",
-      deletedTitle: "Lied erfolgreich gelöscht",
+      updatedFailedTitle: "Lied Aktualisieren Fehlgeschlagen",
+      deletedTitle: "Lied Erfolgreich Gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Lied konnte nicht gelöscht werden"
+      deletedFailedTitle: "Lied Löschen Fehlgeschlagen"
     },
     favorites: {
       title: "Favoriten",
-      addedTitle: "Zu Favoriten hinzugefügt",
+      addedTitle: "Zu Favoriten Hinzugefügt",
       addedDescription: "{{name}} wurde zu Favoriten hinzugefügt",
-      addedFailedTitle: "Konnte nicht zu Favoriten hinzufügen",
-      removedTitle: "Aus Favoriten entfernt",
+      addedFailedTitle: "Zu Favoriten Hinzufügen Fehlgeschlagen",
+      removedTitle: "Aus Favoriten Entfernt",
       removedDescription: "{{name}} wurde aus Favoriten entfernt",
-      removedFailedTitle: "Konnte nicht aus Favoriten entfernen"
+      removedFailedTitle: "Aus Favoriten Entfernen Fehlgeschlagen"
     },
     playlists: {
       title: "Wiedergabelisten",
-      createdTitle: "Wiedergabeliste erfolgreich erstellt",
+      createdTitle: "Wiedergabeliste Erfolgreich Erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Wiedergabeliste konnte nicht erstellt werden",
-      updatedTitle: "Wiedergabeliste erfolgreich aktualisiert",
+      createdFailedTitle: "Wiedergabeliste Erstellen Fehlgeschlagen",
+      updatedTitle: "Wiedergabeliste Erfolgreich Aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Wiedergabeliste konnte nicht aktualisiert werden",
-      deletedTitle: "Wiedergabeliste erfolgreich gelöscht",
+      updatedFailedTitle: "Wiedergabeliste Aktualisieren Fehlgeschlagen",
+      deletedTitle: "Wiedergabeliste Erfolgreich Gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Wiedergabeliste konnte nicht gelöscht werden"
+      deletedFailedTitle: "Wiedergabeliste Löschen Fehlgeschlagen"
     },
     artists: {
       title: "Künstler",
-      createdTitle: "Künstler erfolgreich erstellt",
+      createdTitle: "Künstler Erfolgreich Erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Künstler konnte nicht erstellt werden",
-      updatedTitle: "Künstler erfolgreich aktualisiert",
+      createdFailedTitle: "Künstler Erstellen Fehlgeschlagen",
+      updatedTitle: "Künstler Erfolgreich Aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Künstler konnte nicht aktualisiert werden",
-      deletedTitle: "Künstler erfolgreich gelöscht",
+      updatedFailedTitle: "Künstler Aktualisieren Fehlgeschlagen",
+      deletedTitle: "Künstler Erfolgreich Gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Künstler konnte nicht gelöscht werden"
+      deletedFailedTitle: "Künstler Löschen Fehlgeschlagen"
     },
     settings: {
       title: "Einstellungen",
-      theme: {
-        title: "Design",
-        description: "Wählen Sie Ihr bevorzugtes Erscheinungsbild",
+      appearance: {
+        title: "Erscheinungsbild",
+        description: "Wählen Sie Ihren bevorzugten Erscheinungsmodus",
         light: "Hell",
         dark: "Dunkel",
         system: "System"
@@ -81,9 +113,34 @@ export const german: Language = {
         description: "Wählen Sie Ihre bevorzugte Sprache"
       },
       sync: {
-        title: "Synchronisierung",
+        title: "Synchronisation",
         description: "Synchronisieren Sie Ihre Daten zwischen Geräten"
       }
+    },
+    fastUpload: {
+      title: "Schneller Upload"
+    },
+    languages: {
+      da: "Dänisch",
+      de: "Deutsch",
+      en: "Englisch",
+      es: "Spanisch",
+      fi: "Finnisch",
+      fr: "Französisch",
+      hi: "Hindi",
+      it: "Italienisch",
+      ja: "Japanisch",
+      ko: "Koreanisch",
+      nl: "Niederländisch",
+      no: "Norwegisch",
+      pl: "Polnisch",
+      pt: "Portugiesisch",
+      ru: "Russisch",
+      sv: "Schwedisch",
+      tr: "Türkisch",
+      uk: "Ukrainisch",
+      vi: "Vietnamesisch",
+      zh: "Chinesisch"
     }
   }
 }

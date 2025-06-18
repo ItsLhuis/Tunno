@@ -10,8 +10,8 @@ export const hindi: Language = {
   translations: {
     common: {
       noResultsFound: "कोई परिणाम नहीं मिला",
-      lessThanAnHourAgo: "एक घंटे से भी कम समय पहले",
-      hoursAgo: "{{count}} घंटा{{count, plural, one {} other{े}}} पहले",
+      lessThanAnHourAgo: "एक घंटे से कम पहले",
+      hoursAgo: "{{count}} घंटे पहले",
       today: "आज",
       yesterday: "कल"
     },
@@ -19,9 +19,41 @@ export const hindi: Language = {
       downloading: "अपडेट डाउनलोड और इंस्टॉल हो रहा है",
       downloadingDescription: "एक नया अपडेट उपलब्ध है और स्वचालित रूप से इंस्टॉल हो रहा है",
       installedSuccess: "अपडेट सफलतापूर्वक इंस्टॉल हो गया",
-      failed: "अपडेट इंस्टॉलेशन विफल रहा"
+      failed: "अपडेट इंस्टॉल करने में विफल"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "होम"
+      },
+      songs: {
+        title: "गाने"
+      },
+      favorites: {
+        title: "पसंदीदा"
+      },
+      playlists: {
+        title: "प्लेलिस्ट"
+      },
+      artists: {
+        title: "कलाकार"
+      },
+      fastUpload: {
+        title: "तेज़ अपलोड"
+      },
+      settings: {
+        title: "सेटिंग्स",
+        appearance: {
+          title: "दिखावट"
+        },
+        language: {
+          title: "भाषा"
+        },
+        sync: {
+          title: "सिंक"
+        }
+      }
+    },
+    home: { title: "होम" },
     songs: {
       title: "गाने",
       createdTitle: "गाना सफलतापूर्वक बनाया गया",
@@ -37,10 +69,10 @@ export const hindi: Language = {
     favorites: {
       title: "पसंदीदा",
       addedTitle: "पसंदीदा में जोड़ा गया",
-      addedDescription: "{{name}} को पसंदीदा में जोड़ा गया है",
+      addedDescription: "{{name}} पसंदीदा में जोड़ा गया है",
       addedFailedTitle: "पसंदीदा में जोड़ने में विफल",
       removedTitle: "पसंदीदा से हटाया गया",
-      removedDescription: "{{name}} को पसंदीदा से हटाया गया है",
+      removedDescription: "{{name}} पसंदीदा से हटाया गया है",
       removedFailedTitle: "पसंदीदा से हटाने में विफल"
     },
     playlists: {
@@ -69,21 +101,46 @@ export const hindi: Language = {
     },
     settings: {
       title: "सेटिंग्स",
-      theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+      appearance: {
+        title: "दिखावट",
+        description: "अपना पसंदीदा दिखावट मोड चुनें",
+        light: "हल्का",
+        dark: "गहरा",
+        system: "सिस्टम"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "भाषा",
+        description: "अपनी पसंदीदा भाषा चुनें"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "सिंक",
+        description: "अपने डेटा को डिवाइस के बीच सिंक करें"
       }
+    },
+    fastUpload: {
+      title: "तेज़ अपलोड"
+    },
+    languages: {
+      da: "डेनिश",
+      de: "जर्मन",
+      en: "अंग्रेज़ी",
+      es: "स्पेनिश",
+      fi: "फिनिश",
+      fr: "फ्रेंच",
+      hi: "हिन्दी",
+      it: "इतालवी",
+      ja: "जापानी",
+      ko: "कोरियाई",
+      nl: "डच",
+      no: "नॉर्वेजियन",
+      pl: "पोलिश",
+      pt: "पुर्तगाली",
+      ru: "रूसी",
+      sv: "स्वीडिश",
+      tr: "तुर्की",
+      uk: "यूक्रेनी",
+      vi: "वियतनामी",
+      zh: "चीनी"
     }
   }
 }

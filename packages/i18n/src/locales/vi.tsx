@@ -18,19 +18,51 @@ export const vietnamese: Language = {
     update: {
       downloading: "Đang tải xuống và cài đặt cập nhật",
       downloadingDescription: "Có bản cập nhật mới và đang được cài đặt tự động",
-      installedSuccess: "Cập nhật đã được cài đặt",
+      installedSuccess: "Cập nhật đã được cài đặt thành công",
       failed: "Không thể cài đặt cập nhật"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "Trang chủ"
+      },
+      songs: {
+        title: "Bài hát"
+      },
+      favorites: {
+        title: "Yêu thích"
+      },
+      playlists: {
+        title: "Danh sách phát"
+      },
+      artists: {
+        title: "Nghệ sĩ"
+      },
+      fastUpload: {
+        title: "Tải lên nhanh"
+      },
+      settings: {
+        title: "Cài đặt",
+        appearance: {
+          title: "Giao diện"
+        },
+        language: {
+          title: "Ngôn ngữ"
+        },
+        sync: {
+          title: "Đồng bộ"
+        }
+      }
+    },
+    home: { title: "Trang chủ" },
     songs: {
       title: "Bài hát",
-      createdTitle: "Đã tạo bài hát thành công",
+      createdTitle: "Bài hát đã được tạo thành công",
       createdDescription: "{{name}} đã được tạo",
       createdFailedTitle: "Không thể tạo bài hát",
-      updatedTitle: "Đã cập nhật bài hát thành công",
+      updatedTitle: "Bài hát đã được cập nhật thành công",
       updatedDescription: "{{name}} đã được cập nhật",
       updatedFailedTitle: "Không thể cập nhật bài hát",
-      deletedTitle: "Đã xóa bài hát thành công",
+      deletedTitle: "Bài hát đã được xóa thành công",
       deletedDescription: "{{name}} đã được xóa",
       deletedFailedTitle: "Không thể xóa bài hát"
     },
@@ -45,33 +77,33 @@ export const vietnamese: Language = {
     },
     playlists: {
       title: "Danh sách phát",
-      createdTitle: "Đã tạo danh sách phát thành công",
+      createdTitle: "Danh sách phát đã được tạo thành công",
       createdDescription: "{{name}} đã được tạo",
       createdFailedTitle: "Không thể tạo danh sách phát",
-      updatedTitle: "Đã cập nhật danh sách phát thành công",
+      updatedTitle: "Danh sách phát đã được cập nhật thành công",
       updatedDescription: "{{name}} đã được cập nhật",
       updatedFailedTitle: "Không thể cập nhật danh sách phát",
-      deletedTitle: "Đã xóa danh sách phát thành công",
+      deletedTitle: "Danh sách phát đã được xóa thành công",
       deletedDescription: "{{name}} đã được xóa",
       deletedFailedTitle: "Không thể xóa danh sách phát"
     },
     artists: {
       title: "Nghệ sĩ",
-      createdTitle: "Đã tạo nghệ sĩ thành công",
+      createdTitle: "Nghệ sĩ đã được tạo thành công",
       createdDescription: "{{name}} đã được tạo",
       createdFailedTitle: "Không thể tạo nghệ sĩ",
-      updatedTitle: "Đã cập nhật nghệ sĩ thành công",
+      updatedTitle: "Nghệ sĩ đã được cập nhật thành công",
       updatedDescription: "{{name}} đã được cập nhật",
       updatedFailedTitle: "Không thể cập nhật nghệ sĩ",
-      deletedTitle: "Đã xóa nghệ sĩ thành công",
+      deletedTitle: "Nghệ sĩ đã được xóa thành công",
       deletedDescription: "{{name}} đã được xóa",
       deletedFailedTitle: "Không thể xóa nghệ sĩ"
     },
     settings: {
       title: "Cài đặt",
-      theme: {
+      appearance: {
         title: "Giao diện",
-        description: "Chọn chế độ hiển thị ưa thích của bạn",
+        description: "Chọn chế độ giao diện ưa thích của bạn",
         light: "Sáng",
         dark: "Tối",
         system: "Hệ thống"
@@ -84,6 +116,31 @@ export const vietnamese: Language = {
         title: "Đồng bộ",
         description: "Đồng bộ dữ liệu của bạn giữa các thiết bị"
       }
+    },
+    fastUpload: {
+      title: "Tải lên nhanh"
+    },
+    languages: {
+      da: "Tiếng Đan Mạch",
+      de: "Tiếng Đức",
+      en: "Tiếng Anh",
+      es: "Tiếng Tây Ban Nha",
+      fi: "Tiếng Phần Lan",
+      fr: "Tiếng Pháp",
+      hi: "Tiếng Hindi",
+      it: "Tiếng Ý",
+      ja: "Tiếng Nhật",
+      ko: "Tiếng Hàn",
+      nl: "Tiếng Hà Lan",
+      no: "Tiếng Na Uy",
+      pl: "Tiếng Ba Lan",
+      pt: "Tiếng Bồ Đào Nha",
+      ru: "Tiếng Nga",
+      sv: "Tiếng Thụy Điển",
+      tr: "Tiếng Thổ Nhĩ Kỳ",
+      uk: "Tiếng Ukraine",
+      vi: "Tiếng Việt",
+      zh: "Tiếng Trung"
     }
   }
 }

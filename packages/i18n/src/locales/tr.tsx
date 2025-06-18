@@ -21,56 +21,88 @@ export const turkish: Language = {
       installedSuccess: "Güncelleme başarıyla kuruldu",
       failed: "Güncelleme kurulumu başarısız oldu"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "Ana Sayfa"
+      },
+      songs: {
+        title: "Şarkılar"
+      },
+      favorites: {
+        title: "Favoriler"
+      },
+      playlists: {
+        title: "Çalma Listeleri"
+      },
+      artists: {
+        title: "Sanatçılar"
+      },
+      fastUpload: {
+        title: "Hızlı Yükleme"
+      },
+      settings: {
+        title: "Ayarlar",
+        appearance: {
+          title: "Görünüm"
+        },
+        language: {
+          title: "Dil"
+        },
+        sync: {
+          title: "Senkronizasyon"
+        }
+      }
+    },
+    home: { title: "Ana Sayfa" },
     songs: {
       title: "Şarkılar",
-      createdTitle: "Şarkı başarıyla oluşturuldu",
+      createdTitle: "Şarkı Başarıyla Oluşturuldu",
       createdDescription: "{{name}} oluşturuldu",
-      createdFailedTitle: "Şarkı oluşturulamadı",
-      updatedTitle: "Şarkı başarıyla güncellendi",
+      createdFailedTitle: "Şarkı Oluşturulamadı",
+      updatedTitle: "Şarkı Başarıyla Güncellendi",
       updatedDescription: "{{name}} güncellendi",
-      updatedFailedTitle: "Şarkı güncellenemedi",
-      deletedTitle: "Şarkı başarıyla silindi",
+      updatedFailedTitle: "Şarkı Güncellenemedi",
+      deletedTitle: "Şarkı Başarıyla Silindi",
       deletedDescription: "{{name}} silindi",
-      deletedFailedTitle: "Şarkı silinemedi"
+      deletedFailedTitle: "Şarkı Silinemedi"
     },
     favorites: {
       title: "Favoriler",
-      addedTitle: "Favorilere eklendi",
+      addedTitle: "Favorilere Eklendi",
       addedDescription: "{{name}} favorilere eklendi",
-      addedFailedTitle: "Favorilere eklenemedi",
-      removedTitle: "Favorilerden kaldırıldı",
+      addedFailedTitle: "Favorilere Eklenemedi",
+      removedTitle: "Favorilerden Kaldırıldı",
       removedDescription: "{{name}} favorilerden kaldırıldı",
-      removedFailedTitle: "Favorilerden kaldırılamadı"
+      removedFailedTitle: "Favorilerden Kaldırılamadı"
     },
     playlists: {
       title: "Çalma Listeleri",
-      createdTitle: "Çalma listesi başarıyla oluşturuldu",
+      createdTitle: "Çalma Listesi Başarıyla Oluşturuldu",
       createdDescription: "{{name}} oluşturuldu",
-      createdFailedTitle: "Çalma listesi oluşturulamadı",
-      updatedTitle: "Çalma listesi başarıyla güncellendi",
+      createdFailedTitle: "Çalma Listesi Oluşturulamadı",
+      updatedTitle: "Çalma Listesi Başarıyla Güncellendi",
       updatedDescription: "{{name}} güncellendi",
-      updatedFailedTitle: "Çalma listesi güncellenemedi",
-      deletedTitle: "Çalma listesi başarıyla silindi",
+      updatedFailedTitle: "Çalma Listesi Güncellenemedi",
+      deletedTitle: "Çalma Listesi Başarıyla Silindi",
       deletedDescription: "{{name}} silindi",
-      deletedFailedTitle: "Çalma listesi silinemedi"
+      deletedFailedTitle: "Çalma Listesi Silinemedi"
     },
     artists: {
       title: "Sanatçılar",
-      createdTitle: "Sanatçı başarıyla oluşturuldu",
+      createdTitle: "Sanatçı Başarıyla Oluşturuldu",
       createdDescription: "{{name}} oluşturuldu",
-      createdFailedTitle: "Sanatçı oluşturulamadı",
-      updatedTitle: "Sanatçı başarıyla güncellendi",
+      createdFailedTitle: "Sanatçı Oluşturulamadı",
+      updatedTitle: "Sanatçı Başarıyla Güncellendi",
       updatedDescription: "{{name}} güncellendi",
-      updatedFailedTitle: "Sanatçı güncellenemedi",
-      deletedTitle: "Sanatçı başarıyla silindi",
+      updatedFailedTitle: "Sanatçı Güncellenemedi",
+      deletedTitle: "Sanatçı Başarıyla Silindi",
       deletedDescription: "{{name}} silindi",
-      deletedFailedTitle: "Sanatçı silinemedi"
+      deletedFailedTitle: "Sanatçı Silinemedi"
     },
     settings: {
       title: "Ayarlar",
-      theme: {
-        title: "Tema",
+      appearance: {
+        title: "Görünüm",
         description: "Tercih ettiğiniz görünüm modunu seçin",
         light: "Açık",
         dark: "Koyu",
@@ -84,6 +116,31 @@ export const turkish: Language = {
         title: "Senkronizasyon",
         description: "Verilerinizi cihazlar arasında senkronize edin"
       }
+    },
+    fastUpload: {
+      title: "Hızlı Yükleme"
+    },
+    languages: {
+      da: "Danca",
+      de: "Almanca",
+      en: "İngilizce",
+      es: "İspanyolca",
+      fi: "Fince",
+      fr: "Fransızca",
+      hi: "Hintçe",
+      it: "İtalyanca",
+      ja: "Japonca",
+      ko: "Korece",
+      nl: "Hollandaca",
+      no: "Norveççe",
+      pl: "Lehçe",
+      pt: "Portekizce",
+      ru: "Rusça",
+      sv: "İsveççe",
+      tr: "Türkçe",
+      uk: "Ukraynaca",
+      vi: "Vietnamca",
+      zh: "Çince"
     }
   }
 }

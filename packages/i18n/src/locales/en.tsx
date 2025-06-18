@@ -21,6 +21,38 @@ export const english: Language = {
       installedSuccess: "Update installed successfully",
       failed: "Failed to install update"
     },
+    breadcrumbs: {
+      home: {
+        title: "Home"
+      },
+      songs: {
+        title: "Songs"
+      },
+      favorites: {
+        title: "Favorites"
+      },
+      playlists: {
+        title: "Playlists"
+      },
+      artists: {
+        title: "Artists"
+      },
+      fastUpload: {
+        title: "Fast Upload"
+      },
+      settings: {
+        title: "Settings",
+        appearance: {
+          title: "Appearance"
+        },
+        language: {
+          title: "Language"
+        },
+        sync: {
+          title: "Sync"
+        }
+      }
+    },
     home: { title: "Home" },
     songs: {
       title: "Songs",
@@ -69,8 +101,8 @@ export const english: Language = {
     },
     settings: {
       title: "Settings",
-      theme: {
-        title: "Theme",
+      appearance: {
+        title: "Appearance",
         description: "Select your preferred appearance mode",
         light: "Light",
         dark: "Dark",
@@ -84,6 +116,31 @@ export const english: Language = {
         title: "Sync",
         description: "Synchronize your data across devices"
       }
+    },
+    fastUpload: {
+      title: "Fast Upload"
+    },
+    languages: {
+      da: "Danish",
+      de: "German",
+      en: "English",
+      es: "Spanish",
+      fi: "Finnish",
+      fr: "French",
+      hi: "Hindi",
+      it: "Italian",
+      ja: "Japanese",
+      ko: "Korean",
+      nl: "Dutch",
+      no: "Norwegian",
+      pl: "Polish",
+      pt: "Portuguese",
+      ru: "Russian",
+      sv: "Swedish",
+      tr: "Turkish",
+      uk: "Ukrainian",
+      vi: "Vietnamese",
+      zh: "Chinese"
     }
   }
 }

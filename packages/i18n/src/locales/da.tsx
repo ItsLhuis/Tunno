@@ -16,74 +16,131 @@ export const danish: Language = {
       yesterday: "I går"
     },
     update: {
-      downloading: "Downloading and installing update",
-      downloadingDescription: "A new update is available and being installed automatically",
-      installedSuccess: "Update installed successfully",
-      failed: "Failed to install update"
+      downloading: "Downloader og installerer opdatering",
+      downloadingDescription: "En ny opdatering er tilgængelig og installeres automatisk",
+      installedSuccess: "Opdatering installeret med succes",
+      failed: "Kunne ikke installere opdatering"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "Hjem"
+      },
+      songs: {
+        title: "Sange"
+      },
+      favorites: {
+        title: "Favoritter"
+      },
+      playlists: {
+        title: "Afspilningslister"
+      },
+      artists: {
+        title: "Kunstnere"
+      },
+      fastUpload: {
+        title: "Hurtig upload"
+      },
+      settings: {
+        title: "Indstillinger",
+        appearance: {
+          title: "Udseende"
+        },
+        language: {
+          title: "Sprog"
+        },
+        sync: {
+          title: "Synkronisering"
+        }
+      }
+    },
+    home: { title: "Hjem" },
     songs: {
       title: "Sange",
-      createdTitle: "Sang Oprettet med Succes",
+      createdTitle: "Sang oprettet med succes",
       createdDescription: "{{name}} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Sang",
-      updatedTitle: "Sang Opdateret med Succes",
+      createdFailedTitle: "Kunne ikke oprette sang",
+      updatedTitle: "Sang opdateret med succes",
       updatedDescription: "{{name}} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Sang",
-      deletedTitle: "Sang Slettet med Succes",
+      updatedFailedTitle: "Kunne ikke opdatere sang",
+      deletedTitle: "Sang slettet med succes",
       deletedDescription: "{{name}} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Sang"
+      deletedFailedTitle: "Kunne ikke slette sang"
     },
     favorites: {
       title: "Favoritter",
-      addedTitle: "Tilføjet til Favoritter",
+      addedTitle: "Tilføjet til favoritter",
       addedDescription: "{{name}} er blevet tilføjet til favoritter",
-      addedFailedTitle: "Kunne Ikke Tilføje til Favoritter",
-      removedTitle: "Fjernet fra Favoritter",
+      addedFailedTitle: "Kunne ikke tilføje til favoritter",
+      removedTitle: "Fjernet fra favoritter",
       removedDescription: "{{name}} er blevet fjernet fra favoritter",
-      removedFailedTitle: "Kunne Ikke Fjerne fra Favoritter"
+      removedFailedTitle: "Kunne ikke fjerne fra favoritter"
     },
     playlists: {
-      title: "Playlister",
-      createdTitle: "Playliste Oprettet med Succes",
+      title: "Afspilningslister",
+      createdTitle: "Afspilningsliste oprettet med succes",
       createdDescription: "{{name}} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Playliste",
-      updatedTitle: "Playliste Opdateret med Succes",
+      createdFailedTitle: "Kunne ikke oprette afspilningsliste",
+      updatedTitle: "Afspilningsliste opdateret med succes",
       updatedDescription: "{{name}} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Playliste",
-      deletedTitle: "Playliste Slettet med Succes",
+      updatedFailedTitle: "Kunne ikke opdatere afspilningsliste",
+      deletedTitle: "Afspilningsliste slettet med succes",
       deletedDescription: "{{name}} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Playliste"
+      deletedFailedTitle: "Kunne ikke slette afspilningsliste"
     },
     artists: {
       title: "Kunstnere",
-      createdTitle: "Kunstner Oprettet med Succes",
+      createdTitle: "Kunstner oprettet med succes",
       createdDescription: "{{name}} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Kunstner",
-      updatedTitle: "Kunstner Opdateret med Succes",
+      createdFailedTitle: "Kunne ikke oprette kunstner",
+      updatedTitle: "Kunstner opdateret med succes",
       updatedDescription: "{{name}} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Kunstner",
-      deletedTitle: "Kunstner Slettet med Succes",
+      updatedFailedTitle: "Kunne ikke opdatere kunstner",
+      deletedTitle: "Kunstner slettet med succes",
       deletedDescription: "{{name}} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Kunstner"
+      deletedFailedTitle: "Kunne ikke slette kunstner"
     },
     settings: {
       title: "Indstillinger",
-      theme: {
-        title: "Theme",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
+      appearance: {
+        title: "Udseende",
+        description: "Vælg din foretrukne visningstilstand",
+        light: "Lys",
+        dark: "Mørk",
         system: "System"
       },
       language: {
-        title: "Language",
-        description: "Choose your preferred language"
+        title: "Sprog",
+        description: "Vælg dit foretrukne sprog"
       },
       sync: {
-        title: "Sync",
-        description: "Synchronize your data across devices"
+        title: "Synkronisering",
+        description: "Synkroniser dine data mellem enheder"
       }
+    },
+    fastUpload: {
+      title: "Hurtig upload"
+    },
+    languages: {
+      da: "Dansk",
+      de: "Tysk",
+      en: "Engelsk",
+      es: "Spansk",
+      fi: "Finsk",
+      fr: "Fransk",
+      hi: "Hindi",
+      it: "Italiensk",
+      ja: "Japansk",
+      ko: "Koreansk",
+      nl: "Hollandsk",
+      no: "Norsk",
+      pl: "Polsk",
+      pt: "Portugisisk",
+      ru: "Russisk",
+      sv: "Svensk",
+      tr: "Tyrkisk",
+      uk: "Ukrainsk",
+      vi: "Vietnamesisk",
+      zh: "Kinesisk"
     }
   }
 }

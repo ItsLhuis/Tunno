@@ -21,7 +21,39 @@ export const spanish: Language = {
       installedSuccess: "Actualización instalada con éxito",
       failed: "Error al instalar la actualización"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "Inicio"
+      },
+      songs: {
+        title: "Canciones"
+      },
+      favorites: {
+        title: "Favoritos"
+      },
+      playlists: {
+        title: "Listas de Reproducción"
+      },
+      artists: {
+        title: "Artistas"
+      },
+      fastUpload: {
+        title: "Carga Rápida"
+      },
+      settings: {
+        title: "Ajustes",
+        appearance: {
+          title: "Apariencia"
+        },
+        language: {
+          title: "Idioma"
+        },
+        sync: {
+          title: "Sincronización"
+        }
+      }
+    },
+    home: { title: "Inicio" },
     songs: {
       title: "Canciones",
       createdTitle: "Canción Creada con Éxito",
@@ -69,8 +101,8 @@ export const spanish: Language = {
     },
     settings: {
       title: "Ajustes",
-      theme: {
-        title: "Tema",
+      appearance: {
+        title: "Apariencia",
         description: "Seleccione su modo de apariencia preferido",
         light: "Claro",
         dark: "Oscuro",
@@ -84,6 +116,31 @@ export const spanish: Language = {
         title: "Sincronización",
         description: "Sincronice sus datos entre dispositivos"
       }
+    },
+    fastUpload: {
+      title: "Carga Rápida"
+    },
+    languages: {
+      da: "Danés",
+      de: "Alemán",
+      en: "Inglés",
+      es: "Español",
+      fi: "Finlandés",
+      fr: "Francés",
+      hi: "Hindi",
+      it: "Italiano",
+      ja: "Japonés",
+      ko: "Coreano",
+      nl: "Neerlandés",
+      no: "Noruego",
+      pl: "Polaco",
+      pt: "Portugués",
+      ru: "Ruso",
+      sv: "Sueco",
+      tr: "Turco",
+      uk: "Ucraniano",
+      vi: "Vietnamita",
+      zh: "Chino"
     }
   }
 }

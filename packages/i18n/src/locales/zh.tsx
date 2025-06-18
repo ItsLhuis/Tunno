@@ -21,7 +21,39 @@ export const chinese: Language = {
       installedSuccess: "更新安装成功",
       failed: "更新安装失败"
     },
-    home: { title: "Home" },
+    breadcrumbs: {
+      home: {
+        title: "首页"
+      },
+      songs: {
+        title: "歌曲"
+      },
+      favorites: {
+        title: "收藏"
+      },
+      playlists: {
+        title: "播放列表"
+      },
+      artists: {
+        title: "艺术家"
+      },
+      fastUpload: {
+        title: "快速上传"
+      },
+      settings: {
+        title: "设置",
+        appearance: {
+          title: "外观"
+        },
+        language: {
+          title: "语言"
+        },
+        sync: {
+          title: "同步"
+        }
+      }
+    },
+    home: { title: "首页" },
     songs: {
       title: "歌曲",
       createdTitle: "歌曲创建成功",
@@ -69,8 +101,8 @@ export const chinese: Language = {
     },
     settings: {
       title: "设置",
-      theme: {
-        title: "主题",
+      appearance: {
+        title: "外观",
         description: "选择您喜欢的显示模式",
         light: "浅色",
         dark: "深色",
@@ -84,6 +116,31 @@ export const chinese: Language = {
         title: "同步",
         description: "在设备之间同步您的数据"
       }
+    },
+    fastUpload: {
+      title: "快速上传"
+    },
+    languages: {
+      da: "丹麦语",
+      de: "德语",
+      en: "英语",
+      es: "西班牙语",
+      fi: "芬兰语",
+      fr: "法语",
+      hi: "印地语",
+      it: "意大利语",
+      ja: "日语",
+      ko: "韩语",
+      nl: "荷兰语",
+      no: "挪威语",
+      pl: "波兰语",
+      pt: "葡萄牙语",
+      ru: "俄语",
+      sv: "瑞典语",
+      tr: "土耳其语",
+      uk: "乌克兰语",
+      vi: "越南语",
+      zh: "中文"
     }
   }
 }

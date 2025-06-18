@@ -24,6 +24,38 @@ export type Translations = {
     installedSuccess: string
     failed: string
   }
+  breadcrumbs: {
+    home: {
+      title: string
+    }
+    songs: {
+      title: string
+    }
+    favorites: {
+      title: string
+    }
+    playlists: {
+      title: string
+    }
+    artists: {
+      title: string
+    }
+    fastUpload: {
+      title: string
+    }
+    settings: {
+      title: string
+      appearance: {
+        title: string
+      }
+      language: {
+        title: string
+      }
+      sync: {
+        title: string
+      }
+    }
+  }
   home: {
     title: string
   }
@@ -74,7 +106,7 @@ export type Translations = {
   }
   settings: {
     title: string
-    theme: {
+    appearance: {
       title: string
       description: string
       light: string
@@ -89,5 +121,30 @@ export type Translations = {
       title: string
       description: string
     }
+  }
+  fastUpload: {
+    title: string
+  }
+  languages: {
+    da: string
+    de: string
+    en: string
+    es: string
+    fi: string
+    fr: string
+    hi: string
+    it: string
+    ja: string
+    ko: string
+    nl: string
+    no: string
+    pl: string
+    pt: string
+    ru: string
+    sv: string
+    tr: string
+    uk: string
+    vi: string
+    zh: string
   }
 }
