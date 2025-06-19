@@ -1,19 +1,17 @@
-import { Fragment, useState } from "react"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@repo/i18n"
 
 import {
-  Button,
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
+  Choicebox,
+  ChoiceboxItem,
+  ChoiceboxItemContent,
+  ChoiceboxItemDescription,
+  ChoiceboxItemHeader,
+  ChoiceboxItemIndicator,
+  ChoiceboxItemTitle,
   Header,
+  Icon,
   Image,
   ScrollAreaWithHeaders,
   StickyHeader,
@@ -34,50 +32,25 @@ function Language() {
       key: "language",
       title: t("settings.language.title"),
       description: t("settings.language.description"),
-      renderRight: () => {
-        const [open, setOpen] = useState<boolean>(false)
-
-        return (
-          <Fragment>
-            <Button variant="outline" onClick={() => setOpen(true)}>
-              <Image
-                className="aspect-4/3 h-3"
-                src={locales[language].flag}
-                alt={locales[language].name}
-              />
-              <Typography>{locales[language].name}</Typography>
-            </Button>
-            <CommandDialog open={open} onOpenChange={setOpen}>
-              <Command>
-                <CommandInput placeholder="Search language" />
-                <CommandList>
-                  <CommandEmpty>No results found</CommandEmpty>
-                  <CommandGroup heading="Languages">
-                    {Object.values(locales).map((locale) => (
-                      <CommandItem
-                        key={locale.code}
-                        onSelect={() => {
-                          setLanguage(locale.code)
-                          setOpen(false)
-                        }}
-                        className="flex cursor-pointer flex-col items-start"
-                      >
-                        <div className="grid grid-cols-[auto,1fr] items-center gap-1 gap-x-2">
-                          <Image className="aspect-4/3 h-3" src={locale.flag} alt={locale.name} />
-                          <Typography>{locale.name}</Typography>
-                          <Typography affects={["small", "muted"]} className="col-start-2">
-                            {locales[language].translations.languages[locale.code]}
-                          </Typography>
-                        </div>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </CommandDialog>
-          </Fragment>
-        )
-      }
+      renderLeft: () => <Icon name="Languages" className="mt-1" />,
+      children: (
+        <Choicebox defaultValue={language} onValueChange={setLanguage}>
+          {Object.values(locales).map((locale) => (
+            <ChoiceboxItem value={locale.code} key={locale.code} className="gap-3">
+              <Image className="aspect-4/3 h-3 flex-shrink-0" src={locale.flag} alt={locale.name} />
+              <ChoiceboxItemHeader>
+                <ChoiceboxItemTitle>{locale.name}</ChoiceboxItemTitle>
+                <ChoiceboxItemDescription>
+                  {locales[language].translations.languages[locale.code]}
+                </ChoiceboxItemDescription>
+              </ChoiceboxItemHeader>
+              <ChoiceboxItemContent>
+                <ChoiceboxItemIndicator />
+              </ChoiceboxItemContent>
+            </ChoiceboxItem>
+          ))}
+        </Choicebox>
+      )
     }
   ]
 
@@ -96,7 +69,7 @@ function Language() {
         return (
           <StickyHeader className="flex items-center gap-3 pb-9">
             <Typography variant="h4" className="truncate">
-              {t("settings.title")}
+              {t("settings.language.title")}
             </Typography>
           </StickyHeader>
         )
@@ -109,7 +82,9 @@ function Language() {
             key={setting.key}
             title={setting.title}
             description={setting.description}
+            renderLeft={setting.renderLeft}
             renderRight={setting.renderRight}
+            children={setting.children}
           />
         ))}
       </div>

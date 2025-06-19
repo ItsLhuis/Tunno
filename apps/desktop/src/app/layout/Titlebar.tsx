@@ -179,7 +179,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
               exit={{ opacity: 0 }}
             >
               <Button
-                tooltip={{ children: "Fast Upload", side: "bottom" }}
+                tooltip={{ children: t("fastUpload.title"), side: "bottom" }}
                 variant="ghost"
                 size="icon"
                 asChild
@@ -189,7 +189,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                 </SafeLink>
               </Button>
               <Button
-                tooltip={{ children: "Settings", side: "bottom" }}
+                tooltip={{ children: t("settings.title"), side: "bottom" }}
                 variant="ghost"
                 size="icon"
                 asChild

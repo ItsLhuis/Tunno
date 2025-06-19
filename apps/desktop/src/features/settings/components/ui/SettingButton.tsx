@@ -11,6 +11,7 @@ export type SettingButtonProps = {
   renderRight?: () => ReactNode
   onClick?: () => void
   className?: string
+  children?: ReactNode
 }
 
 const SettingButton = ({
@@ -19,35 +20,40 @@ const SettingButton = ({
   renderLeft,
   renderRight,
   onClick,
-  className
+  className,
+  children
 }: SettingButtonProps) => {
   return (
     <div
-      className={cn("flex w-full items-center rounded bg-transparent transition", className)}
+      className={cn("flex w-full flex-col gap-3 transition-colors", className)}
       onClick={onClick}
     >
-      {renderLeft && <div className="mr-4 flex-shrink-0">{renderLeft()}</div>}
-      <div className="flex-1 text-left">
-        {typeof title === "string" ? (
-          <Typography variant="h6" affects={["bold"]}>
-            {title}
-          </Typography>
-        ) : (
-          title
-        )}
-        {description && (
-          <div>
-            {typeof description === "string" ? (
-              <Typography affects={["muted"]}>{description}</Typography>
-            ) : (
-              description
-            )}
-          </div>
-        )}
+      <div className="grid grid-cols-[auto_1fr_auto] items-start gap-3">
+        {renderLeft && <div>{renderLeft()}</div>}
+        <div className="min-w-0 text-left">
+          {typeof title === "string" ? (
+            <Typography variant="h6" affects={["bold"]} className="break-words">
+              {title}
+            </Typography>
+          ) : (
+            <div className="break-words">{title}</div>
+          )}
+          {description && (
+            <div className="break-words">
+              {typeof description === "string" ? (
+                <Typography affects={["muted"]}>{description}</Typography>
+              ) : (
+                description
+              )}
+            </div>
+          )}
+        </div>
+        {renderRight && <div>{renderRight()}</div>}
       </div>
-      {renderRight && <div className="ml-4 flex-shrink-0">{renderRight()}</div>}
+      {children}
     </div>
   )
 }
+SettingButton.displayName = "SettingButton"
 
 export { SettingButton }

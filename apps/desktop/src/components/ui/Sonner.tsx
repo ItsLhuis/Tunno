@@ -3,7 +3,7 @@ import { type ComponentProps } from "react"
 import { useTheme } from "@contexts/ThemeContext"
 
 import { Icon } from "@components/ui/Icon"
-import { Loader } from "@components/ui/Loader"
+import { Spinner } from "@components/ui/Spinner"
 
 import { Toaster as Sonner, toast } from "sonner"
 
@@ -23,7 +23,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       offset={"0.75rem"}
       icons={{
         close: <Icon name="X" className="size-3" />,
-        loading: <Loader />,
+        loading: <Spinner />,
         info: <Icon name="Info" className="size-4 text-info" />,
         success: <Icon name="CircleCheck" className="size-4 text-success" />,
         warning: <Icon name="TriangleAlert" className="size-4 text-warning" />,

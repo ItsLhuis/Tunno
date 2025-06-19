@@ -78,7 +78,7 @@ function Footer() {
           <IconButton
             name="MonitorSpeaker"
             tooltip={{ children: "Devices", side: "top" }}
-            variant="text"
+            variant="ghost"
           />
           <IconButton
             name="ListMusic"
