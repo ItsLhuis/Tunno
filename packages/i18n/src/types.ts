@@ -17,6 +17,23 @@ export type Translations = {
     hoursAgo: string
     today: string
     yesterday: string
+    goBack: string
+    goFoward: string
+    favorite: string
+    unfavorite: string
+    enableShuffle: string
+    disableShuffle: string
+    previous: string
+    play: string
+    pause: string
+    next: string
+    enableRepeat: string
+    enableRepeatOne: string
+    disableRepeat: string
+    mute: string
+    unmute: string
+    devices: string
+    queue: string
   }
   update: {
     downloading: string

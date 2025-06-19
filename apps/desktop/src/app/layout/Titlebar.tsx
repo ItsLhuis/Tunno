@@ -111,14 +111,14 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
             <div className="flex items-center gap-2">
               <IconButton
                 name="ArrowLeft"
-                tooltip={{ children: "Go Back", side: "bottom" }}
+                tooltip={{ children: t("common.goBack"), side: "bottom" }}
                 variant="ghost"
                 onClick={() => navigate(-1)}
                 disabled={!canGoBack}
               />
               <IconButton
                 name="ArrowRight"
-                tooltip={{ children: "Go Forward", side: "bottom" }}
+                tooltip={{ children: t("common.goFoward"), side: "bottom" }}
                 variant="ghost"
                 onClick={() => navigate(1)}
                 disabled={!canGoForward}

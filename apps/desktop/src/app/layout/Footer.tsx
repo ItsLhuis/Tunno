@@ -1,8 +1,12 @@
+import { useTranslation } from "@repo/i18n"
+
 import { IconButton, Image, Marquee, Slider, Typography } from "@components/ui"
 
 import Thumbnail from "@assets/thumbs/1.jpg"
 
 function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer className="flex w-full flex-col items-center border-t bg-sidebar transition-[background-color,border-color]">
       <div className="flex w-full items-center justify-center gap-3 p-3 pb-0">
@@ -22,7 +26,7 @@ function Footer() {
             <IconButton
               name="Heart"
               isFilled
-              tooltip={{ children: "Favorite", side: "top" }}
+              tooltip={{ children: t("common.favorite"), side: "top" }}
               variant="text"
               className="shrink-0"
             />
@@ -40,27 +44,27 @@ function Footer() {
           <div className="flex flex-row items-center justify-center gap-2">
             <IconButton
               name="Shuffle"
-              tooltip={{ children: "Enable shuffle", side: "top" }}
+              tooltip={{ children: t("common.enableShuffle"), side: "top" }}
               variant="ghost"
             />
             <IconButton
               name="SkipBack"
-              tooltip={{ children: "Previous", side: "top" }}
+              tooltip={{ children: t("common.previous"), side: "top" }}
               variant="ghost"
             />
             <IconButton
               name="Play"
               className="h-11 w-11 rounded-full [&_svg]:size-5"
-              tooltip={{ children: "Play", side: "top" }}
+              tooltip={{ children: t("common.play"), side: "top" }}
             />
             <IconButton
               name="SkipForward"
-              tooltip={{ children: "Next", side: "top" }}
+              tooltip={{ children: t("common.next"), side: "top" }}
               variant="ghost"
             />
             <IconButton
               name="Repeat"
-              tooltip={{ children: "Enable repeat", side: "top" }}
+              tooltip={{ children: t("common.enableRepeat"), side: "top" }}
               variant="ghost"
             />
           </div>
@@ -69,7 +73,7 @@ function Footer() {
           <div className="flex flex-[0_1_125px]">
             <IconButton
               name="Volume1"
-              tooltip={{ children: "Mute", side: "top" }}
+              tooltip={{ children: t("common.mute"), side: "top" }}
               variant="ghost"
               className="shrink-0"
             />
@@ -77,12 +81,12 @@ function Footer() {
           </div>
           <IconButton
             name="MonitorSpeaker"
-            tooltip={{ children: "Devices", side: "top" }}
+            tooltip={{ children: t("common.devices"), side: "top" }}
             variant="ghost"
           />
           <IconButton
             name="ListMusic"
-            tooltip={{ children: "Queue", side: "top" }}
+            tooltip={{ children: t("common.queue"), side: "top" }}
             variant="ghost"
           />
         </div>
