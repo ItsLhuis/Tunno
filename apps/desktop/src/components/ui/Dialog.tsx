@@ -12,6 +12,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { cn } from "@lib/utils"
 
 import { Icon } from "@components/ui/Icon"
+import { Kbd, KbdKey } from "@components/ui/Kbd"
 
 const Dialog = DialogPrimitive.Root
 
@@ -52,9 +53,9 @@ const DialogContent = forwardRef<
     >
       {children}
       <DialogPrimitive.Close className="absolute right-3 top-3 flex cursor-default items-center gap-2 rounded-sm bg-background ring-offset-background transition-colors focus:outline-none focus:ring-0 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <span className="ml-auto rounded-md bg-muted p-1 px-2 text-xs text-muted-foreground transition-colors">
-          Esc
-        </span>
+        <Kbd>
+          <KbdKey>Esc</KbdKey>
+        </Kbd>
         <Icon name="X" className="h-4 w-4" />
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

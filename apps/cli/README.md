@@ -237,7 +237,7 @@ If you want to contribute to Tunno CLI, you can set up the development environme
 4. For local testing, you can link the package:
 
    ```bash
-   npm link
+   yarn global add file:$(pwd)
    ```
 
 ---
