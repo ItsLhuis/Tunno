@@ -2,14 +2,14 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
-## 1.0.2 - 2025-05-11
+## [1.0.2] - 2025-05-11
 
 ### Changed
 
 - 🔄 CLI version refactoring - now dynamically imported from package.json file
 - 🔢 Replaced hardcoded version ("1.0.0") with dynamic reference to project version value
 
-## 1.0.1 - 2025-05-10
+## [1.0.1] - 2025-05-10
 
 ### Fixed
 
@@ -17,7 +17,7 @@ All notable changes to the Tunno CLI project will be documented in this file.
 - 🧱 Renamed entry point to `bin/tunno.ts` and rebuilt project correctly before publishing
 - ✅ Ensured `dist/bin/tunno.js` matches `bin` entry in `package.json`
 
-## 1.0.0 - 2025-05-10
+## [1.0.0] - 2025-05-10
 
 ### Added
 
