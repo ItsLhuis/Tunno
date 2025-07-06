@@ -30,7 +30,7 @@ const databasePath =
 
 export default defineConfig({
   dialect: "sqlite",
-  schema: "./src/database/schema.ts",
+  schema: "../../packages/database/src/schema.ts",
   out: "./src-tauri/migrations",
   verbose: true,
   strict: true,

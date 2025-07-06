@@ -4,7 +4,7 @@ import {
   type ExtractTablesWithRelations
 } from "drizzle-orm"
 
-import { schema } from "./client"
+import * as schema from "./schema"
 
 type Schema = typeof schema
 type TablesWithRelations = ExtractTablesWithRelations<Schema>

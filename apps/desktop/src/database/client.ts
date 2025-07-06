@@ -1,8 +1,6 @@
 import { drizzle } from "./driver"
 
-import * as schema from "./schema"
-
-import { type InferQueryModel } from "./helpers"
+import { schema, type InferQueryModel } from "@repo/database"
 
 const databaseName = "database.db"
 
