@@ -1,4 +1,8 @@
+import { useState } from "react"
+
 import { useTranslation } from "@repo/i18n"
+
+import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { IconButton, Image, Marquee, Slider, Typography } from "@components/ui"
 
@@ -6,6 +10,10 @@ import Thumbnail from "@assets/thumbs/1.jpg"
 
 function Footer() {
   const { t } = useTranslation()
+
+  const { volume, setVolume, isMuted, setIsMuted } = useSettingsStore()
+
+  const [localVolume, setLocalVolume] = useState<number>(volume)
 
   return (
     <footer className="flex w-full flex-col items-center border-t bg-sidebar transition-[background-color,border-color]">
@@ -70,14 +78,40 @@ function Footer() {
           </div>
         </div>
         <div className="flex items-center justify-end gap-2 truncate">
-          <div className="flex flex-[0_1_125px]">
+          <div className="flex flex-[0_1_125px] items-center gap-2">
             <IconButton
-              name="Volume1"
-              tooltip={{ children: t("common.mute"), side: "top" }}
+              name={
+                isMuted
+                  ? "VolumeOff"
+                  : volume === 0
+                    ? "VolumeX"
+                    : volume < 0.5
+                      ? "Volume1"
+                      : "Volume2"
+              }
+              tooltip={{
+                children: isMuted || volume === 0 ? t("common.unmute") : t("common.mute"),
+                side: "top"
+              }}
               variant="ghost"
               className="shrink-0"
+              onClick={() => setIsMuted(!isMuted)}
             />
-            <Slider className="w-full" />
+            <Slider
+              className="w-full"
+              min={0}
+              max={1}
+              step={0.01}
+              value={[localVolume]}
+              formatTooltip={(value) => `${Math.round(value * 100)}%`}
+              onValueChange={([v]) => {
+                setLocalVolume(v)
+              }}
+              onValueCommit={([v]) => {
+                setVolume(v)
+                if (isMuted && v > 0) setIsMuted(false)
+              }}
+            />
           </div>
           <IconButton
             name="MonitorSpeaker"

@@ -14,6 +14,10 @@ type SettingsState = {
   setLanguage: (code: LocaleKeys) => void
   hasHydrated: boolean
   setHasHydrated: (hasHydrated: boolean) => void
+  volume: number
+  setVolume: (volume: number) => void
+  isMuted: boolean
+  setIsMuted: (isMuted: boolean) => void
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -31,7 +35,11 @@ export const useSettingsStore = create<SettingsState>()(
         set({
           hasHydrated: state
         })
-      }
+      },
+      volume: 1,
+      setVolume: (volume) => set({ volume }),
+      isMuted: false,
+      setIsMuted: (isMuted) => set({ isMuted })
     }),
     {
       name: SETTINGS_STORE_NAME,
