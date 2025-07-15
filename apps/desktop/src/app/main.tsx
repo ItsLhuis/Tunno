@@ -37,14 +37,12 @@ const Main = () => {
   useEffect(() => {
     if (!hasHydrated) return
 
-    let showMainWindowTimeout: NodeJS.Timeout
-
-    showMainWindowTimeout = setTimeout(async () => {
+    const showMainWindow = async () => {
       await getCurrentWindow().show()
-      await getCurrentWindow().setFocus()
-    }, 200)
+      if (!import.meta.env.DEV) await getCurrentWindow().setFocus()
+    }
 
-    return () => clearTimeout(showMainWindowTimeout)
+    showMainWindow()
   }, [hasHydrated])
 
   return (
