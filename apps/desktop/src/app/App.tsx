@@ -102,17 +102,19 @@ function App() {
           <Titlebar isSplashVisible={!isAppReady} />
         </motion.div>
         <ErrorBoundary>
-          <motion.div
-            className="flex h-full w-full flex-col overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: !isAppReady ? 0 : 1 }}
-          >
-            <div className="flex flex-1 overflow-hidden">
-              <Sidebar />
-              <Main />
-            </div>
-            <Footer />
-          </motion.div>
+          {isAppReady && (
+            <motion.div
+              className="flex h-full w-full flex-col overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="flex flex-1 overflow-hidden">
+                <Sidebar />
+                <Main />
+              </div>
+              <Footer />
+            </motion.div>
+          )}
         </ErrorBoundary>
       </div>
     </BrowserRouter>
