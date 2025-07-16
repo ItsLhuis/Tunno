@@ -1,0 +1,20 @@
+{
+  "name": "@repo/api",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch --preserveWatchOutput",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@repo/database": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

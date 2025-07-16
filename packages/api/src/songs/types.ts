@@ -1,4 +1,4 @@
-import { schema, type InferQueryModel } from "@database/client"
+import { schema, type InferQueryModel } from "@repo/database"
 
 const { songs } = schema
 

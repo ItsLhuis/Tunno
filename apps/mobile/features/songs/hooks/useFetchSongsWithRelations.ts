@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { songKeys } from "@features/songs/api/keys"
+import { songKeys } from "@repo/api"
 
-import { getAllSongsWithRelations, type QuerySongsParams } from "@features/songs/api/queries"
+import { getAllSongsWithRelations, type QuerySongsParams } from "../api/queries"
 
 export function useFetchSongsWithRelations(params?: QuerySongsParams) {
   return useQuery({

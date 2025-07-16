@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { songKeys } from "@features/songs/api/keys"
+import { songKeys } from "@repo/api"
 
-import { createSong } from "@features/songs/api/mutations"
+import { createSong } from "../api/mutations"
 
 import { toast } from "@components/ui"
 

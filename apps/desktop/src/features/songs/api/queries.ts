@@ -2,9 +2,7 @@ import { database, schema } from "@database/client"
 
 import { asc, desc, eq, like } from "drizzle-orm"
 
-import { type QueryParams } from "@api/types"
-
-import { type SongColumns, type SongWithRelations } from "@features/songs/api/types"
+import { type QueryParams, type SongColumns, type SongWithRelations } from "@repo/api"
 
 export type QuerySongsParams = QueryParams<SongColumns>
 

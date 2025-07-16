@@ -2,7 +2,7 @@ import { database, schema } from "@database/client"
 
 import { eq } from "drizzle-orm"
 
-import { type CreateSong, type Song, type UpdateSong } from "@features/songs/api/types"
+import { type CreateSong, type Song, type UpdateSong } from "@repo/api"
 
 export const createSong = async (song: CreateSong): Promise<Song> => {
   const [createdSong] = await database.insert(schema.songs).values(song).returning()
