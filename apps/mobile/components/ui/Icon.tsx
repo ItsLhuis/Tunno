@@ -12,7 +12,7 @@ export type IconProps = LucideProps & {
   color?: ColorValue
 }
 
-export function Icon({
+function Icon({
   name,
   isFilled,
   size = theme.styles.icon.size.large,
@@ -29,4 +29,5 @@ export function Icon({
 
   return <LucideIcon color={iconColor} fill={iconFill} size={size} {...props} />
 }
-Icon.displayName = "Icon"
+
+export { Icon }

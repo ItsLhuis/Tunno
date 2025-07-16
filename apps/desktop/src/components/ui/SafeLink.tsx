@@ -6,7 +6,7 @@ import { Link, type LinkProps } from "react-router-dom"
 
 export type SafeLinkProps = { children: ReactNode } & LinkProps
 
-export const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(
+const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(
   ({ children, to, onClick, ...props }, ref) => {
     const linkRef = useRef<HTMLAnchorElement>(null)
     useImperativeHandle(ref, () => linkRef.current!)
@@ -54,4 +54,5 @@ export const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(
     )
   }
 )
-SafeLink.displayName = "SafeLink"
+
+export { SafeLink }

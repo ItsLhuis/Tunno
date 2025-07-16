@@ -9,6 +9,5 @@ const PlaybackProgress = () => {
     </div>
   )
 }
-PlaybackProgress.displayName = "PlaybackProgress"
 
 export { PlaybackProgress }

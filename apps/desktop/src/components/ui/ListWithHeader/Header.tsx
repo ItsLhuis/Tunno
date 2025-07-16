@@ -18,7 +18,6 @@ function Header({
     </div>
   )
 }
-Header.displayName = "Header"
 
 function StickyHeader({ className, children, ...props }: StickyHeaderProps) {
   return (
@@ -27,6 +26,5 @@ function StickyHeader({ className, children, ...props }: StickyHeaderProps) {
     </div>
   )
 }
-StickyHeader.displayName = "StickyHeader"
 
 export { Header, StickyHeader }

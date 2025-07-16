@@ -98,6 +98,5 @@ const Titlebar = forwardRef<HTMLDivElement, TitlebarProps>(
     )
   }
 )
-Titlebar.displayName = "Titlebar"
 
 export { Titlebar }

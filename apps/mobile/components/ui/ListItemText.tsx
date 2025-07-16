@@ -16,7 +16,7 @@ export type ListItemTextProps = {
   descriptionProps?: TextProps
 }
 
-export function ListItemText({
+function ListItemText({
   title,
   description,
   style,
@@ -46,4 +46,5 @@ export function ListItemText({
     </View>
   )
 }
-ListItemText.displayName = "ListItemText"
+
+export { ListItemText }

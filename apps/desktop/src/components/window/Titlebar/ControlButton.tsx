@@ -15,6 +15,5 @@ function ControlButton({ className, children, ...props }: ButtonHTMLAttributes<H
     </button>
   )
 }
-ControlButton.displayName = "ControlButton"
 
 export { ControlButton }

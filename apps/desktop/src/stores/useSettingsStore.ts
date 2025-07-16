@@ -9,36 +9,39 @@ const SETTINGS_STORE_NAME = "settings"
 
 type SettingsState = {
   theme: "dark" | "light" | "system"
-  setTheme: (theme: "dark" | "light" | "system") => void
   language: LocaleKeys
-  setLanguage: (code: LocaleKeys) => void
   hasHydrated: boolean
-  setHasHydrated: (hasHydrated: boolean) => void
   volume: number
-  setVolume: (volume: number) => void
   isMuted: boolean
+}
+
+type SettingsActions = {
+  setTheme: (theme: "dark" | "light" | "system") => void
+  setLanguage: (code: LocaleKeys) => void
+  setHasHydrated: (hasHydrated: boolean) => void
+  setVolume: (volume: number) => void
   setIsMuted: (isMuted: boolean) => void
 }
 
-export const useSettingsStore = create<SettingsState>()(
+type SettingsStore = SettingsState & SettingsActions
+
+export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set) => ({
       theme: "system",
-      setTheme: (theme) => set({ theme }),
       language: "en" as LocaleKeys,
+      hasHydrated: false,
+      volume: 1,
+      isMuted: false,
+      setTheme: (theme) => set({ theme }),
       setLanguage: (code) => {
         set({ language: code })
         i18n.changeLanguage(code)
       },
-      hasHydrated: false,
-      setHasHydrated: (state) => {
-        set({
-          hasHydrated: state
-        })
+      setHasHydrated: (hasHydrated) => {
+        set({ hasHydrated })
       },
-      volume: 1,
       setVolume: (volume) => set({ volume }),
-      isMuted: false,
       setIsMuted: (isMuted) => set({ isMuted })
     }),
     {

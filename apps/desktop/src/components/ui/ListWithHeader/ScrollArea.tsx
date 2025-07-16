@@ -89,6 +89,5 @@ const ScrollAreaWithHeaders = ({
     </ScrollArea>
   )
 }
-ScrollAreaWithHeaders.displayName = "ScrollAreaWithHeaders"
 
 export { ScrollAreaWithHeaders }

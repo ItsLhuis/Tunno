@@ -12,7 +12,7 @@ export type ImageProps = {
   onLoad?: () => void
 }
 
-export const Image = forwardRef<HTMLImageElement, ImageProps>(
+const Image = forwardRef<HTMLImageElement, ImageProps>(
   ({ src, alt, className, containerClassName, onLoad, ...props }, ref) => {
     const [isNewImageLoaded, setIsNewImageLoaded] = useState(false)
 
@@ -121,4 +121,4 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
     )
   }
 )
-Image.displayName = "Image"
+export { Image }

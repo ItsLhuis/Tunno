@@ -4,7 +4,7 @@ import { IconButton, type IconButtonProps } from "../ui/IconButton"
 
 import { router } from "expo-router"
 
-export function BackButton({ color, ...props }: Omit<IconButtonProps, "name">) {
+function BackButton({ color, ...props }: Omit<IconButtonProps, "name">) {
   return (
     <IconButton
       name={Platform.OS === "ios" ? "ChevronLeft" : "ArrowLeft"}
@@ -13,4 +13,5 @@ export function BackButton({ color, ...props }: Omit<IconButtonProps, "name">) {
     />
   )
 }
-BackButton.displayName = "BackButton"
+
+export { BackButton }

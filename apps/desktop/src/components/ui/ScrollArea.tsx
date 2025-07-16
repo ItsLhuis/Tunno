@@ -23,7 +23,6 @@ const ScrollArea = forwardRef<
     <ScrollAreaPrimitive.Corner />
   </ScrollAreaPrimitive.Root>
 ))
-ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName
 
 const ScrollBar = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
@@ -44,6 +43,5 @@ const ScrollBar = forwardRef<
     <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-foreground/20 transition-colors hover:bg-foreground/40" />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>
 ))
-ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName
 
 export { ScrollArea, ScrollBar }

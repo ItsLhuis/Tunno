@@ -18,6 +18,5 @@ const TextInput = forwardRef<HTMLInputElement, ComponentProps<"input">>(
     )
   }
 )
-TextInput.displayName = "TextInput"
 
 export { TextInput }

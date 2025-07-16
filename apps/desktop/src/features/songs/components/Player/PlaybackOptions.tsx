@@ -23,6 +23,6 @@ const PlaybackOptions = () => {
     </div>
   )
 }
-PlaybackOptions.displayName = "PlaybackOptions"
 
 export { PlaybackOptions }
+

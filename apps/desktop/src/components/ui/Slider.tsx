@@ -61,6 +61,5 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
     )
   }
 )
-Slider.displayName = SliderPrimitive.Root.displayName
 
 export { Slider }

@@ -17,6 +17,5 @@ function Icon({ name, isFilled = false, className }: IconProps) {
 
   return <LucideIcon className={cn("size-4", isFilled && "fill-current", className)} />
 }
-Icon.displayName = "Icon"
 
 export { Icon }

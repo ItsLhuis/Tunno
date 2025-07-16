@@ -35,6 +35,5 @@ const TrackInfo = () => {
     </div>
   )
 }
-TrackInfo.displayName = "TrackInfo"
 
 export { TrackInfo }

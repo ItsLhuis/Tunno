@@ -118,8 +118,8 @@ const LegendListWithHeadersComp = <ItemT extends any = any>(
           listHeight !== 0 && Array.isArray(data)
             ? data.length > 0
             : data && "value" in data && Array.isArray(data.value) && data.value.length > 0
-            ? true
-            : false
+              ? true
+              : false
         }
         scrollEventThrottle={16}
         overScrollMode="never"
@@ -222,7 +222,6 @@ const LegendListWithHeadersComp = <ItemT extends any = any>(
     </View>
   )
 }
-LegendListWithHeadersComp.displayName = "LegendListWithHeaders"
 
 const LegendListWithHeaders = forwardRef(LegendListWithHeadersComp) as <ItemT = any>(
   props: LegendListWithHeadersProps<ItemT> & {

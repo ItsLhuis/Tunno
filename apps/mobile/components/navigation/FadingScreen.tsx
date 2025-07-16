@@ -10,7 +10,7 @@ export type FadingScreenProps = Omit<FadingViewProps, "opacity"> & {
   duration?: number
 }
 
-export function FadingScreen({
+function FadingScreen({
   duration = 300,
   opacityThresholdToEnablePointerEvents = 0,
   children,
@@ -44,4 +44,5 @@ export function FadingScreen({
     </FadingView>
   )
 }
-FadingScreen.displayName = "FadingScreen"
+
+export { FadingScreen }

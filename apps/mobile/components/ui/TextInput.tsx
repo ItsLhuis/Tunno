@@ -25,7 +25,7 @@ export type TextInputProps = RNTextInputProps & {
   disableBorderAnimation?: boolean
 }
 
-export const TextInput = forwardRef<RNTextInput, TextInputProps>(
+const TextInput = forwardRef<RNTextInput, TextInputProps>(
   ({ disableBorderAnimation = false, style, onFocus, onBlur, ...props }, ref) => {
     const { colors } = useColorTheme()
 
@@ -75,4 +75,5 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
     )
   }
 )
-TextInput.displayName = "TextInput"
+
+export { TextInput }

@@ -177,4 +177,3 @@ export const ScrollViewWithHeaders = forwardRef<Animated.ScrollView, ScrollViewW
     )
   }
 )
-ScrollViewWithHeaders.displayName = "ScrollViewWithHeaders"

@@ -28,7 +28,6 @@ const Command = forwardRef<
     {...props}
   />
 ))
-Command.displayName = CommandPrimitive.displayName
 
 const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
@@ -59,8 +58,6 @@ const CommandInput = forwardRef<
   </div>
 ))
 
-CommandInput.displayName = CommandPrimitive.Input.displayName
-
 const CommandList = forwardRef<
   ElementRef<typeof CommandPrimitive.List>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.List>
@@ -70,16 +67,12 @@ const CommandList = forwardRef<
   </ScrollArea>
 ))
 
-CommandList.displayName = CommandPrimitive.List.displayName
-
 const CommandEmpty = forwardRef<
   ElementRef<typeof CommandPrimitive.Empty>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
 >((props, ref) => (
   <CommandPrimitive.Empty ref={ref} className="py-6 text-center text-sm" {...props} />
 ))
-
-CommandEmpty.displayName = CommandPrimitive.Empty.displayName
 
 const CommandGroup = forwardRef<
   ElementRef<typeof CommandPrimitive.Group>,
@@ -95,8 +88,6 @@ const CommandGroup = forwardRef<
   />
 ))
 
-CommandGroup.displayName = CommandPrimitive.Group.displayName
-
 const CommandSeparator = forwardRef<
   ElementRef<typeof CommandPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
@@ -107,7 +98,6 @@ const CommandSeparator = forwardRef<
     {...props}
   />
 ))
-CommandSeparator.displayName = CommandPrimitive.Separator.displayName
 
 const CommandItem = forwardRef<
   ElementRef<typeof CommandPrimitive.Item>,
@@ -123,8 +113,6 @@ const CommandItem = forwardRef<
   />
 ))
 
-CommandItem.displayName = CommandPrimitive.Item.displayName
-
 const CommandShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span
@@ -133,7 +121,6 @@ const CommandShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement
     />
   )
 }
-CommandShortcut.displayName = "CommandShortcut"
 
 export {
   Command,

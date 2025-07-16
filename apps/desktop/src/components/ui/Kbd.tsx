@@ -9,7 +9,6 @@ const DefaultKbdSeparator = ({ className, children = "+", ...props }: ComponentP
     {children}
   </span>
 )
-DefaultKbdSeparator.displayName = "DefaultKbdSeparator"
 
 const Kbd = ({
   className,
@@ -36,7 +35,6 @@ const Kbd = ({
       : children}
   </span>
 )
-Kbd.displayName = "Kbd"
 
 const KbdKey = ({
   className,
@@ -44,6 +42,5 @@ const KbdKey = ({
 }: Omit<ComponentProps<"kbd">, "aria-label"> & {
   "aria-label"?: keyof typeof Key | (string & {})
 }) => <kbd {...props} />
-KbdKey.displayName = "KbdKey"
 
 export { Kbd, KbdKey }

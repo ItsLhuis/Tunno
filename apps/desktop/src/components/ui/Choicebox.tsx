@@ -14,7 +14,6 @@ import { RadioGroup } from "@components/ui/RadioGroup"
 const Choicebox = ({ className, ...props }: ComponentProps<typeof RadioGroup>) => (
   <RadioGroup className={cn("w-full", className)} {...props} />
 )
-Choicebox.displayName = "Choicebox"
 
 const ChoiceboxItem = ({
   className,
@@ -39,22 +38,18 @@ const ChoiceboxItem = ({
     </Card>
   </RadioGroupPrimitive.Item>
 )
-ChoiceboxItem.displayName = "ChoiceboxItem"
 
 const ChoiceboxItemHeader = ({ className, ...props }: ComponentProps<typeof CardHeader>) => (
   <CardHeader className={cn("flex-1 p-0", className)} {...props} />
 )
-ChoiceboxItemHeader.displayName = "ChoiceboxItemHeader"
 
 const ChoiceboxItemTitle = ({ className, ...props }: ComponentProps<typeof CardTitle>) => (
   <CardTitle className={cn("flex items-center gap-2 text-sm", className)} {...props} />
 )
-ChoiceboxItemTitle.displayName = "ChoiceboxItemTitle"
 
 const ChoiceboxItemSubtitle = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => (
   <span className={cn("text-xs font-normal text-muted-foreground", className)} {...props} />
 )
-ChoiceboxItemSubtitle.displayName = "ChoiceboxItemSubtitle"
 
 const ChoiceboxItemDescription = ({
   className,
@@ -62,7 +57,6 @@ const ChoiceboxItemDescription = ({
 }: ComponentProps<typeof CardDescription>) => (
   <CardDescription className={cn("text-sm", className)} {...props} />
 )
-ChoiceboxItemDescription.displayName = "ChoiceboxItemDescription"
 
 const ChoiceboxItemContent = ({ className, ...props }: ComponentProps<typeof CardContent>) => (
   <CardContent
@@ -73,7 +67,6 @@ const ChoiceboxItemContent = ({ className, ...props }: ComponentProps<typeof Car
     {...props}
   />
 )
-ChoiceboxItemContent.displayName = "ChoiceboxItemContent"
 
 const ChoiceboxItemIndicator = ({
   className,
@@ -83,7 +76,6 @@ const ChoiceboxItemIndicator = ({
     <CircleIcon className={cn("size-2 fill-primary", className)} />
   </RadioGroupPrimitive.Indicator>
 )
-ChoiceboxItemIndicator.displayName = "ChoiceboxItemIndicator"
 
 export {
   Choicebox,

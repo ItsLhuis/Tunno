@@ -42,7 +42,6 @@ const ContextMenuSubTrigger = forwardRef<
     <ChevronRight className="ml-auto h-4 w-4" />
   </ContextMenuPrimitive.SubTrigger>
 ))
-ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName
 
 const ContextMenuSubContent = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.SubContent>,
@@ -57,7 +56,6 @@ const ContextMenuSubContent = forwardRef<
     {...props}
   />
 ))
-ContextMenuSubContent.displayName = ContextMenuPrimitive.SubContent.displayName
 
 const ContextMenuContent = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.Content>,
@@ -74,7 +72,6 @@ const ContextMenuContent = forwardRef<
     />
   </ContextMenuPrimitive.Portal>
 ))
-ContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName
 
 const ContextMenuItem = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.Item>,
@@ -92,7 +89,6 @@ const ContextMenuItem = forwardRef<
     {...props}
   />
 ))
-ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName
 
 const ContextMenuCheckboxItem = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.CheckboxItem>,
@@ -115,7 +111,6 @@ const ContextMenuCheckboxItem = forwardRef<
     {children}
   </ContextMenuPrimitive.CheckboxItem>
 ))
-ContextMenuCheckboxItem.displayName = ContextMenuPrimitive.CheckboxItem.displayName
 
 const ContextMenuRadioItem = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.RadioItem>,
@@ -137,7 +132,6 @@ const ContextMenuRadioItem = forwardRef<
     {children}
   </ContextMenuPrimitive.RadioItem>
 ))
-ContextMenuRadioItem.displayName = ContextMenuPrimitive.RadioItem.displayName
 
 const ContextMenuLabel = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.Label>,
@@ -155,7 +149,6 @@ const ContextMenuLabel = forwardRef<
     {...props}
   />
 ))
-ContextMenuLabel.displayName = ContextMenuPrimitive.Label.displayName
 
 const ContextMenuSeparator = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.Separator>,
@@ -167,7 +160,6 @@ const ContextMenuSeparator = forwardRef<
     {...props}
   />
 ))
-ContextMenuSeparator.displayName = ContextMenuPrimitive.Separator.displayName
 
 const ContextMenuShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
   return (
@@ -177,7 +169,6 @@ const ContextMenuShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanEle
     />
   )
 }
-ContextMenuShortcut.displayName = "ContextMenuShortcut"
 
 export {
   ContextMenu,

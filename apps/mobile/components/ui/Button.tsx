@@ -26,7 +26,7 @@ export type ButtonProps = PressableProps & {
   children?: ReactNode
 }
 
-export function Button({
+function Button({
   title,
   isLoading = false,
   disabled = false,
@@ -45,8 +45,8 @@ export function Button({
       ? color === "primary"
         ? colors.primary
         : color === "secondary"
-        ? colors.muted
-        : color
+          ? colors.muted
+          : color
       : "transparent"
 
   const textColor =
@@ -54,17 +54,17 @@ export function Button({
       ? color === "primary"
         ? colors.primaryForeground
         : color === "secondary"
-        ? colors.mutedForeground
-        : color === "transparent"
-        ? colors.foreground
-        : readableColor(color as string)
+          ? colors.mutedForeground
+          : color === "transparent"
+            ? colors.foreground
+            : readableColor(color as string)
       : color === "primary"
-      ? colors.primary
-      : color === "secondary"
-      ? colors.mutedForeground
-      : color === "transparent"
-      ? colors.foreground
-      : color
+        ? colors.primary
+        : color === "secondary"
+          ? colors.mutedForeground
+          : color === "transparent"
+            ? colors.foreground
+            : color
 
   const indicatorColor = textColor
 
@@ -136,4 +136,5 @@ export function Button({
     </View>
   )
 }
-Button.displayName = "Button"
+
+export { Button }

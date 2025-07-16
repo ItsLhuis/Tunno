@@ -328,6 +328,5 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
     </ScrollArea>
   )
 }
-VirtualizedTableGridWithHeaders.displayName = "VirtualizedTableGridWithHeaders"
 
 export { VirtualizedTableGridWithHeaders }

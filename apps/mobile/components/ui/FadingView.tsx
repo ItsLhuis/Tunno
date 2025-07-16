@@ -1,13 +1,13 @@
-import { ReactNode, ComponentProps, forwardRef } from "react"
+import { ComponentProps, forwardRef, ReactNode } from "react"
 
 import { StyleProp, ViewStyle } from "react-native"
 
 import Animated, {
   AnimatedStyle,
   DerivedValue,
+  interpolate,
   useAnimatedProps,
-  useAnimatedStyle,
-  interpolate
+  useAnimatedStyle
 } from "react-native-reanimated"
 
 type AnimatedViewPointerEvents = ComponentProps<typeof Animated.View>["pointerEvents"]
@@ -19,7 +19,7 @@ export type FadingViewProps = {
   children?: ReactNode
 } & ComponentProps<typeof Animated.View>
 
-export const FadingView = forwardRef<Animated.View, FadingViewProps>(
+const FadingView = forwardRef<Animated.View, FadingViewProps>(
   (
     {
       children,
@@ -55,4 +55,5 @@ export const FadingView = forwardRef<Animated.View, FadingViewProps>(
     )
   }
 )
-FadingView.displayName = "FadingView"
+
+export { FadingView }

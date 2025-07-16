@@ -27,6 +27,5 @@ const Linkify = ({ text, ...props }: LinkifyProps) => {
     </Typography>
   )
 }
-Linkify.displayName = "Linkify"
 
 export { Linkify }

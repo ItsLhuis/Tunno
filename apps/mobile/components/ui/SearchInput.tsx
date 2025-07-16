@@ -25,7 +25,7 @@ export type SearchInputProps = TextInputProps & {
   containerStyle?: StyleProp<ViewStyle>
 }
 
-export const SearchInput = forwardRef<RNTextInput, SearchInputProps>(
+const SearchInput = forwardRef<RNTextInput, SearchInputProps>(
   (
     {
       style,
@@ -173,4 +173,5 @@ export const SearchInput = forwardRef<RNTextInput, SearchInputProps>(
     )
   }
 )
-SearchInput.displayName = "SearchInput"
+
+export { SearchInput }

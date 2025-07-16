@@ -14,7 +14,6 @@ const AccordionItem = forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item ref={ref} className={cn("border-b", className)} {...props} />
 ))
-AccordionItem.displayName = "AccordionItem"
 
 const AccordionTrigger = forwardRef<
   ElementRef<typeof AccordionPrimitive.Trigger>,
@@ -34,7 +33,6 @@ const AccordionTrigger = forwardRef<
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
-AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 
 const AccordionContent = forwardRef<
   ElementRef<typeof AccordionPrimitive.Content>,
@@ -48,6 +46,5 @@ const AccordionContent = forwardRef<
     <div className={cn("pb-4 pt-0", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ))
-AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }

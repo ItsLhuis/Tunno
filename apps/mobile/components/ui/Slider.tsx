@@ -20,7 +20,7 @@ export type SliderProps = Omit<
   maximumValue?: number
 }
 
-export function Slider({
+function Slider({
   animationType = "timing",
   minimumValue = 0,
   maximumValue = 1,
@@ -50,4 +50,5 @@ export function Slider({
     />
   )
 }
-Slider.displayName = "Slider"
+
+export { Slider }

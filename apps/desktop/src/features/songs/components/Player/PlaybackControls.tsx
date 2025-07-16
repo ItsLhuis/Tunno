@@ -35,7 +35,5 @@ const PlaybackControls = () => {
     </div>
   )
 }
-PlaybackControls.displayName = "PlaybackControls"
 
 export { PlaybackControls }
-

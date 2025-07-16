@@ -15,7 +15,7 @@ export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "childr
   noMargin?: boolean
 }
 
-export function IconButton({
+function IconButton({
   name,
   isFilled = false,
   color = "transparent",
@@ -36,17 +36,17 @@ export function IconButton({
       ? color === "primary"
         ? colors.primaryForeground
         : color === "secondary"
-        ? colors.mutedForeground
-        : color === "transparent"
-        ? colors.foreground
-        : readableColor(color as string)
+          ? colors.mutedForeground
+          : color === "transparent"
+            ? colors.foreground
+            : readableColor(color as string)
       : color === "primary"
-      ? colors.primary
-      : color === "secondary"
-      ? colors.mutedForeground
-      : color === "transparent"
-      ? colors.foreground
-      : color
+        ? colors.primary
+        : color === "secondary"
+          ? colors.mutedForeground
+          : color === "transparent"
+            ? colors.foreground
+            : color
 
   return (
     <View>
@@ -69,4 +69,5 @@ export function IconButton({
     </View>
   )
 }
-IconButton.displayName = "IconButton"
+
+export { IconButton }

@@ -85,6 +85,5 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
     </div>
   )
 }
-Marquee.displayName = "Marquee"
 
 export { Marquee }

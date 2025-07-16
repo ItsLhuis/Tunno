@@ -45,6 +45,6 @@ const PlaybackVolumeControl = () => {
     </div>
   )
 }
-PlaybackVolumeControl.displayName = "PlaybackVolumeControl"
 
 export { PlaybackVolumeControl }
+

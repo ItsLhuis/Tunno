@@ -16,7 +16,7 @@ export type PressableProps = RNPressableProps & {
   children?: ReactNode
 }
 
-export function Pressable({
+function Pressable({
   containerStyle,
   disableScaleEffect = false,
   disableOpacityEffect = false,
@@ -57,4 +57,5 @@ export function Pressable({
     </Animated.View>
   )
 }
-Pressable.displayName = "Pressable"
+
+export { Pressable }

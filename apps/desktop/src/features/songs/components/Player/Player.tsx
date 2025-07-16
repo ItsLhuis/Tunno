@@ -17,6 +17,5 @@ const Player = () => {
     </Fragment>
   )
 }
-Player.displayName = "Player"
 
 export { Player }

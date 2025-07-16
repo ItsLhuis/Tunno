@@ -1,4 +1,4 @@
-import { ReactNode, forwardRef, useState, useEffect, useCallback, useMemo } from "react"
+import { ReactNode, forwardRef, useCallback, useEffect, useMemo, useState } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -9,11 +9,11 @@ import { theme } from "@styles/theme"
 import { BackHandler, StyleProp, ViewStyle } from "react-native"
 
 import {
+  BottomSheetBackdrop,
+  type BottomSheetBackdropProps,
   BottomSheetModal,
   type BottomSheetModalProps,
   BottomSheetView,
-  BottomSheetBackdrop,
-  type BottomSheetBackdropProps,
   useBottomSheetTimingConfigs
 } from "@gorhom/bottom-sheet"
 
@@ -26,7 +26,7 @@ export type BottomSheetProps = BottomSheetModalProps & {
   children: ReactNode
 }
 
-export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
+const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
   (
     {
       snapPoints,
@@ -110,4 +110,5 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
     )
   }
 )
-BottomSheet.displayName = "BottomSheet"
+
+export { BottomSheet }

@@ -6,7 +6,7 @@ import { Image as ExpoImage, type ImageProps as ExpoImageProps } from "expo-imag
 
 export type ImageProps = ExpoImageProps
 
-export const Image = forwardRef<ExpoImage, ImageProps>(
+const Image = forwardRef<ExpoImage, ImageProps>(
   ({ style, transition, ...props }: ImageProps, ref) => {
     const { colors } = useColorTheme()
 
@@ -20,4 +20,5 @@ export const Image = forwardRef<ExpoImage, ImageProps>(
     )
   }
 )
-Image.displayName = "Image"
+
+export { Image }

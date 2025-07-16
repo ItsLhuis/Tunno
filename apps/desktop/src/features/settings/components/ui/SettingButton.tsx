@@ -54,6 +54,5 @@ const SettingButton = ({
     </div>
   )
 }
-SettingButton.displayName = "SettingButton"
 
 export { SettingButton }

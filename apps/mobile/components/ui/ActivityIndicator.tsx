@@ -9,7 +9,7 @@ import {
 
 export type ActivityIndicatorProps = RNActivityIndicatorProps
 
-export function ActivityIndicator({
+function ActivityIndicator({
   style,
   size = theme.styles.icon.size.xLarge,
   color,
@@ -21,4 +21,5 @@ export function ActivityIndicator({
     <RNActivityIndicator size={size} color={color || colors.primary} style={style} {...props} />
   )
 }
-ActivityIndicator.displayName = "ActivityIndicator"
+
+export { ActivityIndicator }
