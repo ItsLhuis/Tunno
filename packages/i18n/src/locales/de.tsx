@@ -29,7 +29,6 @@ export const german: Language = {
       disableRepeat: "Wiederholen deaktivieren",
       mute: "Stummschalten",
       unmute: "Ton einschalten",
-      devices: "Geräte",
       queue: "Warteschlange"
     },
     update: {

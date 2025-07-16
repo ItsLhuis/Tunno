@@ -29,7 +29,6 @@ export const finnish: Language = {
       disableRepeat: "Poista toisto käytöstä",
       mute: "Mykistä",
       unmute: "Poista mykistys",
-      devices: "Laitteet",
       queue: "Jonossa"
     },
     update: {

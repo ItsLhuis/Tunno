@@ -29,7 +29,6 @@ export const turkish: Language = {
       disableRepeat: "Tekrarı devre dışı bırak",
       mute: "Sessize al",
       unmute: "Sesi aç",
-      devices: "Cihazlar",
       queue: "Kuyruk"
     },
     update: {

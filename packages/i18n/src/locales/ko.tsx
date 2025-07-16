@@ -29,7 +29,6 @@ export const korean: Language = {
       disableRepeat: "반복 비활성화",
       mute: "음소거",
       unmute: "음소거 해제",
-      devices: "기기",
       queue: "대기열"
     },
     update: {

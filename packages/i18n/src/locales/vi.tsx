@@ -29,7 +29,6 @@ export const vietnamese: Language = {
       disableRepeat: "Tắt lặp lại",
       mute: "Tắt tiếng",
       unmute: "Bật tiếng",
-      devices: "Thiết bị",
       queue: "Hàng đợi"
     },
     update: {

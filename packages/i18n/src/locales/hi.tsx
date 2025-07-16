@@ -29,7 +29,6 @@ export const hindi: Language = {
       disableRepeat: "दोहराना अक्षम करें",
       mute: "म्यूट",
       unmute: "म्यूट हटाएं",
-      devices: "डिवाइस",
       queue: "कतार"
     },
     update: {

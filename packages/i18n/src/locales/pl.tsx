@@ -29,7 +29,6 @@ export const polish: Language = {
       disableRepeat: "Wyłącz powtarzanie",
       mute: "Wycisz",
       unmute: "Wyłącz wyciszenie",
-      devices: "Urządzenia",
       queue: "Kolejka"
     },
     update: {

@@ -29,7 +29,6 @@ export const danish: Language = {
       disableRepeat: "Deaktivér gentagelse",
       mute: "Slå lyd fra",
       unmute: "Slå lyd til",
-      devices: "Enheder",
       queue: "Kø"
     },
     update: {

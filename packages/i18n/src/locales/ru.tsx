@@ -29,7 +29,6 @@ export const russian: Language = {
       disableRepeat: "Отключить повтор",
       mute: "Без звука",
       unmute: "Включить звук",
-      devices: "Устройства",
       queue: "Очередь"
     },
     update: {

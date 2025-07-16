@@ -32,7 +32,6 @@ export type Translations = {
     disableRepeat: string
     mute: string
     unmute: string
-    devices: string
     queue: string
   }
   update: {

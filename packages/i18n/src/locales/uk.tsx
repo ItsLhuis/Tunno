@@ -29,7 +29,6 @@ export const ukrainian: Language = {
       disableRepeat: "Вимкнути повторення",
       mute: "Вимкнути звук",
       unmute: "Увімкнути звук",
-      devices: "Пристрої",
       queue: "Черга"
     },
     update: {

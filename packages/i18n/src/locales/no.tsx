@@ -29,7 +29,6 @@ export const norwegian: Language = {
       disableRepeat: "Deaktiver gjenta",
       mute: "Demp",
       unmute: "Slå på lyd",
-      devices: "Enheter",
       queue: "Kø"
     },
     update: {

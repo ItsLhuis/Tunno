@@ -29,7 +29,6 @@ export const spanish: Language = {
       disableRepeat: "Desactivar repetición",
       mute: "Silenciar",
       unmute: "Activar sonido",
-      devices: "Dispositivos",
       queue: "Cola"
     },
     update: {

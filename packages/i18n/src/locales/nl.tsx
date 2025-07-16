@@ -29,7 +29,6 @@ export const dutch: Language = {
       disableRepeat: "Herhalen uitschakelen",
       mute: "Dempen",
       unmute: "Dempen uit",
-      devices: "Apparaten",
       queue: "Wachtrij"
     },
     update: {

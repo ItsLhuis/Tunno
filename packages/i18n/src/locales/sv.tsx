@@ -29,7 +29,6 @@ export const swedish: Language = {
       disableRepeat: "Inaktivera upprepning",
       mute: "Tyst",
       unmute: "Ljud på",
-      devices: "Enheter",
       queue: "Kö"
     },
     update: {

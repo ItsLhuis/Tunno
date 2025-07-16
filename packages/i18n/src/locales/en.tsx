@@ -29,7 +29,6 @@ export const english: Language = {
       disableRepeat: "Disable Repeat",
       mute: "Mute",
       unmute: "Unmute",
-      devices: "Devices",
       queue: "Queue"
     },
     update: {

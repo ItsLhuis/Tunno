@@ -29,7 +29,6 @@ export const italian: Language = {
       disableRepeat: "Disattiva ripetizione",
       mute: "Disattiva audio",
       unmute: "Attiva audio",
-      devices: "Dispositivi",
       queue: "Coda"
     },
     update: {

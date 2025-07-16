@@ -13,7 +13,6 @@ export function PlaybackOptions() {
     >
       <IconButton name="Heart" color="primary" isFilled />
       <IconButton name="Shuffle" />
-      <IconButton name="MonitorSpeaker" color="primary" />
       <IconButton name="Repeat" />
       <IconButton name="ListMusic" />
     </View>

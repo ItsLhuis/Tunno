@@ -29,7 +29,6 @@ export const japanese: Language = {
       disableRepeat: "リピートを無効化",
       mute: "ミュート",
       unmute: "ミュート解除",
-      devices: "デバイス",
       queue: "キュー"
     },
     update: {

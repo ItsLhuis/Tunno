@@ -29,7 +29,6 @@ export const chinese: Language = {
       disableRepeat: "禁用重复",
       mute: "静音",
       unmute: "取消静音",
-      devices: "设备",
       queue: "队列"
     },
     update: {

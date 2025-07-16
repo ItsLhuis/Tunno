@@ -11,11 +11,6 @@ const PlaybackOptions = () => {
     <div className="flex items-center justify-end gap-2 truncate">
       <PlaybackVolumeControl />
       <IconButton
-        name="MonitorSpeaker"
-        tooltip={{ children: t("common.devices"), side: "top" }}
-        variant="ghost"
-      />
-      <IconButton
         name="ListMusic"
         tooltip={{ children: t("common.queue"), side: "top" }}
         variant="ghost"
@@ -25,4 +20,3 @@ const PlaybackOptions = () => {
 }
 
 export { PlaybackOptions }
-

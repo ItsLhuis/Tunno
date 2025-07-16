@@ -29,7 +29,6 @@ export const french: Language = {
       disableRepeat: "Désactiver la répétition",
       mute: "Muet",
       unmute: "Activer le son",
-      devices: "Appareils",
       queue: "File d'attente"
     },
     update: {
