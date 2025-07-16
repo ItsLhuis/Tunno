@@ -4,7 +4,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { debounce } from "lodash"
 
-import { formatRelativeDate } from "@utils/format"
+import { formatRelativeDate } from "@repo/utils"
 
 import { ColumnDef, Table } from "@tanstack/react-table"
 

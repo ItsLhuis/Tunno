@@ -1,0 +1,21 @@
+{
+  "name": "@repo/utils",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch --preserveWatchOutput",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "@repo/i18n": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
