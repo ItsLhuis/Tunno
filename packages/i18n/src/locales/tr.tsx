@@ -29,7 +29,38 @@ export const turkish: Language = {
       disableRepeat: "Tekrarı devre dışı bırak",
       mute: "Sessize al",
       unmute: "Sesi aç",
-      queue: "Kuyruk"
+      queue: "Kuyruk",
+      title: "Başlık",
+      album: "Albüm",
+      date: "Tarih",
+      duration: "Süre",
+      search: "Ara",
+    },
+    validation: {
+      name: {
+        required: "İsim gereklidir",
+        max: "İsim en fazla 200 karakter olabilir"
+      },
+      file: {
+        required: "Dosya gereklidir",
+        max: "Dosya en fazla 50 karakter olabilir"
+      },
+      thumbnail: {
+        max: "Küçük resim en fazla 50 karakter olabilir"
+      },
+      duration: {
+        required: "Süre gereklidir",
+        min: "Süre en az 0 olmalıdır"
+      },
+      releaseYear: {
+        invalid: "Geçersiz çıkış yılı",
+        min: "Çıkış yılı en az 0 olmalıdır",
+        max: "Çıkış yılı gelecekte olamaz"
+      },
+      albumId: {
+        invalid: "Geçersiz albüm",
+        requiredIfNotSingle: "Tekli değilse albüm gereklidir"
+      }
     },
     update: {
       downloading: "Güncelleme indiriliyor ve kuruluyor",

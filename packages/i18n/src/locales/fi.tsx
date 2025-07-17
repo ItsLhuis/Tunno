@@ -29,7 +29,38 @@ export const finnish: Language = {
       disableRepeat: "Poista toisto käytöstä",
       mute: "Mykistä",
       unmute: "Poista mykistys",
-      queue: "Jonossa"
+      queue: "Jonossa",
+      title: "Otsikko",
+      album: "Albumi",
+      date: "Päivämäärä",
+      duration: "Kesto",
+      search: "Haku"
+    },
+    validation: {
+      name: {
+        required: "Nimi on pakollinen",
+        max: "Nimen enimmäispituus on 200 merkkiä"
+      },
+      file: {
+        required: "Tiedosto on pakollinen",
+        max: "Tiedoston enimmäispituus on 50 merkkiä"
+      },
+      thumbnail: {
+        max: "Pikkukuvan enimmäispituus on 50 merkkiä"
+      },
+      duration: {
+        required: "Kesto on pakollinen",
+        min: "Keston on oltava vähintään 0"
+      },
+      releaseYear: {
+        invalid: "Virheellinen julkaisuvuosi",
+        min: "Julkaisuvuoden on oltava vähintään 0",
+        max: "Julkaisuvuosi ei voi olla tulevaisuudessa"
+      },
+      albumId: {
+        invalid: "Virheellinen albumi",
+        requiredIfNotSingle: "Albumi on pakollinen, jos ei ole single"
+      }
     },
     update: {
       downloading: "Ladataan ja asennetaan päivitys",

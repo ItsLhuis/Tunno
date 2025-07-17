@@ -29,7 +29,38 @@ export const polish: Language = {
       disableRepeat: "Wyłącz powtarzanie",
       mute: "Wycisz",
       unmute: "Wyłącz wyciszenie",
-      queue: "Kolejka"
+      queue: "Kolejka",
+      title: "Tytuł",
+      album: "Album",
+      date: "Data",
+      duration: "Czas trwania",
+      search: "Szukaj"
+    },
+    validation: {
+      name: {
+        required: "Nazwa jest wymagana",
+        max: "Nazwa może mieć maksymalnie 200 znaków"
+      },
+      file: {
+        required: "Plik jest wymagany",
+        max: "Plik może mieć maksymalnie 50 znaków"
+      },
+      thumbnail: {
+        max: "Miniatura może mieć maksymalnie 50 znaków"
+      },
+      duration: {
+        required: "Czas trwania jest wymagany",
+        min: "Czas trwania musi wynosić co najmniej 0"
+      },
+      releaseYear: {
+        invalid: "Nieprawidłowy rok wydania",
+        min: "Rok wydania musi wynosić co najmniej 0",
+        max: "Rok wydania nie może być w przyszłości"
+      },
+      albumId: {
+        invalid: "Nieprawidłowy album",
+        requiredIfNotSingle: "Album jest wymagany, jeśli to nie jest singiel"
+      }
     },
     update: {
       downloading: "Pobieranie i instalowanie aktualizacji",

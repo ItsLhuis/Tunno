@@ -29,7 +29,38 @@ export const portuguese: Language = {
       disableRepeat: "Desativar repetição",
       mute: "Silenciar",
       unmute: "Ativar som",
-      queue: "Fila"
+      queue: "Fila",
+      title: "Título",
+      album: "Álbum",
+      date: "Data",
+      duration: "Duração",
+      search: "Pesquisar"
+    },
+    validation: {
+      name: {
+        required: "O nome é obrigatório",
+        max: "O nome deve ter no máximo 200 caracteres"
+      },
+      file: {
+        required: "O arquivo é obrigatório",
+        max: "O arquivo deve ter no máximo 50 caracteres"
+      },
+      thumbnail: {
+        max: "A miniatura deve ter no máximo 50 caracteres"
+      },
+      duration: {
+        required: "A duração é obrigatória",
+        min: "A duração deve ser pelo menos 0"
+      },
+      releaseYear: {
+        invalid: "Ano de lançamento inválido",
+        min: "O ano de lançamento deve ser pelo menos 0",
+        max: "O ano de lançamento não pode ser no futuro"
+      },
+      albumId: {
+        invalid: "Álbum inválido",
+        requiredIfNotSingle: "O álbum é obrigatório se não for single"
+      }
     },
     update: {
       downloading: "A transferir e instalar atualização",

@@ -29,7 +29,38 @@ export const italian: Language = {
       disableRepeat: "Disattiva ripetizione",
       mute: "Disattiva audio",
       unmute: "Attiva audio",
-      queue: "Coda"
+      queue: "Coda",
+      title: "Titolo",
+      album: "Album",
+      date: "Data",
+      duration: "Durata",
+      search: "Cerca"
+    },
+    validation: {
+      name: {
+        required: "Il nome è obbligatorio",
+        max: "Il nome deve contenere al massimo 200 caratteri"
+      },
+      file: {
+        required: "Il file è obbligatorio",
+        max: "Il file deve contenere al massimo 50 caratteri"
+      },
+      thumbnail: {
+        max: "La miniatura deve contenere al massimo 50 caratteri"
+      },
+      duration: {
+        required: "La durata è obbligatoria",
+        min: "La durata deve essere almeno 0"
+      },
+      releaseYear: {
+        invalid: "Anno di rilascio non valido",
+        min: "L'anno di rilascio deve essere almeno 0",
+        max: "L'anno di rilascio non può essere nel futuro"
+      },
+      albumId: {
+        invalid: "Album non valido",
+        requiredIfNotSingle: "L'album è obbligatorio se non è un singolo"
+      }
     },
     update: {
       downloading: "Scaricamento e installazione dell'aggiornamento",

@@ -29,7 +29,38 @@ export const swedish: Language = {
       disableRepeat: "Inaktivera upprepning",
       mute: "Tyst",
       unmute: "Ljud på",
-      queue: "Kö"
+      queue: "Kö",
+      title: "Titel",
+      album: "Album",
+      date: "Datum",
+      duration: "Varaktighet",
+      search: "Sök"
+    },
+    validation: {
+      name: {
+        required: "Namn är obligatoriskt",
+        max: "Namnet får vara högst 200 tecken"
+      },
+      file: {
+        required: "Fil är obligatorisk",
+        max: "Filen får vara högst 50 tecken"
+      },
+      thumbnail: {
+        max: "Miniatyrbilden får vara högst 50 tecken"
+      },
+      duration: {
+        required: "Varaktighet är obligatorisk",
+        min: "Varaktigheten måste vara minst 0"
+      },
+      releaseYear: {
+        invalid: "Ogiltigt utgivningsår",
+        min: "Utgivningsåret måste vara minst 0",
+        max: "Utgivningsåret kan inte vara i framtiden"
+      },
+      albumId: {
+        invalid: "Ogiltigt album",
+        requiredIfNotSingle: "Album krävs om det inte är en singel"
+      }
     },
     update: {
       downloading: "Laddar ner och installerar uppdatering",

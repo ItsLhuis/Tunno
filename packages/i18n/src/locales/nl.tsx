@@ -29,7 +29,38 @@ export const dutch: Language = {
       disableRepeat: "Herhalen uitschakelen",
       mute: "Dempen",
       unmute: "Dempen uit",
-      queue: "Wachtrij"
+      queue: "Wachtrij",
+      title: "Titel",
+      album: "Album",
+      date: "Datum",
+      duration: "Duur",
+      search: "Zoeken"
+    },
+    validation: {
+      name: {
+        required: "Naam is verplicht",
+        max: "Naam mag maximaal 200 tekens bevatten"
+      },
+      file: {
+        required: "Bestand is verplicht",
+        max: "Bestand mag maximaal 50 tekens bevatten"
+      },
+      thumbnail: {
+        max: "Thumbnail mag maximaal 50 tekens bevatten"
+      },
+      duration: {
+        required: "Duur is verplicht",
+        min: "Duur moet minimaal 0 zijn"
+      },
+      releaseYear: {
+        invalid: "Ongeldig uitgavejaar",
+        min: "Uitgavejaar moet minimaal 0 zijn",
+        max: "Uitgavejaar mag niet in de toekomst liggen"
+      },
+      albumId: {
+        invalid: "Ongeldig album",
+        requiredIfNotSingle: "Album is verplicht als het geen single is"
+      }
     },
     update: {
       downloading: "Update downloaden en installeren",

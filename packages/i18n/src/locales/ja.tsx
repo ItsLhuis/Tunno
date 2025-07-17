@@ -29,7 +29,38 @@ export const japanese: Language = {
       disableRepeat: "リピートを無効化",
       mute: "ミュート",
       unmute: "ミュート解除",
-      queue: "キュー"
+      queue: "キュー",
+      title: "タイトル",
+      album: "アルバム",
+      date: "日付",
+      duration: "再生時間",
+      search: "検索"
+    },
+    validation: {
+      name: {
+        required: "名前は必須です",
+        max: "名前は最大200文字までです"
+      },
+      file: {
+        required: "ファイルは必須です",
+        max: "ファイルは最大50文字までです"
+      },
+      thumbnail: {
+        max: "サムネイルは最大50文字までです"
+      },
+      duration: {
+        required: "再生時間は必須です",
+        min: "再生時間は0以上でなければなりません"
+      },
+      releaseYear: {
+        invalid: "無効なリリース年です",
+        min: "リリース年は0以上でなければなりません",
+        max: "リリース年は未来にできません"
+      },
+      albumId: {
+        invalid: "無効なアルバムです",
+        requiredIfNotSingle: "シングルでない場合はアルバムが必須です"
+      }
     },
     update: {
       downloading: "アップデートをダウンロード・インストール中",

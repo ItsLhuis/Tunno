@@ -29,7 +29,38 @@ export const french: Language = {
       disableRepeat: "Désactiver la répétition",
       mute: "Muet",
       unmute: "Activer le son",
-      queue: "File d'attente"
+      queue: "File d'attente",
+      title: "Titre",
+      album: "Album",
+      date: "Date",
+      duration: "Durée",
+      search: "Rechercher"
+    },
+    validation: {
+      name: {
+        required: "Le nom est requis",
+        max: "Le nom doit comporter au maximum 200 caractères"
+      },
+      file: {
+        required: "Le fichier est requis",
+        max: "Le fichier doit comporter au maximum 50 caractères"
+      },
+      thumbnail: {
+        max: "La miniature doit comporter au maximum 50 caractères"
+      },
+      duration: {
+        required: "La durée est requise",
+        min: "La durée doit être au moins 0"
+      },
+      releaseYear: {
+        invalid: "Année de sortie invalide",
+        min: "L'année de sortie doit être au moins 0",
+        max: "L'année de sortie ne peut pas être dans le futur"
+      },
+      albumId: {
+        invalid: "Album invalide",
+        requiredIfNotSingle: "L'album est requis si ce n'est pas un single"
+      }
     },
     update: {
       downloading: "Téléchargement et installation de la mise à jour",

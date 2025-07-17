@@ -33,6 +33,37 @@ export type Translations = {
     mute: string
     unmute: string
     queue: string
+    title: string
+    album: string
+    date: string
+    duration: string
+    search: string
+  }
+  validation: {
+    name: {
+      required: string
+      max: string
+    }
+    file: {
+      required: string
+      max: string
+    }
+    thumbnail: {
+      max: string
+    }
+    duration: {
+      required: string
+      min: string
+    }
+    releaseYear: {
+      invalid: string
+      min: string
+      max: string
+    }
+    albumId: {
+      invalid: string
+      requiredIfNotSingle: string
+    }
   }
   update: {
     downloading: string

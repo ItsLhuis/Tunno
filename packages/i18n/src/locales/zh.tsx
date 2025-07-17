@@ -29,7 +29,38 @@ export const chinese: Language = {
       disableRepeat: "禁用重复",
       mute: "静音",
       unmute: "取消静音",
-      queue: "队列"
+      queue: "队列",
+      title: "标题",
+      album: "专辑",
+      date: "日期",
+      duration: "时长",
+      search: "搜索"
+    },
+    validation: {
+      name: {
+        required: "名称为必填项",
+        max: "名称最多为200个字符"
+      },
+      file: {
+        required: "文件为必填项",
+        max: "文件最多为50个字符"
+      },
+      thumbnail: {
+        max: "缩略图最多为50个字符"
+      },
+      duration: {
+        required: "时长为必填项",
+        min: "时长必须至少为0"
+      },
+      releaseYear: {
+        invalid: "无效的发行年份",
+        min: "发行年份必须至少为0",
+        max: "发行年份不能是未来"
+      },
+      albumId: {
+        invalid: "无效的专辑",
+        requiredIfNotSingle: "如果不是单曲则专辑为必填项"
+      }
     },
     update: {
       downloading: "正在下载并安装更新",

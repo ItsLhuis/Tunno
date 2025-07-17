@@ -29,7 +29,38 @@ export const korean: Language = {
       disableRepeat: "반복 비활성화",
       mute: "음소거",
       unmute: "음소거 해제",
-      queue: "대기열"
+      queue: "대기열",
+      title: "제목",
+      album: "앨범",
+      date: "날짜",
+      duration: "재생 시간",
+      search: "검색",
+    },
+    validation: {
+      name: {
+        required: "이름은 필수입니다",
+        max: "이름은 최대 200자까지 가능합니다"
+      },
+      file: {
+        required: "파일은 필수입니다",
+        max: "파일은 최대 50자까지 가능합니다"
+      },
+      thumbnail: {
+        max: "썸네일은 최대 50자까지 가능합니다"
+      },
+      duration: {
+        required: "재생 시간은 필수입니다",
+        min: "재생 시간은 최소 0이어야 합니다"
+      },
+      releaseYear: {
+        invalid: "잘못된 출시 연도입니다",
+        min: "출시 연도는 최소 0이어야 합니다",
+        max: "출시 연도는 미래일 수 없습니다"
+      },
+      albumId: {
+        invalid: "잘못된 앨범입니다",
+        requiredIfNotSingle: "싱글이 아니면 앨범이 필요합니다"
+      }
     },
     update: {
       downloading: "업데이트 다운로드 및 설치 중",

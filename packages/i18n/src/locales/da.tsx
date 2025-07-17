@@ -29,7 +29,38 @@ export const danish: Language = {
       disableRepeat: "Deaktivér gentagelse",
       mute: "Slå lyd fra",
       unmute: "Slå lyd til",
-      queue: "Kø"
+      queue: "Kø",
+      title: "Titel",
+      album: "Album",
+      date: "Dato",
+      duration: "Varighed",
+      search: "Søg"
+    },
+    validation: {
+      name: {
+        required: "Navn er påkrævet",
+        max: "Navnet må højst være 200 tegn"
+      },
+      file: {
+        required: "Fil er påkrævet",
+        max: "Filen må højst være 50 tegn"
+      },
+      thumbnail: {
+        max: "Miniaturebilledet må højst være 50 tegn"
+      },
+      duration: {
+        required: "Varighed er påkrævet",
+        min: "Varigheden skal være mindst 0"
+      },
+      releaseYear: {
+        invalid: "Ugyldigt udgivelsesår",
+        min: "Udgivelsesåret skal være mindst 0",
+        max: "Udgivelsesåret kan ikke være i fremtiden"
+      },
+      albumId: {
+        invalid: "Ugyldigt album",
+        requiredIfNotSingle: "Album er påkrævet, hvis det ikke er en single"
+      }
     },
     update: {
       downloading: "Downloader og installerer opdatering",

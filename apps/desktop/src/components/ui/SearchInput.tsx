@@ -1,5 +1,7 @@
 import { forwardRef, useState, type ComponentProps, type FocusEvent, type ReactNode } from "react"
 
+import { useTranslation } from "@repo/i18n"
+
 import { cn } from "@lib/utils"
 
 import { Button } from "@components/ui/Button"
@@ -13,7 +15,12 @@ type SearchInputProps = ComponentProps<"input"> & {
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ containerClassName, renderRight, type, className, onFocus, onBlur, ...props }, ref) => {
+  (
+    { placeholder, containerClassName, renderRight, type, className, onFocus, onBlur, ...props },
+    ref
+  ) => {
+    const { t } = useTranslation()
+
     const [isFocused, setIsFocused] = useState(false)
 
     const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
@@ -42,6 +49,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             ref={ref}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            placeholder={placeholder ?? t("common.search")}
             {...props}
             className="h-9 w-full border-none bg-transparent outline-none selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
             autoComplete="off"

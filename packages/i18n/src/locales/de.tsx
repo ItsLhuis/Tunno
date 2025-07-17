@@ -29,7 +29,38 @@ export const german: Language = {
       disableRepeat: "Wiederholen deaktivieren",
       mute: "Stummschalten",
       unmute: "Ton einschalten",
-      queue: "Warteschlange"
+      queue: "Warteschlange",
+      title: "Titel",
+      album: "Album",
+      date: "Datum",
+      duration: "Dauer",
+      search: "Suchen"
+    },
+    validation: {
+      name: {
+        required: "Name ist erforderlich",
+        max: "Der Name darf höchstens 200 Zeichen lang sein"
+      },
+      file: {
+        required: "Datei ist erforderlich",
+        max: "Die Datei darf höchstens 50 Zeichen lang sein"
+      },
+      thumbnail: {
+        max: "Das Vorschaubild darf höchstens 50 Zeichen lang sein"
+      },
+      duration: {
+        required: "Dauer ist erforderlich",
+        min: "Die Dauer muss mindestens 0 sein"
+      },
+      releaseYear: {
+        invalid: "Ungültiges Erscheinungsjahr",
+        min: "Das Erscheinungsjahr muss mindestens 0 sein",
+        max: "Das Erscheinungsjahr darf nicht in der Zukunft liegen"
+      },
+      albumId: {
+        invalid: "Ungültiges Album",
+        requiredIfNotSingle: "Das Album ist erforderlich, wenn es sich nicht um eine Single handelt"
+      }
     },
     update: {
       downloading: "Update wird heruntergeladen und installiert",

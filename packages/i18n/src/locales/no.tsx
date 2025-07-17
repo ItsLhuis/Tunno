@@ -29,7 +29,38 @@ export const norwegian: Language = {
       disableRepeat: "Deaktiver gjenta",
       mute: "Demp",
       unmute: "Slå på lyd",
-      queue: "Kø"
+      queue: "Kø",
+      title: "Tittel",
+      album: "Album",
+      date: "Dato",
+      duration: "Varighet",
+      search: "Søk"
+    },
+    validation: {
+      name: {
+        required: "Navn er påkrevd",
+        max: "Navnet kan være maksimalt 200 tegn"
+      },
+      file: {
+        required: "Fil er påkrevd",
+        max: "Filen kan være maksimalt 50 tegn"
+      },
+      thumbnail: {
+        max: "Miniatyrbildet kan være maksimalt 50 tegn"
+      },
+      duration: {
+        required: "Varighet er påkrevd",
+        min: "Varigheten må være minst 0"
+      },
+      releaseYear: {
+        invalid: "Ugyldig utgivelsesår",
+        min: "Utgivelsesåret må være minst 0",
+        max: "Utgivelsesåret kan ikke være i fremtiden"
+      },
+      albumId: {
+        invalid: "Ugyldig album",
+        requiredIfNotSingle: "Album er påkrevd hvis det ikke er en single"
+      }
     },
     update: {
       downloading: "Laster ned og installerer oppdatering",

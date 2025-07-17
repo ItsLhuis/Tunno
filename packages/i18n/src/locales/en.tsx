@@ -29,7 +29,38 @@ export const english: Language = {
       disableRepeat: "Disable Repeat",
       mute: "Mute",
       unmute: "Unmute",
-      queue: "Queue"
+      queue: "Queue",
+      title: "Title",
+      album: "Album",
+      date: "Date",
+      duration: "Duration",
+      search: "Search"
+    },
+    validation: {
+      name: {
+        required: "Name is required",
+        max: "Name must be at most 200 characters"
+      },
+      file: {
+        required: "File is required",
+        max: "File must be at most 50 characters"
+      },
+      thumbnail: {
+        max: "Thumbnail must be at most 50 characters"
+      },
+      duration: {
+        required: "Duration is required",
+        min: "Duration must be at least 0"
+      },
+      releaseYear: {
+        invalid: "Invalid release year",
+        min: "Release year must be at least 0",
+        max: "Release year cannot be in the future"
+      },
+      albumId: {
+        invalid: "Invalid album",
+        requiredIfNotSingle: "Album is required if not a single"
+      }
     },
     update: {
       downloading: "Downloading and installing update",

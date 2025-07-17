@@ -29,7 +29,38 @@ export const hindi: Language = {
       disableRepeat: "दोहराना अक्षम करें",
       mute: "म्यूट",
       unmute: "म्यूट हटाएं",
-      queue: "कतार"
+      queue: "कतार",
+      title: "शीर्षक",
+      album: "एल्बम",
+      date: "तारीख",
+      duration: "अवधि",
+      search: "खोजें",
+    },
+    validation: {
+      name: {
+        required: "नाम आवश्यक है",
+        max: "नाम अधिकतम 200 अक्षरों का हो सकता है"
+      },
+      file: {
+        required: "फ़ाइल आवश्यक है",
+        max: "फ़ाइल अधिकतम 50 अक्षरों की हो सकती है"
+      },
+      thumbnail: {
+        max: "थंबनेल अधिकतम 50 अक्षरों की हो सकती है"
+      },
+      duration: {
+        required: "अवधि आवश्यक है",
+        min: "अवधि कम से कम 0 होनी चाहिए"
+      },
+      releaseYear: {
+        invalid: "अमान्य रिलीज़ वर्ष",
+        min: "रिलीज़ वर्ष कम से कम 0 होना चाहिए",
+        max: "रिलीज़ वर्ष भविष्य में नहीं हो सकता"
+      },
+      albumId: {
+        invalid: "अमान्य एल्बम",
+        requiredIfNotSingle: "यदि यह सिंगल नहीं है तो एल्बम आवश्यक है"
+      }
     },
     update: {
       downloading: "अपडेट डाउनलोड और इंस्टॉल हो रहा है",

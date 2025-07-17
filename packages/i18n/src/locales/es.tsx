@@ -29,7 +29,38 @@ export const spanish: Language = {
       disableRepeat: "Desactivar repetición",
       mute: "Silenciar",
       unmute: "Activar sonido",
-      queue: "Cola"
+      queue: "Cola",
+      title: "Título",
+      album: "Álbum",
+      date: "Fecha",
+      duration: "Duración",
+      search: "Buscar"
+    },
+    validation: {
+      name: {
+        required: "El nombre es obligatorio",
+        max: "El nombre debe tener como máximo 200 caracteres"
+      },
+      file: {
+        required: "El archivo es obligatorio",
+        max: "El archivo debe tener como máximo 50 caracteres"
+      },
+      thumbnail: {
+        max: "La miniatura debe tener como máximo 50 caracteres"
+      },
+      duration: {
+        required: "La duración es obligatoria",
+        min: "La duración debe ser al menos 0"
+      },
+      releaseYear: {
+        invalid: "Año de lanzamiento inválido",
+        min: "El año de lanzamiento debe ser al menos 0",
+        max: "El año de lanzamiento no puede estar en el futuro"
+      },
+      albumId: {
+        invalid: "Álbum inválido",
+        requiredIfNotSingle: "El álbum es obligatorio si no es single"
+      }
     },
     update: {
       downloading: "Descargando e instalando actualización",

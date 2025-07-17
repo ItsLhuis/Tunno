@@ -1,15 +1,16 @@
 import { relations, sql } from "drizzle-orm"
-import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
+import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core"
 
 export const songs = sqliteTable(
   "songs",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").notNull(),
-    thumbnail: text("thumbnail"),
-    fileName: text("file_name").notNull().unique(),
+    name: text("name", { length: 200 }).notNull(),
+    thumbnail: text("thumbnail", { length: 50 }),
+    fileName: text("file_name", { length: 50 }).notNull().unique(),
     duration: integer("duration").notNull(),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
+    isSingle: integer("is_single", { mode: "boolean" }).notNull().default(false),
     releaseYear: integer("release_year"),
     albumId: integer("album_id").references(() => albums.id, { onDelete: "set null" }),
     playCount: integer("play_count").notNull().default(0),
@@ -27,7 +28,10 @@ export const songs = sqliteTable(
     index("songs_favorite_idx").on(table.isFavorite),
     index("songs_playcount_idx").on(table.playCount),
     index("songs_last_played_idx").on(table.lastPlayedAt),
-    index("songs_album_year_idx").on(table.albumId, table.releaseYear)
+    index("songs_album_year_idx").on(table.albumId, table.releaseYear),
+    index("songs_favorite_playcount_idx").on(table.isFavorite, table.playCount),
+    index("songs_filename_idx").on(table.fileName),
+    index("songs_single_idx").on(table.isSingle)
   ]
 )
 
@@ -35,8 +39,8 @@ export const artists = sqliteTable(
   "artists",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").unique().notNull(),
-    thumbnail: text("thumbnail"),
+    name: text("name", { length: 100 }).unique().notNull(),
+    thumbnail: text("thumbnail", { length: 50 }),
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
@@ -50,7 +54,8 @@ export const artists = sqliteTable(
   (table) => [
     index("artists_name_idx").on(table.name),
     index("artists_favorite_idx").on(table.isFavorite),
-    index("artists_playcount_idx").on(table.playCount)
+    index("artists_playcount_idx").on(table.playCount),
+    index("artists_favorite_playcount_idx").on(table.isFavorite, table.playCount)
   ]
 )
 
@@ -58,11 +63,11 @@ export const albums = sqliteTable(
   "albums",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").notNull(),
+    name: text("name", { length: 150 }).notNull(),
     artistId: integer("artist_id")
       .notNull()
       .references(() => artists.id, { onDelete: "cascade" }),
-    thumbnail: text("thumbnail"),
+    thumbnail: text("thumbnail", { length: 50 }),
     releaseYear: integer("release_year"),
     playCount: integer("play_count").notNull().default(0),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
@@ -78,7 +83,9 @@ export const albums = sqliteTable(
     index("albums_artist_idx").on(table.artistId),
     index("albums_release_year_idx").on(table.releaseYear),
     index("albums_favorite_idx").on(table.isFavorite),
-    index("albums_playcount_idx").on(table.playCount)
+    index("albums_playcount_idx").on(table.playCount),
+    index("albums_artist_year_idx").on(table.artistId, table.releaseYear),
+    uniqueIndex("albums_artist_name_unique_idx").on(table.artistId, table.name)
   ]
 )
 
@@ -86,9 +93,8 @@ export const playlists = sqliteTable(
   "playlists",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    name: text("name").notNull(),
-    thumbnail: text("thumbnail"),
-    description: text("description"),
+    name: text("name", { length: 100 }).notNull(),
+    thumbnail: text("thumbnail", { length: 50 }),
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
@@ -102,7 +108,8 @@ export const playlists = sqliteTable(
   (table) => [
     index("playlists_name_idx").on(table.name),
     index("playlists_favorite_idx").on(table.isFavorite),
-    index("playlists_playcount_idx").on(table.playCount)
+    index("playlists_playcount_idx").on(table.playCount),
+    index("playlists_last_played_idx").on(table.lastPlayedAt)
   ]
 )
 
@@ -118,13 +125,14 @@ export const playHistory = sqliteTable(
       .default(sql`(unixepoch())`),
     playDuration: integer("play_duration"),
     wasSkipped: integer("was_skipped", { mode: "boolean" }).notNull().default(false),
-    playSource: text("play_source")
+    playSource: text("play_source", { length: 30 })
   },
   (table) => [
     index("play_history_song_idx").on(table.songId),
     index("play_history_played_at_idx").on(table.playedAt),
     index("play_history_source_idx").on(table.playSource),
-    index("play_history_song_date_idx").on(table.songId, table.playedAt)
+    index("play_history_song_date_idx").on(table.songId, table.playedAt),
+    index("play_history_skipped_idx").on(table.wasSkipped, table.playedAt)
   ]
 )
 
@@ -165,6 +173,27 @@ export const playlistsToSongs = sqliteTable(
   ]
 )
 
+export const songStats = sqliteTable(
+  "song_stats",
+  {
+    songId: integer("song_id")
+      .notNull()
+      .references(() => songs.id, { onDelete: "cascade" })
+      .primaryKey(),
+    totalPlayTime: integer("total_play_time").notNull().default(0),
+    averagePlayDuration: integer("average_play_duration").notNull().default(0),
+    skipRate: integer("skip_rate").notNull().default(0),
+    lastCalculatedAt: integer("last_calculated_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`)
+  },
+  (table) => [
+    index("song_stats_total_play_time_idx").on(table.totalPlayTime),
+    index("song_stats_skip_rate_idx").on(table.skipRate),
+    index("song_stats_last_calculated_idx").on(table.lastCalculatedAt)
+  ]
+)
+
 export const songsRelations = relations(songs, ({ one, many }) => ({
   album: one(albums, {
     fields: [songs.albumId],
@@ -172,7 +201,11 @@ export const songsRelations = relations(songs, ({ one, many }) => ({
   }),
   artists: many(songsToArtists),
   playlists: many(playlistsToSongs),
-  playHistory: many(playHistory)
+  playHistory: many(playHistory),
+  stats: one(songStats, {
+    fields: [songs.id],
+    references: [songStats.songId]
+  })
 }))
 
 export const artistsRelations = relations(artists, ({ many }) => ({
@@ -217,6 +250,13 @@ export const playlistsToSongsRelations = relations(playlistsToSongs, ({ one }) =
   }),
   song: one(songs, {
     fields: [playlistsToSongs.songId],
+    references: [songs.id]
+  })
+}))
+
+export const songStatsRelations = relations(songStats, ({ one }) => ({
+  song: one(songs, {
+    fields: [songStats.songId],
     references: [songs.id]
   })
 }))

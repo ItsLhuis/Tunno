@@ -29,7 +29,38 @@ export const vietnamese: Language = {
       disableRepeat: "Tắt lặp lại",
       mute: "Tắt tiếng",
       unmute: "Bật tiếng",
-      queue: "Hàng đợi"
+      queue: "Hàng đợi",
+      title: "Tiêu đề",
+      album: "Album",
+      date: "Ngày",
+      duration: "Thời lượng",
+      search: "Tìm kiếm"
+    },
+    validation: {
+      name: {
+        required: "Tên là bắt buộc",
+        max: "Tên tối đa 200 ký tự"
+      },
+      file: {
+        required: "Tệp là bắt buộc",
+        max: "Tệp tối đa 50 ký tự"
+      },
+      thumbnail: {
+        max: "Ảnh thu nhỏ tối đa 50 ký tự"
+      },
+      duration: {
+        required: "Thời lượng là bắt buộc",
+        min: "Thời lượng phải ít nhất là 0"
+      },
+      releaseYear: {
+        invalid: "Năm phát hành không hợp lệ",
+        min: "Năm phát hành phải ít nhất là 0",
+        max: "Năm phát hành không thể ở tương lai"
+      },
+      albumId: {
+        invalid: "Album không hợp lệ",
+        requiredIfNotSingle: "Album là bắt buộc nếu không phải single"
+      }
     },
     update: {
       downloading: "Đang tải xuống và cài đặt cập nhật",
