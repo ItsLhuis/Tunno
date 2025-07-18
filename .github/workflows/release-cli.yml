@@ -32,7 +32,7 @@ jobs:
 
   release:
     needs: changelog
-    runs-on: ubuntu-latests
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: apps/cli
@@ -46,6 +46,7 @@ jobs:
           TAG="${{ github.ref_name }}"
           VERSION=${TAG#cli/}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+        shell: bash
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
