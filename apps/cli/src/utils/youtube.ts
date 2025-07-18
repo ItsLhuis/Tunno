@@ -19,7 +19,9 @@ import {
 
 import { getTrack } from "./spotify"
 
-import { type Song } from "../shared/types"
+import { getLyrics } from "./lrclib"
+
+import { type Lyrics, type Song } from "../shared/types"
 
 type YoutubeSong = {
   title: string
@@ -132,6 +134,14 @@ export const download = async (
         return
       }
 
+      let lyrics: Lyrics | undefined = undefined
+      lyrics = await getLyrics({
+        title: track.title,
+        artists: track.artists.map((a) => a.name),
+        album: track.album?.name,
+        duration: videoInfo.duration
+      })
+
       videoDir = path.join(downloadPath, sanitize(track.title, { replacement: "" }))
       if (fs.existsSync(videoDir)) fs.rmSync(videoDir, { recursive: true, force: true })
       fs.mkdirSync(videoDir, { recursive: true })
@@ -141,25 +151,27 @@ export const download = async (
         title: track.title,
         thumbnail: "",
         duration: videoInfo.duration,
+        isSingle: track.isSingle,
         artists: [],
         album: track.album,
-        releaseYear: track.releaseYear
+        releaseYear: track.releaseYear,
+        lyrics: lyrics
+          ? { plainLyrics: lyrics.plainLyrics, syncedLyrics: lyrics?.syncedLyrics }
+          : null
       }
 
       const trackThumbnailUUID = uuid() + ".jpg"
       await downloadThumbnail(
-        track.album.isSingle ? track.album.thumbnail : videoInfo.thumbnail,
+        track.isSingle ? track.album.thumbnail : videoInfo.thumbnail,
         path.join(videoDir, trackThumbnailUUID),
         640
       )
       videoMetadata.thumbnail = trackThumbnailUUID
 
       const albumThumbnailUUID = uuid() + ".jpg"
-      if (!track.album.isSingle)
+      if (!track.isSingle)
         await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
-      videoMetadata.album.thumbnail = !track.album.isSingle
-        ? albumThumbnailUUID
-        : trackThumbnailUUID
+      videoMetadata.album.thumbnail = !track.isSingle ? albumThumbnailUUID : trackThumbnailUUID
 
       for (const artist of track.artists) {
         if (artist.thumbnail) {

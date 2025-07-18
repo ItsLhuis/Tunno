@@ -35,12 +35,12 @@ type SpotifyArtist = {
 type SpotifyAlbum = {
   name: string
   thumbnail: string
-  isSingle: boolean
 }
 
 type SpotifyTrack = {
   title: string
   releaseYear: number
+  isSingle: boolean
   album: SpotifyAlbum
   artists: SpotifyArtist[]
 }
@@ -105,11 +105,11 @@ async function buildTrackResult(track: any): Promise<SpotifyTrack | null> {
   const result: SpotifyTrack = {
     title: track.name,
     releaseYear: Number(track.album.release_date.slice(0, 4)),
+    isSingle: track.album.album_type === "single",
     album: {
       name: track.album.name || "Unknown",
       thumbnail:
-        track.album.images && track.album.images.length > 0 ? track.album.images[0].url : undefined,
-      isSingle: track.album.album_type === "single"
+        track.album.images && track.album.images.length > 0 ? track.album.images[0].url : undefined
     },
     artists: []
   }
@@ -274,7 +274,6 @@ export async function getTrack(
       return null
     }
   } catch (error) {
-    console.error(error)
     return null
   }
 }
