@@ -21,6 +21,7 @@ download, organize, and manage media files efficiently with a set of user-friend
 - **Manual Spotify Search Fields**: Provide optional fields to manually refine the search for
   metadata on Spotify (e.g., title, artist, year).
 - **JSON Metadata**: Generate metadata files with details such as artist, album, track name,...
+- **Lyrics Support**: Retrieve and include song lyrics along with metadata and audio files.
 
 ---
 
