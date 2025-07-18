@@ -1,0 +1,84 @@
+name: Release CLI
+
+on:
+  push:
+    tags:
+      - "cli/v*"
+  workflow_dispatch:
+
+env:
+  APP_NAME: "Tunno CLI"
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/cli
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build changelog
+        id: build_changelog
+        run: |
+          PREV_TAG=$(git tag --list 'cli/v*' --sort=-creatordate | tail -n2 | head -n1)
+          echo "changelog=$(git log $PREV_TAG...${{ github.ref_name }} --pretty=format:\"- %s\")" >> $GITHUB_OUTPUT
+    outputs:
+      changelog: ${{ steps.build_changelog.outputs.changelog }}
+
+  release:
+    needs: changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: apps/cli
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version without prefix
+        id: extract_version
+        run: |
+          TAG="${{ github.ref_name }}"
+          VERSION=${TAG#cli/}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          name: "${{ env.APP_NAME }} ${{ steps.extract_version.outputs.version }}"
+          body: ${{ needs.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/cli
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build package
+        run: yarn build
+
+      - name: Publish to NPM
+        run: yarn publish --non-interactive --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
