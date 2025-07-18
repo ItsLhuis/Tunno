@@ -6,6 +6,9 @@ on:
       - "desktop/v*"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   APP_NAME: "Tunno Desktop"
 
@@ -28,8 +31,6 @@ jobs:
       changelog: ${{ steps.build_changelog.outputs.changelog }}
 
   release:
-    permissions:
-      contents: write
     strategy:
       fail-fast: false
       matrix:

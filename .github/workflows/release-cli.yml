@@ -6,6 +6,9 @@ on:
       - "cli/v*"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   APP_NAME: "Tunno CLI"
 
@@ -29,9 +32,7 @@ jobs:
 
   release:
     needs: changelog
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    runs-on: ubuntu-latests
     defaults:
       run:
         working-directory: apps/cli
