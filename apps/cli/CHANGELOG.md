@@ -2,6 +2,12 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.1.0] - 2025-07-18
+
+### Added
+
+- 🎤 Added lyrics support: the CLI now returns song lyrics along with the other information
+
 ## [1.0.2] - 2025-05-11
 
 ### Changed
