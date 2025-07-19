@@ -2,6 +2,11 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.1.1] - 2025-07-19
+
+### Features
+- Updated the output of `getLyrics` to return `plainLyrics` as an array of `{ text: string }` and `syncedLyrics` as an array of `{ text: string, startTime: number }`. Adjusted the corresponding types in `Lyrics` and `Song` to reflect this new structure.
+
 ## [1.1.0] - 2025-07-18
 
 ### Added
