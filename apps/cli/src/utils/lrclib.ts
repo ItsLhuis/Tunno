@@ -1,4 +1,5 @@
 import axios from "axios"
+
 import chalk from "chalk"
 
 import { cleanTrackName } from "./utils"
@@ -30,12 +31,38 @@ export async function getLyrics({
   const albumVariants = [album || "", ""]
   const durationVariants = [duration?.toString() || "", ""]
 
+  function parsePlainLyrics(plainLyrics: string): { text: string }[] {
+    return plainLyrics
+      .split(/\r?\n/)
+      .filter((line) => line.trim() !== "")
+      .map((line) => ({ text: line }))
+  }
+
+  function parseSyncedLyrics(syncedLyrics: string): { text: string; startTime: number }[] {
+    const lines = syncedLyrics.split(/\r?\n/)
+    const result: { text: string; startTime: number }[] = []
+
+    const lrcRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\]\s*(.*)/
+
+    for (const line of lines) {
+      const match = lrcRegex.exec(line)
+      if (match) {
+        const min = parseInt(match[1], 10)
+        const sec = parseInt(match[2], 10)
+        const ms = match[3].length === 2 ? parseInt(match[3], 10) * 10 : parseInt(match[3], 10)
+
+        const startTime = Math.round(min * 60 + sec + ms / 1000)
+        const text = match[4]
+
+        result.push({ text, startTime })
+      }
+    }
+    return result
+  }
+
   const makeRequest = async (url: string): Promise<any> => {
     try {
       const response = await axios.get(url)
-
-      console.log(url)
-
       return response.data
     } catch {
       return null
@@ -58,7 +85,22 @@ export async function getLyrics({
 
           if (result?.id) {
             console.log("[lrclib]", chalk.green("Lyrics found"))
-            return result
+
+            const formattedPlainLyrics = Array.isArray(result.plainLyrics)
+              ? result.plainLyrics
+              : parsePlainLyrics(result.plainLyrics)
+
+            let formattedSyncedLyrics: { text: string; startTime: number }[] | undefined = undefined
+            if (result.syncedLyrics) {
+              formattedSyncedLyrics = Array.isArray(result.syncedLyrics)
+                ? result.syncedLyrics
+                : parseSyncedLyrics(result.syncedLyrics)
+            }
+            return {
+              ...result,
+              plainLyrics: formattedPlainLyrics,
+              syncedLyrics: formattedSyncedLyrics
+            } as unknown as Lyrics
           }
         }
       }
