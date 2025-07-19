@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "0eb85cea-64c2-4817-99e9-a073fbf4485b",
+  "id": "6b3420b3-b413-40b5-886e-645421aa89a6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "albums": {
@@ -672,6 +672,14 @@
           "autoincrement": false,
           "default": false
         },
+        "is_single": {
+          "name": "is_single",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
         "release_year": {
           "name": "release_year",
           "type": "integer",
@@ -682,6 +690,13 @@
         "album_id": {
           "name": "album_id",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "lyrics": {
+          "name": "lyrics",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -781,6 +796,13 @@
           "name": "songs_filename_idx",
           "columns": [
             "file_name"
+          ],
+          "isUnique": false
+        },
+        "songs_single_idx": {
+          "name": "songs_single_idx",
+          "columns": [
+            "is_single"
           ],
           "isUnique": false
         }

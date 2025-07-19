@@ -94,8 +94,10 @@ CREATE TABLE `songs` (
 	`file_name` text(50) NOT NULL,
 	`duration` integer NOT NULL,
 	`is_favorite` integer DEFAULT false NOT NULL,
+	`is_single` integer DEFAULT false NOT NULL,
 	`release_year` integer,
 	`album_id` integer,
+	`lyrics` text,
 	`play_count` integer DEFAULT 0 NOT NULL,
 	`last_played_at` integer,
 	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
@@ -112,6 +114,7 @@ CREATE INDEX `songs_last_played_idx` ON `songs` (`last_played_at`);--> statement
 CREATE INDEX `songs_album_year_idx` ON `songs` (`album_id`,`release_year`);--> statement-breakpoint
 CREATE INDEX `songs_favorite_playcount_idx` ON `songs` (`is_favorite`,`play_count`);--> statement-breakpoint
 CREATE INDEX `songs_filename_idx` ON `songs` (`file_name`);--> statement-breakpoint
+CREATE INDEX `songs_single_idx` ON `songs` (`is_single`);--> statement-breakpoint
 CREATE TABLE `song_artists` (
 	`song_id` integer NOT NULL,
 	`artist_id` integer NOT NULL,
