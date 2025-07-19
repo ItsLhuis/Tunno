@@ -48,6 +48,8 @@ export const createInsertSongSchema = (t: TFunction) => {
   )
 }
 
+export type InsertSongType = z.infer<ReturnType<typeof createInsertSongSchema>>
+
 export const createUpdateSongSchema = (t: TFunction) => {
   const baseSchema = createUpdateSchema(songs, {
     name: z.string().min(1, t("validation.name.required")).max(200, t("validation.name.max")),
@@ -83,3 +85,5 @@ export const createUpdateSongSchema = (t: TFunction) => {
     }
   )
 }
+
+export type UpdateSongType = z.infer<ReturnType<typeof createUpdateSongSchema>>
