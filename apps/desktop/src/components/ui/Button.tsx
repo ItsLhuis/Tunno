@@ -47,12 +47,17 @@ export interface ButtonProps
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, tooltip, ...props }, ref) => {
+  ({ className, type = "button", variant, size, asChild = false, tooltip, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
 
     const button = (
       // @ts-ignore
-      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        type={type}
+        ref={ref}
+        {...props}
+      />
     )
 
     if (!tooltip) {

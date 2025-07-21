@@ -30,4 +30,3 @@ const TooltipContent = forwardRef<
 ))
 
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger }
-

@@ -24,4 +24,3 @@ const Separator = forwardRef<
 ))
 
 export { Separator }
-

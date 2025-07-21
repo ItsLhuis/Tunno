@@ -1,6 +1,6 @@
 import { type ComponentProps, Fragment, type ReactNode } from "react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@lib/utils"
 
 import { type Key } from "ts-key-enum"
 
