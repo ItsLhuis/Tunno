@@ -32,6 +32,8 @@ export const createInsertSongSchema = (t: TFunction) => {
       .number(t("validation.albumId.invalid"))
       .int(t("validation.albumId.invalid"))
       .optional()
+  }).extend({
+    artists: z.array(z.number()).min(1, t("validation.artists.min"))
   })
 
   return baseSchema.refine(
@@ -70,6 +72,8 @@ export const createUpdateSongSchema = (t: TFunction) => {
       .number(t("validation.albumId.invalid"))
       .int(t("validation.albumId.invalid"))
       .optional()
+  }).extend({
+    artists: z.array(z.number()).min(1, t("validation.artists.min"))
   })
 
   return baseSchema.refine(
