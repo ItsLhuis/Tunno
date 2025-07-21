@@ -10,61 +10,110 @@ export const danish: Language = {
   translations: {
     common: {
       noResultsFound: "Ingen resultater fundet",
-      lessThanAnHourAgo: "Mindre end en time siden",
+      lessThanAnHourAgo: "For mindre end en time siden",
       hoursAgo: "{{count}} time{{count, plural, one {} other{r}}} siden",
       today: "I dag",
       yesterday: "I går",
-      goBack: "Tilbage",
-      goFoward: "Fremad",
+      goBack: "Gå tilbage",
+      goFoward: "Gå fremad",
       favorite: "Favorit",
-      unfavorite: "Fjern fra favoritter",
-      enableShuffle: "Aktivér tilfældig afspilning",
-      disableShuffle: "Deaktivér tilfældig afspilning",
+      unfavorite: "Fjern favorit",
+      enableShuffle: "Aktiver blanding",
+      disableShuffle: "Deaktiver blanding",
       previous: "Forrige",
       play: "Afspil",
       pause: "Pause",
       next: "Næste",
-      enableRepeat: "Aktivér gentagelse",
-      enableRepeatOne: "Gentag én gang",
-      disableRepeat: "Deaktivér gentagelse",
-      mute: "Slå lyd fra",
-      unmute: "Slå lyd til",
+      enableRepeat: "Aktiver gentagelse",
+      enableRepeatOne: "Aktiver gentag en",
+      disableRepeat: "Deaktiver gentagelse",
+      mute: "Slå lyden fra",
+      unmute: "Slå lyden til",
       queue: "Kø",
       title: "Titel",
       album: "Album",
       date: "Dato",
       duration: "Varighed",
-      search: "Søg"
+      search: "Søg",
+      selectAll: "Vælg alle",
+      visibility: "Synlighed",
+      columns: "Kolonner",
+      clear: "Ryd",
+      cancel: "Annuller",
+      more: "Mere"
+    },
+    form: {
+      titles: {
+        createSong: "Opret sang",
+        updateSong: "Opdater sang",
+        deleteSong: "Slet sang",
+        createArtist: "Opret kunstner",
+        updateArtist: "Opdater kunstner",
+        deleteArtist: "Slet kunstner",
+        createPlaylist: "Opret afspilningsliste",
+        updatePlaylist: "Opdater afspilningsliste",
+        deletePlaylist: "Slet afspilningsliste",
+        confirmation: "Bekræftelse",
+        warning: "Advarsel"
+      },
+      labels: {
+        name: "Navn",
+        thumbnail: "Miniaturebillede",
+        file: "Fil",
+        releaseYear: "Udgivelsesår",
+        album: "Album",
+        artists: "Kunstnere",
+        isSingle: "Er single"
+      },
+      buttons: {
+        cancel: "Annuller",
+        delete: "Slet",
+        update: "Opdater",
+        create: "Opret"
+      },
+      descriptions: {
+        thumbnail: "Baggrundsbillede (valgfrit)",
+        dragAndDrop: "Træk og slip filen her",
+        fileSize: "Maksimal størrelse: {{size}}",
+        supportedFormats: "Understøttede formater: {{formats}}"
+      },
+      messages: {
+        confirmDelete: "Er du sikker på, at du vil slette?",
+        unsavedChanges: "Der er ikke-gemte ændringer"
+      }
     },
     validation: {
       name: {
         required: "Navn er påkrævet",
-        max: "Navnet må højst være 200 tegn"
+        max: "Navn må højst være 200 tegn"
       },
       file: {
         required: "Fil er påkrævet",
-        max: "Filen må højst være 50 tegn"
+        max: "Fil må højst være 50 tegn"
       },
       thumbnail: {
-        max: "Miniaturebilledet må højst være 50 tegn"
+        max: "Miniaturebillede må højst være 50 tegn"
       },
       duration: {
         required: "Varighed er påkrævet",
-        min: "Varigheden skal være mindst 0"
+        min: "Varighed skal være mindst 0"
       },
       releaseYear: {
         invalid: "Ugyldigt udgivelsesår",
-        min: "Udgivelsesåret skal være mindst 0",
-        max: "Udgivelsesåret kan ikke være i fremtiden"
+        min: "Udgivelsesår skal være mindst 0",
+        max: "Udgivelsesår kan ikke være i fremtiden"
       },
       albumId: {
         invalid: "Ugyldigt album",
         requiredIfNotSingle: "Album er påkrævet, hvis det ikke er en single"
+      },
+      artists: {
+        min: "Mindst én kunstner er påkrævet"
       }
     },
     update: {
       downloading: "Downloader og installerer opdatering",
-      downloadingDescription: "En ny opdatering er tilgængelig og installeres automatisk",
+      downloadingDescription: "En ny opdatering er tilgængelig og bliver installeret automatisk",
       installedSuccess: "Opdatering installeret med succes",
       failed: "Kunne ikke installere opdatering"
     },
@@ -96,11 +145,13 @@ export const danish: Language = {
           title: "Sprog"
         },
         sync: {
-          title: "Synkronisering"
+          title: "Synkroniser"
         }
       }
     },
-    home: { title: "Hjem" },
+    home: {
+      title: "Hjem"
+    },
     songs: {
       title: "Sange",
       createdTitle: "Sang oprettet med succes",
@@ -115,12 +166,12 @@ export const danish: Language = {
     },
     favorites: {
       title: "Favoritter",
-      addedTitle: "Tilføjet til favoritter",
-      addedDescription: "{{name}} er blevet tilføjet til favoritter",
-      addedFailedTitle: "Kunne ikke tilføje til favoritter",
-      removedTitle: "Fjernet fra favoritter",
-      removedDescription: "{{name}} er blevet fjernet fra favoritter",
-      removedFailedTitle: "Kunne ikke fjerne fra favoritter"
+      createdTitle: "Tilføjet til favoritter",
+      createdDescription: "{{name}} er blevet tilføjet til favoritter",
+      createdFailedTitle: "Kunne ikke tilføje til favoritter",
+      deletedTitle: "Fjernet fra favoritter",
+      deletedDescription: "{{name}} er blevet fjernet fra favoritter",
+      deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
     },
     playlists: {
       title: "Afspilningslister",
@@ -150,7 +201,7 @@ export const danish: Language = {
       title: "Indstillinger",
       appearance: {
         title: "Udseende",
-        description: "Vælg din foretrukne visningstilstand",
+        description: "Vælg din foretrukne udseendetilstand",
         light: "Lys",
         dark: "Mørk",
         system: "System"
@@ -160,8 +211,8 @@ export const danish: Language = {
         description: "Vælg dit foretrukne sprog"
       },
       sync: {
-        title: "Synkronisering",
-        description: "Synkroniser dine data mellem enheder"
+        title: "Synkroniser",
+        description: "Synkroniser dine data på tværs af enheder"
       }
     },
     fastUpload: {

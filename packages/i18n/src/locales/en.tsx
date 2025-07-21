@@ -34,7 +34,53 @@ export const english: Language = {
       album: "Album",
       date: "Date",
       duration: "Duration",
-      search: "Search"
+      search: "Search",
+      selectAll: "Select All",
+      visibility: "Visibility",
+      columns: "Columns",
+      clear: "Clear",
+      cancel: "Cancel",
+      more: "More"
+    },
+    form: {
+      titles: {
+        createSong: "Create Song",
+        updateSong: "Update Song",
+        deleteSong: "Delete Song",
+        createArtist: "Create Artist",
+        updateArtist: "Update Artist",
+        deleteArtist: "Delete Artist",
+        createPlaylist: "Create Playlist",
+        updatePlaylist: "Update Playlist",
+        deletePlaylist: "Delete Playlist",
+        confirmation: "Confirmation",
+        warning: "Warning"
+      },
+      labels: {
+        name: "Name",
+        thumbnail: "Thumbnail",
+        file: "File",
+        releaseYear: "Release Year",
+        album: "Album",
+        artists: "Artists",
+        isSingle: "Is Single"
+      },
+      buttons: {
+        cancel: "Cancel",
+        delete: "Delete",
+        update: "Update",
+        create: "Create"
+      },
+      descriptions: {
+        thumbnail: "Background image (optional)",
+        dragAndDrop: "Drag and drop the file here",
+        fileSize: "Maximum size: {{size}}",
+        supportedFormats: "Supported formats: {{formats}}"
+      },
+      messages: {
+        confirmDelete: "Are you sure you want to delete?",
+        unsavedChanges: "There are unsaved changes"
+      }
     },
     validation: {
       name: {
@@ -60,6 +106,9 @@ export const english: Language = {
       albumId: {
         invalid: "Invalid album",
         requiredIfNotSingle: "Album is required if not a single"
+      },
+      artists: {
+        min: "At least one artist is required"
       }
     },
     update: {
@@ -100,7 +149,9 @@ export const english: Language = {
         }
       }
     },
-    home: { title: "Home" },
+    home: {
+      title: "Home"
+    },
     songs: {
       title: "Songs",
       createdTitle: "Song Created Successfully",
@@ -115,12 +166,12 @@ export const english: Language = {
     },
     favorites: {
       title: "Favorites",
-      addedTitle: "Added to Favorites",
-      addedDescription: "{{name}} has been added to favorites",
-      addedFailedTitle: "Failed to Add to Favorites",
-      removedTitle: "Removed from Favorites",
-      removedDescription: "{{name}} has been removed from favorites",
-      removedFailedTitle: "Failed to Remove from Favorites"
+      createdTitle: "Added to Favorites",
+      createdDescription: "{{name}} has been added to favorites",
+      createdFailedTitle: "Failed to Add to Favorites",
+      deletedTitle: "Removed from Favorites",
+      deletedDescription: "{{name}} has been removed from favorites",
+      deletedFailedTitle: "Failed to Remove from Favorites"
     },
     playlists: {
       title: "Playlists",

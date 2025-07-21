@@ -17,36 +17,82 @@ export const hindi: Language = {
       goBack: "वापस जाएं",
       goFoward: "आगे जाएं",
       favorite: "पसंदीदा",
-      unfavorite: "पसंदीदा से हटाएं",
-      enableShuffle: "शफल सक्षम करें",
-      disableShuffle: "शफल अक्षम करें",
+      unfavorite: "पसंदीदा हटाएं",
+      enableShuffle: "शफल चालू करें",
+      disableShuffle: "शफल बंद करें",
       previous: "पिछला",
       play: "चलाएं",
       pause: "रोकें",
       next: "अगला",
-      enableRepeat: "दोहराना सक्षम करें",
-      enableRepeatOne: "एक बार दोहराएं",
-      disableRepeat: "दोहराना अक्षम करें",
-      mute: "म्यूट",
-      unmute: "म्यूट हटाएं",
-      queue: "कतार",
+      enableRepeat: "दोहराएं चालू करें",
+      enableRepeatOne: "एक दोहराएं",
+      disableRepeat: "दोहराएं बंद करें",
+      mute: "आवाज़ बंद करें",
+      unmute: "आवाज़ चालू करें",
+      queue: "क्यू",
       title: "शीर्षक",
       album: "एल्बम",
-      date: "तारीख",
+      date: "दिनांक",
       duration: "अवधि",
       search: "खोजें",
+      selectAll: "सभी चुनें",
+      visibility: "दृश्यता",
+      columns: "कॉलम",
+      clear: "साफ करें",
+      cancel: "रद्द करें",
+      more: "और"
+    },
+    form: {
+      titles: {
+        createSong: "गाना बनाएं",
+        updateSong: "गाना संपादित करें",
+        deleteSong: "गाना हटाएं",
+        createArtist: "कलाकार बनाएं",
+        updateArtist: "कलाकार संपादित करें",
+        deleteArtist: "कलाकार हटाएं",
+        createPlaylist: "प्लेलिस्ट बनाएं",
+        updatePlaylist: "प्लेलिस्ट संपादित करें",
+        deletePlaylist: "प्लेलिस्ट हटाएं",
+        confirmation: "पुष्टि",
+        warning: "चेतावनी"
+      },
+      labels: {
+        name: "नाम",
+        thumbnail: "थंबनेल",
+        file: "फ़ाइल",
+        releaseYear: "रिलीज़ वर्ष",
+        album: "एल्बम",
+        artists: "कलाकार",
+        isSingle: "सिंगल है"
+      },
+      buttons: {
+        cancel: "रद्द करें",
+        delete: "हटाएं",
+        update: "अपडेट करें",
+        create: "बनाएं"
+      },
+      descriptions: {
+        thumbnail: "पृष्ठभूमि चित्र (वैकल्पिक)",
+        dragAndDrop: "फ़ाइल को यहाँ खींचें और छोड़ें",
+        fileSize: "अधिकतम आकार: {{size}}",
+        supportedFormats: "समर्थित प्रारूप: {{formats}}"
+      },
+      messages: {
+        confirmDelete: "क्या आप वाकई हटाना चाहते हैं?",
+        unsavedChanges: "असहेजे गए परिवर्तन हैं"
+      }
     },
     validation: {
       name: {
         required: "नाम आवश्यक है",
-        max: "नाम अधिकतम 200 अक्षरों का हो सकता है"
+        max: "नाम अधिकतम 200 अक्षरों का होना चाहिए"
       },
       file: {
         required: "फ़ाइल आवश्यक है",
-        max: "फ़ाइल अधिकतम 50 अक्षरों की हो सकती है"
+        max: "फ़ाइल अधिकतम 50 अक्षरों की होनी चाहिए"
       },
       thumbnail: {
-        max: "थंबनेल अधिकतम 50 अक्षरों की हो सकती है"
+        max: "थंबनेल अधिकतम 50 अक्षरों का होना चाहिए"
       },
       duration: {
         required: "अवधि आवश्यक है",
@@ -59,13 +105,16 @@ export const hindi: Language = {
       },
       albumId: {
         invalid: "अमान्य एल्बम",
-        requiredIfNotSingle: "यदि यह सिंगल नहीं है तो एल्बम आवश्यक है"
+        requiredIfNotSingle: "यदि सिंगल नहीं है तो एल्बम आवश्यक है"
+      },
+      artists: {
+        min: "कम से कम एक कलाकार आवश्यक है"
       }
     },
     update: {
       downloading: "अपडेट डाउनलोड और इंस्टॉल हो रहा है",
       downloadingDescription: "एक नया अपडेट उपलब्ध है और स्वचालित रूप से इंस्टॉल हो रहा है",
-      installedSuccess: "अपडेट सफलतापूर्वक इंस्टॉल हो गया",
+      installedSuccess: "अपडेट सफलतापूर्वक इंस्टॉल हुआ",
       failed: "अपडेट इंस्टॉल करने में विफल"
     },
     breadcrumbs: {
@@ -100,50 +149,52 @@ export const hindi: Language = {
         }
       }
     },
-    home: { title: "होम" },
+    home: {
+      title: "होम"
+    },
     songs: {
       title: "गाने",
-      createdTitle: "गाना सफलतापूर्वक बनाया गया",
-      createdDescription: "{{name}} बनाया गया है",
+      createdTitle: "गाना सफलतापूर्वक बना",
+      createdDescription: "{{name}} बना दिया गया है",
       createdFailedTitle: "गाना बनाने में विफल",
-      updatedTitle: "गाना सफलतापूर्वक अपडेट किया गया",
-      updatedDescription: "{{name}} अपडेट किया गया है",
+      updatedTitle: "गाना सफलतापूर्वक अपडेट हुआ",
+      updatedDescription: "{{name}} अपडेट हो गया है",
       updatedFailedTitle: "गाना अपडेट करने में विफल",
-      deletedTitle: "गाना सफलतापूर्वक हटाया गया",
-      deletedDescription: "{{name}} हटाया गया है",
+      deletedTitle: "गाना सफलतापूर्वक हटा",
+      deletedDescription: "{{name}} हटा दिया गया है",
       deletedFailedTitle: "गाना हटाने में विफल"
     },
     favorites: {
       title: "पसंदीदा",
-      addedTitle: "पसंदीदा में जोड़ा गया",
-      addedDescription: "{{name}} पसंदीदा में जोड़ा गया है",
-      addedFailedTitle: "पसंदीदा में जोड़ने में विफल",
-      removedTitle: "पसंदीदा से हटाया गया",
-      removedDescription: "{{name}} पसंदीदा से हटाया गया है",
-      removedFailedTitle: "पसंदीदा से हटाने में विफल"
+      createdTitle: "पसंदीदा में जोड़ा गया",
+      createdDescription: "{{name}} को पसंदीदा में जोड़ दिया गया है",
+      createdFailedTitle: "पसंदीदा में जोड़ने में विफल",
+      deletedTitle: "पसंदीदा से हटाया गया",
+      deletedDescription: "{{name}} को पसंदीदा से हटा दिया गया है",
+      deletedFailedTitle: "पसंदीदा से हटाने में विफल"
     },
     playlists: {
       title: "प्लेलिस्ट",
-      createdTitle: "प्लेलिस्ट सफलतापूर्वक बनाई गई",
-      createdDescription: "{{name}} बनाई गई है",
+      createdTitle: "प्लेलिस्ट सफलतापूर्वक बना",
+      createdDescription: "{{name}} बना दिया गया है",
       createdFailedTitle: "प्लेलिस्ट बनाने में विफल",
-      updatedTitle: "प्लेलिस्ट सफलतापूर्वक अपडेट की गई",
-      updatedDescription: "{{name}} अपडेट की गई है",
+      updatedTitle: "प्लेलिस्ट सफलतापूर्वक अपडेट हुआ",
+      updatedDescription: "{{name}} अपडेट हो गया है",
       updatedFailedTitle: "प्लेलिस्ट अपडेट करने में विफल",
-      deletedTitle: "प्लेलिस्ट सफलतापूर्वक हटाई गई",
-      deletedDescription: "{{name}} हटाई गई है",
+      deletedTitle: "प्लेलिस्ट सफलतापूर्वक हटा",
+      deletedDescription: "{{name}} हटा दिया गया है",
       deletedFailedTitle: "प्लेलिस्ट हटाने में विफल"
     },
     artists: {
       title: "कलाकार",
-      createdTitle: "कलाकार सफलतापूर्वक बनाया गया",
-      createdDescription: "{{name}} बनाया गया है",
+      createdTitle: "कलाकार सफलतापूर्वक बना",
+      createdDescription: "{{name}} बना दिया गया है",
       createdFailedTitle: "कलाकार बनाने में विफल",
-      updatedTitle: "कलाकार सफलतापूर्वक अपडेट किया गया",
-      updatedDescription: "{{name}} अपडेट किया गया है",
+      updatedTitle: "कलाकार सफलतापूर्वक अपडेट हुआ",
+      updatedDescription: "{{name}} अपडेट हो गया है",
       updatedFailedTitle: "कलाकार अपडेट करने में विफल",
-      deletedTitle: "कलाकार सफलतापूर्वक हटाया गया",
-      deletedDescription: "{{name}} हटाया गया है",
+      deletedTitle: "कलाकार सफलतापूर्वक हटा",
+      deletedDescription: "{{name}} हटा दिया गया है",
       deletedFailedTitle: "कलाकार हटाने में विफल"
     },
     settings: {
@@ -161,7 +212,7 @@ export const hindi: Language = {
       },
       sync: {
         title: "सिंक",
-        description: "अपने डेटा को डिवाइस के बीच सिंक करें"
+        description: "अपने डेटा को सभी डिवाइसों में सिंक करें"
       }
     },
     fastUpload: {
@@ -170,7 +221,7 @@ export const hindi: Language = {
     languages: {
       da: "डेनिश",
       de: "जर्मन",
-      en: "अंग्रेज़ी",
+      en: "अंग्रेजी",
       es: "स्पेनिश",
       fi: "फिनिश",
       fr: "फ्रेंच",

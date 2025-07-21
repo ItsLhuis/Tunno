@@ -4,7 +4,7 @@ import { type Language } from "../types"
 
 export const norwegian: Language = {
   code: "no",
-  name: "Norsk",
+  name: "Norwegian",
   flag: No,
   isRtl: false,
   translations: {
@@ -14,8 +14,8 @@ export const norwegian: Language = {
       hoursAgo: "{{count}} time{{count, plural, one {} other{r}}} siden",
       today: "I dag",
       yesterday: "I går",
-      goBack: "Tilbake",
-      goFoward: "Fremover",
+      goBack: "Gå tilbake",
+      goFoward: "Gå fremover",
       favorite: "Favoritt",
       unfavorite: "Fjern fra favoritter",
       enableShuffle: "Aktiver tilfeldig rekkefølge",
@@ -24,149 +24,178 @@ export const norwegian: Language = {
       play: "Spill av",
       pause: "Pause",
       next: "Neste",
-      enableRepeat: "Aktiver gjenta",
-      enableRepeatOne: "Gjenta én gang",
-      disableRepeat: "Deaktiver gjenta",
-      mute: "Demp",
+      enableRepeat: "Aktiver gjentakelse",
+      enableRepeatOne: "Aktiver gjentakelse av ett",
+      disableRepeat: "Deaktiver gjentakelse",
+      mute: "Dempe",
       unmute: "Slå på lyd",
       queue: "Kø",
       title: "Tittel",
       album: "Album",
       date: "Dato",
       duration: "Varighet",
-      search: "Søk"
+      search: "Søk",
+      selectAll: "Velg alle",
+      visibility: "Synlighet",
+      columns: "Kolonner",
+      clear: "Tøm",
+      cancel: "Avbryt",
+      more: "Mer"
+    },
+    form: {
+      titles: {
+        createSong: "Opprett sang",
+        updateSong: "Oppdater sang",
+        deleteSong: "Slett sang",
+        createArtist: "Opprett artist",
+        updateArtist: "Oppdater artist",
+        deleteArtist: "Slett artist",
+        createPlaylist: "Opprett spilleliste",
+        updatePlaylist: "Oppdater spilleliste",
+        deletePlaylist: "Slett spilleliste",
+        confirmation: "Bekreftelse",
+        warning: "Advarsel"
+      },
+      labels: {
+        name: "Navn",
+        thumbnail: "Miniatyrbilde",
+        file: "Fil",
+        releaseYear: "Utgivelsesår",
+        album: "Album",
+        artists: "Artister",
+        isSingle: "Er singel"
+      },
+      buttons: {
+        cancel: "Avbryt",
+        delete: "Slett",
+        update: "Oppdater",
+        create: "Opprett"
+      },
+      descriptions: {
+        thumbnail: "Bakgrunnsbilde (valgfritt)",
+        dragAndDrop: "Dra og slipp filen her",
+        fileSize: "Maks størrelse: {{size}}",
+        supportedFormats: "Støttede formater: {{formats}}"
+      },
+      messages: {
+        confirmDelete: "Er du sikker på at du vil slette?",
+        unsavedChanges: "Det finnes ikke lagrede endringer"
+      }
     },
     validation: {
       name: {
         required: "Navn er påkrevd",
-        max: "Navnet kan være maksimalt 200 tegn"
+        max: "Navn kan være maks 200 tegn"
       },
       file: {
         required: "Fil er påkrevd",
-        max: "Filen kan være maksimalt 50 tegn"
+        max: "Filnavn kan være maks 50 tegn"
       },
       thumbnail: {
-        max: "Miniatyrbildet kan være maksimalt 50 tegn"
+        max: "Miniatyrbilde kan være maks 50 tegn"
       },
       duration: {
         required: "Varighet er påkrevd",
-        min: "Varigheten må være minst 0"
+        min: "Varighet må være minst 0"
       },
       releaseYear: {
         invalid: "Ugyldig utgivelsesår",
-        min: "Utgivelsesåret må være minst 0",
-        max: "Utgivelsesåret kan ikke være i fremtiden"
+        min: "Utgivelsesår må være minst 0",
+        max: "Utgivelsesår kan ikke være i fremtiden"
       },
       albumId: {
         invalid: "Ugyldig album",
-        requiredIfNotSingle: "Album er påkrevd hvis det ikke er en single"
+        requiredIfNotSingle: "Album er påkrevd hvis det ikke er en singel"
+      },
+      artists: {
+        min: "Minst én artist er påkrevd"
       }
     },
     update: {
       downloading: "Laster ned og installerer oppdatering",
       downloadingDescription: "En ny oppdatering er tilgjengelig og installeres automatisk",
-      installedSuccess: "Oppdatering installert vellykket",
+      installedSuccess: "Oppdatering installert",
       failed: "Kunne ikke installere oppdatering"
     },
     breadcrumbs: {
-      home: {
-        title: "Hjem"
-      },
-      songs: {
-        title: "Sanger"
-      },
-      favorites: {
-        title: "Favoritter"
-      },
-      playlists: {
-        title: "Spillelister"
-      },
-      artists: {
-        title: "Artister"
-      },
-      fastUpload: {
-        title: "Rask opplasting"
-      },
+      home: { title: "Hjem" },
+      songs: { title: "Sanger" },
+      favorites: { title: "Favoritter" },
+      playlists: { title: "Spillelister" },
+      artists: { title: "Artister" },
+      fastUpload: { title: "Rask opplasting" },
       settings: {
         title: "Innstillinger",
-        appearance: {
-          title: "Utseende"
-        },
-        language: {
-          title: "Språk"
-        },
-        sync: {
-          title: "Synkronisering"
-        }
+        appearance: { title: "Utseende" },
+        language: { title: "Språk" },
+        sync: { title: "Synkronisering" }
       }
     },
     home: { title: "Hjem" },
     songs: {
       title: "Sanger",
-      createdTitle: "Sang opprettet vellykket",
-      createdDescription: "{{name}} er blitt opprettet",
+      createdTitle: "Sang opprettet",
+      createdDescription: "{{name}} ble opprettet",
       createdFailedTitle: "Kunne ikke opprette sang",
-      updatedTitle: "Sang oppdatert vellykket",
-      updatedDescription: "{{name}} er blitt oppdatert",
+      updatedTitle: "Sang oppdatert",
+      updatedDescription: "{{name}} ble oppdatert",
       updatedFailedTitle: "Kunne ikke oppdatere sang",
-      deletedTitle: "Sang slettet vellykket",
-      deletedDescription: "{{name}} er blitt slettet",
+      deletedTitle: "Sang slettet",
+      deletedDescription: "{{name}} ble slettet",
       deletedFailedTitle: "Kunne ikke slette sang"
     },
     favorites: {
       title: "Favoritter",
-      addedTitle: "Lagt til i favoritter",
-      addedDescription: "{{name}} er blitt lagt til i favoritter",
-      addedFailedTitle: "Kunne ikke legge til i favoritter",
-      removedTitle: "Fjernet fra favoritter",
-      removedDescription: "{{name}} er blitt fjernet fra favoritter",
-      removedFailedTitle: "Kunne ikke fjerne fra favoritter"
+      createdTitle: "Lagt til i favoritter",
+      createdDescription: "{{name}} ble lagt til i favoritter",
+      createdFailedTitle: "Kunne ikke legge til i favoritter",
+      deletedTitle: "Fjernet fra favoritter",
+      deletedDescription: "{{name}} ble fjernet fra favoritter",
+      deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
     },
     playlists: {
       title: "Spillelister",
-      createdTitle: "Spilleliste opprettet vellykket",
-      createdDescription: "{{name}} er blitt opprettet",
+      createdTitle: "Spilleliste opprettet",
+      createdDescription: "{{name}} ble opprettet",
       createdFailedTitle: "Kunne ikke opprette spilleliste",
-      updatedTitle: "Spilleliste oppdatert vellykket",
-      updatedDescription: "{{name}} er blitt oppdatert",
+      updatedTitle: "Spilleliste oppdatert",
+      updatedDescription: "{{name}} ble oppdatert",
       updatedFailedTitle: "Kunne ikke oppdatere spilleliste",
-      deletedTitle: "Spilleliste slettet vellykket",
-      deletedDescription: "{{name}} er blitt slettet",
+      deletedTitle: "Spilleliste slettet",
+      deletedDescription: "{{name}} ble slettet",
       deletedFailedTitle: "Kunne ikke slette spilleliste"
     },
     artists: {
       title: "Artister",
-      createdTitle: "Artist opprettet vellykket",
-      createdDescription: "{{name}} er blitt opprettet",
+      createdTitle: "Artist opprettet",
+      createdDescription: "{{name}} ble opprettet",
       createdFailedTitle: "Kunne ikke opprette artist",
-      updatedTitle: "Artist oppdatert vellykket",
-      updatedDescription: "{{name}} er blitt oppdatert",
+      updatedTitle: "Artist oppdatert",
+      updatedDescription: "{{name}} ble oppdatert",
       updatedFailedTitle: "Kunne ikke oppdatere artist",
-      deletedTitle: "Artist slettet vellykket",
-      deletedDescription: "{{name}} er blitt slettet",
+      deletedTitle: "Artist slettet",
+      deletedDescription: "{{name}} ble slettet",
       deletedFailedTitle: "Kunne ikke slette artist"
     },
     settings: {
       title: "Innstillinger",
       appearance: {
         title: "Utseende",
-        description: "Velg din foretrukne visningstilstand",
+        description: "Velg ønsket utseendemodus",
         light: "Lys",
         dark: "Mørk",
         system: "System"
       },
       language: {
         title: "Språk",
-        description: "Velg ditt foretrukne språk"
+        description: "Velg ønsket språk"
       },
       sync: {
         title: "Synkronisering",
-        description: "Synkroniser dine data mellom enheter"
+        description: "Synkroniser data på tvers av enheter"
       }
     },
-    fastUpload: {
-      title: "Rask opplasting"
-    },
+    fastUpload: { title: "Rask opplasting" },
     languages: {
       da: "Dansk",
       de: "Tysk",

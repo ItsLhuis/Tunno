@@ -38,6 +38,52 @@ export type Translations = {
     date: string
     duration: string
     search: string
+    selectAll: string
+    visibility: string
+    columns: string
+    clear: string
+    cancel: string
+    more: string
+  }
+  form: {
+    titles: {
+      createSong: string
+      updateSong: string
+      deleteSong: string
+      createArtist: string
+      updateArtist: string
+      deleteArtist: string
+      createPlaylist: string
+      updatePlaylist: string
+      deletePlaylist: string
+      confirmation: string
+      warning: string
+    }
+    labels: {
+      name: string
+      thumbnail: string
+      file: string
+      releaseYear: string
+      album: string
+      artists: string
+      isSingle: string
+    }
+    buttons: {
+      cancel: string
+      delete: string
+      update: string
+      create: string
+    }
+    descriptions: {
+      thumbnail: string
+      dragAndDrop: string
+      fileSize: string
+      supportedFormats: string
+    }
+    messages: {
+      confirmDelete: string
+      unsavedChanges: string
+    }
   }
   validation: {
     name: {
@@ -63,6 +109,9 @@ export type Translations = {
     albumId: {
       invalid: string
       requiredIfNotSingle: string
+    }
+    artists: {
+      min: string
     }
   }
   update: {
@@ -120,12 +169,12 @@ export type Translations = {
   }
   favorites: {
     title: string
-    addedTitle: string
-    addedDescription: string
-    addedFailedTitle: string
-    removedTitle: string
-    removedDescription: string
-    removedFailedTitle: string
+    createdTitle: string
+    createdDescription: string
+    createdFailedTitle: string
+    deletedTitle: string
+    deletedDescription: string
+    deletedFailedTitle: string
   }
   playlists: {
     title: string

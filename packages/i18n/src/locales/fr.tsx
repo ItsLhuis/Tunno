@@ -14,58 +14,107 @@ export const french: Language = {
       hoursAgo: "Il y a {{count}} heure{{count, plural, one {} other{s}}}",
       today: "Aujourd'hui",
       yesterday: "Hier",
-      goBack: "Retourner",
-      goFoward: "Avancer",
+      goBack: "Retour",
+      goFoward: "Suivant",
       favorite: "Favori",
       unfavorite: "Retirer des favoris",
-      enableShuffle: "Activer le mode aléatoire",
-      disableShuffle: "Désactiver le mode aléatoire",
+      enableShuffle: "Activer la lecture aléatoire",
+      disableShuffle: "Désactiver la lecture aléatoire",
       previous: "Précédent",
-      play: "Lire",
+      play: "Lecture",
       pause: "Pause",
       next: "Suivant",
       enableRepeat: "Activer la répétition",
-      enableRepeatOne: "Répéter une fois",
+      enableRepeatOne: "Répéter un seul",
       disableRepeat: "Désactiver la répétition",
-      mute: "Muet",
+      mute: "Couper le son",
       unmute: "Activer le son",
       queue: "File d'attente",
       title: "Titre",
       album: "Album",
       date: "Date",
       duration: "Durée",
-      search: "Rechercher"
+      search: "Rechercher",
+      selectAll: "Tout sélectionner",
+      visibility: "Visibilité",
+      columns: "Colonnes",
+      clear: "Effacer",
+      cancel: "Annuler",
+      more: "Plus"
+    },
+    form: {
+      titles: {
+        createSong: "Créer une chanson",
+        updateSong: "Modifier la chanson",
+        deleteSong: "Supprimer la chanson",
+        createArtist: "Créer un artiste",
+        updateArtist: "Modifier l'artiste",
+        deleteArtist: "Supprimer l'artiste",
+        createPlaylist: "Créer une playlist",
+        updatePlaylist: "Modifier la playlist",
+        deletePlaylist: "Supprimer la playlist",
+        confirmation: "Confirmation",
+        warning: "Avertissement"
+      },
+      labels: {
+        name: "Nom",
+        thumbnail: "Miniature",
+        file: "Fichier",
+        releaseYear: "Année de sortie",
+        album: "Album",
+        artists: "Artistes",
+        isSingle: "Est un single"
+      },
+      buttons: {
+        cancel: "Annuler",
+        delete: "Supprimer",
+        update: "Modifier",
+        create: "Créer"
+      },
+      descriptions: {
+        thumbnail: "Image d'arrière-plan (optionnel)",
+        dragAndDrop: "Glissez et déposez le fichier ici",
+        fileSize: "Taille maximale : {{size}}",
+        supportedFormats: "Formats supportés : {{formats}}"
+      },
+      messages: {
+        confirmDelete: "Êtes-vous sûr de vouloir supprimer ?",
+        unsavedChanges: "Il y a des modifications non sauvegardées"
+      }
     },
     validation: {
       name: {
         required: "Le nom est requis",
-        max: "Le nom doit comporter au maximum 200 caractères"
+        max: "Le nom doit contenir au maximum 200 caractères"
       },
       file: {
         required: "Le fichier est requis",
-        max: "Le fichier doit comporter au maximum 50 caractères"
+        max: "Le fichier doit contenir au maximum 50 caractères"
       },
       thumbnail: {
-        max: "La miniature doit comporter au maximum 50 caractères"
+        max: "La miniature doit contenir au maximum 50 caractères"
       },
       duration: {
         required: "La durée est requise",
-        min: "La durée doit être au moins 0"
+        min: "La durée doit être d'au moins 0"
       },
       releaseYear: {
         invalid: "Année de sortie invalide",
-        min: "L'année de sortie doit être au moins 0",
+        min: "L'année de sortie doit être d'au moins 0",
         max: "L'année de sortie ne peut pas être dans le futur"
       },
       albumId: {
         invalid: "Album invalide",
         requiredIfNotSingle: "L'album est requis si ce n'est pas un single"
+      },
+      artists: {
+        min: "Au moins un artiste est requis"
       }
     },
     update: {
       downloading: "Téléchargement et installation de la mise à jour",
       downloadingDescription:
-        "Une nouvelle mise à jour est disponible et s'installe automatiquement",
+        "Une nouvelle mise à jour est disponible et est installée automatiquement",
       installedSuccess: "Mise à jour installée avec succès",
       failed: "Échec de l'installation de la mise à jour"
     },
@@ -80,13 +129,13 @@ export const french: Language = {
         title: "Favoris"
       },
       playlists: {
-        title: "Listes de Lecture"
+        title: "Playlists"
       },
       artists: {
         title: "Artistes"
       },
       fastUpload: {
-        title: "Téléchargement Rapide"
+        title: "Téléversement rapide"
       },
       settings: {
         title: "Paramètres",
@@ -101,51 +150,53 @@ export const french: Language = {
         }
       }
     },
-    home: { title: "Accueil" },
+    home: {
+      title: "Accueil"
+    },
     songs: {
       title: "Chansons",
-      createdTitle: "Chanson Créée avec Succès",
+      createdTitle: "Chanson créée avec succès",
       createdDescription: "{{name}} a été créée",
-      createdFailedTitle: "Échec de la Création de la Chanson",
-      updatedTitle: "Chanson Mise à Jour avec Succès",
-      updatedDescription: "{{name}} a été mise à jour",
-      updatedFailedTitle: "Échec de la Mise à Jour de la Chanson",
-      deletedTitle: "Chanson Supprimée avec Succès",
+      createdFailedTitle: "Échec de la création de la chanson",
+      updatedTitle: "Chanson modifiée avec succès",
+      updatedDescription: "{{name}} a été modifiée",
+      updatedFailedTitle: "Échec de la modification de la chanson",
+      deletedTitle: "Chanson supprimée avec succès",
       deletedDescription: "{{name}} a été supprimée",
-      deletedFailedTitle: "Échec de la Suppression de la Chanson"
+      deletedFailedTitle: "Échec de la suppression de la chanson"
     },
     favorites: {
       title: "Favoris",
-      addedTitle: "Ajouté aux Favoris",
-      addedDescription: "{{name}} a été ajouté aux favoris",
-      addedFailedTitle: "Échec de l'Ajout aux Favoris",
-      removedTitle: "Retiré des Favoris",
-      removedDescription: "{{name}} a été retiré des favoris",
-      removedFailedTitle: "Échec du Retrait des Favoris"
+      createdTitle: "Ajouté aux favoris",
+      createdDescription: "{{name}} a été ajouté aux favoris",
+      createdFailedTitle: "Échec de l'ajout aux favoris",
+      deletedTitle: "Retiré des favoris",
+      deletedDescription: "{{name}} a été retiré des favoris",
+      deletedFailedTitle: "Échec du retrait des favoris"
     },
     playlists: {
-      title: "Listes de Lecture",
-      createdTitle: "Liste Créée avec Succès",
+      title: "Playlists",
+      createdTitle: "Playlist créée avec succès",
       createdDescription: "{{name}} a été créée",
-      createdFailedTitle: "Échec de la Création de la Liste",
-      updatedTitle: "Liste Mise à Jour avec Succès",
-      updatedDescription: "{{name}} a été mise à jour",
-      updatedFailedTitle: "Échec de la Mise à Jour de la Liste",
-      deletedTitle: "Liste Supprimée avec Succès",
+      createdFailedTitle: "Échec de la création de la playlist",
+      updatedTitle: "Playlist modifiée avec succès",
+      updatedDescription: "{{name}} a été modifiée",
+      updatedFailedTitle: "Échec de la modification de la playlist",
+      deletedTitle: "Playlist supprimée avec succès",
       deletedDescription: "{{name}} a été supprimée",
-      deletedFailedTitle: "Échec de la Suppression de la Liste"
+      deletedFailedTitle: "Échec de la suppression de la playlist"
     },
     artists: {
       title: "Artistes",
-      createdTitle: "Artiste Créé avec Succès",
+      createdTitle: "Artiste créé avec succès",
       createdDescription: "{{name}} a été créé",
-      createdFailedTitle: "Échec de la Création de l'Artiste",
-      updatedTitle: "Artiste Mis à Jour avec Succès",
-      updatedDescription: "{{name}} a été mis à jour",
-      updatedFailedTitle: "Échec de la Mise à Jour de l'Artiste",
-      deletedTitle: "Artiste Supprimé avec Succès",
+      createdFailedTitle: "Échec de la création de l'artiste",
+      updatedTitle: "Artiste modifié avec succès",
+      updatedDescription: "{{name}} a été modifié",
+      updatedFailedTitle: "Échec de la modification de l'artiste",
+      deletedTitle: "Artiste supprimé avec succès",
       deletedDescription: "{{name}} a été supprimé",
-      deletedFailedTitle: "Échec de la Suppression de l'Artiste"
+      deletedFailedTitle: "Échec de la suppression de l'artiste"
     },
     settings: {
       title: "Paramètres",
@@ -162,11 +213,11 @@ export const french: Language = {
       },
       sync: {
         title: "Synchronisation",
-        description: "Synchronisez vos données entre appareils"
+        description: "Synchronisez vos données sur tous vos appareils"
       }
     },
     fastUpload: {
-      title: "Téléchargement Rapide"
+      title: "Téléversement rapide"
     },
     languages: {
       da: "Danois",
