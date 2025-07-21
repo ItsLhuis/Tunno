@@ -204,7 +204,7 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto p-0"
+          className="w-[--radix-popover-trigger-width] p-0"
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
@@ -232,26 +232,26 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                   )
                 })}
               </CommandGroup>
-              <CommandSeparator />
-              <CommandGroup>
-                <div className="flex items-center justify-between">
-                  {selectedValues.length > 0 && (
-                    <>
-                      <CommandItem onSelect={handleClear} className="flex-1 justify-center">
-                        {t("common.clear")}
-                      </CommandItem>
-                      <Separator orientation="vertical" className="flex h-full min-h-6" />
-                    </>
-                  )}
-                  <CommandItem
-                    onSelect={() => setIsPopoverOpen(false)}
-                    className="max-w-full flex-1 justify-center"
-                  >
-                    {t("common.cancel")}
-                  </CommandItem>
-                </div>
-              </CommandGroup>
             </CommandList>
+            <CommandSeparator />
+            <CommandGroup>
+              <div className="flex items-center justify-between">
+                {selectedValues.length > 0 && (
+                  <>
+                    <CommandItem onSelect={handleClear} className="flex-1 justify-center">
+                      {t("common.clear")}
+                    </CommandItem>
+                    <Separator orientation="vertical" className="flex h-full min-h-6" />
+                  </>
+                )}
+                <CommandItem
+                  onSelect={() => setIsPopoverOpen(false)}
+                  className="max-w-full flex-1 justify-center"
+                >
+                  {t("common.cancel")}
+                </CommandItem>
+              </div>
+            </CommandGroup>
           </Command>
         </PopoverContent>
       </Popover>
