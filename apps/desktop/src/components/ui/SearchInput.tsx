@@ -51,7 +51,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             onBlur={handleBlur}
             placeholder={placeholder ?? t("common.search")}
             {...props}
-            className="h-9 w-full border-none bg-transparent outline-none selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 w-full border-none bg-transparent outline-none transition-opacity selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
             autoComplete="off"
           />
           <div className="shrink-0">{renderRight}</div>

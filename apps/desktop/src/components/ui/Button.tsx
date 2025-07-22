@@ -6,10 +6,13 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { Slot } from "@radix-ui/react-slot"
 
+import { Spinner } from "@components/ui/Spinner"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/Tooltip"
 
+import { motion } from "motion/react"
+
 const buttonVariants = cva(
-  "cursor-default inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 focus:outline-none focus:ring-0 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "cursor-default inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[background-color,opacity] disabled:pointer-events-none disabled:opacity-50 focus:outline-none focus:ring-0 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -44,11 +47,46 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
   tooltip?: string | ComponentProps<typeof TooltipContent>
+  isLoading?: boolean
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, type = "button", variant, size, asChild = false, tooltip, ...props }, ref) => {
+  (
+    {
+      className,
+      type = "button",
+      variant,
+      size,
+      asChild = false,
+      tooltip,
+      isLoading = false,
+      disabled,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button"
+
+    const buttonContent = (
+      <motion.div className="relative flex items-center justify-center">
+        <motion.div
+          className="absolute"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: !isLoading ? 0 : 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Spinner className="text-inherit" />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isLoading ? 0 : 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {children}
+        </motion.div>
+      </motion.div>
+    )
 
     const button = (
       // @ts-ignore
@@ -56,8 +94,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, className }))}
         type={type}
         ref={ref}
+        disabled={disabled || isLoading}
         {...props}
-      />
+      >
+        {asChild ? children : buttonContent}
+      </Comp>
     )
 
     if (!tooltip) {
