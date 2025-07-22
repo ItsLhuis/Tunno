@@ -177,7 +177,10 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                           clearExtraOptions()
                         }}
                       >
-                        <Icon name="XCircle" className="ml-2 h-4 w-4" />
+                        <Icon
+                          name="XCircle"
+                          className="ml-2 h-4 w-4 text-muted-foreground opacity-50"
+                        />
                       </span>
                     </Badge>
                   )}
