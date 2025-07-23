@@ -88,11 +88,7 @@ export const spanish: Language = {
         max: "El nombre debe tener como máximo 200 caracteres"
       },
       file: {
-        required: "El archivo es obligatorio",
-        max: "El archivo debe tener como máximo 50 caracteres"
-      },
-      thumbnail: {
-        max: "La miniatura debe tener como máximo 50 caracteres"
+        required: "El archivo es obligatorio"
       },
       duration: {
         required: "La duración es obligatoria",

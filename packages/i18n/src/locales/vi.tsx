@@ -88,11 +88,7 @@ export const vietnamese: Language = {
         max: "Tên không được dài hơn 200 ký tự"
       },
       file: {
-        required: "Tệp là bắt buộc",
-        max: "Tên tệp không được dài hơn 50 ký tự"
-      },
-      thumbnail: {
-        max: "Ảnh thu nhỏ không được dài hơn 50 ký tự"
+        required: "Tệp là bắt buộc"
       },
       duration: {
         required: "Thời lượng là bắt buộc",

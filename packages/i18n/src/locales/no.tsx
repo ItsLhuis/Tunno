@@ -88,11 +88,7 @@ export const norwegian: Language = {
         max: "Navn kan være maks 200 tegn"
       },
       file: {
-        required: "Fil er påkrevd",
-        max: "Filnavn kan være maks 50 tegn"
-      },
-      thumbnail: {
-        max: "Miniatyrbilde kan være maks 50 tegn"
+        required: "Fil er påkrevd"
       },
       duration: {
         required: "Varighet er påkrevd",

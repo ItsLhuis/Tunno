@@ -88,11 +88,7 @@ export const chinese: Language = {
         max: "名称不能超过200个字符"
       },
       file: {
-        required: "文件为必填项",
-        max: "文件名不能超过50个字符"
-      },
-      thumbnail: {
-        max: "缩略图不能超过50个字符"
+        required: "文件为必填项"
       },
       duration: {
         required: "时长为必填项",

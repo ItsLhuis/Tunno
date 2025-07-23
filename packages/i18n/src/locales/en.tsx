@@ -88,11 +88,7 @@ export const english: Language = {
         max: "Name must be at most 200 characters"
       },
       file: {
-        required: "File is required",
-        max: "File must be at most 50 characters"
-      },
-      thumbnail: {
-        max: "Thumbnail must be at most 50 characters"
+        required: "File is required"
       },
       duration: {
         required: "Duration is required",

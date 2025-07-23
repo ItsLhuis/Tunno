@@ -7,7 +7,7 @@ export const songs = sqliteTable(
     id: integer("id").primaryKey({ autoIncrement: true }),
     name: text("name", { length: 200 }).notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
-    fileName: text("file_name", { length: 50 }).notNull().unique(),
+    file: text("file", { length: 50 }).notNull().unique(),
     duration: integer("duration").notNull(),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
     isSingle: integer("is_single", { mode: "boolean" }).notNull().default(false),
@@ -34,7 +34,7 @@ export const songs = sqliteTable(
     index("songs_last_played_idx").on(table.lastPlayedAt),
     index("songs_album_year_idx").on(table.albumId, table.releaseYear),
     index("songs_favorite_playcount_idx").on(table.isFavorite, table.playCount),
-    index("songs_filename_idx").on(table.fileName),
+    index("songs_file_idx").on(table.file),
     index("songs_single_idx").on(table.isSingle)
   ]
 )

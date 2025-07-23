@@ -88,11 +88,7 @@ export const italian: Language = {
         max: "Il nome deve essere al massimo di 200 caratteri"
       },
       file: {
-        required: "Il file è obbligatorio",
-        max: "Il file deve essere al massimo di 50 caratteri"
-      },
-      thumbnail: {
-        max: "La miniatura deve essere al massimo di 50 caratteri"
+        required: "Il file è obbligatorio"
       },
       duration: {
         required: "La durata è obbligatoria",

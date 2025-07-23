@@ -88,11 +88,7 @@ export const french: Language = {
         max: "Le nom doit contenir au maximum 200 caractères"
       },
       file: {
-        required: "Le fichier est requis",
-        max: "Le fichier doit contenir au maximum 50 caractères"
-      },
-      thumbnail: {
-        max: "La miniature doit contenir au maximum 50 caractères"
+        required: "Le fichier est requis"
       },
       duration: {
         required: "La durée est requise",

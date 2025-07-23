@@ -88,11 +88,7 @@ export const swedish: Language = {
         max: "Namn får vara högst 200 tecken"
       },
       file: {
-        required: "Fil krävs",
-        max: "Filnamnet får vara högst 50 tecken"
-      },
-      thumbnail: {
-        max: "Miniatyrbilden får vara högst 50 tecken"
+        required: "Fil krävs"
       },
       duration: {
         required: "Varaktighet krävs",

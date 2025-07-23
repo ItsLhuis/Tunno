@@ -1,9 +1,10 @@
 import { schema } from "@repo/database"
-
-import { type TFunction } from "@repo/i18n"
-
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod"
 import { z } from "zod"
+
+import { VALID_SONG_FILE_EXTENSIONS, VALID_THUMBNAIL_FILE_EXTENSIONS } from "@repo/shared/constants"
+
+import { type TFunction } from "@repo/i18n"
 
 const { songs } = schema
 
@@ -12,10 +13,30 @@ export const createInsertSongSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(200, t("validation.name.max")),
     thumbnail: z
       .string()
-      .max(50, t("validation.thumbnail.max"))
       .optional()
-      .or(z.literal("").transform(() => undefined)),
-    fileName: z.string().min(1, t("validation.file.required")).max(50, t("validation.file.max")),
+      .refine(
+        (value) => {
+          if (!value) return true
+          const ext = value.split(".").pop()?.toLowerCase()
+          return ext !== undefined && VALID_THUMBNAIL_FILE_EXTENSIONS.includes(ext)
+        },
+        {
+          message: t("form.descriptions.supportedFormats", {
+            formats: VALID_THUMBNAIL_FILE_EXTENSIONS.join(", ")
+          })
+        }
+      ),
+    file: z.string(t("validation.file.required")).refine(
+      (value) => {
+        const ext = value.split(".").pop()?.toLowerCase()
+        return ext !== undefined && VALID_SONG_FILE_EXTENSIONS.includes(ext)
+      },
+      {
+        message: t("form.descriptions.supportedFormats", {
+          formats: VALID_SONG_FILE_EXTENSIONS.join(", ")
+        })
+      }
+    ),
     duration: z
       .number(t("validation.duration.required"))
       .int()
@@ -57,9 +78,19 @@ export const createUpdateSongSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(200, t("validation.name.max")),
     thumbnail: z
       .string()
-      .max(50, t("validation.thumbnail.max"))
       .optional()
-      .or(z.literal("").transform(() => undefined)),
+      .refine(
+        (value) => {
+          if (!value) return true
+          const ext = value.split(".").pop()?.toLowerCase()
+          return ext !== undefined && VALID_THUMBNAIL_FILE_EXTENSIONS.includes(ext)
+        },
+        {
+          message: t("form.descriptions.supportedFormats", {
+            formats: VALID_THUMBNAIL_FILE_EXTENSIONS.join(", ")
+          })
+        }
+      ),
     isFavorite: z.boolean(),
     isSingle: z.boolean(),
     releaseYear: z

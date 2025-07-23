@@ -88,11 +88,7 @@ export const danish: Language = {
         max: "Navn må højst være 200 tegn"
       },
       file: {
-        required: "Fil er påkrævet",
-        max: "Fil må højst være 50 tegn"
-      },
-      thumbnail: {
-        max: "Miniaturebillede må højst være 50 tegn"
+        required: "Fil er påkrævet"
       },
       duration: {
         required: "Varighed er påkrævet",

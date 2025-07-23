@@ -88,11 +88,7 @@ export const polish: Language = {
         max: "Nazwa może mieć maksymalnie 200 znaków"
       },
       file: {
-        required: "Plik jest wymagany",
-        max: "Nazwa pliku może mieć maksymalnie 50 znaków"
-      },
-      thumbnail: {
-        max: "Miniatura może mieć maksymalnie 50 znaków"
+        required: "Plik jest wymagany"
       },
       duration: {
         required: "Czas trwania jest wymagany",

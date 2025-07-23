@@ -88,11 +88,7 @@ export const dutch: Language = {
         max: "Naam mag maximaal 200 tekens bevatten"
       },
       file: {
-        required: "Bestand is verplicht",
-        max: "Bestandsnaam mag maximaal 50 tekens bevatten"
-      },
-      thumbnail: {
-        max: "Miniatuur mag maximaal 50 tekens bevatten"
+        required: "Bestand is verplicht"
       },
       duration: {
         required: "Duur is verplicht",

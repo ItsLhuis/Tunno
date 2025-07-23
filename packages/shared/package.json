@@ -1,24 +1,18 @@
 {
-  "name": "@repo/schemas",
+  "name": "@repo/shared",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./constants": "./dist/constants/index.js"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc --watch --preserveWatchOutput",
     "build": "tsc"
   },
-  "dependencies": {
-    "@repo/api": "*",
-    "@repo/database": "*",
-    "@repo/i18n": "*",
-    "@repo/shared": "*",
-    "drizzle-zod": "^0.8.2",
-    "zod": "^4.0.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^5.8.3"
   }

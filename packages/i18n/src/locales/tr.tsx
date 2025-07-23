@@ -88,11 +88,7 @@ export const turkish: Language = {
         max: "İsim en fazla 200 karakter olabilir"
       },
       file: {
-        required: "Dosya zorunludur",
-        max: "Dosya adı en fazla 50 karakter olabilir"
-      },
-      thumbnail: {
-        max: "Küçük resim en fazla 50 karakter olabilir"
+        required: "Dosya zorunludur"
       },
       duration: {
         required: "Süre zorunludur",

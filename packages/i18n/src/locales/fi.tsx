@@ -88,11 +88,7 @@ export const finnish: Language = {
         max: "Nimi saa olla enintään 200 merkkiä"
       },
       file: {
-        required: "Tiedosto vaaditaan",
-        max: "Tiedosto saa olla enintään 50 merkkiä"
-      },
-      thumbnail: {
-        max: "Pienoiskuva saa olla enintään 50 merkkiä"
+        required: "Tiedosto vaaditaan"
       },
       duration: {
         required: "Kesto vaaditaan",

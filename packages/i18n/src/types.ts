@@ -92,10 +92,6 @@ export type Translations = {
     }
     file: {
       required: string
-      max: string
-    }
-    thumbnail: {
-      max: string
     }
     duration: {
       required: string

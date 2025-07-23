@@ -88,11 +88,7 @@ export const german: Language = {
         max: "Name darf höchstens 200 Zeichen lang sein"
       },
       file: {
-        required: "Datei ist erforderlich",
-        max: "Datei darf höchstens 50 Zeichen lang sein"
-      },
-      thumbnail: {
-        max: "Vorschaubild darf höchstens 50 Zeichen lang sein"
+        required: "Datei ist erforderlich"
       },
       duration: {
         required: "Dauer ist erforderlich",

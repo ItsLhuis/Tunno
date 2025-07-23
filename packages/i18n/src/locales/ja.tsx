@@ -88,11 +88,7 @@ export const japanese: Language = {
         max: "名前は200文字以内で入力してください"
       },
       file: {
-        required: "ファイルは必須です",
-        max: "ファイル名は50文字以内で入力してください"
-      },
-      thumbnail: {
-        max: "サムネイルは50文字以内で入力してください"
+        required: "ファイルは必須です"
       },
       duration: {
         required: "再生時間は必須です",

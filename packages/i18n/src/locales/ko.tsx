@@ -88,11 +88,7 @@ export const korean: Language = {
         max: "이름은 최대 200자까지 입력 가능합니다"
       },
       file: {
-        required: "파일은 필수입니다",
-        max: "파일명은 최대 50자까지 입력 가능합니다"
-      },
-      thumbnail: {
-        max: "썸네일은 최대 50자까지 입력 가능합니다"
+        required: "파일은 필수입니다"
       },
       duration: {
         required: "재생 시간은 필수입니다",
