@@ -54,9 +54,9 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             start_server,
             stop_server,
-            is_server_running_cmd,
-            get_server_info_cmd,
-            get_qr_data_cmd,
+            is_server_running,
+            get_server_info,
+            get_qr_data,
             get_audio_duration
         ])
         .setup(|app| {
