@@ -1,3 +1,5 @@
+import { useTranslation } from "@repo/i18n"
+
 import { useEffect, useMemo, useState } from "react"
 
 import { debounce } from "lodash"
@@ -21,6 +23,8 @@ import {
 import { type SongWithRelations } from "@repo/api"
 
 const SearchComponent = ({ table }: { table: Table<SongWithRelations> }) => {
+  const { t } = useTranslation()
+
   const [searchTerm, setSearchTerm] = useState("")
 
   const debouncedSetGlobalFilter = useMemo(
@@ -46,9 +50,9 @@ const SearchComponent = ({ table }: { table: Table<SongWithRelations> }) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Visibility</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("common.visibility")}</DropdownMenuLabel>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>{t("common.columns")}</DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
                 {table
                   .getAllColumns()

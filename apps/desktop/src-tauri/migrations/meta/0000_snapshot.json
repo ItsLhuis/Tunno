@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "6b3420b3-b413-40b5-886e-645421aa89a6",
+  "id": "32bad7fb-cf42-4de8-927a-d369c39a2c21",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "albums": {
@@ -650,8 +650,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "file_name": {
-          "name": "file_name",
+        "file": {
+          "name": "file",
           "type": "text(50)",
           "primaryKey": false,
           "notNull": true,
@@ -734,10 +734,10 @@
         }
       },
       "indexes": {
-        "songs_file_name_unique": {
-          "name": "songs_file_name_unique",
+        "songs_file_unique": {
+          "name": "songs_file_unique",
           "columns": [
-            "file_name"
+            "file"
           ],
           "isUnique": true
         },
@@ -792,10 +792,10 @@
           ],
           "isUnique": false
         },
-        "songs_filename_idx": {
-          "name": "songs_filename_idx",
+        "songs_file_idx": {
+          "name": "songs_file_idx",
           "columns": [
-            "file_name"
+            "file"
           ],
           "isUnique": false
         },

@@ -1,5 +1,4 @@
 use tauri::{
-    command,
     menu::{Menu, MenuItem},
     plugin::TauriPlugin,
     tray::{MouseButton, MouseButtonState, TrayIcon, TrayIconBuilder, TrayIconEvent},
@@ -9,32 +8,10 @@ use tauri::{
 use tauri_plugin_window_state::StateFlags;
 
 mod api;
+mod utils;
 
-#[command]
-async fn start_server() -> Result<api::ServerInfo, String> {
-    api::start_api_server().await.map_err(|e| e.to_string())
-}
-
-#[command]
-async fn stop_server() -> Result<(), String> {
-    api::stop_api_server().await; 
-    Ok(())
-}
-
-#[command]
-async fn is_server_running() -> bool {
-    api::is_server_running().await
-}
-
-#[command]
-async fn get_server_info() -> Option<api::ServerInfo> {
-    api::get_server_info().await
-}
-
-#[command]
-async fn get_qr_data() -> Option<String> {
-    api::generate_qr_data().await
-}
+use api::commands::*;
+use utils::*;
 
 #[cfg(debug_assertions)]
 fn prevent_default() -> TauriPlugin<tauri::Wry> {
@@ -52,6 +29,7 @@ fn prevent_default() -> TauriPlugin<tauri::Wry> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_fs::init())
@@ -76,9 +54,10 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             start_server,
             stop_server,
-            is_server_running,
-            get_server_info,
-            get_qr_data
+            is_server_running_cmd,
+            get_server_info_cmd,
+            get_qr_data_cmd,
+            get_audio_duration
         ])
         .setup(|app| {
             #[cfg(desktop)]

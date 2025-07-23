@@ -60,7 +60,6 @@ function Sidebar() {
                     name={item.icon}
                     className={`${activeIndex === index ? "text-primary" : "text-current"}`}
                   />
-                  <span className="sr-only">Open {t(item.label)} screen</span>
                 </SafeLink>
               </Button>
             ))}

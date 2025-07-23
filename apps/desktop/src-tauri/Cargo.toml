@@ -33,6 +33,7 @@ tokio = { version = "1.46.1", features = ["full"] }
 warp = "0.3.7"
 chrono = { version = "0.4.41", features = ["serde"] }
 local-ip-address = "0.6.5"
+symphonia = { version = "0.5.4", features = ["all"] }
 log = "0.4"
 tauri = { version = "2.6.2", features = ["macos-private-api", "tray-icon"] }
 tauri-plugin-shell = "2.3.0"
@@ -42,6 +43,7 @@ tauri-plugin-os = "2.3.0"
 tauri-plugin-sql = { version = "2.3.0", features = ["sqlite"] }
 tauri-plugin-fs = "2.4.0"
 tauri-plugin-process = "2.3.0"
+tauri-plugin-dialog = "2.3.1"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-single-instance = "2.3.0"

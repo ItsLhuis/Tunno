@@ -133,26 +133,50 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             {...props}
             variant="outline"
             onClick={handleTogglePopover}
+            asChild
             style={{ backgroundColor: "transparent" }}
             className={cn(
-              "flex h-auto min-h-9 w-full items-center justify-between rounded-md border p-1 focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background focus-visible:outline-none [&_svg]:pointer-events-auto",
+              "flex h-auto min-h-9 w-full items-center justify-between rounded-md border p-1 transition-colors focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background focus-visible:outline-none [&_svg]:pointer-events-auto",
               className
             )}
           >
-            {selectedValues.length > 0 ? (
-              <div className="flex w-full items-center justify-between">
-                <div className="flex flex-wrap items-center gap-1">
-                  {selectedValues.slice(0, maxCount).map((value) => {
-                    const option = options.find((o) => o.value === value)
-                    const IconComponent = option?.icon
-                    return (
-                      <Badge key={value} className={cn(multiSelectVariants({ variant }))}>
-                        {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
-                        {option?.label}
+            <button>
+              {selectedValues.length > 0 ? (
+                <div className="flex w-full items-center justify-between">
+                  <div className="flex flex-wrap items-center gap-1">
+                    {selectedValues.slice(0, maxCount).map((value) => {
+                      const option = options.find((o) => o.value === value)
+                      const IconComponent = option?.icon
+                      return (
+                        <Badge key={value} className={cn(multiSelectVariants({ variant }))}>
+                          {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
+                          {option?.label}
+                          <span
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              toggleOption(value)
+                            }}
+                          >
+                            <Icon
+                              name="XCircle"
+                              className="ml-2 h-4 w-4 text-muted-foreground opacity-50"
+                            />
+                          </span>
+                        </Badge>
+                      )
+                    })}
+                    {selectedValues.length > maxCount && (
+                      <Badge
+                        className={cn(
+                          "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
+                          multiSelectVariants({ variant })
+                        )}
+                      >
+                        {`+ ${selectedValues.length - maxCount} ${t("common.more")}`}
                         <span
                           onClick={(event) => {
                             event.stopPropagation()
-                            toggleOption(value)
+                            clearExtraOptions()
                           }}
                         >
                           <Icon
@@ -161,49 +185,31 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                           />
                         </span>
                       </Badge>
-                    )
-                  })}
-                  {selectedValues.length > maxCount && (
-                    <Badge
-                      className={cn(
-                        "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
-                        multiSelectVariants({ variant })
-                      )}
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        handleClear()
+                      }}
                     >
-                      {`+ ${selectedValues.length - maxCount} ${t("common.more")}`}
-                      <span
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          clearExtraOptions()
-                        }}
-                      >
-                        <Icon
-                          name="XCircle"
-                          className="ml-2 h-4 w-4 text-muted-foreground opacity-50"
-                        />
-                      </span>
-                    </Badge>
-                  )}
+                      <Icon name="XIcon" className="mx-2 h-4 text-muted-foreground opacity-50" />
+                    </span>
+                    <Separator orientation="vertical" className="flex h-full min-h-6" />
+                    <Icon
+                      name="ChevronDown"
+                      className="mx-2 h-4 text-muted-foreground opacity-50"
+                    />
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      handleClear()
-                    }}
-                  >
-                    <Icon name="XIcon" className="mx-2 h-4 text-muted-foreground opacity-50" />
-                  </span>
-                  <Separator orientation="vertical" className="flex h-full min-h-6" />
+              ) : (
+                <div className="mx-auto flex w-full items-center justify-between">
+                  <span className="mx-2 text-sm text-muted-foreground">{placeholder}</span>
                   <Icon name="ChevronDown" className="mx-2 h-4 text-muted-foreground opacity-50" />
                 </div>
-              </div>
-            ) : (
-              <div className="mx-auto flex w-full items-center justify-between">
-                <span className="mx-3 text-sm text-muted-foreground">{placeholder}</span>
-                <Icon name="ChevronDown" className="mx-2 h-4 text-muted-foreground opacity-50" />
-              </div>
-            )}
+              )}
+            </button>
           </Button>
         </PopoverTrigger>
         <PopoverContent

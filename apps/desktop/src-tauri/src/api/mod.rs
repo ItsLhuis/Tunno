@@ -1,11 +1,11 @@
 use warp::Filter;
 
-use serde_json::json;
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 
 use local_ip_address::local_ip;
 
-use std::net::{TcpListener, SocketAddr};
+use std::net::{SocketAddr, TcpListener};
 use std::sync::Arc;
 use std::sync::LazyLock;
 
@@ -46,10 +46,7 @@ impl ApiServer {
         let local_ip = local_ip()?;
         let server_url = format!("http://{}:{}", local_ip, port);
 
-        let endpoints = vec![
-            "/ping".to_string(),
-            "/connection".to_string()
-        ];
+        let endpoints = vec!["/ping".to_string(), "/connection".to_string()];
 
         let server_info = ServerInfo {
             ip: local_ip,
@@ -60,46 +57,38 @@ impl ApiServer {
 
         let info_for_routes = server_info.clone();
 
-        let ping = warp::path("ping")
-            .and(warp::get())
-            .map(|| {
-                warp::reply::json(&json!({
-                    "message": "pong",
-                    "status": "ok",
-                    "timestamp": chrono::Utc::now().to_rfc3339()
-                }))
-            });
+        let ping = warp::path("ping").and(warp::get()).map(|| {
+            warp::reply::json(&json!({
+                "message": "pong",
+                "status": "ok",
+                "timestamp": chrono::Utc::now().to_rfc3339()
+            }))
+        });
 
-        let connection_info = warp::path("connection")
-            .and(warp::get())
-            .map(move || {
-                warp::reply::json(&json!({
-                    "ip": info_for_routes.ip,
-                    "port": info_for_routes.port,
-                    "url": info_for_routes.url,
-                    "endpoints": info_for_routes.endpoints
-                }))
-            });
+        let connection_info = warp::path("connection").and(warp::get()).map(move || {
+            warp::reply::json(&json!({
+                "ip": info_for_routes.ip,
+                "port": info_for_routes.port,
+                "url": info_for_routes.url,
+                "endpoints": info_for_routes.endpoints
+            }))
+        });
 
         let cors = warp::cors()
             .allow_any_origin()
             .allow_headers(vec!["content-type", "authorization"])
             .allow_methods(vec!["GET", "POST"]);
 
-        let routes = ping
-            .or(connection_info)
-            .with(cors)
-            .with(warp::log("api"));
+        let routes = ping.or(connection_info).with(cors).with(warp::log("api"));
 
         let (shutdown_tx, shutdown_rx) = oneshot::channel();
         self.shutdown_tx = Some(shutdown_tx);
         self.server_info = Some(server_info.clone());
 
         let server_addr: SocketAddr = ([0, 0, 0, 0], port).into();
-        let (_addr, server) = warp::serve(routes)
-            .bind_with_graceful_shutdown(server_addr, async {
-                shutdown_rx.await.ok();
-            });
+        let (_addr, server) = warp::serve(routes).bind_with_graceful_shutdown(server_addr, async {
+            shutdown_rx.await.ok();
+        });
 
         tokio::spawn(server);
 
@@ -131,14 +120,14 @@ impl ApiServer {
                     "endpoints": info.endpoints
                 },
                 "timestamp": chrono::Utc::now().to_rfc3339()
-            }).to_string()
+            })
+            .to_string()
         })
     }
 }
 
-static API_SERVER: LazyLock<Arc<Mutex<ApiServer>>> = LazyLock::new(|| {
-    Arc::new(Mutex::new(ApiServer::new()))
-});
+static API_SERVER: LazyLock<Arc<Mutex<ApiServer>>> =
+    LazyLock::new(|| Arc::new(Mutex::new(ApiServer::new())));
 
 pub async fn start_api_server() -> Result<ServerInfo, Box<dyn std::error::Error>> {
     let mut server = API_SERVER.lock().await;
@@ -164,3 +153,5 @@ pub async fn generate_qr_data() -> Option<String> {
     let server = API_SERVER.lock().await;
     server.generate_qr_data()
 }
+
+pub mod commands;
