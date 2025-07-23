@@ -91,7 +91,7 @@ CREATE TABLE `songs` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(200) NOT NULL,
 	`thumbnail` text(50),
-	`file_name` text(50) NOT NULL,
+	`file` text(50) NOT NULL,
 	`duration` integer NOT NULL,
 	`is_favorite` integer DEFAULT false NOT NULL,
 	`is_single` integer DEFAULT false NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE `songs` (
 	FOREIGN KEY (`album_id`) REFERENCES `albums`(`id`) ON UPDATE no action ON DELETE set null
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `songs_file_name_unique` ON `songs` (`file_name`);--> statement-breakpoint
+CREATE UNIQUE INDEX `songs_file_unique` ON `songs` (`file`);--> statement-breakpoint
 CREATE INDEX `songs_name_idx` ON `songs` (`name`);--> statement-breakpoint
 CREATE INDEX `songs_album_idx` ON `songs` (`album_id`);--> statement-breakpoint
 CREATE INDEX `songs_favorite_idx` ON `songs` (`is_favorite`);--> statement-breakpoint
@@ -113,7 +113,7 @@ CREATE INDEX `songs_playcount_idx` ON `songs` (`play_count`);--> statement-break
 CREATE INDEX `songs_last_played_idx` ON `songs` (`last_played_at`);--> statement-breakpoint
 CREATE INDEX `songs_album_year_idx` ON `songs` (`album_id`,`release_year`);--> statement-breakpoint
 CREATE INDEX `songs_favorite_playcount_idx` ON `songs` (`is_favorite`,`play_count`);--> statement-breakpoint
-CREATE INDEX `songs_filename_idx` ON `songs` (`file_name`);--> statement-breakpoint
+CREATE INDEX `songs_file_idx` ON `songs` (`file`);--> statement-breakpoint
 CREATE INDEX `songs_single_idx` ON `songs` (`is_single`);--> statement-breakpoint
 CREATE TABLE `song_artists` (
 	`song_id` integer NOT NULL,
