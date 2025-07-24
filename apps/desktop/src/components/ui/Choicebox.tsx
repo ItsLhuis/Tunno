@@ -22,7 +22,7 @@ const ChoiceboxItem = ({
 }: ComponentProps<typeof RadioGroupPrimitive.Item>) => (
   <RadioGroupPrimitive.Item
     className={cn(
-      "text-left focus:outline-none focus:ring-0",
+      "text-left transition-colors focus:outline-none focus:ring-0",
       '[&[data-state="checked"]]:border-primary'
     )}
     asChild
@@ -61,7 +61,7 @@ const ChoiceboxItemDescription = ({
 const ChoiceboxItemContent = ({ className, ...props }: ComponentProps<typeof CardContent>) => (
   <CardContent
     className={cn(
-      "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border border-input p-0 text-primary outline-none transition-[background-color,opacity] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30",
+      "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border border-input p-0 text-primary outline-none transition-[background-color,border-color,opacity] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50",
       className
     )}
     {...props}

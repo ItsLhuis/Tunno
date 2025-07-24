@@ -201,7 +201,7 @@ const UploadPicker = ({
       <Card
         className={cn(
           "rounded-md border-2 border-dashed",
-          hasError && "border-destructive text-destructive",
+          hasError && "border-destructive",
           className
         )}
       >
@@ -278,3 +278,4 @@ const UploadPicker = ({
 }
 
 export { UploadPicker }
+
