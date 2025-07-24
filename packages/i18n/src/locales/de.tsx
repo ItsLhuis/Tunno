@@ -64,7 +64,7 @@ export const german: Language = {
         releaseYear: "Erscheinungsjahr",
         album: "Album",
         artists: "Künstler",
-        isSingle: "Ist Single",
+        isSingle: "Ist single",
         folder: "Ordner"
       },
       buttons: {

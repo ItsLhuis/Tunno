@@ -64,7 +64,7 @@ export const portuguese: Language = {
         releaseYear: "Ano de lançamento",
         album: "Álbum",
         artists: "Artistas",
-        isSingle: "É Single",
+        isSingle: "É single",
         folder: "Pasta"
       },
       buttons: {

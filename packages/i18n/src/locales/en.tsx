@@ -61,10 +61,10 @@ export const english: Language = {
         name: "Name",
         thumbnail: "Thumbnail",
         file: "File",
-        releaseYear: "Release Year",
+        releaseYear: "Release year",
         album: "Album",
         artists: "Artists",
-        isSingle: "Is Single",
+        isSingle: "Is single",
         folder: "Folder"
       },
       buttons: {
