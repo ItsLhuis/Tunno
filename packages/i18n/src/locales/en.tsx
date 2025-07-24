@@ -40,7 +40,8 @@ export const english: Language = {
       columns: "Columns",
       clear: "Clear",
       cancel: "Cancel",
-      more: "More"
+      more: "More",
+      select: "Select"
     },
     form: {
       titles: {
@@ -63,7 +64,8 @@ export const english: Language = {
         releaseYear: "Release Year",
         album: "Album",
         artists: "Artists",
-        isSingle: "Is Single"
+        isSingle: "Is Single",
+        folder: "Folder"
       },
       buttons: {
         cancel: "Cancel",
@@ -87,7 +89,9 @@ export const english: Language = {
         max: "Name must be at most 200 characters"
       },
       file: {
-        required: "File is required"
+        required: "File is required",
+        invalid: "Invalid or corrupted file",
+        max: "File exceeds the maximum size of {{maxSize}}"
       },
       duration: {
         required: "Duration is required",

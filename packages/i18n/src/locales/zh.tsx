@@ -4,7 +4,7 @@ import { type Language } from "../types"
 
 export const chinese: Language = {
   code: "zh",
-  name: "简体中文",
+  name: "中文",
   flag: Zh,
   isRtl: false,
   translations: {
@@ -18,15 +18,15 @@ export const chinese: Language = {
       goFoward: "前进",
       favorite: "收藏",
       unfavorite: "取消收藏",
-      enableShuffle: "开启随机播放",
-      disableShuffle: "关闭随机播放",
+      enableShuffle: "启用随机播放",
+      disableShuffle: "禁用随机播放",
       previous: "上一首",
       play: "播放",
       pause: "暂停",
       next: "下一首",
-      enableRepeat: "开启循环播放",
-      enableRepeatOne: "开启单曲循环",
-      disableRepeat: "关闭循环播放",
+      enableRepeat: "启用重复播放",
+      enableRepeatOne: "重复播放单曲",
+      disableRepeat: "禁用重复播放",
       mute: "静音",
       unmute: "取消静音",
       queue: "队列",
@@ -40,7 +40,8 @@ export const chinese: Language = {
       columns: "列",
       clear: "清除",
       cancel: "取消",
-      more: "更多"
+      more: "更多",
+      select: "选择"
     },
     form: {
       titles: {
@@ -63,7 +64,8 @@ export const chinese: Language = {
         releaseYear: "发行年份",
         album: "专辑",
         artists: "艺术家",
-        isSingle: "是否为单曲"
+        isSingle: "单曲",
+        folder: "文件夹"
       },
       buttons: {
         cancel: "取消",
@@ -73,8 +75,8 @@ export const chinese: Language = {
       },
       descriptions: {
         thumbnail: "背景图片（可选）",
-        fileSize: "最大尺寸: {{size}}",
-        supportedFormats: "支持格式: {{formats}}"
+        fileSize: "最大大小：{{size}}",
+        supportedFormats: "支持的格式：{{formats}}"
       },
       messages: {
         confirmDelete: "您确定要删除吗？",
@@ -84,26 +86,28 @@ export const chinese: Language = {
     validation: {
       name: {
         required: "名称为必填项",
-        max: "名称不能超过200个字符"
+        max: "名称最多200个字符"
       },
       file: {
-        required: "文件为必填项"
+        required: "文件为必填项",
+        invalid: "无效或损坏的文件",
+        max: "文件超过最大大小 {{maxSize}}"
       },
       duration: {
         required: "时长为必填项",
-        min: "时长必须大于等于0"
+        min: "时长必须至少为0"
       },
       releaseYear: {
-        invalid: "发行年份无效",
-        min: "发行年份必须大于等于0",
+        invalid: "无效的发行年份",
+        min: "发行年份必须至少为0",
         max: "发行年份不能是未来时间"
       },
       albumId: {
-        invalid: "专辑无效",
-        requiredIfNotSingle: "如果不是单曲，专辑为必填"
+        invalid: "无效的专辑",
+        requiredIfNotSingle: "如果不是单曲，则专辑为必填项"
       },
       artists: {
-        min: "至少需要一个艺术家"
+        min: "至少需要一位艺术家"
       }
     },
     update: {
@@ -129,54 +133,54 @@ export const chinese: Language = {
     home: { title: "首页" },
     songs: {
       title: "歌曲",
-      createdTitle: "歌曲创建成功",
+      createdTitle: "创建歌曲成功",
       createdDescription: "{{name}} 已创建",
-      createdFailedTitle: "歌曲创建失败",
-      updatedTitle: "歌曲更新成功",
+      createdFailedTitle: "创建歌曲失败",
+      updatedTitle: "更新歌曲成功",
       updatedDescription: "{{name}} 已更新",
-      updatedFailedTitle: "歌曲更新失败",
-      deletedTitle: "歌曲删除成功",
+      updatedFailedTitle: "更新歌曲失败",
+      deletedTitle: "删除歌曲成功",
       deletedDescription: "{{name}} 已删除",
-      deletedFailedTitle: "歌曲删除失败"
+      deletedFailedTitle: "删除歌曲失败"
     },
     favorites: {
       title: "收藏",
-      createdTitle: "已添加到收藏",
+      createdTitle: "添加到收藏",
       createdDescription: "{{name}} 已添加到收藏",
       createdFailedTitle: "添加到收藏失败",
-      deletedTitle: "已从收藏中删除",
-      deletedDescription: "{{name}} 已从收藏中删除",
-      deletedFailedTitle: "从收藏中删除失败"
+      deletedTitle: "从收藏中移除",
+      deletedDescription: "{{name}} 已从收藏中移除",
+      deletedFailedTitle: "移除收藏失败"
     },
     playlists: {
       title: "播放列表",
-      createdTitle: "播放列表创建成功",
+      createdTitle: "创建播放列表成功",
       createdDescription: "{{name}} 已创建",
-      createdFailedTitle: "播放列表创建失败",
-      updatedTitle: "播放列表更新成功",
+      createdFailedTitle: "创建播放列表失败",
+      updatedTitle: "更新播放列表成功",
       updatedDescription: "{{name}} 已更新",
-      updatedFailedTitle: "播放列表更新失败",
-      deletedTitle: "播放列表删除成功",
+      updatedFailedTitle: "更新播放列表失败",
+      deletedTitle: "删除播放列表成功",
       deletedDescription: "{{name}} 已删除",
-      deletedFailedTitle: "播放列表删除失败"
+      deletedFailedTitle: "删除播放列表失败"
     },
     artists: {
       title: "艺术家",
-      createdTitle: "艺术家创建成功",
+      createdTitle: "创建艺术家成功",
       createdDescription: "{{name}} 已创建",
-      createdFailedTitle: "艺术家创建失败",
-      updatedTitle: "艺术家更新成功",
+      createdFailedTitle: "创建艺术家失败",
+      updatedTitle: "更新艺术家成功",
       updatedDescription: "{{name}} 已更新",
-      updatedFailedTitle: "艺术家更新失败",
-      deletedTitle: "艺术家删除成功",
+      updatedFailedTitle: "更新艺术家失败",
+      deletedTitle: "删除艺术家成功",
       deletedDescription: "{{name}} 已删除",
-      deletedFailedTitle: "艺术家删除失败"
+      deletedFailedTitle: "删除艺术家失败"
     },
     settings: {
       title: "设置",
       appearance: {
         title: "外观",
-        description: "选择您喜欢的显示模式",
+        description: "选择您喜欢的外观模式",
         light: "浅色",
         dark: "深色",
         system: "系统"
@@ -187,10 +191,12 @@ export const chinese: Language = {
       },
       sync: {
         title: "同步",
-        description: "在所有设备上同步您的数据"
+        description: "在设备间同步您的数据"
       }
     },
-    fastUpload: { title: "快速上传" },
+    fastUpload: {
+      title: "快速上传"
+    },
     languages: {
       da: "丹麦语",
       de: "德语",

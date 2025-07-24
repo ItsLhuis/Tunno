@@ -14,18 +14,18 @@ export const spanish: Language = {
       hoursAgo: "Hace {{count}} hora{{count, plural, one {} other{s}}}",
       today: "Hoy",
       yesterday: "Ayer",
-      goBack: "Ir atrás",
-      goFoward: "Ir adelante",
+      goBack: "Regresar",
+      goFoward: "Avanzar",
       favorite: "Favorito",
-      unfavorite: "Quitar favorito",
-      enableShuffle: "Activar aleatorio",
-      disableShuffle: "Desactivar aleatorio",
+      unfavorite: "Quitar de favoritos",
+      enableShuffle: "Activar reproducción aleatoria",
+      disableShuffle: "Desactivar reproducción aleatoria",
       previous: "Anterior",
       play: "Reproducir",
-      pause: "Pausar",
+      pause: "Pausa",
       next: "Siguiente",
       enableRepeat: "Activar repetición",
-      enableRepeatOne: "Activar repetir una",
+      enableRepeatOne: "Repetir una vez",
       disableRepeat: "Desactivar repetición",
       mute: "Silenciar",
       unmute: "Activar sonido",
@@ -40,7 +40,8 @@ export const spanish: Language = {
       columns: "Columnas",
       clear: "Limpiar",
       cancel: "Cancelar",
-      more: "Más"
+      more: "Más",
+      select: "Seleccionar"
     },
     form: {
       titles: {
@@ -63,7 +64,8 @@ export const spanish: Language = {
         releaseYear: "Año de lanzamiento",
         album: "Álbum",
         artists: "Artistas",
-        isSingle: "Es sencillo"
+        isSingle: "Es single",
+        folder: "Carpeta"
       },
       buttons: {
         cancel: "Cancelar",
@@ -74,7 +76,7 @@ export const spanish: Language = {
       descriptions: {
         thumbnail: "Imagen de fondo (opcional)",
         fileSize: "Tamaño máximo: {{size}}",
-        supportedFormats: "Formatos compatibles: {{formats}}"
+        supportedFormats: "Formatos soportados: {{formats}}"
       },
       messages: {
         confirmDelete: "¿Estás seguro de que quieres eliminar?",
@@ -87,7 +89,9 @@ export const spanish: Language = {
         max: "El nombre debe tener como máximo 200 caracteres"
       },
       file: {
-        required: "El archivo es obligatorio"
+        required: "El archivo es obligatorio",
+        invalid: "Archivo inválido o dañado",
+        max: "El archivo excede el tamaño máximo de {{maxSize}}"
       },
       duration: {
         required: "La duración es obligatoria",
@@ -100,7 +104,7 @@ export const spanish: Language = {
       },
       albumId: {
         invalid: "Álbum inválido",
-        requiredIfNotSingle: "El álbum es obligatorio si no es un sencillo"
+        requiredIfNotSingle: "El álbum es obligatorio si no es un single"
       },
       artists: {
         min: "Se requiere al menos un artista"
@@ -109,7 +113,7 @@ export const spanish: Language = {
     update: {
       downloading: "Descargando e instalando actualización",
       downloadingDescription:
-        "Una nueva actualización está disponible y se está instalando automáticamente",
+        "Una nueva actualización está disponible y se instala automáticamente",
       installedSuccess: "Actualización instalada correctamente",
       failed: "Error al instalar la actualización"
     },
@@ -130,7 +134,7 @@ export const spanish: Language = {
         title: "Artistas"
       },
       fastUpload: {
-        title: "Subida rápida"
+        title: "Carga rápida"
       },
       settings: {
         title: "Configuración",
@@ -141,7 +145,7 @@ export const spanish: Language = {
           title: "Idioma"
         },
         sync: {
-          title: "Sincronizar"
+          title: "Sincronización"
         }
       }
     },
@@ -150,46 +154,46 @@ export const spanish: Language = {
     },
     songs: {
       title: "Canciones",
-      createdTitle: "Canción creada correctamente",
+      createdTitle: "Canción creada con éxito",
       createdDescription: "{{name}} ha sido creada",
       createdFailedTitle: "Error al crear la canción",
-      updatedTitle: "Canción actualizada correctamente",
+      updatedTitle: "Canción actualizada con éxito",
       updatedDescription: "{{name}} ha sido actualizada",
       updatedFailedTitle: "Error al actualizar la canción",
-      deletedTitle: "Canción eliminada correctamente",
+      deletedTitle: "Canción eliminada con éxito",
       deletedDescription: "{{name}} ha sido eliminada",
       deletedFailedTitle: "Error al eliminar la canción"
     },
     favorites: {
       title: "Favoritos",
-      createdTitle: "Agregado a favoritos",
-      createdDescription: "{{name}} ha sido agregada a favoritos",
-      createdFailedTitle: "Error al agregar a favoritos",
+      createdTitle: "Añadido a favoritos",
+      createdDescription: "{{name}} ha sido añadido a favoritos",
+      createdFailedTitle: "Error al añadir a favoritos",
       deletedTitle: "Eliminado de favoritos",
-      deletedDescription: "{{name}} ha sido eliminada de favoritos",
+      deletedDescription: "{{name}} ha sido eliminado de favoritos",
       deletedFailedTitle: "Error al eliminar de favoritos"
     },
     playlists: {
       title: "Listas de reproducción",
-      createdTitle: "Lista de reproducción creada correctamente",
+      createdTitle: "Lista creada con éxito",
       createdDescription: "{{name}} ha sido creada",
-      createdFailedTitle: "Error al crear la lista de reproducción",
-      updatedTitle: "Lista de reproducción actualizada correctamente",
+      createdFailedTitle: "Error al crear la lista",
+      updatedTitle: "Lista actualizada con éxito",
       updatedDescription: "{{name}} ha sido actualizada",
-      updatedFailedTitle: "Error al actualizar la lista de reproducción",
-      deletedTitle: "Lista de reproducción eliminada correctamente",
+      updatedFailedTitle: "Error al actualizar la lista",
+      deletedTitle: "Lista eliminada con éxito",
       deletedDescription: "{{name}} ha sido eliminada",
-      deletedFailedTitle: "Error al eliminar la lista de reproducción"
+      deletedFailedTitle: "Error al eliminar la lista"
     },
     artists: {
       title: "Artistas",
-      createdTitle: "Artista creado correctamente",
+      createdTitle: "Artista creado con éxito",
       createdDescription: "{{name}} ha sido creado",
       createdFailedTitle: "Error al crear el artista",
-      updatedTitle: "Artista actualizado correctamente",
+      updatedTitle: "Artista actualizado con éxito",
       updatedDescription: "{{name}} ha sido actualizado",
       updatedFailedTitle: "Error al actualizar el artista",
-      deletedTitle: "Artista eliminado correctamente",
+      deletedTitle: "Artista eliminado con éxito",
       deletedDescription: "{{name}} ha sido eliminado",
       deletedFailedTitle: "Error al eliminar el artista"
     },
@@ -207,19 +211,19 @@ export const spanish: Language = {
         description: "Elige tu idioma preferido"
       },
       sync: {
-        title: "Sincronizar",
-        description: "Sincroniza tus datos entre dispositivos"
+        title: "Sincronización",
+        description: "Sincroniza tus datos en todos los dispositivos"
       }
     },
     fastUpload: {
-      title: "Subida rápida"
+      title: "Carga rápida"
     },
     languages: {
       da: "Danés",
       de: "Alemán",
       en: "Inglés",
       es: "Español",
-      fi: "Finés",
+      fi: "Finlandés",
       fr: "Francés",
       hi: "Hindi",
       it: "Italiano",

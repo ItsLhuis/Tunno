@@ -44,6 +44,7 @@ export type Translations = {
     clear: string
     cancel: string
     more: string
+    select: string
   }
   form: {
     titles: {
@@ -67,6 +68,7 @@ export type Translations = {
       album: string
       artists: string
       isSingle: string
+      folder: string
     }
     buttons: {
       cancel: string
@@ -91,6 +93,8 @@ export type Translations = {
     }
     file: {
       required: string
+      invalid: string
+      max: string
     }
     duration: {
       required: string

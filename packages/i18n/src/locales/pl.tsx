@@ -11,21 +11,21 @@ export const polish: Language = {
     common: {
       noResultsFound: "Nie znaleziono wyników",
       lessThanAnHourAgo: "Mniej niż godzinę temu",
-      hoursAgo: "{{count}} godzinę{{count, plural, one {} few {i} other {}}} temu",
+      hoursAgo: "{{count}} godzin{{count, plural, one {ę} few {y} many {} other {}}} temu",
       today: "Dzisiaj",
       yesterday: "Wczoraj",
       goBack: "Wróć",
-      goFoward: "Idź dalej",
+      goFoward: "Dalej",
       favorite: "Ulubione",
       unfavorite: "Usuń z ulubionych",
-      enableShuffle: "Włącz losowe odtwarzanie",
-      disableShuffle: "Wyłącz losowe odtwarzanie",
+      enableShuffle: "Włącz losowe",
+      disableShuffle: "Wyłącz losowe",
       previous: "Poprzedni",
       play: "Odtwórz",
       pause: "Pauza",
       next: "Następny",
       enableRepeat: "Włącz powtarzanie",
-      enableRepeatOne: "Włącz powtarzanie jednego",
+      enableRepeatOne: "Powtórz jeden",
       disableRepeat: "Wyłącz powtarzanie",
       mute: "Wycisz",
       unmute: "Wyłącz wyciszenie",
@@ -40,18 +40,19 @@ export const polish: Language = {
       columns: "Kolumny",
       clear: "Wyczyść",
       cancel: "Anuluj",
-      more: "Więcej"
+      more: "Więcej",
+      select: "Wybierz"
     },
     form: {
       titles: {
         createSong: "Utwórz utwór",
-        updateSong: "Aktualizuj utwór",
+        updateSong: "Zaktualizuj utwór",
         deleteSong: "Usuń utwór",
         createArtist: "Utwórz artystę",
-        updateArtist: "Aktualizuj artystę",
+        updateArtist: "Zaktualizuj artystę",
         deleteArtist: "Usuń artystę",
         createPlaylist: "Utwórz playlistę",
-        updatePlaylist: "Aktualizuj playlistę",
+        updatePlaylist: "Zaktualizuj playlistę",
         deletePlaylist: "Usuń playlistę",
         confirmation: "Potwierdzenie",
         warning: "Ostrzeżenie"
@@ -63,12 +64,13 @@ export const polish: Language = {
         releaseYear: "Rok wydania",
         album: "Album",
         artists: "Artyści",
-        isSingle: "Czy singiel"
+        isSingle: "To singiel",
+        folder: "Folder"
       },
       buttons: {
         cancel: "Anuluj",
         delete: "Usuń",
-        update: "Aktualizuj",
+        update: "Zaktualizuj",
         create: "Utwórz"
       },
       descriptions: {
@@ -78,7 +80,7 @@ export const polish: Language = {
       },
       messages: {
         confirmDelete: "Czy na pewno chcesz usunąć?",
-        unsavedChanges: "Istnieją niezapisane zmiany"
+        unsavedChanges: "Są niezapisane zmiany"
       }
     },
     validation: {
@@ -87,55 +89,77 @@ export const polish: Language = {
         max: "Nazwa może mieć maksymalnie 200 znaków"
       },
       file: {
-        required: "Plik jest wymagany"
+        required: "Plik jest wymagany",
+        invalid: "Nieprawidłowy lub uszkodzony plik",
+        max: "Plik przekracza maksymalny rozmiar {{maxSize}}"
       },
       duration: {
         required: "Czas trwania jest wymagany",
-        min: "Czas trwania musi być co najmniej 0"
+        min: "Czas trwania musi być większy niż 0"
       },
       releaseYear: {
         invalid: "Nieprawidłowy rok wydania",
-        min: "Rok wydania musi być co najmniej 0",
+        min: "Rok wydania musi być większy niż 0",
         max: "Rok wydania nie może być w przyszłości"
       },
       albumId: {
         invalid: "Nieprawidłowy album",
-        requiredIfNotSingle: "Album jest wymagany, jeśli nie jest singlem"
+        requiredIfNotSingle: "Album jest wymagany, jeśli to nie singiel"
       },
       artists: {
-        min: "Wymagana jest co najmniej jedna osoba"
+        min: "Wymagany jest co najmniej jeden artysta"
       }
     },
     update: {
       downloading: "Pobieranie i instalacja aktualizacji",
-      downloadingDescription: "Dostępna jest nowa aktualizacja i jest instalowana automatycznie",
-      installedSuccess: "Aktualizacja została pomyślnie zainstalowana",
+      downloadingDescription: "Dostępna jest nowa aktualizacja, instalacja trwa automatycznie",
+      installedSuccess: "Aktualizacja zainstalowana",
       failed: "Nie udało się zainstalować aktualizacji"
     },
     breadcrumbs: {
-      home: { title: "Strona główna" },
-      songs: { title: "Utwory" },
-      favorites: { title: "Ulubione" },
-      playlists: { title: "Playlisty" },
-      artists: { title: "Artyści" },
-      fastUpload: { title: "Szybkie przesyłanie" },
+      home: {
+        title: "Strona główna"
+      },
+      songs: {
+        title: "Utwory"
+      },
+      favorites: {
+        title: "Ulubione"
+      },
+      playlists: {
+        title: "Playlisty"
+      },
+      artists: {
+        title: "Artyści"
+      },
+      fastUpload: {
+        title: "Szybkie przesyłanie"
+      },
       settings: {
         title: "Ustawienia",
-        appearance: { title: "Wygląd" },
-        language: { title: "Język" },
-        sync: { title: "Synchronizacja" }
+        appearance: {
+          title: "Wygląd"
+        },
+        language: {
+          title: "Język"
+        },
+        sync: {
+          title: "Synchronizacja"
+        }
       }
     },
-    home: { title: "Strona główna" },
+    home: {
+      title: "Strona główna"
+    },
     songs: {
       title: "Utwory",
-      createdTitle: "Utwór został pomyślnie utworzony",
-      createdDescription: "{{name}} został utworzony",
-      createdFailedTitle: "Nie udało się utworzyć utworu",
-      updatedTitle: "Utwór został pomyślnie zaktualizowany",
+      createdTitle: "Utwór dodany",
+      createdDescription: "{{name}} został dodany",
+      createdFailedTitle: "Nie udało się dodać utworu",
+      updatedTitle: "Utwór zaktualizowany",
       updatedDescription: "{{name}} został zaktualizowany",
       updatedFailedTitle: "Nie udało się zaktualizować utworu",
-      deletedTitle: "Utwór został pomyślnie usunięty",
+      deletedTitle: "Utwór usunięty",
       deletedDescription: "{{name}} został usunięty",
       deletedFailedTitle: "Nie udało się usunąć utworu"
     },
@@ -150,25 +174,25 @@ export const polish: Language = {
     },
     playlists: {
       title: "Playlisty",
-      createdTitle: "Playlista została pomyślnie utworzona",
-      createdDescription: "{{name}} została utworzona",
+      createdTitle: "Playlist utworzony",
+      createdDescription: "{{name}} został utworzony",
       createdFailedTitle: "Nie udało się utworzyć playlisty",
-      updatedTitle: "Playlista została pomyślnie zaktualizowana",
-      updatedDescription: "{{name}} została zaktualizowana",
+      updatedTitle: "Playlist zaktualizowany",
+      updatedDescription: "{{name}} został zaktualizowany",
       updatedFailedTitle: "Nie udało się zaktualizować playlisty",
-      deletedTitle: "Playlista została pomyślnie usunięta",
-      deletedDescription: "{{name}} została usunięta",
+      deletedTitle: "Playlist usunięty",
+      deletedDescription: "{{name}} został usunięty",
       deletedFailedTitle: "Nie udało się usunąć playlisty"
     },
     artists: {
       title: "Artyści",
-      createdTitle: "Artysta został pomyślnie utworzony",
-      createdDescription: "{{name}} został utworzony",
-      createdFailedTitle: "Nie udało się utworzyć artysty",
-      updatedTitle: "Artysta został pomyślnie zaktualizowany",
+      createdTitle: "Artysta dodany",
+      createdDescription: "{{name}} został dodany",
+      createdFailedTitle: "Nie udało się dodać artysty",
+      updatedTitle: "Artysta zaktualizowany",
       updatedDescription: "{{name}} został zaktualizowany",
       updatedFailedTitle: "Nie udało się zaktualizować artysty",
-      deletedTitle: "Artysta został pomyślnie usunięty",
+      deletedTitle: "Artysta usunięty",
       deletedDescription: "{{name}} został usunięty",
       deletedFailedTitle: "Nie udało się usunąć artysty"
     },
@@ -176,7 +200,7 @@ export const polish: Language = {
       title: "Ustawienia",
       appearance: {
         title: "Wygląd",
-        description: "Wybierz preferowany tryb wyświetlania",
+        description: "Wybierz preferowany motyw",
         light: "Jasny",
         dark: "Ciemny",
         system: "Systemowy"
@@ -187,10 +211,12 @@ export const polish: Language = {
       },
       sync: {
         title: "Synchronizacja",
-        description: "Synchronizuj dane na wszystkich urządzeniach"
+        description: "Synchronizuj dane między urządzeniami"
       }
     },
-    fastUpload: { title: "Szybkie przesyłanie" },
+    fastUpload: {
+      title: "Szybkie przesyłanie"
+    },
     languages: {
       da: "Duński",
       de: "Niemiecki",
@@ -202,7 +228,7 @@ export const polish: Language = {
       it: "Włoski",
       ja: "Japoński",
       ko: "Koreański",
-      nl: "Niderlandzki",
+      nl: "Holenderski",
       no: "Norweski",
       pl: "Polski",
       pt: "Portugalski",

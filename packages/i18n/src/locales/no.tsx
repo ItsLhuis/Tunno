@@ -10,25 +10,25 @@ export const norwegian: Language = {
   translations: {
     common: {
       noResultsFound: "Ingen resultater funnet",
-      lessThanAnHourAgo: "Mindre enn en time siden",
-      hoursAgo: "{{count}} time{{count, plural, one {} other{r}}} siden",
+      lessThanAnHourAgo: "For mindre enn en time siden",
+      hoursAgo: "For {{count}} time{{count, plural, one {} other{r}}} siden",
       today: "I dag",
       yesterday: "I går",
       goBack: "Gå tilbake",
       goFoward: "Gå fremover",
       favorite: "Favoritt",
-      unfavorite: "Fjern fra favoritter",
-      enableShuffle: "Aktiver tilfeldig rekkefølge",
-      disableShuffle: "Deaktiver tilfeldig rekkefølge",
+      unfavorite: "Fjern favoritt",
+      enableShuffle: "Aktiver blanding",
+      disableShuffle: "Deaktiver blanding",
       previous: "Forrige",
       play: "Spill av",
       pause: "Pause",
       next: "Neste",
-      enableRepeat: "Aktiver gjentakelse",
-      enableRepeatOne: "Aktiver gjentakelse av ett",
-      disableRepeat: "Deaktiver gjentakelse",
-      mute: "Dempe",
-      unmute: "Slå på lyd",
+      enableRepeat: "Aktiver gjenta",
+      enableRepeatOne: "Gjenta én gang",
+      disableRepeat: "Deaktiver gjenta",
+      mute: "Demp",
+      unmute: "Opphev demping",
       queue: "Kø",
       title: "Tittel",
       album: "Album",
@@ -38,9 +38,10 @@ export const norwegian: Language = {
       selectAll: "Velg alle",
       visibility: "Synlighet",
       columns: "Kolonner",
-      clear: "Tøm",
+      clear: "Fjern",
       cancel: "Avbryt",
-      more: "Mer"
+      more: "Mer",
+      select: "Velg"
     },
     form: {
       titles: {
@@ -63,7 +64,8 @@ export const norwegian: Language = {
         releaseYear: "Utgivelsesår",
         album: "Album",
         artists: "Artister",
-        isSingle: "Er singel"
+        isSingle: "Er Single",
+        folder: "Mappe"
       },
       buttons: {
         cancel: "Avbryt",
@@ -73,21 +75,23 @@ export const norwegian: Language = {
       },
       descriptions: {
         thumbnail: "Bakgrunnsbilde (valgfritt)",
-        fileSize: "Maks størrelse: {{size}}",
+        fileSize: "Maksimal størrelse: {{size}}",
         supportedFormats: "Støttede formater: {{formats}}"
       },
       messages: {
         confirmDelete: "Er du sikker på at du vil slette?",
-        unsavedChanges: "Det finnes ikke lagrede endringer"
+        unsavedChanges: "Det er ulagrede endringer"
       }
     },
     validation: {
       name: {
         required: "Navn er påkrevd",
-        max: "Navn kan være maks 200 tegn"
+        max: "Navnet kan være maksimalt 200 tegn"
       },
       file: {
-        required: "Fil er påkrevd"
+        required: "Fil er påkrevd",
+        invalid: "Ugyldig eller ødelagt fil",
+        max: "Filen overskrider maksimal størrelse på {{maxSize}}"
       },
       duration: {
         required: "Varighet er påkrevd",
@@ -100,7 +104,7 @@ export const norwegian: Language = {
       },
       albumId: {
         invalid: "Ugyldig album",
-        requiredIfNotSingle: "Album er påkrevd hvis det ikke er en singel"
+        requiredIfNotSingle: "Album er påkrevd hvis det ikke er en single"
       },
       artists: {
         min: "Minst én artist er påkrevd"
@@ -113,70 +117,90 @@ export const norwegian: Language = {
       failed: "Kunne ikke installere oppdatering"
     },
     breadcrumbs: {
-      home: { title: "Hjem" },
-      songs: { title: "Sanger" },
-      favorites: { title: "Favoritter" },
-      playlists: { title: "Spillelister" },
-      artists: { title: "Artister" },
-      fastUpload: { title: "Rask opplasting" },
+      home: {
+        title: "Hjem"
+      },
+      songs: {
+        title: "Sanger"
+      },
+      favorites: {
+        title: "Favoritter"
+      },
+      playlists: {
+        title: "Spillelister"
+      },
+      artists: {
+        title: "Artister"
+      },
+      fastUpload: {
+        title: "Hurtigopplasting"
+      },
       settings: {
         title: "Innstillinger",
-        appearance: { title: "Utseende" },
-        language: { title: "Språk" },
-        sync: { title: "Synkronisering" }
+        appearance: {
+          title: "Utseende"
+        },
+        language: {
+          title: "Språk"
+        },
+        sync: {
+          title: "Synkronisering"
+        }
       }
     },
-    home: { title: "Hjem" },
+    home: {
+      title: "Hjem"
+    },
     songs: {
       title: "Sanger",
       createdTitle: "Sang opprettet",
-      createdDescription: "{{name}} ble opprettet",
+      createdDescription: "{{name}} har blitt opprettet",
       createdFailedTitle: "Kunne ikke opprette sang",
       updatedTitle: "Sang oppdatert",
-      updatedDescription: "{{name}} ble oppdatert",
+      updatedDescription: "{{name}} har blitt oppdatert",
       updatedFailedTitle: "Kunne ikke oppdatere sang",
       deletedTitle: "Sang slettet",
-      deletedDescription: "{{name}} ble slettet",
+      deletedDescription: "{{name}} har blitt slettet",
       deletedFailedTitle: "Kunne ikke slette sang"
     },
     favorites: {
       title: "Favoritter",
       createdTitle: "Lagt til i favoritter",
-      createdDescription: "{{name}} ble lagt til i favoritter",
+      createdDescription: "{{name}} har blitt lagt til i favoritter",
       createdFailedTitle: "Kunne ikke legge til i favoritter",
       deletedTitle: "Fjernet fra favoritter",
-      deletedDescription: "{{name}} ble fjernet fra favoritter",
+      deletedDescription: "{{name}} har blitt fjernet fra favoritter",
       deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
     },
     playlists: {
       title: "Spillelister",
       createdTitle: "Spilleliste opprettet",
-      createdDescription: "{{name}} ble opprettet",
+      createdDescription: "{{name}} har blitt opprettet",
       createdFailedTitle: "Kunne ikke opprette spilleliste",
       updatedTitle: "Spilleliste oppdatert",
-      updatedDescription: "{{name}} ble oppdatert",
+      updatedDescription: "{{name}} har blitt oppdatert",
       updatedFailedTitle: "Kunne ikke oppdatere spilleliste",
       deletedTitle: "Spilleliste slettet",
-      deletedDescription: "{{name}} ble slettet",
+      deletedDescription: "{{name}} har blitt slettet",
       deletedFailedTitle: "Kunne ikke slette spilleliste"
     },
     artists: {
       title: "Artister",
       createdTitle: "Artist opprettet",
-      createdDescription: "{{name}} ble opprettet",
+      createdDescription: "{{name}} har blitt opprettet",
       createdFailedTitle: "Kunne ikke opprette artist",
       updatedTitle: "Artist oppdatert",
-      updatedDescription: "{{name}} ble oppdatert",
+      updatedDescription: "{{name}} har blitt oppdatert",
       updatedFailedTitle: "Kunne ikke oppdatere artist",
       deletedTitle: "Artist slettet",
-      deletedDescription: "{{name}} ble slettet",
+      deletedDescription: "{{name}} har blitt slettet",
       deletedFailedTitle: "Kunne ikke slette artist"
     },
     settings: {
       title: "Innstillinger",
       appearance: {
         title: "Utseende",
-        description: "Velg ønsket utseendemodus",
+        description: "Velg ønsket visningsmodus",
         light: "Lys",
         dark: "Mørk",
         system: "System"
@@ -187,10 +211,12 @@ export const norwegian: Language = {
       },
       sync: {
         title: "Synkronisering",
-        description: "Synkroniser data på tvers av enheter"
+        description: "Synkroniser dataene dine på tvers av enheter"
       }
     },
-    fastUpload: { title: "Rask opplasting" },
+    fastUpload: {
+      title: "Hurtigopplasting"
+    },
     languages: {
       da: "Dansk",
       de: "Tysk",

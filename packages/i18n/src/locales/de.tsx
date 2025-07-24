@@ -14,21 +14,21 @@ export const german: Language = {
       hoursAgo: "Vor {{count}} Stunde{{count, plural, one {} other{n}}}",
       today: "Heute",
       yesterday: "Gestern",
-      goBack: "Zurück gehen",
-      goFoward: "Vorwärts gehen",
+      goBack: "Zurück",
+      goFoward: "Vorwärts",
       favorite: "Favorit",
       unfavorite: "Favorit entfernen",
-      enableShuffle: "Zufallswiedergabe aktivieren",
-      disableShuffle: "Zufallswiedergabe deaktivieren",
-      previous: "Vorheriges",
+      enableShuffle: "Shuffle aktivieren",
+      disableShuffle: "Shuffle deaktivieren",
+      previous: "Zurück",
       play: "Abspielen",
       pause: "Pause",
-      next: "Nächstes",
+      next: "Weiter",
       enableRepeat: "Wiederholung aktivieren",
-      enableRepeatOne: "Eins wiederholen aktivieren",
+      enableRepeatOne: "Einzelne Wiederholung aktivieren",
       disableRepeat: "Wiederholung deaktivieren",
-      mute: "Stumm schalten",
-      unmute: "Stummschaltung aufheben",
+      mute: "Stummschalten",
+      unmute: "Ton einschalten",
       queue: "Warteschlange",
       title: "Titel",
       album: "Album",
@@ -40,30 +40,32 @@ export const german: Language = {
       columns: "Spalten",
       clear: "Löschen",
       cancel: "Abbrechen",
-      more: "Mehr"
+      more: "Mehr",
+      select: "Auswählen"
     },
     form: {
       titles: {
-        createSong: "Song erstellen",
-        updateSong: "Song aktualisieren",
-        deleteSong: "Song löschen",
+        createSong: "Lied erstellen",
+        updateSong: "Lied aktualisieren",
+        deleteSong: "Lied löschen",
         createArtist: "Künstler erstellen",
         updateArtist: "Künstler aktualisieren",
         deleteArtist: "Künstler löschen",
-        createPlaylist: "Wiedergabeliste erstellen",
-        updatePlaylist: "Wiedergabeliste aktualisieren",
-        deletePlaylist: "Wiedergabeliste löschen",
+        createPlaylist: "Playlist erstellen",
+        updatePlaylist: "Playlist aktualisieren",
+        deletePlaylist: "Playlist löschen",
         confirmation: "Bestätigung",
         warning: "Warnung"
       },
       labels: {
         name: "Name",
-        thumbnail: "Vorschaubild",
+        thumbnail: "Miniaturbild",
         file: "Datei",
         releaseYear: "Erscheinungsjahr",
         album: "Album",
         artists: "Künstler",
-        isSingle: "Ist Single"
+        isSingle: "Ist Single",
+        folder: "Ordner"
       },
       buttons: {
         cancel: "Abbrechen",
@@ -87,7 +89,9 @@ export const german: Language = {
         max: "Name darf höchstens 200 Zeichen lang sein"
       },
       file: {
-        required: "Datei ist erforderlich"
+        required: "Datei ist erforderlich",
+        invalid: "Ungültige oder beschädigte Datei",
+        max: "Datei überschreitet die maximale Größe von {{maxSize}}"
       },
       duration: {
         required: "Dauer ist erforderlich",
@@ -96,11 +100,11 @@ export const german: Language = {
       releaseYear: {
         invalid: "Ungültiges Erscheinungsjahr",
         min: "Erscheinungsjahr muss mindestens 0 sein",
-        max: "Erscheinungsjahr kann nicht in der Zukunft liegen"
+        max: "Erscheinungsjahr darf nicht in der Zukunft liegen"
       },
       albumId: {
         invalid: "Ungültiges Album",
-        requiredIfNotSingle: "Album ist erforderlich, wenn es keine Single ist"
+        requiredIfNotSingle: "Album ist erforderlich, wenn es kein Single ist"
       },
       artists: {
         min: "Mindestens ein Künstler ist erforderlich"
@@ -117,30 +121,30 @@ export const german: Language = {
         title: "Startseite"
       },
       songs: {
-        title: "Songs"
+        title: "Lieder"
       },
       favorites: {
         title: "Favoriten"
       },
       playlists: {
-        title: "Wiedergabelisten"
+        title: "Playlists"
       },
       artists: {
         title: "Künstler"
       },
       fastUpload: {
-        title: "Schneller Upload"
+        title: "Schnell-Upload"
       },
       settings: {
         title: "Einstellungen",
         appearance: {
-          title: "Erscheinungsbild"
+          title: "Darstellung"
         },
         language: {
           title: "Sprache"
         },
         sync: {
-          title: "Synchronisieren"
+          title: "Synchronisierung"
         }
       }
     },
@@ -148,54 +152,54 @@ export const german: Language = {
       title: "Startseite"
     },
     songs: {
-      title: "Songs",
-      createdTitle: "Song erfolgreich erstellt",
+      title: "Lieder",
+      createdTitle: "Lied erfolgreich erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Song konnte nicht erstellt werden",
-      updatedTitle: "Song erfolgreich aktualisiert",
+      createdFailedTitle: "Fehler beim Erstellen des Liedes",
+      updatedTitle: "Lied erfolgreich aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Song konnte nicht aktualisiert werden",
-      deletedTitle: "Song erfolgreich gelöscht",
+      updatedFailedTitle: "Fehler beim Aktualisieren des Liedes",
+      deletedTitle: "Lied erfolgreich gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Song konnte nicht gelöscht werden"
+      deletedFailedTitle: "Fehler beim Löschen des Liedes"
     },
     favorites: {
       title: "Favoriten",
       createdTitle: "Zu Favoriten hinzugefügt",
-      createdDescription: "{{name}} wurde zu den Favoriten hinzugefügt",
-      createdFailedTitle: "Konnte nicht zu Favoriten hinzufügen",
+      createdDescription: "{{name}} wurde zu Favoriten hinzugefügt",
+      createdFailedTitle: "Fehler beim Hinzufügen zu Favoriten",
       deletedTitle: "Aus Favoriten entfernt",
-      deletedDescription: "{{name}} wurde aus den Favoriten entfernt",
-      deletedFailedTitle: "Konnte nicht aus Favoriten entfernen"
+      deletedDescription: "{{name}} wurde aus Favoriten entfernt",
+      deletedFailedTitle: "Fehler beim Entfernen aus Favoriten"
     },
     playlists: {
-      title: "Wiedergabelisten",
-      createdTitle: "Wiedergabeliste erfolgreich erstellt",
+      title: "Playlists",
+      createdTitle: "Playlist erfolgreich erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Wiedergabeliste konnte nicht erstellt werden",
-      updatedTitle: "Wiedergabeliste erfolgreich aktualisiert",
+      createdFailedTitle: "Fehler beim Erstellen der Playlist",
+      updatedTitle: "Playlist erfolgreich aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Wiedergabeliste konnte nicht aktualisiert werden",
-      deletedTitle: "Wiedergabeliste erfolgreich gelöscht",
+      updatedFailedTitle: "Fehler beim Aktualisieren der Playlist",
+      deletedTitle: "Playlist erfolgreich gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Wiedergabeliste konnte nicht gelöscht werden"
+      deletedFailedTitle: "Fehler beim Löschen der Playlist"
     },
     artists: {
       title: "Künstler",
       createdTitle: "Künstler erfolgreich erstellt",
       createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Künstler konnte nicht erstellt werden",
+      createdFailedTitle: "Fehler beim Erstellen des Künstlers",
       updatedTitle: "Künstler erfolgreich aktualisiert",
       updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Künstler konnte nicht aktualisiert werden",
+      updatedFailedTitle: "Fehler beim Aktualisieren des Künstlers",
       deletedTitle: "Künstler erfolgreich gelöscht",
       deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Künstler konnte nicht gelöscht werden"
+      deletedFailedTitle: "Fehler beim Löschen des Künstlers"
     },
     settings: {
       title: "Einstellungen",
       appearance: {
-        title: "Erscheinungsbild",
+        title: "Darstellung",
         description: "Wählen Sie Ihren bevorzugten Darstellungsmodus",
         light: "Hell",
         dark: "Dunkel",
@@ -206,12 +210,12 @@ export const german: Language = {
         description: "Wählen Sie Ihre bevorzugte Sprache"
       },
       sync: {
-        title: "Synchronisieren",
-        description: "Synchronisieren Sie Ihre Daten geräteübergreifend"
+        title: "Synchronisierung",
+        description: "Synchronisieren Sie Ihre Daten auf mehreren Geräten"
       }
     },
     fastUpload: {
-      title: "Schneller Upload"
+      title: "Schnell-Upload"
     },
     languages: {
       da: "Dänisch",

@@ -15,20 +15,20 @@ export const french: Language = {
       today: "Aujourd'hui",
       yesterday: "Hier",
       goBack: "Retour",
-      goFoward: "Suivant",
+      goFoward: "Avancer",
       favorite: "Favori",
       unfavorite: "Retirer des favoris",
       enableShuffle: "Activer la lecture aléatoire",
       disableShuffle: "Désactiver la lecture aléatoire",
       previous: "Précédent",
-      play: "Lecture",
+      play: "Lire",
       pause: "Pause",
       next: "Suivant",
       enableRepeat: "Activer la répétition",
-      enableRepeatOne: "Répéter un seul",
+      enableRepeatOne: "Répéter un",
       disableRepeat: "Désactiver la répétition",
-      mute: "Couper le son",
-      unmute: "Activer le son",
+      mute: "Muet",
+      unmute: "Réactiver le son",
       queue: "File d'attente",
       title: "Titre",
       album: "Album",
@@ -40,39 +40,41 @@ export const french: Language = {
       columns: "Colonnes",
       clear: "Effacer",
       cancel: "Annuler",
-      more: "Plus"
+      more: "Plus",
+      select: "Sélectionner"
     },
     form: {
       titles: {
         createSong: "Créer une chanson",
-        updateSong: "Modifier la chanson",
+        updateSong: "Mettre à jour la chanson",
         deleteSong: "Supprimer la chanson",
         createArtist: "Créer un artiste",
-        updateArtist: "Modifier l'artiste",
+        updateArtist: "Mettre à jour l'artiste",
         deleteArtist: "Supprimer l'artiste",
         createPlaylist: "Créer une playlist",
-        updatePlaylist: "Modifier la playlist",
+        updatePlaylist: "Mettre à jour la playlist",
         deletePlaylist: "Supprimer la playlist",
         confirmation: "Confirmation",
         warning: "Avertissement"
       },
       labels: {
         name: "Nom",
-        thumbnail: "Miniature",
+        thumbnail: "Vignette",
         file: "Fichier",
         releaseYear: "Année de sortie",
         album: "Album",
         artists: "Artistes",
-        isSingle: "Est un single"
+        isSingle: "Est single",
+        folder: "Dossier"
       },
       buttons: {
         cancel: "Annuler",
         delete: "Supprimer",
-        update: "Modifier",
+        update: "Mettre à jour",
         create: "Créer"
       },
       descriptions: {
-        thumbnail: "Image d'arrière-plan (optionnel)",
+        thumbnail: "Image de fond (optionnelle)",
         fileSize: "Taille maximale : {{size}}",
         supportedFormats: "Formats supportés : {{formats}}"
       },
@@ -87,15 +89,17 @@ export const french: Language = {
         max: "Le nom doit contenir au maximum 200 caractères"
       },
       file: {
-        required: "Le fichier est requis"
+        required: "Le fichier est requis",
+        invalid: "Fichier invalide ou corrompu",
+        max: "Le fichier dépasse la taille maximale de {{maxSize}}"
       },
       duration: {
         required: "La durée est requise",
-        min: "La durée doit être d'au moins 0"
+        min: "La durée doit être au moins 0"
       },
       releaseYear: {
         invalid: "Année de sortie invalide",
-        min: "L'année de sortie doit être d'au moins 0",
+        min: "L'année de sortie doit être au moins 0",
         max: "L'année de sortie ne peut pas être dans le futur"
       },
       albumId: {
@@ -109,7 +113,7 @@ export const french: Language = {
     update: {
       downloading: "Téléchargement et installation de la mise à jour",
       downloadingDescription:
-        "Une nouvelle mise à jour est disponible et est installée automatiquement",
+        "Une nouvelle mise à jour est disponible et s'installe automatiquement",
       installedSuccess: "Mise à jour installée avec succès",
       failed: "Échec de l'installation de la mise à jour"
     },
@@ -130,7 +134,7 @@ export const french: Language = {
         title: "Artistes"
       },
       fastUpload: {
-        title: "Téléversement rapide"
+        title: "Upload rapide"
       },
       settings: {
         title: "Paramètres",
@@ -153,9 +157,9 @@ export const french: Language = {
       createdTitle: "Chanson créée avec succès",
       createdDescription: "{{name}} a été créée",
       createdFailedTitle: "Échec de la création de la chanson",
-      updatedTitle: "Chanson modifiée avec succès",
-      updatedDescription: "{{name}} a été modifiée",
-      updatedFailedTitle: "Échec de la modification de la chanson",
+      updatedTitle: "Chanson mise à jour avec succès",
+      updatedDescription: "{{name}} a été mise à jour",
+      updatedFailedTitle: "Échec de la mise à jour de la chanson",
       deletedTitle: "Chanson supprimée avec succès",
       deletedDescription: "{{name}} a été supprimée",
       deletedFailedTitle: "Échec de la suppression de la chanson"
@@ -174,9 +178,9 @@ export const french: Language = {
       createdTitle: "Playlist créée avec succès",
       createdDescription: "{{name}} a été créée",
       createdFailedTitle: "Échec de la création de la playlist",
-      updatedTitle: "Playlist modifiée avec succès",
-      updatedDescription: "{{name}} a été modifiée",
-      updatedFailedTitle: "Échec de la modification de la playlist",
+      updatedTitle: "Playlist mise à jour avec succès",
+      updatedDescription: "{{name}} a été mise à jour",
+      updatedFailedTitle: "Échec de la mise à jour de la playlist",
       deletedTitle: "Playlist supprimée avec succès",
       deletedDescription: "{{name}} a été supprimée",
       deletedFailedTitle: "Échec de la suppression de la playlist"
@@ -186,9 +190,9 @@ export const french: Language = {
       createdTitle: "Artiste créé avec succès",
       createdDescription: "{{name}} a été créé",
       createdFailedTitle: "Échec de la création de l'artiste",
-      updatedTitle: "Artiste modifié avec succès",
-      updatedDescription: "{{name}} a été modifié",
-      updatedFailedTitle: "Échec de la modification de l'artiste",
+      updatedTitle: "Artiste mis à jour avec succès",
+      updatedDescription: "{{name}} a été mis à jour",
+      updatedFailedTitle: "Échec de la mise à jour de l'artiste",
       deletedTitle: "Artiste supprimé avec succès",
       deletedDescription: "{{name}} a été supprimé",
       deletedFailedTitle: "Échec de la suppression de l'artiste"
@@ -208,11 +212,11 @@ export const french: Language = {
       },
       sync: {
         title: "Synchronisation",
-        description: "Synchronisez vos données sur tous vos appareils"
+        description: "Synchronisez vos données sur vos appareils"
       }
     },
     fastUpload: {
-      title: "Téléversement rapide"
+      title: "Upload rapide"
     },
     languages: {
       da: "Danois",

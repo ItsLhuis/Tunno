@@ -4,20 +4,20 @@ import { type Language } from "../types"
 
 export const japanese: Language = {
   code: "ja",
-  name: "Japanese",
+  name: "日本語",
   flag: Ja,
   isRtl: false,
   translations: {
     common: {
-      noResultsFound: "結果が見つかりませんでした",
-      lessThanAnHourAgo: "1時間以内",
-      hoursAgo: "{{count}} 時間前",
+      noResultsFound: "結果が見つかりません",
+      lessThanAnHourAgo: "1時間未満前",
+      hoursAgo: "{{count}}時間前",
       today: "今日",
       yesterday: "昨日",
       goBack: "戻る",
       goFoward: "進む",
-      favorite: "お気に入りに追加",
-      unfavorite: "お気に入りから削除",
+      favorite: "お気に入り",
+      unfavorite: "お気に入り解除",
       enableShuffle: "シャッフルを有効にする",
       disableShuffle: "シャッフルを無効にする",
       previous: "前へ",
@@ -40,13 +40,14 @@ export const japanese: Language = {
       columns: "列",
       clear: "クリア",
       cancel: "キャンセル",
-      more: "もっと見る"
+      more: "もっと",
+      select: "選択"
     },
     form: {
       titles: {
-        createSong: "楽曲を作成",
-        updateSong: "楽曲を更新",
-        deleteSong: "楽曲を削除",
+        createSong: "曲を作成",
+        updateSong: "曲を更新",
+        deleteSong: "曲を削除",
         createArtist: "アーティストを作成",
         updateArtist: "アーティストを更新",
         deleteArtist: "アーティストを削除",
@@ -63,7 +64,8 @@ export const japanese: Language = {
         releaseYear: "リリース年",
         album: "アルバム",
         artists: "アーティスト",
-        isSingle: "シングルかどうか"
+        isSingle: "シングルです",
+        folder: "フォルダ"
       },
       buttons: {
         cancel: "キャンセル",
@@ -72,22 +74,24 @@ export const japanese: Language = {
         create: "作成"
       },
       descriptions: {
-        thumbnail: "背景画像（任意）",
+        thumbnail: "背景画像（オプション）",
         fileSize: "最大サイズ: {{size}}",
         supportedFormats: "対応フォーマット: {{formats}}"
       },
       messages: {
         confirmDelete: "本当に削除しますか？",
-        unsavedChanges: "保存されていない変更があります"
+        unsavedChanges: "未保存の変更があります"
       }
     },
     validation: {
       name: {
         required: "名前は必須です",
-        max: "名前は200文字以内で入力してください"
+        max: "名前は最大200文字までです"
       },
       file: {
-        required: "ファイルは必須です"
+        required: "ファイルは必須です",
+        invalid: "無効または破損したファイルです",
+        max: "ファイルは最大サイズ{{maxSize}}を超えています"
       },
       duration: {
         required: "再生時間は必須です",
@@ -96,18 +100,18 @@ export const japanese: Language = {
       releaseYear: {
         invalid: "無効なリリース年です",
         min: "リリース年は0以上でなければなりません",
-        max: "リリース年は未来にできません"
+        max: "リリース年は未来の日付にできません"
       },
       albumId: {
         invalid: "無効なアルバムです",
         requiredIfNotSingle: "シングルでない場合、アルバムは必須です"
       },
       artists: {
-        min: "少なくとも1人のアーティストが必要です"
+        min: "最低1人のアーティストが必要です"
       }
     },
     update: {
-      downloading: "アップデートをダウンロードしてインストール中",
+      downloading: "アップデートをダウンロードおよびインストール中",
       downloadingDescription: "新しいアップデートが利用可能で、自動的にインストールされています",
       installedSuccess: "アップデートが正常にインストールされました",
       failed: "アップデートのインストールに失敗しました"
@@ -117,7 +121,7 @@ export const japanese: Language = {
         title: "ホーム"
       },
       songs: {
-        title: "楽曲"
+        title: "曲"
       },
       favorites: {
         title: "お気に入り"
@@ -148,16 +152,16 @@ export const japanese: Language = {
       title: "ホーム"
     },
     songs: {
-      title: "楽曲",
-      createdTitle: "楽曲が正常に作成されました",
+      title: "曲",
+      createdTitle: "曲の作成に成功しました",
       createdDescription: "{{name}} が作成されました",
-      createdFailedTitle: "楽曲の作成に失敗しました",
-      updatedTitle: "楽曲が正常に更新されました",
+      createdFailedTitle: "曲の作成に失敗しました",
+      updatedTitle: "曲の更新に成功しました",
       updatedDescription: "{{name}} が更新されました",
-      updatedFailedTitle: "楽曲の更新に失敗しました",
-      deletedTitle: "楽曲が正常に削除されました",
+      updatedFailedTitle: "曲の更新に失敗しました",
+      deletedTitle: "曲の削除に成功しました",
       deletedDescription: "{{name}} が削除されました",
-      deletedFailedTitle: "楽曲の削除に失敗しました"
+      deletedFailedTitle: "曲の削除に失敗しました"
     },
     favorites: {
       title: "お気に入り",
@@ -170,25 +174,25 @@ export const japanese: Language = {
     },
     playlists: {
       title: "プレイリスト",
-      createdTitle: "プレイリストが正常に作成されました",
+      createdTitle: "プレイリストの作成に成功しました",
       createdDescription: "{{name}} が作成されました",
       createdFailedTitle: "プレイリストの作成に失敗しました",
-      updatedTitle: "プレイリストが正常に更新されました",
+      updatedTitle: "プレイリストの更新に成功しました",
       updatedDescription: "{{name}} が更新されました",
       updatedFailedTitle: "プレイリストの更新に失敗しました",
-      deletedTitle: "プレイリストが正常に削除されました",
+      deletedTitle: "プレイリストの削除に成功しました",
       deletedDescription: "{{name}} が削除されました",
       deletedFailedTitle: "プレイリストの削除に失敗しました"
     },
     artists: {
       title: "アーティスト",
-      createdTitle: "アーティストが正常に作成されました",
+      createdTitle: "アーティストの作成に成功しました",
       createdDescription: "{{name}} が作成されました",
       createdFailedTitle: "アーティストの作成に失敗しました",
-      updatedTitle: "アーティストが正常に更新されました",
+      updatedTitle: "アーティストの更新に成功しました",
       updatedDescription: "{{name}} が更新されました",
       updatedFailedTitle: "アーティストの更新に失敗しました",
-      deletedTitle: "アーティストが正常に削除されました",
+      deletedTitle: "アーティストの削除に成功しました",
       deletedDescription: "{{name}} が削除されました",
       deletedFailedTitle: "アーティストの削除に失敗しました"
     },
@@ -196,7 +200,7 @@ export const japanese: Language = {
       title: "設定",
       appearance: {
         title: "外観",
-        description: "希望の表示モードを選択してください",
+        description: "希望の外観モードを選択してください",
         light: "ライト",
         dark: "ダーク",
         system: "システム"
@@ -207,7 +211,7 @@ export const japanese: Language = {
       },
       sync: {
         title: "同期",
-        description: "複数のデバイス間でデータを同期します"
+        description: "デバイス間でデータを同期します"
       }
     },
     fastUpload: {

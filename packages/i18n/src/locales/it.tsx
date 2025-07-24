@@ -11,24 +11,24 @@ export const italian: Language = {
     common: {
       noResultsFound: "Nessun risultato trovato",
       lessThanAnHourAgo: "Meno di un'ora fa",
-      hoursAgo: "{{count}} or{{count, plural, one {a} other {e}}} fa",
+      hoursAgo: "{{count}} ora{{count, plural, one {} other{i}}} fa",
       today: "Oggi",
       yesterday: "Ieri",
       goBack: "Indietro",
       goFoward: "Avanti",
       favorite: "Preferito",
-      unfavorite: "Rimuovi dai preferiti",
-      enableShuffle: "Abilita riproduzione casuale",
-      disableShuffle: "Disabilita riproduzione casuale",
+      unfavorite: "Rimuovi preferito",
+      enableShuffle: "Abilita casuale",
+      disableShuffle: "Disabilita casuale",
       previous: "Precedente",
       play: "Riproduci",
       pause: "Pausa",
       next: "Successivo",
-      enableRepeat: "Abilita ripetizione",
-      enableRepeatOne: "Ripeti singolo",
-      disableRepeat: "Disabilita ripetizione",
-      mute: "Silenzia",
-      unmute: "Riattiva audio",
+      enableRepeat: "Abilita ripeti",
+      enableRepeatOne: "Abilita ripeti uno",
+      disableRepeat: "Disabilita ripeti",
+      mute: "Disattiva audio",
+      unmute: "Attiva audio",
       queue: "Coda",
       title: "Titolo",
       album: "Album",
@@ -40,21 +40,22 @@ export const italian: Language = {
       columns: "Colonne",
       clear: "Cancella",
       cancel: "Annulla",
-      more: "Altro"
+      more: "Altro",
+      select: "Seleziona"
     },
     form: {
       titles: {
         createSong: "Crea canzone",
-        updateSong: "Modifica canzone",
+        updateSong: "Aggiorna canzone",
         deleteSong: "Elimina canzone",
         createArtist: "Crea artista",
-        updateArtist: "Modifica artista",
+        updateArtist: "Aggiorna artista",
         deleteArtist: "Elimina artista",
         createPlaylist: "Crea playlist",
-        updatePlaylist: "Modifica playlist",
+        updatePlaylist: "Aggiorna playlist",
         deletePlaylist: "Elimina playlist",
         confirmation: "Conferma",
-        warning: "Avviso"
+        warning: "Attenzione"
       },
       labels: {
         name: "Nome",
@@ -63,7 +64,8 @@ export const italian: Language = {
         releaseYear: "Anno di uscita",
         album: "Album",
         artists: "Artisti",
-        isSingle: "È un singolo"
+        isSingle: "È singolo",
+        folder: "Cartella"
       },
       buttons: {
         cancel: "Annulla",
@@ -84,10 +86,12 @@ export const italian: Language = {
     validation: {
       name: {
         required: "Il nome è obbligatorio",
-        max: "Il nome deve essere al massimo di 200 caratteri"
+        max: "Il nome deve contenere al massimo 200 caratteri"
       },
       file: {
-        required: "Il file è obbligatorio"
+        required: "Il file è obbligatorio",
+        invalid: "File non valido o corrotto",
+        max: "Il file supera la dimensione massima di {{maxSize}}"
       },
       duration: {
         required: "La durata è obbligatoria",
@@ -103,15 +107,15 @@ export const italian: Language = {
         requiredIfNotSingle: "L'album è obbligatorio se non è un singolo"
       },
       artists: {
-        min: "È richiesto almeno un artista"
+        min: "Almeno un artista è obbligatorio"
       }
     },
     update: {
       downloading: "Download e installazione aggiornamento",
       downloadingDescription:
-        "Un nuovo aggiornamento è disponibile e viene installato automaticamente",
+        "È disponibile un nuovo aggiornamento che viene installato automaticamente",
       installedSuccess: "Aggiornamento installato con successo",
-      failed: "Impossibile installare l'aggiornamento"
+      failed: "Installazione aggiornamento fallita"
     },
     breadcrumbs: {
       home: {
@@ -130,7 +134,7 @@ export const italian: Language = {
         title: "Artisti"
       },
       fastUpload: {
-        title: "Caricamento rapido"
+        title: "Upload rapido"
       },
       settings: {
         title: "Impostazioni",
@@ -152,59 +156,59 @@ export const italian: Language = {
       title: "Canzoni",
       createdTitle: "Canzone creata con successo",
       createdDescription: "{{name}} è stata creata",
-      createdFailedTitle: "Impossibile creare la canzone",
+      createdFailedTitle: "Creazione canzone fallita",
       updatedTitle: "Canzone aggiornata con successo",
       updatedDescription: "{{name}} è stata aggiornata",
-      updatedFailedTitle: "Impossibile aggiornare la canzone",
+      updatedFailedTitle: "Aggiornamento canzone fallito",
       deletedTitle: "Canzone eliminata con successo",
       deletedDescription: "{{name}} è stata eliminata",
-      deletedFailedTitle: "Impossibile eliminare la canzone"
+      deletedFailedTitle: "Eliminazione canzone fallita"
     },
     favorites: {
       title: "Preferiti",
       createdTitle: "Aggiunto ai preferiti",
       createdDescription: "{{name}} è stato aggiunto ai preferiti",
-      createdFailedTitle: "Impossibile aggiungere ai preferiti",
+      createdFailedTitle: "Aggiunta ai preferiti fallita",
       deletedTitle: "Rimosso dai preferiti",
       deletedDescription: "{{name}} è stato rimosso dai preferiti",
-      deletedFailedTitle: "Impossibile rimuovere dai preferiti"
+      deletedFailedTitle: "Rimozione dai preferiti fallita"
     },
     playlists: {
       title: "Playlist",
       createdTitle: "Playlist creata con successo",
       createdDescription: "{{name}} è stata creata",
-      createdFailedTitle: "Impossibile creare la playlist",
+      createdFailedTitle: "Creazione playlist fallita",
       updatedTitle: "Playlist aggiornata con successo",
       updatedDescription: "{{name}} è stata aggiornata",
-      updatedFailedTitle: "Impossibile aggiornare la playlist",
+      updatedFailedTitle: "Aggiornamento playlist fallito",
       deletedTitle: "Playlist eliminata con successo",
       deletedDescription: "{{name}} è stata eliminata",
-      deletedFailedTitle: "Impossibile eliminare la playlist"
+      deletedFailedTitle: "Eliminazione playlist fallita"
     },
     artists: {
       title: "Artisti",
       createdTitle: "Artista creato con successo",
       createdDescription: "{{name}} è stato creato",
-      createdFailedTitle: "Impossibile creare l'artista",
+      createdFailedTitle: "Creazione artista fallita",
       updatedTitle: "Artista aggiornato con successo",
       updatedDescription: "{{name}} è stato aggiornato",
-      updatedFailedTitle: "Impossibile aggiornare l'artista",
+      updatedFailedTitle: "Aggiornamento artista fallito",
       deletedTitle: "Artista eliminato con successo",
       deletedDescription: "{{name}} è stato eliminato",
-      deletedFailedTitle: "Impossibile eliminare l'artista"
+      deletedFailedTitle: "Eliminazione artista fallita"
     },
     settings: {
       title: "Impostazioni",
       appearance: {
         title: "Aspetto",
-        description: "Seleziona la modalità di aspetto preferita",
+        description: "Seleziona la modalità aspetto preferita",
         light: "Chiaro",
         dark: "Scuro",
         system: "Sistema"
       },
       language: {
         title: "Lingua",
-        description: "Scegli la tua lingua preferita"
+        description: "Scegli la lingua preferita"
       },
       sync: {
         title: "Sincronizzazione",
@@ -212,7 +216,7 @@ export const italian: Language = {
       }
     },
     fastUpload: {
-      title: "Caricamento rapido"
+      title: "Upload rapido"
     },
     languages: {
       da: "Danese",

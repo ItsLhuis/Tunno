@@ -9,25 +9,25 @@ export const russian: Language = {
   isRtl: false,
   translations: {
     common: {
-      noResultsFound: "Результаты не найдены",
-      lessThanAnHourAgo: "Менее часа назад",
-      hoursAgo: "{{count}} час{{count, plural, one {} few{а} many{ов} other{ов}}} назад",
+      noResultsFound: "Ничего не найдено",
+      lessThanAnHourAgo: "Меньше часа назад",
+      hoursAgo: "{{count}} час назад",
       today: "Сегодня",
       yesterday: "Вчера",
       goBack: "Назад",
       goFoward: "Вперёд",
-      favorite: "В избранное",
-      unfavorite: "Удалить из избранного",
-      enableShuffle: "Включить перемешивание",
-      disableShuffle: "Выключить перемешивание",
+      favorite: "Избранное",
+      unfavorite: "Убрать из избранного",
+      enableShuffle: "Включить случайное воспроизведение",
+      disableShuffle: "Отключить случайное воспроизведение",
       previous: "Предыдущий",
       play: "Воспроизвести",
       pause: "Пауза",
       next: "Следующий",
       enableRepeat: "Включить повтор",
-      enableRepeatOne: "Включить повтор одного",
-      disableRepeat: "Выключить повтор",
-      mute: "Отключить звук",
+      enableRepeatOne: "Повтор одного",
+      disableRepeat: "Отключить повтор",
+      mute: "Выключить звук",
       unmute: "Включить звук",
       queue: "Очередь",
       title: "Название",
@@ -40,7 +40,8 @@ export const russian: Language = {
       columns: "Колонки",
       clear: "Очистить",
       cancel: "Отмена",
-      more: "Ещё"
+      more: "Больше",
+      select: "Выбрать"
     },
     form: {
       titles: {
@@ -63,7 +64,8 @@ export const russian: Language = {
         releaseYear: "Год выпуска",
         album: "Альбом",
         artists: "Исполнители",
-        isSingle: "Это сингл"
+        isSingle: "Это сингл",
+        folder: "Папка"
       },
       buttons: {
         cancel: "Отмена",
@@ -78,38 +80,40 @@ export const russian: Language = {
       },
       messages: {
         confirmDelete: "Вы уверены, что хотите удалить?",
-        unsavedChanges: "Есть несохранённые изменения"
+        unsavedChanges: "У вас есть несохранённые изменения"
       }
     },
     validation: {
       name: {
         required: "Имя обязательно",
-        max: "Имя должно быть не длиннее 200 символов"
+        max: "Имя не должно превышать 200 символов"
       },
       file: {
-        required: "Файл обязателен"
+        required: "Файл обязателен",
+        invalid: "Файл недействителен или повреждён",
+        max: "Файл превышает максимальный размер {{maxSize}}"
       },
       duration: {
         required: "Длительность обязательна",
-        min: "Длительность должна быть не меньше 0"
+        min: "Длительность должна быть больше 0"
       },
       releaseYear: {
-        invalid: "Неверный год выпуска",
-        min: "Год выпуска должен быть не меньше 0",
-        max: "Год выпуска не может быть из будущего"
+        invalid: "Недопустимый год",
+        min: "Год должен быть больше 0",
+        max: "Год не может быть в будущем"
       },
       albumId: {
-        invalid: "Неверный альбом",
+        invalid: "Недопустимый альбом",
         requiredIfNotSingle: "Альбом обязателен, если это не сингл"
       },
       artists: {
-        min: "Требуется хотя бы один исполнитель"
+        min: "Необходимо указать хотя бы одного исполнителя"
       }
     },
     update: {
       downloading: "Загрузка и установка обновления",
-      downloadingDescription: "Доступно новое обновление, оно устанавливается автоматически",
-      installedSuccess: "Обновление успешно установлено",
+      downloadingDescription: "Доступно новое обновление, установка началась автоматически",
+      installedSuccess: "Обновление установлено",
       failed: "Не удалось установить обновление"
     },
     breadcrumbs: {
@@ -129,57 +133,57 @@ export const russian: Language = {
     home: { title: "Главная" },
     songs: {
       title: "Песни",
-      createdTitle: "Песня успешно создана",
-      createdDescription: "{{name}} была создана",
-      createdFailedTitle: "Не удалось создать песню",
-      updatedTitle: "Песня успешно обновлена",
-      updatedDescription: "{{name}} была обновлена",
+      createdTitle: "Песня добавлена",
+      createdDescription: "{{name}} добавлена",
+      createdFailedTitle: "Не удалось добавить песню",
+      updatedTitle: "Песня обновлена",
+      updatedDescription: "{{name}} обновлена",
       updatedFailedTitle: "Не удалось обновить песню",
-      deletedTitle: "Песня успешно удалена",
-      deletedDescription: "{{name}} была удалена",
+      deletedTitle: "Песня удалена",
+      deletedDescription: "{{name}} удалена",
       deletedFailedTitle: "Не удалось удалить песню"
     },
     favorites: {
       title: "Избранное",
       createdTitle: "Добавлено в избранное",
-      createdDescription: "{{name}} была добавлена в избранное",
+      createdDescription: "{{name}} добавлено в избранное",
       createdFailedTitle: "Не удалось добавить в избранное",
       deletedTitle: "Удалено из избранного",
-      deletedDescription: "{{name}} была удалена из избранного",
+      deletedDescription: "{{name}} удалено из избранного",
       deletedFailedTitle: "Не удалось удалить из избранного"
     },
     playlists: {
       title: "Плейлисты",
-      createdTitle: "Плейлист успешно создан",
-      createdDescription: "{{name}} был создан",
+      createdTitle: "Плейлист создан",
+      createdDescription: "{{name}} создан",
       createdFailedTitle: "Не удалось создать плейлист",
-      updatedTitle: "Плейлист успешно обновлен",
-      updatedDescription: "{{name}} был обновлен",
+      updatedTitle: "Плейлист обновлён",
+      updatedDescription: "{{name}} обновлён",
       updatedFailedTitle: "Не удалось обновить плейлист",
-      deletedTitle: "Плейлист успешно удалён",
-      deletedDescription: "{{name}} был удалён",
+      deletedTitle: "Плейлист удалён",
+      deletedDescription: "{{name}} удалён",
       deletedFailedTitle: "Не удалось удалить плейлист"
     },
     artists: {
       title: "Исполнители",
-      createdTitle: "Исполнитель успешно создан",
-      createdDescription: "{{name}} был создан",
-      createdFailedTitle: "Не удалось создать исполнителя",
-      updatedTitle: "Исполнитель успешно обновлен",
-      updatedDescription: "{{name}} был обновлен",
+      createdTitle: "Исполнитель добавлен",
+      createdDescription: "{{name}} добавлен",
+      createdFailedTitle: "Не удалось добавить исполнителя",
+      updatedTitle: "Исполнитель обновлён",
+      updatedDescription: "{{name}} обновлён",
       updatedFailedTitle: "Не удалось обновить исполнителя",
-      deletedTitle: "Исполнитель успешно удалён",
-      deletedDescription: "{{name}} был удалён",
+      deletedTitle: "Исполнитель удалён",
+      deletedDescription: "{{name}} удалён",
       deletedFailedTitle: "Не удалось удалить исполнителя"
     },
     settings: {
       title: "Настройки",
       appearance: {
         title: "Внешний вид",
-        description: "Выберите предпочитаемый режим отображения",
-        light: "Светлый",
-        dark: "Тёмный",
-        system: "Системный"
+        description: "Выберите предпочтительную тему",
+        light: "Светлая",
+        dark: "Тёмная",
+        system: "Системная"
       },
       language: {
         title: "Язык",
@@ -187,10 +191,12 @@ export const russian: Language = {
       },
       sync: {
         title: "Синхронизация",
-        description: "Синхронизируйте данные на всех устройствах"
+        description: "Синхронизация данных между устройствами"
       }
     },
-    fastUpload: { title: "Быстрая загрузка" },
+    fastUpload: {
+      title: "Быстрая загрузка"
+    },
     languages: {
       da: "Датский",
       de: "Немецкий",

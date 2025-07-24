@@ -10,7 +10,7 @@ export const vietnamese: Language = {
   translations: {
     common: {
       noResultsFound: "Không tìm thấy kết quả",
-      lessThanAnHourAgo: "Dưới một giờ trước",
+      lessThanAnHourAgo: "Ít hơn một giờ trước",
       hoursAgo: "{{count}} giờ trước",
       today: "Hôm nay",
       yesterday: "Hôm qua",
@@ -25,10 +25,10 @@ export const vietnamese: Language = {
       pause: "Tạm dừng",
       next: "Tiếp",
       enableRepeat: "Bật lặp lại",
-      enableRepeatOne: "Bật lặp lại một",
+      enableRepeatOne: "Lặp lại một bài",
       disableRepeat: "Tắt lặp lại",
-      mute: "Tắt âm",
-      unmute: "Bật âm",
+      mute: "Tắt tiếng",
+      unmute: "Bật tiếng",
       queue: "Hàng đợi",
       title: "Tiêu đề",
       album: "Album",
@@ -40,7 +40,8 @@ export const vietnamese: Language = {
       columns: "Cột",
       clear: "Xóa",
       cancel: "Hủy",
-      more: "Thêm"
+      more: "Thêm",
+      select: "Chọn"
     },
     form: {
       titles: {
@@ -63,7 +64,8 @@ export const vietnamese: Language = {
         releaseYear: "Năm phát hành",
         album: "Album",
         artists: "Nghệ sĩ",
-        isSingle: "Là đĩa đơn"
+        isSingle: "Là đơn ca",
+        folder: "Thư mục"
       },
       buttons: {
         cancel: "Hủy",
@@ -78,39 +80,41 @@ export const vietnamese: Language = {
       },
       messages: {
         confirmDelete: "Bạn có chắc muốn xóa không?",
-        unsavedChanges: "Có thay đổi chưa được lưu"
+        unsavedChanges: "Có thay đổi chưa lưu"
       }
     },
     validation: {
       name: {
         required: "Tên là bắt buộc",
-        max: "Tên không được dài hơn 200 ký tự"
+        max: "Tên không được vượt quá 200 ký tự"
       },
       file: {
-        required: "Tệp là bắt buộc"
+        required: "Tệp là bắt buộc",
+        invalid: "Tệp không hợp lệ hoặc bị hỏng",
+        max: "Tệp vượt quá kích thước tối đa {{maxSize}}"
       },
       duration: {
         required: "Thời lượng là bắt buộc",
-        min: "Thời lượng phải lớn hơn hoặc bằng 0"
+        min: "Thời lượng phải lớn hơn 0"
       },
       releaseYear: {
         invalid: "Năm phát hành không hợp lệ",
-        min: "Năm phát hành phải lớn hơn hoặc bằng 0",
+        min: "Năm phát hành phải lớn hơn 0",
         max: "Năm phát hành không thể ở tương lai"
       },
       albumId: {
         invalid: "Album không hợp lệ",
-        requiredIfNotSingle: "Album bắt buộc nếu không phải đĩa đơn"
+        requiredIfNotSingle: "Album bắt buộc nếu không phải đơn ca"
       },
       artists: {
-        min: "Phải có ít nhất một nghệ sĩ"
+        min: "Cần ít nhất một nghệ sĩ"
       }
     },
     update: {
-      downloading: "Đang tải và cài đặt bản cập nhật",
-      downloadingDescription: "Có bản cập nhật mới, nó sẽ được cài đặt tự động",
+      downloading: "Đang tải xuống và cài đặt cập nhật",
+      downloadingDescription: "Có bản cập nhật mới và đang được cài đặt tự động",
       installedSuccess: "Cập nhật đã được cài đặt thành công",
-      failed: "Cập nhật không thành công"
+      failed: "Cài đặt cập nhật thất bại"
     },
     breadcrumbs: {
       home: { title: "Trang chủ" },
@@ -118,7 +122,7 @@ export const vietnamese: Language = {
       favorites: { title: "Yêu thích" },
       playlists: { title: "Danh sách phát" },
       artists: { title: "Nghệ sĩ" },
-      fastUpload: { title: "Tải nhanh" },
+      fastUpload: { title: "Tải lên nhanh" },
       settings: {
         title: "Cài đặt",
         appearance: { title: "Giao diện" },
@@ -176,42 +180,44 @@ export const vietnamese: Language = {
       title: "Cài đặt",
       appearance: {
         title: "Giao diện",
-        description: "Chọn chế độ giao diện ưa thích",
+        description: "Chọn chế độ giao diện bạn thích",
         light: "Sáng",
         dark: "Tối",
         system: "Hệ thống"
       },
       language: {
         title: "Ngôn ngữ",
-        description: "Chọn ngôn ngữ ưa thích"
+        description: "Chọn ngôn ngữ bạn muốn sử dụng"
       },
       sync: {
         title: "Đồng bộ",
-        description: "Đồng bộ dữ liệu trên tất cả thiết bị"
+        description: "Đồng bộ dữ liệu giữa các thiết bị"
       }
     },
-    fastUpload: { title: "Tải nhanh" },
+    fastUpload: {
+      title: "Tải lên nhanh"
+    },
     languages: {
       da: "Đan Mạch",
-      de: "Tiếng Đức",
+      de: "Đức",
       en: "Tiếng Anh",
-      es: "Tiếng Tây Ban Nha",
-      fi: "Tiếng Phần Lan",
-      fr: "Tiếng Pháp",
-      hi: "Tiếng Hindi",
-      it: "Tiếng Ý",
-      ja: "Tiếng Nhật",
-      ko: "Tiếng Hàn",
-      nl: "Tiếng Hà Lan",
-      no: "Tiếng Na Uy",
-      pl: "Tiếng Ba Lan",
-      pt: "Tiếng Bồ Đào Nha",
-      ru: "Tiếng Nga",
-      sv: "Tiếng Thụy Điển",
-      tr: "Tiếng Thổ Nhĩ Kỳ",
-      uk: "Tiếng Ukraina",
-      vi: "Tiếng Việt",
-      zh: "Tiếng Trung"
+      es: "Tây Ban Nha",
+      fi: "Phần Lan",
+      fr: "Pháp",
+      hi: "Hindi",
+      it: "Ý",
+      ja: "Nhật Bản",
+      ko: "Hàn Quốc",
+      nl: "Hà Lan",
+      no: "Na Uy",
+      pl: "Ba Lan",
+      pt: "Bồ Đào Nha",
+      ru: "Nga",
+      sv: "Thụy Điển",
+      tr: "Thổ Nhĩ Kỳ",
+      uk: "Ukraina",
+      vi: "Việt Nam",
+      zh: "Trung Quốc"
     }
   }
 }
