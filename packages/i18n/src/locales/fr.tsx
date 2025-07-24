@@ -73,7 +73,6 @@ export const french: Language = {
       },
       descriptions: {
         thumbnail: "Image d'arrière-plan (optionnel)",
-        dragAndDrop: "Glissez et déposez le fichier ici",
         fileSize: "Taille maximale : {{size}}",
         supportedFormats: "Formats supportés : {{formats}}"
       },

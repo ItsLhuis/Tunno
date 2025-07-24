@@ -73,7 +73,6 @@ export const chinese: Language = {
       },
       descriptions: {
         thumbnail: "背景图片（可选）",
-        dragAndDrop: "拖拽文件到此处",
         fileSize: "最大尺寸: {{size}}",
         supportedFormats: "支持格式: {{formats}}"
       },

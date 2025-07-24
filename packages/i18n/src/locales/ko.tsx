@@ -73,7 +73,6 @@ export const korean: Language = {
       },
       descriptions: {
         thumbnail: "배경 이미지 (선택 사항)",
-        dragAndDrop: "파일을 여기로 드래그 앤 드롭",
         fileSize: "최대 크기: {{size}}",
         supportedFormats: "지원 형식: {{formats}}"
       },

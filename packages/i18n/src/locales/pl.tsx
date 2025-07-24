@@ -73,7 +73,6 @@ export const polish: Language = {
       },
       descriptions: {
         thumbnail: "Obraz tła (opcjonalnie)",
-        dragAndDrop: "Przeciągnij i upuść plik tutaj",
         fileSize: "Maksymalny rozmiar: {{size}}",
         supportedFormats: "Obsługiwane formaty: {{formats}}"
       },

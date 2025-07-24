@@ -73,7 +73,6 @@ export const italian: Language = {
       },
       descriptions: {
         thumbnail: "Immagine di sfondo (opzionale)",
-        dragAndDrop: "Trascina e rilascia il file qui",
         fileSize: "Dimensione massima: {{size}}",
         supportedFormats: "Formati supportati: {{formats}}"
       },

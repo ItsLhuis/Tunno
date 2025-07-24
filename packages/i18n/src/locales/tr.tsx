@@ -73,7 +73,6 @@ export const turkish: Language = {
       },
       descriptions: {
         thumbnail: "Arka plan resmi (isteğe bağlı)",
-        dragAndDrop: "Dosyayı buraya sürükleyip bırakın",
         fileSize: "Maksimum boyut: {{size}}",
         supportedFormats: "Desteklenen formatlar: {{formats}}"
       },

@@ -73,7 +73,6 @@ export const danish: Language = {
       },
       descriptions: {
         thumbnail: "Baggrundsbillede (valgfrit)",
-        dragAndDrop: "Træk og slip filen her",
         fileSize: "Maksimal størrelse: {{size}}",
         supportedFormats: "Understøttede formater: {{formats}}"
       },

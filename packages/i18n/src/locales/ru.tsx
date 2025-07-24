@@ -73,7 +73,6 @@ export const russian: Language = {
       },
       descriptions: {
         thumbnail: "Фоновое изображение (необязательно)",
-        dragAndDrop: "Перетащите файл сюда",
         fileSize: "Максимальный размер: {{size}}",
         supportedFormats: "Поддерживаемые форматы: {{formats}}"
       },

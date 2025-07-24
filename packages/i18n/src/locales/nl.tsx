@@ -73,7 +73,6 @@ export const dutch: Language = {
       },
       descriptions: {
         thumbnail: "Achtergrondafbeelding (optioneel)",
-        dragAndDrop: "Sleep het bestand hierheen",
         fileSize: "Maximale grootte: {{size}}",
         supportedFormats: "Ondersteunde formaten: {{formats}}"
       },

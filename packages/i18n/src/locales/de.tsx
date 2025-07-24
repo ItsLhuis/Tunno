@@ -73,7 +73,6 @@ export const german: Language = {
       },
       descriptions: {
         thumbnail: "Hintergrundbild (optional)",
-        dragAndDrop: "Datei hier hineinziehen",
         fileSize: "Maximale Größe: {{size}}",
         supportedFormats: "Unterstützte Formate: {{formats}}"
       },

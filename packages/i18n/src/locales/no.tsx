@@ -73,7 +73,6 @@ export const norwegian: Language = {
       },
       descriptions: {
         thumbnail: "Bakgrunnsbilde (valgfritt)",
-        dragAndDrop: "Dra og slipp filen her",
         fileSize: "Maks størrelse: {{size}}",
         supportedFormats: "Støttede formater: {{formats}}"
       },

@@ -73,7 +73,6 @@ export const hindi: Language = {
       },
       descriptions: {
         thumbnail: "पृष्ठभूमि चित्र (वैकल्पिक)",
-        dragAndDrop: "फ़ाइल को यहाँ खींचें और छोड़ें",
         fileSize: "अधिकतम आकार: {{size}}",
         supportedFormats: "समर्थित प्रारूप: {{formats}}"
       },

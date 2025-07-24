@@ -73,7 +73,6 @@ export const finnish: Language = {
       },
       descriptions: {
         thumbnail: "Taustakuva (valinnainen)",
-        dragAndDrop: "Vedä ja pudota tiedosto tähän",
         fileSize: "Maksimikoko: {{size}}",
         supportedFormats: "Tuetut muodot: {{formats}}"
       },

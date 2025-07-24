@@ -73,7 +73,6 @@ export const japanese: Language = {
       },
       descriptions: {
         thumbnail: "背景画像（任意）",
-        dragAndDrop: "ここにファイルをドラッグ＆ドロップ",
         fileSize: "最大サイズ: {{size}}",
         supportedFormats: "対応フォーマット: {{formats}}"
       },

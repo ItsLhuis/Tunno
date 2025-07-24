@@ -73,7 +73,6 @@ export const portuguese: Language = {
       },
       descriptions: {
         thumbnail: "Imagem de fundo (opcional)",
-        dragAndDrop: "Arraste e largue o ficheiro aqui",
         fileSize: "Tamanho máximo: {{size}}",
         supportedFormats: "Formatos suportados: {{formats}}"
       },

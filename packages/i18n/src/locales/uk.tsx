@@ -73,7 +73,6 @@ export const ukrainian: Language = {
       },
       descriptions: {
         thumbnail: "Фонове зображення (необов’язково)",
-        dragAndDrop: "Перетягніть файл сюди",
         fileSize: "Максимальний розмір: {{size}}",
         supportedFormats: "Підтримувані формати: {{formats}}"
       },

@@ -73,7 +73,6 @@ export const english: Language = {
       },
       descriptions: {
         thumbnail: "Background image (optional)",
-        dragAndDrop: "Drag and drop the file here",
         fileSize: "Maximum size: {{size}}",
         supportedFormats: "Supported formats: {{formats}}"
       },

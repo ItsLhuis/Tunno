@@ -76,7 +76,6 @@ export type Translations = {
     }
     descriptions: {
       thumbnail: string
-      dragAndDrop: string
       fileSize: string
       supportedFormats: string
     }

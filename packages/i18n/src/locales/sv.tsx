@@ -73,7 +73,6 @@ export const swedish: Language = {
       },
       descriptions: {
         thumbnail: "Bakgrundsbild (valfritt)",
-        dragAndDrop: "Dra och släpp filen här",
         fileSize: "Maxstorlek: {{size}}",
         supportedFormats: "Stödda format: {{formats}}"
       },

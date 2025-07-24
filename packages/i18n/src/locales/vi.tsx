@@ -73,7 +73,6 @@ export const vietnamese: Language = {
       },
       descriptions: {
         thumbnail: "Ảnh nền (tùy chọn)",
-        dragAndDrop: "Kéo và thả tệp vào đây",
         fileSize: "Kích thước tối đa: {{size}}",
         supportedFormats: "Định dạng hỗ trợ: {{formats}}"
       },
