@@ -102,8 +102,6 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
 
   const handleSelectSongFile = async () => {
     try {
-      form.setValue("file", undefined)
-
       const selected = await open({
         multiple: false,
         filters: [
@@ -114,9 +112,12 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
         ]
       })
 
-      if (!selected) return
+      if (!selected) {
+        form.setValue("file", undefined)
+        return
+      }
 
-      const durationSeconds = await invoke<number>("get_audio_duration", {
+      const durationSeconds = await invoke("get_audio_duration", {
         filePath: selected
       })
 
@@ -302,4 +303,3 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
 }
 
 export { SongForm }
-
