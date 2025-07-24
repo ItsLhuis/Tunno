@@ -16,12 +16,12 @@
     "core:window:allow-is-fullscreen",
     "core:window:allow-set-fullscreen",
     "core:window:allow-set-focus",
-    "core:window:allow-set-theme",
     "store:allow-load",
     "store:allow-get",
     "store:allow-set",
     "shell:allow-open",
     "fs:default",
+    "fs:allow-stat",
     {
       "identifier": "fs:scope",
       "allow": [{ "path": "$RESOURCE/**" }, { "path": "$APPDATA/**" }]

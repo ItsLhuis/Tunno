@@ -50,7 +50,7 @@ function Sidebar() {
             {sidebar.map((item, index) => (
               <Button
                 key={item.label}
-                tooltip={t(item.label)}
+                tooltip={{ children: t(item.label), side: "right" }}
                 variant="ghost"
                 className="h-14 w-14 rounded-none"
                 asChild

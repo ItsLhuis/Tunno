@@ -3,7 +3,6 @@ import { type ReactNode } from "react"
 import { useTranslation } from "@repo/i18n"
 
 import { invoke } from "@tauri-apps/api/core"
-import { open } from "@tauri-apps/plugin-dialog"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, type FieldErrors } from "react-hook-form"
@@ -16,7 +15,6 @@ import {
 } from "@repo/schemas"
 
 import {
-  Button,
   Checkbox,
   Form,
   FormControl,
@@ -33,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
   TextInput,
-  Typography
+  UploadPicker
 } from "@components/ui"
 
 import { VALID_SONG_FILE_EXTENSIONS, VALID_THUMBNAIL_FILE_EXTENSIONS } from "@repo/shared/constants"
@@ -100,44 +98,6 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
     reset: () => form.reset()
   } as SongFormRenderProps<typeof mode>
 
-  const handleSelectSongFile = async () => {
-    try {
-      const selected = await open({
-        multiple: false,
-        filters: [
-          {
-            name: "Audio Files",
-            extensions: VALID_SONG_FILE_EXTENSIONS
-          }
-        ]
-      })
-
-      if (!selected) {
-        form.setValue("file", undefined)
-        return
-      }
-
-      const durationSeconds = await invoke("get_audio_duration", {
-        filePath: selected
-      })
-
-      if (durationSeconds === 0) {
-        form.setError("file", {
-          type: "manual",
-          message: t("validation.file.required")
-        })
-        return
-      }
-
-      form.clearErrors("file")
-
-      form.setValue("file", selected)
-      form.setValue("duration", Math.floor(durationSeconds), { shouldValidate: true })
-    } catch (error) {
-      form.setValue("duration", 0)
-    }
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
@@ -160,19 +120,31 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t("form.labels.file")}</FormLabel>
-              <FormControl>
-                <>
-                  <Button className="block" onClick={handleSelectSongFile} {...field}>
-                    Selecionar Ficheiro de Música
-                  </Button>
-                  <Typography>{field.value}</Typography>
-                </>
-              </FormControl>
-              <FormDescription>
-                {t("form.descriptions.supportedFormats", {
-                  formats: VALID_SONG_FILE_EXTENSIONS.join(", ")
-                })}
-              </FormDescription>
+              <UploadPicker
+                hasError={!!form.formState.errors[field.name]}
+                mode="file"
+                onBeforeSelect={async (filePath) => {
+                  const durationSeconds = await invoke<number>("get_audio_duration", {
+                    filePath
+                  })
+
+                  if (durationSeconds === 0) {
+                    form.setError("file", {
+                      type: "manual",
+                      message: t("validation.file.invalid")
+                    })
+                    return false
+                  }
+
+                  form.clearErrors("file")
+                  form.setValue("duration", Math.floor(durationSeconds), { shouldValidate: true })
+
+                  return true
+                }}
+                onChange={field.onChange}
+                onError={(msg) => form.setError(field.name, { message: msg })}
+                accept={VALID_SONG_FILE_EXTENSIONS}
+              />
               <FormMessage />
             </FormItem>
           )}

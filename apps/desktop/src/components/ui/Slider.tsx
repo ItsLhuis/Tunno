@@ -5,6 +5,7 @@ import { cn } from "@lib/utils"
 import * as SliderPrimitive from "@radix-ui/react-slider"
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/Tooltip"
+import { Typography } from "@components/ui/Typography"
 
 type SliderProps = ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
   formatTooltip?: (value: number) => string
@@ -44,7 +45,9 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
               />
             </TooltipTrigger>
             <TooltipContent>
-              <p>{formatValue(value[0])}</p>
+              <Typography variant="span" affects="small">
+                {formatValue(value[0])}
+              </Typography>
             </TooltipContent>
           </Tooltip>
         </SliderPrimitive.Root>

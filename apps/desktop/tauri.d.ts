@@ -1,3 +1,5 @@
+import "@tauri-apps/api/core"
+
 declare module "@tauri-apps/api/core" {
   interface InvokeArgs {
     start_server: void

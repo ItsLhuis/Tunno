@@ -2,6 +2,7 @@ import {
   type ButtonHTMLAttributes,
   type ComponentType,
   forwardRef,
+  Fragment,
   type KeyboardEvent,
   useState
 } from "react"
@@ -246,12 +247,12 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             <CommandGroup>
               <div className="flex items-center justify-between">
                 {selectedValues.length > 0 && (
-                  <>
+                  <Fragment>
                     <CommandItem onSelect={handleClear} className="flex-1 justify-center">
                       {t("common.clear")}
                     </CommandItem>
                     <Separator orientation="vertical" className="flex h-full min-h-6" />
-                  </>
+                  </Fragment>
                 )}
                 <CommandItem
                   onSelect={() => setIsPopoverOpen(false)}

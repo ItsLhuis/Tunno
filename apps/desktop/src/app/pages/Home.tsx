@@ -1,6 +1,6 @@
 import { useTranslation } from "@repo/i18n"
 
-import { SongForm } from "@/components/forms"
+import { SongForm } from "@components/forms"
 import { Button, Typography } from "@components/ui"
 
 function Home() {
