@@ -35,9 +35,8 @@ type FolderItem = {
 export type UploadPickerProps = {
   mode?: "file" | "folder"
   onBeforeSelect?: (path: string) => Promise<boolean> | boolean
-  onChange?: (value: string | null) => void
+  onChange?: (value: string) => void
   onError?: (error: string) => void
-  hasError?: boolean
   accept?: string[]
   maxSize?: number
   className?: string
@@ -51,7 +50,6 @@ const UploadPicker = ({
   onBeforeSelect,
   onChange,
   onError,
-  hasError = false,
   accept = [],
   maxSize = Number.POSITIVE_INFINITY,
   className,
@@ -115,7 +113,7 @@ const UploadPicker = ({
 
   const removeItem = () => {
     setItem(null)
-    onChange?.(null)
+    onChange?.("")
   }
 
   const handleSelectItem = async () => {
@@ -136,10 +134,12 @@ const UploadPicker = ({
 
       if (!selected || typeof selected !== "string") return
 
-      const continueSelection = await onBeforeSelect?.(selected)
-      if (!continueSelection) {
-        setItem(null)
-        return
+      if (onBeforeSelect) {
+        const continueSelection = await onBeforeSelect(selected)
+        if (!continueSelection) {
+          setItem(null)
+          return
+        }
       }
 
       const metadata = await stat(selected)
@@ -191,20 +191,16 @@ const UploadPicker = ({
       desc = t("form.descriptions.supportedFormats", { formats: accept.join(", ") })
     }
     if (isFinite(maxSize)) {
-      desc += desc ? ` • Máx: ${formatFileSize(maxSize)}` : `Máx: ${formatFileSize(maxSize)}`
+      desc += desc
+        ? ` • ${t("form.descriptions.fileSize", { size: formatFileSize(maxSize) })}`
+        : t("form.descriptions.fileSize", { size: formatFileSize(maxSize) })
     }
     return desc
   }
 
   return (
     <div className={cn("w-full max-w-full space-y-3 overflow-hidden", className)}>
-      <Card
-        className={cn(
-          "rounded-md border-2 border-dashed",
-          hasError && "border-destructive",
-          className
-        )}
-      >
+      <Card className={cn("rounded-md border-2 border-dashed", className)}>
         <Button
           variant="ghost"
           className="h-auto hover:text-current"
@@ -278,4 +274,3 @@ const UploadPicker = ({
 }
 
 export { UploadPicker }
-
