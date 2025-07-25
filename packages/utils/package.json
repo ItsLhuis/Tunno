@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "@repo/i18n": "*"
+    "@repo/i18n": "*",
+    "@repo/shared": "*"
   },
   "devDependencies": {
     "typescript": "^5.8.3"
