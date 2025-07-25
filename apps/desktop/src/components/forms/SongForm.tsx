@@ -14,6 +14,8 @@ import {
   type UpdateSongType
 } from "@repo/schemas"
 
+import { cn } from "@lib/utils"
+
 import {
   Checkbox,
   Form,
@@ -23,6 +25,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  IconButton,
+  LyricsEditor,
   MultiSelect,
   NumberInput,
   Select,
@@ -36,7 +40,7 @@ import {
 
 import { VALID_SONG_FILE_EXTENSIONS, VALID_THUMBNAIL_FILE_EXTENSIONS } from "@repo/shared/constants"
 
-import type { Song } from "@repo/api"
+import { type Song } from "@repo/api"
 
 export type SongFormRenderProps<T extends "insert" | "update"> = {
   isSubmitting: boolean
@@ -121,7 +125,6 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
             <FormItem>
               <FormLabel>{t("form.labels.file")}</FormLabel>
               <UploadPicker
-                hasError={!!form.formState.errors[field.name]}
                 mode="file"
                 onBeforeSelect={async (filePath) => {
                   const durationSeconds = await invoke<number>("get_audio_duration", {
@@ -136,7 +139,6 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
                     return false
                   }
 
-                  form.clearErrors("file")
                   form.setValue("duration", Math.floor(durationSeconds), { shouldValidate: true })
 
                   return true
@@ -152,26 +154,17 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
         <FormField
           control={form.control}
           name="thumbnail"
-          render={({ field: { value, onChange, ...field } }) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
-              <FormControl>
-                <input
-                  {...field}
-                  type="file"
-                  accept={VALID_THUMBNAIL_FILE_EXTENSIONS.map((ext) => `.${ext}`).join(",")}
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    onChange(file || undefined)
-                  }}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100"
-                />
-              </FormControl>
-              <FormDescription>
-                {t("form.descriptions.supportedFormats", {
-                  formats: VALID_THUMBNAIL_FILE_EXTENSIONS.join(", ")
-                })}
-              </FormDescription>
+              <UploadPicker
+                mode="file"
+                defaultValue={form.formState.defaultValues?.thumbnail}
+                onChange={field.onChange}
+                onError={(msg) => form.setError(field.name, { message: msg })}
+                accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
+              />
+              <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -181,7 +174,7 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
           name="releaseYear"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Release Year</FormLabel>
+              <FormLabel>{t("form.labels.releaseYear")}</FormLabel>
               <FormControl>
                 <NumberInput
                   placeholder={new Date().getFullYear().toString()}
@@ -203,9 +196,15 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
                 <FormControl>
-                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  <IconButton
+                    name="Heart"
+                    variant="ghost"
+                    isFilled={field.value}
+                    tooltip={field.value ? t("common.unfavorite") : t("common.favorite")}
+                    className={cn(field.value && "!text-primary")}
+                    onClick={() => field.onChange(!field.value)}
+                  />
                 </FormControl>
-                <FormLabel className="text-sm font-normal">Música Favorita</FormLabel>
               </FormItem>
             )}
           />
@@ -217,7 +216,7 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
                 <FormControl>
                   <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
-                <FormLabel className="text-sm font-normal">{t("form.labels.isSingle")}</FormLabel>
+                <FormLabel>{t("form.labels.isSingle")}</FormLabel>
               </FormItem>
             )}
           />
@@ -230,6 +229,7 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
               <FormLabel>{t("form.labels.artists")}</FormLabel>
               <FormControl>
                 <MultiSelect
+                  placeholder={t("form.labels.artists")}
                   options={[
                     { label: "Artista 1", value: "1" },
                     { label: "Artista 2", value: "2" }
@@ -247,14 +247,14 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
             name="albumId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Album</FormLabel>
+                <FormLabel>{t("form.labels.album")}</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={(value) => field.onChange(parseInt(value))}
                     defaultValue={field.value?.toString()}
                   >
                     <SelectTrigger className="flex-1">
-                      <SelectValue placeholder="Selecionar album..." />
+                      <SelectValue placeholder={t("form.labels.album")} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="1">Album 1</SelectItem>
@@ -267,6 +267,19 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
             )}
           />
         )}
+        <FormField
+          control={form.control}
+          name="lyrics"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Lyrics</FormLabel>
+              <FormControl>
+                <LyricsEditor value={field.value} onChange={field.onChange} placeholder="Lyrics" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <button type="submit" className="hidden" />
         {children?.(renderProps)}
       </form>

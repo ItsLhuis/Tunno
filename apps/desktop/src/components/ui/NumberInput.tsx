@@ -12,16 +12,35 @@ export type NumberInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type
   max?: number
   step?: number
   onChange?: (value: number | undefined) => void
+  format?: (value: number | undefined) => string
+  parse?: (raw: string) => number | undefined
 }
 
 const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
-  ({ className, min, max, step = 1, onChange, value, defaultValue, disabled, ...props }, ref) => {
+  (
+    {
+      className,
+      min,
+      max,
+      step = 1,
+      onChange,
+      value,
+      defaultValue,
+      disabled,
+      format,
+      parse,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState<number | undefined>(
-      defaultValue ? Number(defaultValue) : undefined
+      defaultValue !== undefined ? Number(defaultValue) : undefined
     )
 
-    const currentValue = value !== undefined ? Number(value) : internalValue
     const isControlled = value !== undefined
+    const currentValue = isControlled ? Number(value) : internalValue
+
+    const displayValue = format ? format(currentValue) : (currentValue?.toString() ?? "")
 
     const handleValueChange = (newValue: number | undefined) => {
       if (!isControlled) {
@@ -32,44 +51,41 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
     const handleIncrement = () => {
       if (disabled) return
-
-      const current = currentValue || 0
+      const current = currentValue ?? 0
       const newValue = max !== undefined ? Math.min(current + step, max) : current + step
       handleValueChange(newValue)
     }
 
     const handleDecrement = () => {
       if (disabled) return
-
-      const current = currentValue || 0
+      const current = currentValue ?? 0
       const newValue = min !== undefined ? Math.max(current - step, min) : current - step
       handleValueChange(newValue)
     }
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      const inputValue = e.target.value
-
-      if (inputValue === "") {
+      const rawValue = e.target.value
+      if (rawValue === "") {
         handleValueChange(undefined)
         return
       }
 
-      const numValue = Number(inputValue)
-      if (!isNaN(numValue)) {
-        let clampedValue = numValue
-        if (min !== undefined) clampedValue = Math.max(clampedValue, min)
-        if (max !== undefined) clampedValue = Math.min(clampedValue, max)
-        handleValueChange(clampedValue)
+      const parsed = parse ? parse(rawValue) : Number(rawValue)
+      if (typeof parsed === "number" && !isNaN(parsed)) {
+        let clamped = parsed
+        if (min !== undefined) clamped = Math.max(clamped, min)
+        if (max !== undefined) clamped = Math.min(clamped, max)
+        handleValueChange(clamped)
       }
     }
 
-    const canDecrement = !disabled && (min === undefined || (currentValue || 0) > min)
-    const canIncrement = !disabled && (max === undefined || (currentValue || 0) < max)
+    const canDecrement = !disabled && (min === undefined || (currentValue ?? 0) > min)
+    const canIncrement = !disabled && (max === undefined || (currentValue ?? 0) < max)
 
     return (
       <div
         className={cn(
-          "flex h-9 w-full overflow-hidden rounded-md border border-input bg-background text-sm ring-offset-background transition-[background-color,border-color,text-decoration-color,fill,stroke,opacity] focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background focus-visible:outline-none",
+          "flex h-9 w-full overflow-hidden rounded-md border border-input bg-background text-sm ring-offset-background transition focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background",
           disabled && "cursor-not-allowed opacity-50",
           className
         )}
@@ -83,13 +99,10 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         />
         <TextInput
           ref={ref}
-          type="number"
-          value={currentValue ?? ""}
+          type="text"
+          value={displayValue}
           onChange={handleInputChange}
           className="flex-1 border-none text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          min={min}
-          max={max}
-          step={step}
           disabled={disabled}
           {...props}
         />

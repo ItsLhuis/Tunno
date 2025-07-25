@@ -95,7 +95,12 @@ function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <Image src={Logo} alt="App logo" containerClassName="bg-transparent" className="w-20" />
+            <Image
+              src={Logo}
+              alt="App logo"
+              containerClassName="bg-transparent border-none rounded-none"
+              className="w-20"
+            />
           </motion.div>
         )}
         <motion.div className="z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>

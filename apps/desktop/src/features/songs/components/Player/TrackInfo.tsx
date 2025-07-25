@@ -19,7 +19,7 @@ const TrackInfo = () => {
         <IconButton
           name="Heart"
           isFilled
-          tooltip={{ children: t("common.favorite"), side: "top" }}
+          tooltip={t("common.favorite")}
           variant="text"
           className="shrink-0"
         />

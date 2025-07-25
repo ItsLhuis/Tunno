@@ -19,10 +19,7 @@ const PlaybackVolumeControl = () => {
         name={
           isMuted ? "VolumeOff" : volume === 0 ? "VolumeX" : volume < 0.5 ? "Volume1" : "Volume2"
         }
-        tooltip={{
-          children: isMuted || volume === 0 ? t("common.unmute") : t("common.mute"),
-          side: "top"
-        }}
+        tooltip={isMuted || volume === 0 ? t("common.unmute") : t("common.mute")}
         variant="ghost"
         className="shrink-0"
         onClick={() => setIsMuted(!isMuted)}
@@ -47,4 +44,3 @@ const PlaybackVolumeControl = () => {
 }
 
 export { PlaybackVolumeControl }
-

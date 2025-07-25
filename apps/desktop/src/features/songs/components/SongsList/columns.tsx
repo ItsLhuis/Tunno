@@ -67,12 +67,7 @@ export const columns = (t: TFunction): ColumnDef<SongWithRelations>[] => [
     cell: ({ row }) => {
       return (
         <div className="flex flex-1 items-center gap-3 truncate">
-          <Image
-            src={row.original.thumbnail ?? undefined}
-            alt="thumbnail"
-            containerClassName="border border-muted rounded-md"
-            className="size-12 rounded-md object-cover"
-          />
+          <Image src={row.original.thumbnail ?? undefined} alt="thumbnail" />
           <div className="w-full truncate">
             <Marquee>
               <Button className="transition-none" variant="link" asChild>

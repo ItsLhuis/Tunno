@@ -127,7 +127,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
             <Image
               src={Logo}
               alt="App logo"
-              containerClassName="bg-transparent"
+              containerClassName="bg-transparent border-none rounded-none"
               className="aspect-auto w-4"
             />
             {!isSplashVisible && (

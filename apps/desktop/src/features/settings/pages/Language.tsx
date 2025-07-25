@@ -37,7 +37,7 @@ function Language() {
         <Choicebox defaultValue={language} onValueChange={setLanguage}>
           {Object.values(locales).map((locale) => (
             <ChoiceboxItem value={locale.code} key={locale.code} className="gap-3">
-              <Image className="aspect-4/3 h-3 flex-shrink-0" src={locale.flag} alt={locale.name} />
+              <Image className="h-4 w-auto flex-shrink-0" src={locale.flag} alt={locale.name} />
               <ChoiceboxItemHeader>
                 <ChoiceboxItemTitle>{locale.name}</ChoiceboxItemTitle>
                 <ChoiceboxItemDescription>

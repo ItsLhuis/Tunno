@@ -73,7 +73,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
     return (
       <div
         className={cn(
-          "bg-muted",
+          "overflow-hidden rounded border border-muted bg-muted",
           containerClassName,
           "relative shrink-0 overflow-hidden transition-colors"
         )}
@@ -83,6 +83,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
           src={currentSrc ?? undefined}
           alt={alt}
           className={cn(
+            "aspect-auto w-14 object-cover",
             className,
             isNewImageLoaded ? "opacity-100" : "opacity-0",
             "transition-opacity duration-300"

@@ -20,7 +20,7 @@ const Kbd = ({
 }) => (
   <span
     className={cn(
-      "inline-flex select-none items-center gap-1 rounded border bg-muted px-1.5 align-middle font-mono text-[10px] font-medium leading-loose text-muted-foreground",
+      "inline-flex select-none items-center gap-1 rounded border bg-muted px-1.5 align-middle font-mono text-[10px] font-medium leading-loose text-muted-foreground transition-colors",
       className
     )}
     {...props}

@@ -75,6 +75,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           initial={{ opacity: 1 }}
           animate={{ opacity: !isLoading ? 0 : 1 }}
           exit={{ opacity: 0 }}
+          style={{ visibility: isLoading ? "visible" : "hidden" }}
         >
           <Spinner className="text-inherit" />
         </motion.div>

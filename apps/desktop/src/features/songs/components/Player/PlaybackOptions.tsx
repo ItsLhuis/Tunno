@@ -10,11 +10,7 @@ const PlaybackOptions = () => {
   return (
     <div className="flex items-center justify-end gap-2 truncate">
       <PlaybackVolumeControl />
-      <IconButton
-        name="ListMusic"
-        tooltip={{ children: t("common.queue"), side: "top" }}
-        variant="ghost"
-      />
+      <IconButton name="ListMusic" tooltip={t("common.queue")} variant="ghost" />
     </div>
   )
 }

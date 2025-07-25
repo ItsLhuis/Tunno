@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -18,7 +18,9 @@ import { IconButton } from "@components/ui/IconButton"
 import { Image } from "@components/ui/Image"
 import { Typography } from "@components/ui/Typography"
 
-import { VALID_SONG_FILE_EXTENSIONS, VALID_THUMBNAIL_FILE_EXTENSIONS } from "@repo/shared/constants"
+import { formatFileSize, getFileNameAndExtension, isImageExtension } from "@repo/utils"
+
+import { VALID_SONG_FILE_EXTENSIONS } from "@repo/shared/constants"
 
 type FileItem = {
   name: string
@@ -34,6 +36,7 @@ type FolderItem = {
 
 export type UploadPickerProps = {
   mode?: "file" | "folder"
+  defaultValue?: string
   onBeforeSelect?: (path: string) => Promise<boolean> | boolean
   onChange?: (value: string) => void
   onError?: (error: string) => void
@@ -47,6 +50,7 @@ export type UploadPickerProps = {
 
 const UploadPicker = ({
   mode = "file",
+  defaultValue,
   onBeforeSelect,
   onChange,
   onError,
@@ -61,48 +65,21 @@ const UploadPicker = ({
 
   const [item, setItem] = useState<FileItem | FolderItem | null>(null)
 
-  const getFileNameAndExtension = (filePath: string) => {
-    const fileName = filePath.split(/[\\/]/).pop() || ""
-    const lastDotIndex = fileName.lastIndexOf(".")
-    if (lastDotIndex === -1) {
-      return { name: fileName, extension: "" }
-    }
-    return {
-      name: fileName.substring(0, lastDotIndex),
-      extension: fileName.substring(lastDotIndex + 1).toLowerCase()
-    }
-  }
-
-  const isImageExtension = (extension: string) => {
-    return VALID_THUMBNAIL_FILE_EXTENSIONS.includes(extension.toLowerCase())
-  }
-
-  const getItemIcon = (item: FileItem | FolderItem) => {
-    if ("extension" in item) {
-      if (isImageExtension(item.extension) && item.path) {
-        return (
-          <Image
-            src={convertFileSrc(item.path)}
-            alt={item.name}
-            className="h-12 w-12 rounded border object-cover"
-          />
-        )
+  useEffect(() => {
+    if (defaultValue) {
+      if (mode === "folder") {
+        setItem({ name: defaultValue.split(/[\\/]/).pop() || "", path: defaultValue })
+      } else {
+        const { name, extension } = getFileNameAndExtension(defaultValue)
+        setItem({
+          name,
+          extension,
+          size: 0,
+          path: defaultValue
+        })
       }
-      if (VALID_SONG_FILE_EXTENSIONS.includes(item.extension)) return <Icon name="Music" />
-      return <Icon name="File" />
-    } else {
-      return <Icon name="Folder" />
     }
-  }
-
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return "0 B"
-    const sizes = ["B", "KB", "MB", "GB"]
-    const k = 1024
-    let i = Math.floor(Math.log(bytes) / Math.log(k))
-    if (i >= sizes.length) i = sizes.length - 1
-    return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
-  }
+  }, [defaultValue, mode])
 
   const validateFile = (file: { name: string; size: number }) => {
     if (mode === "file" && file.size > maxSize) {
@@ -117,6 +94,8 @@ const UploadPicker = ({
   }
 
   const handleSelectItem = async () => {
+    if (disabled) return
+
     try {
       const selected = await open({
         multiple: false,
@@ -146,24 +125,20 @@ const UploadPicker = ({
 
       if (mode === "folder") {
         const folderName = selected.split(/[\\/]/).pop() || ""
-        const folderItem: FolderItem = {
-          name: folderName,
-          path: selected
-        }
+        const folderItem: FolderItem = { name: folderName, path: selected }
 
         setItem(folderItem)
         onChange?.(folderItem.path)
       } else {
         const { name, extension } = getFileNameAndExtension(selected)
-
         const fileItem: FileItem = {
-          name: `${name}.${extension}`,
+          name,
           extension,
           size: metadata.size,
           path: selected
         }
 
-        const error = validateFile(fileItem)
+        const error = validateFile({ name: fileItem.name, size: fileItem.size })
         if (error) {
           onError?.(error)
           return
@@ -174,6 +149,19 @@ const UploadPicker = ({
       }
     } catch (error) {
       onError?.(String(error))
+    }
+  }
+
+  const getItemIcon = (item: FileItem | FolderItem) => {
+    if ("extension" in item) {
+      if (isImageExtension(item.extension) && item.path) {
+        return <Image src={convertFileSrc(item.path)} alt={item.name ?? "thumbnail"} />
+      }
+      if (item.extension && VALID_SONG_FILE_EXTENSIONS.includes(item.extension))
+        return <Icon name="Music" />
+      return <Icon name="File" />
+    } else {
+      return <Icon name="Folder" />
     }
   }
 
@@ -204,8 +192,9 @@ const UploadPicker = ({
         <Button
           variant="ghost"
           className="h-auto hover:text-current"
-          onClick={!disabled ? handleSelectItem : undefined}
+          onClick={handleSelectItem}
           asChild
+          disabled={disabled}
         >
           <CardContent
             className={cn(
@@ -230,29 +219,21 @@ const UploadPicker = ({
             <div className="flex w-full items-center gap-3">
               <div className="flex-shrink-0">{getItemIcon(item)}</div>
               <div className="flex-1 overflow-hidden">
-                <Typography affects="bold" className="whitespace-break-spaces break-all">
-                  {item.name}
-                </Typography>
+                {item.name && (
+                  <Typography affects="bold" className="whitespace-break-spaces break-all">
+                    {item.name}
+                  </Typography>
+                )}
                 <div className="mt-1 flex items-center gap-2">
                   {"extension" in item ? (
                     <Fragment>
-                      <Badge variant="muted" className="whitespace-nowrap text-xs">
-                        {formatFileSize(item.size)}
-                      </Badge>
-                      {item.extension && (
-                        <Badge variant="outline" className="whitespace-nowrap text-xs">
-                          .{item.extension}
-                        </Badge>
-                      )}
+                      {item.size > 0 && <Badge variant="muted">{formatFileSize(item.size)}</Badge>}
+                      {item.extension && <Badge variant="outline">.{item.extension}</Badge>}
                     </Fragment>
                   ) : (
                     <Fragment>
-                      <Badge variant="muted" className="whitespace-nowrap text-xs">
-                        {item.path}
-                      </Badge>
-                      <Badge variant="outline" className="whitespace-nowrap text-xs">
-                        {t("form.labels.folder")}
-                      </Badge>
+                      <Badge variant="muted">{item.path}</Badge>
+                      <Badge variant="outline">{t("form.labels.folder")}</Badge>
                     </Fragment>
                   )}
                 </div>
@@ -274,3 +255,4 @@ const UploadPicker = ({
 }
 
 export { UploadPicker }
+

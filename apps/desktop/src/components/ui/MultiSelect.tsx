@@ -68,7 +68,7 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
       onValueChange,
       variant,
       defaultValue = [],
-      placeholder = "Select options",
+      placeholder,
       maxCount = 3,
       modalPopover = false,
       asChild = false,

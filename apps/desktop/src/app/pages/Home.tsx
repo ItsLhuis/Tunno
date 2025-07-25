@@ -12,7 +12,7 @@ function Home() {
       <SongForm onSubmit={(data) => console.log(data)}>
         {({ isValid }) => (
           <Button type="submit" disabled={!isValid}>
-            Submit
+            {t("form.buttons.create")}
           </Button>
         )}
       </SongForm>
