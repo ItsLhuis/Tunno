@@ -127,7 +127,7 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
               <UploadPicker
                 mode="file"
                 onBeforeSelect={async (filePath) => {
-                  const durationSeconds = await invoke<number>("get_audio_duration", {
+                  const durationSeconds = await invoke("get_audio_duration", {
                     filePath
                   })
 
