@@ -181,13 +181,17 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                       Visualize como as lyrics ficaram com os timestamps
                     </DialogDescription>
                   </DialogHeader>
-                  <ScrollArea className="h-[240px] w-full rounded-md border transition-[border-color]">
-                    <div className="whitespace-pre-wrap p-3">
+                  <ScrollArea className="h-[240px] rounded-md border transition-[border-color]">
+                    <div className="w-full p-3">
                       {syncedLines.map((line, index) => (
-                        <div key={index} className="mb-2 flex gap-2">
-                          <Typography affects="muted">[{formatTime(line.startTime)}]</Typography>
-                          <Typography>-</Typography>
-                          <Typography>{line.text || "..."}</Typography>
+                        <div key={index} className="mb-2 flex w-full gap-2">
+                          <Typography affects="muted" className="shrink-0">
+                            [{formatTime(line.startTime)}]
+                          </Typography>
+                          <Typography className="shrink-0">-</Typography>
+                          <Typography className="overflow-wrap-anywhere min-w-0 flex-1 break-all">
+                            {line.text || "..."}
+                          </Typography>
                         </div>
                       ))}
                     </div>
