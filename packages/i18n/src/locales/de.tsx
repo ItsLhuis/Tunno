@@ -10,8 +10,8 @@ export const german: Language = {
   translations: {
     common: {
       noResultsFound: "Keine Ergebnisse gefunden",
-      lessThanAnHourAgo: "Vor weniger als einer Stunde",
-      hoursAgo: "Vor {{count}} Stunde{{count, plural, one {} other{n}}}",
+      lessThanAnHourAgo: "Weniger als eine Stunde her",
+      hoursAgo: "vor {count} Stunde{count, plural, one {} other{n}}",
       today: "Heute",
       yesterday: "Gestern",
       goBack: "Zurück",
@@ -20,12 +20,12 @@ export const german: Language = {
       unfavorite: "Favorit entfernen",
       enableShuffle: "Shuffle aktivieren",
       disableShuffle: "Shuffle deaktivieren",
-      previous: "Zurück",
+      previous: "Vorherige",
       play: "Abspielen",
       pause: "Pause",
-      next: "Weiter",
+      next: "Nächste",
       enableRepeat: "Wiederholung aktivieren",
-      enableRepeatOne: "Einzelne Wiederholung aktivieren",
+      enableRepeatOne: "Einzelwiederholung aktivieren",
       disableRepeat: "Wiederholung deaktivieren",
       mute: "Stummschalten",
       unmute: "Ton einschalten",
@@ -34,14 +34,16 @@ export const german: Language = {
       album: "Album",
       date: "Datum",
       duration: "Dauer",
-      search: "Suchen",
+      search: "Suche",
       selectAll: "Alle auswählen",
       visibility: "Sichtbarkeit",
       columns: "Spalten",
       clear: "Löschen",
       cancel: "Abbrechen",
       more: "Mehr",
-      select: "Auswählen"
+      select: "Auswählen",
+      preview: "Vorschau",
+      close: "Schließen"
     },
     form: {
       titles: {
@@ -55,7 +57,8 @@ export const german: Language = {
         updatePlaylist: "Playlist aktualisieren",
         deletePlaylist: "Playlist löschen",
         confirmation: "Bestätigung",
-        warning: "Warnung"
+        warning: "Warnung",
+        lyricsPreview: "Liedtext Vorschau"
       },
       labels: {
         name: "Name",
@@ -64,8 +67,9 @@ export const german: Language = {
         releaseYear: "Erscheinungsjahr",
         album: "Album",
         artists: "Künstler",
-        isSingle: "Ist single",
-        folder: "Ordner"
+        isSingle: "Ist Single",
+        folder: "Ordner",
+        lyrics: "Text"
       },
       buttons: {
         cancel: "Abbrechen",
@@ -75,12 +79,18 @@ export const german: Language = {
       },
       descriptions: {
         thumbnail: "Hintergrundbild (optional)",
-        fileSize: "Maximale Größe: {{size}}",
-        supportedFormats: "Unterstützte Formate: {{formats}}"
+        fileSize: "Maximale Größe: {size}",
+        supportedFormats: "Unterstützte Formate: {formats}",
+        lyricsPreview: "Sehen Sie, wie der Liedtext synchronisiert mit der Zeit angezeigt wird"
+      },
+      badges: {
+        lines: "{count} Zeile{count, plural, one {} other{n}}",
+        duration: "Dauer: {time}"
       },
       messages: {
         confirmDelete: "Sind Sie sicher, dass Sie löschen möchten?",
-        unsavedChanges: "Es gibt ungespeicherte Änderungen"
+        unsavedChanges: "Es gibt ungespeicherte Änderungen",
+        noLyrics: "Kein Liedtext"
       }
     },
     validation: {
@@ -91,7 +101,7 @@ export const german: Language = {
       file: {
         required: "Datei ist erforderlich",
         invalid: "Ungültige oder beschädigte Datei",
-        max: "Datei überschreitet die maximale Größe von {{maxSize}}"
+        max: "Datei überschreitet die maximale Größe von {maxSize}"
       },
       duration: {
         required: "Dauer ist erforderlich",
@@ -114,7 +124,7 @@ export const german: Language = {
       downloading: "Update wird heruntergeladen und installiert",
       downloadingDescription: "Ein neues Update ist verfügbar und wird automatisch installiert",
       installedSuccess: "Update erfolgreich installiert",
-      failed: "Update-Installation fehlgeschlagen"
+      failed: "Update konnte nicht installiert werden"
     },
     breadcrumbs: {
       home: {
@@ -133,7 +143,7 @@ export const german: Language = {
         title: "Künstler"
       },
       fastUpload: {
-        title: "Schnell-Upload"
+        title: "Schneller Upload"
       },
       settings: {
         title: "Einstellungen",
@@ -154,47 +164,47 @@ export const german: Language = {
     songs: {
       title: "Lieder",
       createdTitle: "Lied erfolgreich erstellt",
-      createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Fehler beim Erstellen des Liedes",
+      createdDescription: "{name} wurde erstellt",
+      createdFailedTitle: "Erstellung des Liedes fehlgeschlagen",
       updatedTitle: "Lied erfolgreich aktualisiert",
-      updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Fehler beim Aktualisieren des Liedes",
+      updatedDescription: "{name} wurde aktualisiert",
+      updatedFailedTitle: "Aktualisierung des Liedes fehlgeschlagen",
       deletedTitle: "Lied erfolgreich gelöscht",
-      deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Fehler beim Löschen des Liedes"
+      deletedDescription: "{name} wurde gelöscht",
+      deletedFailedTitle: "Löschen des Liedes fehlgeschlagen"
     },
     favorites: {
       title: "Favoriten",
       createdTitle: "Zu Favoriten hinzugefügt",
-      createdDescription: "{{name}} wurde zu Favoriten hinzugefügt",
-      createdFailedTitle: "Fehler beim Hinzufügen zu Favoriten",
+      createdDescription: "{name} wurde zu Favoriten hinzugefügt",
+      createdFailedTitle: "Hinzufügen zu Favoriten fehlgeschlagen",
       deletedTitle: "Aus Favoriten entfernt",
-      deletedDescription: "{{name}} wurde aus Favoriten entfernt",
-      deletedFailedTitle: "Fehler beim Entfernen aus Favoriten"
+      deletedDescription: "{name} wurde aus Favoriten entfernt",
+      deletedFailedTitle: "Entfernen aus Favoriten fehlgeschlagen"
     },
     playlists: {
       title: "Playlists",
       createdTitle: "Playlist erfolgreich erstellt",
-      createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Fehler beim Erstellen der Playlist",
+      createdDescription: "{name} wurde erstellt",
+      createdFailedTitle: "Erstellung der Playlist fehlgeschlagen",
       updatedTitle: "Playlist erfolgreich aktualisiert",
-      updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Fehler beim Aktualisieren der Playlist",
+      updatedDescription: "{name} wurde aktualisiert",
+      updatedFailedTitle: "Aktualisierung der Playlist fehlgeschlagen",
       deletedTitle: "Playlist erfolgreich gelöscht",
-      deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Fehler beim Löschen der Playlist"
+      deletedDescription: "{name} wurde gelöscht",
+      deletedFailedTitle: "Löschen der Playlist fehlgeschlagen"
     },
     artists: {
       title: "Künstler",
       createdTitle: "Künstler erfolgreich erstellt",
-      createdDescription: "{{name}} wurde erstellt",
-      createdFailedTitle: "Fehler beim Erstellen des Künstlers",
+      createdDescription: "{name} wurde erstellt",
+      createdFailedTitle: "Erstellung des Künstlers fehlgeschlagen",
       updatedTitle: "Künstler erfolgreich aktualisiert",
-      updatedDescription: "{{name}} wurde aktualisiert",
-      updatedFailedTitle: "Fehler beim Aktualisieren des Künstlers",
+      updatedDescription: "{name} wurde aktualisiert",
+      updatedFailedTitle: "Aktualisierung des Künstlers fehlgeschlagen",
       deletedTitle: "Künstler erfolgreich gelöscht",
-      deletedDescription: "{{name}} wurde gelöscht",
-      deletedFailedTitle: "Fehler beim Löschen des Künstlers"
+      deletedDescription: "{name} wurde gelöscht",
+      deletedFailedTitle: "Löschen des Künstlers fehlgeschlagen"
     },
     settings: {
       title: "Einstellungen",
@@ -215,7 +225,7 @@ export const german: Language = {
       }
     },
     fastUpload: {
-      title: "Schnell-Upload"
+      title: "Schneller Upload"
     },
     languages: {
       da: "Dänisch",

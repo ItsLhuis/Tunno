@@ -45,6 +45,8 @@ export type Translations = {
     cancel: string
     more: string
     select: string
+    preview: string
+    close: string
   }
   form: {
     titles: {
@@ -59,6 +61,7 @@ export type Translations = {
       deletePlaylist: string
       confirmation: string
       warning: string
+      lyricsPreview: string
     }
     labels: {
       name: string
@@ -69,6 +72,7 @@ export type Translations = {
       artists: string
       isSingle: string
       folder: string
+      lyrics: string
     }
     buttons: {
       cancel: string
@@ -80,10 +84,16 @@ export type Translations = {
       thumbnail: string
       fileSize: string
       supportedFormats: string
+      lyricsPreview: string
+    }
+    badges: {
+      lines: string
+      duration: string
     }
     messages: {
       confirmDelete: string
       unsavedChanges: string
+      noLyrics: string
     }
   }
   validation: {

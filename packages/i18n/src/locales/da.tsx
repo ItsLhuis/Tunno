@@ -10,24 +10,24 @@ export const danish: Language = {
   translations: {
     common: {
       noResultsFound: "Ingen resultater fundet",
-      lessThanAnHourAgo: "For mindre end en time siden",
-      hoursAgo: "For {{count}} time{{count, plural, one {} other{r}}} siden",
+      lessThanAnHourAgo: "Mindre end en time siden",
+      hoursAgo: "{count} time{count, plural, one {} other{r}} siden",
       today: "I dag",
       yesterday: "I går",
       goBack: "Gå tilbage",
       goFoward: "Gå frem",
       favorite: "Favorit",
       unfavorite: "Fjern favorit",
-      enableShuffle: "Aktivér tilfældig afspilning",
-      disableShuffle: "Deaktivér tilfældig afspilning",
+      enableShuffle: "Aktiver blanding",
+      disableShuffle: "Deaktiver blanding",
       previous: "Forrige",
       play: "Afspil",
       pause: "Pause",
       next: "Næste",
-      enableRepeat: "Aktivér gentagelse",
-      enableRepeatOne: "Gentag én",
-      disableRepeat: "Deaktivér gentagelse",
-      mute: "Slå lyd fra",
+      enableRepeat: "Aktiver gentagelse",
+      enableRepeatOne: "Aktiver gentag én",
+      disableRepeat: "Deaktiver gentagelse",
+      mute: "Lydløs",
       unmute: "Slå lyd til",
       queue: "Kø",
       title: "Titel",
@@ -41,7 +41,9 @@ export const danish: Language = {
       clear: "Ryd",
       cancel: "Annuller",
       more: "Mere",
-      select: "Vælg"
+      select: "Vælg",
+      preview: "Forhåndsvisning",
+      close: "Luk"
     },
     form: {
       titles: {
@@ -55,17 +57,19 @@ export const danish: Language = {
         updatePlaylist: "Opdater playliste",
         deletePlaylist: "Slet playliste",
         confirmation: "Bekræftelse",
-        warning: "Advarsel"
+        warning: "Advarsel",
+        lyricsPreview: "Tekstforhåndsvisning"
       },
       labels: {
         name: "Navn",
-        thumbnail: "Miniaturebillede",
+        thumbnail: "Miniature",
         file: "Fil",
         releaseYear: "Udgivelsesår",
         album: "Album",
         artists: "Kunstnere",
         isSingle: "Er single",
-        folder: "Mappe"
+        folder: "Mappe",
+        lyrics: "Tekst"
       },
       buttons: {
         cancel: "Annuller",
@@ -75,23 +79,29 @@ export const danish: Language = {
       },
       descriptions: {
         thumbnail: "Baggrundsbillede (valgfrit)",
-        fileSize: "Maksimal størrelse: {{size}}",
-        supportedFormats: "Understøttede formater: {{formats}}"
+        fileSize: "Maksimal størrelse: {size}",
+        supportedFormats: "Understøttede formater: {formats}",
+        lyricsPreview: "Se hvordan teksten vises synkroniseret med tiden"
+      },
+      badges: {
+        lines: "{count} linje{count, plural, one {} other{r}}",
+        duration: "Varighed: {time}"
       },
       messages: {
         confirmDelete: "Er du sikker på, at du vil slette?",
-        unsavedChanges: "Der er ikke-gemte ændringer"
+        unsavedChanges: "Der er usagte ændringer",
+        noLyrics: "Ingen tekst"
       }
     },
     validation: {
       name: {
         required: "Navn er påkrævet",
-        max: "Navn må maks. være 200 tegn"
+        max: "Navnet må højst være 200 tegn"
       },
       file: {
         required: "Fil er påkrævet",
         invalid: "Ugyldig eller beskadiget fil",
-        max: "Fil overstiger maksimal størrelse på {{maxSize}}"
+        max: "Filen overskrider den maksimale størrelse på {maxSize}"
       },
       duration: {
         required: "Varighed er påkrævet",
@@ -99,8 +109,8 @@ export const danish: Language = {
       },
       releaseYear: {
         invalid: "Ugyldigt udgivelsesår",
-        min: "Udgivelsesåret skal være mindst 0",
-        max: "Udgivelsesåret kan ikke være i fremtiden"
+        min: "Udgivelsesår skal være mindst 0",
+        max: "Udgivelsesår kan ikke være i fremtiden"
       },
       albumId: {
         invalid: "Ugyldigt album",
@@ -114,7 +124,7 @@ export const danish: Language = {
       downloading: "Downloader og installerer opdatering",
       downloadingDescription: "En ny opdatering er tilgængelig og installeres automatisk",
       installedSuccess: "Opdatering installeret med succes",
-      failed: "Fejl ved installation af opdatering"
+      failed: "Kunne ikke installere opdatering"
     },
     breadcrumbs: {
       home: {
@@ -133,7 +143,7 @@ export const danish: Language = {
         title: "Kunstnere"
       },
       fastUpload: {
-        title: "Hurtig Upload"
+        title: "Hurtig upload"
       },
       settings: {
         title: "Indstillinger",
@@ -153,47 +163,47 @@ export const danish: Language = {
     },
     songs: {
       title: "Sange",
-      createdTitle: "Sang oprettet",
-      createdDescription: "{{name}} er blevet oprettet",
+      createdTitle: "Sang oprettet succesfuldt",
+      createdDescription: "{name} er oprettet",
       createdFailedTitle: "Kunne ikke oprette sang",
-      updatedTitle: "Sang opdateret",
-      updatedDescription: "{{name}} er blevet opdateret",
+      updatedTitle: "Sang opdateret succesfuldt",
+      updatedDescription: "{name} er opdateret",
       updatedFailedTitle: "Kunne ikke opdatere sang",
-      deletedTitle: "Sang slettet",
-      deletedDescription: "{{name}} er blevet slettet",
+      deletedTitle: "Sang slettet succesfuldt",
+      deletedDescription: "{name} er slettet",
       deletedFailedTitle: "Kunne ikke slette sang"
     },
     favorites: {
       title: "Favoritter",
       createdTitle: "Tilføjet til favoritter",
-      createdDescription: "{{name}} er tilføjet til favoritter",
+      createdDescription: "{name} er tilføjet til favoritter",
       createdFailedTitle: "Kunne ikke tilføje til favoritter",
       deletedTitle: "Fjernet fra favoritter",
-      deletedDescription: "{{name}} er fjernet fra favoritter",
+      deletedDescription: "{name} er fjernet fra favoritter",
       deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
     },
     playlists: {
       title: "Playlister",
-      createdTitle: "Playliste oprettet",
-      createdDescription: "{{name}} er blevet oprettet",
-      createdFailedTitle: "Kunne ikke oprette playliste",
-      updatedTitle: "Playliste opdateret",
-      updatedDescription: "{{name}} er blevet opdateret",
-      updatedFailedTitle: "Kunne ikke opdatere playliste",
-      deletedTitle: "Playliste slettet",
-      deletedDescription: "{{name}} er blevet slettet",
-      deletedFailedTitle: "Kunne ikke slette playliste"
+      createdTitle: "Playlist oprettet succesfuldt",
+      createdDescription: "{name} er oprettet",
+      createdFailedTitle: "Kunne ikke oprette playlist",
+      updatedTitle: "Playlist opdateret succesfuldt",
+      updatedDescription: "{name} er opdateret",
+      updatedFailedTitle: "Kunne ikke opdatere playlist",
+      deletedTitle: "Playlist slettet succesfuldt",
+      deletedDescription: "{name} er slettet",
+      deletedFailedTitle: "Kunne ikke slette playlist"
     },
     artists: {
       title: "Kunstnere",
-      createdTitle: "Kunstner oprettet",
-      createdDescription: "{{name}} er blevet oprettet",
+      createdTitle: "Kunstner oprettet succesfuldt",
+      createdDescription: "{name} er oprettet",
       createdFailedTitle: "Kunne ikke oprette kunstner",
-      updatedTitle: "Kunstner opdateret",
-      updatedDescription: "{{name}} er blevet opdateret",
+      updatedTitle: "Kunstner opdateret succesfuldt",
+      updatedDescription: "{name} er opdateret",
       updatedFailedTitle: "Kunne ikke opdatere kunstner",
-      deletedTitle: "Kunstner slettet",
-      deletedDescription: "{{name}} er blevet slettet",
+      deletedTitle: "Kunstner slettet succesfuldt",
+      deletedDescription: "{name} er slettet",
       deletedFailedTitle: "Kunne ikke slette kunstner"
     },
     settings: {
@@ -215,7 +225,7 @@ export const danish: Language = {
       }
     },
     fastUpload: {
-      title: "Hurtig Upload"
+      title: "Hurtig upload"
     },
     languages: {
       da: "Dansk",

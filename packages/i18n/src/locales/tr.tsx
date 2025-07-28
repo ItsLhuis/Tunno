@@ -11,37 +11,39 @@ export const turkish: Language = {
     common: {
       noResultsFound: "Sonuç bulunamadı",
       lessThanAnHourAgo: "Bir saatten az önce",
-      hoursAgo: "{{count}} saat önce",
+      hoursAgo: "{count} saat önce",
       today: "Bugün",
       yesterday: "Dün",
-      goBack: "Geri dön",
-      goFoward: "İleri git",
+      goBack: "Geri Git",
+      goFoward: "İleri Git",
       favorite: "Favori",
-      unfavorite: "Favoriden çıkar",
-      enableShuffle: "Karıştırmayı etkinleştir",
-      disableShuffle: "Karıştırmayı devre dışı bırak",
+      unfavorite: "Favorilerden Kaldır",
+      enableShuffle: "Karışık Çalma Aç",
+      disableShuffle: "Karışık Çalma Kapat",
       previous: "Önceki",
       play: "Oynat",
       pause: "Duraklat",
       next: "Sonraki",
-      enableRepeat: "Tekrarı etkinleştir",
-      enableRepeatOne: "Birini tekrarla",
-      disableRepeat: "Tekrarı devre dışı bırak",
-      mute: "Sessize al",
-      unmute: "Sesi aç",
+      enableRepeat: "Tekrarı Aç",
+      enableRepeatOne: "Tekrar Bir Şarkıyı Aç",
+      disableRepeat: "Tekrarı Kapat",
+      mute: "Sessize Al",
+      unmute: "Sessizi Kapat",
       queue: "Kuyruk",
       title: "Başlık",
       album: "Albüm",
       date: "Tarih",
       duration: "Süre",
       search: "Ara",
-      selectAll: "Tümünü seç",
+      selectAll: "Tümünü Seç",
       visibility: "Görünürlük",
       columns: "Sütunlar",
       clear: "Temizle",
       cancel: "İptal",
-      more: "Daha fazla",
-      select: "Seç"
+      more: "Daha Fazla",
+      select: "Seç",
+      preview: "Önizleme",
+      close: "Kapat"
     },
     form: {
       titles: {
@@ -55,17 +57,19 @@ export const turkish: Language = {
         updatePlaylist: "Çalma Listesini Güncelle",
         deletePlaylist: "Çalma Listesini Sil",
         confirmation: "Onay",
-        warning: "Uyarı"
+        warning: "Uyarı",
+        lyricsPreview: "Şarkı Sözleri Önizlemesi"
       },
       labels: {
-        name: "Ad",
+        name: "İsim",
         thumbnail: "Küçük Resim",
         file: "Dosya",
         releaseYear: "Yayın Yılı",
         album: "Albüm",
         artists: "Sanatçılar",
         isSingle: "Tekli mi",
-        folder: "Klasör"
+        folder: "Klasör",
+        lyrics: "Şarkı Sözleri"
       },
       buttons: {
         cancel: "İptal",
@@ -75,123 +79,149 @@ export const turkish: Language = {
       },
       descriptions: {
         thumbnail: "Arka plan resmi (isteğe bağlı)",
-        fileSize: "Maksimum boyut: {{size}}",
-        supportedFormats: "Desteklenen formatlar: {{formats}}"
+        fileSize: "Maksimum boyut: {size}",
+        supportedFormats: "Desteklenen formatlar: {formats}",
+        lyricsPreview: "Şarkı sözlerinin zamanla senkronize halini görüntüleyin"
+      },
+      badges: {
+        lines: "{count} satır",
+        duration: "Süre: {time}"
       },
       messages: {
-        confirmDelete: "Silmek istediğinizden emin misiniz?",
-        unsavedChanges: "Kaydedilmemiş değişiklikleriniz var"
+        confirmDelete: "Silmek istediğinize emin misiniz?",
+        unsavedChanges: "Kaydedilmemiş değişiklikler var",
+        noLyrics: "Şarkı sözü yok"
       }
     },
     validation: {
       name: {
-        required: "Ad gerekli",
-        max: "Ad en fazla 200 karakter olabilir"
+        required: "İsim gerekli",
+        max: "İsim en fazla 200 karakter olabilir"
       },
       file: {
         required: "Dosya gerekli",
         invalid: "Geçersiz veya bozuk dosya",
-        max: "Dosya maksimum boyutu {{maxSize}} aşıyor"
+        max: "Dosya maksimum boyutu aşıyor: {maxSize}"
       },
       duration: {
         required: "Süre gerekli",
-        min: "Süre 0'dan büyük olmalı"
+        min: "Süre en az 0 olmalıdır"
       },
       releaseYear: {
-        invalid: "Geçersiz yıl",
-        min: "Yıl 0'dan büyük olmalı",
-        max: "Yıl gelecek olamaz"
+        invalid: "Geçersiz yayın yılı",
+        min: "Yayın yılı en az 0 olmalıdır",
+        max: "Yayın yılı gelecek bir tarih olamaz"
       },
       albumId: {
         invalid: "Geçersiz albüm",
         requiredIfNotSingle: "Tekli değilse albüm gerekli"
       },
       artists: {
-        min: "En az bir sanatçı gerekli"
+        min: "En az bir sanatçı gereklidir"
       }
     },
     update: {
       downloading: "Güncelleme indiriliyor ve kuruluyor",
-      downloadingDescription: "Yeni bir güncelleme mevcut, otomatik olarak kurulacak",
+      downloadingDescription: "Yeni bir güncelleme mevcut ve otomatik olarak kuruluyor",
       installedSuccess: "Güncelleme başarıyla kuruldu",
-      failed: "Güncelleme yüklenemedi"
+      failed: "Güncelleme kurulamadı"
     },
     breadcrumbs: {
-      home: { title: "Ana Sayfa" },
-      songs: { title: "Şarkılar" },
-      favorites: { title: "Favoriler" },
-      playlists: { title: "Çalma Listeleri" },
-      artists: { title: "Sanatçılar" },
-      fastUpload: { title: "Hızlı Yükleme" },
+      home: {
+        title: "Ana Sayfa"
+      },
+      songs: {
+        title: "Şarkılar"
+      },
+      favorites: {
+        title: "Favoriler"
+      },
+      playlists: {
+        title: "Çalma Listeleri"
+      },
+      artists: {
+        title: "Sanatçılar"
+      },
+      fastUpload: {
+        title: "Hızlı Yükleme"
+      },
       settings: {
         title: "Ayarlar",
-        appearance: { title: "Görünüm" },
-        language: { title: "Dil" },
-        sync: { title: "Senkronizasyon" }
+        appearance: {
+          title: "Görünüm"
+        },
+        language: {
+          title: "Dil"
+        },
+        sync: {
+          title: "Senkronizasyon"
+        }
       }
     },
-    home: { title: "Ana Sayfa" },
+    home: {
+      title: "Ana Sayfa"
+    },
     songs: {
       title: "Şarkılar",
-      createdTitle: "Şarkı eklendi",
-      createdDescription: "{{name}} eklendi",
-      createdFailedTitle: "Şarkı eklenemedi",
-      updatedTitle: "Şarkı güncellendi",
-      updatedDescription: "{{name}} güncellendi",
+      createdTitle: "Şarkı başarıyla oluşturuldu",
+      createdDescription: "{name} oluşturuldu",
+      createdFailedTitle: "Şarkı oluşturulamadı",
+      updatedTitle: "Şarkı başarıyla güncellendi",
+      updatedDescription: "{name} güncellendi",
       updatedFailedTitle: "Şarkı güncellenemedi",
-      deletedTitle: "Şarkı silindi",
-      deletedDescription: "{{name}} silindi",
+      deletedTitle: "Şarkı başarıyla silindi",
+      deletedDescription: "{name} silindi",
       deletedFailedTitle: "Şarkı silinemedi"
     },
     favorites: {
       title: "Favoriler",
       createdTitle: "Favorilere eklendi",
-      createdDescription: "{{name}} favorilere eklendi",
+      createdDescription: "{name} favorilere eklendi",
       createdFailedTitle: "Favorilere eklenemedi",
-      deletedTitle: "Favorilerden çıkarıldı",
-      deletedDescription: "{{name}} favorilerden çıkarıldı",
-      deletedFailedTitle: "Favoriden çıkarılamadı"
+      deletedTitle: "Favorilerden kaldırıldı",
+      deletedDescription: "{name} favorilerden kaldırıldı",
+      deletedFailedTitle: "Favorilerden kaldırılamadı"
     },
     playlists: {
       title: "Çalma Listeleri",
-      createdTitle: "Çalma listesi oluşturuldu",
-      createdDescription: "{{name}} oluşturuldu",
+      createdTitle: "Çalma listesi başarıyla oluşturuldu",
+      createdDescription: "{name} oluşturuldu",
       createdFailedTitle: "Çalma listesi oluşturulamadı",
-      updatedTitle: "Çalma listesi güncellendi",
-      updatedDescription: "{{name}} güncellendi",
+      updatedTitle: "Çalma listesi başarıyla güncellendi",
+      updatedDescription: "{name} güncellendi",
       updatedFailedTitle: "Çalma listesi güncellenemedi",
-      deletedTitle: "Çalma listesi silindi",
-      deletedDescription: "{{name}} silindi",
+      deletedTitle: "Çalma listesi başarıyla silindi",
+      deletedDescription: "{name} silindi",
       deletedFailedTitle: "Çalma listesi silinemedi"
     },
     artists: {
       title: "Sanatçılar",
-      createdTitle: "Sanatçı eklendi",
-      createdDescription: "{{name}} eklendi",
-      createdFailedTitle: "Sanatçı eklenemedi",
-      updatedTitle: "Sanatçı güncellendi",
-      updatedDescription: "{{name}} güncellendi",
+      createdTitle: "Sanatçı başarıyla oluşturuldu",
+      createdDescription: "{name} oluşturuldu",
+      createdFailedTitle: "Sanatçı oluşturulamadı",
+      updatedTitle: "Sanatçı başarıyla güncellendi",
+      updatedDescription: "{name} güncellendi",
       updatedFailedTitle: "Sanatçı güncellenemedi",
-      deletedTitle: "Sanatçı silindi",
-      deletedDescription: "{{name}} silindi",
+      deletedTitle: "Sanatçı başarıyla silindi",
+      deletedDescription: "{name} silindi",
       deletedFailedTitle: "Sanatçı silinemedi"
     },
     settings: {
       title: "Ayarlar",
       appearance: {
         title: "Görünüm",
-        description: "Tercih edilen temayı seçin",
+        description: "Tercih ettiğiniz görünüm modunu seçin",
         light: "Açık",
         dark: "Koyu",
         system: "Sistem"
       },
       language: {
         title: "Dil",
-        description: "Tercih edilen dili seçin"
+        description: "Tercih ettiğiniz dili seçin"
       },
       sync: {
         title: "Senkronizasyon",
-        description: "Verileri cihazlar arasında senkronize et"
+        description: "Verilerinizi cihazlar arasında senkronize edin"
       }
     },
     fastUpload: {
@@ -208,7 +238,7 @@ export const turkish: Language = {
       it: "İtalyanca",
       ja: "Japonca",
       ko: "Korece",
-      nl: "Felemenkçe",
+      nl: "Flemenkçe",
       no: "Norveççe",
       pl: "Lehçe",
       pt: "Portekizce",

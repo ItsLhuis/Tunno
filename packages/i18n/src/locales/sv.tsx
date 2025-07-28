@@ -10,22 +10,22 @@ export const swedish: Language = {
   translations: {
     common: {
       noResultsFound: "Inga resultat hittades",
-      lessThanAnHourAgo: "För mindre än en timme sedan",
-      hoursAgo: "{{count}} timmar sedan",
+      lessThanAnHourAgo: "Mindre än en timme sedan",
+      hoursAgo: "{count} timme{count, plural, one {} other{ar}} sedan",
       today: "Idag",
       yesterday: "Igår",
       goBack: "Gå tillbaka",
       goFoward: "Gå framåt",
       favorite: "Favorit",
       unfavorite: "Ta bort favorit",
-      enableShuffle: "Aktivera blandning",
-      disableShuffle: "Inaktivera blandning",
+      enableShuffle: "Aktivera slumpmässig uppspelning",
+      disableShuffle: "Inaktivera slumpmässig uppspelning",
       previous: "Föregående",
       play: "Spela",
       pause: "Pausa",
       next: "Nästa",
       enableRepeat: "Aktivera upprepning",
-      enableRepeatOne: "Upprepa en",
+      enableRepeatOne: "Aktivera upprepning av en",
       disableRepeat: "Inaktivera upprepning",
       mute: "Stäng av ljud",
       unmute: "Slå på ljud",
@@ -33,74 +33,84 @@ export const swedish: Language = {
       title: "Titel",
       album: "Album",
       date: "Datum",
-      duration: "Varaktighet",
+      duration: "Längd",
       search: "Sök",
-      selectAll: "Välj alla",
+      selectAll: "Markera alla",
       visibility: "Synlighet",
       columns: "Kolumner",
       clear: "Rensa",
       cancel: "Avbryt",
       more: "Mer",
-      select: "Välj"
+      select: "Välj",
+      preview: "Förhandsgranska",
+      close: "Stäng"
     },
     form: {
       titles: {
         createSong: "Skapa låt",
         updateSong: "Uppdatera låt",
-        deleteSong: "Radera låt",
+        deleteSong: "Ta bort låt",
         createArtist: "Skapa artist",
         updateArtist: "Uppdatera artist",
-        deleteArtist: "Radera artist",
+        deleteArtist: "Ta bort artist",
         createPlaylist: "Skapa spellista",
         updatePlaylist: "Uppdatera spellista",
-        deletePlaylist: "Radera spellista",
+        deletePlaylist: "Ta bort spellista",
         confirmation: "Bekräftelse",
-        warning: "Varning"
+        warning: "Varning",
+        lyricsPreview: "Textförhandsvisning"
       },
       labels: {
         name: "Namn",
-        thumbnail: "Miniatyr",
+        thumbnail: "Miniatyrbild",
         file: "Fil",
         releaseYear: "Utgivningsår",
         album: "Album",
         artists: "Artister",
-        isSingle: "Är en singel",
-        folder: "Mapp"
+        isSingle: "Är singel",
+        folder: "Mapp",
+        lyrics: "Text"
       },
       buttons: {
         cancel: "Avbryt",
-        delete: "Radera",
+        delete: "Ta bort",
         update: "Uppdatera",
         create: "Skapa"
       },
       descriptions: {
-        thumbnail: "Bakgrundsbild (valfritt)",
-        fileSize: "Maximal storlek: {{size}}",
-        supportedFormats: "Stödda format: {{formats}}"
+        thumbnail: "Bakgrundsbild (valfri)",
+        fileSize: "Maxstorlek: {size}",
+        supportedFormats: "Stödda format: {formats}",
+        lyricsPreview: "Se hur texten synkroniseras med tiden"
+      },
+      badges: {
+        lines: "{count} rad{count, plural, one {} other{er}}",
+        duration: "Längd: {time}"
       },
       messages: {
-        confirmDelete: "Är du säker på att du vill radera?",
-        unsavedChanges: "Du har osparade ändringar"
+        confirmDelete: "Är du säker på att du vill ta bort?",
+        unsavedChanges: "Det finns osparade ändringar",
+        noLyrics: "Ingen text"
       }
     },
     validation: {
       name: {
-        required: "Namn är obligatoriskt",
-        max: "Namnet får inte överstiga 200 tecken"
+        required: "Namn krävs",
+        max: "Namn får vara högst 200 tecken"
       },
       file: {
-        required: "Fil är obligatorisk",
-        invalid: "Ogiltig eller skadad fil",
-        max: "Filen överskrider maxstorleken {{maxSize}}"
+        required: "Fil krävs",
+        invalid: "Ogiltig eller korrupt fil",
+        max: "Filen överskrider maxstorleken på {maxSize}"
       },
       duration: {
-        required: "Varaktighet är obligatorisk",
-        min: "Varaktighet måste vara större än 0"
+        required: "Längd krävs",
+        min: "Längden måste vara minst 0"
       },
       releaseYear: {
-        invalid: "Ogiltigt år",
-        min: "Året måste vara större än 0",
-        max: "Året får inte vara i framtiden"
+        invalid: "Ogiltigt utgivningsår",
+        min: "Utgivningsåret måste vara minst 0",
+        max: "Utgivningsåret kan inte vara i framtiden"
       },
       albumId: {
         invalid: "Ogiltigt album",
@@ -112,90 +122,110 @@ export const swedish: Language = {
     },
     update: {
       downloading: "Laddar ner och installerar uppdatering",
-      downloadingDescription: "En ny uppdatering är tillgänglig, installation påbörjas automatiskt",
-      installedSuccess: "Uppdatering installerad",
-      failed: "Kunde inte installera uppdatering"
+      downloadingDescription: "En ny uppdatering finns tillgänglig och installeras automatiskt",
+      installedSuccess: "Uppdateringen installerades framgångsrikt",
+      failed: "Misslyckades med att installera uppdatering"
     },
     breadcrumbs: {
-      home: { title: "Hem" },
-      songs: { title: "Låtar" },
-      favorites: { title: "Favoriter" },
-      playlists: { title: "Spellistor" },
-      artists: { title: "Artister" },
-      fastUpload: { title: "Snabbuppladdning" },
+      home: {
+        title: "Hem"
+      },
+      songs: {
+        title: "Låtar"
+      },
+      favorites: {
+        title: "Favoriter"
+      },
+      playlists: {
+        title: "Spellistor"
+      },
+      artists: {
+        title: "Artister"
+      },
+      fastUpload: {
+        title: "Snabb uppladdning"
+      },
       settings: {
         title: "Inställningar",
-        appearance: { title: "Utseende" },
-        language: { title: "Språk" },
-        sync: { title: "Synkronisering" }
+        appearance: {
+          title: "Utseende"
+        },
+        language: {
+          title: "Språk"
+        },
+        sync: {
+          title: "Synkronisering"
+        }
       }
     },
-    home: { title: "Hem" },
+    home: {
+      title: "Hem"
+    },
     songs: {
       title: "Låtar",
-      createdTitle: "Låt tillagd",
-      createdDescription: "{{name}} har lagts till",
-      createdFailedTitle: "Kunde inte lägga till låten",
+      createdTitle: "Låt skapad",
+      createdDescription: "{name} har skapats",
+      createdFailedTitle: "Misslyckades att skapa låt",
       updatedTitle: "Låt uppdaterad",
-      updatedDescription: "{{name}} har uppdaterats",
-      updatedFailedTitle: "Kunde inte uppdatera låten",
-      deletedTitle: "Låt raderad",
-      deletedDescription: "{{name}} har raderats",
-      deletedFailedTitle: "Kunde inte radera låten"
+      updatedDescription: "{name} har uppdaterats",
+      updatedFailedTitle: "Misslyckades att uppdatera låt",
+      deletedTitle: "Låt borttagen",
+      deletedDescription: "{name} har tagits bort",
+      deletedFailedTitle: "Misslyckades att ta bort låt"
     },
     favorites: {
       title: "Favoriter",
-      createdTitle: "Lagd till i favoriter",
-      createdDescription: "{{name}} har lagts till i favoriter",
-      createdFailedTitle: "Kunde inte lägga till i favoriter",
+      createdTitle: "Tillagd i favoriter",
+      createdDescription: "{name} har lagts till i favoriter",
+      createdFailedTitle: "Misslyckades att lägga till i favoriter",
       deletedTitle: "Borttagen från favoriter",
-      deletedDescription: "{{name}} har tagits bort från favoriter",
-      deletedFailedTitle: "Kunde inte ta bort från favoriter"
+      deletedDescription: "{name} har tagits bort från favoriter",
+      deletedFailedTitle: "Misslyckades att ta bort från favoriter"
     },
     playlists: {
       title: "Spellistor",
       createdTitle: "Spellista skapad",
-      createdDescription: "{{name}} har skapats",
-      createdFailedTitle: "Kunde inte skapa spellista",
+      createdDescription: "{name} har skapats",
+      createdFailedTitle: "Misslyckades att skapa spellista",
       updatedTitle: "Spellista uppdaterad",
-      updatedDescription: "{{name}} har uppdaterats",
-      updatedFailedTitle: "Kunde inte uppdatera spellista",
-      deletedTitle: "Spellista raderad",
-      deletedDescription: "{{name}} har raderats",
-      deletedFailedTitle: "Kunde inte radera spellista"
+      updatedDescription: "{name} har uppdaterats",
+      updatedFailedTitle: "Misslyckades att uppdatera spellista",
+      deletedTitle: "Spellista borttagen",
+      deletedDescription: "{name} har tagits bort",
+      deletedFailedTitle: "Misslyckades att ta bort spellista"
     },
     artists: {
       title: "Artister",
-      createdTitle: "Artist tillagd",
-      createdDescription: "{{name}} har lagts till",
-      createdFailedTitle: "Kunde inte lägga till artist",
+      createdTitle: "Artist skapad",
+      createdDescription: "{name} har skapats",
+      createdFailedTitle: "Misslyckades att skapa artist",
       updatedTitle: "Artist uppdaterad",
-      updatedDescription: "{{name}} har uppdaterats",
-      updatedFailedTitle: "Kunde inte uppdatera artist",
-      deletedTitle: "Artist raderad",
-      deletedDescription: "{{name}} har raderats",
-      deletedFailedTitle: "Kunde inte radera artist"
+      updatedDescription: "{name} har uppdaterats",
+      updatedFailedTitle: "Misslyckades att uppdatera artist",
+      deletedTitle: "Artist borttagen",
+      deletedDescription: "{name} har tagits bort",
+      deletedFailedTitle: "Misslyckades att ta bort artist"
     },
     settings: {
       title: "Inställningar",
       appearance: {
         title: "Utseende",
-        description: "Välj ditt föredragna tema",
+        description: "Välj ditt föredragna utseendeläge",
         light: "Ljust",
         dark: "Mörkt",
         system: "System"
       },
       language: {
         title: "Språk",
-        description: "Välj föredraget språk"
+        description: "Välj ditt föredragna språk"
       },
       sync: {
         title: "Synkronisering",
-        description: "Synkronisera data mellan enheter"
+        description: "Synkronisera dina data mellan enheter"
       }
     },
     fastUpload: {
-      title: "Snabbuppladdning"
+      title: "Snabb uppladdning"
     },
     languages: {
       da: "Danska",
@@ -208,7 +238,7 @@ export const swedish: Language = {
       it: "Italienska",
       ja: "Japanska",
       ko: "Koreanska",
-      nl: "Nederländska",
+      nl: "Holländska",
       no: "Norska",
       pl: "Polska",
       pt: "Portugisiska",

@@ -11,11 +11,11 @@ export const finnish: Language = {
     common: {
       noResultsFound: "Ei tuloksia",
       lessThanAnHourAgo: "Alle tunti sitten",
-      hoursAgo: "{{count}} tunti{{count, plural, one {} other{a}}} sitten",
+      hoursAgo: "{count} tunti{count, plural, one {} other{a}} sitten",
       today: "Tänään",
       yesterday: "Eilen",
-      goBack: "Palaa takaisin",
-      goFoward: "Siirry eteenpäin",
+      goBack: "Takaisin",
+      goFoward: "Eteenpäin",
       favorite: "Suosikki",
       unfavorite: "Poista suosikeista",
       enableShuffle: "Ota satunnaistoisto käyttöön",
@@ -25,7 +25,7 @@ export const finnish: Language = {
       pause: "Tauko",
       next: "Seuraava",
       enableRepeat: "Ota toisto käyttöön",
-      enableRepeatOne: "Toista yksi",
+      enableRepeatOne: "Ota yhden toisto käyttöön",
       disableRepeat: "Poista toisto käytöstä",
       mute: "Mykistä",
       unmute: "Poista mykistys",
@@ -41,7 +41,9 @@ export const finnish: Language = {
       clear: "Tyhjennä",
       cancel: "Peruuta",
       more: "Lisää",
-      select: "Valitse"
+      select: "Valitse",
+      preview: "Esikatselu",
+      close: "Sulje"
     },
     form: {
       titles: {
@@ -55,7 +57,8 @@ export const finnish: Language = {
         updatePlaylist: "Päivitä soittolista",
         deletePlaylist: "Poista soittolista",
         confirmation: "Vahvistus",
-        warning: "Varoitus"
+        warning: "Varoitus",
+        lyricsPreview: "Sanoitusten esikatselu"
       },
       labels: {
         name: "Nimi",
@@ -65,7 +68,8 @@ export const finnish: Language = {
         album: "Albumi",
         artists: "Artistit",
         isSingle: "On single",
-        folder: "Kansio"
+        folder: "Kansio",
+        lyrics: "Sanoitukset"
       },
       buttons: {
         cancel: "Peruuta",
@@ -75,12 +79,18 @@ export const finnish: Language = {
       },
       descriptions: {
         thumbnail: "Taustakuva (valinnainen)",
-        fileSize: "Suurin koko: {{size}}",
-        supportedFormats: "Tuetut muodot: {{formats}}"
+        fileSize: "Maksimikoko: {size}",
+        supportedFormats: "Tuetut formaatit: {formats}",
+        lyricsPreview: "Näytä, miten sanoitukset näkyvät aikaleimojen kanssa"
+      },
+      badges: {
+        lines: "{count} rivi{count, plural, one {} other{ä}}",
+        duration: "Kesto: {time}"
       },
       messages: {
         confirmDelete: "Haluatko varmasti poistaa?",
-        unsavedChanges: "Tallentamattomia muutoksia"
+        unsavedChanges: "Tallentamattomia muutoksia",
+        noLyrics: "Ei sanoituksia"
       }
     },
     validation: {
@@ -90,8 +100,8 @@ export const finnish: Language = {
       },
       file: {
         required: "Tiedosto on pakollinen",
-        invalid: "Virheellinen tai vahingoittunut tiedosto",
-        max: "Tiedosto ylittää suurimman sallitun koon {{maxSize}}"
+        invalid: "Virheellinen tai vioittunut tiedosto",
+        max: "Tiedosto ylittää sallitun enimmäiskoon {maxSize}"
       },
       duration: {
         required: "Kesto on pakollinen",
@@ -104,17 +114,17 @@ export const finnish: Language = {
       },
       albumId: {
         invalid: "Virheellinen albumi",
-        requiredIfNotSingle: "Albumi on pakollinen, jos kyseessä ei ole single"
+        requiredIfNotSingle: "Albumi on pakollinen, jos ei ole single"
       },
       artists: {
-        min: "Vähintään yksi artisti vaaditaan"
+        min: "Vähintään yhden artistin on oltava valittuna"
       }
     },
     update: {
-      downloading: "Päivitys ladataan ja asennetaan",
+      downloading: "Päivityksen lataaminen ja asentaminen",
       downloadingDescription: "Uusi päivitys on saatavilla ja asennetaan automaattisesti",
       installedSuccess: "Päivitys asennettu onnistuneesti",
-      failed: "Päivityksen asennus epäonnistui"
+      failed: "Päivityksen asentaminen epäonnistui"
     },
     breadcrumbs: {
       home: {
@@ -154,46 +164,46 @@ export const finnish: Language = {
     songs: {
       title: "Kappaleet",
       createdTitle: "Kappale luotu onnistuneesti",
-      createdDescription: "{{name}} on luotu",
+      createdDescription: "{name} on luotu",
       createdFailedTitle: "Kappaleen luonti epäonnistui",
       updatedTitle: "Kappale päivitetty onnistuneesti",
-      updatedDescription: "{{name}} on päivitetty",
+      updatedDescription: "{name} on päivitetty",
       updatedFailedTitle: "Kappaleen päivitys epäonnistui",
       deletedTitle: "Kappale poistettu onnistuneesti",
-      deletedDescription: "{{name}} on poistettu",
+      deletedDescription: "{name} on poistettu",
       deletedFailedTitle: "Kappaleen poisto epäonnistui"
     },
     favorites: {
       title: "Suosikit",
       createdTitle: "Lisätty suosikkeihin",
-      createdDescription: "{{name}} on lisätty suosikkeihin",
+      createdDescription: "{name} lisätty suosikkeihin",
       createdFailedTitle: "Lisäys suosikkeihin epäonnistui",
       deletedTitle: "Poistettu suosikeista",
-      deletedDescription: "{{name}} on poistettu suosikeista",
+      deletedDescription: "{name} poistettu suosikeista",
       deletedFailedTitle: "Poisto suosikeista epäonnistui"
     },
     playlists: {
       title: "Soittolistat",
       createdTitle: "Soittolista luotu onnistuneesti",
-      createdDescription: "{{name}} on luotu",
+      createdDescription: "{name} on luotu",
       createdFailedTitle: "Soittolistan luonti epäonnistui",
       updatedTitle: "Soittolista päivitetty onnistuneesti",
-      updatedDescription: "{{name}} on päivitetty",
+      updatedDescription: "{name} on päivitetty",
       updatedFailedTitle: "Soittolistan päivitys epäonnistui",
       deletedTitle: "Soittolista poistettu onnistuneesti",
-      deletedDescription: "{{name}} on poistettu",
+      deletedDescription: "{name} on poistettu",
       deletedFailedTitle: "Soittolistan poisto epäonnistui"
     },
     artists: {
       title: "Artistit",
       createdTitle: "Artisti luotu onnistuneesti",
-      createdDescription: "{{name}} on luotu",
+      createdDescription: "{name} on luotu",
       createdFailedTitle: "Artistin luonti epäonnistui",
       updatedTitle: "Artisti päivitetty onnistuneesti",
-      updatedDescription: "{{name}} on päivitetty",
+      updatedDescription: "{name} on päivitetty",
       updatedFailedTitle: "Artistin päivitys epäonnistui",
       deletedTitle: "Artisti poistettu onnistuneesti",
-      deletedDescription: "{{name}} on poistettu",
+      deletedDescription: "{name} on poistettu",
       deletedFailedTitle: "Artistin poisto epäonnistui"
     },
     settings: {

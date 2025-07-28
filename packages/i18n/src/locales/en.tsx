@@ -11,7 +11,7 @@ export const english: Language = {
     common: {
       noResultsFound: "No results found",
       lessThanAnHourAgo: "Less than an hour ago",
-      hoursAgo: "{{count}} hour{{count, plural, one {} other{s}}} ago",
+      hoursAgo: "{count} hour{count, plural, one {} other{s} ago",
       today: "Today",
       yesterday: "Yesterday",
       goBack: "Go Back",
@@ -41,7 +41,9 @@ export const english: Language = {
       clear: "Clear",
       cancel: "Cancel",
       more: "More",
-      select: "Select"
+      select: "Select",
+      preview: "Preview",
+      close: "Close"
     },
     form: {
       titles: {
@@ -55,7 +57,8 @@ export const english: Language = {
         updatePlaylist: "Update Playlist",
         deletePlaylist: "Delete Playlist",
         confirmation: "Confirmation",
-        warning: "Warning"
+        warning: "Warning",
+        lyricsPreview: "Lyrics Preview"
       },
       labels: {
         name: "Name",
@@ -65,7 +68,8 @@ export const english: Language = {
         album: "Album",
         artists: "Artists",
         isSingle: "Is single",
-        folder: "Folder"
+        folder: "Folder",
+        lyrics: "Lyrics"
       },
       buttons: {
         cancel: "Cancel",
@@ -75,12 +79,18 @@ export const english: Language = {
       },
       descriptions: {
         thumbnail: "Background image (optional)",
-        fileSize: "Maximum size: {{size}}",
-        supportedFormats: "Supported formats: {{formats}}"
+        fileSize: "Maximum size: {size}",
+        supportedFormats: "Supported formats: {formats}",
+        lyricsPreview: "Visualize how the lyrics appear synchronized with the time"
+      },
+      badges: {
+        lines: "{count} line{count, plural, one {} other{s}}",
+        duration: "Duration: {time}"
       },
       messages: {
         confirmDelete: "Are you sure you want to delete?",
-        unsavedChanges: "There are unsaved changes"
+        unsavedChanges: "There are unsaved changes",
+        noLyrics: "No lyrics"
       }
     },
     validation: {
@@ -91,7 +101,7 @@ export const english: Language = {
       file: {
         required: "File is required",
         invalid: "Invalid or corrupted file",
-        max: "File exceeds the maximum size of {{maxSize}}"
+        max: "File exceeds the maximum size of {maxSize}"
       },
       duration: {
         required: "Duration is required",
@@ -154,46 +164,46 @@ export const english: Language = {
     songs: {
       title: "Songs",
       createdTitle: "Song Created Successfully",
-      createdDescription: "{{name}} has been created",
+      createdDescription: "{name} has been created",
       createdFailedTitle: "Failed to Create Song",
       updatedTitle: "Song Updated Successfully",
-      updatedDescription: "{{name}} has been updated",
+      updatedDescription: "{name} has been updated",
       updatedFailedTitle: "Failed to Update Song",
       deletedTitle: "Song Deleted Successfully",
-      deletedDescription: "{{name}} has been deleted",
+      deletedDescription: "{name} has been deleted",
       deletedFailedTitle: "Failed to Delete Song"
     },
     favorites: {
       title: "Favorites",
       createdTitle: "Added to Favorites",
-      createdDescription: "{{name}} has been added to favorites",
+      createdDescription: "{name} has been added to favorites",
       createdFailedTitle: "Failed to Add to Favorites",
       deletedTitle: "Removed from Favorites",
-      deletedDescription: "{{name}} has been removed from favorites",
+      deletedDescription: "{name} has been removed from favorites",
       deletedFailedTitle: "Failed to Remove from Favorites"
     },
     playlists: {
       title: "Playlists",
       createdTitle: "Playlist Created Successfully",
-      createdDescription: "{{name}} has been created",
+      createdDescription: "{name} has been created",
       createdFailedTitle: "Failed to Create Playlist",
       updatedTitle: "Playlist Updated Successfully",
-      updatedDescription: "{{name}} has been updated",
+      updatedDescription: "{name} has been updated",
       updatedFailedTitle: "Failed to Update Playlist",
       deletedTitle: "Playlist Deleted Successfully",
-      deletedDescription: "{{name}} has been deleted",
+      deletedDescription: "{name} has been deleted",
       deletedFailedTitle: "Failed to Delete Playlist"
     },
     artists: {
       title: "Artists",
       createdTitle: "Artist Created Successfully",
-      createdDescription: "{{name}} has been created",
+      createdDescription: "{name} has been created",
       createdFailedTitle: "Failed to Create Artist",
       updatedTitle: "Artist Updated Successfully",
-      updatedDescription: "{{name}} has been updated",
+      updatedDescription: "{name} has been updated",
       updatedFailedTitle: "Failed to Update Artist",
       deletedTitle: "Artist Deleted Successfully",
-      deletedDescription: "{{name}} has been deleted",
+      deletedDescription: "{name} has been deleted",
       deletedFailedTitle: "Failed to Delete Artist"
     },
     settings: {

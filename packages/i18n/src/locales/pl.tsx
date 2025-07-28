@@ -4,31 +4,31 @@ import { type Language } from "../types"
 
 export const polish: Language = {
   code: "pl",
-  name: "Polish",
+  name: "Polski",
   flag: Pl,
   isRtl: false,
   translations: {
     common: {
       noResultsFound: "Nie znaleziono wyników",
       lessThanAnHourAgo: "Mniej niż godzinę temu",
-      hoursAgo: "{{count}} godzin{{count, plural, one {ę} few {y} many {} other {}}} temu",
-      today: "Dzisiaj",
+      hoursAgo: "{count} godzina{count, plural, one {} other{y}} temu",
+      today: "Dziś",
       yesterday: "Wczoraj",
       goBack: "Wróć",
       goFoward: "Dalej",
       favorite: "Ulubione",
       unfavorite: "Usuń z ulubionych",
-      enableShuffle: "Włącz losowe",
-      disableShuffle: "Wyłącz losowe",
+      enableShuffle: "Włącz losowe odtwarzanie",
+      disableShuffle: "Wyłącz losowe odtwarzanie",
       previous: "Poprzedni",
       play: "Odtwórz",
       pause: "Pauza",
       next: "Następny",
       enableRepeat: "Włącz powtarzanie",
-      enableRepeatOne: "Powtórz jeden",
+      enableRepeatOne: "Włącz powtarzanie jednego",
       disableRepeat: "Wyłącz powtarzanie",
       mute: "Wycisz",
-      unmute: "Wyłącz wyciszenie",
+      unmute: "Włącz dźwięk",
       queue: "Kolejka",
       title: "Tytuł",
       album: "Album",
@@ -41,21 +41,24 @@ export const polish: Language = {
       clear: "Wyczyść",
       cancel: "Anuluj",
       more: "Więcej",
-      select: "Wybierz"
+      select: "Wybierz",
+      preview: "Podgląd",
+      close: "Zamknij"
     },
     form: {
       titles: {
         createSong: "Utwórz utwór",
-        updateSong: "Zaktualizuj utwór",
+        updateSong: "Aktualizuj utwór",
         deleteSong: "Usuń utwór",
         createArtist: "Utwórz artystę",
-        updateArtist: "Zaktualizuj artystę",
+        updateArtist: "Aktualizuj artystę",
         deleteArtist: "Usuń artystę",
         createPlaylist: "Utwórz playlistę",
-        updatePlaylist: "Zaktualizuj playlistę",
+        updatePlaylist: "Aktualizuj playlistę",
         deletePlaylist: "Usuń playlistę",
         confirmation: "Potwierdzenie",
-        warning: "Ostrzeżenie"
+        warning: "Ostrzeżenie",
+        lyricsPreview: "Podgląd tekstu"
       },
       labels: {
         name: "Nazwa",
@@ -64,23 +67,30 @@ export const polish: Language = {
         releaseYear: "Rok wydania",
         album: "Album",
         artists: "Artyści",
-        isSingle: "To singiel",
-        folder: "Folder"
+        isSingle: "Czy singiel",
+        folder: "Folder",
+        lyrics: "Tekst"
       },
       buttons: {
         cancel: "Anuluj",
         delete: "Usuń",
-        update: "Zaktualizuj",
+        update: "Aktualizuj",
         create: "Utwórz"
       },
       descriptions: {
         thumbnail: "Obraz tła (opcjonalnie)",
-        fileSize: "Maksymalny rozmiar: {{size}}",
-        supportedFormats: "Obsługiwane formaty: {{formats}}"
+        fileSize: "Maksymalny rozmiar: {size}",
+        supportedFormats: "Obsługiwane formaty: {formats}",
+        lyricsPreview: "Zobacz, jak tekst synchronizuje się z czasem"
+      },
+      badges: {
+        lines: "{count} linia{count, plural, one {} other{e}}",
+        duration: "Czas trwania: {time}"
       },
       messages: {
         confirmDelete: "Czy na pewno chcesz usunąć?",
-        unsavedChanges: "Są niezapisane zmiany"
+        unsavedChanges: "Są niezapisane zmiany",
+        noLyrics: "Brak tekstu"
       }
     },
     validation: {
@@ -91,29 +101,29 @@ export const polish: Language = {
       file: {
         required: "Plik jest wymagany",
         invalid: "Nieprawidłowy lub uszkodzony plik",
-        max: "Plik przekracza maksymalny rozmiar {{maxSize}}"
+        max: "Plik przekracza maksymalny rozmiar {maxSize}"
       },
       duration: {
         required: "Czas trwania jest wymagany",
-        min: "Czas trwania musi być większy niż 0"
+        min: "Czas trwania musi być co najmniej 0"
       },
       releaseYear: {
         invalid: "Nieprawidłowy rok wydania",
-        min: "Rok wydania musi być większy niż 0",
+        min: "Rok wydania musi być co najmniej 0",
         max: "Rok wydania nie może być w przyszłości"
       },
       albumId: {
         invalid: "Nieprawidłowy album",
-        requiredIfNotSingle: "Album jest wymagany, jeśli to nie singiel"
+        requiredIfNotSingle: "Album jest wymagany, jeśli nie jest singlem"
       },
       artists: {
-        min: "Wymagany jest co najmniej jeden artysta"
+        min: "Wymagany jest przynajmniej jeden artysta"
       }
     },
     update: {
-      downloading: "Pobieranie i instalacja aktualizacji",
-      downloadingDescription: "Dostępna jest nowa aktualizacja, instalacja trwa automatycznie",
-      installedSuccess: "Aktualizacja zainstalowana",
+      downloading: "Pobieranie i instalowanie aktualizacji",
+      downloadingDescription: "Dostępna jest nowa aktualizacja instalowana automatycznie",
+      installedSuccess: "Aktualizacja została pomyślnie zainstalowana",
       failed: "Nie udało się zainstalować aktualizacji"
     },
     breadcrumbs: {
@@ -153,54 +163,54 @@ export const polish: Language = {
     },
     songs: {
       title: "Utwory",
-      createdTitle: "Utwór dodany",
-      createdDescription: "{{name}} został dodany",
-      createdFailedTitle: "Nie udało się dodać utworu",
-      updatedTitle: "Utwór zaktualizowany",
-      updatedDescription: "{{name}} został zaktualizowany",
+      createdTitle: "Utwór został pomyślnie utworzony",
+      createdDescription: "{name} został utworzony",
+      createdFailedTitle: "Nie udało się utworzyć utworu",
+      updatedTitle: "Utwór został pomyślnie zaktualizowany",
+      updatedDescription: "{name} został zaktualizowany",
       updatedFailedTitle: "Nie udało się zaktualizować utworu",
-      deletedTitle: "Utwór usunięty",
-      deletedDescription: "{{name}} został usunięty",
+      deletedTitle: "Utwór został pomyślnie usunięty",
+      deletedDescription: "{name} został usunięty",
       deletedFailedTitle: "Nie udało się usunąć utworu"
     },
     favorites: {
       title: "Ulubione",
       createdTitle: "Dodano do ulubionych",
-      createdDescription: "{{name}} został dodany do ulubionych",
+      createdDescription: "{name} został dodany do ulubionych",
       createdFailedTitle: "Nie udało się dodać do ulubionych",
       deletedTitle: "Usunięto z ulubionych",
-      deletedDescription: "{{name}} został usunięty z ulubionych",
+      deletedDescription: "{name} został usunięty z ulubionych",
       deletedFailedTitle: "Nie udało się usunąć z ulubionych"
     },
     playlists: {
       title: "Playlisty",
-      createdTitle: "Playlist utworzony",
-      createdDescription: "{{name}} został utworzony",
+      createdTitle: "Playlista została pomyślnie utworzona",
+      createdDescription: "{name} została utworzona",
       createdFailedTitle: "Nie udało się utworzyć playlisty",
-      updatedTitle: "Playlist zaktualizowany",
-      updatedDescription: "{{name}} został zaktualizowany",
+      updatedTitle: "Playlista została pomyślnie zaktualizowana",
+      updatedDescription: "{name} została zaktualizowana",
       updatedFailedTitle: "Nie udało się zaktualizować playlisty",
-      deletedTitle: "Playlist usunięty",
-      deletedDescription: "{{name}} został usunięty",
+      deletedTitle: "Playlista została pomyślnie usunięta",
+      deletedDescription: "{name} została usunięta",
       deletedFailedTitle: "Nie udało się usunąć playlisty"
     },
     artists: {
       title: "Artyści",
-      createdTitle: "Artysta dodany",
-      createdDescription: "{{name}} został dodany",
-      createdFailedTitle: "Nie udało się dodać artysty",
-      updatedTitle: "Artysta zaktualizowany",
-      updatedDescription: "{{name}} został zaktualizowany",
+      createdTitle: "Artysta został pomyślnie utworzony",
+      createdDescription: "{name} został utworzony",
+      createdFailedTitle: "Nie udało się utworzyć artysty",
+      updatedTitle: "Artysta został pomyślnie zaktualizowany",
+      updatedDescription: "{name} został zaktualizowany",
       updatedFailedTitle: "Nie udało się zaktualizować artysty",
-      deletedTitle: "Artysta usunięty",
-      deletedDescription: "{{name}} został usunięty",
+      deletedTitle: "Artysta został pomyślnie usunięty",
+      deletedDescription: "{name} został usunięty",
       deletedFailedTitle: "Nie udało się usunąć artysty"
     },
     settings: {
       title: "Ustawienia",
       appearance: {
         title: "Wygląd",
-        description: "Wybierz preferowany motyw",
+        description: "Wybierz preferowany tryb wyglądu",
         light: "Jasny",
         dark: "Ciemny",
         system: "Systemowy"
@@ -228,7 +238,7 @@ export const polish: Language = {
       it: "Włoski",
       ja: "Japoński",
       ko: "Koreański",
-      nl: "Holenderski",
+      nl: "Niderlandzki",
       no: "Norweski",
       pl: "Polski",
       pt: "Portugalski",

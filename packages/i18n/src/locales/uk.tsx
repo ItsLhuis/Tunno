@@ -11,13 +11,13 @@ export const ukrainian: Language = {
     common: {
       noResultsFound: "Результатів не знайдено",
       lessThanAnHourAgo: "Менше години тому",
-      hoursAgo: "{{count}} година тому",
+      hoursAgo: "{count} година{count, plural, one {} other{и}} тому",
       today: "Сьогодні",
       yesterday: "Вчора",
-      goBack: "Назад",
-      goFoward: "Вперед",
-      favorite: "Улюблене",
-      unfavorite: "Видалити з улюбленого",
+      goBack: "Повернутися назад",
+      goFoward: "Пройти вперед",
+      favorite: "Вибране",
+      unfavorite: "Видалити з вибраного",
       enableShuffle: "Увімкнути випадковий порядок",
       disableShuffle: "Вимкнути випадковий порядок",
       previous: "Попередній",
@@ -25,7 +25,7 @@ export const ukrainian: Language = {
       pause: "Пауза",
       next: "Наступний",
       enableRepeat: "Увімкнути повтор",
-      enableRepeatOne: "Повторити один",
+      enableRepeatOne: "Увімкнути повтор однієї",
       disableRepeat: "Вимкнути повтор",
       mute: "Вимкнути звук",
       unmute: "Увімкнути звук",
@@ -37,25 +37,28 @@ export const ukrainian: Language = {
       search: "Пошук",
       selectAll: "Вибрати все",
       visibility: "Видимість",
-      columns: "Стовпці",
+      columns: "Колонки",
       clear: "Очистити",
       cancel: "Скасувати",
       more: "Більше",
-      select: "Вибрати"
+      select: "Вибрати",
+      preview: "Попередній перегляд",
+      close: "Закрити"
     },
     form: {
       titles: {
         createSong: "Створити пісню",
         updateSong: "Оновити пісню",
         deleteSong: "Видалити пісню",
-        createArtist: "Створити артиста",
-        updateArtist: "Оновити артиста",
-        deleteArtist: "Видалити артиста",
+        createArtist: "Створити виконавця",
+        updateArtist: "Оновити виконавця",
+        deleteArtist: "Видалити виконавця",
         createPlaylist: "Створити плейлист",
         updatePlaylist: "Оновити плейлист",
         deletePlaylist: "Видалити плейлист",
         confirmation: "Підтвердження",
-        warning: "Попередження"
+        warning: "Попередження",
+        lyricsPreview: "Попередній перегляд тексту"
       },
       labels: {
         name: "Ім'я",
@@ -63,9 +66,10 @@ export const ukrainian: Language = {
         file: "Файл",
         releaseYear: "Рік випуску",
         album: "Альбом",
-        artists: "Артисти",
-        isSingle: "Є сингл",
-        folder: "Папка"
+        artists: "Виконавці",
+        isSingle: "Сингл",
+        folder: "Папка",
+        lyrics: "Текст пісні"
       },
       buttons: {
         cancel: "Скасувати",
@@ -74,120 +78,146 @@ export const ukrainian: Language = {
         create: "Створити"
       },
       descriptions: {
-        thumbnail: "Фонове зображення (необов'язково)",
-        fileSize: "Максимальний розмір: {{size}}",
-        supportedFormats: "Підтримувані формати: {{formats}}"
+        thumbnail: "Фонове зображення (необов’язково)",
+        fileSize: "Максимальний розмір: {size}",
+        supportedFormats: "Підтримувані формати: {formats}",
+        lyricsPreview: "Перегляньте, як текст синхронізовано з часом"
+      },
+      badges: {
+        lines: "{count} рядок{count, plural, one {} other{ів}}",
+        duration: "Тривалість: {time}"
       },
       messages: {
         confirmDelete: "Ви впевнені, що хочете видалити?",
-        unsavedChanges: "Є незбережені зміни"
+        unsavedChanges: "Є незбережені зміни",
+        noLyrics: "Немає тексту пісні"
       }
     },
     validation: {
       name: {
-        required: "Ім'я є обов'язковим",
-        max: "Ім'я має бути не більше 200 символів"
+        required: "Ім'я є обов’язковим",
+        max: "Ім'я має містити не більше 200 символів"
       },
       file: {
-        required: "Файл є обов'язковим",
-        invalid: "Недійсний або пошкоджений файл",
-        max: "Файл перевищує максимальний розмір {{maxSize}}"
+        required: "Файл є обов’язковим",
+        invalid: "Невірний або пошкоджений файл",
+        max: "Файл перевищує максимальний розмір {maxSize}"
       },
       duration: {
-        required: "Тривалість є обов'язковою",
+        required: "Тривалість є обов’язковою",
         min: "Тривалість має бути не меншою за 0"
       },
       releaseYear: {
-        invalid: "Недійсний рік випуску",
+        invalid: "Невірний рік випуску",
         min: "Рік випуску має бути не меншим за 0",
         max: "Рік випуску не може бути в майбутньому"
       },
       albumId: {
-        invalid: "Недійсний альбом",
-        requiredIfNotSingle: "Альбом є обов'язковим, якщо це не сингл"
+        invalid: "Невірний альбом",
+        requiredIfNotSingle: "Альбом є обов’язковим, якщо це не сингл"
       },
       artists: {
-        min: "Потрібен принаймні один артист"
+        min: "Потрібен принаймні один виконавець"
       }
     },
     update: {
       downloading: "Завантаження та встановлення оновлення",
-      downloadingDescription: "Доступне нове оновлення, воно встановлюється автоматично",
+      downloadingDescription: "Доступне нове оновлення, яке встановлюється автоматично",
       installedSuccess: "Оновлення успішно встановлено",
       failed: "Не вдалося встановити оновлення"
     },
     breadcrumbs: {
-      home: { title: "Головна" },
-      songs: { title: "Пісні" },
-      favorites: { title: "Улюблене" },
-      playlists: { title: "Плейлисти" },
-      artists: { title: "Артисти" },
-      fastUpload: { title: "Швидке завантаження" },
+      home: {
+        title: "Головна"
+      },
+      songs: {
+        title: "Пісні"
+      },
+      favorites: {
+        title: "Вибране"
+      },
+      playlists: {
+        title: "Плейлисти"
+      },
+      artists: {
+        title: "Виконавці"
+      },
+      fastUpload: {
+        title: "Швидке завантаження"
+      },
       settings: {
         title: "Налаштування",
-        appearance: { title: "Зовнішній вигляд" },
-        language: { title: "Мова" },
-        sync: { title: "Синхронізація" }
+        appearance: {
+          title: "Вигляд"
+        },
+        language: {
+          title: "Мова"
+        },
+        sync: {
+          title: "Синхронізація"
+        }
       }
     },
-    home: { title: "Головна" },
+    home: {
+      title: "Головна"
+    },
     songs: {
       title: "Пісні",
-      createdTitle: "Пісня створена",
-      createdDescription: "{{name}} створена",
+      createdTitle: "Пісня успішно створена",
+      createdDescription: "{name} створено",
       createdFailedTitle: "Не вдалося створити пісню",
-      updatedTitle: "Пісня оновлена",
-      updatedDescription: "{{name}} оновлена",
+      updatedTitle: "Пісня успішно оновлена",
+      updatedDescription: "{name} оновлено",
       updatedFailedTitle: "Не вдалося оновити пісню",
-      deletedTitle: "Пісня видалена",
-      deletedDescription: "{{name}} видалена",
+      deletedTitle: "Пісня успішно видалена",
+      deletedDescription: "{name} видалено",
       deletedFailedTitle: "Не вдалося видалити пісню"
     },
     favorites: {
-      title: "Улюблене",
-      createdTitle: "Додано в улюблене",
-      createdDescription: "{{name}} додано в улюблене",
-      createdFailedTitle: "Не вдалося додати в улюблене",
-      deletedTitle: "Видалено з улюбленого",
-      deletedDescription: "{{name}} видалено з улюбленого",
-      deletedFailedTitle: "Не вдалося видалити з улюбленого"
+      title: "Вибране",
+      createdTitle: "Додано у вибране",
+      createdDescription: "{name} додано у вибране",
+      createdFailedTitle: "Не вдалося додати у вибране",
+      deletedTitle: "Видалено з вибраного",
+      deletedDescription: "{name} видалено з вибраного",
+      deletedFailedTitle: "Не вдалося видалити з вибраного"
     },
     playlists: {
       title: "Плейлисти",
-      createdTitle: "Плейлист створено",
-      createdDescription: "{{name}} створено",
+      createdTitle: "Плейлист успішно створено",
+      createdDescription: "{name} створено",
       createdFailedTitle: "Не вдалося створити плейлист",
-      updatedTitle: "Плейлист оновлено",
-      updatedDescription: "{{name}} оновлено",
+      updatedTitle: "Плейлист успішно оновлено",
+      updatedDescription: "{name} оновлено",
       updatedFailedTitle: "Не вдалося оновити плейлист",
-      deletedTitle: "Плейлист видалено",
-      deletedDescription: "{{name}} видалено",
+      deletedTitle: "Плейлист успішно видалено",
+      deletedDescription: "{name} видалено",
       deletedFailedTitle: "Не вдалося видалити плейлист"
     },
     artists: {
-      title: "Артисти",
-      createdTitle: "Артист створений",
-      createdDescription: "{{name}} створено",
-      createdFailedTitle: "Не вдалося створити артиста",
-      updatedTitle: "Артист оновлений",
-      updatedDescription: "{{name}} оновлено",
-      updatedFailedTitle: "Не вдалося оновити артиста",
-      deletedTitle: "Артист видалений",
-      deletedDescription: "{{name}} видалено",
-      deletedFailedTitle: "Не вдалося видалити артиста"
+      title: "Виконавці",
+      createdTitle: "Виконавця успішно створено",
+      createdDescription: "{name} створено",
+      createdFailedTitle: "Не вдалося створити виконавця",
+      updatedTitle: "Виконавця успішно оновлено",
+      updatedDescription: "{name} оновлено",
+      updatedFailedTitle: "Не вдалося оновити виконавця",
+      deletedTitle: "Виконавця успішно видалено",
+      deletedDescription: "{name} видалено",
+      deletedFailedTitle: "Не вдалося видалити виконавця"
     },
     settings: {
       title: "Налаштування",
       appearance: {
-        title: "Зовнішній вигляд",
-        description: "Виберіть бажаний режим відображення",
+        title: "Вигляд",
+        description: "Виберіть бажаний режим вигляду",
         light: "Світлий",
         dark: "Темний",
-        system: "Системний"
+        system: "Система"
       },
       language: {
         title: "Мова",
-        description: "Виберіть бажану мову"
+        description: "Оберіть бажану мову"
       },
       sync: {
         title: "Синхронізація",
@@ -204,7 +234,7 @@ export const ukrainian: Language = {
       es: "Іспанська",
       fi: "Фінська",
       fr: "Французька",
-      hi: "Гінді",
+      hi: "Хінді",
       it: "Італійська",
       ja: "Японська",
       ko: "Корейська",
@@ -216,7 +246,7 @@ export const ukrainian: Language = {
       sv: "Шведська",
       tr: "Турецька",
       uk: "Українська",
-      vi: "В'єтнамська",
+      vi: "В’єтнамська",
       zh: "Китайська"
     }
   }

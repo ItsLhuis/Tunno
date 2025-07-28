@@ -11,21 +11,21 @@ export const spanish: Language = {
     common: {
       noResultsFound: "No se encontraron resultados",
       lessThanAnHourAgo: "Hace menos de una hora",
-      hoursAgo: "Hace {{count}} hora{{count, plural, one {} other{s}}}",
+      hoursAgo: "hace {count} hora{count, plural, one {} other{s}}",
       today: "Hoy",
       yesterday: "Ayer",
-      goBack: "Regresar",
-      goFoward: "Avanzar",
+      goBack: "Volver",
+      goFoward: "Adelante",
       favorite: "Favorito",
       unfavorite: "Quitar de favoritos",
-      enableShuffle: "Activar reproducción aleatoria",
-      disableShuffle: "Desactivar reproducción aleatoria",
+      enableShuffle: "Activar aleatorio",
+      disableShuffle: "Desactivar aleatorio",
       previous: "Anterior",
       play: "Reproducir",
       pause: "Pausa",
       next: "Siguiente",
       enableRepeat: "Activar repetición",
-      enableRepeatOne: "Repetir una vez",
+      enableRepeatOne: "Activar repetición de uno",
       disableRepeat: "Desactivar repetición",
       mute: "Silenciar",
       unmute: "Activar sonido",
@@ -41,7 +41,9 @@ export const spanish: Language = {
       clear: "Limpiar",
       cancel: "Cancelar",
       more: "Más",
-      select: "Seleccionar"
+      select: "Seleccionar",
+      preview: "Vista previa",
+      close: "Cerrar"
     },
     form: {
       titles: {
@@ -55,7 +57,8 @@ export const spanish: Language = {
         updatePlaylist: "Actualizar lista de reproducción",
         deletePlaylist: "Eliminar lista de reproducción",
         confirmation: "Confirmación",
-        warning: "Advertencia"
+        warning: "Advertencia",
+        lyricsPreview: "Vista previa de letras"
       },
       labels: {
         name: "Nombre",
@@ -64,8 +67,9 @@ export const spanish: Language = {
         releaseYear: "Año de lanzamiento",
         album: "Álbum",
         artists: "Artistas",
-        isSingle: "Es single",
-        folder: "Carpeta"
+        isSingle: "Es sencillo",
+        folder: "Carpeta",
+        lyrics: "Letras"
       },
       buttons: {
         cancel: "Cancelar",
@@ -75,12 +79,18 @@ export const spanish: Language = {
       },
       descriptions: {
         thumbnail: "Imagen de fondo (opcional)",
-        fileSize: "Tamaño máximo: {{size}}",
-        supportedFormats: "Formatos soportados: {{formats}}"
+        fileSize: "Tamaño máximo: {size}",
+        supportedFormats: "Formatos compatibles: {formats}",
+        lyricsPreview: "Visualiza cómo aparecen las letras sincronizadas con el tiempo"
+      },
+      badges: {
+        lines: "{count} línea{count, plural, one {} other{s}}",
+        duration: "Duración: {time}"
       },
       messages: {
-        confirmDelete: "¿Estás seguro de que quieres eliminar?",
-        unsavedChanges: "Hay cambios sin guardar"
+        confirmDelete: "¿Estás seguro de que deseas eliminar?",
+        unsavedChanges: "Hay cambios sin guardar",
+        noLyrics: "Sin letras"
       }
     },
     validation: {
@@ -90,8 +100,8 @@ export const spanish: Language = {
       },
       file: {
         required: "El archivo es obligatorio",
-        invalid: "Archivo inválido o dañado",
-        max: "El archivo excede el tamaño máximo de {{maxSize}}"
+        invalid: "Archivo inválido o corrupto",
+        max: "El archivo excede el tamaño máximo de {maxSize}"
       },
       duration: {
         required: "La duración es obligatoria",
@@ -100,11 +110,11 @@ export const spanish: Language = {
       releaseYear: {
         invalid: "Año de lanzamiento inválido",
         min: "El año de lanzamiento debe ser al menos 0",
-        max: "El año de lanzamiento no puede estar en el futuro"
+        max: "El año de lanzamiento no puede ser en el futuro"
       },
       albumId: {
         invalid: "Álbum inválido",
-        requiredIfNotSingle: "El álbum es obligatorio si no es un single"
+        requiredIfNotSingle: "El álbum es obligatorio si no es un sencillo"
       },
       artists: {
         min: "Se requiere al menos un artista"
@@ -113,8 +123,8 @@ export const spanish: Language = {
     update: {
       downloading: "Descargando e instalando actualización",
       downloadingDescription:
-        "Una nueva actualización está disponible y se instala automáticamente",
-      installedSuccess: "Actualización instalada correctamente",
+        "Una nueva actualización está disponible y se está instalando automáticamente",
+      installedSuccess: "Actualización instalada con éxito",
       failed: "Error al instalar la actualización"
     },
     breadcrumbs: {
@@ -155,64 +165,64 @@ export const spanish: Language = {
     songs: {
       title: "Canciones",
       createdTitle: "Canción creada con éxito",
-      createdDescription: "{{name}} ha sido creada",
+      createdDescription: "{name} ha sido creada",
       createdFailedTitle: "Error al crear la canción",
       updatedTitle: "Canción actualizada con éxito",
-      updatedDescription: "{{name}} ha sido actualizada",
+      updatedDescription: "{name} ha sido actualizada",
       updatedFailedTitle: "Error al actualizar la canción",
       deletedTitle: "Canción eliminada con éxito",
-      deletedDescription: "{{name}} ha sido eliminada",
+      deletedDescription: "{name} ha sido eliminada",
       deletedFailedTitle: "Error al eliminar la canción"
     },
     favorites: {
       title: "Favoritos",
-      createdTitle: "Añadido a favoritos",
-      createdDescription: "{{name}} ha sido añadido a favoritos",
-      createdFailedTitle: "Error al añadir a favoritos",
+      createdTitle: "Agregado a favoritos",
+      createdDescription: "{name} ha sido agregado a favoritos",
+      createdFailedTitle: "Error al agregar a favoritos",
       deletedTitle: "Eliminado de favoritos",
-      deletedDescription: "{{name}} ha sido eliminado de favoritos",
+      deletedDescription: "{name} ha sido eliminado de favoritos",
       deletedFailedTitle: "Error al eliminar de favoritos"
     },
     playlists: {
       title: "Listas de reproducción",
       createdTitle: "Lista creada con éxito",
-      createdDescription: "{{name}} ha sido creada",
+      createdDescription: "{name} ha sido creada",
       createdFailedTitle: "Error al crear la lista",
       updatedTitle: "Lista actualizada con éxito",
-      updatedDescription: "{{name}} ha sido actualizada",
+      updatedDescription: "{name} ha sido actualizada",
       updatedFailedTitle: "Error al actualizar la lista",
       deletedTitle: "Lista eliminada con éxito",
-      deletedDescription: "{{name}} ha sido eliminada",
+      deletedDescription: "{name} ha sido eliminada",
       deletedFailedTitle: "Error al eliminar la lista"
     },
     artists: {
       title: "Artistas",
       createdTitle: "Artista creado con éxito",
-      createdDescription: "{{name}} ha sido creado",
+      createdDescription: "{name} ha sido creado",
       createdFailedTitle: "Error al crear el artista",
       updatedTitle: "Artista actualizado con éxito",
-      updatedDescription: "{{name}} ha sido actualizado",
+      updatedDescription: "{name} ha sido actualizado",
       updatedFailedTitle: "Error al actualizar el artista",
       deletedTitle: "Artista eliminado con éxito",
-      deletedDescription: "{{name}} ha sido eliminado",
+      deletedDescription: "{name} ha sido eliminado",
       deletedFailedTitle: "Error al eliminar el artista"
     },
     settings: {
       title: "Configuración",
       appearance: {
         title: "Apariencia",
-        description: "Selecciona tu modo de apariencia preferido",
+        description: "Seleccione su modo de apariencia preferido",
         light: "Claro",
         dark: "Oscuro",
         system: "Sistema"
       },
       language: {
         title: "Idioma",
-        description: "Elige tu idioma preferido"
+        description: "Elija su idioma preferido"
       },
       sync: {
         title: "Sincronización",
-        description: "Sincroniza tus datos en todos los dispositivos"
+        description: "Sincronice sus datos en varios dispositivos"
       }
     },
     fastUpload: {

@@ -11,15 +11,15 @@ export const italian: Language = {
     common: {
       noResultsFound: "Nessun risultato trovato",
       lessThanAnHourAgo: "Meno di un'ora fa",
-      hoursAgo: "{{count}} ora{{count, plural, one {} other{i}}} fa",
+      hoursAgo: "{count} ora{count, plural, one {} other{s}} fa",
       today: "Oggi",
       yesterday: "Ieri",
-      goBack: "Indietro",
+      goBack: "Torna indietro",
       goFoward: "Avanti",
       favorite: "Preferito",
-      unfavorite: "Rimuovi preferito",
-      enableShuffle: "Abilita casuale",
-      disableShuffle: "Disabilita casuale",
+      unfavorite: "Rimuovi dai preferiti",
+      enableShuffle: "Abilita riproduzione casuale",
+      disableShuffle: "Disabilita riproduzione casuale",
       previous: "Precedente",
       play: "Riproduci",
       pause: "Pausa",
@@ -38,34 +38,38 @@ export const italian: Language = {
       selectAll: "Seleziona tutto",
       visibility: "Visibilità",
       columns: "Colonne",
-      clear: "Cancella",
+      clear: "Pulisci",
       cancel: "Annulla",
       more: "Altro",
-      select: "Seleziona"
+      select: "Seleziona",
+      preview: "Anteprima",
+      close: "Chiudi"
     },
     form: {
       titles: {
-        createSong: "Crea canzone",
-        updateSong: "Aggiorna canzone",
-        deleteSong: "Elimina canzone",
-        createArtist: "Crea artista",
-        updateArtist: "Aggiorna artista",
-        deleteArtist: "Elimina artista",
-        createPlaylist: "Crea playlist",
-        updatePlaylist: "Aggiorna playlist",
-        deletePlaylist: "Elimina playlist",
+        createSong: "Crea Canzone",
+        updateSong: "Aggiorna Canzone",
+        deleteSong: "Elimina Canzone",
+        createArtist: "Crea Artista",
+        updateArtist: "Aggiorna Artista",
+        deleteArtist: "Elimina Artista",
+        createPlaylist: "Crea Playlist",
+        updatePlaylist: "Aggiorna Playlist",
+        deletePlaylist: "Elimina Playlist",
         confirmation: "Conferma",
-        warning: "Attenzione"
+        warning: "Avviso",
+        lyricsPreview: "Anteprima Testo"
       },
       labels: {
         name: "Nome",
         thumbnail: "Miniatura",
         file: "File",
-        releaseYear: "Anno di uscita",
+        releaseYear: "Anno di rilascio",
         album: "Album",
         artists: "Artisti",
         isSingle: "È singolo",
-        folder: "Cartella"
+        folder: "Cartella",
+        lyrics: "Testo"
       },
       buttons: {
         cancel: "Annulla",
@@ -75,12 +79,18 @@ export const italian: Language = {
       },
       descriptions: {
         thumbnail: "Immagine di sfondo (opzionale)",
-        fileSize: "Dimensione massima: {{size}}",
-        supportedFormats: "Formati supportati: {{formats}}"
+        fileSize: "Dimensione massima: {size}",
+        supportedFormats: "Formati supportati: {formats}",
+        lyricsPreview: "Visualizza come il testo appare sincronizzato con il tempo"
+      },
+      badges: {
+        lines: "{count} riga{count, plural, one {} other{s}}",
+        duration: "Durata: {time}"
       },
       messages: {
         confirmDelete: "Sei sicuro di voler eliminare?",
-        unsavedChanges: "Ci sono modifiche non salvate"
+        unsavedChanges: "Ci sono modifiche non salvate",
+        noLyrics: "Nessun testo"
       }
     },
     validation: {
@@ -91,31 +101,31 @@ export const italian: Language = {
       file: {
         required: "Il file è obbligatorio",
         invalid: "File non valido o corrotto",
-        max: "Il file supera la dimensione massima di {{maxSize}}"
+        max: "Il file supera la dimensione massima di {maxSize}"
       },
       duration: {
         required: "La durata è obbligatoria",
         min: "La durata deve essere almeno 0"
       },
       releaseYear: {
-        invalid: "Anno di uscita non valido",
-        min: "L'anno di uscita deve essere almeno 0",
-        max: "L'anno di uscita non può essere nel futuro"
+        invalid: "Anno di rilascio non valido",
+        min: "L'anno di rilascio deve essere almeno 0",
+        max: "L'anno di rilascio non può essere nel futuro"
       },
       albumId: {
         invalid: "Album non valido",
         requiredIfNotSingle: "L'album è obbligatorio se non è un singolo"
       },
       artists: {
-        min: "Almeno un artista è obbligatorio"
+        min: "È richiesto almeno un artista"
       }
     },
     update: {
-      downloading: "Download e installazione aggiornamento",
+      downloading: "Download e installazione aggiornamento in corso",
       downloadingDescription:
         "È disponibile un nuovo aggiornamento che viene installato automaticamente",
       installedSuccess: "Aggiornamento installato con successo",
-      failed: "Installazione aggiornamento fallita"
+      failed: "Impossibile installare l'aggiornamento"
     },
     breadcrumbs: {
       home: {
@@ -134,7 +144,7 @@ export const italian: Language = {
         title: "Artisti"
       },
       fastUpload: {
-        title: "Upload rapido"
+        title: "Caricamento veloce"
       },
       settings: {
         title: "Impostazioni",
@@ -155,60 +165,60 @@ export const italian: Language = {
     songs: {
       title: "Canzoni",
       createdTitle: "Canzone creata con successo",
-      createdDescription: "{{name}} è stata creata",
+      createdDescription: "{name} è stata creata",
       createdFailedTitle: "Creazione canzone fallita",
       updatedTitle: "Canzone aggiornata con successo",
-      updatedDescription: "{{name}} è stata aggiornata",
+      updatedDescription: "{name} è stata aggiornata",
       updatedFailedTitle: "Aggiornamento canzone fallito",
       deletedTitle: "Canzone eliminata con successo",
-      deletedDescription: "{{name}} è stata eliminata",
+      deletedDescription: "{name} è stata eliminata",
       deletedFailedTitle: "Eliminazione canzone fallita"
     },
     favorites: {
       title: "Preferiti",
       createdTitle: "Aggiunto ai preferiti",
-      createdDescription: "{{name}} è stato aggiunto ai preferiti",
+      createdDescription: "{name} è stato aggiunto ai preferiti",
       createdFailedTitle: "Aggiunta ai preferiti fallita",
       deletedTitle: "Rimosso dai preferiti",
-      deletedDescription: "{{name}} è stato rimosso dai preferiti",
+      deletedDescription: "{name} è stato rimosso dai preferiti",
       deletedFailedTitle: "Rimozione dai preferiti fallita"
     },
     playlists: {
       title: "Playlist",
       createdTitle: "Playlist creata con successo",
-      createdDescription: "{{name}} è stata creata",
+      createdDescription: "{name} è stata creata",
       createdFailedTitle: "Creazione playlist fallita",
       updatedTitle: "Playlist aggiornata con successo",
-      updatedDescription: "{{name}} è stata aggiornata",
+      updatedDescription: "{name} è stata aggiornata",
       updatedFailedTitle: "Aggiornamento playlist fallito",
       deletedTitle: "Playlist eliminata con successo",
-      deletedDescription: "{{name}} è stata eliminata",
+      deletedDescription: "{name} è stata eliminata",
       deletedFailedTitle: "Eliminazione playlist fallita"
     },
     artists: {
       title: "Artisti",
       createdTitle: "Artista creato con successo",
-      createdDescription: "{{name}} è stato creato",
+      createdDescription: "{name} è stato creato",
       createdFailedTitle: "Creazione artista fallita",
       updatedTitle: "Artista aggiornato con successo",
-      updatedDescription: "{{name}} è stato aggiornato",
+      updatedDescription: "{name} è stato aggiornato",
       updatedFailedTitle: "Aggiornamento artista fallito",
       deletedTitle: "Artista eliminato con successo",
-      deletedDescription: "{{name}} è stato eliminato",
+      deletedDescription: "{name} è stato eliminato",
       deletedFailedTitle: "Eliminazione artista fallita"
     },
     settings: {
       title: "Impostazioni",
       appearance: {
         title: "Aspetto",
-        description: "Seleziona la modalità aspetto preferita",
+        description: "Seleziona la modalità di visualizzazione preferita",
         light: "Chiaro",
         dark: "Scuro",
         system: "Sistema"
       },
       language: {
         title: "Lingua",
-        description: "Scegli la lingua preferita"
+        description: "Scegli la tua lingua preferita"
       },
       sync: {
         title: "Sincronizzazione",
@@ -216,7 +226,7 @@ export const italian: Language = {
       }
     },
     fastUpload: {
-      title: "Upload rapido"
+      title: "Caricamento veloce"
     },
     languages: {
       da: "Danese",

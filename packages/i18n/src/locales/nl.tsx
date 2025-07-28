@@ -11,24 +11,24 @@ export const dutch: Language = {
     common: {
       noResultsFound: "Geen resultaten gevonden",
       lessThanAnHourAgo: "Minder dan een uur geleden",
-      hoursAgo: "{{count}} uur geleden",
+      hoursAgo: "{count} uur geleden",
       today: "Vandaag",
       yesterday: "Gisteren",
       goBack: "Ga terug",
-      goFoward: "Ga verder",
+      goFoward: "Ga vooruit",
       favorite: "Favoriet",
-      unfavorite: "Verwijder favoriet",
-      enableShuffle: "Shuffle inschakelen",
-      disableShuffle: "Shuffle uitschakelen",
+      unfavorite: "Favoriet verwijderen",
+      enableShuffle: "Schud afspelen inschakelen",
+      disableShuffle: "Schud afspelen uitschakelen",
       previous: "Vorige",
       play: "Afspelen",
       pause: "Pauzeren",
       next: "Volgende",
       enableRepeat: "Herhalen inschakelen",
-      enableRepeatOne: "Eén herhaling inschakelen",
+      enableRepeatOne: "Eén keer herhalen inschakelen",
       disableRepeat: "Herhalen uitschakelen",
       mute: "Dempen",
-      unmute: "Dempen opheffen",
+      unmute: "Dempen uitzetten",
       queue: "Wachtrij",
       title: "Titel",
       album: "Album",
@@ -41,21 +41,24 @@ export const dutch: Language = {
       clear: "Wissen",
       cancel: "Annuleren",
       more: "Meer",
-      select: "Selecteer"
+      select: "Selecteren",
+      preview: "Voorbeeld",
+      close: "Sluiten"
     },
     form: {
       titles: {
-        createSong: "Lied maken",
-        updateSong: "Lied bijwerken",
-        deleteSong: "Lied verwijderen",
-        createArtist: "Artiest maken",
+        createSong: "Nummer aanmaken",
+        updateSong: "Nummer bijwerken",
+        deleteSong: "Nummer verwijderen",
+        createArtist: "Artiest aanmaken",
         updateArtist: "Artiest bijwerken",
         deleteArtist: "Artiest verwijderen",
-        createPlaylist: "Afspeellijst maken",
-        updatePlaylist: "Afspeellijst bijwerken",
-        deletePlaylist: "Afspeellijst verwijderen",
+        createPlaylist: "Afspellijst aanmaken",
+        updatePlaylist: "Afspellijst bijwerken",
+        deletePlaylist: "Afspellijst verwijderen",
         confirmation: "Bevestiging",
-        warning: "Waarschuwing"
+        warning: "Waarschuwing",
+        lyricsPreview: "Songtekstvoorbeeld"
       },
       labels: {
         name: "Naam",
@@ -65,7 +68,8 @@ export const dutch: Language = {
         album: "Album",
         artists: "Artiesten",
         isSingle: "Is single",
-        folder: "Map"
+        folder: "Map",
+        lyrics: "Songtekst"
       },
       buttons: {
         cancel: "Annuleren",
@@ -75,12 +79,18 @@ export const dutch: Language = {
       },
       descriptions: {
         thumbnail: "Achtergrondafbeelding (optioneel)",
-        fileSize: "Maximale grootte: {{size}}",
-        supportedFormats: "Ondersteunde formaten: {{formats}}"
+        fileSize: "Maximale grootte: {size}",
+        supportedFormats: "Ondersteunde formaten: {formats}",
+        lyricsPreview: "Bekijk hoe de songtekst gesynchroniseerd wordt weergegeven"
+      },
+      badges: {
+        lines: "{count} regel{count, plural, one {} other{s}}",
+        duration: "Duur: {time}"
       },
       messages: {
         confirmDelete: "Weet je zeker dat je dit wilt verwijderen?",
-        unsavedChanges: "Er zijn niet-opgeslagen wijzigingen"
+        unsavedChanges: "Er zijn niet-opgeslagen wijzigingen",
+        noLyrics: "Geen songtekst"
       }
     },
     validation: {
@@ -91,7 +101,7 @@ export const dutch: Language = {
       file: {
         required: "Bestand is verplicht",
         invalid: "Ongeldig of beschadigd bestand",
-        max: "Bestand overschrijdt de maximale grootte van {{maxSize}}"
+        max: "Bestand overschrijdt de maximale grootte van {maxSize}"
       },
       duration: {
         required: "Duur is verplicht",
@@ -100,102 +110,124 @@ export const dutch: Language = {
       releaseYear: {
         invalid: "Ongeldig uitgavejaar",
         min: "Uitgavejaar moet minimaal 0 zijn",
-        max: "Uitgavejaar kan geen toekomst zijn"
+        max: "Uitgavejaar kan niet in de toekomst liggen"
       },
       albumId: {
         invalid: "Ongeldig album",
         requiredIfNotSingle: "Album is verplicht als het geen single is"
       },
       artists: {
-        min: "Minimaal één artiest vereist"
+        min: "Minimaal één artiest is vereist"
       }
     },
     update: {
-      downloading: "Update downloaden en installeren",
+      downloading: "Update wordt gedownload en geïnstalleerd",
       downloadingDescription:
-        "Er is een nieuwe update beschikbaar en deze wordt automatisch geïnstalleerd",
+        "Er is een nieuwe update beschikbaar die automatisch wordt geïnstalleerd",
       installedSuccess: "Update succesvol geïnstalleerd",
       failed: "Installatie van update mislukt"
     },
     breadcrumbs: {
-      home: { title: "Home" },
-      songs: { title: "Liedjes" },
-      favorites: { title: "Favorieten" },
-      playlists: { title: "Afspeellijsten" },
-      artists: { title: "Artiesten" },
-      fastUpload: { title: "Snelle upload" },
+      home: {
+        title: "Startpagina"
+      },
+      songs: {
+        title: "Nummers"
+      },
+      favorites: {
+        title: "Favorieten"
+      },
+      playlists: {
+        title: "Afspellijsten"
+      },
+      artists: {
+        title: "Artiesten"
+      },
+      fastUpload: {
+        title: "Snelle upload"
+      },
       settings: {
         title: "Instellingen",
-        appearance: { title: "Thema" },
-        language: { title: "Taal" },
-        sync: { title: "Synchronisatie" }
+        appearance: {
+          title: "Uiterlijk"
+        },
+        language: {
+          title: "Taal"
+        },
+        sync: {
+          title: "Synchronisatie"
+        }
       }
     },
-    home: { title: "Home" },
+    home: {
+      title: "Startpagina"
+    },
     songs: {
-      title: "Liedjes",
-      createdTitle: "Lied aangemaakt",
-      createdDescription: "{{name}} is aangemaakt",
-      createdFailedTitle: "Lied maken mislukt",
-      updatedTitle: "Lied bijgewerkt",
-      updatedDescription: "{{name}} is bijgewerkt",
-      updatedFailedTitle: "Lied bijwerken mislukt",
-      deletedTitle: "Lied verwijderd",
-      deletedDescription: "{{name}} is verwijderd",
-      deletedFailedTitle: "Lied verwijderen mislukt"
+      title: "Nummers",
+      createdTitle: "Nummer succesvol aangemaakt",
+      createdDescription: "{name} is aangemaakt",
+      createdFailedTitle: "Nummer aanmaken mislukt",
+      updatedTitle: "Nummer succesvol bijgewerkt",
+      updatedDescription: "{name} is bijgewerkt",
+      updatedFailedTitle: "Nummer bijwerken mislukt",
+      deletedTitle: "Nummer succesvol verwijderd",
+      deletedDescription: "{name} is verwijderd",
+      deletedFailedTitle: "Nummer verwijderen mislukt"
     },
     favorites: {
       title: "Favorieten",
       createdTitle: "Toegevoegd aan favorieten",
-      createdDescription: "{{name}} is toegevoegd aan je favorieten",
+      createdDescription: "{name} is toegevoegd aan favorieten",
       createdFailedTitle: "Toevoegen aan favorieten mislukt",
-      deletedTitle: "Favoriet verwijderd",
-      deletedDescription: "{{name}} is verwijderd uit je favorieten",
+      deletedTitle: "Verwijderd uit favorieten",
+      deletedDescription: "{name} is verwijderd uit favorieten",
       deletedFailedTitle: "Verwijderen uit favorieten mislukt"
     },
     playlists: {
-      title: "Afspeellijsten",
-      createdTitle: "Afspeellijst aangemaakt",
-      createdDescription: "{{name}} is aangemaakt",
-      createdFailedTitle: "Afspeellijst maken mislukt",
-      updatedTitle: "Afspeellijst bijgewerkt",
-      updatedDescription: "{{name}} is bijgewerkt",
-      updatedFailedTitle: "Afspeellijst bijwerken mislukt",
-      deletedTitle: "Afspeellijst verwijderd",
-      deletedDescription: "{{name}} is verwijderd",
-      deletedFailedTitle: "Afspeellijst verwijderen mislukt"
+      title: "Afspellijsten",
+      createdTitle: "Afspellijst succesvol aangemaakt",
+      createdDescription: "{name} is aangemaakt",
+      createdFailedTitle: "Afspellijst aanmaken mislukt",
+      updatedTitle: "Afspellijst succesvol bijgewerkt",
+      updatedDescription: "{name} is bijgewerkt",
+      updatedFailedTitle: "Afspellijst bijwerken mislukt",
+      deletedTitle: "Afspellijst succesvol verwijderd",
+      deletedDescription: "{name} is verwijderd",
+      deletedFailedTitle: "Afspellijst verwijderen mislukt"
     },
     artists: {
       title: "Artiesten",
-      createdTitle: "Artiest aangemaakt",
-      createdDescription: "{{name}} is aangemaakt",
-      createdFailedTitle: "Artiest maken mislukt",
-      updatedTitle: "Artiest bijgewerkt",
-      updatedDescription: "{{name}} is bijgewerkt",
+      createdTitle: "Artiest succesvol aangemaakt",
+      createdDescription: "{name} is aangemaakt",
+      createdFailedTitle: "Artiest aanmaken mislukt",
+      updatedTitle: "Artiest succesvol bijgewerkt",
+      updatedDescription: "{name} is bijgewerkt",
       updatedFailedTitle: "Artiest bijwerken mislukt",
-      deletedTitle: "Artiest verwijderd",
-      deletedDescription: "{{name}} is verwijderd",
+      deletedTitle: "Artiest succesvol verwijderd",
+      deletedDescription: "{name} is verwijderd",
       deletedFailedTitle: "Artiest verwijderen mislukt"
     },
     settings: {
       title: "Instellingen",
       appearance: {
-        title: "Thema",
-        description: "Kies je voorkeursthema",
+        title: "Uiterlijk",
+        description: "Selecteer je voorkeursweergavemodus",
         light: "Licht",
         dark: "Donker",
         system: "Systeem"
       },
       language: {
         title: "Taal",
-        description: "Kies je voorkeurstaal"
+        description: "Kies je voorkeurs taal"
       },
       sync: {
         title: "Synchronisatie",
-        description: "Synchroniseer gegevens tussen apparaten"
+        description: "Synchroniseer je gegevens tussen apparaten"
       }
     },
-    fastUpload: { title: "Snelle upload" },
+    fastUpload: {
+      title: "Snelle upload"
+    },
     languages: {
       da: "Deens",
       de: "Duits",
