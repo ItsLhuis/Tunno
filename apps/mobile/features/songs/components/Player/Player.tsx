@@ -28,7 +28,7 @@ export function Player() {
       topInset={0}
       handleIndicatorStyle={{ marginTop: insets.top }}
       backgroundStyle={{ flex: 1 }}
-      containerViewStyle={{ flex: 1 }}
+      containerViewStyle={{ flex: 1, height: "100%" }}
       enableDynamicSizing={false}
       snapPoints={["100%"]}
       ref={playerRef}

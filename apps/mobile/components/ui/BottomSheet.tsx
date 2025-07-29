@@ -1,4 +1,4 @@
-import { ReactNode, forwardRef, useCallback, useEffect, useMemo, useState } from "react"
+import { type ReactNode, forwardRef, useCallback, useEffect, useMemo, useState } from "react"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -112,3 +112,4 @@ const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
 )
 
 export { BottomSheet }
+

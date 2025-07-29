@@ -11,7 +11,7 @@ export function PlaybackControls() {
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: theme.styles.spacing.large
+        padding: theme.styles.spacing.large
       }}
     >
       <IconButton name="SkipBack" size={theme.styles.icon.size.xxLarge} isFilled />
