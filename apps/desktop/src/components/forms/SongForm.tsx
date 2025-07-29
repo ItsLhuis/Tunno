@@ -237,50 +237,44 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
           </div>
         </div>
         <div className="space-y-4">
-          <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="flex-1">
             <FormField
               control={form.control}
-              name="isSingle"
+              name="albumId"
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <label className="flex items-center space-x-2 space-y-0 rounded-lg border p-3">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <FormLabel>
-                      {t("form.labels.isSingle")}
-                    </FormLabel>
-                  </label>
+                <FormItem>
+                  <FormLabel>{t("form.labels.album")}</FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="isSingle"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center space-x-2 space-y-0 py-3">
+                        <FormControl>
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        </FormControl>
+                        <FormLabel>{t("form.labels.isSingle")}</FormLabel>
+                      </FormItem>
+                    )}
+                  />
+                  <FormControl>
+                    <Select
+                      disabled={form.watch("isSingle")}
+                      onValueChange={(value) => field.onChange(parseInt(value))}
+                      defaultValue={field.value?.toString()}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={t("form.labels.album")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">Album 1</SelectItem>
+                        <SelectItem value="2">Album 2</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="flex-1">
-              <FormField
-                control={form.control}
-                name="albumId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.album")}</FormLabel>
-                    <FormControl>
-                      <Select
-                        disabled={form.watch("isSingle")}
-                        onValueChange={(value) => field.onChange(parseInt(value))}
-                        defaultValue={field.value?.toString()}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={t("form.labels.album")} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1">Album 1</SelectItem>
-                          <SelectItem value="2">Album 2</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
           </div>
         </div>
         <div className="space-y-4">
