@@ -1,11 +1,8 @@
 import { differenceInHours, isToday, isYesterday, parseISO } from "date-fns"
 
-import { i18n } from "@repo/i18n"
+import { type TFunction } from "@repo/i18n"
 
-export function formatRelativeDate(data: Date | string): string {
-  const t = i18n.t
-  const lang = i18n.language
-
+export function formatRelativeDate(data: Date | string, lang: string, t: TFunction): string {
   const date = typeof data === "string" ? parseISO(data) : data
   const diffHoras = differenceInHours(new Date(), date)
 
