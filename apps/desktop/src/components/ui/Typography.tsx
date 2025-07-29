@@ -26,6 +26,7 @@ export const typographyVariants = cva("transition-colors", {
       small: "text-xs leading-none",
       muted: "text-muted-foreground",
       bold: "font-bold",
+      italic: "italic",
       removePMargin: "[&:not(:first-child)]:mt-0"
     }
   },

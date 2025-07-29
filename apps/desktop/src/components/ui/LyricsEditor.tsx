@@ -4,6 +4,8 @@ import { memo, useCallback, useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { formatTime, parseTime } from "@repo/utils"
+
 import { Badge } from "@components/ui/Badge"
 import {
   Dialog,
@@ -19,7 +21,7 @@ import { ScrollArea } from "@components/ui/ScrollArea"
 import { TextInput } from "@components/ui/TextInput"
 import { Typography } from "@components/ui/Typography"
 
-import { formatTime, parseTime } from "@repo/utils"
+import { motion } from "motion/react"
 
 type Lyric = {
   text: string
@@ -77,8 +79,8 @@ const LyricLine = memo(
         />
         <IconButton
           tooltip={t("common.clear")}
-          name="Trash2"
-          variant="text"
+          name="X"
+          variant="ghost"
           onClick={() => onRemove(index)}
           disabled={!canRemove}
         />
@@ -90,15 +92,10 @@ const LyricLine = memo(
 const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorProps) => {
   const { t } = useTranslation()
 
-  const [syncedLines, setSyncedLines] = useState<Lyric[]>(() => {
-    if (value && value.length > 0) {
-      return value
-    }
-    return [{ text: "", startTime: 0 }]
-  })
+  const [syncedLines, setSyncedLines] = useState<Lyric[]>(() => (Array.isArray(value) ? value : []))
 
   useEffect(() => {
-    if (value && value.length > 0 && JSON.stringify(value) !== JSON.stringify(syncedLines)) {
+    if (Array.isArray(value) && JSON.stringify(value) !== JSON.stringify(syncedLines)) {
       setSyncedLines(value)
     }
   }, [value])
@@ -146,12 +143,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
   }, [])
 
   const removeSyncedLine = useCallback((index: number) => {
-    setSyncedLines((prevLines) => {
-      if (prevLines.length > 1) {
-        return prevLines.filter((_, i) => i !== index)
-      }
-      return prevLines
-    })
+    setSyncedLines((prevLines) => prevLines.filter((_, i) => i !== index))
   }, [])
 
   return (
@@ -161,39 +153,50 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
           <div className="transition-[border-color flex items-center justify-between gap-2 border-b p-3">
             <div className="flex items-center gap-2">
               <Badge variant="outline">
-                <Typography affects="small">{syncedLines.length} linhas</Typography>
+                <Typography affects="small">
+                  {t("form.badges.lines", { count: syncedLines.length })}
+                </Typography>
               </Badge>
               <Badge variant="outline">
                 <Typography affects="small">
-                  Duração: {formatTime(Math.max(...syncedLines.map((l) => l.startTime)))}
+                  {t("form.badges.duration", {
+                    time:
+                      syncedLines.length > 0
+                        ? formatTime(Math.max(...syncedLines.map((l) => l.startTime)))
+                        : "0:00"
+                  })}
                 </Typography>
               </Badge>
             </div>
             <div className="flex items-center gap-2">
               <Dialog>
                 <DialogTrigger asChild>
-                  <IconButton variant="outline" name="Eye" />
+                  <IconButton tooltip={t("common.preview")} variant="outline" name="Eye" />
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
-                    <DialogTitle>Preview das Lyrics</DialogTitle>
-                    <DialogDescription>
-                      Visualize como as lyrics ficaram com os timestamps
-                    </DialogDescription>
+                    <DialogTitle>{t("form.titles.lyricsPreview")}</DialogTitle>
+                    <DialogDescription>{t("form.descriptions.lyricsPreview")}</DialogDescription>
                   </DialogHeader>
                   <ScrollArea className="h-[240px] rounded-md border transition-[border-color]">
                     <div className="w-full p-3">
-                      {syncedLines.map((line, index) => (
-                        <div key={index} className="mb-2 flex w-full gap-2">
-                          <Typography affects="muted" className="shrink-0">
-                            [{formatTime(line.startTime)}]
-                          </Typography>
-                          <Typography className="shrink-0">-</Typography>
-                          <Typography className="overflow-wrap-anywhere min-w-0 flex-1 break-all">
-                            {line.text || "..."}
-                          </Typography>
-                        </div>
-                      ))}
+                      {syncedLines.length === 0 ? (
+                        <Typography affects={["muted", "italic"]}>
+                          {t("form.messages.noLyrics")}
+                        </Typography>
+                      ) : (
+                        syncedLines.map((line, index) => (
+                          <div key={index} className="mb-2 flex w-full gap-2">
+                            <Typography affects="muted" className="shrink-0">
+                              [{formatTime(line.startTime)}]
+                            </Typography>
+                            <Typography className="shrink-0">-</Typography>
+                            <Typography className="overflow-wrap-anywhere min-w-0 flex-1 break-all">
+                              {line.text || "..."}
+                            </Typography>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </ScrollArea>
                 </DialogContent>
@@ -207,24 +210,36 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
             </div>
           </div>
           <ScrollArea className="h-[300px]">
-            <div className="space-y-2 p-3">
-              {syncedLines.map((line, index) => (
-                <LyricLine
-                  key={index}
-                  line={line}
-                  index={index}
-                  minTime={Math.max(0, index > 0 ? syncedLines[index - 1].startTime + 1 : 0)}
-                  maxTime={
-                    index < syncedLines.length - 1 ? syncedLines[index + 1].startTime - 1 : Infinity
-                  }
-                  placeholder={placeholder}
-                  onTextChange={handleTextChange}
-                  onTimeChange={handleTimeChange}
-                  onRemove={removeSyncedLine}
-                  canRemove={syncedLines.length > 1}
-                />
-              ))}
-            </div>
+            <motion.div
+              key={String(syncedLines.length === 0)}
+              className="space-y-2 p-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {syncedLines.length === 0 ? (
+                <Typography affects={["muted", "italic"]}>{t("form.messages.noLyrics")}</Typography>
+              ) : (
+                syncedLines.map((line, index) => (
+                  <LyricLine
+                    key={index}
+                    line={line}
+                    index={index}
+                    minTime={Math.max(0, index > 0 ? syncedLines[index - 1].startTime + 1 : 0)}
+                    maxTime={
+                      index < syncedLines.length - 1
+                        ? syncedLines[index + 1].startTime - 1
+                        : Infinity
+                    }
+                    placeholder={placeholder}
+                    onTextChange={handleTextChange}
+                    onTimeChange={handleTimeChange}
+                    onRemove={removeSyncedLine}
+                    canRemove={true}
+                  />
+                ))
+              )}
+            </motion.div>
           </ScrollArea>
         </div>
       </div>

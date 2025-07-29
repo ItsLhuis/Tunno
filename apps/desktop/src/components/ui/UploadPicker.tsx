@@ -188,7 +188,7 @@ const UploadPicker = ({
 
   return (
     <div className={cn("w-full max-w-full space-y-3 overflow-hidden", className)}>
-      <Card className={cn("rounded-md border-2 border-dashed", className)}>
+      <Card className={cn("rounded-md border", className)}>
         <Button
           variant="ghost"
           className="h-auto hover:text-current"
@@ -208,7 +208,9 @@ const UploadPicker = ({
             />
             <div className="space-y-2">
               <Typography variant="h4">{getDisplayText()}</Typography>
-              <Typography affects={["muted", "small"]}>{getDescriptionText()}</Typography>
+              <Typography affects={["muted", "small"]} className="whitespace-break-spaces">
+                {getDescriptionText()}
+              </Typography>
             </div>
           </CardContent>
         </Button>
@@ -255,4 +257,3 @@ const UploadPicker = ({
 }
 
 export { UploadPicker }
-

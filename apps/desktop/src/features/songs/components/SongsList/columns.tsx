@@ -1,4 +1,4 @@
-import { TFunction } from "@repo/i18n"
+import { type TFunction } from "@repo/i18n"
 
 import { formatRelativeDate } from "@repo/utils"
 
@@ -28,7 +28,7 @@ import { motion } from "motion/react"
 
 import { SongWithRelations } from "@repo/api"
 
-export const columns = (t: TFunction): ColumnDef<SongWithRelations>[] => [
+export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -100,7 +100,7 @@ export const columns = (t: TFunction): ColumnDef<SongWithRelations>[] => [
   {
     accessorKey: t("common.date"),
     header: t("common.date"),
-    cell: ({ row }) => formatRelativeDate(row.getValue(t("common.date")))
+    cell: ({ row }) => formatRelativeDate(row.getValue(t("common.date")), lang, t)
   },
   {
     accessorKey: t("common.duration"),

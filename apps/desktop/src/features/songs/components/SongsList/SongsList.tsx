@@ -12,7 +12,7 @@ import { SearchComponent } from "./Search"
 import { StickyHeaderComponent } from "./StickyHeader"
 
 const SongsList = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const { data, isLoading } = useFetchSongsWithRelations()
 
@@ -23,7 +23,7 @@ const SongsList = () => {
       StickyHeaderComponent={StickyHeaderComponent}
       ListHeaderComponent={(table) => <SearchComponent table={table} />}
       containerClassName="overflow-x-hidden"
-      columns={columns(t)}
+      columns={columns(t, i18n.language)}
       data={data ?? []}
       estimateSize={70}
       rowGridCols={["auto", "auto", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "auto"]}

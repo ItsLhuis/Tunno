@@ -6,6 +6,7 @@ CREATE TABLE `albums` (
 	`release_year` integer,
 	`play_count` integer DEFAULT 0 NOT NULL,
 	`is_favorite` integer DEFAULT false NOT NULL,
+	`is_auto_generated` integer DEFAULT false NOT NULL,
 	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch()) NOT NULL,
 	FOREIGN KEY (`artist_id`) REFERENCES `artists`(`id`) ON UPDATE no action ON DELETE cascade
@@ -18,6 +19,7 @@ CREATE INDEX `albums_favorite_idx` ON `albums` (`is_favorite`);--> statement-bre
 CREATE INDEX `albums_playcount_idx` ON `albums` (`play_count`);--> statement-breakpoint
 CREATE INDEX `albums_artist_year_idx` ON `albums` (`artist_id`,`release_year`);--> statement-breakpoint
 CREATE UNIQUE INDEX `albums_artist_name_unique_idx` ON `albums` (`artist_id`,`name`);--> statement-breakpoint
+CREATE INDEX `albums_auto_generated_idx` ON `albums` (`is_auto_generated`);--> statement-breakpoint
 CREATE TABLE `artists` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(100) NOT NULL,

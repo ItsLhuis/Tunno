@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "32bad7fb-cf42-4de8-927a-d369c39a2c21",
+  "id": "d1d624ca-60ac-48f5-b4c4-b50133ae6874",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "albums": {
@@ -52,6 +52,14 @@
         },
         "is_favorite": {
           "name": "is_favorite",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "is_auto_generated": {
+          "name": "is_auto_generated",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -126,6 +134,13 @@
             "name"
           ],
           "isUnique": true
+        },
+        "albums_auto_generated_idx": {
+          "name": "albums_auto_generated_idx",
+          "columns": [
+            "is_auto_generated"
+          ],
+          "isUnique": false
         }
       },
       "foreignKeys": {
