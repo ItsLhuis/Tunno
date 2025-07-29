@@ -1,8 +1,8 @@
 import { Platform } from "react-native"
 
-import { IconButton, type IconButtonProps } from "../ui/IconButton"
-
 import { router } from "expo-router"
+
+import { IconButton, type IconButtonProps } from "@components/ui/IconButton"
 
 function BackButton({ color, ...props }: Omit<IconButtonProps, "name">) {
   return (

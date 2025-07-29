@@ -5,8 +5,8 @@ import { useColorTheme } from "@hooks/useColorTheme"
 
 import { Platform, View } from "react-native"
 
-import { Button, type ButtonProps } from "./Button"
-import { Icon, type IconProps } from "./Icon"
+import { Button, type ButtonProps } from "@components/ui/Button"
+import { Icon, type IconProps } from "@components/ui/Icon"
 
 export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "children"> & {
   name: IconProps["name"] | "More"

@@ -16,10 +16,10 @@ import {
   type ViewStyle
 } from "react-native"
 
-import { Button } from "./Button"
-import { Icon } from "./Icon"
-import { IconButton } from "./IconButton"
-import { TextInput, type TextInputProps } from "./TextInput"
+import { Button } from "@components/ui/Button"
+import { Icon } from "@components/ui/Icon"
+import { IconButton } from "@components/ui/IconButton"
+import { TextInput, type TextInputProps } from "@components/ui/TextInput"
 
 export type SearchInputProps = TextInputProps & {
   containerStyle?: StyleProp<ViewStyle>

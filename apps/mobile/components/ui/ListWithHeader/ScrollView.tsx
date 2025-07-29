@@ -12,7 +12,7 @@ import { useScroll } from "./hooks"
 
 import { ScrollView, View } from "react-native"
 
-import { FadingView } from "../FadingView"
+import { FadingView } from "@components/ui/FadingView"
 
 import Animated, { useAnimatedRef } from "react-native-reanimated"
 

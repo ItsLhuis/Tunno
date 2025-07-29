@@ -18,7 +18,7 @@ import { Dimensions, StyleSheet, View } from "react-native"
 
 import { FlashList, type FlashListProps } from "@shopify/flash-list"
 
-import { FadingView } from "../FadingView"
+import { FadingView } from "@components/ui/FadingView"
 
 import Animated, { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
 

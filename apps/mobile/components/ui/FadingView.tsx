@@ -10,8 +10,6 @@ import Animated, {
   useAnimatedStyle
 } from "react-native-reanimated"
 
-type AnimatedViewPointerEvents = ComponentProps<typeof Animated.View>["pointerEvents"]
-
 export type FadingViewProps = {
   style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>
   opacity: DerivedValue<0 | 1> | DerivedValue<number>
@@ -32,7 +30,7 @@ const FadingView = forwardRef<Animated.View, FadingViewProps>(
     ref
   ) => {
     const animatedPropsComputed = useAnimatedProps(() => {
-      const pointerEvents: AnimatedViewPointerEvents =
+      const pointerEvents: ComponentProps<typeof Animated.View>["pointerEvents"] =
         opacity.value >= opacityThresholdToEnablePointerEvents ? "auto" : "none"
       return { pointerEvents }
     }, [opacityThresholdToEnablePointerEvents])

@@ -8,9 +8,9 @@ import { readableColor } from "polished"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
-import { ActivityIndicator } from "./ActivityIndicator"
-import { Pressable, type PressableProps } from "./Pressable"
-import { Text, type TextProps } from "./Text"
+import { ActivityIndicator } from "@components/ui/ActivityIndicator"
+import { Pressable, type PressableProps } from "@components/ui/Pressable"
+import { Text, type TextProps } from "@components/ui/Text"
 
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 

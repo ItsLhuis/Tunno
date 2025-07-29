@@ -14,7 +14,7 @@ import {
 
 import { theme } from "@styles/theme"
 
-import { FadingView } from "../FadingView"
+import { FadingView } from "@components/ui/FadingView"
 
 import Animated, {
   type DerivedValue,

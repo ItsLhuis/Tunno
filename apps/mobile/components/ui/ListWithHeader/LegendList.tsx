@@ -19,7 +19,7 @@ import { View } from "react-native"
 import { type LegendListProps } from "@legendapp/list"
 import { AnimatedLegendList } from "@legendapp/list/reanimated"
 
-import { FadingView } from "../FadingView"
+import { FadingView } from "@components/ui/FadingView"
 
 import { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
 
