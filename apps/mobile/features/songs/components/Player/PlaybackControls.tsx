@@ -4,7 +4,7 @@ import { View } from "react-native"
 
 import { IconButton } from "@components/ui"
 
-export function PlaybackControls() {
+const PlaybackControls = () => {
   return (
     <View
       style={{
@@ -20,3 +20,5 @@ export function PlaybackControls() {
     </View>
   )
 }
+
+export { PlaybackControls }

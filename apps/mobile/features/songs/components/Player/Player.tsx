@@ -16,7 +16,7 @@ import { PlaybackProgress } from "./PlaybackProgress"
 import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
 import { TrackInfo } from "./TrackInfo"
 
-export function Player() {
+const Player = () => {
   const insets = useSafeAreaInsets()
 
   const { playerRef } = useUIStore()
@@ -58,3 +58,5 @@ export function Player() {
     </BottomSheet>
   )
 }
+
+export { Player }

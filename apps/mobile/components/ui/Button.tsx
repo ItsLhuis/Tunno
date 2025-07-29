@@ -26,7 +26,7 @@ export type ButtonProps = PressableProps & {
   children?: ReactNode
 }
 
-function Button({
+const Button = ({
   title,
   isLoading = false,
   disabled = false,
@@ -37,7 +37,7 @@ function Button({
   titleProps,
   children,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   const { colors } = useColorTheme()
 
   const backgroundColor =

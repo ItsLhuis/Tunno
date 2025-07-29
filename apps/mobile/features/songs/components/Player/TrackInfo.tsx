@@ -4,7 +4,7 @@ import { View } from "react-native"
 
 import { IconButton, Image, ListItemText } from "@components/ui"
 
-export function TrackInfo() {
+const TrackInfo = () => {
   return (
     <View style={{ width: "100%", alignItems: "center", gap: theme.styles.spacing.large }}>
       <Image
@@ -38,3 +38,5 @@ export function TrackInfo() {
     </View>
   )
 }
+
+export { TrackInfo }

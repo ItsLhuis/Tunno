@@ -16,13 +16,13 @@ export type PressableProps = RNPressableProps & {
   children?: ReactNode
 }
 
-function Pressable({
+const Pressable = ({
   containerStyle,
   disableScaleEffect = false,
   disableOpacityEffect = false,
   children,
   ...props
-}: PressableProps) {
+}: PressableProps) => {
   const scale = useSharedValue<number>(1)
   const opacity = useSharedValue<number>(1)
 

@@ -12,13 +12,13 @@ export type IconProps = LucideProps & {
   color?: ColorValue
 }
 
-function Icon({
+const Icon = ({
   name,
   isFilled,
   size = theme.styles.icon.size.large,
   color,
   ...props
-}: IconProps) {
+}: IconProps) => {
   const { colors } = useColorTheme()
 
   const iconColor = color || colors.foreground

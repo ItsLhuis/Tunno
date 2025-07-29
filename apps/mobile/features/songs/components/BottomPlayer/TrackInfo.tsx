@@ -6,7 +6,7 @@ import { Image, ListItemText } from "@components/ui"
 
 import { PlaybackControls } from "./PlaybackControls"
 
-export function TrackInfo() {
+const TrackInfo = () => {
   return (
     <View
       style={{
@@ -38,3 +38,5 @@ export function TrackInfo() {
     </View>
   )
 }
+
+export { TrackInfo }

@@ -25,7 +25,7 @@ import Animated, {
 
 import { type HeaderProps, type LargeHeaderProps, type LargeHeaderSubtitleProps } from "./types"
 
-function Header({
+const Header = ({
   scrollY,
   showHeader,
   headerStyle,
@@ -44,7 +44,7 @@ function Header({
   borderColor,
   borderWidth,
   SurfaceComponent
-}: HeaderProps) {
+}: HeaderProps) => {
   const insets = useSafeAreaInsets()
 
   const dimensions = useWindowDimensions()
@@ -209,7 +209,7 @@ function Header({
   )
 }
 
-function HeaderBottomBorder({
+const HeaderBottomBorder = ({
   opacity,
   style,
   borderColor,
@@ -219,7 +219,7 @@ function HeaderBottomBorder({
   style?: StyleProp<ViewStyle>
   borderColor?: ColorValue
   borderWidth?: number
-}) {
+}) => {
   const { colors } = useColorTheme()
 
   const borderBottomStyle = useAnimatedStyle(
@@ -235,7 +235,7 @@ function HeaderBottomBorder({
   )
 }
 
-function LargeHeader({ style, children }: LargeHeaderProps) {
+const LargeHeader = ({ style, children }: LargeHeaderProps) => {
   return (
     <View
       style={[
@@ -253,7 +253,7 @@ function LargeHeader({ style, children }: LargeHeaderProps) {
   )
 }
 
-function LargeHeaderSubtitle({ style, children }: LargeHeaderSubtitleProps) {
+const LargeHeaderSubtitle = ({ style, children }: LargeHeaderSubtitleProps) => {
   return (
     <View
       style={[

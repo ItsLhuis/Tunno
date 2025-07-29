@@ -15,7 +15,7 @@ export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "childr
   noMargin?: boolean
 }
 
-function IconButton({
+const IconButton = ({
   name,
   isFilled = false,
   color = "transparent",
@@ -25,7 +25,7 @@ function IconButton({
   style,
   variant = "text",
   ...props
-}: IconButtonProps) {
+}: IconButtonProps) => {
   const { colors } = useColorTheme()
 
   const iconName: IconProps["name"] =

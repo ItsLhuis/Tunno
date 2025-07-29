@@ -6,7 +6,7 @@ import { View } from "react-native"
 
 import { Slider, Text } from "@components/ui"
 
-export function PlaybackProgress() {
+const PlaybackProgress = () => {
   const { colors } = useColorTheme()
 
   return (
@@ -23,3 +23,5 @@ export function PlaybackProgress() {
     </View>
   )
 }
+
+export { PlaybackProgress }

@@ -20,7 +20,7 @@ export type SliderProps = Omit<
   maximumValue?: number
 }
 
-function Slider({
+const Slider = ({
   animationType = "timing",
   minimumValue = 0,
   maximumValue = 1,
@@ -30,7 +30,7 @@ function Slider({
   trackStyle,
   thumbStyle,
   ...props
-}: SliderProps) {
+}: SliderProps) => {
   const { colors } = useColorTheme()
 
   return (

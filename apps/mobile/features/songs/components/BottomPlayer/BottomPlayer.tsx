@@ -15,7 +15,7 @@ import { TrackInfo } from "./TrackInfo"
 
 import { useSharedValue, withTiming } from "react-native-reanimated"
 
-export function BottomPlayer() {
+const BottomPlayer = () => {
   const { colors } = useColorTheme()
 
   const { playerRef } = useUIStore()
@@ -51,3 +51,5 @@ export function BottomPlayer() {
     </Fragment>
   )
 }
+
+export { BottomPlayer }

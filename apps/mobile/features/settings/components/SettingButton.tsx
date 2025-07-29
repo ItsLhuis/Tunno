@@ -13,14 +13,14 @@ export type SettingButtonProps = PressableProps & {
   renderRight?: ReactNode
 }
 
-export function SettingButton({
+const SettingButton = ({
   containerStyle,
   title,
   description,
   renderLeft,
   renderRight,
   ...props
-}: SettingButtonProps) {
+}: SettingButtonProps) => {
   return (
     <Pressable
       containerStyle={[
@@ -56,3 +56,5 @@ export function SettingButton({
     </Pressable>
   )
 }
+
+export { SettingButton }

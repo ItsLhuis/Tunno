@@ -16,13 +16,13 @@ export type ListItemTextProps = {
   descriptionProps?: TextProps
 }
 
-function ListItemText({
+const ListItemText = ({
   title,
   description,
   style,
   titleProps,
   descriptionProps
-}: ListItemTextProps) {
+}: ListItemTextProps) => {
   const { colors } = useColorTheme()
 
   return (

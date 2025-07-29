@@ -9,12 +9,12 @@ import {
 
 export type ActivityIndicatorProps = RNActivityIndicatorProps
 
-function ActivityIndicator({
+const ActivityIndicator = ({
   style,
   size = theme.styles.icon.size.xLarge,
   color,
   ...props
-}: ActivityIndicatorProps) {
+}: ActivityIndicatorProps) => {
   const { colors } = useColorTheme()
 
   return (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import { Slider } from "@components/ui"
 
-export function PlaybackProgress() {
+const PlaybackProgress = () => {
   const [value, setValue] = useState(0)
 
   useEffect(() => {
@@ -27,3 +27,5 @@ export function PlaybackProgress() {
     />
   )
 }
+
+export { PlaybackProgress }

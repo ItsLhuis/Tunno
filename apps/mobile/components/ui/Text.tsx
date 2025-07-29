@@ -25,7 +25,13 @@ export type TextProps = Omit<RNTextProps, "style"> & {
   style?: StyleProp<TextStyle>
 }
 
-function Text({ style, variant = "regular", size = "medium", affects = [], ...props }: TextProps) {
+const Text = ({
+  style,
+  variant = "regular",
+  size = "medium",
+  affects = [],
+  ...props
+}: TextProps) => {
   const { colors } = useColorTheme()
 
   const getAffectStyles = () => {

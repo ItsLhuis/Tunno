@@ -6,7 +6,7 @@ import { View } from "react-native"
 
 import { Icon, Slider } from "@components/ui"
 
-export function PlaybackVolumeControl() {
+const PlaybackVolumeControl = () => {
   const { colors } = useColorTheme()
 
   return (
@@ -23,3 +23,5 @@ export function PlaybackVolumeControl() {
     </View>
   )
 }
+
+export { PlaybackVolumeControl }
