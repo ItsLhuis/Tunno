@@ -43,7 +43,6 @@ export const createInsertSongSchema = (t: TFunction) => {
       .int()
       .min(0, t("validation.duration.min")),
     isFavorite: z.boolean().default(false),
-    isSingle: z.boolean().default(false),
     releaseYear: z
       .number(t("validation.releaseYear.invalid"))
       .int(t("validation.releaseYear.invalid"))
@@ -54,30 +53,9 @@ export const createInsertSongSchema = (t: TFunction) => {
       .number(t("validation.albumId.invalid"))
       .int(t("validation.albumId.invalid"))
       .optional()
+  }).extend({
+    artists: z.array(z.number().int().positive(t("validation.artists.invalid")))
   })
-    .extend({
-      artists: z.preprocess(
-        (val) => val ?? [],
-        z
-          .array(z.number().int().positive())
-          .min(1, t("validation.artists.min"))
-          .refine((arr) => arr.every((id) => id > 0), {
-            message: t("validation.artists.min")
-          })
-      )
-    })
-    .refine(
-      (data) => {
-        if (data.isSingle === false && (data.albumId === undefined || data.albumId === null)) {
-          return false
-        }
-        return true
-      },
-      {
-        message: t("validation.albumId.requiredIfNotSingle"),
-        path: ["albumId"]
-      }
-    )
 }
 
 export type InsertSongType = z.infer<ReturnType<typeof createInsertSongSchema>>
@@ -101,7 +79,6 @@ export const createUpdateSongSchema = (t: TFunction) => {
         }
       ),
     isFavorite: z.boolean(),
-    isSingle: z.boolean(),
     releaseYear: z
       .number(t("validation.releaseYear.invalid"))
       .int(t("validation.releaseYear.invalid"))
@@ -112,30 +89,9 @@ export const createUpdateSongSchema = (t: TFunction) => {
       .number(t("validation.albumId.invalid"))
       .int(t("validation.albumId.invalid"))
       .optional()
+  }).extend({
+    artists: z.array(z.number().int().positive(t("validation.artists.invalid")))
   })
-    .extend({
-      artists: z.preprocess(
-        (val) => val ?? [],
-        z
-          .array(z.number().int().positive())
-          .min(1, t("validation.artists.min"))
-          .refine((arr) => arr.every((id) => id > 0), {
-            message: t("validation.artists.min")
-          })
-      )
-    })
-    .refine(
-      (data) => {
-        if (data.isSingle === false && (data.albumId === undefined || data.albumId === null)) {
-          return false
-        }
-        return true
-      },
-      {
-        message: t("validation.albumId.requiredIfNotSingle"),
-        path: ["albumId"]
-      }
-    )
 }
 
 export type UpdateSongType = z.infer<ReturnType<typeof createUpdateSongSchema>>
