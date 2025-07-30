@@ -21,7 +21,7 @@ import { getTrack } from "./spotify"
 
 import { getLyrics } from "./lrclib"
 
-import { type Lyrics, type Song } from "../shared/types"
+import { type Song } from "../shared/types"
 
 type YoutubeSong = {
   title: string
@@ -134,8 +134,7 @@ export const download = async (
         return
       }
 
-      let lyrics: Lyrics | undefined = undefined
-      lyrics = await getLyrics({
+      const lyrics = await getLyrics({
         title: track.title,
         artists: track.artists.map((a) => a.name),
         album: track.album?.name,
@@ -151,32 +150,33 @@ export const download = async (
         title: track.title,
         thumbnail: "",
         duration: videoInfo.duration,
-        isSingle: track.isSingle,
         artists: [],
         album: track.album,
-        releaseYear: track.releaseYear,
-        lyrics: lyrics
-          ? { plainLyrics: lyrics.plainLyrics, syncedLyrics: lyrics?.syncedLyrics }
-          : null
+        lyrics: lyrics ?? null
       }
 
       const trackThumbnailUUID = uuid() + ".jpg"
       await downloadThumbnail(
-        track.isSingle ? track.album.thumbnail : videoInfo.thumbnail,
+        track.album.albumType === "single" ? track.album.thumbnail : videoInfo.thumbnail,
         path.join(videoDir, trackThumbnailUUID),
         640
       )
       videoMetadata.thumbnail = trackThumbnailUUID
 
       const albumThumbnailUUID = uuid() + ".jpg"
-      if (!track.isSingle)
+      if (track.album.albumType !== "single")
         await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
-      videoMetadata.album.thumbnail = !track.isSingle ? albumThumbnailUUID : trackThumbnailUUID
+      videoMetadata.album.thumbnail =
+        track.album.albumType !== "single" ? albumThumbnailUUID : trackThumbnailUUID
+
+      const artistThumbnailMap: Record<string, string> = {}
 
       for (const artist of track.artists) {
         if (artist.thumbnail) {
           const artistThumbnailUUID = uuid() + ".jpg"
           await downloadThumbnail(artist.thumbnail, path.join(videoDir, artistThumbnailUUID), 640)
+
+          artistThumbnailMap[artist.name] = artistThumbnailUUID
 
           videoMetadata.artists.push({
             name: artist.name,
@@ -189,6 +189,25 @@ export const download = async (
             thumbnail: null,
             genres: artist.genres
           })
+        }
+      }
+
+      for (const albumArtist of track.album.artists) {
+        const found = artistThumbnailMap[albumArtist.name]
+
+        if (found) {
+          albumArtist.thumbnail = found
+        } else if (albumArtist.thumbnail) {
+          const albumArtistThumbnailUUID = uuid() + ".jpg"
+          await downloadThumbnail(
+            albumArtist.thumbnail,
+            path.join(videoDir, albumArtistThumbnailUUID),
+            640
+          )
+
+          albumArtist.thumbnail = albumArtistThumbnailUUID
+        } else {
+          albumArtist.thumbnail = null
         }
       }
 

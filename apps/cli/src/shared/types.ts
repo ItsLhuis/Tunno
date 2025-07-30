@@ -7,6 +7,9 @@ export type Artist = {
 export type Album = {
   name: string
   thumbnail: string
+  releaseYear: number
+  albumType: string
+  artists: Artist[]
 }
 
 export type Lyrics = {
@@ -17,8 +20,7 @@ export type Lyrics = {
   albumName: string
   duration: number
   instrumental: boolean
-  plainLyrics: { text: string }[]
-  syncedLyrics?: { text: string; startTime: number }[]
+  lyrics: { text: string; startTime: number }[]
 }
 
 export type Song = {
@@ -26,12 +28,7 @@ export type Song = {
   title: string
   thumbnail: string
   duration: number
-  isSingle: boolean
   artists: Artist[]
   album: Album
-  releaseYear: number
-  lyrics: {
-    plainLyrics: { text: string }[]
-    syncedLyrics?: { text: string; startTime: number }[]
-  } | null
+  lyrics: { text: string; startTime: number }[] | null
 }

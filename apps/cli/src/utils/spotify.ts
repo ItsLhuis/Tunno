@@ -1,4 +1,4 @@
-import axios from "axios"
+import { SpotifyApi, type Track as SpotifySDKTrack } from "@spotify/web-api-ts-sdk"
 
 import { getEnvKey } from "./config"
 
@@ -10,9 +10,6 @@ import { RateLimiter } from "../classes/rateLimiter"
 
 import chalk from "chalk"
 import inquirer from "inquirer"
-
-const SPOTIFY_API_BASE_URL = "https://api.spotify.com/v1"
-const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/api/token"
 
 const rateLimiter = new RateLimiter({
   limit: 160,
@@ -35,63 +32,41 @@ type SpotifyArtist = {
 type SpotifyAlbum = {
   name: string
   thumbnail: string
+  releaseYear: number
+  albumType: string
+  artists: SpotifyArtist[]
 }
 
 type SpotifyTrack = {
   title: string
-  releaseYear: number
-  isSingle: boolean
+  albumType: string
   album: SpotifyAlbum
   artists: SpotifyArtist[]
 }
 
-async function getAccessToken(): Promise<string | null> {
-  const clientId = await getEnvKey("SPOTIFY_CLIENT_ID")
-  const clientSecret = await getEnvKey("SPOTIFY_CLIENT_SECRET")
+let sdk: SpotifyApi | null = null
 
-  if (!clientId || !clientSecret) {
-    console.error("[spotify]", chalk.red("Spotify Client ID and Client Secret are required"))
-    process.exit(0)
+async function getSdk() {
+  if (!sdk) {
+    const clientId = await getEnvKey("SPOTIFY_CLIENT_ID")
+    const clientSecret = await getEnvKey("SPOTIFY_CLIENT_SECRET")
+    if (!clientId || !clientSecret) {
+      throw new Error("Missing Spotify client credentials")
+    }
+    sdk = SpotifyApi.withClientCredentials(clientId, clientSecret)
   }
-
-  const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64")
-
-  try {
-    const response = await axios.post(SPOTIFY_AUTH_URL, null, {
-      headers: {
-        Authorization: `Basic ${auth}`,
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      params: {
-        grant_type: "client_credentials"
-      }
-    })
-
-    return response.data.access_token
-  } catch (error) {
-    console.error(error)
-    return null
-  }
+  return sdk
 }
 
 async function getArtist(artistId: string): Promise<SpotifyArtistDetails | null> {
-  const accessToken = await getAccessToken()
-
-  if (!accessToken) return null
-
+  const sdk = await getSdk()
   try {
     await rateLimiter.rateLimitRequest()
-
-    const response = await axios.get(`${SPOTIFY_API_BASE_URL}/artists/${artistId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-
+    const artist = await sdk.artists.get(artistId)
     return {
-      name: response.data.name,
-      genres: response.data.genres,
-      images: response.data.images
+      name: artist.name,
+      genres: artist.genres,
+      images: artist.images
     }
   } catch (error) {
     console.error(error)
@@ -99,30 +74,51 @@ async function getArtist(artistId: string): Promise<SpotifyArtistDetails | null>
   }
 }
 
-async function buildTrackResult(track: any): Promise<SpotifyTrack | null> {
+async function buildTrackResult(track: SpotifySDKTrack): Promise<SpotifyTrack | null> {
   if (!track) return null
 
-  const result: SpotifyTrack = {
-    title: track.name,
-    releaseYear: Number(track.album.release_date.slice(0, 4)),
-    isSingle: track.album.album_type === "single",
-    album: {
-      name: track.album.name || "Unknown",
-      thumbnail:
-        track.album.images && track.album.images.length > 0 ? track.album.images[0].url : undefined
-    },
-    artists: []
-  }
-
+  const trackArtists: SpotifyArtist[] = []
   for (const artist of track.artists) {
     const artistDetails = await getArtist(artist.id)
     if (artistDetails) {
-      result.artists.push({
+      trackArtists.push({
         name: artistDetails.name,
-        thumbnail: artistDetails.images?.[0]?.url || null,
+        thumbnail: artistDetails.images?.[0]?.url || null, // URL, não ficheiro local
         genres: artistDetails.genres.length > 0 ? artistDetails.genres : null
       })
     }
+  }
+
+  const albumArtists: SpotifyArtist[] = []
+  for (const albumArtist of track.album.artists) {
+    const found = trackArtists.find((a) => a.name === albumArtist.name)
+    if (found) {
+      albumArtists.push(found)
+    } else {
+      const artistDetails = await getArtist(albumArtist.id)
+      if (artistDetails) {
+        albumArtists.push({
+          name: artistDetails.name,
+          thumbnail: artistDetails.images?.[0]?.url || null, // URL, não ficheiro local
+          genres: artistDetails.genres.length > 0 ? artistDetails.genres : null
+        })
+      }
+    }
+  }
+
+  const album: SpotifyAlbum = {
+    name: track.album.name || "Unknown",
+    thumbnail: track.album.images && track.album.images.length > 0 ? track.album.images[0].url : "",
+    releaseYear: Number(track.album.release_date?.slice(0, 4) ?? 0),
+    albumType: track.album.album_type,
+    artists: albumArtists
+  }
+
+  const result: SpotifyTrack = {
+    title: track.name,
+    albumType: track.album.album_type,
+    album,
+    artists: trackArtists
   }
 
   return result
@@ -135,10 +131,7 @@ export async function getTrack(
   year: string | null | undefined,
   options: { onlySearchTrackTitle?: boolean } = {}
 ): Promise<SpotifyTrack | null> {
-  const accessToken = await getAccessToken()
-
-  if (!accessToken) return null
-
+  const sdk = await getSdk()
   try {
     await rateLimiter.rateLimitRequest()
 
@@ -149,18 +142,15 @@ export async function getTrack(
       if (year) query += ` year:${year}`
     }
 
-    const response = await axios.get(`${SPOTIFY_API_BASE_URL}/search`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
-      params: {
-        q: query,
-        type: "track",
-        limit: options.onlySearchTrackTitle ? 10 : 5
-      }
-    })
+    const result = await sdk.search(
+      query,
+      ["track"],
+      undefined,
+      options.onlySearchTrackTitle ? 10 : 5,
+      0
+    )
 
-    const tracks = response.data.tracks.items
+    const tracks = result.tracks.items
     if (tracks.length === 0) {
       console.log("[spotify]", chalk.red("Track not found"))
       return null
@@ -168,7 +158,6 @@ export async function getTrack(
 
     if (!options.onlySearchTrackTitle) {
       let track = tracks.find((track: any) => track.name.toLowerCase() === name.toLowerCase())
-
       if (track) {
         console.log("[spotify]", chalk.green("Track found"))
         return await buildTrackResult(track)
@@ -177,7 +166,6 @@ export async function getTrack(
       let trackSimilarity = 0
       for (const currentTrack of tracks) {
         trackSimilarity = calculateTrackSimilarity(name, currentTrack.name)
-
         if (trackSimilarity > 0.9) {
           console.log("[spotify]", chalk.green("Track found"))
           return await buildTrackResult(currentTrack)
@@ -190,8 +178,8 @@ export async function getTrack(
       let wasTrackFound = true
 
       let track = tracks.find((item: any) => item.name.toLowerCase() === name)
-
       let bestTrackMatch = tracks[0]
+
       let highestTrackScore = 0
 
       if (!track && tracks.length > 0) {
@@ -201,9 +189,7 @@ export async function getTrack(
               name = name.replace(new RegExp(artist.name, "i"), "").trim()
             })
           }
-
           const trackSimilarity = calculateTrackSimilarity(name, track.name)
-
           const timeScore = proportionalSimilarity(Math.round(track.duration_ms / 1000), duration)
 
           const finalScore = trackSimilarity * 0.7 + timeScore * 0.3
@@ -220,7 +206,6 @@ export async function getTrack(
           wasTrackFound = false
         }
       }
-
       if (highestTrackScore < 0.9) {
         if (track && track.artists) {
           const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
@@ -240,13 +225,12 @@ export async function getTrack(
 
           if (year && trackReleaseYear) {
             const yearDifference = Math.abs(Number(year) - trackReleaseYear)
-
             if (yearDifference > 1) wasTrackFound = false
           }
         }
       }
 
-      if (wasTrackFound) {
+      if (wasTrackFound && track) {
         console.log("[spotify]", chalk.green("Track found"))
         return await buildTrackResult(track)
       }

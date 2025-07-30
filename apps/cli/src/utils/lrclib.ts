@@ -4,9 +4,9 @@ import chalk from "chalk"
 
 import { cleanTrackName } from "./utils"
 
-import { type Lyrics } from "../shared/types"
-
 const LRCLIB_API_BASE_URL = "https://lrclib.net/api"
+
+import { type Song } from "../shared/types"
 
 type SearchParams = {
   title: string
@@ -20,9 +20,9 @@ export async function getLyrics({
   artists,
   album,
   duration
-}: SearchParams): Promise<Lyrics | undefined> {
+}: SearchParams): Promise<Song["lyrics"]> {
   if (!title?.trim() || !artists?.length) {
-    return undefined
+    return null
   }
 
   console.log(`[lrclib] Searching for ${chalk.blue(title)} by ${chalk.blue(artists.join(", "))}`)
@@ -30,13 +30,6 @@ export async function getLyrics({
   const titleVariants = [title, cleanTrackName(title)]
   const albumVariants = [album || "", ""]
   const durationVariants = [duration?.toString() || "", ""]
-
-  function parsePlainLyrics(plainLyrics: string): { text: string }[] {
-    return plainLyrics
-      .split(/\r?\n/)
-      .filter((line) => line.trim() !== "")
-      .map((line) => ({ text: line }))
-  }
 
   function parseSyncedLyrics(syncedLyrics: string): { text: string; startTime: number }[] {
     const lines = syncedLyrics.split(/\r?\n/)
@@ -81,26 +74,16 @@ export async function getLyrics({
           })
 
           const url = `${LRCLIB_API_BASE_URL}/get?${params.toString()}`
-          const result = (await makeRequest(url)) as Lyrics
+          const result = await makeRequest(url)
 
-          if (result?.id) {
+          if (result?.id && result?.syncedLyrics) {
             console.log("[lrclib]", chalk.green("Lyrics found"))
 
-            const formattedPlainLyrics = Array.isArray(result.plainLyrics)
-              ? result.plainLyrics
-              : parsePlainLyrics(result.plainLyrics)
+            const formattedSyncedLyrics = Array.isArray(result.syncedLyrics)
+              ? result.syncedLyrics
+              : parseSyncedLyrics(result.syncedLyrics)
 
-            let formattedSyncedLyrics: { text: string; startTime: number }[] | undefined = undefined
-            if (result.syncedLyrics) {
-              formattedSyncedLyrics = Array.isArray(result.syncedLyrics)
-                ? result.syncedLyrics
-                : parseSyncedLyrics(result.syncedLyrics)
-            }
-            return {
-              ...result,
-              plainLyrics: formattedPlainLyrics,
-              syncedLyrics: formattedSyncedLyrics
-            } as unknown as Lyrics
+            return formattedSyncedLyrics
           }
         }
       }
@@ -109,5 +92,5 @@ export async function getLyrics({
 
   console.log("[lrclib]", chalk.red("Lyrics not found"))
 
-  return undefined
+  return null
 }
