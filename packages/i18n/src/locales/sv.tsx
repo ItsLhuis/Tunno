@@ -113,11 +113,10 @@ export const swedish: Language = {
         max: "Utgivningsåret kan inte vara i framtiden"
       },
       albumId: {
-        invalid: "Ogiltigt album",
-        requiredIfNotSingle: "Album krävs om det inte är en singel"
+        invalid: "Ogiltigt album"
       },
       artists: {
-        min: "Minst en artist krävs"
+        invalid: "Ogiltiga artister"
       }
     },
     update: {

@@ -113,11 +113,10 @@ export const portuguese: Language = {
         max: "O ano de lançamento não pode ser no futuro"
       },
       albumId: {
-        invalid: "Álbum inválido",
-        requiredIfNotSingle: "O álbum é obrigatório se não for single"
+        invalid: "Álbum inválido"
       },
       artists: {
-        min: "É necessário pelo menos um artista"
+        invalid: "Artistas inválidos"
       }
     },
     update: {

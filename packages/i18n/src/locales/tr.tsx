@@ -113,11 +113,10 @@ export const turkish: Language = {
         max: "Yayın yılı gelecek bir tarih olamaz"
       },
       albumId: {
-        invalid: "Geçersiz albüm",
-        requiredIfNotSingle: "Tekli değilse albüm gerekli"
+        invalid: "Geçersiz albüm"
       },
       artists: {
-        min: "En az bir sanatçı gereklidir"
+        invalid: "Geçersiz sanatçılar"
       }
     },
     update: {

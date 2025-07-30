@@ -113,11 +113,10 @@ export const chinese: Language = {
         max: "发行年份不能是未来时间"
       },
       albumId: {
-        invalid: "专辑无效",
-        requiredIfNotSingle: "如果不是单曲，则专辑为必填项"
+        invalid: "专辑无效"
       },
       artists: {
-        min: "至少需要一个艺术家"
+        invalid: "无效的艺术家"
       }
     },
     update: {

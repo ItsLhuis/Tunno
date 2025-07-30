@@ -113,11 +113,10 @@ export const russian: Language = {
         max: "Год выпуска не может быть из будущего"
       },
       albumId: {
-        invalid: "Неверный альбом",
-        requiredIfNotSingle: "Альбом обязателен, если это не сингл"
+        invalid: "Неверный альбом"
       },
       artists: {
-        min: "Требуется хотя бы один исполнитель"
+        invalid: "Недопустимые исполнители"
       }
     },
     update: {

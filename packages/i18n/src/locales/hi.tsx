@@ -113,11 +113,10 @@ export const hindi: Language = {
         max: "रिलीज़ वर्ष भविष्य में नहीं हो सकता"
       },
       albumId: {
-        invalid: "अमान्य एल्बम",
-        requiredIfNotSingle: "यदि सिंगल नहीं है तो एल्बम आवश्यक है"
+        invalid: "अमान्य एल्बम"
       },
       artists: {
-        min: "कम से कम एक कलाकार आवश्यक है"
+        invalid: "अमान्य कलाकार"
       }
     },
     update: {

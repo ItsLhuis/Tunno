@@ -113,11 +113,10 @@ export const japanese: Language = {
         max: "リリース年は未来の日付にできません"
       },
       albumId: {
-        invalid: "無効なアルバムです",
-        requiredIfNotSingle: "シングルでない場合、アルバムは必須です"
+        invalid: "無効なアルバムです"
       },
       artists: {
-        min: "少なくとも1人のアーティストが必要です"
+        invalid: "無効なアーティスト"
       }
     },
     update: {

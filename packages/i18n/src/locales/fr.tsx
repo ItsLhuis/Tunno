@@ -113,11 +113,10 @@ export const french: Language = {
         max: "L'année de sortie ne peut pas être dans le futur"
       },
       albumId: {
-        invalid: "Album invalide",
-        requiredIfNotSingle: "L'album est requis si ce n'est pas un single"
+        invalid: "Album invalide"
       },
       artists: {
-        min: "Au moins un artiste est requis"
+        invalid: "Artistes invalides"
       }
     },
     update: {

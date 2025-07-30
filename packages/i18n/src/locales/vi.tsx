@@ -113,11 +113,10 @@ export const vietnamese: Language = {
         max: "Năm phát hành không thể ở tương lai"
       },
       albumId: {
-        invalid: "Album không hợp lệ",
-        requiredIfNotSingle: "Album là bắt buộc nếu không phải đơn ca"
+        invalid: "Album không hợp lệ"
       },
       artists: {
-        min: "Cần ít nhất một nghệ sĩ"
+        invalid: "Nghệ sĩ không hợp lệ"
       }
     },
     update: {

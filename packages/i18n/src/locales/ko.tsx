@@ -113,11 +113,10 @@ export const korean: Language = {
         max: "출시 연도는 미래일 수 없습니다"
       },
       albumId: {
-        invalid: "유효하지 않은 앨범입니다",
-        requiredIfNotSingle: "싱글이 아닌 경우 앨범이 필요합니다"
+        invalid: "유효하지 않은 앨범입니다"
       },
       artists: {
-        min: "최소 한 명의 아티스트가 필요합니다"
+        invalid: "잘못된 아티스트"
       }
     },
     update: {

@@ -113,11 +113,10 @@ export const ukrainian: Language = {
         max: "Рік випуску не може бути в майбутньому"
       },
       albumId: {
-        invalid: "Невірний альбом",
-        requiredIfNotSingle: "Альбом є обов’язковим, якщо це не сингл"
+        invalid: "Невірний альбом"
       },
       artists: {
-        min: "Потрібен принаймні один виконавець"
+        invalid: "Недійсні виконавці"
       }
     },
     update: {

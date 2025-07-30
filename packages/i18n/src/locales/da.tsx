@@ -113,11 +113,10 @@ export const danish: Language = {
         max: "Udgivelsesår kan ikke være i fremtiden"
       },
       albumId: {
-        invalid: "Ugyldigt album",
-        requiredIfNotSingle: "Album er påkrævet, hvis det ikke er en single"
+        invalid: "Ugyldigt album"
       },
       artists: {
-        min: "Mindst én kunstner er påkrævet"
+        invalid: "Ugyldige kunstnere"
       }
     },
     update: {

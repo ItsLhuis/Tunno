@@ -113,11 +113,10 @@ export const dutch: Language = {
         max: "Uitgavejaar kan niet in de toekomst liggen"
       },
       albumId: {
-        invalid: "Ongeldig album",
-        requiredIfNotSingle: "Album is verplicht als het geen single is"
+        invalid: "Ongeldig album"
       },
       artists: {
-        min: "Minimaal één artiest is vereist"
+        invalid: "Ongeldige artiesten"
       }
     },
     update: {

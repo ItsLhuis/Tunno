@@ -113,11 +113,10 @@ export const german: Language = {
         max: "Erscheinungsjahr darf nicht in der Zukunft liegen"
       },
       albumId: {
-        invalid: "Ungültiges Album",
-        requiredIfNotSingle: "Album ist erforderlich, wenn es kein Single ist"
+        invalid: "Ungültiges Album"
       },
       artists: {
-        min: "Mindestens ein Künstler ist erforderlich"
+        invalid: "Ungültige Künstler"
       }
     },
     update: {

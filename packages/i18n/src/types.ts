@@ -117,10 +117,9 @@ export type Translations = {
     }
     albumId: {
       invalid: string
-      requiredIfNotSingle: string
     }
     artists: {
-      min: string
+      invalid: string
     }
   }
   update: {

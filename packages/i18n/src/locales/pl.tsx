@@ -113,11 +113,10 @@ export const polish: Language = {
         max: "Rok wydania nie może być w przyszłości"
       },
       albumId: {
-        invalid: "Nieprawidłowy album",
-        requiredIfNotSingle: "Album jest wymagany, jeśli nie jest singlem"
+        invalid: "Nieprawidłowy album"
       },
       artists: {
-        min: "Wymagany jest przynajmniej jeden artysta"
+        invalid: "Nieprawidłowi artyści"
       }
     },
     update: {

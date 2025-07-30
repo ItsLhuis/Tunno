@@ -113,11 +113,10 @@ export const finnish: Language = {
         max: "Julkaisuvuosi ei voi olla tulevaisuudessa"
       },
       albumId: {
-        invalid: "Virheellinen albumi",
-        requiredIfNotSingle: "Albumi on pakollinen, jos ei ole single"
+        invalid: "Virheellinen albumi"
       },
       artists: {
-        min: "Vähintään yhden artistin on oltava valittuna"
+        invalid: "Virheelliset artistit"
       }
     },
     update: {
