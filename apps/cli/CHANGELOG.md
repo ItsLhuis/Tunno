@@ -2,6 +2,15 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.2.0] - 2025-07-20
+
+### Changed
+- The Album type now includes `releaseYear`, `albumType`, and `artists` fields for richer metadata.
+- Artist thumbnails for both track and album are now always local file names, never URLs, and are deduplicated if the artist appears in both.
+
+### Fixed
+- Lyrics are now always `null` when not found, never `undefined`, for better type safety.
+
 ## [1.1.1] - 2025-07-19
 
 ### Features
