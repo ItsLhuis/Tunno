@@ -17,7 +17,6 @@ import {
 import { cn } from "@lib/utils"
 
 import {
-  Checkbox,
   Form,
   FormControl,
   FormDescription,
@@ -82,7 +81,6 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
       duration: song?.duration ?? 0,
       file: song?.file ?? undefined,
       isFavorite: song?.isFavorite ?? false,
-      isSingle: song?.isSingle ?? false,
       releaseYear: song?.releaseYear ?? undefined,
       albumId: song?.albumId ?? undefined,
       artists: song?.artists ?? [],
@@ -244,21 +242,8 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t("form.labels.album")}</FormLabel>
-                  <FormField
-                    control={form.control}
-                    name="isSingle"
-                    render={({ field }) => (
-                      <FormItem className="flex items-center space-x-2 space-y-0 py-3">
-                        <FormControl>
-                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
-                        <FormLabel>{t("form.labels.isSingle")}</FormLabel>
-                      </FormItem>
-                    )}
-                  />
                   <FormControl>
                     <Select
-                      disabled={form.watch("isSingle")}
                       onValueChange={(value) => field.onChange(parseInt(value))}
                       defaultValue={field.value?.toString()}
                     >

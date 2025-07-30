@@ -1,3 +1,2 @@
-export * from "./SongsList/SongsList"
 export * from "./Player/Player"
-
+export * from "./SongsList/SongsList"
