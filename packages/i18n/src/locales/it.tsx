@@ -67,7 +67,6 @@ export const italian: Language = {
         releaseYear: "Anno di rilascio",
         album: "Album",
         artists: "Artisti",
-        isSingle: "È singolo",
         folder: "Cartella",
         lyrics: "Testo"
       },

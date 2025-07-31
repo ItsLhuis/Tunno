@@ -67,7 +67,6 @@ export const ukrainian: Language = {
         releaseYear: "Рік випуску",
         album: "Альбом",
         artists: "Виконавці",
-        isSingle: "Сингл",
         folder: "Папка",
         lyrics: "Текст пісні"
       },

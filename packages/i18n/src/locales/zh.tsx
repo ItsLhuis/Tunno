@@ -67,7 +67,6 @@ export const chinese: Language = {
         releaseYear: "发行年份",
         album: "专辑",
         artists: "艺术家",
-        isSingle: "单曲",
         folder: "文件夹",
         lyrics: "歌词"
       },

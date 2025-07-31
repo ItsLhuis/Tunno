@@ -67,7 +67,6 @@ export const french: Language = {
         releaseYear: "Année de sortie",
         album: "Album",
         artists: "Artistes",
-        isSingle: "Est un single",
         folder: "Dossier",
         lyrics: "Paroles"
       },

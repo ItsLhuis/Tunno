@@ -67,7 +67,6 @@ export const hindi: Language = {
         releaseYear: "रिलीज़ वर्ष",
         album: "एल्बम",
         artists: "कलाकार",
-        isSingle: "क्या सिंगल है",
         folder: "फ़ोल्डर",
         lyrics: "गीत"
       },

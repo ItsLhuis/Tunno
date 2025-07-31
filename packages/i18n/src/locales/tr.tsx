@@ -67,7 +67,6 @@ export const turkish: Language = {
         releaseYear: "Yayın Yılı",
         album: "Albüm",
         artists: "Sanatçılar",
-        isSingle: "Tekli mi",
         folder: "Klasör",
         lyrics: "Şarkı Sözleri"
       },

@@ -67,7 +67,6 @@ export const norwegian: Language = {
         releaseYear: "Utgivelsesår",
         album: "Album",
         artists: "Artister",
-        isSingle: "Er singel",
         folder: "Mappe",
         lyrics: "Tekst"
       },

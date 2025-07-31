@@ -67,7 +67,6 @@ export const vietnamese: Language = {
         releaseYear: "Năm phát hành",
         album: "Album",
         artists: "Nghệ sĩ",
-        isSingle: "Là đơn ca",
         folder: "Thư mục",
         lyrics: "Lời bài hát"
       },

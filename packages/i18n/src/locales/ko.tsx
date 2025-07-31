@@ -67,7 +67,6 @@ export const korean: Language = {
         releaseYear: "출시 연도",
         album: "앨범",
         artists: "아티스트",
-        isSingle: "싱글 여부",
         folder: "폴더",
         lyrics: "가사"
       },

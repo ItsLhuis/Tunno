@@ -67,7 +67,6 @@ export const spanish: Language = {
         releaseYear: "Año de lanzamiento",
         album: "Álbum",
         artists: "Artistas",
-        isSingle: "Es sencillo",
         folder: "Carpeta",
         lyrics: "Letras"
       },

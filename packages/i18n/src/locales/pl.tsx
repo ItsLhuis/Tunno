@@ -67,7 +67,6 @@ export const polish: Language = {
         releaseYear: "Rok wydania",
         album: "Album",
         artists: "Artyści",
-        isSingle: "Czy singiel",
         folder: "Folder",
         lyrics: "Tekst"
       },

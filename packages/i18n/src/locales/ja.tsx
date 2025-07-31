@@ -67,7 +67,6 @@ export const japanese: Language = {
         releaseYear: "リリース年",
         album: "アルバム",
         artists: "アーティスト",
-        isSingle: "シングルかどうか",
         folder: "フォルダ",
         lyrics: "歌詞"
       },

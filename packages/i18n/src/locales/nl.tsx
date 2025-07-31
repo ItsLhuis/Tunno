@@ -67,7 +67,6 @@ export const dutch: Language = {
         releaseYear: "Uitgavejaar",
         album: "Album",
         artists: "Artiesten",
-        isSingle: "Is single",
         folder: "Map",
         lyrics: "Songtekst"
       },

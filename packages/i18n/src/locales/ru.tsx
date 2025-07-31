@@ -67,7 +67,6 @@ export const russian: Language = {
         releaseYear: "Год выпуска",
         album: "Альбом",
         artists: "Исполнители",
-        isSingle: "Является синглом",
         folder: "Папка",
         lyrics: "Текст песни"
       },

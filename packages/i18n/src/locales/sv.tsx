@@ -67,7 +67,6 @@ export const swedish: Language = {
         releaseYear: "Utgivningsår",
         album: "Album",
         artists: "Artister",
-        isSingle: "Är singel",
         folder: "Mapp",
         lyrics: "Text"
       },

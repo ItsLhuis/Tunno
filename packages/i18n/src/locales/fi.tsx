@@ -67,7 +67,6 @@ export const finnish: Language = {
         releaseYear: "Julkaisuvuosi",
         album: "Albumi",
         artists: "Artistit",
-        isSingle: "On single",
         folder: "Kansio",
         lyrics: "Sanoitukset"
       },

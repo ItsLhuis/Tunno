@@ -67,7 +67,6 @@ export const danish: Language = {
         releaseYear: "Udgivelsesår",
         album: "Album",
         artists: "Kunstnere",
-        isSingle: "Er single",
         folder: "Mappe",
         lyrics: "Tekst"
       },

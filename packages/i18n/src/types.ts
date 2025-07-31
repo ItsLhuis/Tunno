@@ -70,7 +70,6 @@ export type Translations = {
       releaseYear: string
       album: string
       artists: string
-      isSingle: string
       folder: string
       lyrics: string
     }
