@@ -27,17 +27,20 @@ export const createInsertSongSchema = (t: TFunction) => {
           })
         }
       ),
-    file: z.string(t("validation.file.required")).refine(
-      (value) => {
-        const ext = value.split(".").pop()?.toLowerCase()
-        return ext !== undefined && VALID_SONG_FILE_EXTENSIONS.includes(ext)
-      },
-      {
-        message: t("form.descriptions.supportedFormats", {
-          formats: VALID_SONG_FILE_EXTENSIONS.join(", ")
-        })
-      }
-    ),
+    file: z
+      .string(t("validation.file.required"))
+      .min(1, { message: t("validation.file.required") })
+      .refine(
+        (value) => {
+          const ext = value.split(".").pop()?.toLowerCase()
+          return ext !== undefined && VALID_SONG_FILE_EXTENSIONS.includes(ext)
+        },
+        {
+          message: t("form.descriptions.supportedFormats", {
+            formats: VALID_SONG_FILE_EXTENSIONS.join(", ")
+          })
+        }
+      ),
     duration: z
       .number(t("validation.duration.required"))
       .int()
