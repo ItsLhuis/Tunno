@@ -6,18 +6,19 @@
     "apps/*",
     "packages/*"
   ],
+  "license": "MIT",
+  "author": "ItsLhuis",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:desktop": "turbo run dev --filter=@tunno/desktop",
     "dev:mobile": "turbo run dev --filter=@tunno/mobile",
     "dev:web": "turbo run dev --filter=@tunno/web",
-    "start": "turbo run start",
-    "lint": "turbo run lint",
-    "test": "turbo run test"
+    "start": "turbo run start"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0"
   },
   "packageManager": "yarn@1.22.22",
   "devDependencies": {
