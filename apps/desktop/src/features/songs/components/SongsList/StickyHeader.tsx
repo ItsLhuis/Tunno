@@ -6,7 +6,7 @@ import { IconButton, StickyHeader, Typography } from "@components/ui"
 
 import { type SongWithRelations } from "@repo/api"
 
-const StickyHeaderComponent = (table: Table<SongWithRelations>) => {
+const StickyHeaderComponent = ({ table }: { table: Table<SongWithRelations> }) => {
   const { t } = useTranslation()
 
   const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
@@ -34,4 +34,3 @@ const StickyHeaderComponent = (table: Table<SongWithRelations>) => {
 }
 
 export { StickyHeaderComponent }
-

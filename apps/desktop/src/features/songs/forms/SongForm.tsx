@@ -148,6 +148,7 @@ const SongForm = ({ song, mode = "insert", onSubmit, children }: SongFormProps) 
                   <FormLabel>{t("form.labels.file")}</FormLabel>
                   <UploadPicker
                     mode="file"
+                    defaultValue={form.formState.defaultValues?.file}
                     onBeforeSelect={async (filePath) => {
                       const durationSeconds = await getAudioDuration(filePath)
                       if (durationSeconds === 0) {

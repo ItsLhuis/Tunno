@@ -19,9 +19,9 @@ const SongsList = () => {
   return (
     <VirtualizedTableGridWithHeaders
       ListEmptyComponent={() => (isLoading ? <Spinner /> : <NotFound />)}
-      HeaderComponent={ListHeader}
-      StickyHeaderComponent={StickyHeaderComponent}
-      ListHeaderComponent={(table) => <SearchComponent table={table} />}
+      HeaderComponent={({ table }) => <ListHeader table={table} />}
+      StickyHeaderComponent={({ table }) => <StickyHeaderComponent table={table} />}
+      ListHeaderComponent={({ table }) => <SearchComponent table={table} />}
       containerClassName="overflow-x-hidden"
       columns={columns(t, i18n.language)}
       data={data ?? []}

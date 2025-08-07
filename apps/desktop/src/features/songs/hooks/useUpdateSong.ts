@@ -14,8 +14,16 @@ export function useUpdateSong() {
   const { t } = useTranslation()
 
   return useMutation({
-    mutationFn: ({ id, updates }: { id: number; updates: Parameters<typeof updateSong>[1] }) =>
-      updateSong(id, updates),
+    mutationFn: ({
+      id,
+      updates,
+      thumbnailSourcePath
+    }: {
+      id: Parameters<typeof updateSong>[0]
+      updates: Parameters<typeof updateSong>[1]
+      thumbnailSourcePath?: Parameters<typeof updateSong>[2]
+    }) => updateSong(id, updates, thumbnailSourcePath),
+
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey: songKeys.detailsWithRelations(id) })
       await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })

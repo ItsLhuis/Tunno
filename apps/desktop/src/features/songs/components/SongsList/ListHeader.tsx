@@ -6,7 +6,7 @@ import { Header, IconButton, Typography } from "@components/ui"
 
 import { type SongWithRelations } from "@repo/api"
 
-const ListHeader = (table: Table<SongWithRelations>) => {
+const ListHeader = ({ table }: { table: Table<SongWithRelations> }) => {
   const { t } = useTranslation()
 
   const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
@@ -33,3 +33,4 @@ const ListHeader = (table: Table<SongWithRelations>) => {
 }
 
 export { ListHeader }
+
