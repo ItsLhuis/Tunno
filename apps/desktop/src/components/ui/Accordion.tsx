@@ -2,9 +2,9 @@ import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "reac
 
 import { cn } from "@lib/utils"
 
-import { ChevronDown } from "lucide-react"
-
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
+
+import { Icon } from "@components/ui/Icon"
 
 const Accordion = AccordionPrimitive.Root
 
@@ -29,7 +29,10 @@ const AccordionTrigger = forwardRef<
       {...props}
     >
       {children}
-      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
+      <Icon
+        name="ChevronDown"
+        className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"
+      />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))

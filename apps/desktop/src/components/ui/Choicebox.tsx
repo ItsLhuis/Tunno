@@ -4,11 +4,10 @@ import { type ComponentProps, type HTMLAttributes } from "react"
 
 import { cn } from "@lib/utils"
 
-import { CircleIcon } from "lucide-react"
-
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/Card"
+import { Icon } from "@components/ui/Icon"
 import { RadioGroup } from "@components/ui/RadioGroup"
 
 const Choicebox = ({ className, ...props }: ComponentProps<typeof RadioGroup>) => (
@@ -72,8 +71,8 @@ const ChoiceboxItemIndicator = ({
   className,
   ...props
 }: ComponentProps<typeof RadioGroupPrimitive.Indicator>) => (
-  <RadioGroupPrimitive.Indicator asChild {...props}>
-    <CircleIcon className={cn("size-2 fill-primary", className)} />
+  <RadioGroupPrimitive.Indicator {...props}>
+    <Icon name="Circle" className={cn("size-2 fill-primary", className)} />
   </RadioGroupPrimitive.Indicator>
 )
 

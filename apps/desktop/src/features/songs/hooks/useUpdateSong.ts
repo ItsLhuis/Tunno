@@ -23,7 +23,6 @@ export function useUpdateSong() {
       updates: Parameters<typeof updateSong>[1]
       thumbnailSourcePath?: Parameters<typeof updateSong>[2]
     }) => updateSong(id, updates, thumbnailSourcePath),
-
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey: songKeys.detailsWithRelations(id) })
       await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })

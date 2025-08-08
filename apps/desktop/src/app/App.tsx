@@ -7,7 +7,7 @@ import { useTranslation } from "@repo/i18n"
 import { relaunch } from "@tauri-apps/plugin-process"
 import { check } from "@tauri-apps/plugin-updater"
 
-import { initializeAppStorage } from "@lib/appStorage"
+import { initializeStorage } from "@services/storage"
 
 import { migrate } from "@database/migrate"
 
@@ -17,7 +17,6 @@ import { BrowserRouter } from "react-router-dom"
 
 import Logo from "@assets/images/app/icons/primary.png"
 
-import { ErrorBoundary } from "@components/core"
 import { Image, toast } from "@components/ui"
 
 import { Footer, Main, Sidebar, Titlebar } from "@app/layout"
@@ -32,10 +31,10 @@ function App() {
   const { i18n, t } = useTranslation()
 
   const prepareApp = async (): Promise<void> => {
-    await initializeAppStorage()
+    await initializeStorage()
     await migrate()
     await setupAudioPlayer()
-    i18n.changeLanguage(language)
+    await i18n.changeLanguage(language)
 
     await new Promise((resolve) => setTimeout(resolve, 500))
   }
@@ -106,21 +105,19 @@ function App() {
         <motion.div className="z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <Titlebar isSplashVisible={!isAppReady} />
         </motion.div>
-        <ErrorBoundary>
-          {isAppReady && (
-            <motion.div
-              className="flex h-full w-full flex-col overflow-hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <div className="flex flex-1 overflow-hidden">
-                <Sidebar />
-                <Main />
-              </div>
-              <Footer />
-            </motion.div>
-          )}
-        </ErrorBoundary>
+        {isAppReady && (
+          <motion.div
+            className="flex h-full w-full flex-col overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <div className="flex flex-1 overflow-hidden">
+              <Sidebar />
+              <Main />
+            </div>
+            <Footer />
+          </motion.div>
+        )}
       </div>
     </BrowserRouter>
   )

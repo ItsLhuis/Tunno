@@ -21,7 +21,7 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
   const checkOverflow = useCallback(() => {
     if (!containerRef.current || !contentRef.current) return
 
-    const containerWidth = containerRef.current.offsetWidth + 32 // Add content padding
+    const containerWidth = containerRef.current.offsetWidth + 32
     const contentWidth = contentRef.current.scrollWidth
     setShouldAnimate(contentWidth > containerWidth)
   }, [])
@@ -53,7 +53,7 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
   useAnimationFrame(() => {
     if (!containerRef.current || !contentRef.current) return
 
-    const containerWidth = containerRef.current.offsetWidth + 32 // Add content padding
+    const containerWidth = containerRef.current.offsetWidth + 32
     const contentWidth = contentRef.current.scrollWidth
     if (contentWidth <= containerWidth && shouldAnimate) {
       setShouldAnimate(false)

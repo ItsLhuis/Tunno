@@ -1,27 +1,26 @@
 import {
-  type ComponentPropsWithoutRef,
   createContext,
-  type ElementRef,
   forwardRef,
-  type HTMLAttributes,
   useContext,
-  useId
+  useId,
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type HTMLAttributes
 } from "react"
 
-import * as LabelPrimitive from "@radix-ui/react-label"
+import { cn } from "@lib/utils"
 
+import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
 
 import {
   Controller,
+  FormProvider,
+  useFormContext,
   type ControllerProps,
   type FieldPath,
-  type FieldValues,
-  FormProvider,
-  useFormContext
+  type FieldValues
 } from "react-hook-form"
-
-import { cn } from "@lib/utils"
 
 import { Label } from "@components/ui/Label"
 
@@ -54,11 +53,11 @@ const useFormField = () => {
   const itemContext = useContext(FormItemContext)
   const { getFieldState, formState } = useFormContext()
 
-  const fieldState = getFieldState(fieldContext.name, formState)
-
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>")
   }
+
+  const fieldState = getFieldState(fieldContext.name, formState)
 
   const { id } = itemContext
 
@@ -89,6 +88,7 @@ const FormItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
     )
   }
 )
+FormItem.displayName = "FormItem"
 
 const FormLabel = forwardRef<
   ElementRef<typeof LabelPrimitive.Root>,
@@ -105,6 +105,7 @@ const FormLabel = forwardRef<
     />
   )
 })
+FormLabel.displayName = "FormLabel"
 
 const FormControl = forwardRef<ElementRef<typeof Slot>, ComponentPropsWithoutRef<typeof Slot>>(
   ({ ...props }, ref) => {
@@ -121,6 +122,7 @@ const FormControl = forwardRef<ElementRef<typeof Slot>, ComponentPropsWithoutRef
     )
   }
 )
+FormControl.displayName = "FormControl"
 
 const FormDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => {
@@ -136,6 +138,7 @@ const FormDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLPara
     )
   }
 )
+FormDescription.displayName = "FormDescription"
 
 const FormMessage = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, children, ...props }, ref) => {
@@ -158,6 +161,7 @@ const FormMessage = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
     )
   }
 )
+FormMessage.displayName = "FormMessage"
 
 export {
   Form,

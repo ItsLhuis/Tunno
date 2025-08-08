@@ -11,7 +11,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/bin/tunno.js",
-    "lint": "prettier --write ."
+    "format": "prettier --write ."
   },
   "keywords": [
     "cli",

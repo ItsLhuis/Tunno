@@ -1,37 +1,25 @@
 import { appDataDir, join } from "@tauri-apps/api/path"
-import { exists, mkdir } from "@tauri-apps/plugin-fs"
 
 export type AppPaths = {
-  songsDir: string
-  thumbnailsDir: string
-  backupsDir: string
+  songs: string
+  thumbnails: string
+  playlists: string
+  temp: string
 }
 
-let appPaths: AppPaths | null = null
+let cachedPaths: AppPaths | null = null
 
 export async function getAppPaths(): Promise<AppPaths> {
-  if (appPaths) return appPaths
+  if (cachedPaths) return cachedPaths
 
-  const localDataDir = await appDataDir()
-
-  appPaths = {
-    songsDir: await join(localDataDir, "songs"),
-    thumbnailsDir: await join(localDataDir, "thumbnails"),
-    backupsDir: await join(localDataDir, "backups")
+  const appDir = await appDataDir()
+  
+  cachedPaths = {
+    songs: await join(appDir, "songs"),
+    thumbnails: await join(appDir, "thumbnails"), 
+    playlists: await join(appDir, "playlists"),
+    temp: await join(appDir, "temp")
   }
 
-  return appPaths
-}
-
-export async function initializeAppStorage(): Promise<void> {
-  const paths = await getAppPaths()
-
-  for (const dir of Object.values(paths)) {
-    if (!(await exists(dir))) await mkdir(dir, { recursive: true })
-  }
-}
-
-export async function getFilePath(directory: keyof AppPaths, fileName: string): Promise<string> {
-  const paths = await getAppPaths()
-  return await join(paths[directory], fileName)
+  return cachedPaths
 }

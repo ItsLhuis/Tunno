@@ -6,6 +6,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type ComponentType,
   type CSSProperties,
   type HTMLAttributes,
   type ReactNode
@@ -43,10 +44,10 @@ import { type SharedScrollContainerProps } from "./types"
 
 export type VirtualizedTableGridWithHeadersProps<TData, TValue> = HTMLAttributes<HTMLDivElement> &
   SharedScrollContainerProps & {
-    HeaderComponent: (table: TanStackTable<TData>) => ReactNode
-    StickyHeaderComponent?: (table: TanStackTable<TData>) => ReactNode
-    ListHeaderComponent?: (table: TanStackTable<TData>) => ReactNode
-    ListEmptyComponent?: () => ReactNode
+    HeaderComponent: ComponentType<{ table: TanStackTable<TData> }>
+    StickyHeaderComponent?: ComponentType<{ table: TanStackTable<TData> }>
+    ListHeaderComponent?: ComponentType<{ table: TanStackTable<TData> }>
+    ListEmptyComponent?: ComponentType
     stickyHeaderContainerClassName?: string
     containerClassName?: string
     columns: ColumnDef<TData, TValue>[]
@@ -184,7 +185,7 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {StickyHeaderComponent(table)}
+              <StickyHeaderComponent table={table} />
               {showTableColumns && (
                 <div className="w-full">
                   {table.getHeaderGroups().map((headerGroup) => (
@@ -221,8 +222,8 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
           )}
         </AnimatePresence>
         <div ref={headerRef}>
-          {HeaderComponent(table)}
-          {ListHeaderComponent && ListHeaderComponent(table)}
+          <HeaderComponent table={table} />
+          {ListHeaderComponent && <ListHeaderComponent table={table} />}
         </div>
         <div
           className={cn(
@@ -275,7 +276,7 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
               {isListEmpty ? (
                 <TableRow className="flex min-h-14 items-center border-none hover:bg-transparent">
                   <TableCell>
-                    {ListEmptyComponent ? ListEmptyComponent() : t("common.noResultsFound")}
+                    {ListEmptyComponent ? <ListEmptyComponent /> : t("common.noResultsFound")}
                   </TableCell>
                 </TableRow>
               ) : (

@@ -9,12 +9,14 @@
   "license": "MIT",
   "author": "ItsLhuis",
   "scripts": {
+    "prepare": "turbo run build --filter=@repo/*",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:desktop": "turbo run dev --filter=@tunno/desktop",
     "dev:mobile": "turbo run dev --filter=@tunno/mobile",
     "dev:web": "turbo run dev --filter=@tunno/web",
-    "start": "turbo run start"
+    "start": "turbo run start",
+    "clean": "rimraf --glob \"**/node_modules\" yarn.lock .turbo \"**/dist\" \"**/src-tauri/target\" \"**/.next\""
   },
   "engines": {
     "node": ">=18.0.0",
@@ -23,6 +25,7 @@
   "packageManager": "yarn@1.22.22",
   "devDependencies": {
     "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
     "turbo": "^2.5.2"
   }
 }

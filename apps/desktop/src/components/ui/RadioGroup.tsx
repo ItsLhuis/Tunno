@@ -1,24 +1,28 @@
-import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from "react"
+import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react"
 
 import { cn } from "@lib/utils"
 
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
+import {
+  Indicator as RadioGroupIndicator,
+  Item as RadioGroupItemPrimitive,
+  Root as RadioGroupRoot
+} from "@radix-ui/react-radio-group"
 
-import { Circle } from "lucide-react"
+import { Icon } from "@components/ui/Icon"
 
 const RadioGroup = forwardRef<
-  ElementRef<typeof RadioGroupPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+  ElementRef<typeof RadioGroupRoot>,
+  ComponentPropsWithoutRef<typeof RadioGroupRoot>
 >(({ className, ...props }, ref) => {
-  return <RadioGroupPrimitive.Root className={cn("grid gap-2", className)} {...props} ref={ref} />
+  return <RadioGroupRoot className={cn("grid gap-2", className)} {...props} ref={ref} />
 })
 
 const RadioGroupItem = forwardRef<
-  ElementRef<typeof RadioGroupPrimitive.Item>,
-  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+  ElementRef<typeof RadioGroupItemPrimitive>,
+  ComponentPropsWithoutRef<typeof RadioGroupItemPrimitive>
 >(({ className, ...props }, ref) => {
   return (
-    <RadioGroupPrimitive.Item
+    <RadioGroupItemPrimitive
       ref={ref}
       className={cn(
         "aspect-square h-4 w-4 cursor-default rounded-full border border-primary text-primary shadow transition-opacity focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
@@ -26,10 +30,10 @@ const RadioGroupItem = forwardRef<
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <Circle className="h-2 w-2 fill-primary" />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
+      <RadioGroupIndicator className="flex items-center justify-center">
+        <Icon name="Circle" className="h-2 w-2 fill-primary" />
+      </RadioGroupIndicator>
+    </RadioGroupItemPrimitive>
   )
 })
 

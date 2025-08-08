@@ -15,7 +15,12 @@ const ScrollArea = forwardRef<
   >
     <ScrollAreaPrimitive.Viewport
       ref={ref}
-      className="h-full w-full rounded-[inherit] [&>div]:h-full"
+      className={cn(
+        "h-full w-full rounded-[inherit] [&>div]:h-full",
+        "[&::-webkit-scrollbar]:hidden",
+        "[-ms-overflow-style:none]",
+        "[scrollbar-width:none]"
+      )}
     >
       {children}
     </ScrollAreaPrimitive.Viewport>

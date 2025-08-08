@@ -18,9 +18,9 @@ import {
   DropdownMenuTrigger,
   Icon,
   IconButton,
-  Image,
   Marquee,
   SafeLink,
+  Thumbnail,
   Typography
 } from "@components/ui"
 
@@ -59,30 +59,31 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
       </div>
     ),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: false,
+    meta: { headerText: t("common.play") }
   },
   {
-    accessorKey: t("common.title"),
+    accessorKey: "name",
     header: t("common.title"),
     cell: ({ row }) => {
+      const song = row.original
+
       return (
         <div className="flex flex-1 items-center gap-3 truncate">
-          <Image src={row.original.thumbnail ?? undefined} alt="thumbnail" />
+          <Thumbnail fileName={song.thumbnail} alt="thumbnail" />
           <div className="w-full truncate">
             <Marquee>
               <Button className="transition-none" variant="link" asChild>
-                <SafeLink to="/favorites">
-                  <Typography className="transition-none">
-                    {row.getValue(t("common.title"))}
-                  </Typography>
+                <SafeLink to={`/songs/${song.id}`}>
+                  <Typography className="truncate transition-none">{song.name}</Typography>
                 </SafeLink>
               </Button>
             </Marquee>
             <Marquee>
               <Button className="transition-none" variant="link" asChild>
-                <SafeLink to="/">
-                  <Typography className="transition-none" affects={["muted", "small"]}>
-                    {row.original.artists.map((artist) => artist.artist.name).join(", ")}
+                <SafeLink to={`/artists`}>
+                  <Typography className="truncate transition-none" affects={["muted", "small"]}>
+                    {song.artists.map((artist) => artist.artist.name).join(", ")}
                   </Typography>
                 </SafeLink>
               </Button>
@@ -91,28 +92,29 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
         </div>
       )
     },
-    enableHiding: false
+    enableHiding: false,
+    meta: { headerText: t("common.title") }
   },
   {
-    accessorKey: t("common.album"),
-    header: t("common.album")
+    accessorKey: "album.name",
+    header: t("common.album"),
+    meta: { headerText: t("common.album") }
   },
   {
-    accessorKey: t("common.date"),
+    accessorKey: "date",
     header: t("common.date"),
-    cell: ({ row }) => formatRelativeDate(row.getValue(t("common.date")), lang, t)
+    cell: ({ row }) => formatRelativeDate(row.getValue("date"), lang, t),
+    meta: { headerText: t("common.date") }
   },
   {
-    accessorKey: t("common.duration"),
+    accessorKey: "duration",
     header: () => <Icon name="Timer" />,
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        <Typography className="truncate transition-none">
-          {row.getValue(t("common.duration"))}
-        </Typography>
+        <Typography className="truncate transition-none">{row.getValue("duration")}</Typography>
       </div>
     ),
-    meta: { className: "flex justify-center" }
+    meta: { className: "flex justify-center", headerText: t("common.duration") }
   },
   {
     id: "options",

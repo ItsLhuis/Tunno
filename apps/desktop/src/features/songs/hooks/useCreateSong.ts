@@ -10,34 +10,27 @@ import { type InsertSongType } from "@repo/schemas"
 
 export function useCreateSong() {
   const queryClient = useQueryClient()
-
   const { t } = useTranslation()
 
   return useMutation({
-    mutationFn: (song: InsertSongType) => {
-      const filePath = song.file
-      const thumbnailPath = song.thumbnail
-
+    mutationFn: async (song: InsertSongType) => {
       const { file, thumbnail, ...rest } = song
-
-      return createSong(rest, filePath, thumbnailPath)
+      const createdSong = await createSong(rest, file, thumbnail)
+      return createdSong
     },
+    onSuccess: (createdSong) => {
+      if (!createdSong) return
 
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })
-    },
-    onSuccess: (song) => {
       toast.success(t("songs.createdTitle"), {
-        description: t("songs.createdDescription", { name: song.name })
+        description: t("songs.createdDescription", { name: createdSong.name })
       })
+
+      queryClient.refetchQueries({ queryKey: songKeys.listWithRelations() })
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast.error(t("songs.createdFailedTitle"), {
         description: error.message
       })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: songKeys.listWithRelations() })
     }
   })
 }
