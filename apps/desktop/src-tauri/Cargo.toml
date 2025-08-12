@@ -15,7 +15,7 @@ name = "tunno_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
-tauri-build = { version = "2.1.0", features = [] }
+tauri-build = { version = "2", features = [] }
 
 [profile.dev]
 incremental = true
@@ -35,17 +35,17 @@ chrono = { version = "0.4.41", features = ["serde"] }
 local-ip-address = "0.6.5"
 symphonia = { version = "0.5.4", features = ["all"] }
 log = "0.4"
-tauri = { version = "2.5.1", features = [ "protocol-asset", "macos-private-api", "tray-icon"] }
-tauri-plugin-shell = "2.2.1"
-tauri-plugin-prevent-default = "1.3.1"
-tauri-plugin-store = "2.2.0"
-tauri-plugin-os = "2.2.1"
-tauri-plugin-sql = { version = "2.2.0", features = ["sqlite"] }
-tauri-plugin-fs = "2.2.1"
-tauri-plugin-process = "2.2.1"
-tauri-plugin-dialog = "2.2.1"
+tauri = { version = "2", features = [ "protocol-asset", "macos-private-api", "tray-icon"] }
+tauri-plugin-shell = "2"
+tauri-plugin-prevent-default = "2.1"
+tauri-plugin-store = "2"
+tauri-plugin-os = "2"
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
+tauri-plugin-fs = "2"
+tauri-plugin-process = "2"
+tauri-plugin-dialog = "2"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
-tauri-plugin-single-instance = "2.2.3"
-tauri-plugin-updater = "2.7.1"
-tauri-plugin-window-state = "2.2.2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-window-state = "2"

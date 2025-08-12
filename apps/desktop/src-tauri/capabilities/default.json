@@ -20,6 +20,8 @@
     "store:allow-get",
     "store:allow-set",
     "shell:allow-open",
+    "dialog:default",
+    "dialog:allow-open",
     "fs:default",
     "fs:allow-stat",
     "fs:allow-copy-file",
@@ -42,8 +44,6 @@
     },
     "sql:default",
     "sql:allow-load",
-    "sql:allow-execute",
-    "dialog:default",
-    "dialog:allow-open"
+    "sql:allow-execute"
   ]
 }
