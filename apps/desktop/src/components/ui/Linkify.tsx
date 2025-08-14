@@ -18,7 +18,7 @@ const Linkify = ({ text, ...props }: LinkifyProps) => {
       {parts.map((part, index) =>
         linkRegex.test(part) ? (
           <Button key={index} variant="link" className="whitespace-normal" asChild>
-            <SafeLink to={part}>{part}</SafeLink>
+            <SafeLink to={part as any}>{part}</SafeLink>
           </Button>
         ) : (
           part

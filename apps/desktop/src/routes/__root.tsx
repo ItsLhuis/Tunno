@@ -1,3 +1,6 @@
+"use client"
+
+import { createRootRoute } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
@@ -7,21 +10,22 @@ import { useTranslation } from "@repo/i18n"
 import { relaunch } from "@tauri-apps/plugin-process"
 import { check } from "@tauri-apps/plugin-updater"
 
+import { migrate } from "@database/migrate"
+import { setupAudioPlayer } from "@services/audio"
 import { initializeStorage } from "@services/storage"
 
-import { migrate } from "@database/migrate"
-
-import { setupAudioPlayer } from "@services/audio"
-
-import Logo from "@assets/images/app/icons/primary.png"
-
-import { Image, toast } from "@components/ui"
-
-import { Footer, Main, Sidebar, Titlebar } from "@app/layout"
+import { Footer, Sidebar, Titlebar } from "@app/layout"
+import { AnimatedOutlet, Image, toast } from "@components/ui"
 
 import { motion } from "motion/react"
 
-function App() {
+import Logo from "@assets/images/app/icons/primary.png"
+
+export const Route = createRootRoute({
+  component: RootComponent
+})
+
+function RootComponent() {
   const [isAppReady, setIsAppReady] = useState<boolean>(false)
 
   const { hasHydrated, language } = useSettingsStore()
@@ -92,7 +96,7 @@ function App() {
           exit={{ opacity: 0 }}
         >
           <Image
-            src={Logo}
+            src={Logo || "/placeholder.svg"}
             alt="App logo"
             containerClassName="bg-transparent border-none rounded-none"
             className="w-20"
@@ -104,13 +108,13 @@ function App() {
       </motion.div>
       {isAppReady && (
         <motion.div
-          className="flex h-full w-full flex-col overflow-hidden"
+          className="flex flex-1 flex-col overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
           <div className="flex flex-1 overflow-hidden">
             <Sidebar />
-            <Main />
+            <AnimatedOutlet />
           </div>
           <Footer />
         </motion.div>
@@ -118,5 +122,3 @@ function App() {
     </div>
   )
 }
-
-export default App

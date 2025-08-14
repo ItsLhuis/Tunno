@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { useRouter, useRouterState } from "@tanstack/react-router"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -23,19 +23,17 @@ import { Titlebar as WindowTitlebar } from "@components/window"
 
 import { motion } from "motion/react"
 
-type TitleBarProps = {
+type TitlebarProps = {
   isSplashVisible: boolean
 }
 
-function TitleBar({ isSplashVisible }: TitleBarProps) {
-  const location = useLocation()
-
-  const navigate = useNavigate()
-
+function Titlebar({ isSplashVisible }: TitlebarProps) {
+  const router = useRouter()
+  const routerState = useRouterState()
   const { t } = useTranslation()
 
-  const canGoBack = window.history.state.idx !== 0
-  const canGoForward = window.history.state.idx < window.history.length - 1
+  const canGoBack = router.history.canGoBack()
+  const canGoForward = router.history.length > routerState.location.state.__TSR_index + 1
 
   const toggleFullScreen = async () => {
     const window = getCurrentWindow()
@@ -67,10 +65,13 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
   }
 
   const generateBreadcrumbs = () => {
-    const pathSegments = location.pathname.split("/").filter(Boolean)
-    const searchParams = new URLSearchParams(location.search)
+    const pathname = routerState.location.pathname
 
-    if (pathSegments.length === 0) return [{ label: t("breadcrumbs.home.title"), path: "/" }]
+    const pathSegments = pathname.split("/").filter(Boolean)
+
+    if (pathSegments.length === 0) {
+      return [{ label: t("breadcrumbs.home.title"), path: "/" }]
+    }
 
     const breadcrumbs = [{ label: t("breadcrumbs.home.title"), path: "/" }]
 
@@ -80,18 +81,6 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
 
       breadcrumbs.push({ label, path })
     })
-
-    if (searchParams.size > 0) {
-      searchParams.forEach((value) => {
-        const queryLabel = getTranslatedLabel(value)
-        const fullPath = location.pathname + location.search
-
-        breadcrumbs.push({
-          label: queryLabel,
-          path: fullPath
-        })
-      })
-    }
 
     return breadcrumbs
   }
@@ -113,14 +102,14 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                 name="ArrowLeft"
                 tooltip={{ children: t("common.goBack"), side: "bottom" }}
                 variant="ghost"
-                onClick={() => navigate(-1)}
+                onClick={() => router.history.go(-1)}
                 disabled={!canGoBack}
               />
               <IconButton
                 name="ArrowRight"
                 tooltip={{ children: t("common.goFoward"), side: "bottom" }}
                 variant="ghost"
-                onClick={() => navigate(1)}
+                onClick={() => router.history.go(1)}
                 disabled={!canGoForward}
               />
             </div>
@@ -142,20 +131,20 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                   <BreadcrumbList data-tauri-drag-region className="gap-0 sm:gap-0">
                     {breadcrumbs.map((breadcrumb, index) => {
                       const isLast = index === breadcrumbs.length - 1
-                      const hasParams = new URLSearchParams(location.search).size > 0
-                      const isSecondToLast = index === breadcrumbs.length - 2
-
-                      const shouldBeNonClickable = hasParams && isSecondToLast
+                      const isNotClickable = breadcrumb.path === "/settings"
 
                       return (
                         <div key={breadcrumb.path} className="flex items-center">
                           <BreadcrumbItem>
-                            {isLast || shouldBeNonClickable ? (
+                            {isLast || isNotClickable ? (
                               <BreadcrumbPage data-tauri-drag-region>
                                 {breadcrumb.label}
                               </BreadcrumbPage>
                             ) : (
-                              <BreadcrumbLink onClick={() => navigate(breadcrumb.path)}>
+                              <BreadcrumbLink
+                                onClick={() => router.navigate({ to: breadcrumb.path })}
+                                className="hover:text-foreground"
+                              >
                                 {breadcrumb.label}
                               </BreadcrumbLink>
                             )}
@@ -194,7 +183,7 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
                 size="icon"
                 asChild
               >
-                <SafeLink to="/settings?tab=appearance">
+                <SafeLink to="/settings/appearance">
                   <Icon name="Settings" />
                 </SafeLink>
               </Button>
@@ -206,4 +195,4 @@ function TitleBar({ isSplashVisible }: TitleBarProps) {
   )
 }
 
-export default TitleBar
+export { Titlebar }

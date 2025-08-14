@@ -1,3 +1,9 @@
+import { createFileRoute } from "@tanstack/react-router"
+
+export const Route = createFileRoute("/")({
+  component: Home
+})
+
 import { useTranslation } from "@repo/i18n"
 
 import { useCreateSong } from "@/features/songs/hooks/useCreateSong"
@@ -44,6 +50,3 @@ function Home() {
     </div>
   )
 }
-
-export { Home }
-

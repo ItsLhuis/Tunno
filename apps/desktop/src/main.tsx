@@ -8,9 +8,12 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { createRouter, RouterProvider } from "@tanstack/react-router"
+import { routeTree } from "./routeTree.gen"
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -21,19 +24,25 @@ const queryClient = new QueryClient({
   }
 })
 
+const router = createRouter({
+  routeTree,
+  context: {
+    queryClient
+  }
+})
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router
+  }
+}
+
 import { ThemeProvider } from "@contexts/ThemeContext"
-
-import { BrowserRouter } from "react-router-dom"
-
-import { MotionConfig } from "motion/react"
-
-import App from "./App"
 
 import { Toaster } from "@components/ui"
 
 import "@repo/i18n"
-
-import "../global.css"
+import "./global.css"
 
 const Main = () => {
   const { hasHydrated } = useSettingsStore()
@@ -52,16 +61,8 @@ const Main = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <MotionConfig
-          transition={{
-            duration: 0.3
-          }}
-        >
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-          <Toaster />
-        </MotionConfig>
+        <RouterProvider router={router} />
+        <Toaster />
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

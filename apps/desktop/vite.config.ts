@@ -1,3 +1,5 @@
+import { tanstackRouter } from "@tanstack/router-plugin/vite"
+
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
@@ -7,7 +9,7 @@ const root = path.resolve(__dirname, "src")
 const host = process.env.TAURI_DEV_HOST
 
 export default defineConfig(async () => ({
-  plugins: [react()],
+  plugins: [tanstackRouter(), react()],
   clearScreen: false,
   server: {
     port: 4535,
@@ -43,6 +45,7 @@ export default defineConfig(async () => ({
       "@features": path.resolve(root, "features/"),
       "@hooks": path.resolve(root, "hooks/"),
       "@lib": path.resolve(root, "lib/"),
+      "@routes": path.resolve(root, "routes/"),
       "@services": path.resolve(root, "services/"),
       "@stores": path.resolve(root, "stores/"),
       "@utils": path.resolve(root, "utils/")

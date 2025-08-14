@@ -1,3 +1,9 @@
+import { createFileRoute } from "@tanstack/react-router"
+
+export const Route = createFileRoute("/favorites")({
+  component: Favorites
+})
+
 import { useTranslation } from "@repo/i18n"
 
 import { Typography } from "@components/ui"
@@ -11,6 +17,3 @@ function Favorites() {
     </div>
   )
 }
-
-export { Favorites }
-

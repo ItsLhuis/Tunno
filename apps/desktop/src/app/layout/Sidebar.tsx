@@ -2,14 +2,14 @@ import { useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useLocation } from "react-router-dom"
+import { useRouterState, type LinkProps } from "@tanstack/react-router"
 
 import { Button, Icon, SafeLink, ScrollArea, type IconProps } from "@components/ui"
 
 type SidebarItem = {
   icon: IconProps["name"]
   label: "home.title" | "songs.title" | "favorites.title" | "playlists.title" | "artists.title"
-  href: string
+  href: LinkProps["to"]
 }
 
 const sidebar: SidebarItem[] = [
@@ -23,9 +23,10 @@ const sidebar: SidebarItem[] = [
 function Sidebar() {
   const { t } = useTranslation()
 
-  const location = useLocation()
+  const routerState = useRouterState()
+  const currentPath = routerState.location.pathname
 
-  const activeIndex = sidebar.findIndex((item) => item.href === location.pathname)
+  const activeIndex = sidebar.findIndex((item) => item.href === currentPath)
   const [lastValidIndex, setLastValidIndex] = useState<number>(activeIndex)
 
   useEffect(() => {
@@ -70,4 +71,5 @@ function Sidebar() {
   )
 }
 
-export default Sidebar
+export { Sidebar }
+

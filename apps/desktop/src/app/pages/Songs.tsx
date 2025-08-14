@@ -4,4 +4,5 @@ function Songs() {
   return <SongsList />
 }
 
-export default Songs
+export { Songs }
+
