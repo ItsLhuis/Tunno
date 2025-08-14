@@ -13,8 +13,6 @@ import { migrate } from "@database/migrate"
 
 import { setupAudioPlayer } from "@services/audio"
 
-import { BrowserRouter } from "react-router-dom"
-
 import Logo from "@assets/images/app/icons/primary.png"
 
 import { Image, toast } from "@components/ui"
@@ -85,41 +83,39 @@ function App() {
   }, [hasHydrated])
 
   return (
-    <BrowserRouter>
-      <div className="relative flex h-dvh w-dvw flex-col bg-background transition-[background-color]">
-        {!isAppReady && (
-          <motion.div
-            className="absolute inset-0 z-40 flex items-center justify-center bg-background"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <Image
-              src={Logo}
-              alt="App logo"
-              containerClassName="bg-transparent border-none rounded-none"
-              className="w-20"
-            />
-          </motion.div>
-        )}
-        <motion.div className="z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <Titlebar isSplashVisible={!isAppReady} />
+    <div className="relative flex h-dvh w-dvw flex-col bg-background transition-[background-color]">
+      {!isAppReady && (
+        <motion.div
+          className="absolute inset-0 z-40 flex items-center justify-center bg-background"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Image
+            src={Logo}
+            alt="App logo"
+            containerClassName="bg-transparent border-none rounded-none"
+            className="w-20"
+          />
         </motion.div>
-        {isAppReady && (
-          <motion.div
-            className="flex h-full w-full flex-col overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <div className="flex flex-1 overflow-hidden">
-              <Sidebar />
-              <Main />
-            </div>
-            <Footer />
-          </motion.div>
-        )}
-      </div>
-    </BrowserRouter>
+      )}
+      <motion.div className="z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <Titlebar isSplashVisible={!isAppReady} />
+      </motion.div>
+      {isAppReady && (
+        <motion.div
+          className="flex h-full w-full flex-col overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar />
+            <Main />
+          </div>
+          <Footer />
+        </motion.div>
+      )}
+    </div>
   )
 }
 

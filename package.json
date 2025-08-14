@@ -16,7 +16,7 @@
     "dev:native": "turbo run dev --filter=@tunno/native",
     "dev:web": "turbo run dev --filter=@tunno/web",
     "start": "turbo run start",
-    "clean": "rimraf --glob \"**/node_modules\" pnpm-lock.yaml .turbo \"**/dist\" \"**/src-tauri/target\" \"**/.next\""
+    "clean": "rimraf --glob **/node_modules pnpm-lock.yaml .turbo **/dist **/src-tauri/target **/.next"
   },
   "engines": {
     "node": ">=18.0.0",

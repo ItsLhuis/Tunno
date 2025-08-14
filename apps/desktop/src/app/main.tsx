@@ -23,6 +23,10 @@ const queryClient = new QueryClient({
 
 import { ThemeProvider } from "@contexts/ThemeContext"
 
+import { BrowserRouter } from "react-router-dom"
+
+import { MotionConfig } from "motion/react"
+
 import App from "./App"
 
 import { Toaster } from "@components/ui"
@@ -48,8 +52,16 @@ const Main = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <App />
-        <Toaster />
+        <MotionConfig
+          transition={{
+            duration: 0.3
+          }}
+        >
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+          <Toaster />
+        </MotionConfig>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
