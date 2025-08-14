@@ -8,8 +8,8 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "tsc --watch --preserveWatchOutput && yarn copy-assets",
-    "build": "tsc && yarn copy-assets",
+    "dev": "tsc --watch --preserveWatchOutput && pnpm copy-assets",
+    "build": "tsc && pnpm copy-assets",
     "copy-assets": "node scripts/dirCopy.js ./src/assets ./dist/assets"
   },
   "dependencies": {

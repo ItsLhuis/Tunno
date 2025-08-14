@@ -7,8 +7,8 @@
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:4535",
-    "beforeDevCommand": "yarn start",
-    "beforeBuildCommand": "yarn build:vite"
+    "beforeDevCommand": "pnpm start",
+    "beforeBuildCommand": "pnpm build:vite"
   },
   "app": {
     "macOSPrivateApi": true,

@@ -12,10 +12,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@repo/api": "*",
-    "@repo/database": "*",
-    "@repo/i18n": "*",
-    "@repo/shared": "*",
+    "@repo/api": "workspace:*",
+    "@repo/database": "workspace:*",
+    "@repo/i18n": "workspace:*",
+    "@repo/shared": "workspace:*",
     "drizzle-zod": "^0.8.2",
     "zod": "^4.0.15"
   },

@@ -54,16 +54,21 @@ Before using **Tunno CLI**, make sure you have the following installed on your s
 
 ### Installation
 
-You can install Tunno CLI directly from npm:
+You can install Tunno CLI directly using your preferred package manager:
 
+**Using npm:**
 ```bash
 npm install -g @tunno/cli
 ```
 
-Or using yarn:
-
+**Using yarn:**
 ```bash
 yarn global add @tunno/cli
+```
+
+**Using pnpm:**
+```bash
+pnpm add -g @tunno/cli
 ```
 
 ---
@@ -223,22 +228,55 @@ If you want to contribute to Tunno CLI, you can set up the development environme
    cd Tunno/apps/cli
    ```
 
-2. Install dependencies:
+2. Install dependencies using your preferred package manager:
 
+   **Using npm:**
+   ```bash
+   npm install
+   ```
+
+   **Using yarn:**
    ```bash
    yarn install
    ```
 
+   **Using pnpm:**
+   ```bash
+   pnpm install
+   ```
+
 3. Build the TypeScript project:
 
+   **Using npm:**
+   ```bash
+   npm run build
+   ```
+
+   **Using yarn:**
    ```bash
    yarn build
    ```
 
+   **Using pnpm:**
+   ```bash
+   pnpm build
+   ```
+
 4. For local testing, you can link the package:
 
+   **Using npm:**
+   ```bash
+   npm link
+   ```
+
+   **Using yarn:**
    ```bash
    yarn global add file:$(pwd)
+   ```
+
+   **Using pnpm:**
+   ```bash
+   pnpm link --global
    ```
 
 ---

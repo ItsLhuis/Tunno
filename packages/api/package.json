@@ -12,7 +12,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@repo/database": "*"
+    "@repo/database": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.8.3"
