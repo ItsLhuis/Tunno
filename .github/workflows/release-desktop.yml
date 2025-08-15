@@ -56,17 +56,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-          cache: "pnpm"
 
-      - name: Install PNPM
-        run: npm install -g pnpm@10.14.0
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.14.0
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets:
-            ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' ||
-            '' }}
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2

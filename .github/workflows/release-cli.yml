@@ -78,6 +78,11 @@ jobs:
           node-version: "lts/*"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.14.0
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
