@@ -2,6 +2,8 @@ import { useTranslation } from "@repo/i18n"
 
 import { Table } from "@tanstack/react-table"
 
+import { SongForm } from "../../forms"
+
 import { Header, IconButton, Typography } from "@components/ui"
 
 import { type SongWithRelations } from "@repo/api"
@@ -13,11 +15,15 @@ const ListHeader = ({ table }: { table: Table<SongWithRelations> }) => {
 
   return (
     <Header className="flex items-center gap-3">
-      <IconButton
-        name="Plus"
-        className="[&_svg]:size-5"
-        variant="ghost"
-        tooltip={{ children: "Add song", side: "bottom" }}
+      <SongForm
+        trigger={
+          <IconButton
+            name="Plus"
+            className="[&_svg]:size-5"
+            variant="ghost"
+            tooltip={{ children: t("form.titles.createSong"), side: "bottom" }}
+          />
+        }
       />
       <IconButton
         name="Shuffle"
@@ -33,4 +39,3 @@ const ListHeader = ({ table }: { table: Table<SongWithRelations> }) => {
 }
 
 export { ListHeader }
-

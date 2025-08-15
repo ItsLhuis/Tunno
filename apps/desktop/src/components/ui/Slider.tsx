@@ -41,7 +41,7 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
             <TooltipTrigger asChild>
               <SliderPrimitive.Thumb
                 onBlur={() => setTooltipOpen(false)}
-                className="block h-3 w-3 rounded-full border border-primary/50 bg-primary opacity-0 shadow transition-opacity ease-in-out hover:opacity-100 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 group-hover:opacity-100"
+                className="block h-3 w-3 rounded-full border border-primary/50 bg-primary opacity-0 transition-opacity ease-in-out hover:opacity-100 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 group-hover:opacity-100"
               />
             </TooltipTrigger>
             <TooltipContent>

@@ -24,10 +24,8 @@ export function useDeleteSong() {
         description: t("songs.deletedDescription", { name: song.name })
       })
     },
-    onError: (error) => {
-      toast.error(t("songs.deletedFailedTitle"), {
-        description: error.message
-      })
+    onError: () => {
+      toast.error(t("songs.deletedFailedTitle"))
     },
     onSettled: (_data, _error, { id }) => {
       queryClient.invalidateQueries({ queryKey: songKeys.detailsWithRelations(id) })

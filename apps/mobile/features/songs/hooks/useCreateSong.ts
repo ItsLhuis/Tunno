@@ -23,10 +23,8 @@ export function useCreateSong() {
         description: t("songs.createdDescription", { name: song.name })
       })
     },
-    onError: (error) => {
-      toast.error(t("songs.createdFailedTitle"), {
-        description: error.message
-      })
+    onError: () => {
+      toast.error(t("songs.createdFailedTitle"))
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: songKeys.listWithRelations() })

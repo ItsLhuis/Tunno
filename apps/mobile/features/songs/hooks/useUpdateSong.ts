@@ -25,10 +25,8 @@ export function useUpdateSong() {
         description: t("songs.updatedDescription", { name: song.name })
       })
     },
-    onError: (error) => {
-      toast.error(t("songs.updatedFailedTitle"), {
-        description: error.message
-      })
+    onError: () => {
+      toast.error(t("songs.updatedFailedTitle"))
     },
     onSettled: (_data, _error, { id }) => {
       queryClient.invalidateQueries({ queryKey: songKeys.detailsWithRelations(id) })

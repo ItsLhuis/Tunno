@@ -29,7 +29,7 @@ const ChoiceboxItem = ({
   >
     <Card
       className={cn(
-        "flex flex-row items-center justify-between rounded-md p-4 shadow-none transition-all",
+        "flex flex-row items-center justify-between rounded-md p-4 transition-all",
         className
       )}
     >

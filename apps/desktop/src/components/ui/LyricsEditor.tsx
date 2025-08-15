@@ -69,7 +69,7 @@ const LyricLine = memo(
           onChange={(val) => onTimeChange(index, Math.max(0, val ?? 0))}
           format={formatTime}
           parse={parseTime}
-          className="w-auto"
+          className="w-auto max-w-[40%]"
         />
         <TextInput
           placeholder={placeholder}
