@@ -1,8 +1,8 @@
 import { type Platform } from "@tauri-apps/plugin-os"
 
-import Linux from "./linux/Controls"
-import MacOs from "./macos/Controls"
-import Windows from "./windows/Controls"
+import { Linux } from "./linux/Controls"
+import { MacOs } from "./macos/Controls"
+import { Windows } from "./windows/Controls"
 
 export type ConotrolsProps = {
   platform: Platform
@@ -14,7 +14,7 @@ export type ConotrolsProps = {
   onClose: () => void
 }
 
-function Controls({
+const Controls = ({
   platform,
   isWindowMaximized,
   isWindowFocused,
@@ -22,7 +22,7 @@ function Controls({
   onMaximize,
   onFullSceen,
   onClose
-}: ConotrolsProps) {
+}: ConotrolsProps) => {
   const ControlsComp = (() => {
     switch (platform) {
       case "windows":
@@ -68,4 +68,4 @@ function Controls({
   return ControlsComp
 }
 
-export default Controls
+export { Controls }

@@ -74,7 +74,8 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
           <div className="w-full truncate">
             <Marquee>
               <Button className="transition-none" variant="link" asChild>
-                <SafeLink to={`/songs/${song.id}`}>
+                {/* <SafeLink to={`/songs/${song.id}`}> */}
+                <SafeLink>
                   <Typography className="truncate transition-none">{song.name}</Typography>
                 </SafeLink>
               </Button>

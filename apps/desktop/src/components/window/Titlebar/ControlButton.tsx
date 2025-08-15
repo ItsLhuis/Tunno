@@ -2,7 +2,11 @@ import { type ButtonHTMLAttributes } from "react"
 
 import { cn } from "@lib/utils"
 
-function ControlButton({ className, children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
+const ControlButton = ({
+  className,
+  children,
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       className={cn(

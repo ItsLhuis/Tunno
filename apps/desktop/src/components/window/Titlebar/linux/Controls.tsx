@@ -12,13 +12,13 @@ type LinuxProps = {
   onClose: () => void
 }
 
-function Linux({
+const Linux = ({
   isWindowMaximized,
   isWindowFocused,
   onMinimize,
   onMaximize,
   onClose
-}: LinuxProps) {
+}: LinuxProps) => {
   const linuxButtonClassName = `h-6 w-6 rounded-full [&_svg]:size-auto ${
     isWindowFocused
       ? "bg-[#dadada] text-black dark:bg-[#373737] dark:text-white hover:bg-[#d1d1d1] active:bg-[#bfbfbf] dark:hover:bg-[#424242] dark:active:bg-[#565656] focus-visible:bg-[#d1d1d1] dark:focus-visible:bg-[#424242]"
@@ -48,4 +48,4 @@ function Linux({
   )
 }
 
-export default Linux
+export { Linux }

@@ -7,7 +7,7 @@ import { listen } from "@tauri-apps/api/event"
 import { getCurrentWindow } from "@tauri-apps/api/window"
 import { platform } from "@tauri-apps/plugin-os"
 
-import Controls from "./Controls"
+import { Controls } from "./Controls"
 
 export type TitlebarProps = HTMLAttributes<HTMLDivElement> & {
   children?: ReactNode

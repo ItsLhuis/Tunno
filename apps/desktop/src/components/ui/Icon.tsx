@@ -1,5 +1,3 @@
-"use client"
-
 import { type ComponentType } from "react"
 
 import * as LucideIcons from "lucide-react"
@@ -12,7 +10,7 @@ export type IconProps = LucideProps & {
   isFilled?: boolean
 }
 
-function Icon({ name, isFilled = false, className }: IconProps) {
+const Icon = ({ name, isFilled = false, className }: IconProps) => {
   const LucideIcon = (LucideIcons[name] ?? LucideIcons["Info"]) as ComponentType<LucideProps>
 
   return (

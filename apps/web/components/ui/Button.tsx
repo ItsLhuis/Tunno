@@ -45,11 +45,10 @@ type ButtonProps = ComponentProps<"button"> &
     tooltip?: string | ComponentProps<typeof TooltipContent>
   }
 
-function Button({ className, variant, size, asChild = false, tooltip, ...props }: ButtonProps) {
+const Button = ({ className, variant, size, asChild = false, tooltip, ...props }: ButtonProps) => {
   const Comp = asChild ? Slot : "button"
 
   const button = (
-    // @ts-ignore
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}

@@ -11,7 +11,7 @@ type WindowsProps = {
   onClose: () => void
 }
 
-function Windows({ isWindowMaximized, onMinimize, onMaximize, onClose }: WindowsProps) {
+const Windows = ({ isWindowMaximized, onMinimize, onMaximize, onClose }: WindowsProps) => {
   const windowsButtonClassName =
     "h-full w-[46px] flex items-center justify-center hover:bg-accent active:bg-accent/70 focus-visible:bg-accent [&_svg]:size-auto"
 
@@ -40,4 +40,4 @@ function Windows({ isWindowMaximized, onMinimize, onMaximize, onClose }: Windows
   )
 }
 
-export default Windows
+export { Windows }

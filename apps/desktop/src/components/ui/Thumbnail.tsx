@@ -15,7 +15,7 @@ const Thumbnail = ({ fileName, containerClassName, className, ...props }: Thumbn
   const [src, setSrc] = useState<string | null>(null)
 
   useEffect(() => {
-    async function load() {
+    const load = async () => {
       if (!fileName) {
         setSrc(null)
         return

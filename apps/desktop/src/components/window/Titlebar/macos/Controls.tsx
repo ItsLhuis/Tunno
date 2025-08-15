@@ -13,7 +13,7 @@ type MacOsProps = {
   onMaximize: () => void
 }
 
-function MacOs({ onClose, onMinimize, onFullSceen, onMaximize }: MacOsProps) {
+const MacOs = ({ onClose, onMinimize, onFullSceen, onMaximize }: MacOsProps) => {
   const [isAltKeyPressed, setIsAltKeyPressed] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -71,4 +71,4 @@ function MacOs({ onClose, onMinimize, onFullSceen, onMaximize }: MacOsProps) {
   )
 }
 
-export default MacOs
+export { MacOs }

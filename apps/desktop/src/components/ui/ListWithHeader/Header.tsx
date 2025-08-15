@@ -2,13 +2,13 @@ import { cn } from "@lib/utils"
 
 import { type HeaderProps, type StickyHeaderProps } from "./types"
 
-function Header({
+const Header = ({
   containerClassName,
   SurfaceComponent,
   className,
   children,
   ...props
-}: HeaderProps) {
+}: HeaderProps) => {
   return (
     <div className={containerClassName}>
       {SurfaceComponent && SurfaceComponent()}
@@ -19,7 +19,7 @@ function Header({
   )
 }
 
-function StickyHeader({ className, children, ...props }: StickyHeaderProps) {
+const StickyHeader = ({ className, children, ...props }: StickyHeaderProps) => {
   return (
     <div className={cn("pt-9", className)} {...props}>
       {children}
