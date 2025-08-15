@@ -40,7 +40,6 @@
     "@tanstack/react-router": "^1.131.10",
     "@tanstack/react-table": "^8.20.6",
     "@tanstack/react-virtual": "^3.11.2",
-    "@tanstack/router": "0.0.1-beta.53",
     "@tauri-apps/api": "^2.6.0",
     "@tauri-apps/plugin-dialog": "~2.3.1",
     "@tauri-apps/plugin-fs": "~2.4.0",
