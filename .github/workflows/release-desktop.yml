@@ -22,13 +22,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build changelog
-        id: build_changelog
+      - name: Extract version without prefix
+        id: extract_version
         run: |
-          PREV_TAG=$(git tag --list 'desktop/v*' --sort=-creatordate | tail -n2 | head -n1)
-          echo "changelog=$(git log $PREV_TAG...${{ github.ref_name }} --pretty=format:"- %s")" >> $GITHUB_OUTPUT
+          TAG="${{ github.ref_name }}"
+          VERSION=${TAG#desktop/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Read changelog
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_level: warn
+          version: ${{ steps.extract_version.outputs.version }}
+          path: ./apps/desktop/CHANGELOG.md
+
     outputs:
-      changelog: ${{ steps.build_changelog.outputs.changelog }}
+      changelog: ${{ steps.changelog_reader.outputs.changes }}
+      version: ${{ steps.extract_version.outputs.version }}
 
   release:
     strategy:
@@ -65,7 +77,9 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          targets:
+            ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' ||
+            '' }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
@@ -80,11 +94,11 @@ jobs:
 
       - name: Install dependencies & build monorepo
         run: |
-          cd ../../  # Move to the root of the monorepo
+          cd ../../
           pnpm install --no-frozen-lockfile
           pnpm add -g turbo
           pnpm turbo run build --filter='@repo/*'
-          cd apps/desktop  # Return to desktop directory
+          cd apps/desktop
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
@@ -97,17 +111,46 @@ jobs:
         with:
           projectPath: apps/desktop
           tagName: ${{ github.ref_name }}
-          releaseName: "${{ env.APP_NAME }} v__VERSION__"
-          releaseBody: |
-            ## Release Notes for ${{ env.APP_NAME }} v__VERSION__
-
-            ${{ needs.changelog.outputs.changelog && '### Changelog' }}
-            ${{ needs.changelog.outputs.changelog }}
-
-            ### Installation
-            Download the appropriate installer from the assets below.
-
-            Thank you for using ${{ env.APP_NAME }}!
+          releaseName: "${{ env.APP_NAME }} v${{ needs.changelog.outputs.version }}"
+          releaseBody: ${{ needs.changelog.outputs.changelog }}
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
+
+  update-latest-json:
+    runs-on: ubuntu-latest
+    needs: [release]
+    if: ${{ github.ref_type == 'tag' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download latest.json from release
+        run: |
+          RELEASE_ID=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.ref_name }}" \
+            | jq -r '.id')
+
+          curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID/assets" \
+            | jq -r '.[] | select(.name == "latest.json") | .browser_download_url' \
+            | head -n 1 \
+            | xargs curl -L -o latest.json
+
+      - name: Update updates branch
+        if: ${{ hashFiles('latest.json') != '' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout updates
+          mkdir -p desktop
+          cp latest.json desktop/latest.json
+          git add desktop/latest.json
+          git commit -m "Update latest.json for ${{ github.ref_name }}"
+          git push origin updates
