@@ -81,7 +81,8 @@ jobs:
       - name: Install dependencies & build monorepo
         run: |
           cd ../../  # Move to the root of the monorepo
-          pnpm install --frozen-lockfile
+          pnpm install --no-frozen-lockfile
+          pnpm add -g turbo
           pnpm turbo run build --filter='@repo/*'
           cd apps/desktop  # Return to desktop directory
 
