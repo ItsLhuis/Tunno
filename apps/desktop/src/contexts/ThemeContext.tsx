@@ -11,7 +11,7 @@ type ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined)
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { theme, setTheme } = useSettingsStore()
 
   useEffect(() => {
@@ -44,10 +44,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>
 }
 
-export const useTheme = () => {
+const useTheme = () => {
   const context = useContext(ThemeProviderContext)
 
   if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider")
 
   return context
 }
+
+export { ThemeProvider, useTheme }

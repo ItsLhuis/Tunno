@@ -2,7 +2,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { Typography } from "@components/ui"
 
-function Sync() {
+const Sync = () => {
   const { t } = useTranslation()
 
   return (

@@ -20,7 +20,7 @@ const sidebar: SidebarItem[] = [
   { icon: "Users", label: "artists.title", href: "/artists" }
 ] as const
 
-function Sidebar() {
+const Sidebar = () => {
   const { t } = useTranslation()
 
   const routerState = useRouterState()
@@ -72,4 +72,3 @@ function Sidebar() {
 }
 
 export { Sidebar }
-

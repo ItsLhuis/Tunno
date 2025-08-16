@@ -25,7 +25,7 @@ const Titlebar = forwardRef<HTMLDivElement, TitlebarProps>(
     const [isWindowFocused, setIsWindowFocused] = useState<boolean>(false)
 
     useEffect(() => {
-      async function initializeTitlebarState() {
+      const initializeTitlebarState = async () => {
         const maximized = await getCurrentWindow().isMaximized()
         setIsWindowMaximized(maximized)
 

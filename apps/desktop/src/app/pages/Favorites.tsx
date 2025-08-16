@@ -2,7 +2,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { Typography } from "@components/ui"
 
-function Favorites() {
+const Favorites = () => {
   const { t } = useTranslation()
 
   return (
@@ -13,4 +13,3 @@ function Favorites() {
 }
 
 export { Favorites }
-

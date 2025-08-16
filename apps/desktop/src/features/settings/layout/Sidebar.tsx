@@ -39,7 +39,7 @@ const sidebar: SidebarItem[] = [
   }
 ] as const
 
-function Sidebar() {
+const Sidebar = () => {
   const { t } = useTranslation()
 
   const routerState = useRouterState()

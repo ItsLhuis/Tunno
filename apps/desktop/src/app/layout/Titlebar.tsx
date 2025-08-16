@@ -27,7 +27,7 @@ type TitlebarProps = {
   isSplashVisible: boolean
 }
 
-function Titlebar({ isSplashVisible }: TitlebarProps) {
+const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   const router = useRouter()
   const routerState = useRouterState()
   const { t } = useTranslation()

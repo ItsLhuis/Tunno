@@ -20,7 +20,7 @@ import {
 
 import { SettingButton, type SettingButtonProps } from "@features/settings/components/ui"
 
-function Language() {
+const Language = () => {
   const { t } = useTranslation()
 
   const { setLanguage, language } = useSettingsStore()

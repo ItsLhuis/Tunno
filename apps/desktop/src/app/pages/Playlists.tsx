@@ -2,7 +2,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { Typography } from "@components/ui"
 
-function Playlists() {
+const Playlists = () => {
   const { t } = useTranslation()
 
   return (
@@ -13,4 +13,3 @@ function Playlists() {
 }
 
 export { Playlists }
-

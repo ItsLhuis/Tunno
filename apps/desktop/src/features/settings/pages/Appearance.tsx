@@ -1,3 +1,5 @@
+import { type ReactElement } from "react"
+
 import { useTheme } from "@contexts/ThemeContext"
 
 import { useTranslation } from "@repo/i18n"
@@ -18,12 +20,20 @@ import {
 
 import { SettingButton, type SettingButtonProps } from "@features/settings/components/ui"
 
-function Appearance() {
+type ThemeValue = "light" | "dark" | "system"
+
+type ThemeOption = {
+  value: ThemeValue
+  name: string
+  icon: ReactElement
+}
+
+const Appearance = () => {
   const { t } = useTranslation()
 
   const { theme, setTheme } = useTheme()
 
-  const themes = [
+  const themes: ThemeOption[] = [
     {
       value: "light",
       name: t("settings.appearance.light"),

@@ -2,7 +2,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { Typography } from "@components/ui"
 
-function Home() {
+const Home = () => {
   const { t } = useTranslation()
 
   return (

@@ -1,8 +1,7 @@
 import { SongsList } from "@features/songs/components/SongsList/SongsList"
 
-function Songs() {
+const Songs = () => {
   return <SongsList />
 }
 
 export { Songs }
-
