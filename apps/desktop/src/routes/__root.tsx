@@ -11,6 +11,7 @@ import { relaunch } from "@tauri-apps/plugin-process"
 import { check } from "@tauri-apps/plugin-updater"
 
 import { migrate } from "@database/migrate"
+
 import { setupAudioPlayer } from "@services/audio"
 import { initializeStorage } from "@services/storage"
 
