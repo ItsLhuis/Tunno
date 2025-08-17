@@ -6,11 +6,11 @@ import Link from "next/link"
 import { ArrowRight, Menu } from "lucide-react"
 
 import {
-  BlurFade,
   Button,
   Drawer,
   DrawerContent,
   DrawerTrigger,
+  InView,
   ResizableNavbar
 } from "@components/ui"
 
@@ -46,16 +46,16 @@ const Navbar = () => {
 
   return (
     <ResizableNavbar className="flex items-center px-4">
-      <BlurFade>
+      <InView once>
         <Image
           src={navbarConfig.logo.src}
           alt={navbarConfig.logo.alt}
           width={navbarConfig.logo.width}
           height={navbarConfig.logo.height}
         />
-      </BlurFade>
+      </InView>
       <nav className="absolute left-1/2 hidden -translate-x-1/2 transform lg:flex">
-        <BlurFade>
+        <InView once>
           <ul className="flex items-center space-x-6">
             {navbarConfig.links.map((link, index) => (
               <li key={index}>
@@ -65,24 +65,24 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-        </BlurFade>
+        </InView>
       </nav>
       <div className="ml-auto hidden items-center lg:flex">
-        <BlurFade>
+        <InView once>
           <Button size="sm" asChild>
             <Link href={navbarConfig.cta.href}>
               {navbarConfig.cta.label} <navbarConfig.cta.icon />
             </Link>
           </Button>
-        </BlurFade>
+        </InView>
       </div>
       <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
         <DrawerTrigger asChild>
-          <BlurFade>
+          <InView once>
             <Button variant="ghost" size="icon" className="flex lg:hidden">
               <Menu />
             </Button>
-          </BlurFade>
+          </InView>
         </DrawerTrigger>
         <DrawerContent>
           <div className="space-y-4 p-6">
@@ -114,3 +114,4 @@ const Navbar = () => {
 }
 
 export { Navbar }
+

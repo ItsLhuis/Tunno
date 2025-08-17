@@ -73,7 +73,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
     return (
       <div
         className={cn(
-          "overflow-hidden rounded border border-muted bg-muted",
+          "overflow-hidden rounded-md border border-muted bg-muted",
           containerClassName,
           "relative shrink-0 overflow-hidden transition-colors"
         )}

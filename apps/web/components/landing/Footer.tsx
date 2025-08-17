@@ -3,13 +3,13 @@ import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 
-import { AuroraText, BlurFade, Button, ThemeSwitcher } from "@components/ui"
+import { AuroraText, Button, InView, ThemeSwitcher } from "@components/ui"
 
 const Footer = () => {
   const { theme, setTheme } = useTheme()
 
   return (
-    <BlurFade>
+    <InView once>
       <footer className="border-border relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center border-t bg-[radial-gradient(35%_128px_at_50%_0%,oklch(from_var(--primary)_l_c_h_/_0.2),transparent)] px-6 pt-16 pb-8 md:pb-0 lg:px-8 lg:pt-32">
         <div className="bg-primary absolute top-0 right-1/2 left-1/2 h-1.5 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full" />
         <div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
@@ -153,7 +153,7 @@ const Footer = () => {
         </div>
         <AuroraText className="mt-16 pb-20 text-center text-7xl md:text-9xl">Tunno</AuroraText>
       </footer>
-    </BlurFade>
+    </InView>
   )
 }
 
