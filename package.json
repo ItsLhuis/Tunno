@@ -16,7 +16,7 @@
     "dev:mobile": "turbo run dev --filter=@tunno/mobile",
     "dev:web": "turbo run dev --filter=@tunno/web",
     "start": "turbo run start",
-    "clean": "git clean -fd"
+    "clean": "git clean -fdX"
   },
   "engines": {
     "node": ">=18.0.0",
