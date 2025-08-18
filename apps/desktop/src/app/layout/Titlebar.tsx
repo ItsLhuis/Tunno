@@ -14,14 +14,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
+  Fade,
   Icon,
   IconButton,
   Image,
   SafeLink
 } from "@components/ui"
 import { Titlebar as WindowTitlebar } from "@components/window"
-
-import { motion } from "motion/react"
 
 type TitlebarProps = {
   isSplashVisible: boolean
@@ -119,76 +118,63 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
               containerClassName="bg-transparent border-none rounded-none"
               className="aspect-auto w-4"
             />
-            {!isSplashVisible && (
-              <motion.div
-                className="ml-3 w-full rounded-md bg-muted p-2 px-3 text-sm transition-[background-color]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                data-tauri-drag-region
-              >
-                <Breadcrumb data-tauri-drag-region>
-                  <BreadcrumbList data-tauri-drag-region className="gap-0 sm:gap-0">
-                    {breadcrumbs.map((breadcrumb, index) => {
-                      const isLast = index === breadcrumbs.length - 1
-                      const isNotClickable = breadcrumb.path === "/settings"
-
-                      return (
-                        <div key={breadcrumb.path} className="flex items-center">
-                          <BreadcrumbItem>
-                            {isLast || isNotClickable ? (
-                              <BreadcrumbPage data-tauri-drag-region>
-                                {breadcrumb.label}
-                              </BreadcrumbPage>
-                            ) : (
-                              <BreadcrumbLink
-                                onClick={() => router.navigate({ to: breadcrumb.path })}
-                                className="hover:text-foreground"
-                              >
-                                {breadcrumb.label}
-                              </BreadcrumbLink>
-                            )}
-                          </BreadcrumbItem>
-                          {index < breadcrumbs.length - 1 && (
-                            <BreadcrumbSeparator className="mx-2" />
-                          )}
-                        </div>
-                      )
-                    })}
-                  </BreadcrumbList>
-                </Breadcrumb>
-              </motion.div>
-            )}
-          </div>
-          {!isSplashVisible && (
-            <motion.div
-              className="ml-3 flex items-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <Fade
+              show={!isSplashVisible}
+              className="ml-3 w-full rounded-md bg-muted p-2 px-3 text-sm transition-[background-color]"
+              data-tauri-drag-region
             >
-              <Button
-                tooltip={{ children: t("fastUpload.title"), side: "bottom" }}
-                variant="ghost"
-                size="icon"
-                asChild
-              >
-                <SafeLink to="/fast-upload">
-                  <Icon name="Zap" />
-                </SafeLink>
-              </Button>
-              <Button
-                tooltip={{ children: t("settings.title"), side: "bottom" }}
-                variant="ghost"
-                size="icon"
-                asChild
-              >
-                <SafeLink to="/settings/appearance">
-                  <Icon name="Settings" />
-                </SafeLink>
-              </Button>
-            </motion.div>
-          )}
+              <Breadcrumb data-tauri-drag-region>
+                <BreadcrumbList data-tauri-drag-region className="gap-0 sm:gap-0">
+                  {breadcrumbs.map((breadcrumb, index) => {
+                    const isLast = index === breadcrumbs.length - 1
+                    const isNotClickable = breadcrumb.path === "/settings"
+
+                    return (
+                      <div key={breadcrumb.path} className="flex items-center">
+                        <BreadcrumbItem>
+                          {isLast || isNotClickable ? (
+                            <BreadcrumbPage data-tauri-drag-region>
+                              {breadcrumb.label}
+                            </BreadcrumbPage>
+                          ) : (
+                            <BreadcrumbLink
+                              onClick={() => router.navigate({ to: breadcrumb.path })}
+                              className="hover:text-foreground"
+                            >
+                              {breadcrumb.label}
+                            </BreadcrumbLink>
+                          )}
+                        </BreadcrumbItem>
+                        {index < breadcrumbs.length - 1 && <BreadcrumbSeparator className="mx-2" />}
+                      </div>
+                    )
+                  })}
+                </BreadcrumbList>
+              </Breadcrumb>
+            </Fade>
+          </div>
+          <Fade show={!isSplashVisible} className="ml-3 flex items-center gap-2">
+            <Button
+              tooltip={{ children: t("fastUpload.title"), side: "bottom" }}
+              variant="ghost"
+              size="icon"
+              asChild
+            >
+              <SafeLink to="/fast-upload">
+                <Icon name="Zap" />
+              </SafeLink>
+            </Button>
+            <Button
+              tooltip={{ children: t("settings.title"), side: "bottom" }}
+              variant="ghost"
+              size="icon"
+              asChild
+            >
+              <SafeLink to="/settings/appearance">
+                <Icon name="Settings" />
+              </SafeLink>
+            </Button>
+          </Fade>
         </div>
       </WindowTitlebar>
     </div>

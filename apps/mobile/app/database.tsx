@@ -125,7 +125,7 @@ export default function Songs() {
             <LottieView
               autoPlay
               loop
-              source={require("@assets/lotties/Load.json")}
+              source={require("@assets/lotties/NotFound.json")}
               style={{ width: "100%", height: "100%", maxHeight: theme.styles.image.size.xLarge }}
             />
           </View>

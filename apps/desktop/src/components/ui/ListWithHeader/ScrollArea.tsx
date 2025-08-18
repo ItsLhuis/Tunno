@@ -4,9 +4,9 @@ import { cn } from "@lib/utils"
 
 import { useScroll } from "./hooks"
 
-import { AnimatePresence, motion } from "motion/react"
+import { Fade } from "@components/ui/Fade"
+import { ScrollArea } from "@components/ui/ScrollArea"
 
-import { ScrollArea } from "../ScrollArea"
 import { SharedScrollContainerProps } from "./types"
 
 type ScrollAreaWithHeadersProps = HTMLAttributes<HTMLDivElement> &
@@ -63,21 +63,16 @@ const ScrollAreaWithHeaders = ({
       style={style}
     >
       <div className={cn("relative flex w-full flex-1 flex-col")}>
-        <AnimatePresence mode="popLayout">
-          {isScrolled && StickyHeaderComponent && (
-            <motion.div
-              className={cn(
-                "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/60 px-9 backdrop-blur transition-[background-color,border-color,padding]",
-                stickyHeaderContainerClassName
-              )}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              {StickyHeaderComponent()}
-            </motion.div>
+        <Fade
+          show={isScrolled && Boolean(StickyHeaderComponent)}
+          mode="popLayout"
+          className={cn(
+            "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/60 px-9 backdrop-blur transition-[background-color,border-color,padding]",
+            stickyHeaderContainerClassName
           )}
-        </AnimatePresence>
+        >
+          {StickyHeaderComponent && StickyHeaderComponent()}
+        </Fade>
         <div ref={headerRef}>
           {HeaderComponent()}
           {ListHeaderComponent && ListHeaderComponent()}

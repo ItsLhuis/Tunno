@@ -29,7 +29,7 @@ const Thumbnail = ({ fileName, containerClassName, className, ...props }: Thumbn
 
   if (!fileName) {
     return (
-      <div className="flex size-14 shrink-0 items-center justify-center rounded bg-muted">
+      <div className="flex size-14 shrink-0 items-center justify-center rounded bg-muted transition-colors">
         <Icon name="Music" className="text-muted-foreground" />
       </div>
     )

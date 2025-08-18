@@ -6,7 +6,7 @@ import { columns } from "./columns"
 
 import { NotFound, Spinner, VirtualizedTableGridWithHeaders } from "@components/ui"
 
-import { ListHeader } from "./ListHeader"
+import { Header } from "./Header"
 import { RowContextMenuContent } from "./RowContextMenu"
 import { SearchComponent } from "./Search"
 import { StickyHeaderComponent } from "./StickyHeader"
@@ -19,7 +19,7 @@ const SongsList = () => {
   return (
     <VirtualizedTableGridWithHeaders
       ListEmptyComponent={() => (isLoading ? <Spinner /> : <NotFound />)}
-      HeaderComponent={({ table }) => <ListHeader table={table} />}
+      HeaderComponent={({ table }) => <Header table={table} />}
       StickyHeaderComponent={({ table }) => <StickyHeaderComponent table={table} />}
       ListHeaderComponent={({ table }) => <SearchComponent table={table} />}
       containerClassName="overflow-x-hidden"

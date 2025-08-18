@@ -35,10 +35,9 @@ import {
 } from "@tanstack/react-table"
 
 import { ContextMenu, ContextMenuTrigger } from "@components/ui/ContextMenu"
+import { Fade } from "@components/ui/Fade"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { Table, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/Table"
-
-import { AnimatePresence, motion } from "motion/react"
 
 import { type SharedScrollContainerProps } from "./types"
 
@@ -174,53 +173,48 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
   return (
     <ScrollArea ref={scrollRef} className={cn("h-full w-full flex-1", containerClassName)}>
       <div className={cn("relative flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
-        <AnimatePresence mode="popLayout">
-          {isScrolled && StickyHeaderComponent && (
-            <motion.div
-              className={cn(
-                "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/60 px-9 backdrop-blur transition-[background-color,border-color]",
-                stickyHeaderContainerClassName
-              )}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <StickyHeaderComponent table={table} />
-              {showTableColumns && (
-                <div className="w-full">
-                  {table.getHeaderGroups().map((headerGroup) => (
+        <Fade
+          show={isScrolled && Boolean(StickyHeaderComponent)}
+          mode="popLayout"
+          className={cn(
+            "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/60 px-9 backdrop-blur transition-[background-color,border-color]",
+            stickyHeaderContainerClassName
+          )}
+        >
+          {StickyHeaderComponent && <StickyHeaderComponent table={table} />}
+          {showTableColumns && (
+            <div className="w-full">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <div
+                  key={headerGroup.id}
+                  className={cn("grid w-full", rowClassName)}
+                  style={{ gridTemplateColumns: dynamicGridCols, ...rowStyle }}
+                >
+                  {headerGroup.headers.map((header) => (
                     <div
-                      key={headerGroup.id}
-                      className={cn("grid w-full", rowClassName)}
-                      style={{ gridTemplateColumns: dynamicGridCols, ...rowStyle }}
+                      key={header.id}
+                      className={cn(
+                        "flex items-center truncate p-3 font-medium text-muted-foreground",
+                        header.column.columnDef.meta?.className
+                      )}
+                      style={{
+                        width: header.column.columnDef.meta?.width
+                          ? header.column.columnDef.meta?.width
+                          : "100%"
+                      }}
                     >
-                      {headerGroup.headers.map((header) => (
-                        <div
-                          key={header.id}
-                          className={cn(
-                            "flex items-center truncate p-3 font-medium text-muted-foreground",
-                            header.column.columnDef.meta?.className
-                          )}
-                          style={{
-                            width: header.column.columnDef.meta?.width
-                              ? header.column.columnDef.meta?.width
-                              : "100%"
-                          }}
-                        >
-                          <div className="truncate text-sm transition-colors">
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(header.column.columnDef.header, header.getContext())}
-                          </div>
-                        </div>
-                      ))}
+                      <div className="truncate text-sm transition-colors">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                      </div>
                     </div>
                   ))}
                 </div>
-              )}
-            </motion.div>
+              ))}
+            </div>
           )}
-        </AnimatePresence>
+        </Fade>
         <div ref={headerRef}>
           <HeaderComponent table={table} />
           {ListHeaderComponent && <ListHeaderComponent table={table} />}
@@ -266,12 +260,11 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
                 ))}
               </TableHeader>
             )}
-            <motion.tbody
+            <Fade
               key={String(isListEmpty)}
+              as="tbody"
               style={{ height: isListEmpty ? "100%" : `${rowVirtualizer.getTotalSize()}px` }}
               className={cn(isListEmpty && "flex h-full items-center justify-center")}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
             >
               {isListEmpty ? (
                 <TableRow className="flex min-h-14 items-center border-none hover:bg-transparent">
@@ -322,7 +315,7 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
                   )
                 })
               )}
-            </motion.tbody>
+            </Fade>
           </Table>
         </div>
       </div>

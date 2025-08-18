@@ -9,13 +9,33 @@ const PlaybackOptions = () => {
 
   return (
     <div className="flex items-center justify-end gap-2 truncate">
+      <IconButton
+        name="MicVocal"
+        tooltip={t("common.queue")}
+        variant="ghost"
+        className="shrink-0"
+      />
       <PlaybackVolumeControl />
-      <IconButton name="ListMusic" tooltip={t("common.queue")} variant="ghost" />
-      <IconButton name="PictureInPicture2" tooltip={t("common.queue")} variant="ghost" />
-      <IconButton name="Maximize" tooltip={t("common.queue")} variant="ghost" />
+      <IconButton
+        name="ListMusic"
+        tooltip={t("common.queue")}
+        variant="ghost"
+        className="shrink-0"
+      />
+      <IconButton
+        name="PictureInPicture2"
+        tooltip={t("common.queue")}
+        variant="ghost"
+        className="shrink-0"
+      />
+      <IconButton
+        name="Maximize"
+        tooltip={t("common.queue")}
+        variant="ghost"
+        className="shrink-0"
+      />
     </div>
   )
 }
 
 export { PlaybackOptions }
-

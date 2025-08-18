@@ -16,6 +16,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  Fade,
   Icon,
   IconButton,
   Marquee,
@@ -24,9 +25,12 @@ import {
   Typography
 } from "@components/ui"
 
-import { motion } from "motion/react"
+import PlayingLottie from "@assets/lotties/Playing.json"
+import Lottie from "lottie-react"
 
-import { SongWithRelations } from "@repo/api"
+import { formatTime } from "@repo/utils"
+
+import { type SongWithRelations } from "@repo/api"
 
 export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations>[] => [
   {
@@ -54,8 +58,13 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
     id: "media",
     header: () => <IconButton name="Play" className="invisible" />,
     cell: ({ row }) => (
-      <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-        <IconButton name="Play" onClick={() => console.log(row.original.id)} />
+      <div className="relative flex items-center justify-center">
+        <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+          <IconButton name="Play" onClick={() => console.log(row.original.id)} />
+        </div>
+        <Fade show={row.index === 0} className="absolute z-0 size-5">
+          <Lottie animationData={PlayingLottie} className="group-hover:opacity-0" />
+        </Fade>
       </div>
     ),
     enableSorting: false,
@@ -112,7 +121,9 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
     header: () => <Icon name="Timer" />,
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        <Typography className="truncate transition-none">{row.getValue("duration")}</Typography>
+        <Typography className="truncate transition-none">
+          {formatTime(row.getValue("duration"))}
+        </Typography>
       </div>
     ),
     meta: { className: "flex justify-center", headerText: t("common.duration") }
@@ -123,7 +134,7 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
       const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
       return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: hasSelectedRows ? 1 : 0 }}>
+        <Fade show={hasSelectedRows} unmountOnExit={false}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <IconButton name="MoreHorizontal" variant="ghost" disabled={!hasSelectedRows} />
@@ -164,7 +175,7 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-        </motion.div>
+        </Fade>
       )
     },
     cell: ({ row }) => (

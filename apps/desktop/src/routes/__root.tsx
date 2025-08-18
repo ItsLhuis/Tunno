@@ -16,9 +16,7 @@ import { setupAudioPlayer } from "@services/audio"
 import { initializeStorage } from "@services/storage"
 
 import { Footer, Sidebar, Titlebar } from "@app/layout"
-import { AnimatedOutlet, Image, toast } from "@components/ui"
-
-import { motion } from "motion/react"
+import { AnimatedOutlet, Fade, Image, toast } from "@components/ui"
 
 import Logo from "@assets/images/app/icons/primary.png"
 
@@ -89,37 +87,27 @@ function RootComponent() {
 
   return (
     <div className="relative flex h-dvh w-dvw flex-col bg-background transition-[background-color]">
-      {!isAppReady && (
-        <motion.div
-          className="absolute inset-0 z-40 flex items-center justify-center bg-background"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <Image
-            src={Logo || "/placeholder.svg"}
-            alt="App logo"
-            containerClassName="bg-transparent border-none rounded-none"
-            className="w-20"
-          />
-        </motion.div>
-      )}
-      <motion.div className="z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <Fade
+        show={!isAppReady}
+        className="absolute inset-0 z-40 flex items-center justify-center bg-background"
+      >
+        <Image
+          src={Logo || "/placeholder.svg"}
+          alt="App logo"
+          containerClassName="bg-transparent border-none rounded-none"
+          className="w-20"
+        />
+      </Fade>
+      <Fade className="z-50">
         <Titlebar isSplashVisible={!isAppReady} />
-      </motion.div>
-      {isAppReady && (
-        <motion.div
-          className="flex flex-1 flex-col overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <div className="flex flex-1 overflow-hidden">
-            <Sidebar />
-            <AnimatedOutlet />
-          </div>
-          <Footer />
-        </motion.div>
-      )}
+      </Fade>
+      <Fade show={isAppReady} className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-1 overflow-hidden">
+          <Sidebar />
+          <AnimatedOutlet />
+        </div>
+        <Footer />
+      </Fade>
     </div>
   )
 }

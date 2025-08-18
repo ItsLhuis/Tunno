@@ -15,13 +15,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@components/ui/Dialog"
+import { Fade } from "@components/ui/Fade"
 import { IconButton } from "@components/ui/IconButton"
 import { NumberInput } from "@components/ui/NumberInput"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { TextInput } from "@components/ui/TextInput"
 import { Typography } from "@components/ui/Typography"
-
-import { motion } from "motion/react"
 
 type Lyric = {
   text: string
@@ -210,13 +209,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
             </div>
           </div>
           <ScrollArea className="h-[300px]">
-            <motion.div
-              key={String(syncedLines.length === 0)}
-              className="space-y-2 p-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
+            <Fade key={String(syncedLines.length === 0)} className="space-y-2 p-3">
               {syncedLines.length === 0 ? (
                 <Typography affects={["muted", "italic"]}>{t("form.messages.noLyrics")}</Typography>
               ) : (
@@ -239,7 +232,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                   />
                 ))
               )}
-            </motion.div>
+            </Fade>
           </ScrollArea>
         </div>
       </div>
