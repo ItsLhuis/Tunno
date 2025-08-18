@@ -43,7 +43,19 @@ export const chinese: Language = {
       more: "更多",
       select: "选择",
       preview: "预览",
-      close: "关闭"
+      close: "关闭",
+      playback: "播放",
+      playNext: "播放下一首",
+      actions: "操作",
+      addTo: "添加到",
+      playlist: "播放列表",
+      lyrics: "歌词",
+      openMiniplayer: "打开迷你播放器",
+      enterFullScreen: "进入全屏",
+      exitFullScreen: "退出全屏",
+      goToAlbum: "转到专辑",
+      goToArtist: "转到艺术家",
+      shuffleAndPlay: "随机播放"
     },
     form: {
       titles: {

@@ -28,7 +28,7 @@ export const danish: Language = {
       enableRepeatOne: "Aktiver gentag én",
       disableRepeat: "Deaktiver gentagelse",
       mute: "Lydløs",
-      unmute: "Slå lyd til",
+      unmute: "Slå Lyd Til",
       queue: "Kø",
       title: "Titel",
       album: "Album",
@@ -43,7 +43,19 @@ export const danish: Language = {
       more: "Mere",
       select: "Vælg",
       preview: "Forhåndsvisning",
-      close: "Luk"
+      close: "Luk",
+      playback: "Afspilning",
+      playNext: "Afspil næste",
+      actions: "Handlinger",
+      addTo: "Tilføj til",
+      playlist: "Afspilningsliste",
+      lyrics: "Sangtekst",
+      openMiniplayer: "Åbn Miniplayer",
+      enterFullScreen: "Gå til Fuld Skærm",
+      exitFullScreen: "Forlad Fuld Skærm",
+      goToAlbum: "Gå til album",
+      goToArtist: "Gå til kunstner",
+      shuffleAndPlay: "Bland og Afspil"
     },
     form: {
       titles: {

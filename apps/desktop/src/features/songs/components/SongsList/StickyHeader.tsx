@@ -21,7 +21,7 @@ const StickyHeaderComponent = ({ table }: { table: Table<SongWithRelations> }) =
             name="Plus"
             className="[&_svg]:size-5"
             variant="ghost"
-            tooltip={{ children: t("form.titles.createSong"), side: "bottom" }}
+            tooltip={t("form.titles.createSong")}
           />
         }
       />
@@ -30,7 +30,7 @@ const StickyHeaderComponent = ({ table }: { table: Table<SongWithRelations> }) =
         variant="text"
         className="h-11 w-11 [&_svg]:size-5"
         disabled={hasSelectedRows}
-        tooltip={{ children: "Shuffle and play", side: "bottom" }}
+        tooltip={t("common.shuffleAndPlay")}
       />
       <Typography variant="h4" className="truncate">
         {t("songs.title")}

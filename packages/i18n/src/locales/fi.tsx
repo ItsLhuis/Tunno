@@ -28,7 +28,7 @@ export const finnish: Language = {
       enableRepeatOne: "Ota yhden toisto käyttöön",
       disableRepeat: "Poista toisto käytöstä",
       mute: "Mykistä",
-      unmute: "Poista mykistys",
+      unmute: "Poista Mykistys",
       queue: "Jono",
       title: "Otsikko",
       album: "Albumi",
@@ -43,7 +43,19 @@ export const finnish: Language = {
       more: "Lisää",
       select: "Valitse",
       preview: "Esikatselu",
-      close: "Sulje"
+      close: "Sulje",
+      playback: "Toisto",
+      playNext: "Toista seuraava",
+      actions: "Toiminnot",
+      addTo: "Lisää",
+      playlist: "Soittolista",
+      lyrics: "Sanat",
+      openMiniplayer: "Avaa Minisoitin",
+      enterFullScreen: "Siirry Koko Näyttöön",
+      exitFullScreen: "Poistu Koko Näytöstä",
+      goToAlbum: "Siirry albumiin",
+      goToArtist: "Siirry artistiin",
+      shuffleAndPlay: "Sekoita ja Toista"
     },
     form: {
       titles: {

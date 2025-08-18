@@ -28,7 +28,7 @@ export const norwegian: Language = {
       enableRepeatOne: "Slå på gjenta én",
       disableRepeat: "Slå av gjentakelse",
       mute: "Demp",
-      unmute: "Slå på lyd",
+      unmute: "Slå På Lyd",
       queue: "Kø",
       title: "Tittel",
       album: "Album",
@@ -43,7 +43,19 @@ export const norwegian: Language = {
       more: "Mer",
       select: "Velg",
       preview: "Forhåndsvisning",
-      close: "Lukk"
+      close: "Lukk",
+      playback: "Avspilling",
+      playNext: "Spill neste",
+      actions: "Handlinger",
+      addTo: "Legg til",
+      playlist: "Spilleliste",
+      lyrics: "Sangtekst",
+      openMiniplayer: "Åpne Minispiller",
+      enterFullScreen: "Gå til Full Skjerm",
+      exitFullScreen: "Forlat Full Skjerm",
+      goToAlbum: "Gå til album",
+      goToArtist: "Gå til artist",
+      shuffleAndPlay: "Stokk og Spill"
     },
     form: {
       titles: {

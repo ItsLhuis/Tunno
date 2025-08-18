@@ -27,8 +27,8 @@ export const swedish: Language = {
       enableRepeat: "Aktivera upprepning",
       enableRepeatOne: "Aktivera upprepning av en",
       disableRepeat: "Inaktivera upprepning",
-      mute: "Stäng av ljud",
-      unmute: "Slå på ljud",
+      mute: "Stäng Av Ljud",
+      unmute: "Slå På Ljud",
       queue: "Kö",
       title: "Titel",
       album: "Album",
@@ -43,7 +43,19 @@ export const swedish: Language = {
       more: "Mer",
       select: "Välj",
       preview: "Förhandsgranska",
-      close: "Stäng"
+      close: "Stäng",
+      playback: "Uppspelning",
+      playNext: "Spela nästa",
+      actions: "Åtgärder",
+      addTo: "Lägg till",
+      playlist: "Spellista",
+      lyrics: "Låttext",
+      openMiniplayer: "Öppna Minispelare",
+      enterFullScreen: "Gå till Fullskärm",
+      exitFullScreen: "Lämna Fullskärm",
+      goToAlbum: "Gå till album",
+      goToArtist: "Gå till artist",
+      shuffleAndPlay: "Blanda och Spela"
     },
     form: {
       titles: {

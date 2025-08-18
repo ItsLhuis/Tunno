@@ -28,7 +28,7 @@ export const german: Language = {
       enableRepeatOne: "Einzelwiederholung aktivieren",
       disableRepeat: "Wiederholung deaktivieren",
       mute: "Stummschalten",
-      unmute: "Ton einschalten",
+      unmute: "Ton Einschalten",
       queue: "Warteschlange",
       title: "Titel",
       album: "Album",
@@ -43,7 +43,19 @@ export const german: Language = {
       more: "Mehr",
       select: "Auswählen",
       preview: "Vorschau",
-      close: "Schließen"
+      close: "Schließen",
+      playback: "Wiedergabe",
+      playNext: "Nächsten abspielen",
+      actions: "Aktionen",
+      addTo: "Hinzufügen zu",
+      playlist: "Wiedergabeliste",
+      lyrics: "Liedtext",
+      openMiniplayer: "Miniplayer Öffnen",
+      enterFullScreen: "Vollbild Aktivieren",
+      exitFullScreen: "Vollbild Verlassen",
+      goToAlbum: "Zum Album",
+      goToArtist: "Zum Künstler",
+      shuffleAndPlay: "Mischen und Abspielen"
     },
     form: {
       titles: {

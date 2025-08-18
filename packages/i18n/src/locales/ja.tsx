@@ -43,7 +43,19 @@ export const japanese: Language = {
       more: "もっと見る",
       select: "選択",
       preview: "プレビュー",
-      close: "閉じる"
+      close: "閉じる",
+      playback: "再生",
+      playNext: "次を再生",
+      actions: "アクション",
+      addTo: "追加",
+      playlist: "プレイリスト",
+      lyrics: "歌詞",
+      openMiniplayer: "ミニプレーヤーを開く",
+      enterFullScreen: "フルスクリーンに入る",
+      exitFullScreen: "フルスクリーンを終了",
+      goToAlbum: "アルバムに移動",
+      goToArtist: "アーティストに移動",
+      shuffleAndPlay: "シャッフルして再生"
     },
     form: {
       titles: {

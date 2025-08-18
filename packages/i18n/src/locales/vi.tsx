@@ -27,8 +27,8 @@ export const vietnamese: Language = {
       enableRepeat: "Bật lặp lại",
       enableRepeatOne: "Bật lặp lại một",
       disableRepeat: "Tắt lặp lại",
-      mute: "Tắt tiếng",
-      unmute: "Bật tiếng",
+      mute: "Tắt Tiếng",
+      unmute: "Bật Tiếng",
       queue: "Hàng đợi",
       title: "Tiêu đề",
       album: "Album",
@@ -43,7 +43,19 @@ export const vietnamese: Language = {
       more: "Thêm",
       select: "Chọn",
       preview: "Xem trước",
-      close: "Đóng"
+      close: "Đóng",
+      playback: "Phát lại",
+      playNext: "Phát tiếp theo",
+      actions: "Hành động",
+      addTo: "Thêm vào",
+      playlist: "Danh sách phát",
+      lyrics: "Lời bài hát",
+      openMiniplayer: "Mở Trình Phát Nhỏ",
+      enterFullScreen: "Vào Toàn Màn Hình",
+      exitFullScreen: "Thoát Toàn Màn Hình",
+      goToAlbum: "Đến album",
+      goToArtist: "Đến nghệ sĩ",
+      shuffleAndPlay: "Trộn và Phát"
     },
     form: {
       titles: {

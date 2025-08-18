@@ -43,7 +43,19 @@ export const turkish: Language = {
       more: "Daha Fazla",
       select: "Seç",
       preview: "Önizleme",
-      close: "Kapat"
+      close: "Kapat",
+      playback: "Oynatma",
+      playNext: "Sonrakini çal",
+      actions: "Eylemler",
+      addTo: "Ekle",
+      playlist: "Çalma listesi",
+      lyrics: "Şarkı sözü",
+      openMiniplayer: "Miniçalıcıyı Aç",
+      enterFullScreen: "Tam Ekrana Geç",
+      exitFullScreen: "Tam Ekrandan Çık",
+      goToAlbum: "Albüme git",
+      goToArtist: "Sanatçıya git",
+      shuffleAndPlay: "Karıştır ve Çal"
     },
     form: {
       titles: {

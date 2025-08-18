@@ -28,7 +28,7 @@ export const french: Language = {
       enableRepeatOne: "Activer la répétition d'une piste",
       disableRepeat: "Désactiver la répétition",
       mute: "Muet",
-      unmute: "Réactiver le son",
+      unmute: "Activer le Son",
       queue: "File d'attente",
       title: "Titre",
       album: "Album",
@@ -43,7 +43,19 @@ export const french: Language = {
       more: "Plus",
       select: "Sélectionner",
       preview: "Aperçu",
-      close: "Fermer"
+      close: "Fermer",
+      playback: "Lecture",
+      playNext: "Lire suivant",
+      actions: "Actions",
+      addTo: "Ajouter à",
+      playlist: "Liste de lecture",
+      lyrics: "Parole",
+      openMiniplayer: "Ouvrir Minilecteur",
+      enterFullScreen: "Passer en Plein Écran",
+      exitFullScreen: "Quitter le Plein Écran",
+      goToAlbum: "Aller à l'album",
+      goToArtist: "Aller à l'artiste",
+      shuffleAndPlay: "Mélanger et Lire"
     },
     form: {
       titles: {

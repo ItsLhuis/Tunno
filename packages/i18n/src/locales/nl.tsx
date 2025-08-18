@@ -28,7 +28,7 @@ export const dutch: Language = {
       enableRepeatOne: "Eén keer herhalen inschakelen",
       disableRepeat: "Herhalen uitschakelen",
       mute: "Dempen",
-      unmute: "Dempen uitzetten",
+      unmute: "Geluid Aanzetten",
       queue: "Wachtrij",
       title: "Titel",
       album: "Album",
@@ -43,7 +43,19 @@ export const dutch: Language = {
       more: "Meer",
       select: "Selecteren",
       preview: "Voorbeeld",
-      close: "Sluiten"
+      close: "Sluiten",
+      playback: "Afspelen",
+      playNext: "Volgende afspelen",
+      actions: "Acties",
+      addTo: "Toevoegen aan",
+      playlist: "Afspeellijst",
+      lyrics: "Songtekst",
+      openMiniplayer: "Minispeler Openen",
+      enterFullScreen: "Volledig Scherm Activeren",
+      exitFullScreen: "Volledig Scherm Verlaten",
+      goToAlbum: "Ga naar album",
+      goToArtist: "Ga naar artiest",
+      shuffleAndPlay: "Schudden en Afspelen"
     },
     form: {
       titles: {

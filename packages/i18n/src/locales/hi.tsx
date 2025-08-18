@@ -28,7 +28,7 @@ export const hindi: Language = {
       enableRepeatOne: "एक बार दोहराएँ सक्षम करें",
       disableRepeat: "दोहराएँ अक्षम करें",
       mute: "म्यूट करें",
-      unmute: "अनम्यूट करें",
+      unmute: "आवाज़ चालू करें",
       queue: "कतार",
       title: "शीर्षक",
       album: "एल्बम",
@@ -43,7 +43,19 @@ export const hindi: Language = {
       more: "और",
       select: "चुनें",
       preview: "पूर्वावलोकन",
-      close: "बंद करें"
+      close: "बंद करें",
+      playback: "प्लेबैक",
+      playNext: "अगला चलाएं",
+      actions: "क्रियाएं",
+      addTo: "जोड़ें",
+      playlist: "प्लेलिस्ट",
+      lyrics: "गीत का बोल",
+      openMiniplayer: "मिनिप्लेयर खोलें",
+      enterFullScreen: "पूर्ण स्क्रीन में प्रवेश करें",
+      exitFullScreen: "पूर्ण स्क्रीन से बाहर निकलें",
+      goToAlbum: "एल्बम पर जाएं",
+      goToArtist: "कलाकार के पास जाएं",
+      shuffleAndPlay: "शफल करें और चलाएं"
     },
     form: {
       titles: {

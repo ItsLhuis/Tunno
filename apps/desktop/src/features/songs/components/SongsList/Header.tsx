@@ -21,7 +21,7 @@ const Header = ({ table }: { table: Table<SongWithRelations> }) => {
             name="Plus"
             className="[&_svg]:size-5"
             variant="ghost"
-            tooltip={{ children: t("form.titles.createSong"), side: "bottom" }}
+            tooltip={t("form.titles.createSong")}
           />
         }
       />
@@ -29,7 +29,7 @@ const Header = ({ table }: { table: Table<SongWithRelations> }) => {
         name="Shuffle"
         className="h-11 w-11 shrink-0 rounded-full [&_svg]:size-5"
         disabled={hasSelectedRows}
-        tooltip={{ children: "Shuffle and play", side: "bottom" }}
+        tooltip={t("common.shuffleAndPlay")}
       />
       <Typography variant="h1" className="truncate">
         {t("songs.title")}

@@ -43,7 +43,19 @@ export const korean: Language = {
       more: "더 보기",
       select: "선택",
       preview: "미리보기",
-      close: "닫기"
+      close: "닫기",
+      playback: "재생",
+      playNext: "다음 재생",
+      actions: "작업",
+      addTo: "추가",
+      playlist: "재생목록",
+      lyrics: "가사",
+      openMiniplayer: "미니플레이어 열기",
+      enterFullScreen: "전체 화면 진입",
+      exitFullScreen: "전체 화면 종료",
+      goToAlbum: "앨범으로 이동",
+      goToArtist: "아티스트로 이동",
+      shuffleAndPlay: "셔플 및 재생"
     },
     form: {
       titles: {

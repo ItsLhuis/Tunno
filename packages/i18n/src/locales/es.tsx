@@ -28,7 +28,7 @@ export const spanish: Language = {
       enableRepeatOne: "Activar repetición de uno",
       disableRepeat: "Desactivar repetición",
       mute: "Silenciar",
-      unmute: "Activar sonido",
+      unmute: "Activar Sonido",
       queue: "Cola",
       title: "Título",
       album: "Álbum",
@@ -43,7 +43,19 @@ export const spanish: Language = {
       more: "Más",
       select: "Seleccionar",
       preview: "Vista previa",
-      close: "Cerrar"
+      close: "Cerrar",
+      playback: "Reproducción",
+      playNext: "Reproducir siguiente",
+      actions: "Acciones",
+      addTo: "Agregar a",
+      playlist: "Lista de reproducción",
+      lyrics: "Letra",
+      openMiniplayer: "Abrir Minireproductor",
+      enterFullScreen: "Entrar en Pantalla Completa",
+      exitFullScreen: "Salir de Pantalla Completa",
+      goToAlbum: "Ir al álbum",
+      goToArtist: "Ir al artista",
+      shuffleAndPlay: "Mezclar y Reproducir"
     },
     form: {
       titles: {

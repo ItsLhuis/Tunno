@@ -43,7 +43,19 @@ export const english: Language = {
       more: "More",
       select: "Select",
       preview: "Preview",
-      close: "Close"
+      close: "Close",
+      playback: "Playback",
+      playNext: "Play next",
+      actions: "Actions",
+      addTo: "Add to",
+      playlist: "Playlist",
+      lyrics: "Lyrics",
+      openMiniplayer: "Open Miniplayer",
+      enterFullScreen: "Enter Full Screen",
+      exitFullScreen: "Exit Full Screen",
+      goToAlbum: "Go to album",
+      goToArtist: "Go to artist",
+      shuffleAndPlay: "Shuffle and Play"
     },
     form: {
       titles: {

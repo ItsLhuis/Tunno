@@ -27,8 +27,8 @@ export const russian: Language = {
       enableRepeat: "Включить повтор",
       enableRepeatOne: "Включить повтор одного",
       disableRepeat: "Выключить повтор",
-      mute: "Выключить звук",
-      unmute: "Включить звук",
+      mute: "Выключить Звук",
+      unmute: "Включить Звук",
       queue: "Очередь",
       title: "Название",
       album: "Альбом",
@@ -43,7 +43,19 @@ export const russian: Language = {
       more: "Ещё",
       select: "Выбрать",
       preview: "Предпросмотр",
-      close: "Закрыть"
+      close: "Закрыть",
+      playback: "Воспроизведение",
+      playNext: "Воспроизвести следующий",
+      actions: "Действия",
+      addTo: "Добавить в",
+      playlist: "Плейлист",
+      lyrics: "Текст",
+      openMiniplayer: "Открыть Миниплеер",
+      enterFullScreen: "Войти в Полный Экран",
+      exitFullScreen: "Выйти из Полного Экрана",
+      goToAlbum: "Перейти к альбому",
+      goToArtist: "Перейти к исполнителю",
+      shuffleAndPlay: "Перемешать и Воспроизвести"
     },
     form: {
       titles: {

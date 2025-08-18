@@ -47,6 +47,18 @@ export type Translations = {
     select: string
     preview: string
     close: string
+    playback: string
+    playNext: string
+    actions: string
+    addTo: string
+    playlist: string
+    lyrics: string
+    openMiniplayer: string
+    enterFullScreen: string
+    exitFullScreen: string
+    goToAlbum: string
+    goToArtist: string
+    shuffleAndPlay: string
   }
   form: {
     titles: {

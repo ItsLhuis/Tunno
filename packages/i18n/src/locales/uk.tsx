@@ -27,8 +27,8 @@ export const ukrainian: Language = {
       enableRepeat: "Увімкнути повтор",
       enableRepeatOne: "Увімкнути повтор однієї",
       disableRepeat: "Вимкнути повтор",
-      mute: "Вимкнути звук",
-      unmute: "Увімкнути звук",
+      mute: "Вимкнути Звук",
+      unmute: "Увімкнути Звук",
       queue: "Черга",
       title: "Назва",
       album: "Альбом",
@@ -43,7 +43,19 @@ export const ukrainian: Language = {
       more: "Більше",
       select: "Вибрати",
       preview: "Попередній перегляд",
-      close: "Закрити"
+      close: "Закрити",
+      playback: "Відтворення",
+      playNext: "Відтворити наступний",
+      actions: "Дії",
+      addTo: "Додати до",
+      playlist: "Плейлист",
+      lyrics: "Текст",
+      openMiniplayer: "Відкрити Міні-плеєр",
+      enterFullScreen: "Увійти в Повний Екран",
+      exitFullScreen: "Вийти з Повного Екрану",
+      goToAlbum: "Перейти до альбому",
+      goToArtist: "Перейти до виконавця",
+      shuffleAndPlay: "Перемішати та Відтворити"
     },
     form: {
       titles: {

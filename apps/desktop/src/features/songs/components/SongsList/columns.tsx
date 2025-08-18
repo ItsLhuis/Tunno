@@ -1,3 +1,5 @@
+import { Fragment } from "react"
+
 import { type TFunction } from "@repo/i18n"
 
 import { formatRelativeDate } from "@repo/utils"
@@ -140,38 +142,48 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
               <IconButton name="MoreHorizontal" variant="ghost" disabled={!hasSelectedRows} />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Playback</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
               <DropdownMenuItem>
                 <Icon name="Play" />
-                Play
+                {t("common.play")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Icon name="Forward" />
-                Play next
+                {t("common.playNext")}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
                   <Icon name="Plus" />
-                  Add to
+                  {t("common.addTo")}
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem>
                     <Icon name="ListVideo" />
-                    Play queue
+                    {t("common.queue")}
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Icon name="Plus" />
-                    New playlist
+                    {t("common.playlist")}
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               {table.getSelectedRowModel().flatRows.length === 1 && (
-                <DropdownMenuItem>
-                  <Icon name="Edit" />
-                  Edit
-                </DropdownMenuItem>
+                <Fragment>
+                  <DropdownMenuItem>
+                    <Icon name="DiscAlbum" />
+                    {t("common.goToAlbum")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Icon name="User" />
+                    {t("common.goToArtist")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Icon name="Edit" />
+                    {t("form.buttons.update")}
+                  </DropdownMenuItem>
+                </Fragment>
               )}
             </DropdownMenuContent>
           </DropdownMenu>

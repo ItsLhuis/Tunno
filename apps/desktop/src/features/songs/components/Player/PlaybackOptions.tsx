@@ -11,7 +11,7 @@ const PlaybackOptions = () => {
     <div className="flex items-center justify-end gap-2 truncate">
       <IconButton
         name="MicVocal"
-        tooltip={t("common.queue")}
+        tooltip={t("common.lyrics")}
         variant="ghost"
         className="shrink-0"
       />
@@ -24,13 +24,13 @@ const PlaybackOptions = () => {
       />
       <IconButton
         name="PictureInPicture2"
-        tooltip={t("common.queue")}
+        tooltip={t("common.openMiniplayer")}
         variant="ghost"
         className="shrink-0"
       />
       <IconButton
         name="Maximize"
-        tooltip={t("common.queue")}
+        tooltip={t("common.enterFullScreen")}
         variant="ghost"
         className="shrink-0"
       />

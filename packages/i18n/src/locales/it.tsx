@@ -27,8 +27,8 @@ export const italian: Language = {
       enableRepeat: "Abilita ripeti",
       enableRepeatOne: "Abilita ripeti uno",
       disableRepeat: "Disabilita ripeti",
-      mute: "Disattiva audio",
-      unmute: "Attiva audio",
+      mute: "Disattiva Audio",
+      unmute: "Riattiva Audio",
       queue: "Coda",
       title: "Titolo",
       album: "Album",
@@ -43,7 +43,19 @@ export const italian: Language = {
       more: "Altro",
       select: "Seleziona",
       preview: "Anteprima",
-      close: "Chiudi"
+      close: "Chiudi",
+      playback: "Riproduzione",
+      playNext: "Riproduci successivo",
+      actions: "Azioni",
+      addTo: "Aggiungi a",
+      playlist: "Playlist",
+      lyrics: "Testo",
+      openMiniplayer: "Apri Miniplayer",
+      enterFullScreen: "Entra a Schermo Intero",
+      exitFullScreen: "Esci da Schermo Intero",
+      goToAlbum: "Vai all'album",
+      goToArtist: "Vai all'artista",
+      shuffleAndPlay: "Mescola e Riproduci"
     },
     form: {
       titles: {

@@ -28,7 +28,7 @@ export const polish: Language = {
       enableRepeatOne: "Włącz powtarzanie jednego",
       disableRepeat: "Wyłącz powtarzanie",
       mute: "Wycisz",
-      unmute: "Włącz dźwięk",
+      unmute: "Włącz Dźwięk",
       queue: "Kolejka",
       title: "Tytuł",
       album: "Album",
@@ -43,7 +43,19 @@ export const polish: Language = {
       more: "Więcej",
       select: "Wybierz",
       preview: "Podgląd",
-      close: "Zamknij"
+      close: "Zamknij",
+      playback: "Odtwarzanie",
+      playNext: "Odtwórz następny",
+      actions: "Akcje",
+      addTo: "Dodaj do",
+      playlist: "Lista odtwarzania",
+      lyrics: "Tekst",
+      openMiniplayer: "Otwórz Miniodtwarzacz",
+      enterFullScreen: "Przejdź na Pełny Ekran",
+      exitFullScreen: "Wyjdź z Pełnego Ekranu",
+      goToAlbum: "Przejdź do albumu",
+      goToArtist: "Przejdź do artysty",
+      shuffleAndPlay: "Losuj i Odtwarzaj"
     },
     form: {
       titles: {
