@@ -1,5 +1,7 @@
 import { schema, type InferQueryModel } from "@repo/database"
 
+import { type QueryParams } from "../types"
+
 const { songs } = schema
 
 export type SongColumns = keyof typeof songs.$inferSelect
@@ -25,3 +27,5 @@ export type SongWithRelations = InferQueryModel<
 
 export type CreateSong = typeof songs.$inferInsert
 export type UpdateSong = typeof songs.$inferInsert
+
+export type QuerySongsParams = QueryParams<SongColumns>

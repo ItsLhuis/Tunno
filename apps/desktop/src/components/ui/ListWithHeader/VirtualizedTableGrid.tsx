@@ -31,7 +31,7 @@ import {
   SortingState,
   Table as TanStackTable,
   useReactTable,
-  VisibilityState
+  type VisibilityState
 } from "@tanstack/react-table"
 
 import { ContextMenu, ContextMenuTrigger } from "@components/ui/ContextMenu"
@@ -324,3 +324,4 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
 }
 
 export { VirtualizedTableGridWithHeaders }
+

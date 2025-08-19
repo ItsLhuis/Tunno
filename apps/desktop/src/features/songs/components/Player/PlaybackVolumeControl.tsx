@@ -2,14 +2,14 @@ import { useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useSettingsStore } from "@stores/useSettingsStore"
+import { useSongsSettingsStore } from "../../stores/useSongsSettingsStore"
 
 import { IconButton, Slider } from "@components/ui"
 
 const PlaybackVolumeControl = () => {
   const { t } = useTranslation()
 
-  const { volume, setVolume, isMuted, setIsMuted } = useSettingsStore()
+  const { volume, setVolume, isMuted, setIsMuted } = useSongsSettingsStore()
 
   const [localVolume, setLocalVolume] = useState<number>(volume)
 

@@ -4,17 +4,17 @@ import { Table } from "@tanstack/react-table"
 
 import { SongForm } from "../../forms"
 
-import { Header as HeaderUI, IconButton, Typography } from "@components/ui"
+import { Header, IconButton, Typography } from "@components/ui"
 
 import { type SongWithRelations } from "@repo/api"
 
-const Header = ({ table }: { table: Table<SongWithRelations> }) => {
+const HeaderComponent = ({ table }: { table: Table<SongWithRelations> }) => {
   const { t } = useTranslation()
 
   const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
 
   return (
-    <HeaderUI className="flex items-center gap-3">
+    <Header className="flex items-center gap-3">
       <SongForm
         trigger={
           <IconButton
@@ -34,8 +34,8 @@ const Header = ({ table }: { table: Table<SongWithRelations> }) => {
       <Typography variant="h1" className="truncate">
         {t("songs.title")}
       </Typography>
-    </HeaderUI>
+    </Header>
   )
 }
 
-export { Header }
+export { HeaderComponent }

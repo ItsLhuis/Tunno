@@ -1,10 +1,10 @@
 import { useTranslation } from "@repo/i18n"
+import { useCallback } from "react"
 
-import { useEffect, useMemo, useState } from "react"
+import { useSongsSettingsStore } from "../../stores/useSongsSettingsStore"
+import { useSongsStore } from "../../stores/useSongsStore"
 
-import { debounce } from "lodash"
-
-import { Table } from "@tanstack/react-table"
+import { type Table, type VisibilityState } from "@tanstack/react-table"
 
 import {
   Button,
@@ -22,25 +22,41 @@ import {
 
 import { type SongWithRelations } from "@repo/api"
 
-const SearchComponent = ({ table }: { table: Table<SongWithRelations> }) => {
+type SearchComponentProps = {
+  table: Table<SongWithRelations>
+}
+
+const SearchComponent = ({ table }: SearchComponentProps) => {
   const { t } = useTranslation()
 
-  const [searchTerm, setSearchTerm] = useState("")
+  const { visibleColumns, setVisibleColumns } = useSongsSettingsStore()
+  const { searchTerm, setSearchTerm } = useSongsStore()
 
-  const debouncedSetGlobalFilter = useMemo(
-    () => debounce((value) => table.setGlobalFilter(value), 300),
-    [table]
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value)
+    },
+    [setSearchTerm]
   )
 
-  useEffect(() => {
-    debouncedSetGlobalFilter(searchTerm)
-  }, [searchTerm, debouncedSetGlobalFilter])
+  const handleColumnToggle = useCallback(
+    (columnId: string, value: boolean) => {
+      const newVisible: VisibilityState = {
+        ...visibleColumns,
+        [columnId]: value
+      }
+      setVisibleColumns(newVisible)
+      table.getColumn(columnId)?.toggleVisibility(value)
+    },
+    [visibleColumns, setVisibleColumns, table]
+  )
+  
 
   return (
     <SearchInput
       containerClassName="p-9 pb-0 pt-6"
       value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
+      onChange={handleInputChange}
       className="flex-1"
       renderRight={
         <DropdownMenu>
@@ -61,8 +77,8 @@ const SearchComponent = ({ table }: { table: Table<SongWithRelations> }) => {
                     <DropdownMenuCheckboxItem
                       key={column.id}
                       className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                      checked={!!visibleColumns[column.id]}
+                      onCheckedChange={(value) => handleColumnToggle(column.id, !!value)}
                     >
                       {column.columnDef.meta?.headerText}
                     </DropdownMenuCheckboxItem>
@@ -77,3 +93,4 @@ const SearchComponent = ({ table }: { table: Table<SongWithRelations> }) => {
 }
 
 export { SearchComponent }
+

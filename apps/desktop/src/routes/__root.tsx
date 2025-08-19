@@ -7,6 +7,8 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useAllStoresHydrated } from "@utils/stores"
+
 import { relaunch } from "@tauri-apps/plugin-process"
 import { check } from "@tauri-apps/plugin-updater"
 
@@ -27,7 +29,9 @@ export const Route = createRootRoute({
 function RootComponent() {
   const [isAppReady, setIsAppReady] = useState<boolean>(false)
 
-  const { hasHydrated, language } = useSettingsStore()
+  const { language } = useSettingsStore()
+
+  const allStoresHydrated = useAllStoresHydrated()
 
   const { i18n, t } = useTranslation()
 
@@ -73,7 +77,7 @@ function RootComponent() {
   }
 
   useEffect(() => {
-    if (!hasHydrated || isAppReady) return
+    if (!allStoresHydrated || isAppReady) return
 
     const startApp = async () => {
       await prepareApp()
@@ -83,7 +87,7 @@ function RootComponent() {
     }
 
     startApp()
-  }, [hasHydrated])
+  }, [allStoresHydrated])
 
   return (
     <div className="relative flex h-dvh w-dvw flex-col bg-background transition-[background-color]">

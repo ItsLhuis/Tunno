@@ -12,7 +12,7 @@ import {
   ContextMenuSubTrigger
 } from "@components/ui"
 
-const RowContextMenuContent = () => {
+const RowContextMenuContentComponent = () => {
   return (
     <ContextMenuContent>
       <ContextMenuItem inset>
@@ -57,4 +57,4 @@ const RowContextMenuContent = () => {
   )
 }
 
-export { RowContextMenuContent }
+export { RowContextMenuContentComponent }

@@ -2,9 +2,7 @@ import { database, schema } from "@database/client"
 
 import { asc, desc, eq, like } from "drizzle-orm"
 
-import { type QueryParams, type SongColumns, type SongWithRelations } from "@repo/api"
-
-export type QuerySongsParams = QueryParams<SongColumns>
+import { type QuerySongsParams, type SongWithRelations } from "@repo/api"
 
 export const getAllSongsWithRelations = async ({
   limit,
