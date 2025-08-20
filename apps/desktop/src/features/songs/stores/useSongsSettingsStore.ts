@@ -42,7 +42,6 @@ export const useSongsSettingsStore = create<SongSettingsStore>()(
       version: 1,
       storage: persistStorage(`.${SONGS_SETTINGS_STORE_NAME}.json`),
       onRehydrateStorage: (state) => {
-        console.log("ola")
         return () => state.setHasHydrated(true)
       }
     }
