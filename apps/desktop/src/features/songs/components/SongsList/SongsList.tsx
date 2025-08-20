@@ -4,7 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
-import { useSongsSettingsStore } from "../../stores/useSongsSettingsStore"
 import { useSongsStore } from "../../stores/useSongsStore"
 
 import { useFetchSongsWithRelations } from "../../hooks/useFetchSongsWithRelations"
@@ -27,15 +26,10 @@ type TableComponentProps = { table: Table<SongWithRelations> }
 const SongsList = () => {
   const { t, i18n } = useTranslation()
 
-  const { visibleColumns } = useSongsSettingsStore(
+  const { debouncedSearchTerm, visibleColumns } = useSongsStore(
     useShallow((state) => ({
+      debouncedSearchTerm: state.debouncedSearchTerm,
       visibleColumns: state.visibleColumns
-    }))
-  )
-
-  const { debouncedSearchTerm } = useSongsStore(
-    useShallow((state) => ({
-      debouncedSearchTerm: state.debouncedSearchTerm
     }))
   )
 

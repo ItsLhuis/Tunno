@@ -24,7 +24,6 @@ type PlayerState = {
   isMuted: boolean
   repeatMode: RepeatMode
   isShuffleEnabled: boolean
-  hasHydrated: boolean
   tracks: Track[]
   queue: Track[]
   currentTrackIndex: number | null
@@ -35,6 +34,7 @@ type PlayerState = {
   buffered: number
   isLoading: boolean
   isQueueLoading: boolean
+  hasHydrated: boolean
 }
 
 type PlayerActions = {
@@ -43,7 +43,6 @@ type PlayerActions = {
   setRepeatMode: (mode: RepeatMode) => Promise<void>
   setShuffleEnabled: (enabled: boolean) => Promise<void>
   toggleShuffle: () => Promise<void>
-  setHasHydrated: (hasHydrated: boolean) => void
   loadTracks: (songs: SongWithRelations[], startIndex?: number) => Promise<void>
   play: () => Promise<void>
   pause: () => Promise<void>
@@ -61,6 +60,7 @@ type PlayerActions = {
   setLoading: (loading: boolean) => void
   destroyPlayer: () => Promise<void>
   findTrackById: (id: number) => Track | undefined
+  setHasHydrated: (hasHydrated: boolean) => void
 }
 
 type PlayerStore = PlayerState & PlayerActions

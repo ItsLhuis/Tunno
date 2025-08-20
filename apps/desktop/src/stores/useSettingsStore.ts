@@ -40,6 +40,10 @@ export const useSettingsStore = create<SettingsStore>()(
       name: SETTINGS_STORE_NAME,
       version: 1,
       storage: persistStorage(`.${SETTINGS_STORE_NAME}.json`),
+      partialize: (state) => ({
+        theme: state.theme,
+        language: state.language
+      }),
       onRehydrateStorage: (state) => {
         return () => state.setHasHydrated(true)
       }

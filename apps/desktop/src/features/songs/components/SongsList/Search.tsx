@@ -3,7 +3,6 @@ import { useCallback } from "react"
 
 import { useShallow } from "zustand/shallow"
 
-import { useSongsSettingsStore } from "../../stores/useSongsSettingsStore"
 import { useSongsStore } from "../../stores/useSongsStore"
 
 import { type Table, type VisibilityState } from "@tanstack/react-table"
@@ -31,17 +30,12 @@ type SearchComponentProps = {
 const SearchComponent = ({ table }: SearchComponentProps) => {
   const { t } = useTranslation()
 
-  const { visibleColumns, setVisibleColumns } = useSongsSettingsStore(
-    useShallow((state) => ({
-      visibleColumns: state.visibleColumns,
-      setVisibleColumns: state.setVisibleColumns
-    }))
-  )
-  
-  const { searchTerm, setSearchTerm } = useSongsStore(
+  const { searchTerm, setSearchTerm, visibleColumns, setVisibleColumns } = useSongsStore(
     useShallow((state) => ({
       searchTerm: state.searchTerm,
-      setSearchTerm: state.setSearchTerm
+      setSearchTerm: state.setSearchTerm,
+      visibleColumns: state.visibleColumns,
+      setVisibleColumns: state.setVisibleColumns
     }))
   )
 
@@ -63,7 +57,6 @@ const SearchComponent = ({ table }: SearchComponentProps) => {
     },
     [visibleColumns, setVisibleColumns, table]
   )
-  
 
   return (
     <SearchInput
@@ -106,4 +99,3 @@ const SearchComponent = ({ table }: SearchComponentProps) => {
 }
 
 export { SearchComponent }
-
