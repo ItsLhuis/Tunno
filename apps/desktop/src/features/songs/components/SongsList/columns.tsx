@@ -2,9 +2,16 @@ import { Fragment } from "react"
 
 import { type TFunction } from "@repo/i18n"
 
-import { formatRelativeDate } from "@repo/utils"
-
 import { ColumnDef } from "@tanstack/react-table"
+
+import { useShallow } from "zustand/shallow"
+
+import { usePlayerStore } from "../../stores/usePlayerStore"
+
+import { State } from "react-track-player-web"
+
+import PlayingLottie from "@assets/lotties/Playing.json"
+import Lottie from "lottie-react"
 
 import {
   Button,
@@ -27,14 +34,17 @@ import {
   Typography
 } from "@components/ui"
 
-import PlayingLottie from "@assets/lotties/Playing.json"
-import Lottie from "lottie-react"
-
-import { formatTime } from "@repo/utils"
+import { formatRelativeDate, formatTime } from "@repo/utils"
 
 import { type SongWithRelations } from "@repo/api"
 
-export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations>[] => [
+type ColumnsProps = {
+  t: TFunction
+  language: string
+  songs: SongWithRelations[] | undefined
+}
+
+export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWithRelations>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -59,16 +69,57 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
   {
     id: "media",
     header: () => <IconButton name="Play" className="invisible" />,
-    cell: ({ row }) => (
-      <div className="relative flex items-center justify-center">
-        <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-          <IconButton name="Play" onClick={() => console.log(row.original.id)} />
+    cell: ({ row }) => {
+      const song = row.original
+
+      const { loadTracks, play, currentTrack, playbackState, isQueueLoading } = usePlayerStore(
+        useShallow((state) => ({
+          loadTracks: state.loadTracks,
+          play: state.play,
+          currentTrack: state.currentTrack,
+          playbackState: state.playbackState,
+          isQueueLoading: state.isQueueLoading
+        }))
+      )
+
+      const handlePlaySong = async () => {
+        if (!songs) return
+
+        if (currentTrack) {
+          if (currentTrack.id === song.id && playbackState === State.Playing) {
+            await usePlayerStore.getState().pause()
+            return
+          }
+
+          if (currentTrack.id === song.id && playbackState === State.Paused) {
+            await play()
+            return
+          }
+        }
+
+        const index = row.index
+        await loadTracks(songs, index)
+        await play()
+      }
+
+      const isCurrentlyPlaying = currentTrack?.id === song.id && playbackState === State.Playing
+
+      return (
+        <div className="relative flex items-center justify-center">
+          <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+            <IconButton
+              name={isCurrentlyPlaying ? "Pause" : "Play"}
+              tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
+              onClick={handlePlaySong}
+              isLoading={isQueueLoading}
+            />
+          </div>
+          <Fade show={isCurrentlyPlaying} className="absolute z-0 size-5">
+            <Lottie animationData={PlayingLottie} className="group-hover:opacity-0" />
+          </Fade>
         </div>
-        <Fade show={row.index === 0} className="absolute z-0 size-5">
-          <Lottie animationData={PlayingLottie} className="group-hover:opacity-0" />
-        </Fade>
-      </div>
-    ),
+      )
+    },
     enableSorting: false,
     enableHiding: false,
     meta: { headerText: t("common.play") }
@@ -81,11 +132,10 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
 
       return (
         <div className="flex flex-1 items-center gap-3 truncate">
-          <Thumbnail fileName={song.thumbnail} alt="thumbnail" />
+          <Thumbnail fileName={song.thumbnail} alt={song.name} />
           <div className="w-full truncate">
             <Marquee>
               <Button className="transition-none" variant="link" asChild>
-                {/* <SafeLink to={`/songs/${song.id}`}> */}
                 <SafeLink>
                   <Typography className="truncate transition-none">{song.name}</Typography>
                 </SafeLink>
@@ -115,7 +165,7 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
   {
     accessorKey: "date",
     header: t("common.date"),
-    cell: ({ row }) => formatRelativeDate(row.getValue("date"), lang, t),
+    cell: ({ row }) => formatRelativeDate(row.getValue("date"), language, t),
     meta: { headerText: t("common.date") }
   },
   {
@@ -134,6 +184,22 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
     id: "options",
     header: ({ table }) => {
       const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+      const selectedSongs = table.getSelectedRowModel().flatRows.map((row) => row.original)
+
+      const handlePlaySelected = async () => {
+        if (selectedSongs.length > 0) {
+          try {
+            await usePlayerStore.getState().loadTracks(selectedSongs, 0)
+            await usePlayerStore.getState().play()
+          } catch (error) {
+            console.error("Error playing selected songs:", error)
+          }
+        }
+      }
+
+      const handlePlayNext = async () => {
+        console.log("Play next:", selectedSongs)
+      }
 
       return (
         <Fade show={hasSelectedRows} unmountOnExit={false}>
@@ -143,11 +209,11 @@ export const columns = (t: TFunction, lang: string): ColumnDef<SongWithRelations
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handlePlaySelected}>
                 <Icon name="Play" />
                 {t("common.play")}
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handlePlayNext}>
                 <Icon name="Forward" />
                 {t("common.playNext")}
               </DropdownMenuItem>

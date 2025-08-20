@@ -171,7 +171,13 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
   const isListEmpty = virtualRows.length === 0
 
   return (
-    <ScrollArea ref={scrollRef} className={cn("h-full w-full flex-1 bg-background transition-[background-color]", containerClassName)}>
+    <ScrollArea
+      ref={scrollRef}
+      className={cn(
+        "h-full w-full flex-1 bg-background transition-[background-color]",
+        containerClassName
+      )}
+    >
       <div className={cn("relative flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
         <Fade
           show={isScrolled && Boolean(StickyHeaderComponent)}
@@ -324,4 +330,3 @@ const VirtualizedTableGridWithHeaders = <TData, TValue>({
 }
 
 export { VirtualizedTableGridWithHeaders }
-

@@ -4,11 +4,12 @@ import { cn } from "@lib/utils"
 
 import { getRenderableFileSrc } from "@services/storage"
 
+import { Fade } from "@components/ui/Fade"
 import { Icon } from "@components/ui/Icon"
 import { Image, type ImageProps } from "@components/ui/Image"
 
 export type ThumbnailProps = ImageProps & {
-  fileName: string | null
+  fileName: string | undefined | null
 }
 
 const Thumbnail = ({ fileName, containerClassName, className, ...props }: ThumbnailProps) => {
@@ -29,8 +30,15 @@ const Thumbnail = ({ fileName, containerClassName, className, ...props }: Thumbn
 
   if (!fileName) {
     return (
-      <div className="flex size-14 shrink-0 items-center justify-center rounded bg-muted transition-colors">
-        <Icon name="Music" className="text-muted-foreground" />
+      <div
+        className={cn(
+          "flex size-14 shrink-0 items-center justify-center rounded bg-muted transition-colors",
+          containerClassName
+        )}
+      >
+        <Fade>
+          <Icon name="Music" className={cn("text-muted-foreground", className)} />
+        </Fade>
       </div>
     )
   }

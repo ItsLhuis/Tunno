@@ -6,7 +6,7 @@ import ReactDOM from "react-dom/client"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import { useSettingsStore } from "@stores/useSettingsStore"
+import { useAllStoresHydrated } from "@utils/stores"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
@@ -45,10 +45,10 @@ import "@repo/i18n"
 import "./global.css"
 
 const Main = () => {
-  const { hasHydrated } = useSettingsStore()
+  const allStoresHydrated = useAllStoresHydrated()
 
   useEffect(() => {
-    if (!hasHydrated) return
+    if (!allStoresHydrated) return
 
     const showMainWindow = async () => {
       await new Promise((resolve) => setTimeout(resolve, 300))
@@ -57,7 +57,9 @@ const Main = () => {
     }
 
     showMainWindow()
-  }, [hasHydrated])
+  }, [allStoresHydrated])
+
+  if (!allStoresHydrated) return
 
   return (
     <QueryClientProvider client={queryClient}>

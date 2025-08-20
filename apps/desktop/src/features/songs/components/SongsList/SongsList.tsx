@@ -1,6 +1,8 @@
-import { useCallback, useMemo } from "react"
+import { useCallback } from "react"
 
 import { useTranslation } from "@repo/i18n"
+
+import { useShallow } from "zustand/shallow"
 
 import { useSongsSettingsStore } from "../../stores/useSongsSettingsStore"
 import { useSongsStore } from "../../stores/useSongsStore"
@@ -25,9 +27,17 @@ type TableComponentProps = { table: Table<SongWithRelations> }
 const SongsList = () => {
   const { t, i18n } = useTranslation()
 
-  const visibleColumns = useSongsSettingsStore((state) => state.visibleColumns)
+  const { visibleColumns } = useSongsSettingsStore(
+    useShallow((state) => ({
+      visibleColumns: state.visibleColumns
+    }))
+  )
 
-  const { debouncedSearchTerm } = useSongsStore()
+  const { debouncedSearchTerm } = useSongsStore(
+    useShallow((state) => ({
+      debouncedSearchTerm: state.debouncedSearchTerm
+    }))
+  )
 
   const queryParams: QuerySongsParams = {
     filters: debouncedSearchTerm ? { search: debouncedSearchTerm } : undefined
@@ -35,7 +45,7 @@ const SongsList = () => {
 
   const { data, isLoading } = useFetchSongsWithRelations(queryParams)
 
-  const tableColumns = useMemo(() => columns(t, i18n.language), [t, i18n.language])
+  const tableColumns = columns({ t, language: i18n.language, songs: data })
 
   const ListEmpty = useCallback(() => (isLoading ? <Spinner /> : <NotFound />), [isLoading])
 

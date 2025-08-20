@@ -9,15 +9,11 @@ const SONGS_SETTINGS_STORE_NAME = "songs.settings"
 
 type SongSettingsState = {
   visibleColumns: VisibilityState
-  volume: number
-  isMuted: boolean
   hasHydrated: boolean
 }
 
 type SongSettingsActions = {
   setVisibleColumns: (columns: VisibilityState) => void
-  setVolume: (volume: number) => void
-  setIsMuted: (isMuted: boolean) => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -27,12 +23,8 @@ export const useSongsSettingsStore = create<SongSettingsStore>()(
   persist(
     (set) => ({
       visibleColumns: {},
-      setVisibleColumns: (columns) => set({ visibleColumns: columns }),
-      volume: 1,
-      setVolume: (volume) => set({ volume }),
-      isMuted: false,
-      setIsMuted: (isMuted) => set({ isMuted }),
       hasHydrated: false,
+      setVisibleColumns: (columns) => set({ visibleColumns: columns }),
       setHasHydrated: (hasHydrated) => {
         set({ hasHydrated })
       }

@@ -37,6 +37,7 @@ type FolderItem = {
 export type UploadPickerProps = {
   mode?: "file" | "folder"
   defaultValue?: string
+  value?: string
   onBeforeSelect?: (path: string) => Promise<boolean> | boolean
   onChange?: (value: string) => void
   onError?: (error: string) => void
@@ -51,6 +52,7 @@ export type UploadPickerProps = {
 const UploadPicker = ({
   mode = "file",
   defaultValue,
+  value,
   onBeforeSelect,
   onChange,
   onError,
@@ -65,8 +67,26 @@ const UploadPicker = ({
 
   const [item, setItem] = useState<FileItem | FolderItem | null>(null)
 
+  const isControlled = value !== undefined
+
   useEffect(() => {
-    if (defaultValue) {
+    if (isControlled) {
+      if (value) {
+        if (mode === "folder") {
+          setItem({ name: value.split(/[\\/]/).pop() || "", path: value })
+        } else {
+          const { name, extension } = getFileNameAndExtension(value)
+          setItem({
+            name,
+            extension,
+            size: 0,
+            path: value
+          })
+        }
+      } else {
+        setItem(null)
+      }
+    } else if (defaultValue && !item) {
       if (mode === "folder") {
         setItem({ name: defaultValue.split(/[\\/]/).pop() || "", path: defaultValue })
       } else {
@@ -79,7 +99,7 @@ const UploadPicker = ({
         })
       }
     }
-  }, [defaultValue, mode])
+  }, [value, mode, isControlled, defaultValue, item])
 
   const validateFile = (file: { name: string; size: number }) => {
     if (mode === "file" && file.size > maxSize) {

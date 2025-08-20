@@ -180,7 +180,7 @@ const SongForm = ({
                     <FormLabel>{t("form.labels.file")}</FormLabel>
                     <UploadPicker
                       mode="file"
-                      defaultValue={form.formState.defaultValues?.file}
+                      value={field.value}
                       onBeforeSelect={async (filePath) => {
                         const durationSeconds = await getAudioDuration(filePath)
                         if (durationSeconds === 0) {
@@ -212,7 +212,8 @@ const SongForm = ({
                   <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
                   <UploadPicker
                     mode="file"
-                    defaultValue={form.formState.defaultValues?.thumbnail}
+                    value={field.value}
+                    defaultValue={song?.thumbnail || undefined}
                     onChange={field.onChange}
                     onError={(msg) => form.setError(field.name, { message: msg })}
                     accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
@@ -317,7 +318,7 @@ const SongForm = ({
         </form>
       </Form>
     )
-  }, [form, mode])
+  }, [form, mode, renderProps])
 
   if (!asModal) return FormContent
 

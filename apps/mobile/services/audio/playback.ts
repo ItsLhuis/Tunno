@@ -1,6 +1,6 @@
 import TrackPlayer, { Event } from "react-native-track-player"
 
-export async function playback() {
+export async function registerPlaybackListeners() {
   TrackPlayer.addEventListener(Event.RemotePause, () => {
     TrackPlayer.pause()
   })

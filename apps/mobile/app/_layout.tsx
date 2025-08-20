@@ -25,7 +25,7 @@ import { openDatabaseSync } from "expo-sqlite"
 
 import TrackPlayer from "react-native-track-player"
 
-import { playback, setupAudioPlayer } from "@services/audio"
+import { registerPlaybackListeners, setupAudioPlayer } from "@services/audio"
 
 import { SystemBars } from "react-native-edge-to-edge"
 
@@ -63,7 +63,7 @@ enableFreeze()
 
 SplashScreen.preventAutoHideAsync()
 
-TrackPlayer.registerPlaybackService(() => playback)
+TrackPlayer.registerPlaybackService(() => registerPlaybackListeners)
 
 export default function RootLayout() {
   const { colors, isAppThemeChanging } = useColorTheme()

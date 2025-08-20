@@ -3,18 +3,17 @@
 import { createRootRoute } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
 
+import { useShallow } from "zustand/shallow"
+
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@repo/i18n"
-
-import { useAllStoresHydrated } from "@utils/stores"
 
 import { relaunch } from "@tauri-apps/plugin-process"
 import { check } from "@tauri-apps/plugin-updater"
 
 import { migrate } from "@database/migrate"
 
-import { setupAudioPlayer } from "@services/audio"
 import { initializeStorage } from "@services/storage"
 
 import { Footer, Sidebar, Titlebar } from "@app/layout"
@@ -29,16 +28,17 @@ export const Route = createRootRoute({
 function RootComponent() {
   const [isAppReady, setIsAppReady] = useState<boolean>(false)
 
-  const { language } = useSettingsStore()
-
-  const allStoresHydrated = useAllStoresHydrated()
+  const { language } = useSettingsStore(
+    useShallow((state) => ({
+      language: state.language
+    }))
+  )
 
   const { i18n, t } = useTranslation()
 
   const prepareApp = async (): Promise<void> => {
     await initializeStorage()
     await migrate()
-    await setupAudioPlayer()
     await i18n.changeLanguage(language)
 
     await new Promise((resolve) => setTimeout(resolve, 500))
@@ -77,8 +77,6 @@ function RootComponent() {
   }
 
   useEffect(() => {
-    if (!allStoresHydrated || isAppReady) return
-
     const startApp = async () => {
       await prepareApp()
       await checkUpdateApp()
@@ -87,7 +85,7 @@ function RootComponent() {
     }
 
     startApp()
-  }, [allStoresHydrated])
+  }, [])
 
   return (
     <div className="relative flex h-dvh w-dvw flex-col bg-background transition-[background-color]">

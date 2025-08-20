@@ -1,6 +1,8 @@
 import { useTranslation } from "@repo/i18n"
 import { useCallback } from "react"
 
+import { useShallow } from "zustand/shallow"
+
 import { useSongsSettingsStore } from "../../stores/useSongsSettingsStore"
 import { useSongsStore } from "../../stores/useSongsStore"
 
@@ -29,8 +31,19 @@ type SearchComponentProps = {
 const SearchComponent = ({ table }: SearchComponentProps) => {
   const { t } = useTranslation()
 
-  const { visibleColumns, setVisibleColumns } = useSongsSettingsStore()
-  const { searchTerm, setSearchTerm } = useSongsStore()
+  const { visibleColumns, setVisibleColumns } = useSongsSettingsStore(
+    useShallow((state) => ({
+      visibleColumns: state.visibleColumns,
+      setVisibleColumns: state.setVisibleColumns
+    }))
+  )
+  
+  const { searchTerm, setSearchTerm } = useSongsStore(
+    useShallow((state) => ({
+      searchTerm: state.searchTerm,
+      setSearchTerm: state.setSearchTerm
+    }))
+  )
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

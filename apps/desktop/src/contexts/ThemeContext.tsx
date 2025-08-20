@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect } from "react"
 
+import { useShallow } from "zustand/shallow"
+
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 type Theme = "dark" | "light" | "system"
@@ -12,7 +14,12 @@ type ThemeProviderState = {
 const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined)
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const { theme, setTheme } = useSettingsStore()
+  const { theme, setTheme } = useSettingsStore(
+    useShallow((state) => ({
+      theme: state.theme,
+      setTheme: state.setTheme
+    }))
+  )
 
   useEffect(() => {
     const root = window.document.documentElement
