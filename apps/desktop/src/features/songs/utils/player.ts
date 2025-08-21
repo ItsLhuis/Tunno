@@ -1,14 +1,37 @@
 import { getRenderableFileSrc } from "@services/storage"
 
-import { type Track } from "../types/player"
-
 import { type SongWithRelations } from "@repo/api"
 
-export const convertSongToTrack = async (song: SongWithRelations): Promise<Track> => {
-  const audioUrl = await getRenderableFileSrc(song.file, "songs")
-  const artworkUrl = song.thumbnail
-    ? await getRenderableFileSrc(song.thumbnail, "thumbnails")
-    : undefined
+import { type Track } from "../types/player"
+
+const MAX_CACHE_SIZE = 1000
+
+const audioUrlCache = new Map<string, string>()
+const artworkUrlCache = new Map<string, string>()
+
+function setWithEviction(map: Map<string, string>, key: string, value: string) {
+  if (map.size >= MAX_CACHE_SIZE) {
+    const firstKey = map.keys().next().value as string
+    map.delete(firstKey)
+  }
+  map.set(key, value)
+}
+
+export async function resolveTrack(song: SongWithRelations): Promise<Track> {
+  let audioUrl = audioUrlCache.get(song.file)
+  if (!audioUrl) {
+    audioUrl = await getRenderableFileSrc(song.file, "songs")
+    setWithEviction(audioUrlCache, song.file, audioUrl)
+  }
+
+  let artworkUrl: string | undefined
+  if (song.thumbnail) {
+    artworkUrl = artworkUrlCache.get(song.thumbnail as string)
+    if (!artworkUrl) {
+      artworkUrl = await getRenderableFileSrc(song.thumbnail as string, "thumbnails")
+      setWithEviction(artworkUrlCache, song.thumbnail as string, artworkUrl)
+    }
+  }
 
   return {
     ...song,
@@ -21,10 +44,6 @@ export const convertSongToTrack = async (song: SongWithRelations): Promise<Track
     duration: song.duration,
     isLiveStream: false
   }
-}
-
-export const convertSongsToTracks = async (songs: SongWithRelations[]): Promise<Track[]> => {
-  return Promise.all(songs.map(convertSongToTrack))
 }
 
 export const volumeCurve = (linearValue: number): number => {

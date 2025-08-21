@@ -37,14 +37,21 @@ export const registerPlaybackListeners = () => {
   }
 
   const onTrackChanged = async () => {
-    const index = TrackPlayer.getActiveTrackIndex()
+    const localIndex = TrackPlayer.getActiveTrackIndex()
     const track = TrackPlayer.getActiveTrack()
 
+    const { windowStartIndex } = usePlayerStore.getState()
+    const globalIndex = typeof localIndex === "number" ? windowStartIndex + localIndex : null
+
     usePlayerStore.setState({
-      currentTrackIndex: typeof index === "number" ? index : null,
+      currentTrackIndex: globalIndex,
       currentTrack: (track as any) ?? null,
       duration: TrackPlayer.getDuration() || 0
     })
+
+    if (typeof globalIndex === "number") {
+      await usePlayerStore.getState().ensureWindowForIndex(globalIndex)
+    }
   }
 
   const onProgress: EventHandler = (data: EventData) => {
