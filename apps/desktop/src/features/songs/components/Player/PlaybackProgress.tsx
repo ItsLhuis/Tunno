@@ -33,9 +33,27 @@ const PlaybackProgress = () => {
   )
 
   const [wasPlaying, setWasPlaying] = useState<boolean>(false)
+  const [isDragging, setIsDragging] = useState<boolean>(false)
 
   const canSeek = currentTrack !== null && !isLoading && duration > 0
   const value = duration > 0 ? [Math.min(position, duration)] : [0]
+
+  const handleKeyboardSeek = async (seekAmount: number) => {
+    if (!canSeek) return
+
+    const currentlyPlaying = playbackState === "playing"
+    if (currentlyPlaying && !isDragging) {
+      setWasPlaying(true)
+      await pause()
+    }
+
+    await seekBy(seekAmount)
+
+    if (currentlyPlaying && !isDragging) {
+      await play()
+      setWasPlaying(false)
+    }
+  }
 
   return (
     <div className="flex w-full items-center justify-center gap-3 p-3 pb-0">
@@ -47,7 +65,8 @@ const PlaybackProgress = () => {
         value={value}
         onValueChange={(vals) => {
           if (!canSeek) return
-          if (!wasPlaying) {
+          if (!isDragging) {
+            setIsDragging(true)
             setWasPlaying(playbackState === "playing")
           }
           void pause()
@@ -59,11 +78,18 @@ const PlaybackProgress = () => {
             void play()
           }
           setWasPlaying(false)
+          setIsDragging(false)
         }}
         onKeyDown={(e) => {
           if (!canSeek) return
-          if (e.key === "ArrowLeft") void seekBy(-5)
-          if (e.key === "ArrowRight") void seekBy(5)
+          if (e.key === "ArrowLeft") {
+            e.preventDefault()
+            void handleKeyboardSeek(-5)
+          }
+          if (e.key === "ArrowRight") {
+            e.preventDefault()
+            void handleKeyboardSeek(5)
+          }
         }}
         formatTooltip={(v) => formatTime(v)}
       />
