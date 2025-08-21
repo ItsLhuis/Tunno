@@ -1,3 +1,5 @@
+"use client"
+
 import { forwardRef, useState, type ComponentPropsWithoutRef, type ElementRef } from "react"
 
 import { cn } from "@lib/utils"
@@ -12,8 +14,10 @@ type SliderProps = ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
 }
 
 const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
-  ({ onValueChange, formatTooltip, className, ...props }, ref) => {
-    const [value, setValue] = useState<number[]>(props.defaultValue || [0])
+  ({ onValueChange, formatTooltip, className, value, defaultValue, ...props }, ref) => {
+    const [internalValue, setInternalValue] = useState<number[]>(defaultValue || [0])
+
+    const currentValue = value || internalValue
 
     const [tooltipOpen, setTooltipOpen] = useState<boolean>(false)
 
@@ -27,10 +31,13 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
             "group relative flex w-full touch-none select-none items-center",
             className
           )}
-          onValueChange={(value) => {
+          value={currentValue}
+          onValueChange={(newValue) => {
             setTooltipOpen(true)
-            setValue(value)
-            if (onValueChange) onValueChange(value)
+            if (!value) {
+              setInternalValue(newValue)
+            }
+            if (onValueChange) onValueChange(newValue)
           }}
           {...props}
         >
@@ -46,7 +53,7 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
             </TooltipTrigger>
             <TooltipContent>
               <Typography variant="span" affects="small">
-                {formatValue(value[0])}
+                {formatValue(currentValue[0])}
               </Typography>
             </TooltipContent>
           </Tooltip>
@@ -57,3 +64,4 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
 )
 
 export { Slider }
+
