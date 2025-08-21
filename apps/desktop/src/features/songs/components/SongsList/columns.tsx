@@ -135,20 +135,26 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
           <Thumbnail fileName={song.thumbnail} alt={song.name} />
           <div className="w-full truncate">
             <Marquee>
-              <Button className="transition-none" variant="link" asChild>
+              <Button variant="link" asChild>
                 <SafeLink>
-                  <Typography className="truncate transition-none">{song.name}</Typography>
+                  <Typography className="truncate">{song.name}</Typography>
                 </SafeLink>
               </Button>
             </Marquee>
             <Marquee>
-              <Button className="transition-none" variant="link" asChild>
-                <SafeLink to={`/artists`}>
-                  <Typography className="truncate transition-none" affects={["muted", "small"]}>
-                    {song.artists.map((artist) => artist.artist.name).join(", ")}
-                  </Typography>
-                </SafeLink>
-              </Button>
+              {song.artists.length > 0 ? (
+                <Button variant="link" asChild>
+                  <SafeLink to={`/artists`}>
+                    <Typography className="truncate" affects={["muted", "small"]}>
+                      {song.artists.map((artist) => artist.artist.name).join(", ")}
+                    </Typography>
+                  </SafeLink>
+                </Button>
+              ) : (
+                <Typography className="truncate" affects={["muted", "small"]}>
+                  Unkown artist
+                </Typography>
+              )}
             </Marquee>
           </div>
         </div>
@@ -160,6 +166,15 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
   {
     accessorKey: "album.name",
     header: t("common.album"),
+    cell: ({ row }) => {
+      const song = row.original
+
+      return song.album ? (
+        <Typography className="truncate">{song.album.name}</Typography>
+      ) : (
+        <Typography affects={["muted"]}>Unkown</Typography>
+      )
+    },
     meta: { headerText: t("common.album") }
   },
   {
@@ -173,9 +188,7 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
     header: () => <Icon name="Timer" />,
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        <Typography className="truncate transition-none">
-          {formatTime(row.getValue("duration"))}
-        </Typography>
+        <Typography className="truncate">{formatTime(row.getValue("duration"))}</Typography>
       </div>
     ),
     meta: { className: "flex justify-center", headerText: t("common.duration") }

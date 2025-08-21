@@ -25,26 +25,26 @@ const TrackInfo = () => {
         containerClassName="size-24 border border-muted rounded-md"
         className={cn("object-cover", currentTrack?.thumbnail ? "size-24" : "size-8")}
       />
-      <div className="h-full w-full truncate">
-        <Fade show={!!currentTrack}>
-          <IconButton
-            name="Heart"
-            isFilled
-            tooltip={t("common.favorite")}
-            variant="text"
-            className="shrink-0"
-            disabled={!currentTrack}
-          />
-          <Fade key={currentTrack?.title}>
-            <Marquee>
-              <Typography variant="h6">{currentTrack?.title}</Typography>
-            </Marquee>
-            <Marquee>
-              <Typography affects={["muted"]}>{currentTrack?.artist}</Typography>
-            </Marquee>
-          </Fade>
-        </Fade>
-      </div>
+      <Fade show={!!currentTrack}>
+        <IconButton
+          name="Heart"
+          isFilled
+          tooltip={t("common.favorite")}
+          variant="text"
+          className="shrink-0"
+          disabled={!currentTrack}
+        />
+        <Marquee>
+          <Typography variant="h6">{currentTrack?.title}</Typography>
+        </Marquee>
+        <Marquee>
+          {currentTrack?.artist ? (
+            <Typography affects={["muted"]}>{currentTrack?.artist}</Typography>
+          ) : (
+            <Typography affects={["muted"]}>Unkown artist</Typography>
+          )}
+        </Marquee>
+      </Fade>
     </div>
   )
 }

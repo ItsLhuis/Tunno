@@ -17,7 +17,7 @@ import { type Track } from "../types/player"
 
 import { type SongWithRelations } from "@repo/api"
 
-const PLAYER_SETTINGS_STORE_NAME = "player.settings"
+const PLAYER_STORE_NAME = "player"
 
 type PlayerState = {
   volume: number
@@ -339,9 +339,9 @@ export const usePlayerStore = create<PlayerStore>()(
       }
     }),
     {
-      name: PLAYER_SETTINGS_STORE_NAME,
+      name: PLAYER_STORE_NAME,
       version: 1,
-      storage: persistStorage(`.${PLAYER_SETTINGS_STORE_NAME}.json`),
+      storage: persistStorage(`.${PLAYER_STORE_NAME}.json`),
       partialize: (state) => ({
         volume: state.volume,
         isMuted: state.isMuted,
