@@ -359,11 +359,7 @@ export const usePlayerStore = create<PlayerStore>()(
           registerPlaybackListeners()
 
           if (state) {
-            state.setHasHydrated(true)
-
-            if (state.volume !== undefined) {
-              await TrackPlayer.setVolume(state.isMuted ? 0 : state.volume)
-            }
+            await TrackPlayer.setVolume(0)
 
             if (state.repeatMode !== undefined) {
               await TrackPlayer.setRepeatMode(state.repeatMode)
@@ -380,6 +376,14 @@ export const usePlayerStore = create<PlayerStore>()(
               }
               await TrackPlayer.pause()
             }
+
+            if (state.volume !== undefined) {
+              await TrackPlayer.setVolume(state.isMuted ? 0 : state.volume)
+            } else {
+              TrackPlayer.setVolume(1)
+            }
+
+            state.setHasHydrated(true)
           }
         }
       }
