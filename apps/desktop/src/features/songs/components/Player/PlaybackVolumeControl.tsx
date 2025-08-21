@@ -4,6 +4,8 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
+import { inverseVolumeCurve, volumeCurve, volumePercentage } from "../../utils/player"
+
 import { IconButton, Slider } from "@components/ui"
 
 const PlaybackVolumeControl = () => {
@@ -22,7 +24,7 @@ const PlaybackVolumeControl = () => {
     <div className="flex flex-[0_1_125px] items-center gap-2">
       <IconButton
         name={
-          isMuted ? "VolumeOff" : volume === 0 ? "VolumeX" : volume < 0.5 ? "Volume1" : "Volume2"
+          isMuted ? "VolumeOff" : volume === 0 ? "VolumeX" : volume < 0.1 ? "Volume1" : "Volume2"
         }
         tooltip={isMuted || volume === 0 ? t("common.unmute") : t("common.mute")}
         variant="ghost"
@@ -34,12 +36,12 @@ const PlaybackVolumeControl = () => {
         min={0}
         max={1}
         step={0.01}
-        value={[volume]}
-        formatTooltip={(value) => `${Math.round(value * 100)}%`}
-        onValueChange={([v]) => setVolume(v)}
-        onValueCommit={([v]) => {
-          setVolume(v)
-          if (isMuted && v > 0) setIsMuted(false)
+        value={[inverseVolumeCurve(volume)]}
+        formatTooltip={(linearValue) => `${volumePercentage(linearValue)}%`}
+        onValueChange={([linearValue]) => setVolume(volumeCurve(linearValue))}
+        onValueCommit={([linearValue]) => {
+          setVolume(volumeCurve(linearValue))
+          if (isMuted && linearValue > 0) setIsMuted(false)
         }}
       />
     </div>

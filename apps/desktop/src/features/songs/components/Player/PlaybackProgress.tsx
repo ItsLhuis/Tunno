@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import { useShallow } from "zustand/shallow"
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
@@ -6,8 +8,21 @@ import { Slider, Typography } from "@components/ui"
 import { formatTime } from "@repo/utils"
 
 const PlaybackProgress = () => {
-  const { position, duration, seekTo, seekBy, isLoading, currentTrack } = usePlayerStore(
+  const {
+    play,
+    pause,
+    playbackState,
+    position,
+    duration,
+    seekTo,
+    seekBy,
+    isLoading,
+    currentTrack
+  } = usePlayerStore(
     useShallow((state) => ({
+      play: state.play,
+      pause: state.pause,
+      playbackState: state.playbackState,
       position: state.position,
       duration: state.duration,
       seekTo: state.seekTo,
@@ -16,6 +31,8 @@ const PlaybackProgress = () => {
       currentTrack: state.currentTrack
     }))
   )
+
+  const [wasPlaying, setWasPlaying] = useState<boolean>(false)
 
   const canSeek = currentTrack !== null && !isLoading && duration > 0
   const value = duration > 0 ? [Math.min(position, duration)] : [0]
@@ -30,8 +47,18 @@ const PlaybackProgress = () => {
         value={value}
         onValueChange={(vals) => {
           if (!canSeek) return
+          if (!wasPlaying) {
+            setWasPlaying(playbackState === "playing")
+          }
+          void pause()
           const target = vals[0]
           void seekTo(target)
+        }}
+        onValueCommit={() => {
+          if (wasPlaying) {
+            void play()
+          }
+          setWasPlaying(false)
         }}
         onKeyDown={(e) => {
           if (!canSeek) return
