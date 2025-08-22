@@ -83,7 +83,7 @@ const SearchComponent = ({ table }: SearchComponentProps) => {
                     <DropdownMenuCheckboxItem
                       key={column.id}
                       className="capitalize"
-                      checked={!!visibleColumns[column.id]}
+                      checked={visibleColumns[column.id] ?? true}
                       onCheckedChange={(value) => handleColumnToggle(column.id, !!value)}
                     >
                       {column.columnDef.meta?.headerText}
