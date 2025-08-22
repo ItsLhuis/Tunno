@@ -16,7 +16,7 @@ const PlaybackProgress = () => {
     duration,
     seekTo,
     seekBy,
-    isLoading,
+    isTrackLoading,
     currentTrack
   } = usePlayerStore(
     useShallow((state) => ({
@@ -27,7 +27,7 @@ const PlaybackProgress = () => {
       duration: state.duration,
       seekTo: state.seekTo,
       seekBy: state.seekBy,
-      isLoading: state.isLoading,
+      isTrackLoading: state.isTrackLoading,
       currentTrack: state.currentTrack
     }))
   )
@@ -35,7 +35,7 @@ const PlaybackProgress = () => {
   const [wasPlaying, setWasPlaying] = useState<boolean>(false)
   const [isDragging, setIsDragging] = useState<boolean>(false)
 
-  const canSeek = currentTrack !== null && !isLoading && duration > 0
+  const canSeek = currentTrack !== null && !isTrackLoading && duration > 0
   const value = duration > 0 ? [Math.min(position, duration)] : [0]
 
   const handleKeyboardSeek = async (seekAmount: number) => {

@@ -13,12 +13,15 @@ import TrackPlayer, { RepeatMode, State } from "react-track-player-web"
 
 import { resolveTrack } from "../utils/player"
 
+import { getSongsByIdsWithRelations } from "@features/songs/api/queries"
+
 import { type Track } from "../types/player"
 
-import { getSongsByIdsWithRelations } from "@features/songs/api/queries"
 import { type SongWithRelations } from "@repo/api"
 
 const PLAYER_STORE_NAME = "player"
+
+const DEFAULT_WINDOW_SIZE = 100
 
 type PlayerState = {
   trackIds: number[]
@@ -70,6 +73,7 @@ type PlayerActions = {
   updateNavigationStates: () => void
   clearQueue: () => Promise<void>
   destroyPlayer: () => Promise<void>
+  syncStateWithPlayer: () => Promise<void>
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -98,7 +102,7 @@ export const usePlayerStore = create<PlayerStore>()(
       queueIds: [],
       currentTrackIndex: null,
       windowStartIndex: 0,
-      windowSize: 100,
+      windowSize: DEFAULT_WINDOW_SIZE,
       currentTrack: null,
       currentTrackId: null,
       canPlayNext: false,
@@ -158,7 +162,6 @@ export const usePlayerStore = create<PlayerStore>()(
 
         const currentPlayerQueue = TrackPlayer.getQueue()
         const currentActiveIndex = TrackPlayer.getActiveTrackIndex()
-
         const currentTrackNewIndex = newWindowIds.findIndex((id) => id === currentTrackId)
 
         if (currentTrackNewIndex < 0) {
@@ -168,7 +171,6 @@ export const usePlayerStore = create<PlayerStore>()(
 
           if (currentPlayerQueue.length > 0) {
             const indicesToRemove: number[] = []
-
             for (let i = 0; i < currentPlayerQueue.length; i++) {
               if (i !== currentActiveIndex) {
                 indicesToRemove.push(i)
@@ -185,6 +187,7 @@ export const usePlayerStore = create<PlayerStore>()(
           }
 
           await TrackPlayer.add(tracks)
+
           set({
             queueIds: newQueueIds,
             currentTrackIndex: newCurrentIndex,
@@ -198,7 +201,6 @@ export const usePlayerStore = create<PlayerStore>()(
 
         if (currentPlayerQueue.length > 0) {
           const indicesToRemove: number[] = []
-
           for (let i = 0; i < currentPlayerQueue.length; i++) {
             if (i !== currentActiveIndex) {
               indicesToRemove.push(i)
@@ -236,10 +238,15 @@ export const usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.skip(finalCurrentIndex)
         }
 
+        const newCurrentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+
         set({
           queueIds: newQueueIds,
           currentTrackIndex: newCurrentIndex,
           windowStartIndex: newStart,
+          currentTrack: newCurrentTrack,
+          currentTrackId: currentTrackId,
+          duration: newCurrentTrack?.duration || 0,
           isQueueLoading: false
         })
 
@@ -276,7 +283,11 @@ export const usePlayerStore = create<PlayerStore>()(
           currentIndex = startIndex
         }
 
-        const start = Math.max(0, currentIndex)
+        const halfWindow = Math.floor(windowSize / 2)
+        const start = Math.max(
+          0,
+          Math.min(currentIndex - halfWindow, Math.max(0, queueIds.length - windowSize))
+        )
         const end = Math.min(queueIds.length, start + windowSize)
         const windowIds = queueIds.slice(start, end)
         const tracks = await Promise.all(
@@ -314,8 +325,7 @@ export const usePlayerStore = create<PlayerStore>()(
       playNext: async () => {
         const { currentTrackIndex, queueIds, repeatMode } = get()
 
-        if (currentTrackIndex === null) {
-          await TrackPlayer.skipToNext()
+        if (currentTrackIndex === null || queueIds.length === 0) {
           return
         }
 
@@ -339,8 +349,7 @@ export const usePlayerStore = create<PlayerStore>()(
       playPrevious: async () => {
         const { currentTrackIndex, queueIds, repeatMode } = get()
 
-        if (currentTrackIndex === null) {
-          await TrackPlayer.skipToPrevious()
+        if (currentTrackIndex === null || queueIds.length === 0) {
           return
         }
 
@@ -361,16 +370,52 @@ export const usePlayerStore = create<PlayerStore>()(
         }
       },
       skipToTrack: async (index) => {
-        const { windowStartIndex } = get()
+        const { queueIds, windowStartIndex, windowSize } = get()
 
-        if (index - windowStartIndex >= 0) {
-          await TrackPlayer.skip(index - windowStartIndex)
+        if (index < 0 || index >= queueIds.length) {
+          return
+        }
+
+        const windowEndIndex = windowStartIndex + windowSize
+        const isInCurrentWindow = index >= windowStartIndex && index < windowEndIndex
+
+        if (isInCurrentWindow) {
+          const playerIndex = index - windowStartIndex
+          await TrackPlayer.skip(playerIndex)
+
+          const currentTrackId = queueIds[index]
+          const currentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+
+          set({
+            currentTrackIndex: index,
+            currentTrackId,
+            currentTrack,
+            duration: currentTrack?.duration || 0
+          })
+
+          get().updateNavigationStates()
         } else {
           await get().ensureWindowForIndex(index)
 
           const { windowStartIndex: newStart } = get()
 
-          await TrackPlayer.skip(index - newStart)
+          const playerIndex = index - newStart
+
+          if (playerIndex >= 0) {
+            await TrackPlayer.skip(playerIndex)
+
+            const currentTrackId = queueIds[index]
+            const currentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+
+            set({
+              currentTrackIndex: index,
+              currentTrackId,
+              currentTrack,
+              duration: currentTrack?.duration || 0
+            })
+
+            get().updateNavigationStates()
+          }
         }
       },
       seekTo: async (position) => {
@@ -409,7 +454,12 @@ export const usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.add(tracks, insertBeforePlayerIndex)
         }
 
-        set({ queueIds: newQueueIds, isQueueLoading: false })
+        set({
+          queueIds: newQueueIds,
+          isQueueLoading: false
+        })
+
+        get().updateNavigationStates()
       },
       addAfterCurrent: async (newTracks) => {
         const { queueIds, currentTrackIndex, windowStartIndex, windowSize } = get()
@@ -435,7 +485,12 @@ export const usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.add(tracks, insertBeforePlayerIndex)
         }
 
-        set({ queueIds: newQueueIds, isQueueLoading: false })
+        set({
+          queueIds: newQueueIds,
+          isQueueLoading: false
+        })
+
+        get().updateNavigationStates()
       },
       removeFromQueue: async (index) => {
         const { queueIds, windowStartIndex, windowSize, currentTrackIndex } = get()
@@ -460,24 +515,64 @@ export const usePlayerStore = create<PlayerStore>()(
 
         if (currentTrackIndex !== null) {
           if (index < currentTrackIndex) nextCurrentIndex = currentTrackIndex - 1
-          if (index === currentTrackIndex)
-            nextCurrentIndex = Math.min(currentTrackIndex, newQueueIds.length - 1)
+          if (index === currentTrackIndex) {
+            if (newQueueIds.length === 0) {
+              nextCurrentIndex = null
+            } else {
+              nextCurrentIndex = Math.min(currentTrackIndex, newQueueIds.length - 1)
+
+              if (nextCurrentIndex >= start && nextCurrentIndex < end) {
+                const newCurrentTrackId = newQueueIds[nextCurrentIndex]
+
+                const newCurrentTrack = await resolveTrack(songsCacheById.get(newCurrentTrackId)!)
+
+                set({
+                  currentTrack: newCurrentTrack,
+                  currentTrackId: newCurrentTrackId,
+                  duration: newCurrentTrack?.duration || 0
+                })
+              }
+            }
+          }
         }
 
-        set({ queueIds: newQueueIds, isQueueLoading: false, currentTrackIndex: nextCurrentIndex })
+        set({
+          queueIds: newQueueIds,
+          isQueueLoading: false,
+          currentTrackIndex: nextCurrentIndex
+        })
+
+        get().updateNavigationStates()
       },
       moveInQueue: async (fromIndex, toIndex) => {
+        const { queueIds, windowStartIndex, windowSize } = get()
+
         set({ isQueueLoading: true })
 
-        const { queueIds, windowStartIndex } = get()
+        if (
+          fromIndex < 0 ||
+          fromIndex >= queueIds.length ||
+          toIndex < 0 ||
+          toIndex >= queueIds.length
+        ) {
+          set({ isQueueLoading: false })
+          return
+        }
 
         const newQueue = [...queueIds]
         const [moved] = newQueue.splice(fromIndex, 1)
         newQueue.splice(toIndex, 0, moved)
 
-        await TrackPlayer.move(fromIndex - windowStartIndex, toIndex - windowStartIndex)
+        const start = windowStartIndex
+        const end = Math.min(start + windowSize, queueIds.length)
+
+        if (fromIndex >= start && fromIndex < end && toIndex >= start && toIndex < end) {
+          await TrackPlayer.move(fromIndex - start, toIndex - start)
+        }
 
         set({ queueIds: newQueue, isQueueLoading: false })
+
+        get().updateNavigationStates()
       },
       updateNavigationStates: () => {
         const { currentTrackIndex, queueIds, repeatMode } = get()
@@ -513,12 +608,15 @@ export const usePlayerStore = create<PlayerStore>()(
         await TrackPlayer.reset()
 
         set({
+          trackIds: [],
           queueIds: [],
           currentTrack: null,
+          currentTrackId: null,
           canPlayNext: false,
           canPlayPrevious: false,
           currentTrackIndex: null,
           windowStartIndex: 0,
+          windowSize: DEFAULT_WINDOW_SIZE,
           position: 0,
           duration: 0,
           buffered: 0,
@@ -530,16 +628,21 @@ export const usePlayerStore = create<PlayerStore>()(
         await TrackPlayer.destroy()
 
         set({
+          trackIds: [],
           queueIds: [],
           currentTrack: null,
+          currentTrackId: null,
           currentTrackIndex: null,
           windowStartIndex: 0,
+          windowSize: DEFAULT_WINDOW_SIZE,
           playbackState: State.None,
           position: 0,
           duration: 0,
           buffered: 0,
           isTrackLoading: false,
-          isQueueLoading: false
+          isQueueLoading: false,
+          canPlayNext: false,
+          canPlayPrevious: false
         })
 
         unregisterPlaybackListeners()
@@ -553,9 +656,24 @@ export const usePlayerStore = create<PlayerStore>()(
         const end = Math.min(start + windowSize, queueIds.length)
 
         if (index < start || index >= end) {
-          const newStart = Math.max(0, Math.min(index, Math.max(0, queueIds.length - windowSize)))
+          const halfWindow = Math.floor(windowSize / 2)
+          const newStart = Math.max(
+            0,
+            Math.min(index - halfWindow, Math.max(0, queueIds.length - windowSize))
+          )
           const newEnd = Math.min(queueIds.length, newStart + windowSize)
           const windowIds = queueIds.slice(newStart, newEnd)
+
+          const missingSongs = windowIds.filter((id) => !songsCacheById.has(id))
+          if (missingSongs.length > 0) {
+            const missingSongsData = await getSongsByIdsWithRelations(missingSongs)
+
+            if (missingSongsData.length !== missingSongs.length) {
+              return
+            }
+
+            missingSongsData.forEach((s) => songsCacheById.set(s.id, s))
+          }
 
           const tracks = await Promise.all(
             windowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
@@ -564,18 +682,77 @@ export const usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.reset()
           await TrackPlayer.add(tracks)
 
-          set({ windowStartIndex: newStart, currentTrack: tracks[index - newStart] || null })
+          const newCurrentTrackIndex = index
+          const newCurrentTrackId = queueIds[index]
+          const newCurrentTrack = tracks[index - newStart] || null
+
+          set({
+            windowStartIndex: newStart,
+            currentTrackIndex: newCurrentTrackIndex,
+            currentTrackId: newCurrentTrackId,
+            currentTrack: newCurrentTrack,
+            duration: newCurrentTrack?.duration || 0
+          })
 
           return
         }
 
         if (index >= end - 5 && end < queueIds.length) {
           const toAddIds = queueIds.slice(end, Math.min(end + 10, queueIds.length))
+
+          const missingSongs = toAddIds.filter((id) => !songsCacheById.has(id))
+          if (missingSongs.length > 0) {
+            const missingSongsData = await getSongsByIdsWithRelations(missingSongs)
+
+            if (missingSongsData.length !== missingSongs.length) {
+              return
+            }
+
+            missingSongsData.forEach((s) => songsCacheById.set(s.id, s))
+          }
+
           const toAddTracks = await Promise.all(
             toAddIds.map((id) => resolveTrack(songsCacheById.get(id)!))
           )
 
-          if (toAddTracks.length) await TrackPlayer.add(toAddTracks)
+          if (toAddTracks.length) {
+            await TrackPlayer.add(toAddTracks)
+            set({ windowSize: Math.min(windowSize + toAddTracks.length, queueIds.length) })
+          }
+        }
+      },
+      syncStateWithPlayer: async () => {
+        const { queueIds, currentTrackIndex } = get()
+
+        if (queueIds.length === 0) return
+
+        const playerQueue = TrackPlayer.getQueue()
+        const activePlayerIndex = TrackPlayer.getActiveTrackIndex()
+
+        if (activePlayerIndex < 0 || activePlayerIndex >= playerQueue.length) {
+          return
+        }
+
+        const activeTrack = playerQueue[activePlayerIndex]
+
+        if (!activeTrack) return
+
+        const actualQueueIndex = queueIds.findIndex(
+          (id) => songsCacheById.get(id)?.id === activeTrack.id
+        )
+
+        if (actualQueueIndex >= 0 && actualQueueIndex !== currentTrackIndex) {
+          const currentTrackId = queueIds[actualQueueIndex]
+          const currentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+
+          set({
+            currentTrackIndex: actualQueueIndex,
+            currentTrackId,
+            currentTrack,
+            duration: currentTrack?.duration || 0
+          })
+
+          get().updateNavigationStates()
         }
       }
     }),
@@ -614,7 +791,7 @@ export const usePlayerStore = create<PlayerStore>()(
                 let currentIndex: number
 
                 if (isShuffleEnabled) {
-                  const remainingIds = trackIds.filter((id) => id !== currentId)
+                  const remainingIds = trackIds.filter((id: number) => id !== currentId)
                   queueIds = [currentId, ...shuffleArray(remainingIds)]
                   currentIndex = 0
                 } else {
@@ -631,34 +808,127 @@ export const usePlayerStore = create<PlayerStore>()(
                 const end = Math.min(queueIds.length, start + windowSize)
                 const windowIds = queueIds.slice(start, end)
 
-                const windowSongs = await getSongsByIdsWithRelations(windowIds)
-                songsCacheById.clear()
-                windowSongs.forEach((s) => songsCacheById.set(s.id, s))
-                const tracks = await Promise.all(
-                  windowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
-                )
+                try {
+                  const windowSongs = await getSongsByIdsWithRelations(windowIds)
 
-                await TrackPlayer.reset()
-                await TrackPlayer.add(tracks)
-                await TrackPlayer.skip(currentIndex - start)
+                  if (windowSongs.length !== windowIds.length) {
+                    const foundIds = windowSongs.map((s) => s.id)
 
-                if (typeof state.position === "number" && state.position > 0) {
-                  await TrackPlayer.seekTo(state.position)
+                    const missingIds = windowIds.filter((id: number) => !foundIds.includes(id))
+                    const validQueueIds = queueIds.filter((id: number) => !missingIds.includes(id))
+
+                    if (validQueueIds.length === 0) {
+                      usePlayerStore.setState({
+                        trackIds: [],
+                        queueIds: [],
+                        currentTrack: null,
+                        currentTrackId: null,
+                        currentTrackIndex: null,
+                        windowStartIndex: 0,
+                        windowSize: 50,
+                        hasHydrated: true
+                      })
+                      return
+                    }
+
+                    queueIds = validQueueIds
+                    currentIndex = Math.min(currentIndex, validQueueIds.length - 1)
+
+                    const newCurrentId = validQueueIds[currentIndex]
+
+                    const newStart = Math.max(
+                      0,
+                      Math.min(currentIndex - half, Math.max(0, queueIds.length - windowSize))
+                    )
+                    const newEnd = Math.min(queueIds.length, newStart + windowSize)
+                    const newWindowIds = queueIds.slice(newStart, newEnd)
+
+                    const newWindowSongs = await getSongsByIdsWithRelations(newWindowIds)
+                    if (newWindowSongs.length === 0) {
+                      usePlayerStore.setState({
+                        trackIds: [],
+                        queueIds: [],
+                        currentTrack: null,
+                        currentTrackId: null,
+                        currentTrackIndex: null,
+                        windowStartIndex: 0,
+                        windowSize: 50,
+                        hasHydrated: true
+                      })
+                      return
+                    }
+
+                    songsCacheById.clear()
+                    newWindowSongs.forEach((s) => songsCacheById.set(s.id, s))
+
+                    const tracks = await Promise.all(
+                      newWindowIds.map((id: number) => resolveTrack(songsCacheById.get(id)!))
+                    )
+
+                    await TrackPlayer.reset()
+                    await TrackPlayer.add(tracks)
+                    await TrackPlayer.skip(currentIndex - newStart)
+
+                    if (typeof state.position === "number" && state.position > 0) {
+                      await TrackPlayer.seekTo(state.position)
+                    }
+
+                    await TrackPlayer.pause()
+
+                    usePlayerStore.setState({
+                      trackIds,
+                      queueIds,
+                      currentTrackIndex: currentIndex,
+                      windowStartIndex: newStart,
+                      currentTrack: tracks[currentIndex - newStart] || null,
+                      currentTrackId: newCurrentId,
+                      duration: tracks[currentIndex - newStart]?.duration || 0
+                    })
+
+                    usePlayerStore.getState().updateNavigationStates()
+                    return
+                  }
+
+                  songsCacheById.clear()
+                  windowSongs.forEach((s) => songsCacheById.set(s.id, s))
+
+                  const tracks = await Promise.all(
+                    windowIds.map((id: number) => resolveTrack(songsCacheById.get(id)!))
+                  )
+
+                  await TrackPlayer.reset()
+                  await TrackPlayer.add(tracks)
+                  await TrackPlayer.skip(currentIndex - start)
+
+                  if (typeof state.position === "number" && state.position > 0) {
+                    await TrackPlayer.seekTo(state.position)
+                  }
+
+                  await TrackPlayer.pause()
+
+                  usePlayerStore.setState({
+                    trackIds,
+                    queueIds,
+                    currentTrackIndex: currentIndex,
+                    windowStartIndex: start,
+                    currentTrack: tracks[currentIndex - start] || null,
+                    currentTrackId: currentId,
+                    duration: tracks[currentIndex - start]?.duration || 0
+                  })
+
+                  usePlayerStore.getState().updateNavigationStates()
+                } catch (error) {
+                  usePlayerStore.setState({
+                    trackIds: [],
+                    queueIds: [],
+                    currentTrack: null,
+                    currentTrackId: null,
+                    currentTrackIndex: null,
+                    windowStartIndex: 0,
+                    windowSize: 50,
+                    hasHydrated: true
+                  })
                 }
-
-                await TrackPlayer.pause()
-
-                usePlayerStore.setState({
-                  trackIds,
-                  queueIds,
-                  currentTrackIndex: currentIndex,
-                  windowStartIndex: start,
-                  currentTrack: tracks[currentIndex - start] || null,
-                  currentTrackId: currentId,
-                  duration: tracks[currentIndex - start]?.duration || 0
-                })
-
-                usePlayerStore.getState().updateNavigationStates()
               }
 
               if (state.volume !== undefined) {

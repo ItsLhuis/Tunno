@@ -9,7 +9,7 @@ const MAX_CACHE_SIZE = 1000
 const audioUrlCache = new Map<string, string>()
 const artworkUrlCache = new Map<string, string>()
 
-function setWithEviction(map: Map<string, string>, key: string, value: string) {
+const setWithEviction = (map: Map<string, string>, key: string, value: string) => {
   if (map.size >= MAX_CACHE_SIZE) {
     const firstKey = map.keys().next().value as string
     map.delete(firstKey)
@@ -17,7 +17,7 @@ function setWithEviction(map: Map<string, string>, key: string, value: string) {
   map.set(key, value)
 }
 
-export async function resolveTrack(song: SongWithRelations): Promise<Track> {
+export const resolveTrack = async (song: SongWithRelations): Promise<Track> => {
   let audioUrl = audioUrlCache.get(song.file)
   if (!audioUrl) {
     audioUrl = await getRenderableFileSrc(song.file, "songs")
