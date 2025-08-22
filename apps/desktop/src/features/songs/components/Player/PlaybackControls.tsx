@@ -21,9 +21,10 @@ const PlaybackControls = () => {
     isShuffleEnabled,
     repeatMode,
     setRepeatMode,
-    isLoading,
-    isQueueLoading,
-    currentTrack
+    isTrackLoading,
+    currentTrack,
+    canPlayNext,
+    canPlayPrevious
   } = usePlayerStore(
     useShallow((state) => ({
       play: state.play,
@@ -35,16 +36,15 @@ const PlaybackControls = () => {
       isShuffleEnabled: state.isShuffleEnabled,
       repeatMode: state.repeatMode,
       setRepeatMode: state.setRepeatMode,
-      isLoading: state.isLoading,
-      isQueueLoading: state.isQueueLoading,
-      currentTrack: state.currentTrack
+      isTrackLoading: state.isTrackLoading,
+      currentTrack: state.currentTrack,
+      canPlayNext: state.canPlayNext,
+      canPlayPrevious: state.canPlayPrevious
     }))
   )
 
   const isPlaying = playbackState === State.Playing
-  const canPlay = currentTrack !== null && !isLoading
-
-  const canModifyQueue = !isQueueLoading
+  const canPlay = currentTrack !== null && !isTrackLoading
 
   const handlePlayPause = async () => {
     if (!canPlay) return
@@ -57,12 +57,12 @@ const PlaybackControls = () => {
   }
 
   const handleNext = async () => {
-    if (!canPlay) return
+    if (!canPlayNext) return
     await playNext()
   }
 
   const handlePrevious = async () => {
-    if (!canPlay) return
+    if (!canPlayPrevious) return
     await playPrevious()
   }
 
@@ -117,7 +117,6 @@ const PlaybackControls = () => {
         tooltip={getShuffleTooltip()}
         variant="ghost"
         onClick={handleShuffle}
-        disabled={!canModifyQueue}
         className={isShuffleEnabled ? "text-primary" : ""}
       />
       <IconButton
@@ -125,11 +124,11 @@ const PlaybackControls = () => {
         tooltip={t("common.previous")}
         variant="ghost"
         onClick={handlePrevious}
-        disabled={!canPlay}
+        disabled={!canPlayPrevious}
       />
       <IconButton
         name={isPlaying ? "Pause" : "Play"}
-        isLoading={isLoading}
+        isLoading={isTrackLoading}
         className="h-11 w-11 rounded-full [&_svg]:size-5"
         tooltip={isPlaying ? t("common.pause") : t("common.play")}
         onClick={handlePlayPause}
@@ -140,14 +139,13 @@ const PlaybackControls = () => {
         tooltip={t("common.next")}
         variant="ghost"
         onClick={handleNext}
-        disabled={!canPlay}
+        disabled={!canPlayNext}
       />
       <IconButton
         name={getRepeatIcon()}
         tooltip={getRepeatTooltip()}
         variant="ghost"
         onClick={handleRepeat}
-        disabled={!canModifyQueue}
         className={repeatMode !== RepeatMode.Off ? "text-primary" : ""}
       />
     </div>

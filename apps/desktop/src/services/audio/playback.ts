@@ -9,6 +9,8 @@ import TrackPlayer, {
 
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
+import { type Track } from "@features/songs/types/player"
+
 let unsubscribeFns: Array<() => void> = []
 let bufferingTimeout: NodeJS.Timeout | null = null
 
@@ -25,33 +27,36 @@ export const registerPlaybackListeners = () => {
     if (state === State.Buffering) {
       if (bufferingTimeout) clearTimeout(bufferingTimeout)
       bufferingTimeout = setTimeout(() => {
-        usePlayerStore.setState({ playbackState: state, isLoading: true })
+        usePlayerStore.setState({ playbackState: state, isTrackLoading: true })
       }, 300)
     } else {
       if (bufferingTimeout) {
         clearTimeout(bufferingTimeout)
         bufferingTimeout = null
       }
-      usePlayerStore.setState({ playbackState: state, isLoading: false })
+      usePlayerStore.setState({ playbackState: state, isTrackLoading: false })
     }
   }
 
   const onTrackChanged = async () => {
     const localIndex = TrackPlayer.getActiveTrackIndex()
-    const track = TrackPlayer.getActiveTrack()
+    const track = TrackPlayer.getActiveTrack() as Track | undefined
 
     const { windowStartIndex } = usePlayerStore.getState()
     const globalIndex = typeof localIndex === "number" ? windowStartIndex + localIndex : null
 
     usePlayerStore.setState({
       currentTrackIndex: globalIndex,
-      currentTrack: (track as any) ?? null,
+      currentTrack: track ?? null,
+      currentTrackId: track?.id ?? null,
       duration: TrackPlayer.getDuration() || 0
     })
 
     if (typeof globalIndex === "number") {
       await usePlayerStore.getState().ensureWindowForIndex(globalIndex)
     }
+
+    usePlayerStore.getState().updateNavigationStates()
   }
 
   const onProgress: EventHandler = (data: EventData) => {
@@ -66,7 +71,7 @@ export const registerPlaybackListeners = () => {
   }
 
   const onError = () => {
-    usePlayerStore.setState({ isLoading: false, playbackState: State.Error })
+    usePlayerStore.setState({ isTrackLoading: false, playbackState: State.Error })
   }
 
   TrackPlayer.addEventListener(Event.PlaybackState, onPlaybackState)

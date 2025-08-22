@@ -15,11 +15,13 @@ import { resolveTrack } from "../utils/player"
 
 import { type Track } from "../types/player"
 
+import { getSongsByIdsWithRelations } from "@features/songs/api/queries"
 import { type SongWithRelations } from "@repo/api"
 
 const PLAYER_STORE_NAME = "player"
 
 type PlayerState = {
+  trackIds: number[]
   volume: number
   isMuted: boolean
   repeatMode: RepeatMode
@@ -29,11 +31,14 @@ type PlayerState = {
   windowStartIndex: number
   windowSize: number
   currentTrack: Track | null
+  currentTrackId: number | null
+  canPlayNext: boolean
+  canPlayPrevious: boolean
   playbackState: State
   position: number
   duration: number
   buffered: number
-  isLoading: boolean
+  isTrackLoading: boolean
   isQueueLoading: boolean
   hasHydrated: boolean
 }
@@ -58,14 +63,14 @@ type PlayerActions = {
     track: SongWithRelations | SongWithRelations[],
     position?: "next" | "end"
   ) => Promise<void>
+  addAfterCurrent: (track: SongWithRelations | SongWithRelations[]) => Promise<void>
   removeFromQueue: (index: number) => Promise<void>
   moveInQueue: (fromIndex: number, toIndex: number) => Promise<void>
-  clearQueue: () => Promise<void>
-  setLoading: (loading: boolean) => void
-  destroyPlayer: () => Promise<void>
-  findTrackById: (id: number) => Track | undefined
-  setHasHydrated: (hasHydrated: boolean) => void
   ensureWindowForIndex: (index: number) => Promise<void>
+  updateNavigationStates: () => void
+  clearQueue: () => Promise<void>
+  destroyPlayer: () => Promise<void>
+  setHasHydrated: (hasHydrated: boolean) => void
 }
 
 type PlayerStore = PlayerState & PlayerActions
@@ -84,6 +89,7 @@ const shuffleArray = <T>(array: T[]): T[] => {
 export const usePlayerStore = create<PlayerStore>()(
   persist(
     (set, get) => ({
+      trackIds: [],
       volume: 1,
       isMuted: false,
       repeatMode: RepeatMode.Off,
@@ -92,66 +98,152 @@ export const usePlayerStore = create<PlayerStore>()(
       queueIds: [],
       currentTrackIndex: null,
       windowStartIndex: 0,
-      windowSize: 50,
+      windowSize: 100,
       currentTrack: null,
+      currentTrackId: null,
+      canPlayNext: false,
+      canPlayPrevious: false,
       playbackState: State.None,
       position: 0,
       duration: 0,
       buffered: 0,
-      isLoading: false,
+      isTrackLoading: false,
       isQueueLoading: false,
       setVolume: async (volume) => {
         set({ volume })
+
         await TrackPlayer.setVolume(volume)
       },
       setIsMuted: async (isMuted) => {
         set({ isMuted })
+
         const volume = isMuted ? 0 : get().volume
         await TrackPlayer.setVolume(volume)
       },
       setRepeatMode: async (mode) => {
         set({ repeatMode: mode })
+
         await TrackPlayer.setRepeatMode(mode)
+
+        get().updateNavigationStates()
       },
       setShuffleEnabled: async (enabled) => {
-        const { queueIds, currentTrackIndex, windowStartIndex, windowSize } = get()
+        const { trackIds, currentTrackId, currentTrackIndex, windowSize } = get()
 
         set({ isShuffleEnabled: enabled, isQueueLoading: true })
 
-        if (queueIds.length === 0 || currentTrackIndex === null) {
+        if (trackIds.length === 0 || currentTrackId === null || currentTrackIndex === null) {
           set({ isQueueLoading: false })
           return
         }
 
-        const head = queueIds.slice(0, currentTrackIndex + 1)
-        const tail = queueIds.slice(currentTrackIndex + 1)
-        const newTail = enabled ? shuffleArray(tail) : tail
-        const newQueueIds = [...head, ...newTail]
+        let newQueueIds: number[]
+        let newCurrentIndex: number
 
-        const start = windowStartIndex
-        const end = Math.min(start + windowSize, newQueueIds.length)
-        const playerTailStart = Math.max(currentTrackIndex + 1, start)
+        if (enabled) {
+          const remainingIds = trackIds.filter((id) => id !== currentTrackId)
+          newQueueIds = [currentTrackId, ...shuffleArray(remainingIds)]
+          newCurrentIndex = 0
+        } else {
+          newQueueIds = [...trackIds]
+          newCurrentIndex = trackIds.indexOf(currentTrackId)
+        }
 
-        const removeIndices: number[] = []
+        const half = Math.floor(windowSize / 2)
+        const newStart = Math.max(
+          0,
+          Math.min(newCurrentIndex - half, Math.max(0, newQueueIds.length - windowSize))
+        )
+        const newWindowIds = newQueueIds.slice(newStart, newStart + windowSize)
 
-        for (let i = end - 1; i >= playerTailStart; i--) removeIndices.push(i - start)
+        const currentPlayerQueue = TrackPlayer.getQueue()
+        const currentActiveIndex = TrackPlayer.getActiveTrackIndex()
 
-        if (removeIndices.length) await TrackPlayer.remove(removeIndices)
+        const currentTrackNewIndex = newWindowIds.findIndex((id) => id === currentTrackId)
 
-        const toAddIds = newQueueIds.slice(playerTailStart, end)
-        const toAddTracks = await Promise.all(
-          toAddIds.map(async (id) => {
-            const s = songsCacheById.get(id)
-            if (!s) return undefined
-            return resolveTrack(s)
+        if (currentTrackNewIndex < 0) {
+          const tracks = await Promise.all(
+            newWindowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+          )
+
+          if (currentPlayerQueue.length > 0) {
+            const indicesToRemove: number[] = []
+
+            for (let i = 0; i < currentPlayerQueue.length; i++) {
+              if (i !== currentActiveIndex) {
+                indicesToRemove.push(i)
+              }
+            }
+
+            for (let i = indicesToRemove.length - 1; i >= 0; i--) {
+              await TrackPlayer.remove(indicesToRemove[i])
+            }
+
+            if (TrackPlayer.getQueue().length > 0) {
+              await TrackPlayer.remove(0)
+            }
+          }
+
+          await TrackPlayer.add(tracks)
+          set({
+            queueIds: newQueueIds,
+            currentTrackIndex: newCurrentIndex,
+            windowStartIndex: newStart,
+            isQueueLoading: false
           })
+
+          get().updateNavigationStates()
+          return
+        }
+
+        if (currentPlayerQueue.length > 0) {
+          const indicesToRemove: number[] = []
+
+          for (let i = 0; i < currentPlayerQueue.length; i++) {
+            if (i !== currentActiveIndex) {
+              indicesToRemove.push(i)
+            }
+          }
+
+          for (let i = indicesToRemove.length - 1; i >= 0; i--) {
+            await TrackPlayer.remove(indicesToRemove[i])
+          }
+        }
+
+        const beforeCurrentIds = newWindowIds.slice(0, currentTrackNewIndex)
+        const afterCurrentIds = newWindowIds.slice(currentTrackNewIndex + 1)
+
+        const tracksBeforeCurrent = await Promise.all(
+          beforeCurrentIds.map((id) => resolveTrack(songsCacheById.get(id)!))
         )
 
-        const filtered = toAddTracks.filter(Boolean) as Track[]
+        const tracksAfterCurrent = await Promise.all(
+          afterCurrentIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+        )
 
-        if (filtered.length) await TrackPlayer.add(filtered)
+        if (tracksBeforeCurrent.length > 0) {
+          await TrackPlayer.add(tracksBeforeCurrent, 0)
+        }
 
-        set({ queueIds: newQueueIds, isQueueLoading: false })
+        if (tracksAfterCurrent.length > 0) {
+          await TrackPlayer.add(tracksAfterCurrent)
+        }
+
+        const finalCurrentIndex = tracksBeforeCurrent.length
+        const actualCurrentIndex = TrackPlayer.getActiveTrackIndex()
+
+        if (actualCurrentIndex !== finalCurrentIndex) {
+          await TrackPlayer.skip(finalCurrentIndex)
+        }
+
+        set({
+          queueIds: newQueueIds,
+          currentTrackIndex: newCurrentIndex,
+          windowStartIndex: newStart,
+          isQueueLoading: false
+        })
+
+        get().updateNavigationStates()
       },
       toggleShuffle: async () => {
         await get().setShuffleEnabled(!get().isShuffleEnabled)
@@ -172,13 +264,12 @@ export const usePlayerStore = create<PlayerStore>()(
 
         let queueIds: number[]
         let currentIndex: number
+        const currentId = allIds[startIndex]
 
         if (isShuffleEnabled) {
-          const selectedId = allIds[startIndex]
           const otherIds = allIds.filter((_, i) => i !== startIndex)
           const shuffledOthers = shuffleArray(otherIds)
-
-          queueIds = [selectedId, ...shuffledOthers]
+          queueIds = [currentId, ...shuffledOthers]
           currentIndex = 0
         } else {
           queueIds = [...allIds]
@@ -197,15 +288,19 @@ export const usePlayerStore = create<PlayerStore>()(
         await TrackPlayer.skip(currentIndex - start)
 
         set({
+          trackIds: allIds,
           queueIds,
           currentTrackIndex: currentIndex,
           windowStartIndex: start,
           currentTrack: tracks[currentIndex - start] || null,
+          currentTrackId: currentId,
           position: 0,
           duration: tracks[currentIndex - start]?.duration || 0,
           buffered: 0,
           isQueueLoading: false
         })
+
+        get().updateNavigationStates()
       },
       play: async () => {
         await TrackPlayer.play()
@@ -217,10 +312,53 @@ export const usePlayerStore = create<PlayerStore>()(
         await TrackPlayer.stop()
       },
       playNext: async () => {
-        await TrackPlayer.skipToNext()
+        const { currentTrackIndex, queueIds, repeatMode } = get()
+
+        if (currentTrackIndex === null) {
+          await TrackPlayer.skipToNext()
+          return
+        }
+
+        if (repeatMode === RepeatMode.Track) {
+          await TrackPlayer.seekTo(0)
+          await TrackPlayer.play()
+          return
+        }
+
+        const nextIndex = currentTrackIndex + 1
+
+        if (nextIndex < queueIds.length) {
+          await get().skipToTrack(nextIndex)
+          return
+        }
+
+        if (repeatMode === RepeatMode.Queue && queueIds.length > 0) {
+          await get().skipToTrack(0)
+        }
       },
       playPrevious: async () => {
-        await TrackPlayer.skipToPrevious()
+        const { currentTrackIndex, queueIds, repeatMode } = get()
+
+        if (currentTrackIndex === null) {
+          await TrackPlayer.skipToPrevious()
+          return
+        }
+
+        if (repeatMode === RepeatMode.Track) {
+          await TrackPlayer.seekTo(0)
+          await TrackPlayer.play()
+          return
+        }
+
+        const previousIndex = currentTrackIndex - 1
+        if (previousIndex >= 0) {
+          await get().skipToTrack(previousIndex)
+          return
+        }
+
+        if (repeatMode === RepeatMode.Queue && queueIds.length > 0) {
+          await get().skipToTrack(queueIds.length - 1)
+        }
       },
       skipToTrack: async (index) => {
         const { windowStartIndex } = get()
@@ -257,6 +395,32 @@ export const usePlayerStore = create<PlayerStore>()(
           position === "next" && currentTrackIndex !== null
             ? currentTrackIndex + 1
             : queueIds.length
+        const newQueueIds = [...queueIds]
+        newQueueIds.splice(insertIndex, 0, ...idsToInsert)
+
+        const start = windowStartIndex
+        const end = Math.min(start + windowSize, newQueueIds.length)
+
+        if (insertIndex >= start && insertIndex < end) {
+          const insertBeforePlayerIndex = insertIndex - start
+          const tracks = await Promise.all(
+            idsToInsert.map((id) => resolveTrack(songsCacheById.get(id)!))
+          )
+          await TrackPlayer.add(tracks, insertBeforePlayerIndex)
+        }
+
+        set({ queueIds: newQueueIds, isQueueLoading: false })
+      },
+      addAfterCurrent: async (newTracks) => {
+        const { queueIds, currentTrackIndex, windowStartIndex, windowSize } = get()
+
+        set({ isQueueLoading: true })
+
+        const songsArray = Array.isArray(newTracks) ? newTracks : [newTracks]
+        songsArray.forEach((s) => songsCacheById.set(s.id, s))
+
+        const idsToInsert = songsArray.map((s) => s.id)
+        const insertIndex = currentTrackIndex !== null ? currentTrackIndex + 1 : queueIds.length
         const newQueueIds = [...queueIds]
         newQueueIds.splice(insertIndex, 0, ...idsToInsert)
 
@@ -315,6 +479,34 @@ export const usePlayerStore = create<PlayerStore>()(
 
         set({ queueIds: newQueue, isQueueLoading: false })
       },
+      updateNavigationStates: () => {
+        const { currentTrackIndex, queueIds, repeatMode } = get()
+
+        let canPlayNext = false
+        let canPlayPrevious = false
+
+        if (currentTrackIndex !== null && queueIds.length > 0) {
+          if (queueIds.length === 1) {
+            canPlayNext = canPlayPrevious = repeatMode !== RepeatMode.Off
+          } else {
+            switch (repeatMode) {
+              case RepeatMode.Off:
+                canPlayNext = currentTrackIndex < queueIds.length - 1
+                canPlayPrevious = currentTrackIndex > 0
+                break
+              case RepeatMode.Track:
+              case RepeatMode.Queue:
+                canPlayNext = canPlayPrevious = true
+                break
+              default:
+                canPlayNext = currentTrackIndex < queueIds.length - 1
+                canPlayPrevious = currentTrackIndex > 0
+            }
+          }
+        }
+
+        set({ canPlayNext, canPlayPrevious })
+      },
       clearQueue: async () => {
         set({ isQueueLoading: true })
 
@@ -323,6 +515,8 @@ export const usePlayerStore = create<PlayerStore>()(
         set({
           queueIds: [],
           currentTrack: null,
+          canPlayNext: false,
+          canPlayPrevious: false,
           currentTrackIndex: null,
           windowStartIndex: 0,
           position: 0,
@@ -331,19 +525,6 @@ export const usePlayerStore = create<PlayerStore>()(
           playbackState: State.None,
           isQueueLoading: false
         })
-      },
-      setLoading: (loading) => {
-        set({ isLoading: loading })
-      },
-      findTrackById: (id) => {
-        const song = songsCacheById.get(id)
-
-        if (!song) return undefined
-
-        return {
-          ...(song as unknown as Track),
-          id: song.id
-        }
       },
       destroyPlayer: async () => {
         await TrackPlayer.destroy()
@@ -357,7 +538,7 @@ export const usePlayerStore = create<PlayerStore>()(
           position: 0,
           duration: 0,
           buffered: 0,
-          isLoading: false,
+          isTrackLoading: false,
           isQueueLoading: false
         })
 
@@ -403,12 +584,13 @@ export const usePlayerStore = create<PlayerStore>()(
       version: 1,
       storage: persistStorage(`.${PLAYER_STORE_NAME}.json`),
       partialize: (state) => ({
+        trackIds: state.trackIds,
         volume: state.volume,
         isMuted: state.isMuted,
         repeatMode: state.repeatMode,
         isShuffleEnabled: state.isShuffleEnabled,
-        queueIds: state.queueIds,
-        currentTrackIndex: state.currentTrackIndex
+        currentTrackId: state.currentTrackId,
+        position: state.position
       }),
       onRehydrateStorage: () => {
         return async (state) => {
@@ -416,19 +598,77 @@ export const usePlayerStore = create<PlayerStore>()(
           registerPlaybackListeners()
 
           if (state) {
-            await TrackPlayer.setVolume(0)
+            try {
+              await TrackPlayer.setVolume(0)
 
-            if (state.repeatMode !== undefined) {
-              await TrackPlayer.setRepeatMode(state.repeatMode)
+              if (state.repeatMode !== undefined) {
+                await TrackPlayer.setRepeatMode(state.repeatMode)
+              }
+
+              if (state.trackIds && state.trackIds.length > 0 && state.currentTrackId !== null) {
+                const isShuffleEnabled = state.isShuffleEnabled
+                const trackIds = state.trackIds
+                const currentId = state.currentTrackId
+
+                let queueIds: number[]
+                let currentIndex: number
+
+                if (isShuffleEnabled) {
+                  const remainingIds = trackIds.filter((id) => id !== currentId)
+                  queueIds = [currentId, ...shuffleArray(remainingIds)]
+                  currentIndex = 0
+                } else {
+                  queueIds = [...trackIds]
+                  currentIndex = trackIds.indexOf(currentId)
+                }
+
+                const windowSize = state.windowSize ?? 50
+                const half = Math.floor(windowSize / 2)
+                const start = Math.max(
+                  0,
+                  Math.min(currentIndex - half, Math.max(0, queueIds.length - windowSize))
+                )
+                const end = Math.min(queueIds.length, start + windowSize)
+                const windowIds = queueIds.slice(start, end)
+
+                const windowSongs = await getSongsByIdsWithRelations(windowIds)
+                songsCacheById.clear()
+                windowSongs.forEach((s) => songsCacheById.set(s.id, s))
+                const tracks = await Promise.all(
+                  windowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+                )
+
+                await TrackPlayer.reset()
+                await TrackPlayer.add(tracks)
+                await TrackPlayer.skip(currentIndex - start)
+
+                if (typeof state.position === "number" && state.position > 0) {
+                  await TrackPlayer.seekTo(state.position)
+                }
+
+                await TrackPlayer.pause()
+
+                usePlayerStore.setState({
+                  trackIds,
+                  queueIds,
+                  currentTrackIndex: currentIndex,
+                  windowStartIndex: start,
+                  currentTrack: tracks[currentIndex - start] || null,
+                  currentTrackId: currentId,
+                  duration: tracks[currentIndex - start]?.duration || 0
+                })
+
+                usePlayerStore.getState().updateNavigationStates()
+              }
+
+              if (state.volume !== undefined) {
+                await TrackPlayer.setVolume(state.isMuted ? 0 : state.volume)
+              } else {
+                TrackPlayer.setVolume(1)
+              }
+            } finally {
+              state.setHasHydrated(true)
             }
-
-            if (state.volume !== undefined) {
-              await TrackPlayer.setVolume(state.isMuted ? 0 : state.volume)
-            } else {
-              TrackPlayer.setVolume(1)
-            }
-
-            state.setHasHydrated(true)
           }
         }
       }

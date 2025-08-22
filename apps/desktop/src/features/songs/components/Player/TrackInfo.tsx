@@ -19,12 +19,18 @@ const TrackInfo = () => {
 
   return (
     <div className="flex h-full items-center gap-3 truncate">
-      <Thumbnail
-        fileName={currentTrack?.thumbnail}
-        alt={currentTrack?.title}
-        containerClassName="size-24 border border-muted rounded-md"
-        className={cn("object-cover", currentTrack?.thumbnail ? "size-24" : "size-8")}
-      />
+      {currentTrack ? (
+        <Fade>
+          <Thumbnail
+            fileName={currentTrack?.thumbnail}
+            alt={currentTrack?.title}
+            containerClassName="size-24 border border-muted rounded-md"
+            className={cn("object-cover", currentTrack?.thumbnail ? "size-24" : "size-8")}
+          />
+        </Fade>
+      ) : (
+        <div className="size-24" />
+      )}
       <Fade show={!!currentTrack}>
         <IconButton
           name="Heart"

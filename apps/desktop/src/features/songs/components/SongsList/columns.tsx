@@ -72,13 +72,13 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
     cell: ({ row }) => {
       const song = row.original
 
-      const { loadTracks, play, currentTrack, playbackState, isQueueLoading } = usePlayerStore(
+      const { loadTracks, play, currentTrack, playbackState, isTrackLoading } = usePlayerStore(
         useShallow((state) => ({
           loadTracks: state.loadTracks,
           play: state.play,
           currentTrack: state.currentTrack,
           playbackState: state.playbackState,
-          isQueueLoading: state.isQueueLoading
+          isTrackLoading: state.isTrackLoading
         }))
       )
 
@@ -111,7 +111,7 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
               name={isCurrentlyPlaying ? "Pause" : "Play"}
               tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
               onClick={handlePlaySong}
-              isLoading={isQueueLoading}
+              isLoading={isTrackLoading}
             />
           </div>
           <Fade show={isCurrentlyPlaying} className="absolute z-0 size-5">
@@ -199,19 +199,18 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
       const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
       const selectedSongs = table.getSelectedRowModel().flatRows.map((row) => row.original)
 
+      const { loadTracks, play } = usePlayerStore(
+        useShallow((state) => ({
+          loadTracks: state.loadTracks,
+          play: state.play
+        }))
+      )
+
       const handlePlaySelected = async () => {
         if (selectedSongs.length > 0) {
-          try {
-            await usePlayerStore.getState().loadTracks(selectedSongs, 0)
-            await usePlayerStore.getState().play()
-          } catch (error) {
-            console.error("Error playing selected songs:", error)
-          }
+          await loadTracks(selectedSongs, 0)
+          await play()
         }
-      }
-
-      const handlePlayNext = async () => {
-        console.log("Play next:", selectedSongs)
       }
 
       return (
@@ -226,7 +225,7 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
                 <Icon name="Play" />
                 {t("common.play")}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handlePlayNext}>
+              <DropdownMenuItem>
                 <Icon name="Forward" />
                 {t("common.playNext")}
               </DropdownMenuItem>
