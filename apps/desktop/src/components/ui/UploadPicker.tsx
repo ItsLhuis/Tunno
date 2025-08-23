@@ -6,6 +6,8 @@ import { useTranslation } from "@repo/i18n"
 
 import { cn } from "@lib/utils"
 
+import { getFilePath } from "@services/storage"
+
 import { convertFileSrc } from "@tauri-apps/api/core"
 import { open } from "@tauri-apps/plugin-dialog"
 import { stat } from "@tauri-apps/plugin-fs"
@@ -20,6 +22,8 @@ import { Typography } from "@components/ui/Typography"
 
 import { formatFileSize, getFileNameAndExtension, isImageExtension } from "@repo/utils"
 
+import { type AppPaths } from "@lib/appStorage"
+
 import { VALID_SONG_FILE_EXTENSIONS } from "@repo/shared/constants"
 
 type FileItem = {
@@ -27,6 +31,7 @@ type FileItem = {
   extension: string
   size: number
   path: string
+  displayName?: string
 }
 
 type FolderItem = {
@@ -47,6 +52,8 @@ export type UploadPickerProps = {
   disabled?: boolean
   title?: string
   description?: string
+  storageDir?: keyof AppPaths
+  displayName?: string
 }
 
 const UploadPicker = ({
@@ -61,7 +68,9 @@ const UploadPicker = ({
   className,
   disabled = false,
   title,
-  description
+  description,
+  storageDir,
+  displayName
 }: UploadPickerProps) => {
   const { t } = useTranslation()
 
@@ -69,37 +78,59 @@ const UploadPicker = ({
 
   const isControlled = value !== undefined
 
+  const isFileName = (pathOrName: string): boolean => {
+    if (pathOrName.includes("/") || pathOrName.includes("\\")) {
+      return false
+    }
+    const { extension } = getFileNameAndExtension(pathOrName)
+    return !!extension
+  }
+
+  const createItemFromPathOrName = async (pathOrName: string): Promise<FileItem | FolderItem> => {
+    if (mode === "folder") {
+      return { name: pathOrName.split(/[\\/]/).pop() || "", path: pathOrName }
+    } else {
+      let actualPath = pathOrName
+      let itemDisplayName = displayName
+
+      if (isFileName(pathOrName) && storageDir) {
+        actualPath = await getFilePath(storageDir, pathOrName)
+
+        if (!itemDisplayName) {
+          itemDisplayName = pathOrName
+        }
+      }
+
+      const { name, extension } = getFileNameAndExtension(actualPath)
+
+      let size = 0
+
+      try {
+        const metadata = await stat(actualPath)
+        size = metadata.size
+      } catch {}
+
+      return {
+        name: itemDisplayName || name,
+        extension,
+        size,
+        path: actualPath,
+        displayName: itemDisplayName
+      }
+    }
+  }
+
   useEffect(() => {
     if (isControlled) {
       if (value) {
-        if (mode === "folder") {
-          setItem({ name: value.split(/[\\/]/).pop() || "", path: value })
-        } else {
-          const { name, extension } = getFileNameAndExtension(value)
-          setItem({
-            name,
-            extension,
-            size: 0,
-            path: value
-          })
-        }
+        createItemFromPathOrName(value).then(setItem)
       } else {
         setItem(null)
       }
     } else if (defaultValue && !item) {
-      if (mode === "folder") {
-        setItem({ name: defaultValue.split(/[\\/]/).pop() || "", path: defaultValue })
-      } else {
-        const { name, extension } = getFileNameAndExtension(defaultValue)
-        setItem({
-          name,
-          extension,
-          size: 0,
-          path: defaultValue
-        })
-      }
+      createItemFromPathOrName(defaultValue).then(setItem)
     }
-  }, [value, mode, isControlled, defaultValue, item])
+  }, [value, mode, isControlled, defaultValue, storageDir, displayName])
 
   const validateFile = (file: { name: string; size: number }) => {
     if (mode === "file" && file.size > maxSize) {
@@ -152,10 +183,11 @@ const UploadPicker = ({
       } else {
         const { name, extension } = getFileNameAndExtension(selected)
         const fileItem: FileItem = {
-          name,
+          name: displayName || name,
           extension,
           size: metadata.size,
-          path: selected
+          path: selected,
+          displayName
         }
 
         const error = validateFile({ name: fileItem.name, size: fileItem.size })
@@ -165,6 +197,7 @@ const UploadPicker = ({
         }
 
         setItem(fileItem)
+
         onChange?.(fileItem.path)
       }
     } catch (error) {

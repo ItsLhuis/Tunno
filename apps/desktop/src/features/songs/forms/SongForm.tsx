@@ -198,6 +198,7 @@ const SongForm = ({
                       onChange={field.onChange}
                       onError={(msg) => form.setError(field.name, { message: msg })}
                       accept={VALID_SONG_FILE_EXTENSIONS}
+                      storageDir="songs"
                     />
                     <FormMessage />
                   </FormItem>
@@ -213,10 +214,15 @@ const SongForm = ({
                   <UploadPicker
                     mode="file"
                     value={field.value}
-                    defaultValue={song?.thumbnail || undefined}
                     onChange={field.onChange}
                     onError={(msg) => form.setError(field.name, { message: msg })}
                     accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
+                    storageDir="thumbnails"
+                    displayName={
+                      mode === "update" && song?.name
+                        ? `${song.name} - ${t("form.labels.thumbnail")}`
+                        : undefined
+                    }
                   />
                   <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
                   <FormMessage />
