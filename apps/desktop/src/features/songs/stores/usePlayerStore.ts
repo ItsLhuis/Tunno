@@ -13,6 +13,8 @@ import TrackPlayer, { RepeatMode, State } from "react-track-player-web"
 
 import { resolveTrack } from "../utils/player"
 
+import { shuffleArray } from "@repo/utils"
+
 import { getSongsByIdsWithRelations } from "@features/songs/api/queries"
 
 import { type Track } from "../types/player"
@@ -80,15 +82,6 @@ type PlayerActions = {
 type PlayerStore = PlayerState & PlayerActions
 
 const songsCacheById = new Map<number, SongWithRelations>()
-
-const shuffleArray = <T>(array: T[]): T[] => {
-  const shuffled = [...array]
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-  }
-  return shuffled
-}
 
 export const usePlayerStore = create<PlayerStore>()(
   persist(
