@@ -49,7 +49,7 @@ export const registerPlaybackListeners = () => {
       currentTrackIndex: globalIndex,
       currentTrack: track ?? null,
       currentTrackId: track?.id ?? null,
-      duration: TrackPlayer.getDuration() || 0
+      duration: Math.round(TrackPlayer.getDuration() || 0)
     })
 
     if (typeof globalIndex === "number") {
@@ -65,7 +65,7 @@ export const registerPlaybackListeners = () => {
 
     usePlayerStore.setState({
       position: Math.floor(position),
-      duration: Math.floor(duration),
+      duration: Math.round(duration),
       buffered: Math.floor(buffered)
     })
   }

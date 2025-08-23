@@ -190,7 +190,7 @@ const SongForm = ({
                           })
                           return false
                         }
-                        form.setValue("duration", Math.floor(durationSeconds), {
+                        form.setValue("duration", Math.round(durationSeconds), {
                           shouldValidate: true
                         })
                         return true
