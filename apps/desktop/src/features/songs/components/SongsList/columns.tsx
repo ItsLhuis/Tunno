@@ -98,6 +98,7 @@ export const columns = ({ t, language, songs }: ColumnsProps): ColumnDef<SongWit
         }
 
         const index = row.index
+
         await loadTracks(songs, index)
         await play()
       }
