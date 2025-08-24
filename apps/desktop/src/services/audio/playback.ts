@@ -8,11 +8,9 @@ import TrackPlayer, {
 } from "react-track-player-web"
 
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
-
 import { type Track } from "@features/songs/types/player"
 
 let unsubscribeFns: Array<() => void> = []
-let bufferingTimeout: NodeJS.Timeout | null = null
 
 export const registerPlaybackListeners = () => {
   if (unsubscribeFns.length > 0) {
@@ -24,18 +22,10 @@ export const registerPlaybackListeners = () => {
     if ((data as PlaybackStateEventData).type !== Event.PlaybackState) return
     const { state } = data as PlaybackStateEventData
 
-    if (state === State.Buffering) {
-      if (bufferingTimeout) clearTimeout(bufferingTimeout)
-      bufferingTimeout = setTimeout(() => {
-        usePlayerStore.setState({ playbackState: state, isTrackLoading: true })
-      }, 300)
-    } else {
-      if (bufferingTimeout) {
-        clearTimeout(bufferingTimeout)
-        bufferingTimeout = null
-      }
-      usePlayerStore.setState({ playbackState: state, isTrackLoading: false })
-    }
+    usePlayerStore.setState({
+      playbackState: state,
+      isTrackLoading: state === State.Buffering
+    })
   }
 
   const onTrackChanged = async () => {
@@ -95,9 +85,4 @@ export const unregisterPlaybackListeners = () => {
   if (unsubscribeFns.length === 0) return
   unsubscribeFns.forEach((fn) => fn())
   unsubscribeFns = []
-
-  if (bufferingTimeout) {
-    clearTimeout(bufferingTimeout)
-    bufferingTimeout = null
-  }
 }
