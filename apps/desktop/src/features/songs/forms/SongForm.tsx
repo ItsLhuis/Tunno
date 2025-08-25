@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from "react"
+import { useEffect, useMemo, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -109,18 +109,22 @@ const SongForm = ({
     }
   })
 
+  useEffect(() => {
+    if (form.formState.isSubmitSuccessful) {
+      form.reset()
+
+      if (asModal) {
+        setIsOpen(false)
+      }
+    }
+  }, [form.formState.isSubmitSuccessful])
+
   const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
     if (onSubmit) {
       await onSubmit(values)
     } else {
       await currentMutation.mutateAsync(values as any)
     }
-
-    if (asModal) {
-      setIsOpen(false)
-    }
-
-    form.reset()
   }
 
   const renderProps = {
