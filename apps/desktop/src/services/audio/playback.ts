@@ -1,3 +1,5 @@
+import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
+
 import TrackPlayer, {
   Event,
   type EventData,
@@ -7,7 +9,6 @@ import TrackPlayer, {
   State
 } from "react-track-player-web"
 
-import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 import { type Track } from "@features/songs/types/player"
 
 let unsubscribeFns: Array<() => void> = []

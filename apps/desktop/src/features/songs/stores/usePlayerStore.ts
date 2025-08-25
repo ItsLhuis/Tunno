@@ -182,7 +182,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
         if (!validateQueueIntegrity(trackIds, queueIds, currentTrackIndex)) {
           await get().clearQueue()
-          
+
           return
         }
       },

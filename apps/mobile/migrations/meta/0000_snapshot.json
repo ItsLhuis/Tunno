@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9bdde7bd-55ef-4460-95ae-06f5435e673e",
+  "id": "ca717a45-1645-4e72-aaa7-021c5ae19c9d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "albums": {
@@ -17,13 +17,6 @@
         "name": {
           "name": "name",
           "type": "text(150)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "artist_id": {
-          "name": "artist_id",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -58,13 +51,28 @@
           "autoincrement": false,
           "default": false
         },
-        "is_auto_generated": {
-          "name": "is_auto_generated",
+        "album_type": {
+          "name": "album_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "total_tracks": {
+          "name": "total_tracks",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": false
+          "default": 0
+        },
+        "total_duration": {
+          "name": "total_duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
         },
         "created_at": {
           "name": "created_at",
@@ -91,20 +99,6 @@
           ],
           "isUnique": false
         },
-        "albums_artist_idx": {
-          "name": "albums_artist_idx",
-          "columns": [
-            "artist_id"
-          ],
-          "isUnique": false
-        },
-        "albums_release_year_idx": {
-          "name": "albums_release_year_idx",
-          "columns": [
-            "release_year"
-          ],
-          "isUnique": false
-        },
         "albums_favorite_idx": {
           "name": "albums_favorite_idx",
           "columns": [
@@ -119,34 +113,85 @@
           ],
           "isUnique": false
         },
-        "albums_artist_year_idx": {
-          "name": "albums_artist_year_idx",
+        "albums_release_year_idx": {
+          "name": "albums_release_year_idx",
           "columns": [
-            "artist_id",
             "release_year"
           ],
           "isUnique": false
         },
-        "albums_artist_name_unique_idx": {
-          "name": "albums_artist_name_unique_idx",
+        "albums_album_type_idx": {
+          "name": "albums_album_type_idx",
           "columns": [
-            "artist_id",
-            "name"
+            "album_type"
+          ],
+          "isUnique": false
+        },
+        "albums_name_type_unique_idx": {
+          "name": "albums_name_type_unique_idx",
+          "columns": [
+            "name",
+            "album_type"
           ],
           "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "album_artists": {
+      "name": "album_artists",
+      "columns": {
+        "album_id": {
+          "name": "album_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
-        "albums_auto_generated_idx": {
-          "name": "albums_auto_generated_idx",
+        "artist_id": {
+          "name": "artist_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "album_artists_album_idx": {
+          "name": "album_artists_album_idx",
           "columns": [
-            "is_auto_generated"
+            "album_id"
+          ],
+          "isUnique": false
+        },
+        "album_artists_artist_idx": {
+          "name": "album_artists_artist_idx",
+          "columns": [
+            "artist_id"
           ],
           "isUnique": false
         }
       },
       "foreignKeys": {
-        "albums_artist_id_artists_id_fk": {
-          "name": "albums_artist_id_artists_id_fk",
-          "tableFrom": "albums",
+        "album_artists_album_id_albums_id_fk": {
+          "name": "album_artists_album_id_albums_id_fk",
+          "tableFrom": "album_artists",
+          "tableTo": "albums",
+          "columnsFrom": [
+            "album_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "album_artists_artist_id_artists_id_fk": {
+          "name": "album_artists_artist_id_artists_id_fk",
+          "tableFrom": "album_artists",
           "tableTo": "artists",
           "columnsFrom": [
             "artist_id"
@@ -158,7 +203,15 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "album_artists_album_id_artist_id_pk": {
+          "columns": [
+            "album_id",
+            "artist_id"
+          ],
+          "name": "album_artists_album_id_artist_id_pk"
+        }
+      },
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
@@ -556,91 +609,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "song_stats": {
-      "name": "song_stats",
-      "columns": {
-        "song_id": {
-          "name": "song_id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "total_play_time": {
-          "name": "total_play_time",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "average_play_duration": {
-          "name": "average_play_duration",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "skip_rate": {
-          "name": "skip_rate",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "last_calculated_at": {
-          "name": "last_calculated_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
-        }
-      },
-      "indexes": {
-        "song_stats_total_play_time_idx": {
-          "name": "song_stats_total_play_time_idx",
-          "columns": [
-            "total_play_time"
-          ],
-          "isUnique": false
-        },
-        "song_stats_skip_rate_idx": {
-          "name": "song_stats_skip_rate_idx",
-          "columns": [
-            "skip_rate"
-          ],
-          "isUnique": false
-        },
-        "song_stats_last_calculated_idx": {
-          "name": "song_stats_last_calculated_idx",
-          "columns": [
-            "last_calculated_at"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "song_stats_song_id_songs_id_fk": {
-          "name": "song_stats_song_id_songs_id_fk",
-          "tableFrom": "song_stats",
-          "tableTo": "songs",
-          "columnsFrom": [
-            "song_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "songs": {
       "name": "songs",
       "columns": {
@@ -681,14 +649,6 @@
         },
         "is_favorite": {
           "name": "is_favorite",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        },
-        "is_single": {
-          "name": "is_single",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -813,13 +773,6 @@
             "file"
           ],
           "isUnique": false
-        },
-        "songs_single_idx": {
-          "name": "songs_single_idx",
-          "columns": [
-            "is_single"
-          ],
-          "isUnique": false
         }
       },
       "foreignKeys": {
@@ -833,7 +786,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set null",
+          "onDelete": "restrict",
           "onUpdate": "no action"
         }
       },
