@@ -1,25 +1,51 @@
+CREATE TABLE `album_stats` (
+	`album_id` integer PRIMARY KEY NOT NULL,
+	`total_play_time` integer DEFAULT 0 NOT NULL,
+	`last_calculated_at` integer DEFAULT (unixepoch()) NOT NULL,
+	FOREIGN KEY (`album_id`) REFERENCES `albums`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `album_stats_total_play_time_idx` ON `album_stats` (`total_play_time`);--> statement-breakpoint
+CREATE INDEX `album_stats_last_calculated_idx` ON `album_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `albums` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(150) NOT NULL,
-	`artist_id` integer NOT NULL,
 	`thumbnail` text(50),
 	`release_year` integer,
 	`play_count` integer DEFAULT 0 NOT NULL,
 	`is_favorite` integer DEFAULT false NOT NULL,
-	`is_auto_generated` integer DEFAULT false NOT NULL,
+	`album_type` text NOT NULL,
+	`total_tracks` integer DEFAULT 0 NOT NULL,
+	`total_duration` integer DEFAULT 0 NOT NULL,
 	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
-	`updated_at` integer DEFAULT (unixepoch()) NOT NULL,
-	FOREIGN KEY (`artist_id`) REFERENCES `artists`(`id`) ON UPDATE no action ON DELETE cascade
+	`updated_at` integer DEFAULT (unixepoch()) NOT NULL
 );
 --> statement-breakpoint
 CREATE INDEX `albums_name_idx` ON `albums` (`name`);--> statement-breakpoint
-CREATE INDEX `albums_artist_idx` ON `albums` (`artist_id`);--> statement-breakpoint
-CREATE INDEX `albums_release_year_idx` ON `albums` (`release_year`);--> statement-breakpoint
 CREATE INDEX `albums_favorite_idx` ON `albums` (`is_favorite`);--> statement-breakpoint
 CREATE INDEX `albums_playcount_idx` ON `albums` (`play_count`);--> statement-breakpoint
-CREATE INDEX `albums_artist_year_idx` ON `albums` (`artist_id`,`release_year`);--> statement-breakpoint
-CREATE UNIQUE INDEX `albums_artist_name_unique_idx` ON `albums` (`artist_id`,`name`);--> statement-breakpoint
-CREATE INDEX `albums_auto_generated_idx` ON `albums` (`is_auto_generated`);--> statement-breakpoint
+CREATE INDEX `albums_release_year_idx` ON `albums` (`release_year`);--> statement-breakpoint
+CREATE INDEX `albums_album_type_idx` ON `albums` (`album_type`);--> statement-breakpoint
+CREATE UNIQUE INDEX `albums_name_type_unique_idx` ON `albums` (`name`,`album_type`);--> statement-breakpoint
+CREATE TABLE `album_artists` (
+	`album_id` integer NOT NULL,
+	`artist_id` integer NOT NULL,
+	PRIMARY KEY(`album_id`, `artist_id`),
+	FOREIGN KEY (`album_id`) REFERENCES `albums`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`artist_id`) REFERENCES `artists`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `album_artists_album_idx` ON `album_artists` (`album_id`);--> statement-breakpoint
+CREATE INDEX `album_artists_artist_idx` ON `album_artists` (`artist_id`);--> statement-breakpoint
+CREATE TABLE `artist_stats` (
+	`artist_id` integer PRIMARY KEY NOT NULL,
+	`total_play_time` integer DEFAULT 0 NOT NULL,
+	`last_calculated_at` integer DEFAULT (unixepoch()) NOT NULL,
+	FOREIGN KEY (`artist_id`) REFERENCES `artists`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `artist_stats_total_play_time_idx` ON `artist_stats` (`total_play_time`);--> statement-breakpoint
+CREATE INDEX `artist_stats_last_calculated_idx` ON `artist_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `artists` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(100) NOT NULL,
@@ -40,9 +66,7 @@ CREATE TABLE `play_history` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`song_id` integer NOT NULL,
 	`played_at` integer DEFAULT (unixepoch()) NOT NULL,
-	`play_duration` integer,
-	`was_skipped` integer DEFAULT false NOT NULL,
-	`play_source` text(30),
+	`play_source` text DEFAULT 'unknown' NOT NULL,
 	FOREIGN KEY (`song_id`) REFERENCES `songs`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
@@ -50,7 +74,15 @@ CREATE INDEX `play_history_song_idx` ON `play_history` (`song_id`);--> statement
 CREATE INDEX `play_history_played_at_idx` ON `play_history` (`played_at`);--> statement-breakpoint
 CREATE INDEX `play_history_source_idx` ON `play_history` (`play_source`);--> statement-breakpoint
 CREATE INDEX `play_history_song_date_idx` ON `play_history` (`song_id`,`played_at`);--> statement-breakpoint
-CREATE INDEX `play_history_skipped_idx` ON `play_history` (`was_skipped`,`played_at`);--> statement-breakpoint
+CREATE TABLE `playlist_stats` (
+	`playlist_id` integer PRIMARY KEY NOT NULL,
+	`total_play_time` integer DEFAULT 0 NOT NULL,
+	`last_calculated_at` integer DEFAULT (unixepoch()) NOT NULL,
+	FOREIGN KEY (`playlist_id`) REFERENCES `playlists`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `playlist_stats_total_play_time_idx` ON `playlist_stats` (`total_play_time`);--> statement-breakpoint
+CREATE INDEX `playlist_stats_last_calculated_idx` ON `playlist_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `playlists` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(100) NOT NULL,
@@ -80,14 +112,11 @@ CREATE INDEX `playlist_songs_song_idx` ON `playlist_songs` (`song_id`);--> state
 CREATE TABLE `song_stats` (
 	`song_id` integer PRIMARY KEY NOT NULL,
 	`total_play_time` integer DEFAULT 0 NOT NULL,
-	`average_play_duration` integer DEFAULT 0 NOT NULL,
-	`skip_rate` integer DEFAULT 0 NOT NULL,
 	`last_calculated_at` integer DEFAULT (unixepoch()) NOT NULL,
 	FOREIGN KEY (`song_id`) REFERENCES `songs`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE INDEX `song_stats_total_play_time_idx` ON `song_stats` (`total_play_time`);--> statement-breakpoint
-CREATE INDEX `song_stats_skip_rate_idx` ON `song_stats` (`skip_rate`);--> statement-breakpoint
 CREATE INDEX `song_stats_last_calculated_idx` ON `song_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `songs` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -96,7 +125,6 @@ CREATE TABLE `songs` (
 	`file` text(50) NOT NULL,
 	`duration` integer NOT NULL,
 	`is_favorite` integer DEFAULT false NOT NULL,
-	`is_single` integer DEFAULT false NOT NULL,
 	`release_year` integer,
 	`album_id` integer,
 	`lyrics` text,
@@ -104,7 +132,7 @@ CREATE TABLE `songs` (
 	`last_played_at` integer,
 	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch()) NOT NULL,
-	FOREIGN KEY (`album_id`) REFERENCES `albums`(`id`) ON UPDATE no action ON DELETE set null
+	FOREIGN KEY (`album_id`) REFERENCES `albums`(`id`) ON UPDATE no action ON DELETE restrict
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `songs_file_unique` ON `songs` (`file`);--> statement-breakpoint
@@ -116,7 +144,6 @@ CREATE INDEX `songs_last_played_idx` ON `songs` (`last_played_at`);--> statement
 CREATE INDEX `songs_album_year_idx` ON `songs` (`album_id`,`release_year`);--> statement-breakpoint
 CREATE INDEX `songs_favorite_playcount_idx` ON `songs` (`is_favorite`,`play_count`);--> statement-breakpoint
 CREATE INDEX `songs_file_idx` ON `songs` (`file`);--> statement-breakpoint
-CREATE INDEX `songs_single_idx` ON `songs` (`is_single`);--> statement-breakpoint
 CREATE TABLE `song_artists` (
 	`song_id` integer NOT NULL,
 	`artist_id` integer NOT NULL,

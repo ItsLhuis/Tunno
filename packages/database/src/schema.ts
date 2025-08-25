@@ -47,15 +47,12 @@ export const songStats = sqliteTable(
       .references(() => songs.id, { onDelete: "cascade" })
       .primaryKey(),
     totalPlayTime: integer("total_play_time").notNull().default(0),
-    averagePlayDuration: integer("average_play_duration").notNull().default(0),
-    skipRate: integer("skip_rate").notNull().default(0),
     lastCalculatedAt: integer("last_calculated_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`)
   },
   (table) => [
     index("song_stats_total_play_time_idx").on(table.totalPlayTime),
-    index("song_stats_skip_rate_idx").on(table.skipRate),
     index("song_stats_last_calculated_idx").on(table.lastCalculatedAt)
   ]
 )
@@ -101,6 +98,24 @@ export const artists = sqliteTable(
   ]
 )
 
+export const artistStats = sqliteTable(
+  "artist_stats",
+  {
+    artistId: integer("artist_id")
+      .notNull()
+      .references(() => artists.id, { onDelete: "cascade" })
+      .primaryKey(),
+    totalPlayTime: integer("total_play_time").notNull().default(0),
+    lastCalculatedAt: integer("last_calculated_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`)
+  },
+  (table) => [
+    index("artist_stats_total_play_time_idx").on(table.totalPlayTime),
+    index("artist_stats_last_calculated_idx").on(table.lastCalculatedAt)
+  ]
+)
+
 export const albums = sqliteTable(
   "albums",
   {
@@ -127,6 +142,24 @@ export const albums = sqliteTable(
     index("albums_release_year_idx").on(table.releaseYear),
     index("albums_album_type_idx").on(table.albumType),
     uniqueIndex("albums_name_type_unique_idx").on(table.name, table.albumType)
+  ]
+)
+
+export const albumStats = sqliteTable(
+  "album_stats",
+  {
+    albumId: integer("album_id")
+      .notNull()
+      .references(() => albums.id, { onDelete: "cascade" })
+      .primaryKey(),
+    totalPlayTime: integer("total_play_time").notNull().default(0),
+    lastCalculatedAt: integer("last_calculated_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`)
+  },
+  (table) => [
+    index("album_stats_total_play_time_idx").on(table.totalPlayTime),
+    index("album_stats_last_calculated_idx").on(table.lastCalculatedAt)
   ]
 )
 
@@ -171,6 +204,24 @@ export const playlists = sqliteTable(
   ]
 )
 
+export const playlistStats = sqliteTable(
+  "playlist_stats",
+  {
+    playlistId: integer("playlist_id")
+      .notNull()
+      .references(() => playlists.id, { onDelete: "cascade" })
+      .primaryKey(),
+    totalPlayTime: integer("total_play_time").notNull().default(0),
+    lastCalculatedAt: integer("last_calculated_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`)
+  },
+  (table) => [
+    index("playlist_stats_total_play_time_idx").on(table.totalPlayTime),
+    index("playlist_stats_last_calculated_idx").on(table.lastCalculatedAt)
+  ]
+)
+
 export const playlistsToSongs = sqliteTable(
   "playlist_songs",
   {
@@ -201,16 +252,17 @@ export const playHistory = sqliteTable(
     playedAt: integer("played_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`),
-    playDuration: integer("play_duration"),
-    wasSkipped: integer("was_skipped", { mode: "boolean" }).notNull().default(false),
-    playSource: text("play_source", { length: 30 })
+    playSource: text("play_source", {
+      enum: ["playlist", "album", "artist", "queue", "unknown"]
+    })
+      .notNull()
+      .default("unknown")
   },
   (table) => [
     index("play_history_song_idx").on(table.songId),
     index("play_history_played_at_idx").on(table.playedAt),
     index("play_history_source_idx").on(table.playSource),
-    index("play_history_song_date_idx").on(table.songId, table.playedAt),
-    index("play_history_skipped_idx").on(table.wasSkipped, table.playedAt)
+    index("play_history_song_date_idx").on(table.songId, table.playedAt)
   ]
 )
 
@@ -228,14 +280,43 @@ export const songsRelations = relations(songs, ({ one, many }) => ({
   })
 }))
 
-export const artistsRelations = relations(artists, ({ many }) => ({
-  songs: many(songsToArtists),
-  albums: many(albumsToArtists)
+export const songStatsRelations = relations(songStats, ({ one }) => ({
+  song: one(songs, {
+    fields: [songStats.songId],
+    references: [songs.id]
+  })
 }))
 
-export const albumsRelations = relations(albums, ({ many }) => ({
+export const artistsRelations = relations(artists, ({ many, one }) => ({
+  songs: many(songsToArtists),
+  albums: many(albumsToArtists),
+  stats: one(artistStats, {
+    fields: [artists.id],
+    references: [artistStats.artistId]
+  })
+}))
+
+export const artistStatsRelations = relations(artistStats, ({ one }) => ({
+  artist: one(artists, {
+    fields: [artistStats.artistId],
+    references: [artists.id]
+  })
+}))
+
+export const albumsRelations = relations(albums, ({ many, one }) => ({
   artists: many(albumsToArtists),
-  songs: many(songs)
+  songs: many(songs),
+  stats: one(albumStats, {
+    fields: [albums.id],
+    references: [albumStats.albumId]
+  })
+}))
+
+export const albumStatsRelations = relations(albumStats, ({ one }) => ({
+  album: one(albums, {
+    fields: [albumStats.albumId],
+    references: [albums.id]
+  })
 }))
 
 export const albumsToArtistsRelations = relations(albumsToArtists, ({ one }) => ({
@@ -260,8 +341,19 @@ export const songsToArtistsRelations = relations(songsToArtists, ({ one }) => ({
   })
 }))
 
-export const playlistsRelations = relations(playlists, ({ many }) => ({
-  songs: many(playlistsToSongs)
+export const playlistsRelations = relations(playlists, ({ many, one }) => ({
+  songs: many(playlistsToSongs),
+  stats: one(playlistStats, {
+    fields: [playlists.id],
+    references: [playlistStats.playlistId]
+  })
+}))
+
+export const playlistStatsRelations = relations(playlistStats, ({ one }) => ({
+  playlist: one(playlists, {
+    fields: [playlistStats.playlistId],
+    references: [playlists.id]
+  })
 }))
 
 export const playlistsToSongsRelations = relations(playlistsToSongs, ({ one }) => ({
@@ -278,13 +370,6 @@ export const playlistsToSongsRelations = relations(playlistsToSongs, ({ one }) =
 export const playHistoryRelations = relations(playHistory, ({ one }) => ({
   song: one(songs, {
     fields: [playHistory.songId],
-    references: [songs.id]
-  })
-}))
-
-export const songStatsRelations = relations(songStats, ({ one }) => ({
-  song: one(songs, {
-    fields: [songStats.songId],
     references: [songs.id]
   })
 }))

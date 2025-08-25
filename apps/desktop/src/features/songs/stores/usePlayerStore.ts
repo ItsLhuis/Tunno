@@ -15,9 +15,11 @@ import { resolveTrack } from "../utils/player"
 
 import { shuffleArray } from "@repo/utils"
 
-import { getSongsByIdsWithRelations } from "@features/songs/api/queries"
+import { getSongsByIdsWithRelations } from "../api/queries"
 
 import { type Track } from "../types/player"
+
+import { type PlaySource } from "../types/playSource"
 
 import { type SongWithRelations } from "@repo/api"
 
@@ -47,6 +49,7 @@ type PlayerState = {
   isTrackLoading: boolean
   isQueueLoading: boolean
   isTransitioning: boolean
+  playSource: PlaySource
   hasHydrated: boolean
 }
 
@@ -56,7 +59,11 @@ type PlayerActions = {
   setRepeatMode: (mode: RepeatMode) => Promise<void>
   setShuffleEnabled: (enabled: boolean) => Promise<void>
   toggleShuffle: () => Promise<void>
-  loadTracks: (songs: SongWithRelations[], startIndex?: number) => Promise<void>
+  loadTracks: (
+    songs: SongWithRelations[],
+    startIndex?: number,
+    source?: PlaySource
+  ) => Promise<void>
   play: () => Promise<void>
   pause: () => Promise<void>
   stop: () => Promise<void>
@@ -81,6 +88,7 @@ type PlayerActions = {
   reconcileQueue: (newQueueIds: number[], newCurrentIndex: number) => Promise<void>
   validateAndUpdateState: () => Promise<void>
   safeOperation: <T>(operation: () => Promise<T>) => Promise<T>
+  setPlaySource: (source: PlaySource) => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -154,6 +162,7 @@ export const usePlayerStore = create<PlayerStore>()(
       isQueueLoading: false,
       isTransitioning: false,
       hasHydrated: false,
+      playSource: "unknown",
       safeOperation: async <T>(operation: () => Promise<T>): Promise<T> => {
         const { isTransitioning } = get()
 
@@ -182,7 +191,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
         if (!validateQueueIntegrity(trackIds, queueIds, currentTrackIndex)) {
           await get().clearQueue()
-          
+
           return
         }
       },
@@ -401,7 +410,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
         await get().setShuffleEnabled(!isShuffleEnabled)
       },
-      loadTracks: async (songs, startIndex = 0) => {
+      loadTracks: async (songs, startIndex = 0, source) => {
         return get().safeOperation(async () => {
           if (!songs || !Array.isArray(songs) || songs.length === 0) {
             throw new Error("No songs provided or invalid songs array")
@@ -411,7 +420,9 @@ export const usePlayerStore = create<PlayerStore>()(
             throw new Error(`Invalid start index: ${startIndex} for ${songs.length} songs`)
           }
 
-          set({ isQueueLoading: true })
+          const { playSource } = get()
+
+          set({ isQueueLoading: true, playSource: source ?? playSource })
 
           try {
             songsCacheById.clear()
@@ -1038,12 +1049,15 @@ export const usePlayerStore = create<PlayerStore>()(
           isTrackLoading: false,
           isQueueLoading: false,
           canPlayNext: false,
-          canPlayPrevious: false
+          canPlayPrevious: false,
+          playSource: "unknown"
         })
 
         unregisterPlaybackListeners()
       },
-
+      setPlaySource: (source: PlaySource) => {
+        set({ playSource: source })
+      },
       setHasHydrated: (hasHydrated) => {
         set({ hasHydrated })
       }
@@ -1062,7 +1076,8 @@ export const usePlayerStore = create<PlayerStore>()(
         repeatMode: state.repeatMode,
         isShuffleEnabled: state.isShuffleEnabled,
         position: state.position,
-        windowSize: state.windowSize
+        windowSize: state.windowSize,
+        playSource: state.playSource
       }),
       onRehydrateStorage: () => {
         return async (state) => {
