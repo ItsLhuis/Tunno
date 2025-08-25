@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4d5dafb0-af64-495e-9106-c0dece203f0a",
+  "id": "9159160c-c25c-4d09-87ea-e87455ca0112",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "albums": {
@@ -347,27 +347,13 @@
           "autoincrement": false,
           "default": "(unixepoch())"
         },
-        "play_duration": {
-          "name": "play_duration",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "was_skipped": {
-          "name": "was_skipped",
-          "type": "integer",
+        "play_source": {
+          "name": "play_source",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": false
-        },
-        "play_source": {
-          "name": "play_source",
-          "type": "text(30)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "default": "'unknown'"
         }
       },
       "indexes": {
@@ -396,14 +382,6 @@
           "name": "play_history_song_date_idx",
           "columns": [
             "song_id",
-            "played_at"
-          ],
-          "isUnique": false
-        },
-        "play_history_skipped_idx": {
-          "name": "play_history_skipped_idx",
-          "columns": [
-            "was_skipped",
             "played_at"
           ],
           "isUnique": false

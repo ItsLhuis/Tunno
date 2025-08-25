@@ -48,9 +48,7 @@ CREATE TABLE `play_history` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`song_id` integer NOT NULL,
 	`played_at` integer DEFAULT (unixepoch()) NOT NULL,
-	`play_duration` integer,
-	`was_skipped` integer DEFAULT false NOT NULL,
-	`play_source` text(30),
+	`play_source` text DEFAULT 'unknown' NOT NULL,
 	FOREIGN KEY (`song_id`) REFERENCES `songs`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
@@ -58,7 +56,6 @@ CREATE INDEX `play_history_song_idx` ON `play_history` (`song_id`);--> statement
 CREATE INDEX `play_history_played_at_idx` ON `play_history` (`played_at`);--> statement-breakpoint
 CREATE INDEX `play_history_source_idx` ON `play_history` (`play_source`);--> statement-breakpoint
 CREATE INDEX `play_history_song_date_idx` ON `play_history` (`song_id`,`played_at`);--> statement-breakpoint
-CREATE INDEX `play_history_skipped_idx` ON `play_history` (`was_skipped`,`played_at`);--> statement-breakpoint
 CREATE TABLE `playlists` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(100) NOT NULL,

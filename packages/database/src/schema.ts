@@ -180,16 +180,17 @@ export const playHistory = sqliteTable(
     playedAt: integer("played_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`),
-    playDuration: integer("play_duration"),
-    wasSkipped: integer("was_skipped", { mode: "boolean" }).notNull().default(false),
-    playSource: text("play_source", { length: 30 })
+    playSource: text("play_source", {
+      enum: ["playlist", "album", "artist", "queue", "unknown"]
+    })
+      .notNull()
+      .default("unknown")
   },
   (table) => [
     index("play_history_song_idx").on(table.songId),
     index("play_history_played_at_idx").on(table.playedAt),
     index("play_history_source_idx").on(table.playSource),
-    index("play_history_song_date_idx").on(table.songId, table.playedAt),
-    index("play_history_skipped_idx").on(table.wasSkipped, table.playedAt)
+    index("play_history_song_date_idx").on(table.songId, table.playedAt)
   ]
 )
 
