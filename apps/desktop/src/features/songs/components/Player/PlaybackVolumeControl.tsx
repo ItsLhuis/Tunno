@@ -24,7 +24,13 @@ const PlaybackVolumeControl = () => {
     <div className="flex flex-[0_1_125px] items-center gap-2">
       <IconButton
         name={
-          isMuted ? "VolumeOff" : volume === 0 ? "VolumeX" : volume < 0.1 ? "Volume1" : "Volume2"
+          isMuted
+            ? "VolumeOff"
+            : volume === 0
+              ? "VolumeX"
+              : inverseVolumeCurve(volume) < 0.5
+                ? "Volume1"
+                : "Volume2"
         }
         tooltip={isMuted || volume === 0 ? t("common.unmute") : t("common.mute")}
         variant="ghost"
