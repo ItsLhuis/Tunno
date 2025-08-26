@@ -25,7 +25,7 @@ export type SongWithRelations = InferQueryModel<
   }
 >
 
-export type CreateSong = typeof songs.$inferInsert
-export type UpdateSong = typeof songs.$inferInsert
+export type InsertSong = typeof songs.$inferInsert
+export type UpdateSong = Partial<InsertSong>
 
 export type QuerySongsParams = QueryParams<SongColumns>
