@@ -7,10 +7,11 @@ import {
   updateFileWithUniqueNameFromPath
 } from "@services/storage"
 
-import { type CreateSong, type Song, type UpdateSong } from "@repo/api"
+import { type InsertSong, type Song, type UpdateSong } from "@repo/api"
 
-export const createSong = async (
-  song: Omit<CreateSong, "file" | "thumbnail">,
+export const insertSong = async (
+  song: Omit<InsertSong, "file" | "thumbnail">,
+  artists: number[],
   filePath: string,
   thumbnailPath?: string
 ): Promise<Song> => {
@@ -29,23 +30,30 @@ export const createSong = async (
     })
     .returning()
 
+  if (artists.length > 0) {
+    await database
+      .insert(schema.songsToArtists)
+      .values(artists.map((artistId) => ({ songId: createdSong.id, artistId })))
+  }
+
   return createdSong
 }
 
 export const updateSong = async (
   id: number,
   updates: Omit<UpdateSong, "thumbnail">,
-  thumbnailSourcePath?: string
+  thumbnailPath?: string,
+  artists?: number[]
 ): Promise<Song> => {
   const [existingSong] = await database.select().from(schema.songs).where(eq(schema.songs.id, id))
 
   let thumbnailName = existingSong.thumbnail
 
-  if (thumbnailSourcePath) {
+  if (thumbnailPath) {
     thumbnailName = await updateFileWithUniqueNameFromPath(
       "thumbnails",
       existingSong.thumbnail,
-      thumbnailSourcePath
+      thumbnailPath
     )
   }
 
@@ -54,6 +62,16 @@ export const updateSong = async (
     .set({ ...updates, thumbnail: thumbnailName })
     .where(eq(schema.songs.id, id))
     .returning()
+
+  if (Array.isArray(artists)) {
+    await database.delete(schema.songsToArtists).where(eq(schema.songsToArtists.songId, id))
+
+    if (artists.length > 0) {
+      await database
+        .insert(schema.songsToArtists)
+        .values(artists.map((artistId) => ({ songId: id, artistId })))
+    }
+  }
 
   return updatedSong
 }
@@ -65,6 +83,7 @@ export const deleteSong = async (id: number): Promise<Song> => {
     .returning()
 
   await deleteFile("songs", deletedSong.file)
+
   if (deletedSong.thumbnail) {
     await deleteFile("thumbnails", deletedSong.thumbnail)
   }

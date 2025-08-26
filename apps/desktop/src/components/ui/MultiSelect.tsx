@@ -221,27 +221,37 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
           <Command>
             <CommandInput placeholder={t("common.search")} onKeyDown={handleInputKeyDown} />
             <CommandList>
-              <CommandEmpty>{t("common.noResultsFound")}</CommandEmpty>
-              <CommandGroup>
-                <CommandItem key="all" onSelect={toggleAll}>
-                  <Checkbox checked={selectedValues.length === options.length} />
-                  <span>{t("common.selectAll")}</span>
-                </CommandItem>
-                {options.map((option) => {
-                  const isSelected = selectedValues.includes(option.value)
-                  return (
-                    <CommandItem
-                      key={option.value}
-                      onSelect={() => toggleOption(option.value)}
-                      className=""
-                    >
-                      <Checkbox checked={isSelected} />
-                      {option.icon && <option.icon className="h-4 w-4 text-muted-foreground" />}
-                      <span>{option.label}</span>
-                    </CommandItem>
-                  )
-                })}
-              </CommandGroup>
+              <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
+                {t("common.noResultsFound")}
+              </CommandEmpty>
+              {options.length > 0 ? (
+                <CommandGroup>
+                  <CommandItem key="all" onSelect={toggleAll}>
+                    <Checkbox checked={selectedValues.length === options.length} />
+                    <span>{t("common.selectAll")}</span>
+                  </CommandItem>
+                  {options.map((option) => {
+                    const isSelected = selectedValues.includes(option.value)
+                    return (
+                      <CommandItem
+                        key={option.value}
+                        onSelect={() => toggleOption(option.value)}
+                        className=""
+                      >
+                        <Checkbox checked={isSelected} />
+                        {option.icon && <option.icon className="h-4 w-4 text-muted-foreground" />}
+                        <span>{option.label}</span>
+                      </CommandItem>
+                    )
+                  })}
+                </CommandGroup>
+              ) : (
+                <CommandGroup>
+                  <div className="py-6 text-center text-sm text-muted-foreground">
+                    {t("common.noResultsFound")}
+                  </div>
+                </CommandGroup>
+              )}
             </CommandList>
             <CommandSeparator />
             <CommandGroup>

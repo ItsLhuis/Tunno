@@ -14,8 +14,11 @@ import {
   type UpdateSongType
 } from "@repo/schemas"
 
-import { useCreateSong } from "../hooks/useCreateSong"
+import { useInsertSong } from "../hooks/useInsertSong"
 import { useUpdateSong } from "../hooks/useUpdateSong"
+
+import { useFetchAlbumsByArtists } from "@/features/albums/hooks/useFetchAlbumsByArtists"
+import { useFetchArtists } from "@features/artists/hooks/useFetchArtists"
 
 import { cn } from "@lib/utils"
 
@@ -86,7 +89,7 @@ const SongForm = ({
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const createMutation = useCreateSong()
+  const createMutation = useInsertSong()
   const updateMutation = useUpdateSong()
 
   const currentMutation = mode === "insert" ? createMutation : updateMutation
@@ -109,6 +112,19 @@ const SongForm = ({
     }
   })
 
+  const selectedArtistIds = form.watch("artists")
+
+  const { data: artistsData } = useFetchArtists({
+    orderBy: { column: "name", direction: "asc" }
+  })
+
+  const { data: albumsData } = useFetchAlbumsByArtists(
+    selectedArtistIds?.length ? selectedArtistIds : [],
+    {
+      orderBy: { column: "name", direction: "asc" }
+    }
+  )
+
   useEffect(() => {
     if (form.formState.isSubmitSuccessful) {
       form.reset()
@@ -122,9 +138,26 @@ const SongForm = ({
   const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
     if (onSubmit) {
       await onSubmit(values)
-    } else {
-      await currentMutation.mutateAsync(values as any)
+      return
     }
+
+    if (mode === "insert") {
+      await createMutation.mutateAsync(values as InsertSongType)
+      return
+    }
+
+    if (!song?.id) return
+
+    const { thumbnail, artists, ...updates } = values
+
+    const thumbnailSourcePath = thumbnail && thumbnail !== song.thumbnail ? thumbnail : undefined
+
+    await updateMutation.mutateAsync({
+      id: song.id,
+      updates,
+      thumbnailSourcePath,
+      artists
+    })
   }
 
   const renderProps = {
@@ -264,10 +297,10 @@ const SongForm = ({
                   <MultiSelect
                     modalPopover={asModal}
                     placeholder={t("form.labels.artists")}
-                    options={[
-                      { label: "Artista 1", value: "1" },
-                      { label: "Artista 2", value: "2" }
-                    ]}
+                    options={(artistsData ?? []).map((a) => ({
+                      label: a.name,
+                      value: String(a.id)
+                    }))}
                     onValueChange={(value) => field.onChange(value.map(Number))}
                   />
                 </FormControl>
@@ -292,8 +325,11 @@ const SongForm = ({
                           <SelectValue placeholder={t("form.labels.album")} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="1">Album 1</SelectItem>
-                          <SelectItem value="2">Album 2</SelectItem>
+                          {(albumsData ?? []).map((album) => (
+                            <SelectItem key={album.id} value={String(album.id)}>
+                              {album.name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </FormControl>

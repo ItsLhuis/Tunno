@@ -17,12 +17,14 @@ export function useUpdateSong() {
     mutationFn: ({
       id,
       updates,
-      thumbnailSourcePath
+      thumbnailSourcePath,
+      artists
     }: {
       id: Parameters<typeof updateSong>[0]
       updates: Parameters<typeof updateSong>[1]
       thumbnailSourcePath?: Parameters<typeof updateSong>[2]
-    }) => updateSong(id, updates, thumbnailSourcePath),
+      artists?: number[]
+    }) => updateSong(id, updates, thumbnailSourcePath, artists),
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey: songKeys.detailsWithRelations(id) })
       await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })

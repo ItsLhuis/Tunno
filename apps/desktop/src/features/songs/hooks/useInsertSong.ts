@@ -3,19 +3,21 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useTranslation } from "@repo/i18n"
 
 import { songKeys } from "@repo/api"
-import { createSong } from "../api/mutations"
+
+import { insertSong } from "../api/mutations"
 
 import { toast } from "@components/ui"
+
 import { type InsertSongType } from "@repo/schemas"
 
-export function useCreateSong() {
+export function useInsertSong() {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
 
   return useMutation({
     mutationFn: async (song: InsertSongType) => {
-      const { file, thumbnail, ...rest } = song
-      const createdSong = await createSong(rest, file, thumbnail)
+      const { file, thumbnail, artists, ...rest } = song
+      const createdSong = await insertSong(rest, artists, file, thumbnail)
       return createdSong
     },
     onSuccess: (createdSong) => {

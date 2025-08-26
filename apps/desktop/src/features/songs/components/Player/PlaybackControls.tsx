@@ -24,7 +24,8 @@ const PlaybackControls = () => {
     isTrackLoading,
     currentTrack,
     canPlayNext,
-    canPlayPrevious
+    canPlayPrevious,
+    isTransitioning
   } = usePlayerStore(
     useShallow((state) => ({
       play: state.play,
@@ -39,7 +40,8 @@ const PlaybackControls = () => {
       isTrackLoading: state.isTrackLoading,
       currentTrack: state.currentTrack,
       canPlayNext: state.canPlayNext,
-      canPlayPrevious: state.canPlayPrevious
+      canPlayPrevious: state.canPlayPrevious,
+      isTransitioning: state.isTransitioning
     }))
   )
 
@@ -57,12 +59,12 @@ const PlaybackControls = () => {
   }
 
   const handleNext = async () => {
-    if (!canPlayNext) return
+    if (!canPlayNext || isTransitioning) return
     await playNext()
   }
 
   const handlePrevious = async () => {
-    if (!canPlayPrevious) return
+    if (!canPlayPrevious || isTransitioning) return
     await playPrevious()
   }
 
