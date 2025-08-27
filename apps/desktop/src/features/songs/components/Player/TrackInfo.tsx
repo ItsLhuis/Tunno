@@ -31,7 +31,7 @@ const TrackInfo = () => {
       ) : (
         <div className="size-24" />
       )}
-      <Fade show={!!currentTrack}>
+      <Fade show={!!currentTrack} className="w-full truncate">
         <IconButton
           name="Heart"
           isFilled
