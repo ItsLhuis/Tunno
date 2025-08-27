@@ -109,11 +109,11 @@ const SongForm = ({
 
   const selectedArtistIds = form.watch("artists")
 
-  const { data: artistsData } = useFetchArtists({
+  const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
     orderBy: { column: "name", direction: "asc" }
   })
 
-  const { data: albumsData } = useFetchAlbumsByArtistsWithRelations(
+  const { data: albumsData, isLoading: isAlbumsLoading } = useFetchAlbumsByArtistsWithRelations(
     selectedArtistIds?.length ? selectedArtistIds : [],
     {
       orderBy: { column: "name", direction: "asc" }
@@ -315,6 +315,7 @@ const SongForm = ({
                     modalPopover={asModal}
                     placeholder={t("form.labels.artists")}
                     options={artistOptions}
+                    loading={isArtistsLoading}
                     value={field.value?.map(String) ?? []}
                     onValueChange={(value) => {
                       const newArtistIds = value.map(Number)
@@ -362,6 +363,7 @@ const SongForm = ({
                         modalPopover={asModal}
                         placeholder={t("form.labels.album")}
                         options={albumOptions}
+                        loading={isAlbumsLoading}
                         value={field.value ? String(field.value) : ""}
                         onValueChange={(value) =>
                           field.onChange(value ? parseInt(value) : undefined)

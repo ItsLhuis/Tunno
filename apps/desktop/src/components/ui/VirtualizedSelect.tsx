@@ -20,10 +20,12 @@ import { useTranslation } from "@repo/i18n"
 import { Badge } from "@components/ui/Badge"
 import { Button, buttonVariants } from "@components/ui/Button"
 import { Checkbox } from "@components/ui/Checkbox"
+import { Fade } from "@components/ui/Fade"
 import { Icon } from "@components/ui/Icon"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/Popover"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { Separator } from "@components/ui/Separator"
+import { Spinner } from "@components/ui/Spinner"
 import { Typography } from "@components/ui/Typography"
 
 const virtualizedSelectVariants = cva("", {
@@ -358,6 +360,12 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
 
     const hasSelection = normalizedValue.length > 0
 
+    const contentHeight = loading
+      ? "auto"
+      : rowVirtualizer.getTotalSize() > 0
+        ? rowVirtualizer.getTotalSize()
+        : "auto"
+
     return (
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} modal={modalPopover}>
         <PopoverTrigger asChild>
@@ -382,77 +390,84 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
           style={{ minWidth: `${minWidth}px` }}
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
-          <div className={cn("flex flex-col", popoverClassName)}>
-            {multiple && (
-              <Fragment>
-                <button
-                  className={cn(
-                    buttonVariants({ variant: "ghost" }),
-                    "flex w-full items-center justify-start gap-2 rounded-sm px-3 py-2 text-left"
-                  )}
-                  onClick={handleSelectAll}
+          <Fade key={String(loading)} className="w-full">
+            {loading ? (
+              <div className="flex items-center justify-center p-4">
+                <Spinner />
+              </div>
+            ) : (
+              <div className={cn("flex flex-col", popoverClassName)}>
+                {multiple && (
+                  <Fragment>
+                    <button
+                      className={cn(
+                        buttonVariants({ variant: "ghost" }),
+                        "flex w-full items-center justify-start gap-2 rounded-sm px-3 py-2 text-left"
+                      )}
+                      onClick={handleSelectAll}
+                    >
+                      <Checkbox
+                        checked={isAllSelected ? true : isIndeterminate ? "indeterminate" : false}
+                      />
+                      <Typography className="truncate">{t("common.selectAll")}</Typography>
+                    </button>
+                    <Separator className="my-1" />
+                  </Fragment>
+                )}
+                <ScrollArea
+                  ref={scrollRef}
+                  className="w-full"
+                  style={{
+                    height: contentHeight,
+                    maxHeight
+                  }}
                 >
-                  <Checkbox
-                    checked={isAllSelected ? true : isIndeterminate ? "indeterminate" : false}
-                  />
-                  <Typography className="truncate">{t("common.selectAll")}</Typography>
-                </button>
-                <Separator className="my-1" />
-              </Fragment>
-            )}
-            <ScrollArea
-              ref={scrollRef}
-              className="w-full"
-              style={{
-                height: rowVirtualizer.getTotalSize() > 0 ? rowVirtualizer.getTotalSize() : "auto",
-                maxHeight
-              }}
-            >
-              <div
-                style={{
-                  height:
-                    rowVirtualizer.getTotalSize() > 0 ? rowVirtualizer.getTotalSize() : "auto",
-                  position: "relative"
-                }}
-              >
-                {rowVirtualizer.getVirtualItems().map((virtualRow) => (
                   <div
-                    key={virtualRow.key}
-                    className="absolute left-0 right-0 flex items-center justify-start"
                     style={{
-                      transform: `translateY(${virtualRow.start}px)`,
-                      height: virtualRow.size
+                      height: contentHeight,
+                      position: "relative"
                     }}
                   >
-                    {renderRow(virtualRow.index)}
+                    {rowVirtualizer.getVirtualItems().map((virtualRow) => (
+                      <div
+                        key={virtualRow.key}
+                        className="absolute left-0 right-0 flex items-center justify-start"
+                        style={{
+                          transform: `translateY(${virtualRow.start}px)`,
+                          height: virtualRow.size
+                        }}
+                      >
+                        {renderRow(virtualRow.index)}
+                      </div>
+                    ))}
+                    {options.length === 0 && (
+                      <div className="flex h-full items-center justify-center py-6 text-sm text-muted-foreground">
+                        {t("common.noResultsFound")}
+                      </div>
+                    )}
                   </div>
-                ))}
-                {options.length === 0 && (
-                  <div className="flex h-full items-center justify-center py-6 text-sm text-muted-foreground">
-                    {t("common.noResultsFound")}
-                  </div>
-                )}
+                </ScrollArea>
+                <Separator className="my-1" />
+                <div className="flex items-center justify-between">
+                  <Button
+                    variant="ghost"
+                    className="max-w-full flex-1 rounded-sm"
+                    onClick={() => setIsPopoverOpen(false)}
+                  >
+                    {t("common.cancel")}
+                  </Button>
+                  {hasSelection && (
+                    <Separator orientation="vertical" className="mx-1 flex h-full min-h-6" />
+                  )}
+                  {hasSelection && (
+                    <Button variant="ghost" className="flex-1 rounded-sm" onClick={handleClear}>
+                      {t("common.clear")}
+                    </Button>
+                  )}
+                </div>
               </div>
-            </ScrollArea>
-            <Separator className="my-1" />
-            <div className="flex items-center justify-between">
-              <Button
-                variant="ghost"
-                className="max-w-full flex-1 rounded-sm"
-                onClick={() => setIsPopoverOpen(false)}
-              >
-                {t("common.cancel")}
-              </Button>
-              {hasSelection && (
-                <Separator orientation="vertical" className="mx-1 flex h-full min-h-6" />
-              )}
-              {hasSelection && (
-                <Button variant="ghost" className="flex-1 rounded-sm" onClick={handleClear}>
-                  {t("common.clear")}
-                </Button>
-              )}
-            </div>
-          </div>
+            )}
+          </Fade>
         </PopoverContent>
       </Popover>
     )
