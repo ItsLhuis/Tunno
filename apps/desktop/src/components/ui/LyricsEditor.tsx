@@ -22,7 +22,7 @@ import { ScrollArea } from "@components/ui/ScrollArea"
 import { TextInput } from "@components/ui/TextInput"
 import { Typography } from "@components/ui/Typography"
 
-type Lyric = {
+export type Lyric = {
   text: string
   startTime: number
 }
@@ -32,6 +32,18 @@ export type LyricsEditorProps = {
   onChange?: (data: Lyric[]) => void
   placeholder?: string
   className?: string
+}
+
+type LyricLineProps = {
+  line: Lyric
+  index: number
+  minTime: number
+  maxTime: number
+  placeholder?: string
+  onTextChange: (index: number, text: string) => void
+  onTimeChange: (index: number, time: number) => void
+  onRemove: (index: number) => void
+  canRemove: boolean
 }
 
 const LyricLine = memo(
@@ -45,17 +57,7 @@ const LyricLine = memo(
     onTimeChange,
     onRemove,
     canRemove
-  }: {
-    line: Lyric
-    index: number
-    minTime: number
-    maxTime: number
-    placeholder?: string
-    onTextChange: (index: number, text: string) => void
-    onTimeChange: (index: number, time: number) => void
-    onRemove: (index: number) => void
-    canRemove: boolean
-  }) => {
+  }: LyricLineProps) => {
     const { t } = useTranslation()
 
     return (
@@ -149,7 +151,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
     <div className={className}>
       <div className="space-y-4">
         <div className="rounded-md border transition-[border-color]">
-          <div className="transition-[border-color] flex items-center justify-between gap-2 border-b p-3">
+          <div className="flex items-center justify-between gap-2 border-b p-3 transition-[border-color]">
             <div className="flex items-center gap-2">
               <Badge variant="outline">
                 <Typography affects="small">
