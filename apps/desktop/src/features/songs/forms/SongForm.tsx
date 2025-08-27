@@ -17,7 +17,7 @@ import {
 import { useInsertSong } from "../hooks/useInsertSong"
 import { useUpdateSong } from "../hooks/useUpdateSong"
 
-import { useFetchAlbumsByArtists } from "@/features/albums/hooks/useFetchAlbumsByArtists"
+import { useFetchAlbumsByArtistsWithRelations } from "@features/albums/hooks/useFetchAlbumsByArtistsWithRelations"
 import { useFetchArtists } from "@features/artists/hooks/useFetchArtists"
 
 import { cn } from "@lib/utils"
@@ -40,16 +40,11 @@ import {
   FormMessage,
   IconButton,
   LyricsEditor,
-  MultiSelect,
   NumberInput,
   ScrollArea,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   TextInput,
-  UploadPicker
+  UploadPicker,
+  VirtualizedSelect
 } from "@components/ui"
 
 import { VALID_SONG_FILE_EXTENSIONS, VALID_THUMBNAIL_FILE_EXTENSIONS } from "@repo/shared/constants"
@@ -118,7 +113,7 @@ const SongForm = ({
     orderBy: { column: "name", direction: "asc" }
   })
 
-  const { data: albumsData } = useFetchAlbumsByArtists(
+  const { data: albumsData } = useFetchAlbumsByArtistsWithRelations(
     selectedArtistIds?.length ? selectedArtistIds : [],
     {
       orderBy: { column: "name", direction: "asc" }
@@ -167,6 +162,27 @@ const SongForm = ({
     errors: form.formState.errors,
     reset: () => form.reset()
   } as SongFormRenderProps<"insert" | "update">
+
+  const artistOptions = useMemo(() => {
+    return (artistsData ?? []).map((artist) => ({
+      label: artist.name,
+      value: String(artist.id)
+    }))
+  }, [artistsData])
+
+  const albumOptions = useMemo(() => {
+    const list = albumsData ?? []
+    return list.map((album) => ({
+      label: album.name,
+      value: String(album.id),
+      group: album.artists?.length
+        ? album.artists
+            .map((link) => link.artist?.name)
+            .filter((name): name is string => Boolean(name))
+            .join(", ")
+        : undefined
+    }))
+  }, [albumsData])
 
   const FormContent = useMemo(() => {
     return (
@@ -294,14 +310,39 @@ const SongForm = ({
               <FormItem>
                 <FormLabel>{t("form.labels.artists")}</FormLabel>
                 <FormControl>
-                  <MultiSelect
+                  <VirtualizedSelect
+                    multiple
                     modalPopover={asModal}
                     placeholder={t("form.labels.artists")}
-                    options={(artistsData ?? []).map((a) => ({
-                      label: a.name,
-                      value: String(a.id)
-                    }))}
-                    onValueChange={(value) => field.onChange(value.map(Number))}
+                    options={artistOptions}
+                    value={field.value?.map(String) ?? []}
+                    onValueChange={(value) => {
+                      const newArtistIds = value.map(Number)
+                      field.onChange(newArtistIds)
+
+                      const currentAlbumId = form.getValues("albumId")
+
+                      if (currentAlbumId && newArtistIds.length > 0) {
+                        const currentAlbum = albumsData?.find(
+                          (album) => album.id === currentAlbumId
+                        )
+
+                        if (currentAlbum) {
+                          const albumArtistIds =
+                            currentAlbum.artists?.map((link) => link.artist?.id).filter(Boolean) ||
+                            []
+                          const hasMatchingArtist = albumArtistIds.some((artistId) =>
+                            newArtistIds.includes(artistId)
+                          )
+
+                          if (!hasMatchingArtist) {
+                            form.setValue("albumId", undefined, { shouldValidate: true })
+                          }
+                        }
+                      } else if (currentAlbumId && newArtistIds.length === 0) {
+                        form.setValue("albumId", undefined, { shouldValidate: true })
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -317,21 +358,17 @@ const SongForm = ({
                   <FormItem>
                     <FormLabel>{t("form.labels.album")}</FormLabel>
                     <FormControl>
-                      <Select
-                        onValueChange={(value) => field.onChange(parseInt(value))}
-                        defaultValue={field.value?.toString()}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={t("form.labels.album")} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {(albumsData ?? []).map((album) => (
-                            <SelectItem key={album.id} value={String(album.id)}>
-                              {album.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <VirtualizedSelect
+                        modalPopover={asModal}
+                        placeholder={t("form.labels.album")}
+                        options={albumOptions}
+                        value={field.value ? String(field.value) : ""}
+                        onValueChange={(value) =>
+                          field.onChange(value ? parseInt(value) : undefined)
+                        }
+                        minWidth={300}
+                        maxHeight={200}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -364,7 +401,7 @@ const SongForm = ({
         </form>
       </Form>
     )
-  }, [form, mode, renderProps])
+  }, [form, mode, renderProps, artistOptions, albumOptions])
 
   if (!asModal) return FormContent
 

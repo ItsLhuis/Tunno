@@ -41,13 +41,12 @@ const buttonVariants = cva(
   }
 )
 
-export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  tooltip?: string | ComponentProps<typeof TooltipContent>
-  isLoading?: boolean
-}
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+    tooltip?: string | ComponentProps<typeof TooltipContent>
+    isLoading?: boolean
+  }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (

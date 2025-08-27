@@ -2,12 +2,12 @@ import { database, schema } from "@database/client"
 
 import { and, asc, desc, eq, exists, inArray, like } from "drizzle-orm"
 
-import { type Album, type QueryAlbumParams } from "@repo/api"
+import { type AlbumWithRelations, type QueryAlbumParams } from "@repo/api"
 
-export const getAlbumsFilteredByArtists = async (
+export const getAlbumsFilteredByArtistsWithRelations = async (
   artistIds: number[],
   params: QueryAlbumParams = {}
-): Promise<Album[]> => {
+): Promise<AlbumWithRelations[]> => {
   const { limit, offset, orderBy, filters } = params
 
   return await database.query.albums.findMany({
@@ -31,6 +31,14 @@ export const getAlbumsFilteredByArtists = async (
       ? orderBy.direction === "asc"
         ? asc(schema.albums[orderBy.column])
         : desc(schema.albums[orderBy.column])
-      : asc(schema.albums.name)
+      : undefined,
+    with: {
+      songs: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      }
+    }
   })
 }
