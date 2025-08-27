@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect } from "react"
 
+import { flushSync } from "react-dom"
+
 import { useShallow } from "zustand/shallow"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
@@ -25,10 +27,47 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     const root = window.document.documentElement
     const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
 
+    const applyThemeWithAnimation = async (newTheme: "dark" | "light") => {
+      const currentTheme = root.classList.contains("dark") ? "dark" : "light"
+      if (currentTheme === newTheme) return
+
+      if (!document.startViewTransition) {
+        root.classList.remove("light", "dark")
+        root.classList.add(newTheme)
+        return
+      }
+
+      try {
+        await document.startViewTransition(() => {
+          flushSync(() => {
+            root.classList.remove("light", "dark")
+            root.classList.add(newTheme)
+          })
+        }).ready
+
+        const x = window.innerWidth / 2
+        const y = window.innerHeight / 2
+        const maxRad = Math.hypot(window.innerWidth, window.innerHeight)
+
+        root.animate(
+          {
+            clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRad}px at ${x}px ${y}px)`]
+          },
+          {
+            duration: 500,
+            easing: "ease-in-out",
+            pseudoElement: "::view-transition-new(root)"
+          }
+        )
+      } catch (error) {
+        root.classList.remove("light", "dark")
+        root.classList.add(newTheme)
+      }
+    }
+
     const applySystemTheme = () => {
       const systemTheme = matchMedia.matches ? "dark" : "light"
-      root.classList.remove("light", "dark")
-      root.classList.add(systemTheme)
+      applyThemeWithAnimation(systemTheme)
     }
 
     if (theme === "system") {
@@ -39,8 +78,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    root.classList.remove("light", "dark")
-    root.classList.add(theme)
+    applyThemeWithAnimation(theme)
   }, [theme])
 
   const value = {

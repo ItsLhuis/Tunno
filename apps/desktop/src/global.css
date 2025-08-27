@@ -122,6 +122,12 @@
   ::-webkit-scrollbar-corner {
     background-color: transparent;
   }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
 }
 
 @layer base {
