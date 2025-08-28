@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react"
+import { createContext, useContext, useEffect, useRef } from "react"
 
 import { flushSync } from "react-dom"
 
@@ -23,15 +23,17 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     }))
   )
 
+  const isFirstRender = useRef<boolean>(true)
+
   useEffect(() => {
     const root = window.document.documentElement
     const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
 
-    const applyThemeWithAnimation = async (newTheme: "dark" | "light") => {
+    const applyThemeWithAnimation = async (newTheme: "dark" | "light", shouldAnimate = true) => {
       const currentTheme = root.classList.contains("dark") ? "dark" : "light"
       if (currentTheme === newTheme) return
 
-      if (!document.startViewTransition) {
+      if (!shouldAnimate || !document.startViewTransition) {
         root.classList.remove("light", "dark")
         root.classList.add(newTheme)
         return
@@ -46,7 +48,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         }).ready
 
         const x = window.innerWidth / 2
-        const y = window.innerHeight / 2
+        const y = 0
         const maxRad = Math.hypot(window.innerWidth, window.innerHeight)
 
         root.animate(
@@ -67,18 +69,23 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
     const applySystemTheme = () => {
       const systemTheme = matchMedia.matches ? "dark" : "light"
-      applyThemeWithAnimation(systemTheme)
+      applyThemeWithAnimation(systemTheme, !isFirstRender.current)
     }
 
     if (theme === "system") {
       applySystemTheme()
       matchMedia.addEventListener("change", applySystemTheme)
+
+      isFirstRender.current = false
+
       return () => {
         matchMedia.removeEventListener("change", applySystemTheme)
       }
     }
 
-    applyThemeWithAnimation(theme)
+    applyThemeWithAnimation(theme, !isFirstRender.current)
+
+    isFirstRender.current = false
   }, [theme])
 
   const value = {

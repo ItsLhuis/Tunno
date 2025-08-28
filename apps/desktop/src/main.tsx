@@ -51,7 +51,7 @@ const Main = () => {
     if (!allStoresHydrated) return
 
     const showMainWindow = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 300))
       await getCurrentWindow().show()
       if (!import.meta.env.DEV) await getCurrentWindow().setFocus()
     }
