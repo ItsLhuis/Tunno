@@ -120,7 +120,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
             />
             <Fade
               show={!isSplashVisible}
-              className="ml-3 w-full rounded-md bg-muted p-2 px-3 text-sm transition-[background-color]"
+              className="ml-3 w-full rounded-md bg-muted p-2 px-3 text-sm"
               data-tauri-drag-region
             >
               <Breadcrumb data-tauri-drag-region>

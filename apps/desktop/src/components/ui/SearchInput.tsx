@@ -37,7 +37,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       <div className={cn("flex w-full items-center overflow-hidden", containerClassName)}>
         <div
           className={cn(
-            "flex w-full shrink-0 items-center gap-3 rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-[background-color,border-color,text-decoration-color,fill,stroke] placeholder:text-muted-foreground",
+            "flex w-full shrink-0 items-center gap-3 rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-colors placeholder:text-muted-foreground",
             isFocused &&
               "focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background",
             className

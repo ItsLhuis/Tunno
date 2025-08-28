@@ -46,7 +46,7 @@ const Sidebar = () => {
   const currentPath = routerState.location.pathname
 
   return (
-    <aside className="flex h-full flex-row border-r transition-[border-color]">
+    <aside className="flex h-full flex-row border-r">
       <ScrollAreaWithHeaders
         containerClassName="bg-sidebar"
         className="min-w-[250px]"
@@ -86,3 +86,4 @@ const Sidebar = () => {
 }
 
 export { Sidebar }
+

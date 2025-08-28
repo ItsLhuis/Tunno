@@ -22,9 +22,6 @@ export default {
           raw: "(min-height: 1229px)"
         }
       },
-      transitionProperty: {
-        "color-opacity": "color, opacity"
-      },
       transitionDuration: {
         DEFAULT: "300ms"
       },

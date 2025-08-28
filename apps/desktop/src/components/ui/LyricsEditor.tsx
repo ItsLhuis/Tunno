@@ -150,8 +150,8 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
   return (
     <div className={className}>
       <div className="space-y-4">
-        <div className="rounded-md border transition-[border-color]">
-          <div className="flex items-center justify-between gap-2 border-b p-3 transition-[border-color]">
+        <div className="rounded-md border">
+          <div className="flex items-center justify-between gap-2 border-b p-3">
             <div className="flex items-center gap-2">
               <Badge variant="outline">
                 <Typography affects="small">
@@ -179,7 +179,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                     <DialogTitle>{t("form.titles.lyricsPreview")}</DialogTitle>
                     <DialogDescription>{t("form.descriptions.lyricsPreview")}</DialogDescription>
                   </DialogHeader>
-                  <ScrollArea className="h-[240px] rounded-md border transition-[border-color]">
+                  <ScrollArea className="h-[240px] rounded-md border">
                     <div className="w-full p-3">
                       {syncedLines.length === 0 ? (
                         <Typography affects={["muted", "italic"]}>
@@ -243,3 +243,4 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
 }
 
 export { LyricsEditor }
+

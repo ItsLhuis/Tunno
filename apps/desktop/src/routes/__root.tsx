@@ -88,7 +88,7 @@ function RootComponent() {
   }, [])
 
   return (
-    <div className="relative flex h-dvh w-dvw flex-col bg-background transition-[background-color]">
+    <div className="relative flex h-dvh w-dvw flex-col bg-background">
       <Fade
         show={!isAppReady}
         className="absolute inset-0 z-40 flex items-center justify-center bg-background"

@@ -36,7 +36,7 @@ const Sidebar = () => {
   const isVisible = activeIndex !== -1
 
   return (
-    <aside className="flex h-full flex-row border-r bg-sidebar transition-[background-color,border-color]">
+    <aside className="flex h-full flex-row border-r bg-sidebar">
       <ScrollArea className="h-full">
         <div className="relative">
           <div
