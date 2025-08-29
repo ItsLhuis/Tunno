@@ -44,7 +44,7 @@ export const SongsListHeader = ({ list, className }: SongsListHeaderProps) => {
   )
 
   const hasSelectedRows = list.hasSelection
-  const selectedSongs = list.data.filter((song) => list.selectedIds[song.id.toString()])
+  const selectedSongs = list.data.filter((song) => list.selectedIds.includes(song.id.toString()))
 
   const handlePlaySelected = async () => {
     if (selectedSongs.length > 0) {

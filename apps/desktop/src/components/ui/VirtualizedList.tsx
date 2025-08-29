@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -8,6 +9,7 @@ import {
   useState,
   type CSSProperties,
   type HTMLAttributes,
+  type ReactElement,
   type ReactNode
 } from "react"
 
@@ -19,7 +21,7 @@ import { Fade } from "@components/ui/Fade"
 
 export type VirtualizedListController<TItem> = {
   data: TItem[]
-  selectedIds: Record<string, boolean>
+  selectedIds: string[]
   isAllSelected: boolean
   hasSelection: boolean
   selectedCount: number
@@ -50,7 +52,142 @@ export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
   scrollRef?: React.RefObject<HTMLDivElement>
 }
 
-const VirtualizedList = <TItem,>({
+type VirtualizedItemProps<TItem> = {
+  item: TItem
+  index: number
+  id: string
+  renderItem: (args: {
+    item: TItem
+    index: number
+    selected: boolean
+    toggle: () => void
+  }) => ReactNode
+  isSelected: boolean
+  onToggle: () => void
+  isLastRow: boolean
+  gap: number
+}
+
+const VirtualizedItem = memo(function VirtualizedItem<TItem>({
+  item,
+  index,
+  id,
+  renderItem,
+  isSelected,
+  onToggle,
+  isLastRow,
+  gap
+}: VirtualizedItemProps<TItem>) {
+  return (
+    <div
+      key={id}
+      className={cn("group relative")}
+      style={{
+        marginBottom: !isLastRow && gap > 0 ? `${gap}px` : undefined
+      }}
+    >
+      {renderItem({ item, index, selected: isSelected, toggle: onToggle })}
+    </div>
+  )
+}) as <TItem>(props: VirtualizedItemProps<TItem>) => ReactElement
+
+type VirtualRowProps<TItem> = {
+  virtualRow: any
+  data: TItem[]
+  effectiveColumns: number
+  keyExtractor: (item: TItem, index: number) => string
+  renderItem: (args: {
+    item: TItem
+    index: number
+    selected: boolean
+    toggle: () => void
+  }) => ReactNode
+  gap: number
+  rowClassName: string
+  rowStyle: CSSProperties
+  selectionState: Record<string, boolean>
+  onToggleItem: (id: string) => void
+  totalRows: number
+  measureRef: (element: HTMLElement | null) => void
+}
+
+const VirtualRow = memo(function VirtualRow<TItem>({
+  virtualRow,
+  data,
+  effectiveColumns,
+  keyExtractor,
+  renderItem,
+  gap,
+  rowClassName,
+  rowStyle,
+  selectionState,
+  onToggleItem,
+  totalRows,
+  measureRef
+}: VirtualRowProps<TItem>) {
+  const fromIndex = virtualRow.index * effectiveColumns
+  const toIndex = Math.min(fromIndex + effectiveColumns, data.length)
+
+  const rowItems = useMemo(() => data.slice(fromIndex, toIndex), [data, fromIndex, toIndex])
+
+  const toggleHandlers = useMemo(() => {
+    const handlers = new Map<string, () => void>()
+
+    rowItems.forEach((item, idx) => {
+      const index = fromIndex + idx
+      const id = keyExtractor(item, index)
+      handlers.set(id, () => onToggleItem(id))
+    })
+
+    return handlers
+  }, [rowItems, fromIndex, keyExtractor, onToggleItem])
+
+  const isLastRow = virtualRow.index === totalRows - 1
+
+  return (
+    <div
+      key={virtualRow.key}
+      data-index={virtualRow.index}
+      ref={measureRef}
+      className={cn("absolute left-0 right-0")}
+      style={{
+        transform: `translateY(${virtualRow.start}px)`
+      }}
+    >
+      <div
+        className={cn("grid", rowClassName)}
+        style={{
+          gridTemplateColumns: `repeat(${effectiveColumns}, minmax(0, 1fr))`,
+          gap: gap,
+          ...rowStyle
+        }}
+      >
+        {rowItems.map((item, idx) => {
+          const index = fromIndex + idx
+          const id = keyExtractor(item, index)
+          const isSelected = selectionState[id] ?? false
+          const toggle = toggleHandlers.get(id)!
+
+          return (
+            <VirtualizedItem
+              key={id}
+              item={item}
+              index={index}
+              id={id}
+              renderItem={renderItem}
+              isSelected={isSelected}
+              onToggle={toggle}
+              isLastRow={isLastRow}
+              gap={gap}
+            />
+          )
+        })}
+      </div>
+    </div>
+  )
+}) as <TItem>(props: VirtualRowProps<TItem>) => ReactElement
+
+function VirtualizedList<TItem>({
   data,
   keyExtractor,
   renderItem,
@@ -67,9 +204,11 @@ const VirtualizedList = <TItem,>({
   scrollRef: externalScrollRef,
   className,
   ...props
-}: VirtualizedListProps<TItem>) => {
+}: VirtualizedListProps<TItem>) {
   const internalScrollRef = useRef<HTMLDivElement | null>(null)
   const gridContainerRef = useRef<HTMLDivElement | null>(null)
+
+  const [selectionState, setSelectionState] = useState<Record<string, boolean>>({})
 
   const scrollRef = externalScrollRef || internalScrollRef
 
@@ -77,137 +216,146 @@ const VirtualizedList = <TItem,>({
 
   useEffect(() => {
     const element = gridContainerRef.current
+
     if (!element) return
+
+    let rafId: number
+
     const resizeObserver = new ResizeObserver((entries) => {
-      const entry = entries[0]
-      if (entry?.contentRect?.width != null) {
-        setContainerWidth(entry.contentRect.width)
-      }
+      if (rafId) cancelAnimationFrame(rafId)
+
+      rafId = requestAnimationFrame(() => {
+        const entry = entries[0]
+        if (entry?.contentRect?.width != null) {
+          setContainerWidth(entry.contentRect.width)
+        }
+      })
     })
+
     resizeObserver.observe(element)
-    return () => resizeObserver.disconnect()
+
+    return () => {
+      resizeObserver.disconnect()
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [])
 
-  const [selectedIds, setSelectedIds] = useState<Record<string, boolean>>({})
-
-  const isAllSelected = useMemo(() => {
-    if (data.length === 0) return false
-    return data.every((item, index) => selectedIds[keyExtractor(item, index)])
-  }, [data, selectedIds, keyExtractor])
-
-  const hasSelection = useMemo(() => {
-    return data.some((item, index) => selectedIds[keyExtractor(item, index)])
-  }, [data, selectedIds, keyExtractor])
-
-  const selectedCount = useMemo(() => {
-    return data.filter((item, index) => selectedIds[keyExtractor(item, index)]).length
-  }, [data, selectedIds, keyExtractor])
-
-  const emitSelectionChange = useCallback(
-    (next: Record<string, boolean>) => {
-      if (!onSelectionChange) return
-      const selectedItems = data.filter((item, index) => next[keyExtractor(item, index)])
-      const selectedIds = selectedItems.map((item, index) => keyExtractor(item, index))
-      onSelectionChange(selectedIds, selectedItems)
-    },
-    [onSelectionChange, data, keyExtractor]
+  const dataIds = useMemo(
+    () => data.map((item, index) => keyExtractor(item, index)),
+    [data, keyExtractor]
   )
 
-  const toggleSelect = useCallback(
-    (id: string, additive = true) => {
-      setSelectedIds((prev) => {
-        const next = additive ? { ...prev, [id]: !prev[id] } : { [id]: !prev[id] }
-        emitSelectionChange(next)
-        return next
-      })
-    },
-    [emitSelectionChange]
-  )
+  const selectionStats = useMemo(() => {
+    const selectedIds = Object.keys(selectionState).filter((id) => selectionState[id])
+    const selectedCount = selectedIds.length
+    const totalCount = data.length
 
-  const selectAll = useCallback(() => {
-    setSelectedIds((_) => {
-      const all: Record<string, boolean> = {}
-      data.forEach((item, index) => {
-        const id = keyExtractor(item, index)
-        all[id] = true
-      })
-      emitSelectionChange(all)
-      return all
+    return {
+      selectedIds,
+      selectedCount,
+      isAllSelected: selectedCount === totalCount && totalCount > 0,
+      hasSelection: selectedCount > 0
+    }
+  }, [selectionState, data.length])
+
+  const handleToggleItem = useCallback((id: string, additive = true) => {
+    setSelectionState((prev) => {
+      const isCurrentlySelected = prev[id] ?? false
+
+      if (!additive) {
+        return { [id]: !isCurrentlySelected }
+      }
+
+      const newState = { ...prev }
+
+      if (isCurrentlySelected) {
+        delete newState[id]
+      } else {
+        newState[id] = true
+      }
+
+      return newState
     })
-  }, [data, keyExtractor, emitSelectionChange])
+  }, [])
 
-  const clearSelection = useCallback(() => {
-    setSelectedIds(() => {
-      const empty: Record<string, boolean> = {}
-      emitSelectionChange(empty)
-      return empty
+  const handleSelectAll = useCallback(() => {
+    setSelectionState(() => {
+      const newState: Record<string, boolean> = {}
+
+      dataIds.forEach((id) => {
+        newState[id] = true
+      })
+
+      return newState
     })
-  }, [emitSelectionChange])
+  }, [dataIds])
 
-  const controller: VirtualizedListController<TItem> = useMemo(
+  const handleClearSelection = useCallback(() => {
+    setSelectionState({})
+  }, [])
+
+  const controller = useMemo<VirtualizedListController<TItem>>(
     () => ({
       data,
-      selectedIds,
-      isAllSelected,
-      hasSelection,
-      selectedCount,
-      toggleSelect,
-      selectAll,
-      clearSelection
+      selectedIds: selectionStats.selectedIds,
+      isAllSelected: selectionStats.isAllSelected,
+      hasSelection: selectionStats.hasSelection,
+      selectedCount: selectionStats.selectedCount,
+      toggleSelect: handleToggleItem,
+      selectAll: handleSelectAll,
+      clearSelection: handleClearSelection
     }),
-    [
-      data,
-      selectedIds,
-      isAllSelected,
-      hasSelection,
-      selectedCount,
-      toggleSelect,
-      selectAll,
-      clearSelection
-    ]
+    [data, selectionStats, handleToggleItem, handleSelectAll, handleClearSelection]
   )
+
+  useEffect(() => {
+    if (!onSelectionChange) return
+
+    const selectedItems = data.filter((item, index) => {
+      const id = keyExtractor(item, index)
+      return selectionState[id] ?? false
+    })
+
+    onSelectionChange(selectionStats.selectedIds, selectedItems)
+  }, [onSelectionChange, data, keyExtractor, selectionStats.selectedIds, selectionState])
 
   useEffect(() => {
     onController?.(controller)
   }, [controller, onController])
 
   const effectiveColumns = useMemo(() => {
-    if (numColumns > 1 && minItemWidth && containerWidth) {
-      const cols = Math.max(1, Math.floor((containerWidth + gap) / (minItemWidth + gap)))
-      return Math.max(1, Math.min(cols, numColumns))
+    if (minItemWidth && containerWidth > 0) {
+      const availableWidth = containerWidth
+      const itemWidthWithGap = minItemWidth + gap
+      const calculatedColumns = Math.floor(availableWidth / itemWidthWithGap)
+
+      return Math.max(1, Math.min(calculatedColumns, numColumns))
     }
+
     return Math.max(1, numColumns)
-  }, [numColumns, minItemWidth, containerWidth, gap])
+  }, [containerWidth, minItemWidth, numColumns, gap])
 
   const rowCount = useMemo(
     () => Math.ceil(data.length / effectiveColumns),
     [data.length, effectiveColumns]
   )
 
-  const estimateRowSize = useCallback(() => {
-    return estimateItemHeight + gap
-  }, [estimateItemHeight, gap])
-
   const getScrollElement = useCallback(() => {
     if (!scrollRef.current) return null
 
     const viewport = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]")
-    if (viewport) {
-      return viewport as HTMLElement
-    }
-
-    return scrollRef.current
+    return viewport ? (viewport as HTMLElement) : scrollRef.current
   }, [scrollRef])
 
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
-    estimateSize: estimateRowSize,
     getScrollElement,
+    estimateSize: () => estimateItemHeight,
     measureElement:
       typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
         ? (element) => element?.getBoundingClientRect().height
         : undefined,
-    overscan: 10
+    overscan: 5
   })
 
   const virtualRows = rowVirtualizer.getVirtualItems()
@@ -233,52 +381,23 @@ const VirtualizedList = <TItem,>({
           ) : null
         ) : (
           <div style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
-            {virtualRows.map((virtualRow) => {
-              const fromIndex = virtualRow.index * effectiveColumns
-              const toIndex = Math.min(fromIndex + effectiveColumns, data.length)
-              const rowItems = data.slice(fromIndex, toIndex)
-
-              return (
-                <div
-                  key={virtualRow.key}
-                  data-index={virtualRow.index}
-                  ref={rowVirtualizer.measureElement}
-                  className={cn("absolute left-0 right-0")}
-                  style={{
-                    transform: `translateY(${virtualRow.start}px)`,
-                    minHeight: estimateItemHeight
-                  }}
-                >
-                  <div
-                    className={cn("grid", rowClassName)}
-                    style={{
-                      gridTemplateColumns: `repeat(${effectiveColumns}, minmax(0, 1fr))`,
-                      ...rowStyle
-                    }}
-                  >
-                    {rowItems.map((item, idx) => {
-                      const index = fromIndex + idx
-                      const id = keyExtractor(item, index)
-                      const selected = Boolean(selectedIds[id])
-                      const toggle = () => toggleSelect(id, true)
-
-                      return (
-                        <div
-                          key={id}
-                          className={cn("group relative")}
-                          style={{
-                            marginBottom: gap > 0 ? `${gap}px` : undefined,
-                            marginRight: effectiveColumns > 1 && gap > 0 ? `${gap}px` : undefined
-                          }}
-                        >
-                          {renderItem({ item, index, selected, toggle })}
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              )
-            })}
+            {virtualRows.map((virtualRow) => (
+              <VirtualRow
+                key={virtualRow.key}
+                virtualRow={virtualRow}
+                data={data}
+                effectiveColumns={effectiveColumns}
+                keyExtractor={keyExtractor}
+                renderItem={renderItem}
+                gap={gap}
+                rowClassName={rowClassName}
+                rowStyle={rowStyle}
+                selectionState={selectionState}
+                onToggleItem={handleToggleItem}
+                totalRows={rowCount}
+                measureRef={rowVirtualizer.measureElement}
+              />
+            ))}
           </div>
         )}
       </Fade>
