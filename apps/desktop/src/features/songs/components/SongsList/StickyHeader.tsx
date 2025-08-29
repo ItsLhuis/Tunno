@@ -1,17 +1,24 @@
 import { useTranslation } from "@repo/i18n"
 
-import { Table } from "@tanstack/react-table"
-
 import { SongForm } from "../../forms"
 
-import { IconButton, StickyHeader, Typography } from "@components/ui"
+import {
+  IconButton,
+  StickyHeader,
+  Typography,
+  type VirtualizedListController
+} from "@components/ui"
 
 import { type SongWithRelations } from "@repo/api"
 
-const StickyHeaderComponent = ({ table }: { table: Table<SongWithRelations> }) => {
+type StickyHeaderComponentProps = {
+  list: VirtualizedListController<SongWithRelations>
+}
+
+const StickyHeaderComponent = ({ list }: StickyHeaderComponentProps) => {
   const { t } = useTranslation()
 
-  const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+  const hasSelectedRows = list.hasSelection
 
   return (
     <StickyHeader className="flex items-center gap-3">

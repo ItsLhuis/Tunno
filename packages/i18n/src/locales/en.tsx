@@ -11,7 +11,7 @@ export const english: Language = {
     common: {
       noResultsFound: "No results found",
       lessThanAnHourAgo: "Less than an hour ago",
-      hoursAgo: "{count} hour{count, plural, one {} other{s} ago",
+      hoursAgo: "{count} hour{count, plural, one {} other{s}} ago",
       today: "Today",
       yesterday: "Yesterday",
       goBack: "Go Back",

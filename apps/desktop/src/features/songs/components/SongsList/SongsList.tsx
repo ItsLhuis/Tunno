@@ -1,6 +1,4 @@
-import { useCallback } from "react"
-
-import { useTranslation } from "@repo/i18n"
+import { Fragment, useCallback } from "react"
 
 import { useShallow } from "zustand/shallow"
 
@@ -8,28 +6,27 @@ import { useSongsStore } from "../../stores/useSongsStore"
 
 import { useFetchSongsWithRelations } from "../../hooks/useFetchSongsWithRelations"
 
-import { columns } from "./columns"
-
-import { type Table } from "@tanstack/react-table"
-
-import { NotFound, Spinner, VirtualizedTableGridWithHeaders } from "@components/ui"
+import {
+  NotFound,
+  Spinner,
+  type VirtualizedListController,
+  VirtualizedListWithHeaders
+} from "@components/ui"
 
 import { HeaderComponent } from "./Header"
-import { RowContextMenuContentComponent } from "./RowContextMenu"
 import { SearchComponent } from "./Search"
+import { SongItem } from "./SongItem"
+import { SongsListHeader } from "./SongsListHeader"
 import { StickyHeaderComponent } from "./StickyHeader"
 
 import { type QuerySongsParams, type SongWithRelations } from "@repo/api"
 
-type TableComponentProps = { table: Table<SongWithRelations> }
+type SongListProps = { list: VirtualizedListController<SongWithRelations> }
 
 const SongsList = () => {
-  const { t, i18n } = useTranslation()
-
-  const { debouncedSearchTerm, visibleColumns } = useSongsStore(
+  const { debouncedSearchTerm } = useSongsStore(
     useShallow((state) => ({
-      debouncedSearchTerm: state.debouncedSearchTerm,
-      visibleColumns: state.visibleColumns
+      debouncedSearchTerm: state.debouncedSearchTerm
     }))
   )
 
@@ -39,40 +36,55 @@ const SongsList = () => {
 
   const { data, isLoading } = useFetchSongsWithRelations(queryParams)
 
-  const tableColumns = columns({ t, language: i18n.language, songs: data })
-
-  const ListEmpty = useCallback(() => (isLoading ? <Spinner /> : <NotFound />), [isLoading])
-
-  const Header = useCallback(
-    ({ table }: TableComponentProps) => <HeaderComponent table={table} />,
-    []
-  )
+  const Header = useCallback(({ list }: SongListProps) => <HeaderComponent list={list} />, [])
 
   const StickyHeader = useCallback(
-    ({ table }: TableComponentProps) => <StickyHeaderComponent table={table} />,
+    ({ list }: SongListProps) => (
+      <Fragment>
+        <StickyHeaderComponent list={list} />
+        <div className="pt-6">
+          <SongsListHeader list={list} />
+        </div>
+      </Fragment>
+    ),
     []
   )
 
   const ListHeader = useCallback(
-    ({ table }: TableComponentProps) => <SearchComponent table={table} />,
+    ({ list }: SongListProps) => (
+      <Fragment>
+        <SearchComponent />
+        <div className="px-9 pb-3 pt-6">
+          <SongsListHeader list={list} className="border-b" />
+        </div>
+      </Fragment>
+    ),
     []
   )
 
-  const RowContextMenuContent = useCallback(() => <RowContextMenuContentComponent />, [])
+  const ListEmpty = useCallback(() => (isLoading ? <Spinner /> : <NotFound />), [isLoading])
 
   return (
-    <VirtualizedTableGridWithHeaders
-      ListEmptyComponent={ListEmpty}
+    <VirtualizedListWithHeaders
+      className="p-9 pt-0"
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
       ListHeaderComponent={ListHeader}
-      containerClassName="overflow-x-hidden"
-      columns={tableColumns}
+      ListEmptyComponent={ListEmpty}
       data={data ?? []}
-      estimateSize={70}
-      rowGridCols={["auto", "auto", "1fr", "1fr", "0.5fr", "minmax(50px,0.2fr)", "auto"]}
-      rowContextMenuContent={RowContextMenuContent}
-      initialVisibleColumns={visibleColumns}
+      keyExtractor={(item) => item.id.toString()}
+      estimateItemHeight={70}
+      numColumns={1}
+      gap={8}
+      renderItem={({ item, index, selected, toggle }) => (
+        <SongItem
+          song={item}
+          index={index}
+          selected={selected}
+          onToggle={toggle}
+          songs={data ?? []}
+        />
+      )}
     />
   )
 }

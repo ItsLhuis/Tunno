@@ -1,17 +1,19 @@
 import { useTranslation } from "@repo/i18n"
 
-import { Table } from "@tanstack/react-table"
-
 import { SongForm } from "../../forms"
 
-import { Header, IconButton, Typography } from "@components/ui"
+import { Header, IconButton, Typography, type VirtualizedListController } from "@components/ui"
 
 import { type SongWithRelations } from "@repo/api"
 
-const HeaderComponent = ({ table }: { table: Table<SongWithRelations> }) => {
+type HeaderComponentProps = {
+  list: VirtualizedListController<SongWithRelations>
+}
+
+const HeaderComponent = ({ list }: HeaderComponentProps) => {
   const { t } = useTranslation()
 
-  const hasSelectedRows = table.getSelectedRowModel().flatRows.length > 0
+  const hasSelectedRows = list.hasSelection
 
   return (
     <Header className="flex items-center gap-3">
@@ -39,3 +41,4 @@ const HeaderComponent = ({ table }: { table: Table<SongWithRelations> }) => {
 }
 
 export { HeaderComponent }
+

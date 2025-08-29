@@ -40,5 +40,6 @@ export * from "./Thumbnail"
 export * from "./Tooltip"
 export * from "./Typography"
 export * from "./UploadPicker"
+export * from "./VirtualizedList"
 export * from "./VirtualizedSelect"
 
