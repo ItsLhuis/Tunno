@@ -4,7 +4,7 @@ import { useShallow } from "zustand/shallow"
 
 import { useSongsStore } from "../../stores/useSongsStore"
 
-import { useFetchSongsWithRelations } from "../../hooks/useFetchSongsWithRelations"
+import { useFetchSongsWithMainRelations } from "../../hooks/useFetchSongsWithMainRelations"
 
 import {
   NotFound,
@@ -19,9 +19,9 @@ import { SongItem } from "./SongItem"
 import { SongsListHeader } from "./SongsListHeader"
 import { StickyHeaderComponent } from "./StickyHeader"
 
-import { type QuerySongsParams, type SongWithRelations } from "@repo/api"
+import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 
-type SongListProps = { list: VirtualizedListController<SongWithRelations> }
+type SongListProps = { list: VirtualizedListController<SongWithMainRelations> }
 
 const SongsList = () => {
   const { debouncedSearchTerm } = useSongsStore(
@@ -31,10 +31,11 @@ const SongsList = () => {
   )
 
   const queryParams: QuerySongsParams = {
+    orderBy: { column: "createdAt", direction: "desc" },
     filters: debouncedSearchTerm ? { search: debouncedSearchTerm } : undefined
   }
 
-  const { data, isLoading } = useFetchSongsWithRelations(queryParams)
+  const { data, isLoading } = useFetchSongsWithMainRelations(queryParams)
 
   const Header = useCallback(({ list }: SongListProps) => <HeaderComponent list={list} />, [])
 

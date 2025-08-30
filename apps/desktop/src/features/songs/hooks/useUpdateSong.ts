@@ -26,8 +26,8 @@ export function useUpdateSong() {
       artists?: number[]
     }) => updateSong(id, updates, thumbnailSourcePath, artists),
     onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: songKeys.detailsWithRelations(id) })
-      await queryClient.cancelQueries({ queryKey: songKeys.listWithRelations() })
+      await queryClient.cancelQueries({ queryKey: songKeys.details(id) })
+      await queryClient.cancelQueries({ queryKey: songKeys.list() })
     },
     onSuccess: (song) => {
       toast.success(t("songs.updatedTitle"), {
@@ -40,8 +40,8 @@ export function useUpdateSong() {
       })
     },
     onSettled: (_data, _error, { id }) => {
-      queryClient.invalidateQueries({ queryKey: songKeys.detailsWithRelations(id) })
-      queryClient.invalidateQueries({ queryKey: songKeys.listWithRelations() })
+      queryClient.invalidateQueries({ queryKey: songKeys.details(id) })
+      queryClient.invalidateQueries({ queryKey: songKeys.list() })
     }
   })
 }

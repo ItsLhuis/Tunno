@@ -15,13 +15,13 @@ import { resolveTrack } from "../utils/player"
 
 import { shuffleArray } from "@repo/utils"
 
-import { getSongsByIdsWithRelations } from "../api/queries"
+import { getSongsByIdsWithMainRelations } from "../api/queries"
 
 import { type Track } from "../types/player"
 
 import { type PlaySource } from "../types/playSource"
 
-import { type SongWithRelations } from "@repo/api"
+import { type SongWithMainRelations } from "@repo/api"
 
 const PLAYER_STORE_NAME = "player"
 
@@ -60,7 +60,7 @@ type PlayerActions = {
   setShuffleEnabled: (enabled: boolean) => Promise<void>
   toggleShuffle: () => Promise<void>
   loadTracks: (
-    songs: SongWithRelations[],
+    songs: SongWithMainRelations[],
     startIndex?: number,
     source?: PlaySource
   ) => Promise<void>
@@ -74,10 +74,10 @@ type PlayerActions = {
   seekTo: (position: number) => Promise<void>
   seekBy: (seconds: number) => Promise<void>
   addToQueue: (
-    track: SongWithRelations | SongWithRelations[],
+    track: SongWithMainRelations | SongWithMainRelations[],
     position?: "next" | "end"
   ) => Promise<void>
-  addAfterCurrent: (track: SongWithRelations | SongWithRelations[]) => Promise<void>
+  addAfterCurrent: (track: SongWithMainRelations | SongWithMainRelations[]) => Promise<void>
   removeFromQueue: (index: number) => Promise<void>
   moveInQueue: (fromIndex: number, toIndex: number) => Promise<void>
   ensureWindowForIndex: (index: number) => Promise<void>
@@ -94,7 +94,7 @@ type PlayerActions = {
 
 type PlayerStore = PlayerState & PlayerActions
 
-const songsCacheById = new Map<number, SongWithRelations>()
+const songsCacheById = new Map<number, SongWithMainRelations>()
 
 const isValidIndex = (index: number, arrayLength: number): boolean => {
   return index >= 0 && index < arrayLength && Number.isInteger(index)
@@ -213,7 +213,7 @@ export const usePlayerStore = create<PlayerStore>()(
         const missingSongs = newWindowIds.filter((id) => !songsCacheById.has(id))
 
         if (missingSongs.length > 0) {
-          const missingSongsData = await getSongsByIdsWithRelations(missingSongs)
+          const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
 
           if (missingSongsData.length !== missingSongs.length) {
             throw new Error("Failed to load missing songs")
@@ -905,7 +905,7 @@ export const usePlayerStore = create<PlayerStore>()(
           const missingSongs = windowIds.filter((id) => !songsCacheById.has(id))
 
           if (missingSongs.length > 0) {
-            const missingSongsData = await getSongsByIdsWithRelations(missingSongs)
+            const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
 
             if (missingSongsData.length !== missingSongs.length) {
               throw new Error("Failed to load missing songs for window")
@@ -942,7 +942,7 @@ export const usePlayerStore = create<PlayerStore>()(
           const missingSongs = toAddIds.filter((id) => !songsCacheById.has(id))
 
           if (missingSongs.length > 0) {
-            const missingSongsData = await getSongsByIdsWithRelations(missingSongs)
+            const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
 
             if (missingSongsData.length !== missingSongs.length) {
               return
@@ -1125,7 +1125,7 @@ export const usePlayerStore = create<PlayerStore>()(
                 const windowIds = queueIds.slice(start, end)
 
                 try {
-                  const windowSongs = await getSongsByIdsWithRelations(windowIds)
+                  const windowSongs = await getSongsByIdsWithMainRelations(windowIds)
 
                   if (windowSongs.length !== windowIds.length) {
                     usePlayerStore.setState({

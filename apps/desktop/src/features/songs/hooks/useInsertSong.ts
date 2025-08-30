@@ -27,7 +27,7 @@ export function useInsertSong() {
         description: t("songs.createdDescription", { name: createdSong.name })
       })
 
-      queryClient.refetchQueries({ queryKey: songKeys.listWithRelations() })
+      queryClient.refetchQueries({ queryKey: songKeys.list() })
     },
     onError: (error: any) => {
       toast.error(t("songs.createdFailedTitle"), {

@@ -36,15 +36,15 @@ import {
 
 import { formatRelativeDate, formatTime } from "@repo/utils"
 
-import { type SongWithRelations } from "@repo/api"
+import { type SongWithMainRelations } from "@repo/api"
 import { RowContextMenuContentComponent } from "./RowContextMenu"
 
 type SongItemProps = {
-  song: SongWithRelations
+  song: SongWithMainRelations
   index: number
   selected: boolean
   onToggle: () => void
-  songs: SongWithRelations[]
+  songs: SongWithMainRelations[]
 }
 
 export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemProps) => {

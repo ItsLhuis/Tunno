@@ -17,7 +17,7 @@ import {
 import { useInsertSong } from "../hooks/useInsertSong"
 import { useUpdateSong } from "../hooks/useUpdateSong"
 
-import { useFetchAlbumsByArtistsWithRelations } from "@features/albums/hooks/useFetchAlbumsByArtistsWithRelations"
+import { useFetchAlbumsByArtistsWithMainRelations } from "@features/albums/hooks/useFetchAlbumsByArtistsWithMainRelations"
 import { useFetchArtists } from "@features/artists/hooks/useFetchArtists"
 
 import { cn } from "@lib/utils"
@@ -113,7 +113,7 @@ const SongForm = ({
     orderBy: { column: "name", direction: "asc" }
   })
 
-  const { data: albumsData, isLoading: isAlbumsLoading } = useFetchAlbumsByArtistsWithRelations(
+  const { data: albumsData, isLoading: isAlbumsLoading } = useFetchAlbumsByArtistsWithMainRelations(
     selectedArtistIds?.length ? selectedArtistIds : [],
     {
       orderBy: { column: "name", direction: "asc" }

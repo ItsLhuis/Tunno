@@ -9,10 +9,10 @@ import {
   type VirtualizedListController
 } from "@components/ui"
 
-import { type SongWithRelations } from "@repo/api"
+import { type SongWithMainRelations } from "@repo/api"
 
 type StickyHeaderComponentProps = {
-  list: VirtualizedListController<SongWithRelations>
+  list: VirtualizedListController<SongWithMainRelations>
 }
 
 const StickyHeaderComponent = ({ list }: StickyHeaderComponentProps) => {

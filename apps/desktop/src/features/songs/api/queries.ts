@@ -2,14 +2,14 @@ import { database, schema } from "@database/client"
 
 import { asc, desc, eq, inArray, like } from "drizzle-orm"
 
-import { type QuerySongsParams, type SongWithRelations } from "@repo/api"
+import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 
-export const getAllSongsWithRelations = async ({
+export const getAllSongsWithMainRelations = async ({
   limit,
   offset,
   orderBy,
   filters
-}: QuerySongsParams = {}): Promise<SongWithRelations[]> => {
+}: QuerySongsParams = {}): Promise<SongWithMainRelations[]> => {
   return await database.query.songs.findMany({
     limit,
     offset,
@@ -35,9 +35,9 @@ export const getAllSongsWithRelations = async ({
   })
 }
 
-export const getSongByIdWithRelations = async (
+export const getSongByIdWithMainRelations = async (
   id: number
-): Promise<SongWithRelations | undefined> => {
+): Promise<SongWithMainRelations | undefined> => {
   return await database.query.songs.findFirst({
     where: eq(schema.songs.id, id),
     with: {
@@ -56,7 +56,9 @@ export const getSongByIdWithRelations = async (
   })
 }
 
-export const getSongsByIdsWithRelations = async (ids: number[]): Promise<SongWithRelations[]> => {
+export const getSongsByIdsWithMainRelations = async (
+  ids: number[]
+): Promise<SongWithMainRelations[]> => {
   if (ids.length === 0) return []
 
   const rows = await database.query.songs.findMany({

@@ -4,10 +4,10 @@ import { SongForm } from "../../forms"
 
 import { Header, IconButton, Typography, type VirtualizedListController } from "@components/ui"
 
-import { type SongWithRelations } from "@repo/api"
+import { type SongWithMainRelations } from "@repo/api"
 
 type HeaderComponentProps = {
-  list: VirtualizedListController<SongWithRelations>
+  list: VirtualizedListController<SongWithMainRelations>
 }
 
 const HeaderComponent = ({ list }: HeaderComponentProps) => {

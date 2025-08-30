@@ -1,6 +1,6 @@
 import { getRenderableFileSrc } from "@services/storage"
 
-import { type SongWithRelations } from "@repo/api"
+import { type SongWithMainRelations } from "@repo/api"
 
 import { type Track } from "../types/player"
 
@@ -17,7 +17,7 @@ const setWithEviction = (map: Map<string, string>, key: string, value: string) =
   map.set(key, value)
 }
 
-export const resolveTrack = async (song: SongWithRelations): Promise<Track> => {
+export const resolveTrack = async (song: SongWithMainRelations): Promise<Track> => {
   let audioUrl = audioUrlCache.get(song.file)
   if (!audioUrl) {
     audioUrl = await getRenderableFileSrc(song.file, "songs")

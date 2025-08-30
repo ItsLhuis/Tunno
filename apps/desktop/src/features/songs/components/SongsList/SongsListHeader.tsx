@@ -26,10 +26,10 @@ import {
   type VirtualizedListController
 } from "@components/ui"
 
-import { type SongWithRelations } from "@repo/api"
+import { type SongWithMainRelations } from "@repo/api"
 
 type SongsListHeaderProps = {
-  list: VirtualizedListController<SongWithRelations>
+  list: VirtualizedListController<SongWithMainRelations>
   className?: string
 }
 
