@@ -10,7 +10,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc --watch --preserveWatchOutput",
-    "build": "tsc"
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {},
   "devDependencies": {

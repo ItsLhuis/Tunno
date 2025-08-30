@@ -10,7 +10,8 @@
     "build:vite": "tsc && vite build",
     "build": "tauri build",
     "tauri": "tauri",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

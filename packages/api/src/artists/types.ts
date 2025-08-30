@@ -8,7 +8,36 @@ export type ArtistColumns = keyof typeof artists.$inferSelect
 
 export type Artist = typeof artists.$inferSelect
 
-export type ArtistWithRelations = InferQueryModel<
+export type ArtistWithSongs = InferQueryModel<
+  "artists",
+  {
+    songs: {
+      with: {
+        song: true
+      }
+    }
+  }
+>
+
+export type ArtistWithAlbums = InferQueryModel<
+  "artists",
+  {
+    albums: {
+      with: {
+        album: true
+      }
+    }
+  }
+>
+
+export type ArtistWithStats = InferQueryModel<
+  "artists",
+  {
+    stats: true
+  }
+>
+
+export type ArtistWithSongsAndAlbums = InferQueryModel<
   "artists",
   {
     songs: {
@@ -23,6 +52,27 @@ export type ArtistWithRelations = InferQueryModel<
     }
   }
 >
+
+export type ArtistWithMainRelations = ArtistWithSongsAndAlbums
+
+export type ArtistWithAllRelations = InferQueryModel<
+  "artists",
+  {
+    songs: {
+      with: {
+        song: true
+      }
+    }
+    albums: {
+      with: {
+        album: true
+      }
+    }
+    stats: true
+  }
+>
+
+export type ArtistWithCustomRelations<T extends Record<string, any>> = InferQueryModel<"artists", T>
 
 export type InsertArtist = typeof artists.$inferInsert
 export type UpdateArtist = Partial<InsertArtist>

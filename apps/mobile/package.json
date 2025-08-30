@@ -11,7 +11,8 @@
     "ios": "expo run:ios",
     "check-deps": "expo install --check",
     "fix-deps": "expo install --fix",
-    "eas-build-post-install": "turbo run build --filter='@repo/*'"
+    "eas-build-post-install": "turbo run build --filter='@repo/*'",
+    "typecheck": "tsc --noEmit"
   },
   "expo": {
     "doctor": {

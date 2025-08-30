@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "tsc --watch --preserveWatchOutput && pnpm copy-assets",
     "build": "tsc && pnpm copy-assets",
-    "copy-assets": "node scripts/dirCopy.js ./src/assets ./dist/assets"
+    "copy-assets": "node scripts/dirCopy.js ./src/assets ./dist/assets",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "i18next": "^25.0.2",
