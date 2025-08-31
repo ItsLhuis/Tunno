@@ -205,8 +205,8 @@ importers:
         specifier: ^7.62.0
         version: 7.62.0(react@18.3.1)
       react-track-player-web:
-        specifier: ^1.1.1
-        version: 1.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.1.4
+        version: 1.1.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       sonner:
         specifier: ^2.0.1
         version: 2.0.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7239,8 +7239,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-track-player-web@1.1.1:
-    resolution: {integrity: sha512-0DPSlRKmTm3dQq7NvMGjZrli8s4iiv1KpkHbW+jC/ezCTjVUpr9+hzrjzuukeInn5H3BRfIkKeokbnuA4hjFKw==}
+  react-track-player-web@1.1.4:
+    resolution: {integrity: sha512-u/9N6GYZ3rYeBWhbLH/eJ4Gr21DnDBp2pmHNhUyv7CcPATEDTTi/Vj6nYN+D9Pvpw5EX5xDKu/JOVyTov8TkVw==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -15631,7 +15631,7 @@ snapshots:
       react-shallow-renderer: 16.15.0(react@18.3.1)
       scheduler: 0.23.2
 
-  react-track-player-web@1.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-track-player-web@1.1.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)

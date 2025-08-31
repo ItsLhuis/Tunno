@@ -50,10 +50,11 @@ type SongItemProps = {
 export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemProps) => {
   const { t, i18n } = useTranslation()
 
-  const { loadTracks, play, currentTrack, playbackState, isTrackLoading } = usePlayerStore(
+  const { loadTracks, play, pause, currentTrack, playbackState, isTrackLoading } = usePlayerStore(
     useShallow((state) => ({
       loadTracks: state.loadTracks,
       play: state.play,
+      pause: state.pause,
       currentTrack: state.currentTrack,
       playbackState: state.playbackState,
       isTrackLoading: state.isTrackLoading
@@ -65,7 +66,7 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
 
     if (currentTrack) {
       if (currentTrack.id === song.id && playbackState === State.Playing) {
-        await usePlayerStore.getState().pause()
+        await pause()
         return
       }
 
