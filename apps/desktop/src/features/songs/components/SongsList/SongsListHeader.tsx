@@ -48,7 +48,7 @@ export const SongsListHeader = ({ list, className }: SongsListHeaderProps) => {
 
   const handlePlaySelected = async () => {
     if (selectedSongs.length > 0) {
-      await loadTracks(selectedSongs, 0)
+      await loadTracks(selectedSongs, 0, "queue")
       await play()
     }
   }

@@ -9,8 +9,6 @@ import TrackPlayer, {
   State
 } from "react-track-player-web"
 
-import { type Track } from "@features/songs/types/player"
-
 let unsubscribeFns: Array<() => void> = []
 
 export const registerPlaybackListeners = () => {
@@ -30,26 +28,29 @@ export const registerPlaybackListeners = () => {
   }
 
   const onTrackChanged = async () => {
-    const localIndex = TrackPlayer.getActiveTrackIndex()
-    const track = TrackPlayer.getActiveTrack() as Track | undefined
+    const {
+      syncStateWithPlayer,
+      ensureWindowForIndex,
+      updateNavigationStates,
+      validateAndUpdateState,
+      isRehydrating
+    } = usePlayerStore.getState()
 
-    const { windowStartIndex, ensureWindowForIndex, updateNavigationStates } =
-      usePlayerStore.getState()
+    if (isRehydrating) return
 
-    const globalIndex = typeof localIndex === "number" ? windowStartIndex + localIndex : null
+    try {
+      await syncStateWithPlayer()
 
-    usePlayerStore.setState({
-      currentTrackIndex: globalIndex,
-      currentTrack: track ?? null,
-      currentTrackId: track?.id ?? null,
-      duration: Math.round(TrackPlayer.getDuration() || 0)
-    })
+      const { currentTrackIndex } = usePlayerStore.getState()
+      if (typeof currentTrackIndex === "number") {
+        await ensureWindowForIndex(currentTrackIndex)
+      }
 
-    if (typeof globalIndex === "number") {
-      await ensureWindowForIndex(globalIndex)
+      updateNavigationStates()
+    } catch (error) {
+      console.error("Error in onTrackChanged:", error)
+      await validateAndUpdateState()
     }
-
-    updateNavigationStates()
   }
 
   const onProgress: EventHandler = (data: EventData) => {
