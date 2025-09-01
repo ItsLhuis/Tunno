@@ -27,17 +27,16 @@ export const swedish: Language = {
       enableRepeat: "Aktivera upprepning",
       enableRepeatOne: "Aktivera upprepning av en",
       disableRepeat: "Inaktivera upprepning",
-      mute: "Stäng Av Ljud",
-      unmute: "Slå På Ljud",
+      mute: "Stäng av ljud",
+      unmute: "Slå på ljud",
       queue: "Kö",
       title: "Titel",
       album: "Album",
+      artist: "Konstnär",
       date: "Datum",
       duration: "Längd",
       search: "Sök",
       selectAll: "Markera alla",
-      visibility: "Synlighet",
-      columns: "Kolumner",
       clear: "Rensa",
       cancel: "Avbryt",
       more: "Mer",
@@ -50,12 +49,13 @@ export const swedish: Language = {
       addTo: "Lägg till",
       playlist: "Spellista",
       lyrics: "Låttext",
-      openMiniplayer: "Öppna Minispelare",
-      enterFullScreen: "Gå till Fullskärm",
-      exitFullScreen: "Lämna Fullskärm",
+      openMiniplayer: "Öppna minispelare",
+      enterFullScreen: "Gå till fullskärm",
+      exitFullScreen: "Lämna fullskärm",
       goToAlbum: "Gå till album",
       goToArtist: "Gå till artist",
-      shuffleAndPlay: "Blanda och Spela"
+      shuffleAndPlay: "Blanda och spela",
+      unknown: "Okänd"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const swedish: Language = {
       songs: {
         title: "Låtar"
       },
-      favorites: {
-        title: "Favoriter"
-      },
       playlists: {
         title: "Spellistor"
+      },
+      albums: {
+        title: "Album"
       },
       artists: {
         title: "Artister"
@@ -183,15 +183,6 @@ export const swedish: Language = {
       deletedDescription: "{name} har tagits bort",
       deletedFailedTitle: "Misslyckades att ta bort låt"
     },
-    favorites: {
-      title: "Favoriter",
-      createdTitle: "Tillagd i favoriter",
-      createdDescription: "{name} har lagts till i favoriter",
-      createdFailedTitle: "Misslyckades att lägga till i favoriter",
-      deletedTitle: "Borttagen från favoriter",
-      deletedDescription: "{name} har tagits bort från favoriter",
-      deletedFailedTitle: "Misslyckades att ta bort från favoriter"
-    },
     playlists: {
       title: "Spellistor",
       createdTitle: "Spellista skapad",
@@ -204,6 +195,18 @@ export const swedish: Language = {
       deletedDescription: "{name} har tagits bort",
       deletedFailedTitle: "Misslyckades att ta bort spellista"
     },
+    albums: {
+      title: "Album",
+      createdTitle: "Album skapat",
+      createdDescription: "{name} har skapats",
+      createdFailedTitle: "Misslyckades att skapa album",
+      updatedTitle: "Album uppdaterat",
+      updatedDescription: "{name} har uppdaterats",
+      updatedFailedTitle: "Misslyckades att uppdatera album",
+      deletedTitle: "Album borttaget",
+      deletedDescription: "{name} har tagits bort",
+      deletedFailedTitle: "Misslyckades att ta bort album"
+    },
     artists: {
       title: "Artister",
       createdTitle: "Artist skapad",
@@ -215,6 +218,14 @@ export const swedish: Language = {
       deletedTitle: "Artist borttagen",
       deletedDescription: "{name} har tagits bort",
       deletedFailedTitle: "Misslyckades att ta bort artist"
+    },
+    favorites: {
+      createdTitle: "Tillagd i favoriter",
+      createdDescription: "{name} har lagts till i favoriter",
+      createdFailedTitle: "Misslyckades att lägga till i favoriter",
+      deletedTitle: "Borttagen från favoriter",
+      deletedDescription: "{name} har tagits bort från favoriter",
+      deletedFailedTitle: "Misslyckades att ta bort från favoriter"
     },
     settings: {
       title: "Inställningar",

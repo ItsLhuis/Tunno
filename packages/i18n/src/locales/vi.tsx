@@ -27,17 +27,16 @@ export const vietnamese: Language = {
       enableRepeat: "Bật lặp lại",
       enableRepeatOne: "Bật lặp lại một",
       disableRepeat: "Tắt lặp lại",
-      mute: "Tắt Tiếng",
-      unmute: "Bật Tiếng",
+      mute: "Tắt tiếng",
+      unmute: "Bật tiếng",
       queue: "Hàng đợi",
       title: "Tiêu đề",
       album: "Album",
+      artist: "Nghệ sĩ",
       date: "Ngày",
       duration: "Thời lượng",
       search: "Tìm kiếm",
       selectAll: "Chọn tất cả",
-      visibility: "Hiển thị",
-      columns: "Cột",
       clear: "Xóa",
       cancel: "Hủy",
       more: "Thêm",
@@ -50,12 +49,13 @@ export const vietnamese: Language = {
       addTo: "Thêm vào",
       playlist: "Danh sách phát",
       lyrics: "Lời bài hát",
-      openMiniplayer: "Mở Trình Phát Nhỏ",
-      enterFullScreen: "Vào Toàn Màn Hình",
-      exitFullScreen: "Thoát Toàn Màn Hình",
+      openMiniplayer: "Mở trình phát nhỏ",
+      enterFullScreen: "Vào toàn màn hình",
+      exitFullScreen: "Thoát toàn màn hình",
       goToAlbum: "Đến album",
       goToArtist: "Đến nghệ sĩ",
-      shuffleAndPlay: "Trộn và Phát"
+      shuffleAndPlay: "Trộn và phát",
+      unknown: "Không xác định"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const vietnamese: Language = {
       songs: {
         title: "Bài hát"
       },
-      favorites: {
-        title: "Yêu thích"
-      },
       playlists: {
         title: "Danh sách phát"
+      },
+      albums: {
+        title: "Album"
       },
       artists: {
         title: "Nghệ sĩ"
@@ -183,15 +183,6 @@ export const vietnamese: Language = {
       deletedDescription: "{name} đã bị xóa",
       deletedFailedTitle: "Xóa bài hát thất bại"
     },
-    favorites: {
-      title: "Yêu thích",
-      createdTitle: "Đã thêm vào yêu thích",
-      createdDescription: "{name} đã được thêm vào yêu thích",
-      createdFailedTitle: "Thêm vào yêu thích thất bại",
-      deletedTitle: "Đã xóa khỏi yêu thích",
-      deletedDescription: "{name} đã bị xóa khỏi yêu thích",
-      deletedFailedTitle: "Xóa khỏi yêu thích thất bại"
-    },
     playlists: {
       title: "Danh sách phát",
       createdTitle: "Tạo danh sách phát thành công",
@@ -204,6 +195,18 @@ export const vietnamese: Language = {
       deletedDescription: "{name} đã bị xóa",
       deletedFailedTitle: "Xóa danh sách phát thất bại"
     },
+    albums: {
+      title: "Album",
+      createdTitle: "Tạo album thành công",
+      createdDescription: "{name} đã được tạo",
+      createdFailedTitle: "Tạo album thất bại",
+      updatedTitle: "Cập nhật album thành công",
+      updatedDescription: "{name} đã được cập nhật",
+      updatedFailedTitle: "Cập nhật album thất bại",
+      deletedTitle: "Xóa album thành công",
+      deletedDescription: "{name} đã bị xóa",
+      deletedFailedTitle: "Xóa album thất bại"
+    },
     artists: {
       title: "Nghệ sĩ",
       createdTitle: "Tạo nghệ sĩ thành công",
@@ -215,6 +218,14 @@ export const vietnamese: Language = {
       deletedTitle: "Xóa nghệ sĩ thành công",
       deletedDescription: "{name} đã bị xóa",
       deletedFailedTitle: "Xóa nghệ sĩ thất bại"
+    },
+    favorites: {
+      createdTitle: "Đã thêm vào yêu thích",
+      createdDescription: "{name} đã được thêm vào yêu thích",
+      createdFailedTitle: "Thêm vào yêu thích thất bại",
+      deletedTitle: "Đã xóa khỏi yêu thích",
+      deletedDescription: "{name} đã bị xóa khỏi yêu thích",
+      deletedFailedTitle: "Xóa khỏi yêu thích thất bại"
     },
     settings: {
       title: "Cài đặt",

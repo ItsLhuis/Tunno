@@ -128,7 +128,7 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
                   </Button>
                 ) : (
                   <Typography className="truncate" affects={["muted", "small"]}>
-                    Unknown artist
+                    {`${t("common.unknown")} ${t("common.artist")}`}
                   </Typography>
                 )}
               </Marquee>
@@ -138,7 +138,7 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
             {song.album ? (
               <Typography className="truncate">{song.album.name}</Typography>
             ) : (
-              <Typography affects={["muted"]}>Unknown</Typography>
+              <Typography affects={["muted"]}>{t("common.unknown")}</Typography>
             )}
           </div>
           <div className="truncate">

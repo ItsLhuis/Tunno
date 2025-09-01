@@ -27,17 +27,16 @@ export const ukrainian: Language = {
       enableRepeat: "Увімкнути повтор",
       enableRepeatOne: "Увімкнути повтор однієї",
       disableRepeat: "Вимкнути повтор",
-      mute: "Вимкнути Звук",
-      unmute: "Увімкнути Звук",
+      mute: "Вимкнути звук",
+      unmute: "Увімкнути звук",
       queue: "Черга",
       title: "Назва",
       album: "Альбом",
+      artist: "Артист",
       date: "Дата",
       duration: "Тривалість",
       search: "Пошук",
       selectAll: "Вибрати все",
-      visibility: "Видимість",
-      columns: "Колонки",
       clear: "Очистити",
       cancel: "Скасувати",
       more: "Більше",
@@ -50,12 +49,13 @@ export const ukrainian: Language = {
       addTo: "Додати до",
       playlist: "Плейлист",
       lyrics: "Текст",
-      openMiniplayer: "Відкрити Міні-плеєр",
-      enterFullScreen: "Увійти в Повний Екран",
-      exitFullScreen: "Вийти з Повного Екрану",
+      openMiniplayer: "Відкрити міні-плеєр",
+      enterFullScreen: "Увійти в повний екран",
+      exitFullScreen: "Вийти з повного екрану",
       goToAlbum: "Перейти до альбому",
       goToArtist: "Перейти до виконавця",
-      shuffleAndPlay: "Перемішати та Відтворити"
+      shuffleAndPlay: "Перемішати та відтворити",
+      unknown: "Невідомо"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const ukrainian: Language = {
       songs: {
         title: "Пісні"
       },
-      favorites: {
-        title: "Вибране"
-      },
       playlists: {
         title: "Плейлисти"
+      },
+      albums: {
+        title: "Альбоми"
       },
       artists: {
         title: "Виконавці"
@@ -183,15 +183,6 @@ export const ukrainian: Language = {
       deletedDescription: "{name} видалено",
       deletedFailedTitle: "Не вдалося видалити пісню"
     },
-    favorites: {
-      title: "Вибране",
-      createdTitle: "Додано у вибране",
-      createdDescription: "{name} додано у вибране",
-      createdFailedTitle: "Не вдалося додати у вибране",
-      deletedTitle: "Видалено з вибраного",
-      deletedDescription: "{name} видалено з вибраного",
-      deletedFailedTitle: "Не вдалося видалити з вибраного"
-    },
     playlists: {
       title: "Плейлисти",
       createdTitle: "Плейлист успішно створено",
@@ -204,6 +195,18 @@ export const ukrainian: Language = {
       deletedDescription: "{name} видалено",
       deletedFailedTitle: "Не вдалося видалити плейлист"
     },
+    albums: {
+      title: "Альбоми",
+      createdTitle: "Альбом успішно створено",
+      createdDescription: "{name} створено",
+      createdFailedTitle: "Не вдалося створити альбом",
+      updatedTitle: "Альбом успішно оновлено",
+      updatedDescription: "{name} оновлено",
+      updatedFailedTitle: "Не вдалося оновити альбом",
+      deletedTitle: "Альбом успішно видалено",
+      deletedDescription: "{name} видалено",
+      deletedFailedTitle: "Не вдалося видалити альбом"
+    },
     artists: {
       title: "Виконавці",
       createdTitle: "Виконавця успішно створено",
@@ -215,6 +218,14 @@ export const ukrainian: Language = {
       deletedTitle: "Виконавця успішно видалено",
       deletedDescription: "{name} видалено",
       deletedFailedTitle: "Не вдалося видалити виконавця"
+    },
+    favorites: {
+      createdTitle: "Додано у вибране",
+      createdDescription: "{name} додано у вибране",
+      createdFailedTitle: "Не вдалося додати у вибране",
+      deletedTitle: "Видалено з вибраного",
+      deletedDescription: "{name} видалено з вибраного",
+      deletedFailedTitle: "Не вдалося видалити з вибраного"
     },
     settings: {
       title: "Налаштування",

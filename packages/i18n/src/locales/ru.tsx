@@ -27,17 +27,16 @@ export const russian: Language = {
       enableRepeat: "Включить повтор",
       enableRepeatOne: "Включить повтор одного",
       disableRepeat: "Выключить повтор",
-      mute: "Выключить Звук",
-      unmute: "Включить Звук",
+      mute: "Выключить звук",
+      unmute: "Включить звук",
       queue: "Очередь",
       title: "Название",
       album: "Альбом",
+      artist: "Артист",
       date: "Дата",
       duration: "Длительность",
       search: "Поиск",
       selectAll: "Выбрать все",
-      visibility: "Видимость",
-      columns: "Столбцы",
       clear: "Очистить",
       cancel: "Отмена",
       more: "Ещё",
@@ -50,12 +49,13 @@ export const russian: Language = {
       addTo: "Добавить в",
       playlist: "Плейлист",
       lyrics: "Текст",
-      openMiniplayer: "Открыть Миниплеер",
-      enterFullScreen: "Войти в Полный Экран",
-      exitFullScreen: "Выйти из Полного Экрана",
+      openMiniplayer: "Открыть миниплеер",
+      enterFullScreen: "Войти в полный экран",
+      exitFullScreen: "Выйти из полного экрана",
       goToAlbum: "Перейти к альбому",
       goToArtist: "Перейти к исполнителю",
-      shuffleAndPlay: "Перемешать и Воспроизвести"
+      shuffleAndPlay: "Перемешать и воспроизвести",
+      unknown: "Неизвестно"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const russian: Language = {
       songs: {
         title: "Песни"
       },
-      favorites: {
-        title: "Избранное"
-      },
       playlists: {
         title: "Плейлисты"
+      },
+      albums: {
+        title: "Альбомы"
       },
       artists: {
         title: "Исполнители"
@@ -183,15 +183,6 @@ export const russian: Language = {
       deletedDescription: "{name} удалена",
       deletedFailedTitle: "Не удалось удалить песню"
     },
-    favorites: {
-      title: "Избранное",
-      createdTitle: "Добавлено в избранное",
-      createdDescription: "{name} добавлена в избранное",
-      createdFailedTitle: "Не удалось добавить в избранное",
-      deletedTitle: "Удалено из избранного",
-      deletedDescription: "{name} удалена из избранного",
-      deletedFailedTitle: "Не удалось удалить из избранного"
-    },
     playlists: {
       title: "Плейлисты",
       createdTitle: "Плейлист успешно создан",
@@ -204,6 +195,18 @@ export const russian: Language = {
       deletedDescription: "{name} удалён",
       deletedFailedTitle: "Не удалось удалить плейлист"
     },
+    albums: {
+      title: "Альбомы",
+      createdTitle: "Альбом успешно создан",
+      createdDescription: "{name} создан",
+      createdFailedTitle: "Не удалось создать альбом",
+      updatedTitle: "Альбом успешно обновлён",
+      updatedDescription: "{name} обновлён",
+      updatedFailedTitle: "Не удалось обновить альбом",
+      deletedTitle: "Альбом успешно удалён",
+      deletedDescription: "{name} удалён",
+      deletedFailedTitle: "Не удалось удалить альбом"
+    },
     artists: {
       title: "Исполнители",
       createdTitle: "Исполнитель успешно создан",
@@ -215,6 +218,14 @@ export const russian: Language = {
       deletedTitle: "Исполнитель успешно удалён",
       deletedDescription: "{name} удалён",
       deletedFailedTitle: "Не удалось удалить исполнителя"
+    },
+    favorites: {
+      createdTitle: "Добавлено в избранное",
+      createdDescription: "{name} добавлена в избранное",
+      createdFailedTitle: "Не удалось добавить в избранное",
+      deletedTitle: "Удалено из избранного",
+      deletedDescription: "{name} удалена из избранного",
+      deletedFailedTitle: "Не удалось удалить из избранного"
     },
     settings: {
       title: "Настройки",

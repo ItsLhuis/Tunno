@@ -32,12 +32,11 @@ export const chinese: Language = {
       queue: "队列",
       title: "标题",
       album: "专辑",
+      artist: "艺术家",
       date: "日期",
       duration: "时长",
       search: "搜索",
       selectAll: "全选",
-      visibility: "可见性",
-      columns: "列",
       clear: "清除",
       cancel: "取消",
       more: "更多",
@@ -55,7 +54,8 @@ export const chinese: Language = {
       exitFullScreen: "退出全屏",
       goToAlbum: "转到专辑",
       goToArtist: "转到艺术家",
-      shuffleAndPlay: "随机播放"
+      shuffleAndPlay: "随机播放",
+      unknown: "未知"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const chinese: Language = {
       songs: {
         title: "歌曲"
       },
-      favorites: {
-        title: "收藏"
-      },
       playlists: {
         title: "播放列表"
+      },
+      albums: {
+        title: "专辑"
       },
       artists: {
         title: "艺术家"
@@ -183,15 +183,6 @@ export const chinese: Language = {
       deletedDescription: "{name} 已删除",
       deletedFailedTitle: "删除歌曲失败"
     },
-    favorites: {
-      title: "收藏",
-      createdTitle: "已添加到收藏",
-      createdDescription: "{name} 已添加到收藏",
-      createdFailedTitle: "添加收藏失败",
-      deletedTitle: "已从收藏中删除",
-      deletedDescription: "{name} 已从收藏中删除",
-      deletedFailedTitle: "删除收藏失败"
-    },
     playlists: {
       title: "播放列表",
       createdTitle: "播放列表创建成功",
@@ -204,6 +195,18 @@ export const chinese: Language = {
       deletedDescription: "{name} 已删除",
       deletedFailedTitle: "删除播放列表失败"
     },
+    albums: {
+      title: "专辑",
+      createdTitle: "专辑创建成功",
+      createdDescription: "{name} 已创建",
+      createdFailedTitle: "创建专辑失败",
+      updatedTitle: "专辑更新成功",
+      updatedDescription: "{name} 已更新",
+      updatedFailedTitle: "更新专辑失败",
+      deletedTitle: "专辑删除成功",
+      deletedDescription: "{name} 已删除",
+      deletedFailedTitle: "删除专辑失败"
+    },
     artists: {
       title: "艺术家",
       createdTitle: "艺术家创建成功",
@@ -215,6 +218,14 @@ export const chinese: Language = {
       deletedTitle: "艺术家删除成功",
       deletedDescription: "{name} 已删除",
       deletedFailedTitle: "删除艺术家失败"
+    },
+    favorites: {
+      createdTitle: "已添加到收藏",
+      createdDescription: "{name} 已添加到收藏",
+      createdFailedTitle: "添加收藏失败",
+      deletedTitle: "已从收藏中删除",
+      deletedDescription: "{name} 已从收藏中删除",
+      deletedFailedTitle: "删除收藏失败"
     },
     settings: {
       title: "设置",

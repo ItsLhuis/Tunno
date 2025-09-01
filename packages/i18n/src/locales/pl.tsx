@@ -28,16 +28,15 @@ export const polish: Language = {
       enableRepeatOne: "Włącz powtarzanie jednego",
       disableRepeat: "Wyłącz powtarzanie",
       mute: "Wycisz",
-      unmute: "Włącz Dźwięk",
+      unmute: "Włącz dźwięk",
       queue: "Kolejka",
       title: "Tytuł",
       album: "Album",
+      artist: "Artysta",
       date: "Data",
       duration: "Czas trwania",
       search: "Szukaj",
       selectAll: "Zaznacz wszystko",
-      visibility: "Widoczność",
-      columns: "Kolumny",
       clear: "Wyczyść",
       cancel: "Anuluj",
       more: "Więcej",
@@ -50,12 +49,13 @@ export const polish: Language = {
       addTo: "Dodaj do",
       playlist: "Lista odtwarzania",
       lyrics: "Tekst",
-      openMiniplayer: "Otwórz Miniodtwarzacz",
-      enterFullScreen: "Przejdź na Pełny Ekran",
-      exitFullScreen: "Wyjdź z Pełnego Ekranu",
+      openMiniplayer: "Otwórz miniodtwarzacz",
+      enterFullScreen: "Przejdź na pełny ekran",
+      exitFullScreen: "Wyjdź z pełnego ekranu",
       goToAlbum: "Przejdź do albumu",
       goToArtist: "Przejdź do artysty",
-      shuffleAndPlay: "Losuj i Odtwarzaj"
+      shuffleAndPlay: "Losuj i odtwarzaj",
+      unknown: "Nieznane"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const polish: Language = {
       songs: {
         title: "Utwory"
       },
-      favorites: {
-        title: "Ulubione"
-      },
       playlists: {
         title: "Playlisty"
+      },
+      albums: {
+        title: "Albumy"
       },
       artists: {
         title: "Artyści"
@@ -183,15 +183,6 @@ export const polish: Language = {
       deletedDescription: "{name} został usunięty",
       deletedFailedTitle: "Nie udało się usunąć utworu"
     },
-    favorites: {
-      title: "Ulubione",
-      createdTitle: "Dodano do ulubionych",
-      createdDescription: "{name} został dodany do ulubionych",
-      createdFailedTitle: "Nie udało się dodać do ulubionych",
-      deletedTitle: "Usunięto z ulubionych",
-      deletedDescription: "{name} został usunięty z ulubionych",
-      deletedFailedTitle: "Nie udało się usunąć z ulubionych"
-    },
     playlists: {
       title: "Playlisty",
       createdTitle: "Playlista została pomyślnie utworzona",
@@ -204,6 +195,18 @@ export const polish: Language = {
       deletedDescription: "{name} została usunięta",
       deletedFailedTitle: "Nie udało się usunąć playlisty"
     },
+    albums: {
+      title: "Albumy",
+      createdTitle: "Album został pomyślnie utworzony",
+      createdDescription: "{name} został utworzony",
+      createdFailedTitle: "Nie udało się utworzyć albumu",
+      updatedTitle: "Album został pomyślnie zaktualizowany",
+      updatedDescription: "{name} został zaktualizowany",
+      updatedFailedTitle: "Nie udało się zaktualizować albumu",
+      deletedTitle: "Album został pomyślnie usunięty",
+      deletedDescription: "{name} został usunięty",
+      deletedFailedTitle: "Nie udało się usunąć albumu"
+    },
     artists: {
       title: "Artyści",
       createdTitle: "Artysta został pomyślnie utworzony",
@@ -215,6 +218,14 @@ export const polish: Language = {
       deletedTitle: "Artysta został pomyślnie usunięty",
       deletedDescription: "{name} został usunięty",
       deletedFailedTitle: "Nie udało się usunąć artysty"
+    },
+    favorites: {
+      createdTitle: "Dodano do ulubionych",
+      createdDescription: "{name} został dodany do ulubionych",
+      createdFailedTitle: "Nie udało się dodać do ulubionych",
+      deletedTitle: "Usunięto z ulubionych",
+      deletedDescription: "{name} został usunięty z ulubionych",
+      deletedFailedTitle: "Nie udało się usunąć z ulubionych"
     },
     settings: {
       title: "Ustawienia",

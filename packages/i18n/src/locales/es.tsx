@@ -28,16 +28,15 @@ export const spanish: Language = {
       enableRepeatOne: "Activar repetición de uno",
       disableRepeat: "Desactivar repetición",
       mute: "Silenciar",
-      unmute: "Activar Sonido",
+      unmute: "Activar sonido",
       queue: "Cola",
       title: "Título",
       album: "Álbum",
+      artist: "Artista",
       date: "Fecha",
       duration: "Duración",
       search: "Buscar",
       selectAll: "Seleccionar todo",
-      visibility: "Visibilidad",
-      columns: "Columnas",
       clear: "Limpiar",
       cancel: "Cancelar",
       more: "Más",
@@ -50,12 +49,13 @@ export const spanish: Language = {
       addTo: "Agregar a",
       playlist: "Lista de reproducción",
       lyrics: "Letra",
-      openMiniplayer: "Abrir Minireproductor",
-      enterFullScreen: "Entrar en Pantalla Completa",
-      exitFullScreen: "Salir de Pantalla Completa",
+      openMiniplayer: "Abrir minireproductor",
+      enterFullScreen: "Entrar en pantalla completa",
+      exitFullScreen: "Salir de pantalla completa",
       goToAlbum: "Ir al álbum",
       goToArtist: "Ir al artista",
-      shuffleAndPlay: "Mezclar y Reproducir"
+      shuffleAndPlay: "Mezclar y reproducir",
+      unknown: "Desconocido"
     },
     form: {
       titles: {
@@ -144,11 +144,11 @@ export const spanish: Language = {
       songs: {
         title: "Canciones"
       },
-      favorites: {
-        title: "Favoritos"
-      },
       playlists: {
         title: "Listas de reproducción"
+      },
+      albums: {
+        title: "Álbumes"
       },
       artists: {
         title: "Artistas"
@@ -184,15 +184,6 @@ export const spanish: Language = {
       deletedDescription: "{name} ha sido eliminada",
       deletedFailedTitle: "Error al eliminar la canción"
     },
-    favorites: {
-      title: "Favoritos",
-      createdTitle: "Agregado a favoritos",
-      createdDescription: "{name} ha sido agregado a favoritos",
-      createdFailedTitle: "Error al agregar a favoritos",
-      deletedTitle: "Eliminado de favoritos",
-      deletedDescription: "{name} ha sido eliminado de favoritos",
-      deletedFailedTitle: "Error al eliminar de favoritos"
-    },
     playlists: {
       title: "Listas de reproducción",
       createdTitle: "Lista creada con éxito",
@@ -205,6 +196,18 @@ export const spanish: Language = {
       deletedDescription: "{name} ha sido eliminada",
       deletedFailedTitle: "Error al eliminar la lista"
     },
+    albums: {
+      title: "Álbumes",
+      createdTitle: "Álbum creado con éxito",
+      createdDescription: "{name} ha sido creado",
+      createdFailedTitle: "Error al crear el álbum",
+      updatedTitle: "Álbum actualizado con éxito",
+      updatedDescription: "{name} ha sido actualizado",
+      updatedFailedTitle: "Error al actualizar el álbum",
+      deletedTitle: "Álbum eliminado con éxito",
+      deletedDescription: "{name} ha sido eliminado",
+      deletedFailedTitle: "Error al eliminar el álbum"
+    },
     artists: {
       title: "Artistas",
       createdTitle: "Artista creado con éxito",
@@ -216,6 +219,14 @@ export const spanish: Language = {
       deletedTitle: "Artista eliminado con éxito",
       deletedDescription: "{name} ha sido eliminado",
       deletedFailedTitle: "Error al eliminar el artista"
+    },
+    favorites: {
+      createdTitle: "Agregado a favoritos",
+      createdDescription: "{name} ha sido agregado a favoritos",
+      createdFailedTitle: "Error al agregar a favoritos",
+      deletedTitle: "Eliminado de favoritos",
+      deletedDescription: "{name} ha sido eliminado de favoritos",
+      deletedFailedTitle: "Error al eliminar de favoritos"
     },
     settings: {
       title: "Configuración",

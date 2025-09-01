@@ -28,16 +28,15 @@ export const finnish: Language = {
       enableRepeatOne: "Ota yhden toisto käyttöön",
       disableRepeat: "Poista toisto käytöstä",
       mute: "Mykistä",
-      unmute: "Poista Mykistys",
+      unmute: "Poista mykistys",
       queue: "Jono",
       title: "Otsikko",
       album: "Albumi",
+      artist: "Artisti",
       date: "Päivämäärä",
       duration: "Kesto",
       search: "Haku",
       selectAll: "Valitse kaikki",
-      visibility: "Näkyvyys",
-      columns: "Sarakkeet",
       clear: "Tyhjennä",
       cancel: "Peruuta",
       more: "Lisää",
@@ -50,12 +49,13 @@ export const finnish: Language = {
       addTo: "Lisää",
       playlist: "Soittolista",
       lyrics: "Sanat",
-      openMiniplayer: "Avaa Minisoitin",
-      enterFullScreen: "Siirry Koko Näyttöön",
-      exitFullScreen: "Poistu Koko Näytöstä",
+      openMiniplayer: "Avaa minisoitin",
+      enterFullScreen: "Siirry koko näyttöön",
+      exitFullScreen: "Poistu koko näytöstä",
       goToAlbum: "Siirry albumiin",
       goToArtist: "Siirry artistiin",
-      shuffleAndPlay: "Sekoita ja Toista"
+      shuffleAndPlay: "Sekoita ja toista",
+      unknown: "Tuntematon"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const finnish: Language = {
       songs: {
         title: "Kappaleet"
       },
-      favorites: {
-        title: "Suosikit"
-      },
       playlists: {
         title: "Soittolistat"
+      },
+      albums: {
+        title: "Albumit"
       },
       artists: {
         title: "Artistit"
@@ -183,15 +183,6 @@ export const finnish: Language = {
       deletedDescription: "{name} on poistettu",
       deletedFailedTitle: "Kappaleen poisto epäonnistui"
     },
-    favorites: {
-      title: "Suosikit",
-      createdTitle: "Lisätty suosikkeihin",
-      createdDescription: "{name} lisätty suosikkeihin",
-      createdFailedTitle: "Lisäys suosikkeihin epäonnistui",
-      deletedTitle: "Poistettu suosikeista",
-      deletedDescription: "{name} poistettu suosikeista",
-      deletedFailedTitle: "Poisto suosikeista epäonnistui"
-    },
     playlists: {
       title: "Soittolistat",
       createdTitle: "Soittolista luotu onnistuneesti",
@@ -204,6 +195,18 @@ export const finnish: Language = {
       deletedDescription: "{name} on poistettu",
       deletedFailedTitle: "Soittolistan poisto epäonnistui"
     },
+    albums: {
+      title: "Albumit",
+      createdTitle: "Albumi luotu onnistuneesti",
+      createdDescription: "{name} on luotu",
+      createdFailedTitle: "Albumin luonti epäonnistui",
+      updatedTitle: "Albumi päivitetty onnistuneesti",
+      updatedDescription: "{name} on päivitetty",
+      updatedFailedTitle: "Albumin päivitys epäonnistui",
+      deletedTitle: "Albumi poistettu onnistuneesti",
+      deletedDescription: "{name} on poistettu",
+      deletedFailedTitle: "Albumin poisto epäonnistui"
+    },
     artists: {
       title: "Artistit",
       createdTitle: "Artisti luotu onnistuneesti",
@@ -215,6 +218,14 @@ export const finnish: Language = {
       deletedTitle: "Artisti poistettu onnistuneesti",
       deletedDescription: "{name} on poistettu",
       deletedFailedTitle: "Artistin poisto epäonnistui"
+    },
+    favorites: {
+      createdTitle: "Lisätty suosikkeihin",
+      createdDescription: "{name} lisätty suosikkeihin",
+      createdFailedTitle: "Lisäys suosikkeihin epäonnistui",
+      deletedTitle: "Poistettu suosikeista",
+      deletedDescription: "{name} poistettu suosikeista",
+      deletedFailedTitle: "Poisto suosikeista epäonnistui"
     },
     settings: {
       title: "Asetukset",

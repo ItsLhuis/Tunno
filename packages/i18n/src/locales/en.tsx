@@ -14,30 +14,29 @@ export const english: Language = {
       hoursAgo: "{count} hour{count, plural, one {} other{s}} ago",
       today: "Today",
       yesterday: "Yesterday",
-      goBack: "Go Back",
-      goFoward: "Go Forward",
+      goBack: "Go back",
+      goFoward: "Go forward",
       favorite: "Favorite",
       unfavorite: "Unfavorite",
-      enableShuffle: "Enable Shuffle",
-      disableShuffle: "Disable Shuffle",
+      enableShuffle: "Enable shuffle",
+      disableShuffle: "Disable shuffle",
       previous: "Previous",
       play: "Play",
       pause: "Pause",
       next: "Next",
-      enableRepeat: "Enable Repeat",
-      enableRepeatOne: "Enable Repeat One",
-      disableRepeat: "Disable Repeat",
+      enableRepeat: "Enable repeat",
+      enableRepeatOne: "Enable repeat one",
+      disableRepeat: "Disable repeat",
       mute: "Mute",
       unmute: "Unmute",
       queue: "Queue",
       title: "Title",
       album: "Album",
+      artist: "Artist",
       date: "Date",
       duration: "Duration",
       search: "Search",
-      selectAll: "Select All",
-      visibility: "Visibility",
-      columns: "Columns",
+      selectAll: "Select all",
       clear: "Clear",
       cancel: "Cancel",
       more: "More",
@@ -50,12 +49,13 @@ export const english: Language = {
       addTo: "Add to",
       playlist: "Playlist",
       lyrics: "Lyrics",
-      openMiniplayer: "Open Miniplayer",
-      enterFullScreen: "Enter Full Screen",
-      exitFullScreen: "Exit Full Screen",
+      openMiniplayer: "Open miniplayer",
+      enterFullScreen: "Enter full screen",
+      exitFullScreen: "Exit full screen",
       goToAlbum: "Go to album",
       goToArtist: "Go to artist",
-      shuffleAndPlay: "Shuffle and Play"
+      shuffleAndPlay: "Shuffle and play",
+      unknown: "Unknown"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const english: Language = {
       songs: {
         title: "Songs"
       },
-      favorites: {
-        title: "Favorites"
-      },
       playlists: {
         title: "Playlists"
+      },
+      albums: {
+        title: "Albums"
       },
       artists: {
         title: "Artists"
@@ -183,15 +183,6 @@ export const english: Language = {
       deletedDescription: "{name} has been deleted",
       deletedFailedTitle: "Failed to Delete Song"
     },
-    favorites: {
-      title: "Favorites",
-      createdTitle: "Added to Favorites",
-      createdDescription: "{name} has been added to favorites",
-      createdFailedTitle: "Failed to Add to Favorites",
-      deletedTitle: "Removed from Favorites",
-      deletedDescription: "{name} has been removed from favorites",
-      deletedFailedTitle: "Failed to Remove from Favorites"
-    },
     playlists: {
       title: "Playlists",
       createdTitle: "Playlist Created Successfully",
@@ -204,6 +195,18 @@ export const english: Language = {
       deletedDescription: "{name} has been deleted",
       deletedFailedTitle: "Failed to Delete Playlist"
     },
+    albums: {
+      title: "Albums",
+      createdTitle: "Album Created Successfully",
+      createdDescription: "{name} has been created",
+      createdFailedTitle: "Failed to Create Album",
+      updatedTitle: "Album Updated Successfully",
+      updatedDescription: "{name} has been updated",
+      updatedFailedTitle: "Failed to Update Album",
+      deletedTitle: "Album Deleted Successfully",
+      deletedDescription: "{name} has been deleted",
+      deletedFailedTitle: "Failed to Delete Album"
+    },
     artists: {
       title: "Artists",
       createdTitle: "Artist Created Successfully",
@@ -215,6 +218,14 @@ export const english: Language = {
       deletedTitle: "Artist Deleted Successfully",
       deletedDescription: "{name} has been deleted",
       deletedFailedTitle: "Failed to Delete Artist"
+    },
+    favorites: {
+      createdTitle: "Added to Favorites",
+      createdDescription: "{name} has been added to favorites",
+      createdFailedTitle: "Failed to Add to Favorites",
+      deletedTitle: "Removed from Favorites",
+      deletedDescription: "{name} has been removed from favorites",
+      deletedFailedTitle: "Failed to Remove from Favorites"
     },
     settings: {
       title: "Settings",

@@ -44,8 +44,8 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
     const segmentMap: Record<string, string> = {
       home: t("breadcrumbs.home.title"),
       songs: t("breadcrumbs.songs.title"),
-      favorites: t("breadcrumbs.favorites.title"),
       playlists: t("breadcrumbs.playlists.title"),
+      albums: t("breadcrumbs.albums.title"),
       artists: t("breadcrumbs.artists.title"),
       settings: t("breadcrumbs.settings.title"),
       appearance: t("breadcrumbs.settings.appearance.title"),
@@ -182,3 +182,4 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
 }
 
 export { Titlebar }
+

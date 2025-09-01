@@ -14,33 +14,32 @@ export const turkish: Language = {
       hoursAgo: "{count} saat önce",
       today: "Bugün",
       yesterday: "Dün",
-      goBack: "Geri Git",
-      goFoward: "İleri Git",
+      goBack: "Geri git",
+      goFoward: "İleri git",
       favorite: "Favori",
-      unfavorite: "Favorilerden Kaldır",
-      enableShuffle: "Karışık Çalma Aç",
-      disableShuffle: "Karışık Çalma Kapat",
+      unfavorite: "Favorilerden kaldır",
+      enableShuffle: "Karışık çalma aç",
+      disableShuffle: "Karışık çalma kapat",
       previous: "Önceki",
       play: "Oynat",
       pause: "Duraklat",
       next: "Sonraki",
-      enableRepeat: "Tekrarı Aç",
-      enableRepeatOne: "Tekrar Bir Şarkıyı Aç",
-      disableRepeat: "Tekrarı Kapat",
-      mute: "Sessize Al",
-      unmute: "Sessizi Kapat",
+      enableRepeat: "Tekrarı aç",
+      enableRepeatOne: "Tekrar bir şarkıyı aç",
+      disableRepeat: "Tekrarı kapat",
+      mute: "Sessize al",
+      unmute: "Sessizi kapat",
       queue: "Kuyruk",
       title: "Başlık",
       album: "Albüm",
+      artist: "Sanatçı",
       date: "Tarih",
       duration: "Süre",
       search: "Ara",
-      selectAll: "Tümünü Seç",
-      visibility: "Görünürlük",
-      columns: "Sütunlar",
+      selectAll: "Tümünü seç",
       clear: "Temizle",
       cancel: "İptal",
-      more: "Daha Fazla",
+      more: "Daha fazla",
       select: "Seç",
       preview: "Önizleme",
       close: "Kapat",
@@ -50,12 +49,13 @@ export const turkish: Language = {
       addTo: "Ekle",
       playlist: "Çalma listesi",
       lyrics: "Şarkı sözü",
-      openMiniplayer: "Miniçalıcıyı Aç",
-      enterFullScreen: "Tam Ekrana Geç",
-      exitFullScreen: "Tam Ekrandan Çık",
+      openMiniplayer: "Miniçalıcıyı aç",
+      enterFullScreen: "Tam ekrana geç",
+      exitFullScreen: "Tam ekrandan çık",
       goToAlbum: "Albüme git",
       goToArtist: "Sanatçıya git",
-      shuffleAndPlay: "Karıştır ve Çal"
+      shuffleAndPlay: "Karıştır ve çal",
+      unknown: "Bilinmeyen"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const turkish: Language = {
       songs: {
         title: "Şarkılar"
       },
-      favorites: {
-        title: "Favoriler"
-      },
       playlists: {
         title: "Çalma Listeleri"
+      },
+      albums: {
+        title: "Albümler"
       },
       artists: {
         title: "Sanatçılar"
@@ -183,15 +183,6 @@ export const turkish: Language = {
       deletedDescription: "{name} silindi",
       deletedFailedTitle: "Şarkı silinemedi"
     },
-    favorites: {
-      title: "Favoriler",
-      createdTitle: "Favorilere eklendi",
-      createdDescription: "{name} favorilere eklendi",
-      createdFailedTitle: "Favorilere eklenemedi",
-      deletedTitle: "Favorilerden kaldırıldı",
-      deletedDescription: "{name} favorilerden kaldırıldı",
-      deletedFailedTitle: "Favorilerden kaldırılamadı"
-    },
     playlists: {
       title: "Çalma Listeleri",
       createdTitle: "Çalma listesi başarıyla oluşturuldu",
@@ -204,6 +195,18 @@ export const turkish: Language = {
       deletedDescription: "{name} silindi",
       deletedFailedTitle: "Çalma listesi silinemedi"
     },
+    albums: {
+      title: "Albümler",
+      createdTitle: "Albüm başarıyla oluşturuldu",
+      createdDescription: "{name} oluşturuldu",
+      createdFailedTitle: "Albüm oluşturulamadı",
+      updatedTitle: "Albüm başarıyla güncellendi",
+      updatedDescription: "{name} güncellendi",
+      updatedFailedTitle: "Albüm güncellenemedi",
+      deletedTitle: "Albüm başarıyla silindi",
+      deletedDescription: "{name} silindi",
+      deletedFailedTitle: "Albüm silinemedi"
+    },
     artists: {
       title: "Sanatçılar",
       createdTitle: "Sanatçı başarıyla oluşturuldu",
@@ -215,6 +218,14 @@ export const turkish: Language = {
       deletedTitle: "Sanatçı başarıyla silindi",
       deletedDescription: "{name} silindi",
       deletedFailedTitle: "Sanatçı silinemedi"
+    },
+    favorites: {
+      createdTitle: "Favorilere eklendi",
+      createdDescription: "{name} favorilere eklendi",
+      createdFailedTitle: "Favorilere eklenemedi",
+      deletedTitle: "Favorilerden kaldırıldı",
+      deletedDescription: "{name} favorilerden kaldırıldı",
+      deletedFailedTitle: "Favorilerden kaldırılamadı"
     },
     settings: {
       title: "Ayarlar",

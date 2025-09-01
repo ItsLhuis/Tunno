@@ -28,16 +28,15 @@ export const norwegian: Language = {
       enableRepeatOne: "Slå på gjenta én",
       disableRepeat: "Slå av gjentakelse",
       mute: "Demp",
-      unmute: "Slå På Lyd",
+      unmute: "Slå på lyd",
       queue: "Kø",
       title: "Tittel",
       album: "Album",
+      artist: "Kunstner",
       date: "Dato",
       duration: "Varighet",
       search: "Søk",
       selectAll: "Velg alle",
-      visibility: "Synlighet",
-      columns: "Kolonner",
       clear: "Tøm",
       cancel: "Avbryt",
       more: "Mer",
@@ -50,12 +49,13 @@ export const norwegian: Language = {
       addTo: "Legg til",
       playlist: "Spilleliste",
       lyrics: "Sangtekst",
-      openMiniplayer: "Åpne Minispiller",
-      enterFullScreen: "Gå til Full Skjerm",
-      exitFullScreen: "Forlat Full Skjerm",
+      openMiniplayer: "Åpne minispiller",
+      enterFullScreen: "Gå til full skjerm",
+      exitFullScreen: "Forlat full skjerm",
       goToAlbum: "Gå til album",
       goToArtist: "Gå til artist",
-      shuffleAndPlay: "Stokk og Spill"
+      shuffleAndPlay: "Stokk og spill",
+      unknown: "Ukjent"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const norwegian: Language = {
       songs: {
         title: "Sanger"
       },
-      favorites: {
-        title: "Favoritter"
-      },
       playlists: {
         title: "Spillelister"
+      },
+      albums: {
+        title: "Album"
       },
       artists: {
         title: "Artister"
@@ -183,15 +183,6 @@ export const norwegian: Language = {
       deletedDescription: "{name} er slettet",
       deletedFailedTitle: "Kunne ikke slette sang"
     },
-    favorites: {
-      title: "Favoritter",
-      createdTitle: "Lagt til i favoritter",
-      createdDescription: "{name} er lagt til i favoritter",
-      createdFailedTitle: "Kunne ikke legge til i favoritter",
-      deletedTitle: "Fjernet fra favoritter",
-      deletedDescription: "{name} er fjernet fra favoritter",
-      deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
-    },
     playlists: {
       title: "Spillelister",
       createdTitle: "Spilleliste opprettet",
@@ -204,6 +195,18 @@ export const norwegian: Language = {
       deletedDescription: "{name} er slettet",
       deletedFailedTitle: "Kunne ikke slette spilleliste"
     },
+    albums: {
+      title: "Album",
+      createdTitle: "Album opprettet",
+      createdDescription: "{name} er opprettet",
+      createdFailedTitle: "Kunne ikke opprette album",
+      updatedTitle: "Album oppdatert",
+      updatedDescription: "{name} er oppdatert",
+      updatedFailedTitle: "Kunne ikke oppdatere album",
+      deletedTitle: "Album slettet",
+      deletedDescription: "{name} er slettet",
+      deletedFailedTitle: "Kunne ikke slette album"
+    },
     artists: {
       title: "Artister",
       createdTitle: "Artist opprettet",
@@ -215,6 +218,14 @@ export const norwegian: Language = {
       deletedTitle: "Artist slettet",
       deletedDescription: "{name} er slettet",
       deletedFailedTitle: "Kunne ikke slette artist"
+    },
+    favorites: {
+      createdTitle: "Lagt til i favoritter",
+      createdDescription: "{name} er lagt til i favoritter",
+      createdFailedTitle: "Kunne ikke legge til i favoritter",
+      deletedTitle: "Fjernet fra favoritter",
+      deletedDescription: "{name} er fjernet fra favoritter",
+      deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
     },
     settings: {
       title: "Innstillinger",

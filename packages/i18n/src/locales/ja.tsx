@@ -32,12 +32,11 @@ export const japanese: Language = {
       queue: "キュー",
       title: "タイトル",
       album: "アルバム",
+      artist: "アーティスト",
       date: "日付",
       duration: "再生時間",
       search: "検索",
       selectAll: "すべて選択",
-      visibility: "表示設定",
-      columns: "列",
       clear: "クリア",
       cancel: "キャンセル",
       more: "もっと見る",
@@ -55,7 +54,8 @@ export const japanese: Language = {
       exitFullScreen: "フルスクリーンを終了",
       goToAlbum: "アルバムに移動",
       goToArtist: "アーティストに移動",
-      shuffleAndPlay: "シャッフルして再生"
+      shuffleAndPlay: "シャッフルして再生",
+      unknown: "不明"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const japanese: Language = {
       songs: {
         title: "曲"
       },
-      favorites: {
-        title: "お気に入り"
-      },
       playlists: {
         title: "プレイリスト"
+      },
+      albums: {
+        title: "アルバム"
       },
       artists: {
         title: "アーティスト"
@@ -183,15 +183,6 @@ export const japanese: Language = {
       deletedDescription: "{name} が削除されました",
       deletedFailedTitle: "曲の削除に失敗しました"
     },
-    favorites: {
-      title: "お気に入り",
-      createdTitle: "お気に入りに追加されました",
-      createdDescription: "{name} がお気に入りに追加されました",
-      createdFailedTitle: "お気に入りへの追加に失敗しました",
-      deletedTitle: "お気に入りから削除されました",
-      deletedDescription: "{name} がお気に入りから削除されました",
-      deletedFailedTitle: "お気に入りからの削除に失敗しました"
-    },
     playlists: {
       title: "プレイリスト",
       createdTitle: "プレイリストが正常に作成されました",
@@ -204,6 +195,18 @@ export const japanese: Language = {
       deletedDescription: "{name} が削除されました",
       deletedFailedTitle: "プレイリストの削除に失敗しました"
     },
+    albums: {
+      title: "アルバム",
+      createdTitle: "アルバムが正常に作成されました",
+      createdDescription: "{name} が作成されました",
+      createdFailedTitle: "アルバムの作成に失敗しました",
+      updatedTitle: "アルバムが正常に更新されました",
+      updatedDescription: "{name} が更新されました",
+      updatedFailedTitle: "アルバムの更新に失敗しました",
+      deletedTitle: "アルバムが正常に削除されました",
+      deletedDescription: "{name} が削除されました",
+      deletedFailedTitle: "アルバムの削除に失敗しました"
+    },
     artists: {
       title: "アーティスト",
       createdTitle: "アーティストが正常に作成されました",
@@ -215,6 +218,14 @@ export const japanese: Language = {
       deletedTitle: "アーティストが正常に削除されました",
       deletedDescription: "{name} が削除されました",
       deletedFailedTitle: "アーティストの削除に失敗しました"
+    },
+    favorites: {
+      createdTitle: "お気に入りに追加されました",
+      createdDescription: "{name} がお気に入りに追加されました",
+      createdFailedTitle: "お気に入りへの追加に失敗しました",
+      deletedTitle: "お気に入りから削除されました",
+      deletedDescription: "{name} がお気に入りから削除されました",
+      deletedFailedTitle: "お気に入りからの削除に失敗しました"
     },
     settings: {
       title: "設定",

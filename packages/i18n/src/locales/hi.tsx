@@ -32,12 +32,11 @@ export const hindi: Language = {
       queue: "कतार",
       title: "शीर्षक",
       album: "एल्बम",
+      artist: "कलाकार",
       date: "तारीख",
       duration: "अवधि",
       search: "खोजें",
       selectAll: "सभी चुनें",
-      visibility: "दृश्यता",
-      columns: "स्तंभ",
       clear: "साफ़ करें",
       cancel: "रद्द करें",
       more: "और",
@@ -55,7 +54,8 @@ export const hindi: Language = {
       exitFullScreen: "पूर्ण स्क्रीन से बाहर निकलें",
       goToAlbum: "एल्बम पर जाएं",
       goToArtist: "कलाकार के पास जाएं",
-      shuffleAndPlay: "शफल करें और चलाएं"
+      shuffleAndPlay: "शफल करें और चलाएं",
+      unknown: "अज्ञात"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const hindi: Language = {
       songs: {
         title: "गाने"
       },
-      favorites: {
-        title: "पसंदीदा"
-      },
       playlists: {
         title: "प्लेलिस्ट"
+      },
+      albums: {
+        title: "एल्बम"
       },
       artists: {
         title: "कलाकार"
@@ -183,15 +183,6 @@ export const hindi: Language = {
       deletedDescription: "{name} हटाया गया है",
       deletedFailedTitle: "गाना हटाने में विफल"
     },
-    favorites: {
-      title: "पसंदीदा",
-      createdTitle: "पसंदीदा में जोड़ा गया",
-      createdDescription: "{name} को पसंदीदा में जोड़ा गया है",
-      createdFailedTitle: "पसंदीदा में जोड़ने में विफल",
-      deletedTitle: "पसंदीदा से हटाया गया",
-      deletedDescription: "{name} को पसंदीदा से हटाया गया है",
-      deletedFailedTitle: "पसंदीदा से हटाने में विफल"
-    },
     playlists: {
       title: "प्लेलिस्ट",
       createdTitle: "प्लेलिस्ट सफलतापूर्वक बनाई गई",
@@ -204,6 +195,18 @@ export const hindi: Language = {
       deletedDescription: "{name} हटाई गई है",
       deletedFailedTitle: "प्लेलिस्ट हटाने में विफल"
     },
+    albums: {
+      title: "एल्बम",
+      createdTitle: "एल्बम सफलतापूर्वक बनाया गया",
+      createdDescription: "{name} बनाया गया है",
+      createdFailedTitle: "एल्बम बनाने में विफल",
+      updatedTitle: "एल्बम सफलतापूर्वक अपडेट हुआ",
+      updatedDescription: "{name} अपडेट हुआ है",
+      updatedFailedTitle: "एल्बम अपडेट करने में विफल",
+      deletedTitle: "एल्बम सफलतापूर्वक हटाया गया",
+      deletedDescription: "{name} हटाया गया है",
+      deletedFailedTitle: "एल्बम हटाने में विफल"
+    },
     artists: {
       title: "कलाकार",
       createdTitle: "कलाकार सफलतापूर्वक बनाया गया",
@@ -215,6 +218,14 @@ export const hindi: Language = {
       deletedTitle: "कलाकार सफलतापूर्वक हटाया गया",
       deletedDescription: "{name} हटाया गया है",
       deletedFailedTitle: "कलाकार हटाने में विफल"
+    },
+    favorites: {
+      createdTitle: "पसंदीदा में जोड़ा गया",
+      createdDescription: "{name} को पसंदीदा में जोड़ा गया है",
+      createdFailedTitle: "पसंदीदा में जोड़ने में विफल",
+      deletedTitle: "पसंदीदा से हटाया गया",
+      deletedDescription: "{name} को पसंदीदा से हटाया गया है",
+      deletedFailedTitle: "पसंदीदा से हटाने में विफल"
     },
     settings: {
       title: "सेटिंग्स",

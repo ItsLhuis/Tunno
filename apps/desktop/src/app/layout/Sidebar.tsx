@@ -8,14 +8,14 @@ import { Button, Icon, SafeLink, ScrollArea, type IconProps } from "@components/
 
 type SidebarItem = {
   icon: IconProps["name"]
-  label: "home.title" | "songs.title" | "favorites.title" | "playlists.title" | "artists.title"
+  label: "home.title" | "songs.title" | "playlists.title" | "albums.title" | "artists.title"
   href: LinkProps["to"]
 }
 
 const sidebar: SidebarItem[] = [
   { icon: "Home", label: "home.title", href: "/" },
   { icon: "Music", label: "songs.title", href: "/songs" },
-  { icon: "Heart", label: "favorites.title", href: "/favorites" },
+  { icon: "DiscAlbum", label: "albums.title", href: "/albums" },
   { icon: "List", label: "playlists.title", href: "/playlists" },
   { icon: "Users", label: "artists.title", href: "/artists" }
 ] as const
@@ -72,3 +72,4 @@ const Sidebar = () => {
 }
 
 export { Sidebar }
+

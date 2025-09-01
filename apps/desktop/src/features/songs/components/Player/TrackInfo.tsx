@@ -47,7 +47,9 @@ const TrackInfo = () => {
           {currentTrack?.artist ? (
             <Typography affects={["muted"]}>{currentTrack?.artist}</Typography>
           ) : (
-            <Typography affects={["muted"]}>Unkown artist</Typography>
+            <Typography
+              affects={["muted"]}
+            >{`${t("common.unknown")} ${t("common.artist")}`}</Typography>
           )}
         </Marquee>
       </Fade>

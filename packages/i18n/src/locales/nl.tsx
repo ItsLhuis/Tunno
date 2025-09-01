@@ -28,16 +28,15 @@ export const dutch: Language = {
       enableRepeatOne: "Eén keer herhalen inschakelen",
       disableRepeat: "Herhalen uitschakelen",
       mute: "Dempen",
-      unmute: "Geluid Aanzetten",
+      unmute: "Geluid aanzetten",
       queue: "Wachtrij",
       title: "Titel",
       album: "Album",
+      artist: "Kunstenaar",
       date: "Datum",
       duration: "Duur",
       search: "Zoeken",
       selectAll: "Alles selecteren",
-      visibility: "Zichtbaarheid",
-      columns: "Kolommen",
       clear: "Wissen",
       cancel: "Annuleren",
       more: "Meer",
@@ -50,12 +49,13 @@ export const dutch: Language = {
       addTo: "Toevoegen aan",
       playlist: "Afspeellijst",
       lyrics: "Songtekst",
-      openMiniplayer: "Minispeler Openen",
-      enterFullScreen: "Volledig Scherm Activeren",
-      exitFullScreen: "Volledig Scherm Verlaten",
+      openMiniplayer: "Minispeler openen",
+      enterFullScreen: "Volledig scherm activeren",
+      exitFullScreen: "Volledig scherm verlaten",
       goToAlbum: "Ga naar album",
       goToArtist: "Ga naar artiest",
-      shuffleAndPlay: "Schudden en Afspelen"
+      shuffleAndPlay: "Schudden en afspelen",
+      unknown: "Onbekend"
     },
     form: {
       titles: {
@@ -144,11 +144,11 @@ export const dutch: Language = {
       songs: {
         title: "Nummers"
       },
-      favorites: {
-        title: "Favorieten"
-      },
       playlists: {
         title: "Afspellijsten"
+      },
+      albums: {
+        title: "Albums"
       },
       artists: {
         title: "Artiesten"
@@ -184,15 +184,6 @@ export const dutch: Language = {
       deletedDescription: "{name} is verwijderd",
       deletedFailedTitle: "Nummer verwijderen mislukt"
     },
-    favorites: {
-      title: "Favorieten",
-      createdTitle: "Toegevoegd aan favorieten",
-      createdDescription: "{name} is toegevoegd aan favorieten",
-      createdFailedTitle: "Toevoegen aan favorieten mislukt",
-      deletedTitle: "Verwijderd uit favorieten",
-      deletedDescription: "{name} is verwijderd uit favorieten",
-      deletedFailedTitle: "Verwijderen uit favorieten mislukt"
-    },
     playlists: {
       title: "Afspellijsten",
       createdTitle: "Afspellijst succesvol aangemaakt",
@@ -205,6 +196,18 @@ export const dutch: Language = {
       deletedDescription: "{name} is verwijderd",
       deletedFailedTitle: "Afspellijst verwijderen mislukt"
     },
+    albums: {
+      title: "Albums",
+      createdTitle: "Album succesvol aangemaakt",
+      createdDescription: "{name} is aangemaakt",
+      createdFailedTitle: "Album aanmaken mislukt",
+      updatedTitle: "Album succesvol bijgewerkt",
+      updatedDescription: "{name} is bijgewerkt",
+      updatedFailedTitle: "Album bijwerken mislukt",
+      deletedTitle: "Album succesvol verwijderd",
+      deletedDescription: "{name} is verwijderd",
+      deletedFailedTitle: "Album verwijderen mislukt"
+    },
     artists: {
       title: "Artiesten",
       createdTitle: "Artiest succesvol aangemaakt",
@@ -216,6 +219,14 @@ export const dutch: Language = {
       deletedTitle: "Artiest succesvol verwijderd",
       deletedDescription: "{name} is verwijderd",
       deletedFailedTitle: "Artiest verwijderen mislukt"
+    },
+    favorites: {
+      createdTitle: "Toegevoegd aan favorieten",
+      createdDescription: "{name} is toegevoegd aan favorieten",
+      createdFailedTitle: "Toevoegen aan favorieten mislukt",
+      deletedTitle: "Verwijderd uit favorieten",
+      deletedDescription: "{name} is verwijderd uit favorieten",
+      deletedFailedTitle: "Verwijderen uit favorieten mislukt"
     },
     settings: {
       title: "Instellingen",

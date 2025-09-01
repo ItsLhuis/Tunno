@@ -35,12 +35,11 @@ export type Translations = {
     queue: string
     title: string
     album: string
+    artist: string
     date: string
     duration: string
     search: string
     selectAll: string
-    visibility: string
-    columns: string
     clear: string
     cancel: string
     more: string
@@ -59,6 +58,7 @@ export type Translations = {
     goToAlbum: string
     goToArtist: string
     shuffleAndPlay: string
+    unknown: string
   }
   form: {
     titles: {
@@ -146,10 +146,10 @@ export type Translations = {
     songs: {
       title: string
     }
-    favorites: {
+    playlists: {
       title: string
     }
-    playlists: {
+    albums: {
       title: string
     }
     artists: {
@@ -186,16 +186,19 @@ export type Translations = {
     deletedDescription: string
     deletedFailedTitle: string
   }
-  favorites: {
+  playlists: {
     title: string
     createdTitle: string
     createdDescription: string
     createdFailedTitle: string
+    updatedTitle: string
+    updatedDescription: string
+    updatedFailedTitle: string
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string
   }
-  playlists: {
+  albums: {
     title: string
     createdTitle: string
     createdDescription: string
@@ -215,6 +218,14 @@ export type Translations = {
     updatedTitle: string
     updatedDescription: string
     updatedFailedTitle: string
+    deletedTitle: string
+    deletedDescription: string
+    deletedFailedTitle: string
+  }
+  favorites: {
+    createdTitle: string
+    createdDescription: string
+    createdFailedTitle: string
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string

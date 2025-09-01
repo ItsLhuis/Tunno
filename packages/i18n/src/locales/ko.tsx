@@ -32,12 +32,11 @@ export const korean: Language = {
       queue: "대기열",
       title: "제목",
       album: "앨범",
+      artist: "아티스트",
       date: "날짜",
       duration: "재생 시간",
       search: "검색",
       selectAll: "전체 선택",
-      visibility: "가시성",
-      columns: "열",
       clear: "지우기",
       cancel: "취소",
       more: "더 보기",
@@ -55,7 +54,8 @@ export const korean: Language = {
       exitFullScreen: "전체 화면 종료",
       goToAlbum: "앨범으로 이동",
       goToArtist: "아티스트로 이동",
-      shuffleAndPlay: "셔플 및 재생"
+      shuffleAndPlay: "셔플 및 재생",
+      unknown: "알 수 없음"
     },
     form: {
       titles: {
@@ -143,11 +143,11 @@ export const korean: Language = {
       songs: {
         title: "노래"
       },
-      favorites: {
-        title: "즐겨찾기"
-      },
       playlists: {
         title: "재생목록"
+      },
+      albums: {
+        title: "앨범"
       },
       artists: {
         title: "아티스트"
@@ -183,15 +183,6 @@ export const korean: Language = {
       deletedDescription: "{name} 가 삭제되었습니다",
       deletedFailedTitle: "노래 삭제 실패"
     },
-    favorites: {
-      title: "즐겨찾기",
-      createdTitle: "즐겨찾기에 추가됨",
-      createdDescription: "{name} 이(가) 즐겨찾기에 추가되었습니다",
-      createdFailedTitle: "즐겨찾기 추가 실패",
-      deletedTitle: "즐겨찾기에서 제거됨",
-      deletedDescription: "{name} 이(가) 즐겨찾기에서 제거되었습니다",
-      deletedFailedTitle: "즐겨찾기 제거 실패"
-    },
     playlists: {
       title: "재생목록",
       createdTitle: "재생목록이 성공적으로 생성되었습니다",
@@ -204,6 +195,18 @@ export const korean: Language = {
       deletedDescription: "{name} 이(가) 삭제되었습니다",
       deletedFailedTitle: "재생목록 삭제 실패"
     },
+    albums: {
+      title: "앨범",
+      createdTitle: "앨범이 성공적으로 생성되었습니다",
+      createdDescription: "{name} 이(가) 생성되었습니다",
+      createdFailedTitle: "앨범 생성 실패",
+      updatedTitle: "앨범이 성공적으로 업데이트되었습니다",
+      updatedDescription: "{name} 이(가) 업데이트되었습니다",
+      updatedFailedTitle: "앨범 업데이트 실패",
+      deletedTitle: "앨범이 성공적으로 삭제되었습니다",
+      deletedDescription: "{name} 이(가) 삭제되었습니다",
+      deletedFailedTitle: "앨범 삭제 실패"
+    },
     artists: {
       title: "아티스트",
       createdTitle: "아티스트가 성공적으로 생성되었습니다",
@@ -215,6 +218,14 @@ export const korean: Language = {
       deletedTitle: "아티스트가 성공적으로 삭제되었습니다",
       deletedDescription: "{name} 이(가) 삭제되었습니다",
       deletedFailedTitle: "아티스트 삭제 실패"
+    },
+    favorites: {
+      createdTitle: "즐겨찾기에 추가됨",
+      createdDescription: "{name} 이(가) 즐겨찾기에 추가되었습니다",
+      createdFailedTitle: "즐겨찾기 추가 실패",
+      deletedTitle: "즐겨찾기에서 제거됨",
+      deletedDescription: "{name} 이(가) 즐겨찾기에서 제거되었습니다",
+      deletedFailedTitle: "즐겨찾기 제거 실패"
     },
     settings: {
       title: "설정",
