@@ -11,13 +11,13 @@ import {
 
 import { cn } from "@lib/utils"
 
-import { cva, type VariantProps } from "class-variance-authority"
+import { type VariantProps } from "class-variance-authority"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
 import { useTranslation } from "@repo/i18n"
 
-import { Badge } from "@components/ui/Badge"
+import { Badge, badgeVariants } from "@components/ui/Badge"
 import { Button, buttonVariants } from "@components/ui/Button"
 import { Checkbox } from "@components/ui/Checkbox"
 import { Fade } from "@components/ui/Fade"
@@ -28,21 +28,7 @@ import { Separator } from "@components/ui/Separator"
 import { Spinner } from "@components/ui/Spinner"
 import { Typography } from "@components/ui/Typography"
 
-const virtualizedSelectVariants = cva("", {
-  variants: {
-    variant: {
-      default: "border-foreground/10 text-foreground bg-card hover:bg-card/80",
-      secondary:
-        "border-foreground/10 bg-secondary text-secondary-foreground hover:bg-secondary/80",
-      destructive:
-        "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-      inverted: "inverted"
-    }
-  },
-  defaultVariants: {
-    variant: "default"
-  }
-})
+const virtualizedSelectVariants = badgeVariants
 
 export type VirtualizedSelectOption = {
   label: string
@@ -106,7 +92,7 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
       className,
       popoverClassName,
       contentClassName,
-      variant,
+      variant = "muted",
       itemHeight = 40,
       groupHeaderHeight = 32,
       maxHeight = 300,
