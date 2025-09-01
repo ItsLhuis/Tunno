@@ -153,12 +153,12 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
         <div className="rounded-md border">
           <div className="flex items-center justify-between gap-2 border-b p-3">
             <div className="flex items-center gap-2">
-              <Badge variant="outline">
+              <Badge variant="muted">
                 <Typography affects="small">
                   {t("form.badges.lines", { count: syncedLines.length })}
                 </Typography>
               </Badge>
-              <Badge variant="outline">
+              <Badge variant="muted">
                 <Typography affects="small">
                   {t("form.badges.duration", {
                     time:
@@ -172,7 +172,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
             <div className="flex items-center gap-2">
               <Dialog>
                 <DialogTrigger asChild>
-                  <IconButton tooltip={t("common.preview")} variant="outline" name="Eye" />
+                  <IconButton tooltip={t("common.preview")} variant="ghost" name="Eye" />
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
@@ -204,7 +204,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
               </Dialog>
               <IconButton
                 tooltip={t("common.more")}
-                variant="outline"
+                variant="ghost"
                 name="Plus"
                 onClick={addSyncedLine}
               />
