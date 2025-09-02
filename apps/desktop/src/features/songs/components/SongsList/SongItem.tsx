@@ -129,7 +129,7 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
                   </Button>
                 ) : (
                   <Typography className="truncate" affects={["muted", "small"]}>
-                    {`${t("common.unknown")} ${t("common.artist")}`}
+                    {t("common.unknown")}
                   </Typography>
                 )}
               </Marquee>
