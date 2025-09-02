@@ -37,6 +37,7 @@ type PlayerState = {
   isMuted: boolean
   repeatMode: RepeatMode
   isShuffleEnabled: boolean
+  isShuffling: boolean
   windowStartIndex: number
   windowSize: number
   canPlayNext: boolean
@@ -62,8 +63,10 @@ type PlayerActions = {
   loadTracks: (
     songs: SongWithMainRelations[],
     startIndex?: number,
-    source?: PlaySource
+    source?: PlaySource,
+    forceShuf‌fle?: boolean
   ) => Promise<void>
+  shuffleAndPlay: (songs: SongWithMainRelations[], source?: PlaySource) => Promise<void>
   play: () => Promise<void>
   pause: () => Promise<void>
   stop: () => Promise<void>
@@ -149,6 +152,7 @@ export const usePlayerStore = create<PlayerStore>()(
       isMuted: false,
       repeatMode: RepeatMode.Off,
       isShuffleEnabled: false,
+      isShuffling: false,
       windowStartIndex: 0,
       windowSize: DEFAULT_WINDOW_SIZE,
       canPlayNext: false,
@@ -387,7 +391,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
         await get().setShuffleEnabled(!isShuffleEnabled)
       },
-      loadTracks: async (songs, startIndex = 0, source) => {
+      loadTracks: async (songs, startIndex = 0, source, forceShuf‌fle = false) => {
         if (!songs || !Array.isArray(songs) || songs.length === 0) {
           throw new Error("No songs provided or invalid songs array")
         }
@@ -396,39 +400,10 @@ export const usePlayerStore = create<PlayerStore>()(
           throw new Error(`Invalid start index: ${startIndex} for ${songs.length} songs`)
         }
 
-        const { trackIds, currentTrackIndex, playSource, isShuffleEnabled, skipToTrack } = get()
+        const { playSource, isQueueLoading } = get()
 
-        const newIds = songs.map((s) => s.id).filter((id) => typeof id === "number")
-
-        if (newIds.length === songs.length && newIds.length > 0) {
-          const isSameTrackList =
-            trackIds.length === newIds.length && trackIds.every((id, index) => id === newIds[index])
-
-          if (isSameTrackList) {
-            if (!isShuffleEnabled) {
-              if (currentTrackIndex !== startIndex) {
-                await skipToTrack(startIndex)
-              }
-
-              if (source && source !== playSource) {
-                set({ playSource: source })
-              }
-
-              return
-            }
-
-            if (isShuffleEnabled && currentTrackIndex !== null) {
-              const targetTrackId = newIds[startIndex]
-              const { currentTrackId } = get()
-
-              if (targetTrackId === currentTrackId) {
-                if (source && source !== playSource) {
-                  set({ playSource: source })
-                }
-                return
-              }
-            }
-          }
+        if (isQueueLoading) {
+          throw new Error("Queue is already loading")
         }
 
         set({
@@ -450,17 +425,19 @@ export const usePlayerStore = create<PlayerStore>()(
             throw new Error("Some songs have invalid IDs")
           }
 
-          const { isShuffleEnabled: currentShuffleEnabled, windowSize } = get()
+          const { windowSize, isShuffleEnabled } = get()
 
           let queueIds: number[]
           let currentIndex: number
           const currentId = allIds[startIndex]
 
-          if (currentShuffleEnabled) {
-            const otherIds = allIds.filter((_, i) => i !== startIndex)
-            const shuffledOthers = shuffleArray(otherIds)
+          const shouldShuf‌fle = forceShuf‌fle ? forceShuf‌fle : isShuffleEnabled
 
-            queueIds = [currentId, ...shuffledOthers]
+          if (shouldShuf‌fle) {
+            const otherIds = allIds.filter((_, i) => i !== startIndex)
+            const shuf‌fledOthers = shuffleArray(otherIds)
+
+            queueIds = [currentId, ...shuf‌fledOthers]
             currentIndex = 0
           } else {
             queueIds = [...allIds]
@@ -551,6 +528,24 @@ export const usePlayerStore = create<PlayerStore>()(
         } catch (error) {
           set({ isQueueLoading: false })
           throw error
+        }
+      },
+      shuffleAndPlay: async (songs, source) => {
+        const { isShuffling, loadTracks, play } = get()
+
+        if (!songs || songs.length === 0 || isShuffling) return
+
+        set({ isShuffling: true })
+
+        try {
+          const randomStartIndex = Math.floor(Math.random() * songs.length)
+
+          await loadTracks(songs, randomStartIndex, source, true)
+          await play()
+        } catch (error) {
+          console.error("Error in shuffleAndPlay:", error)
+        } finally {
+          set({ isShuffling: false })
         }
       },
       play: async () => {

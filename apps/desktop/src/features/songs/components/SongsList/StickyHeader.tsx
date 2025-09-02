@@ -1,5 +1,9 @@
 import { useTranslation } from "@repo/i18n"
 
+import { useShallow } from "zustand/shallow"
+
+import { usePlayerStore } from "../../stores/usePlayerStore"
+
 import { SongForm } from "../../forms"
 
 import {
@@ -17,6 +21,21 @@ type StickyHeaderComponentProps = {
 
 const StickyHeaderComponent = ({ list }: StickyHeaderComponentProps) => {
   const { t } = useTranslation()
+
+  const { shuffleAndPlay, isShuffling } = usePlayerStore(
+    useShallow((state) => ({
+      shuffleAndPlay: state.shuffleAndPlay,
+      isShuffling: state.isShuffling
+    }))
+  )
+
+  const songs = list.data
+
+  const handleShuffleAndPlay = () => {
+    if (isShuffling) return
+
+    shuffleAndPlay(songs, "queue")
+  }
 
   const hasSelectedRows = list.hasSelection
 
@@ -36,8 +55,10 @@ const StickyHeaderComponent = ({ list }: StickyHeaderComponentProps) => {
         name="Shuffle"
         variant="text"
         className="h-11 w-11 [&_svg]:size-5"
+        isLoading={isShuffling}
         disabled={hasSelectedRows}
         tooltip={t("common.shuffleAndPlay")}
+        onClick={handleShuffleAndPlay}
       />
       <Typography variant="h4" className="truncate">
         {t("songs.title")}
