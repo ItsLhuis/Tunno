@@ -9,7 +9,7 @@
   "license": "MIT",
   "author": "ItsLhuis",
   "scripts": {
-    "prepare": "turbo run build --filter=@repo/*",
+    "prepare": "husky && turbo run build --filter=@repo/*",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:desktop": "turbo run dev --filter=@tunno/desktop",
@@ -23,9 +23,12 @@
     "node": ">=18.0.0",
     "pnpm": ">=10.15.0"
   },
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.17.1",
   "devDependencies": {
     "prettier": "^3.5.3",
     "turbo": "^2.5.6"
+  },
+  "dependencies": {
+    "husky": "^9.1.7"
   }
 }
