@@ -16,7 +16,6 @@ import { DeleteSongDialog } from "../DeleteSongDialog"
 import { RowContextMenuComponent } from "./RowContextMenu"
 
 import {
-  Button,
   Checkbox,
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +30,6 @@ import {
   Icon,
   IconButton,
   Marquee,
-  SafeLink,
   Thumbnail,
   Typography
 } from "@components/ui"
@@ -111,21 +109,13 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
           <Thumbnail fileName={song.thumbnail} alt={song.name} />
           <div className="w-full truncate">
             <Marquee>
-              <Button variant="link" asChild>
-                <SafeLink>
-                  <Typography className="truncate">{song.name}</Typography>
-                </SafeLink>
-              </Button>
+              <Typography className="truncate">{song.name}</Typography>
             </Marquee>
             <Marquee>
               {song.artists.length > 0 ? (
-                <Button variant="link" asChild>
-                  <SafeLink to={`/artists`}>
-                    <Typography className="truncate" affects={["muted", "small"]}>
-                      {song.artists.map((artist) => artist.artist.name).join(", ")}
-                    </Typography>
-                  </SafeLink>
-                </Button>
+                <Typography className="truncate" affects={["muted", "small"]}>
+                  {song.artists.map((artist) => artist.artist.name).join(", ")}
+                </Typography>
               ) : (
                 <Typography className="truncate" affects={["muted", "small"]}>
                   {t("common.unknown")}
