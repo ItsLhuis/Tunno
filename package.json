@@ -17,7 +17,6 @@
     "dev:web": "turbo run dev --filter=@tunno/web",
     "start": "turbo run start",
     "typecheck": "turbo run typecheck",
-    "format": "prettier --write .",
     "clean": "git clean -fdX"
   },
   "engines": {
@@ -27,9 +26,13 @@
   "packageManager": "pnpm@10.17.1",
   "devDependencies": {
     "prettier": "^3.5.3",
-    "turbo": "^2.5.6"
+    "turbo": "^2.5.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.0"
   },
-  "dependencies": {
-    "husky": "^9.1.7"
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier --write"
+    ]
   }
 }
