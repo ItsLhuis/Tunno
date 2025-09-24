@@ -17,14 +17,16 @@ export function useUpdateSong() {
     mutationFn: ({
       id,
       updates,
-      thumbnailSourcePath,
+      thumbnailAction,
+      thumbnailPath,
       artists
     }: {
       id: Parameters<typeof updateSong>[0]
       updates: Parameters<typeof updateSong>[1]
-      thumbnailSourcePath?: Parameters<typeof updateSong>[2]
+      thumbnailAction?: Parameters<typeof updateSong>[2]
+      thumbnailPath?: Parameters<typeof updateSong>[3]
       artists?: number[]
-    }) => updateSong(id, updates, thumbnailSourcePath, artists),
+    }) => updateSong(id, updates, thumbnailAction, thumbnailPath, artists),
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey: songKeys.details(id) })
       await queryClient.cancelQueries({ queryKey: songKeys.list() })
@@ -34,10 +36,8 @@ export function useUpdateSong() {
         description: t("songs.updatedDescription", { name: song.name })
       })
     },
-    onError: (error) => {
-      toast.error(t("songs.updatedFailedTitle"), {
-        description: error.message
-      })
+    onError: () => {
+      toast.error(t("songs.updatedFailedTitle"))
     },
     onSettled: (_data, _error, { id }) => {
       queryClient.invalidateQueries({ queryKey: songKeys.details(id) })

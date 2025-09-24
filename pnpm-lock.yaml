@@ -548,6 +548,9 @@ importers:
       drizzle-orm:
         specifier: ^0.44.2
         version: 0.44.4(@libsql/client@0.14.0)(expo-sqlite@15.1.4(expo@52.0.47(@babel/core@7.28.3)(@babel/preset-env@7.28.3(@babel/core@7.28.3))(@expo/metro-runtime@4.0.1(react-native@0.76.9(@babel/core@7.28.3)(@babel/preset-env@7.28.3(@babel/core@7.28.3))(@types/react@18.3.23)(react@18.3.1)))(react-native@0.76.9(@babel/core@7.28.3)(@babel/preset-env@7.28.3(@babel/core@7.28.3))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.28.3)(@babel/preset-env@7.28.3(@babel/core@7.28.3))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(pg@8.16.3)
+      uuid:
+        specifier: ^13.0.0
+        version: 13.0.0
     devDependencies:
       drizzle-kit:
         specifier: ^0.31.4
@@ -8140,6 +8143,10 @@ packages:
 
   uuid@11.1.0:
     resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
+  uuid@13.0.0:
+    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
     hasBin: true
 
   uuid@7.0.3:
@@ -16671,6 +16678,8 @@ snapshots:
   utils-merge@1.0.1: {}
 
   uuid@11.1.0: {}
+
+  uuid@13.0.0: {}
 
   uuid@7.0.3: {}
 

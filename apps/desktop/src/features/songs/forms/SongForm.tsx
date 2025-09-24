@@ -122,13 +122,15 @@ const SongForm = ({
 
   useEffect(() => {
     if (form.formState.isSubmitSuccessful) {
-      form.reset()
+      if (mode === "insert") {
+        form.reset()
+      }
 
       if (asModal) {
         setIsOpen(false)
       }
     }
-  }, [form.formState.isSubmitSuccessful])
+  }, [form.formState.isSubmitSuccessful, mode, song])
 
   const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
     if (onSubmit) {
@@ -145,12 +147,21 @@ const SongForm = ({
 
     const { thumbnail, artists, ...updates } = values
 
-    const thumbnailSourcePath = thumbnail && thumbnail !== song.thumbnail ? thumbnail : undefined
+    let thumbnailAction: "keep" | "update" | "remove" = "keep"
+    let thumbnailPath: string | undefined = undefined
+
+    if (thumbnail === null || thumbnail === "") {
+      thumbnailAction = "remove"
+    } else if (thumbnail && thumbnail !== song.thumbnail) {
+      thumbnailAction = "update"
+      thumbnailPath = thumbnail
+    }
 
     await updateMutation.mutateAsync({
       id: song.id,
       updates,
-      thumbnailSourcePath,
+      thumbnailAction,
+      thumbnailPath,
       artists
     })
   }
@@ -428,11 +439,13 @@ const SongForm = ({
         </ScrollArea>
         <DialogFooter className="shrink-0 border-t p-6">
           <DialogClose asChild>
-            <Button variant="outline">{t("form.buttons.cancel")}</Button>
+            <Button variant="outline" isLoading={renderProps.isSubmitting}>
+              {t("form.buttons.cancel")}
+            </Button>
           </DialogClose>
           <Button
             type="submit"
-            disabled={!renderProps.isValid || renderProps.isSubmitting}
+            disabled={!renderProps.isValid || !renderProps.isDirty || renderProps.isSubmitting}
             isLoading={renderProps.isSubmitting}
             onClick={() => form.handleSubmit(handleFormSubmit)()}
           >

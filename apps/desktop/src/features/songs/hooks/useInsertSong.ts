@@ -29,10 +29,8 @@ export function useInsertSong() {
 
       queryClient.refetchQueries({ queryKey: songKeys.list() })
     },
-    onError: (error: any) => {
-      toast.error(t("songs.createdFailedTitle"), {
-        description: error.message
-      })
+    onError: () => {
+      toast.error(t("songs.createdFailedTitle"))
     }
   })
 }

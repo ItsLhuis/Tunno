@@ -74,7 +74,7 @@ const DialogContent = forwardRef<
 
 const DialogHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("flex flex-col text-center transition-colors sm:text-left", className)}
+    className={cn("flex flex-col text-center transition-colors gap-2 sm:text-left", className)}
     {...props}
   />
 )

@@ -52,8 +52,24 @@ function isDeleteQuery(sql: string): boolean {
 }
 
 function extractWhereClause(sql: string): string | null {
-  const matches = sql.match(/WHERE\s+(.*?)(?:;|\s*(?:ORDER|LIMIT|GROUP|HAVING|$))/i)
-  return matches ? matches[1] : null
+  // More robust WHERE clause extraction that handles nested parentheses
+  const whereMatch = sql.match(/WHERE\s+(.*?)(?:\s+ORDER\s+BY|\s+LIMIT|\s+GROUP\s+BY|\s+HAVING|;|\s*$)/i)
+  return whereMatch ? whereMatch[1].trim() : null
+}
+
+function extractWhereParams(sql: string, allParams: unknown[]): unknown[] {
+  const whereClause = extractWhereClause(sql)
+  if (!whereClause) return []
+  
+  const whereParamCount = (whereClause.match(/\?/g) || []).length
+  
+  if (whereParamCount === 0) return []
+  
+  if (isUpdateQuery(sql) || isDeleteQuery(sql)) {
+    return allParams.slice(-whereParamCount)
+  }
+  
+  return allParams.slice(-whereParamCount)
 }
 
 export const getSQLiteDatabase = async (name: string): Promise<Database> =>
@@ -103,8 +119,9 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
           let affectedRows: any[] = []
 
           if (whereClause) {
+            const whereParams = extractWhereParams(cleanSql, params)
             const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause}`
-            affectedRows = await sqlite.select(selectSql, params)
+            affectedRows = await sqlite.select(selectSql, whereParams)
           }
 
           await sqlite.execute(cleanSql, params)
@@ -114,8 +131,9 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
           const whereClause = extractWhereClause(cleanSql)
 
           if (whereClause) {
+            const whereParams = extractWhereParams(cleanSql, params)
             const selectSql = `SELECT ${queryContext.returningColumns} FROM ${queryContext.tableName} WHERE ${whereClause}`
-            result = await sqlite.select(selectSql, params)
+            result = await sqlite.select(selectSql, whereParams)
           }
 
           await sqlite.execute(cleanSql, params)

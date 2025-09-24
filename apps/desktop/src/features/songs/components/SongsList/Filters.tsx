@@ -143,8 +143,12 @@ const Filters = () => {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="asc">↑</SelectItem>
-                      <SelectItem value="desc">↓</SelectItem>
+                      <SelectItem value="asc">
+                        <Icon name="ArrowUp" />
+                      </SelectItem>
+                      <SelectItem value="desc">
+                        <Icon name="ArrowDown" />
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

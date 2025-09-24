@@ -82,6 +82,7 @@ type PlayerActions = {
   ) => Promise<void>
   addAfterCurrent: (track: SongWithMainRelations | SongWithMainRelations[]) => Promise<void>
   removeFromQueue: (index: number) => Promise<void>
+  removeSongById: (id: number) => Promise<void>
   moveInQueue: (fromIndex: number, toIndex: number) => Promise<void>
   ensureWindowForIndex: (index: number) => Promise<void>
   updateNavigationStates: () => void
@@ -828,7 +829,75 @@ export const usePlayerStore = create<PlayerStore>()(
 
         get().updateNavigationStates()
       },
+      removeSongById: async (id) => {
+        const {
+          trackIds,
+          queueIds,
+          currentTrackId,
+          currentTrackIndex,
+          windowStartIndex,
+          windowSize
+        } = get()
 
+        const queueIndex = queueIds.findIndex((queueId) => queueId === id)
+        if (queueIndex === -1) {
+          return
+        }
+
+        set({ isQueueLoading: true })
+
+        try {
+          const newTrackIds = trackIds.filter((trackId) => trackId !== id)
+          const newQueueIds = queueIds.filter((queueId) => queueId !== id)
+
+          if (currentTrackId === id) {
+            await TrackPlayer.reset()
+
+            set({
+              trackIds: newTrackIds,
+              queueIds: newQueueIds,
+              currentTrack: null,
+              currentTrackId: null,
+              currentTrackIndex: null,
+              canPlayNext: false,
+              canPlayPrevious: false,
+              windowStartIndex: 0,
+              windowSize: DEFAULT_WINDOW_SIZE,
+              position: 0,
+              duration: 0,
+              buffered: 0,
+              playbackState: State.None,
+              isQueueLoading: false
+            })
+            return
+          }
+
+          const start = windowStartIndex
+          const end = Math.min(start + windowSize, queueIds.length)
+
+          if (queueIndex >= start && queueIndex < end) {
+            await TrackPlayer.remove(queueIndex - start)
+          }
+
+          let nextCurrentIndex = currentTrackIndex
+          if (currentTrackIndex !== null && queueIndex < currentTrackIndex) {
+            nextCurrentIndex = currentTrackIndex - 1
+          }
+
+          set({
+            trackIds: newTrackIds,
+            queueIds: newQueueIds,
+            currentTrackIndex: nextCurrentIndex,
+            isQueueLoading: false
+          })
+
+          get().updateNavigationStates()
+        } catch (error) {
+          console.error("Error in removeSongById:", error)
+          set({ isQueueLoading: false })
+          throw error
+        }
+      },
       moveInQueue: async (fromIndex, toIndex) => {
         const { queueIds, windowStartIndex, windowSize } = get()
 

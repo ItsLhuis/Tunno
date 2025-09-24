@@ -42,6 +42,7 @@ export const insertSong = async (
 export const updateSong = async (
   id: number,
   updates: Omit<UpdateSong, "thumbnail">,
+  thumbnailAction?: "keep" | "update" | "remove",
   thumbnailPath?: string,
   artists?: number[]
 ): Promise<Song> => {
@@ -49,12 +50,17 @@ export const updateSong = async (
 
   let thumbnailName = existingSong.thumbnail
 
-  if (thumbnailPath) {
+  if (thumbnailAction === "update" && thumbnailPath) {
     thumbnailName = await updateFileWithUniqueNameFromPath(
       "thumbnails",
       existingSong.thumbnail,
       thumbnailPath
     )
+  } else if (thumbnailAction === "remove") {
+    if (existingSong.thumbnail) {
+      await deleteFile("thumbnails", existingSong.thumbnail)
+    }
+    thumbnailName = null
   }
 
   const [updatedSong] = await database

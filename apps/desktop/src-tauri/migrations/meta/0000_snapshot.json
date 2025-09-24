@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "7617b2fc-ab52-4998-8bbd-d5255cfd3704",
+  "id": "8723e8f2-46d5-45ad-8650-8f21aec79d68",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "album_stats": {
@@ -75,6 +75,13 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": true
+        },
+        "uuid": {
+          "name": "uuid",
+          "type": "text(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "name": {
           "name": "name",
@@ -154,6 +161,13 @@
         }
       },
       "indexes": {
+        "albums_uuid_unique": {
+          "name": "albums_uuid_unique",
+          "columns": [
+            "uuid"
+          ],
+          "isUnique": true
+        },
         "albums_name_idx": {
           "name": "albums_name_idx",
           "columns": [
@@ -349,6 +363,13 @@
           "notNull": true,
           "autoincrement": true
         },
+        "uuid": {
+          "name": "uuid",
+          "type": "text(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "name": {
           "name": "name",
           "type": "text(100)",
@@ -404,6 +425,13 @@
         }
       },
       "indexes": {
+        "artists_uuid_unique": {
+          "name": "artists_uuid_unique",
+          "columns": [
+            "uuid"
+          ],
+          "isUnique": true
+        },
         "artists_name_unique": {
           "name": "artists_name_unique",
           "columns": [
@@ -602,6 +630,13 @@
           "notNull": true,
           "autoincrement": true
         },
+        "uuid": {
+          "name": "uuid",
+          "type": "text(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "name": {
           "name": "name",
           "type": "text(100)",
@@ -657,6 +692,13 @@
         }
       },
       "indexes": {
+        "playlists_uuid_unique": {
+          "name": "playlists_uuid_unique",
+          "columns": [
+            "uuid"
+          ],
+          "isUnique": true
+        },
         "playlists_name_idx": {
           "name": "playlists_name_idx",
           "columns": [
@@ -845,6 +887,13 @@
           "notNull": true,
           "autoincrement": true
         },
+        "uuid": {
+          "name": "uuid",
+          "type": "text(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "name": {
           "name": "name",
           "type": "text(200)",
@@ -935,6 +984,13 @@
         }
       },
       "indexes": {
+        "songs_uuid_unique": {
+          "name": "songs_uuid_unique",
+          "columns": [
+            "uuid"
+          ],
+          "isUnique": true
+        },
         "songs_file_unique": {
           "name": "songs_file_unique",
           "columns": [

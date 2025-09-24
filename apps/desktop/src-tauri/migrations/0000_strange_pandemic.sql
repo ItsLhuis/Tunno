@@ -9,6 +9,7 @@ CREATE INDEX `album_stats_total_play_time_idx` ON `album_stats` (`total_play_tim
 CREATE INDEX `album_stats_last_calculated_idx` ON `album_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `albums` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`uuid` text(36) NOT NULL,
 	`name` text(150) NOT NULL,
 	`thumbnail` text(50),
 	`release_year` integer,
@@ -21,6 +22,7 @@ CREATE TABLE `albums` (
 	`updated_at` integer DEFAULT (unixepoch()) NOT NULL
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `albums_uuid_unique` ON `albums` (`uuid`);--> statement-breakpoint
 CREATE INDEX `albums_name_idx` ON `albums` (`name`);--> statement-breakpoint
 CREATE INDEX `albums_favorite_idx` ON `albums` (`is_favorite`);--> statement-breakpoint
 CREATE INDEX `albums_playcount_idx` ON `albums` (`play_count`);--> statement-breakpoint
@@ -48,6 +50,7 @@ CREATE INDEX `artist_stats_total_play_time_idx` ON `artist_stats` (`total_play_t
 CREATE INDEX `artist_stats_last_calculated_idx` ON `artist_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `artists` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`uuid` text(36) NOT NULL,
 	`name` text(100) NOT NULL,
 	`thumbnail` text(50),
 	`play_count` integer DEFAULT 0 NOT NULL,
@@ -57,6 +60,7 @@ CREATE TABLE `artists` (
 	`updated_at` integer DEFAULT (unixepoch()) NOT NULL
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `artists_uuid_unique` ON `artists` (`uuid`);--> statement-breakpoint
 CREATE UNIQUE INDEX `artists_name_unique` ON `artists` (`name`);--> statement-breakpoint
 CREATE INDEX `artists_name_idx` ON `artists` (`name`);--> statement-breakpoint
 CREATE INDEX `artists_favorite_idx` ON `artists` (`is_favorite`);--> statement-breakpoint
@@ -85,6 +89,7 @@ CREATE INDEX `playlist_stats_total_play_time_idx` ON `playlist_stats` (`total_pl
 CREATE INDEX `playlist_stats_last_calculated_idx` ON `playlist_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `playlists` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`uuid` text(36) NOT NULL,
 	`name` text(100) NOT NULL,
 	`thumbnail` text(50),
 	`play_count` integer DEFAULT 0 NOT NULL,
@@ -94,6 +99,7 @@ CREATE TABLE `playlists` (
 	`updated_at` integer DEFAULT (unixepoch()) NOT NULL
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `playlists_uuid_unique` ON `playlists` (`uuid`);--> statement-breakpoint
 CREATE INDEX `playlists_name_idx` ON `playlists` (`name`);--> statement-breakpoint
 CREATE INDEX `playlists_favorite_idx` ON `playlists` (`is_favorite`);--> statement-breakpoint
 CREATE INDEX `playlists_playcount_idx` ON `playlists` (`play_count`);--> statement-breakpoint
@@ -120,6 +126,7 @@ CREATE INDEX `song_stats_total_play_time_idx` ON `song_stats` (`total_play_time`
 CREATE INDEX `song_stats_last_calculated_idx` ON `song_stats` (`last_calculated_at`);--> statement-breakpoint
 CREATE TABLE `songs` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`uuid` text(36) NOT NULL,
 	`name` text(200) NOT NULL,
 	`thumbnail` text(50),
 	`file` text(50) NOT NULL,
@@ -135,6 +142,7 @@ CREATE TABLE `songs` (
 	FOREIGN KEY (`album_id`) REFERENCES `albums`(`id`) ON UPDATE no action ON DELETE restrict
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `songs_uuid_unique` ON `songs` (`uuid`);--> statement-breakpoint
 CREATE UNIQUE INDEX `songs_file_unique` ON `songs` (`file`);--> statement-breakpoint
 CREATE INDEX `songs_name_idx` ON `songs` (`name`);--> statement-breakpoint
 CREATE INDEX `songs_album_idx` ON `songs` (`album_id`);--> statement-breakpoint

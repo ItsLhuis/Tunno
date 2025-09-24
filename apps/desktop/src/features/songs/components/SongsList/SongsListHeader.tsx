@@ -8,6 +8,9 @@ import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { cn } from "@lib/utils"
 
+import { SongForm } from "../../forms/SongForm"
+import { DeleteSongDialog } from "../DeleteSongDialog"
+
 import {
   Checkbox,
   DropdownMenu,
@@ -118,18 +121,59 @@ export const SongsListHeader = ({ list, className }: SongsListHeaderProps) => {
               </DropdownMenuSub>
               {list.selectedCount === 1 && (
                 <Fragment>
-                  <DropdownMenuItem>
-                    <Icon name="DiscAlbum" />
-                    {t("common.goToAlbum")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Icon name="User" />
-                    {t("common.goToArtist")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Icon name="Edit" />
-                    {t("form.buttons.update")}
-                  </DropdownMenuItem>
+                  {selectedSongs[0].album && (
+                    <DropdownMenuItem>
+                      <Icon name="DiscAlbum" />
+                      {t("common.goToAlbum")}{" "}
+                      <Typography affects="muted">{selectedSongs[0].album.name}</Typography>
+                    </DropdownMenuItem>
+                  )}
+                  {selectedSongs[0].artists.length === 1 && (
+                    <DropdownMenuItem>
+                      <Icon name="User" />
+                      {t("common.goToArtist")}{" "}
+                      <Typography affects="muted">
+                        {selectedSongs[0].artists[0].artist.name}
+                      </Typography>
+                    </DropdownMenuItem>
+                  )}
+                  {selectedSongs[0].artists.length > 1 && (
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger>
+                        <Icon name="User" />
+                        {t("common.goToArtist")}
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuSubContent>
+                        {selectedSongs[0].artists.map((artistLink) => (
+                          <DropdownMenuItem key={artistLink.artistId}>
+                            {artistLink.artist.name}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuSubContent>
+                    </DropdownMenuSub>
+                  )}
+                  <SongForm
+                    song={{
+                      ...selectedSongs[0],
+                      artists: selectedSongs[0].artists.map((artist) => artist.artistId)
+                    }}
+                    mode="update"
+                    trigger={
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <Icon name="Edit" />
+                        {t("form.buttons.update")}
+                      </DropdownMenuItem>
+                    }
+                  />
+                  <DeleteSongDialog
+                    song={selectedSongs[0]}
+                    trigger={
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <Icon name="Trash2" />
+                        {t("form.buttons.delete")}
+                      </DropdownMenuItem>
+                    }
+                  />
                 </Fragment>
               )}
             </DropdownMenuContent>
