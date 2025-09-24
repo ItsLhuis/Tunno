@@ -17,6 +17,7 @@
     "dev:web": "turbo run dev --filter=@tunno/web",
     "start": "turbo run start",
     "typecheck": "turbo run typecheck",
+    "format": "prettier --write .",
     "clean": "git clean -fdX"
   },
   "engines": {
