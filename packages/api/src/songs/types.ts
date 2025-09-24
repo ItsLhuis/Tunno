@@ -8,6 +8,32 @@ export type SongColumns = keyof typeof songs.$inferSelect
 
 export type Song = typeof songs.$inferSelect
 
+export type SongReleaseYear = (typeof songs.$inferSelect)["releaseYear"]
+
+export type OrderableSongColumns =
+  | "name"
+  | "duration"
+  | "isFavorite"
+  | "releaseYear"
+  | "playCount"
+  | "lastPlayedAt"
+  | "createdAt"
+  | "updatedAt"
+
+export type SongFilters = {
+  search?: string
+  isFavorite?: boolean
+  releaseYear?: SongReleaseYear | SongReleaseYear[]
+  albumId?: number | number[]
+  hasLyrics?: boolean
+  minDuration?: number
+  maxDuration?: number
+  minPlayCount?: number
+  maxPlayCount?: number
+  playedAfter?: Date
+  playedBefore?: Date
+}
+
 export type SongWithAlbum = InferQueryModel<
   "songs",
   {
@@ -134,4 +160,4 @@ export type SongWithCustomRelations<T extends Record<string, any>> = InferQueryM
 export type InsertSong = typeof songs.$inferInsert
 export type UpdateSong = Partial<InsertSong>
 
-export type QuerySongsParams = QueryParams<SongColumns>
+export type QuerySongsParams = QueryParams<OrderableSongColumns, SongFilters>
