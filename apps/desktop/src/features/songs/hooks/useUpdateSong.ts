@@ -41,7 +41,7 @@ export function useUpdateSong() {
       if (songWithMainRelations) {
         await updateTrackMetadata(songWithMainRelations)
       }
-      
+
       toast.success(t("songs.updatedTitle"), {
         description: t("songs.updatedDescription", { name: song.name })
       })

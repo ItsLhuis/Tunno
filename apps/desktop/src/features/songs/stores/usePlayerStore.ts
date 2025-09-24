@@ -1128,7 +1128,7 @@ export const usePlayerStore = create<PlayerStore>()(
         clearTrackCaches(song)
         songsCacheById.set(song.id, song)
 
-        const queueIndex = queueIds.findIndex(id => id === song.id)
+        const queueIndex = queueIds.findIndex((id) => id === song.id)
         if (queueIndex === -1) return
 
         try {
