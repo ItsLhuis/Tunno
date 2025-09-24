@@ -181,7 +181,37 @@ export const japanese: Language = {
       updatedFailedTitle: "曲の更新に失敗しました",
       deletedTitle: "曲が正常に削除されました",
       deletedDescription: "{name} が削除されました",
-      deletedFailedTitle: "曲の削除に失敗しました"
+      deletedFailedTitle: "曲の削除に失敗しました",
+      filters: {
+        title: "フィルター",
+        clear: "アクティブなフィルターをクリア",
+        sortBy: "並び替え",
+        favorites: "お気に入りのみ",
+        favoritesDescription: "お気に入りの楽曲のみ表示",
+        lyrics: "歌詞あり",
+        lyricsDescription: "歌詞のある楽曲のみ表示",
+        releaseYear: "リリース年",
+        duration: "時間",
+        durationMin: "最小",
+        durationMax: "最大",
+        playCount: "再生回数",
+        playCountMin: "最小",
+        playCountMax: "最大",
+        lastPlayed: "最後の再生",
+        lastPlayedAfter: "以降",
+        lastPlayedBefore: "以前",
+        selectDate: "日付を選択",
+        sortOptions: {
+          name: "名前",
+          duration: "時間",
+          favorites: "お気に入り",
+          year: "年",
+          playCount: "再生回数",
+          lastPlayed: "最後の再生",
+          createdAt: "作成日",
+          updatedAt: "更新日"
+        }
+      }
     },
     playlists: {
       title: "プレイリスト",

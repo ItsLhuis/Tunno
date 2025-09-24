@@ -181,7 +181,37 @@ export const german: Language = {
       updatedFailedTitle: "Song Aktualisierung Fehlgeschlagen",
       deletedTitle: "Song Erfolgreich Gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Song Löschung Fehlgeschlagen"
+      deletedFailedTitle: "Song Löschung Fehlgeschlagen",
+      filters: {
+        title: "Filter",
+        clear: "Aktive Filter löschen",
+        sortBy: "Sortieren nach",
+        favorites: "Nur Favoriten",
+        favoritesDescription: "Nur Lieblingslieder anzeigen",
+        lyrics: "Mit Texten",
+        lyricsDescription: "Nur Lieder mit Texten anzeigen",
+        releaseYear: "Erscheinungsjahr",
+        duration: "Dauer",
+        durationMin: "Minimum",
+        durationMax: "Maximum",
+        playCount: "Wiedergaben",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        lastPlayed: "Zuletzt abgespielt",
+        lastPlayedAfter: "Nach",
+        lastPlayedBefore: "Vor",
+        selectDate: "Datum auswählen",
+        sortOptions: {
+          name: "Name",
+          duration: "Dauer",
+          favorites: "Favoriten",
+          year: "Jahr",
+          playCount: "Wiedergaben",
+          lastPlayed: "Zuletzt abgespielt",
+          createdAt: "Erstellungsdatum",
+          updatedAt: "Aktualisierungsdatum"
+        }
+      }
     },
     playlists: {
       title: "Wiedergabelisten",

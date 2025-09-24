@@ -181,7 +181,37 @@ export const swedish: Language = {
       updatedFailedTitle: "Misslyckades att uppdatera låt",
       deletedTitle: "Låt borttagen",
       deletedDescription: "{name} har tagits bort",
-      deletedFailedTitle: "Misslyckades att ta bort låt"
+      deletedFailedTitle: "Misslyckades att ta bort låt",
+      filters: {
+        title: "Filter",
+        clear: "Rensa aktiva filter",
+        sortBy: "Sortera efter",
+        favorites: "Endast favoriter",
+        favoritesDescription: "Visa endast favoritlåtar",
+        lyrics: "Med text",
+        lyricsDescription: "Visa endast låtar med text",
+        releaseYear: "Utgivningsår",
+        duration: "Varaktighet",
+        durationMin: "Minimum",
+        durationMax: "Maximum",
+        playCount: "Antal uppspelningar",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        lastPlayed: "Senast uppspelad",
+        lastPlayedAfter: "Efter",
+        lastPlayedBefore: "Före",
+        selectDate: "Välj datum",
+        sortOptions: {
+          name: "Namn",
+          duration: "Varaktighet",
+          favorites: "Favoriter",
+          year: "År",
+          playCount: "Uppspelningar",
+          lastPlayed: "Senast uppspelad",
+          createdAt: "Skapelsedatum",
+          updatedAt: "Uppdateringsdatum"
+        }
+      }
     },
     playlists: {
       title: "Spellistor",

@@ -181,7 +181,37 @@ export const korean: Language = {
       updatedFailedTitle: "노래 업데이트 실패",
       deletedTitle: "노래가 성공적으로 삭제되었습니다",
       deletedDescription: "{name} 가 삭제되었습니다",
-      deletedFailedTitle: "노래 삭제 실패"
+      deletedFailedTitle: "노래 삭제 실패",
+      filters: {
+        title: "필터",
+        clear: "활성 필터 지우기",
+        sortBy: "정렬 기준",
+        favorites: "즐겨찾기만",
+        favoritesDescription: "즐겨찾기 곡만 표시",
+        lyrics: "가사 있음",
+        lyricsDescription: "가사가 있는 곡만 표시",
+        releaseYear: "발매년도",
+        duration: "재생시간",
+        durationMin: "최소",
+        durationMax: "최대",
+        playCount: "재생 횟수",
+        playCountMin: "최소",
+        playCountMax: "최대",
+        lastPlayed: "마지막 재생",
+        lastPlayedAfter: "이후",
+        lastPlayedBefore: "이전",
+        selectDate: "날짜 선택",
+        sortOptions: {
+          name: "이름",
+          duration: "재생시간",
+          favorites: "즐겨찾기",
+          year: "년도",
+          playCount: "재생 횟수",
+          lastPlayed: "마지막 재생",
+          createdAt: "생성일",
+          updatedAt: "업데이트일"
+        }
+      }
     },
     playlists: {
       title: "재생목록",

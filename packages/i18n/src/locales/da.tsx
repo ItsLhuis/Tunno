@@ -181,7 +181,37 @@ export const danish: Language = {
       updatedFailedTitle: "Kunne Ikke Opdatere Sang",
       deletedTitle: "Sang Slettet Succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Sang"
+      deletedFailedTitle: "Kunne Ikke Slette Sang",
+      filters: {
+        title: "Filtre",
+        clear: "Ryd aktive filtre",
+        sortBy: "Sortér efter",
+        favorites: "Kun favoritter",
+        favoritesDescription: "Vis kun favorit sange",
+        lyrics: "Med tekst",
+        lyricsDescription: "Vis kun sange med tekst",
+        releaseYear: "Udgivelsesår",
+        duration: "Varighed",
+        durationMin: "Minimum",
+        durationMax: "Maksimum",
+        playCount: "Antal afspilninger",
+        playCountMin: "Minimum",
+        playCountMax: "Maksimum",
+        lastPlayed: "Sidst afspillet",
+        lastPlayedAfter: "Efter",
+        lastPlayedBefore: "Før",
+        selectDate: "Vælg dato",
+        sortOptions: {
+          name: "Navn",
+          duration: "Varighed",
+          favorites: "Favoritter",
+          year: "År",
+          playCount: "Afspilninger",
+          lastPlayed: "Sidst afspillet",
+          createdAt: "Oprettelsesdato",
+          updatedAt: "Opdateringsdato"
+        }
+      }
     },
     playlists: {
       title: "Afspilningslister",

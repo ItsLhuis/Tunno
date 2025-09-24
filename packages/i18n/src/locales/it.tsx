@@ -182,7 +182,37 @@ export const italian: Language = {
       updatedFailedTitle: "Aggiornamento canzone fallito",
       deletedTitle: "Canzone eliminata con successo",
       deletedDescription: "{name} è stata eliminata",
-      deletedFailedTitle: "Eliminazione canzone fallita"
+      deletedFailedTitle: "Eliminazione canzone fallita",
+      filters: {
+        title: "Filtri",
+        clear: "Cancella filtri attivi",
+        sortBy: "Ordina per",
+        favorites: "Solo preferiti",
+        favoritesDescription: "Mostra solo canzoni preferite",
+        lyrics: "Con testi",
+        lyricsDescription: "Mostra solo canzoni con testi",
+        releaseYear: "Anno di uscita",
+        duration: "Durata",
+        durationMin: "Minimo",
+        durationMax: "Massimo",
+        playCount: "Riproduzioni",
+        playCountMin: "Minimo",
+        playCountMax: "Massimo",
+        lastPlayed: "Ultima riproduzione",
+        lastPlayedAfter: "Dopo",
+        lastPlayedBefore: "Prima",
+        selectDate: "Seleziona data",
+        sortOptions: {
+          name: "Nome",
+          duration: "Durata",
+          favorites: "Preferiti",
+          year: "Anno",
+          playCount: "Riproduzioni",
+          lastPlayed: "Ultima riproduzione",
+          createdAt: "Data di creazione",
+          updatedAt: "Data di aggiornamento"
+        }
+      }
     },
     playlists: {
       title: "Playlist",

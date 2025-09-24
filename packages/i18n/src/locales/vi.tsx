@@ -181,7 +181,37 @@ export const vietnamese: Language = {
       updatedFailedTitle: "Cập nhật bài hát thất bại",
       deletedTitle: "Xóa bài hát thành công",
       deletedDescription: "{name} đã bị xóa",
-      deletedFailedTitle: "Xóa bài hát thất bại"
+      deletedFailedTitle: "Xóa bài hát thất bại",
+      filters: {
+        title: "Bộ lọc",
+        clear: "Xóa bộ lọc đang hoạt động",
+        sortBy: "Sắp xếp theo",
+        favorites: "Chỉ yêu thích",
+        favoritesDescription: "Chỉ hiển thị bài hát yêu thích",
+        lyrics: "Có lời bài hát",
+        lyricsDescription: "Chỉ hiển thị bài hát có lời",
+        releaseYear: "Năm phát hành",
+        duration: "Thời lượng",
+        durationMin: "Tối thiểu",
+        durationMax: "Tối đa",
+        playCount: "Số lần phát",
+        playCountMin: "Tối thiểu",
+        playCountMax: "Tối đa",
+        lastPlayed: "Lần phát cuối",
+        lastPlayedAfter: "Sau",
+        lastPlayedBefore: "Trước",
+        selectDate: "Chọn ngày",
+        sortOptions: {
+          name: "Tên",
+          duration: "Thời lượng",
+          favorites: "Yêu thích",
+          year: "Năm",
+          playCount: "Số lần phát",
+          lastPlayed: "Lần phát cuối",
+          createdAt: "Ngày tạo",
+          updatedAt: "Ngày cập nhật"
+        }
+      }
     },
     playlists: {
       title: "Danh sách phát",

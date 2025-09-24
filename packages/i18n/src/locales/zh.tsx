@@ -181,7 +181,37 @@ export const chinese: Language = {
       updatedFailedTitle: "更新歌曲失败",
       deletedTitle: "歌曲删除成功",
       deletedDescription: "{name} 已删除",
-      deletedFailedTitle: "删除歌曲失败"
+      deletedFailedTitle: "删除歌曲失败",
+      filters: {
+        title: "筛选",
+        clear: "清除活动筛选器",
+        sortBy: "排序方式",
+        favorites: "仅收藏",
+        favoritesDescription: "仅显示收藏的歌曲",
+        lyrics: "有歌词",
+        lyricsDescription: "仅显示有歌词的歌曲",
+        releaseYear: "发行年份",
+        duration: "时长",
+        durationMin: "最小",
+        durationMax: "最大",
+        playCount: "播放次数",
+        playCountMin: "最小",
+        playCountMax: "最大",
+        lastPlayed: "最后播放",
+        lastPlayedAfter: "之后",
+        lastPlayedBefore: "之前",
+        selectDate: "选择日期",
+        sortOptions: {
+          name: "名称",
+          duration: "时长",
+          favorites: "收藏",
+          year: "年份",
+          playCount: "播放次数",
+          lastPlayed: "最后播放",
+          createdAt: "创建日期",
+          updatedAt: "更新日期"
+        }
+      }
     },
     playlists: {
       title: "播放列表",

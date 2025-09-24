@@ -181,7 +181,37 @@ export const ukrainian: Language = {
       updatedFailedTitle: "Не вдалося оновити пісню",
       deletedTitle: "Пісня успішно видалена",
       deletedDescription: "{name} видалено",
-      deletedFailedTitle: "Не вдалося видалити пісню"
+      deletedFailedTitle: "Не вдалося видалити пісню",
+      filters: {
+        title: "Фільтри",
+        clear: "Очистити активні фільтри",
+        sortBy: "Сортувати за",
+        favorites: "Тільки улюблені",
+        favoritesDescription: "Показати тільки улюблені пісні",
+        lyrics: "З текстом",
+        lyricsDescription: "Показати тільки пісні з текстом",
+        releaseYear: "Рік випуску",
+        duration: "Тривалість",
+        durationMin: "Мінімум",
+        durationMax: "Максимум",
+        playCount: "Кількість відтворень",
+        playCountMin: "Мінімум",
+        playCountMax: "Максимум",
+        lastPlayed: "Останнє відтворення",
+        lastPlayedAfter: "Після",
+        lastPlayedBefore: "До",
+        selectDate: "Вибрати дату",
+        sortOptions: {
+          name: "Назва",
+          duration: "Тривалість",
+          favorites: "Улюблені",
+          year: "Рік",
+          playCount: "Відтворення",
+          lastPlayed: "Останнє відтворення",
+          createdAt: "Дата створення",
+          updatedAt: "Дата оновлення"
+        }
+      }
     },
     playlists: {
       title: "Плейлисти",

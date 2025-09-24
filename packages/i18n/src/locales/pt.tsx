@@ -182,7 +182,37 @@ export const portuguese: Language = {
       updatedFailedTitle: "Falha ao atualizar música",
       deletedTitle: "Música eliminada com sucesso",
       deletedDescription: "{name} foi eliminada",
-      deletedFailedTitle: "Falha ao eliminar música"
+      deletedFailedTitle: "Falha ao eliminar música",
+      filters: {
+        title: "Filtros",
+        clear: "Limpar filtros ativos",
+        sortBy: "Ordenar por",
+        favorites: "Apenas favoritas",
+        favoritesDescription: "Mostrar apenas músicas favoritas",
+        lyrics: "Com letras",
+        lyricsDescription: "Mostrar apenas músicas com letras",
+        releaseYear: "Ano de lançamento",
+        duration: "Duração",
+        durationMin: "Mínimo",
+        durationMax: "Máximo",
+        playCount: "Reproduções",
+        playCountMin: "Mínimo",
+        playCountMax: "Máximo",
+        lastPlayed: "Última reprodução",
+        lastPlayedAfter: "Depois de",
+        lastPlayedBefore: "Antes de",
+        selectDate: "Selecionar data",
+        sortOptions: {
+          name: "Nome",
+          duration: "Duração",
+          favorites: "Favoritas",
+          year: "Ano",
+          playCount: "Reproduções",
+          lastPlayed: "Última reprodução",
+          createdAt: "Data de criação",
+          updatedAt: "Data de atualização"
+        }
+      }
     },
     playlists: {
       title: "Listas de Reprodução",

@@ -181,7 +181,37 @@ export const polish: Language = {
       updatedFailedTitle: "Nie udało się zaktualizować utworu",
       deletedTitle: "Utwór został pomyślnie usunięty",
       deletedDescription: "{name} został usunięty",
-      deletedFailedTitle: "Nie udało się usunąć utworu"
+      deletedFailedTitle: "Nie udało się usunąć utworu",
+      filters: {
+        title: "Filtry",
+        clear: "Wyczyść aktywne filtry",
+        sortBy: "Sortuj według",
+        favorites: "Tylko ulubione",
+        favoritesDescription: "Pokaż tylko ulubione utwory",
+        lyrics: "Z tekstem",
+        lyricsDescription: "Pokaż tylko utwory z tekstem",
+        releaseYear: "Rok wydania",
+        duration: "Czas trwania",
+        durationMin: "Minimum",
+        durationMax: "Maksimum",
+        playCount: "Liczba odtworzeń",
+        playCountMin: "Minimum",
+        playCountMax: "Maksimum",
+        lastPlayed: "Ostatnie odtworzenie",
+        lastPlayedAfter: "Po",
+        lastPlayedBefore: "Przed",
+        selectDate: "Wybierz datę",
+        sortOptions: {
+          name: "Nazwa",
+          duration: "Czas trwania",
+          favorites: "Ulubione",
+          year: "Rok",
+          playCount: "Odtworzenia",
+          lastPlayed: "Ostatnie odtworzenie",
+          createdAt: "Data utworzenia",
+          updatedAt: "Data aktualizacji"
+        }
+      }
     },
     playlists: {
       title: "Playlisty",

@@ -181,7 +181,37 @@ export const finnish: Language = {
       updatedFailedTitle: "Kappaleen päivitys epäonnistui",
       deletedTitle: "Kappale poistettu onnistuneesti",
       deletedDescription: "{name} on poistettu",
-      deletedFailedTitle: "Kappaleen poisto epäonnistui"
+      deletedFailedTitle: "Kappaleen poisto epäonnistui",
+      filters: {
+        title: "Suodattimet",
+        clear: "Tyhjennä aktiiviset suodattimet",
+        sortBy: "Järjestä",
+        favorites: "Vain suosikit",
+        favoritesDescription: "Näytä vain suosikkikappaleet",
+        lyrics: "Tekstillä",
+        lyricsDescription: "Näytä vain kappaleet tekstillä",
+        releaseYear: "Julkaisuvuosi",
+        duration: "Kesto",
+        durationMin: "Vähintään",
+        durationMax: "Enintään",
+        playCount: "Toistokertojen määrä",
+        playCountMin: "Vähintään",
+        playCountMax: "Enintään",
+        lastPlayed: "Viimeksi soitettu",
+        lastPlayedAfter: "Jälkeen",
+        lastPlayedBefore: "Ennen",
+        selectDate: "Valitse päivämäärä",
+        sortOptions: {
+          name: "Nimi",
+          duration: "Kesto",
+          favorites: "Suosikit",
+          year: "Vuosi",
+          playCount: "Toistokertojen määrä",
+          lastPlayed: "Viimeksi soitettu",
+          createdAt: "Luontipäivämäärä",
+          updatedAt: "Päivityspäivämäärä"
+        }
+      }
     },
     playlists: {
       title: "Soittolistat",

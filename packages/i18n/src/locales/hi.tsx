@@ -181,7 +181,37 @@ export const hindi: Language = {
       updatedFailedTitle: "गाना अपडेट करने में विफल",
       deletedTitle: "गाना सफलतापूर्वक हटाया गया",
       deletedDescription: "{name} हटाया गया है",
-      deletedFailedTitle: "गाना हटाने में विफल"
+      deletedFailedTitle: "गाना हटाने में विफल",
+      filters: {
+        title: "फिल्टर",
+        clear: "सक्रिय फिल्टर साफ़ करें",
+        sortBy: "इसके अनुसार क्रमबद्ध करें",
+        favorites: "केवल पसंदीदा",
+        favoritesDescription: "केवल पसंदीदा गाने दिखाएं",
+        lyrics: "बोल के साथ",
+        lyricsDescription: "केवल बोल वाले गाने दिखाएं",
+        releaseYear: "रिलीज़ वर्ष",
+        duration: "अवधि",
+        durationMin: "न्यूनतम",
+        durationMax: "अधिकतम",
+        playCount: "प्ले काउंट",
+        playCountMin: "न्यूनतम",
+        playCountMax: "अधिकतम",
+        lastPlayed: "अंतिम प्ले",
+        lastPlayedAfter: "के बाद",
+        lastPlayedBefore: "के पहले",
+        selectDate: "तारीख चुनें",
+        sortOptions: {
+          name: "नाम",
+          duration: "अवधि",
+          favorites: "पसंदीदा",
+          year: "वर्ष",
+          playCount: "प्ले काउंट",
+          lastPlayed: "अंतिम प्ले",
+          createdAt: "निर्माण तिथि",
+          updatedAt: "अपडेट तिथि"
+        }
+      }
     },
     playlists: {
       title: "प्लेलिस्ट",

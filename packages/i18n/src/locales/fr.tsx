@@ -182,7 +182,37 @@ export const french: Language = {
       updatedFailedTitle: "Échec de la mise à jour de la chanson",
       deletedTitle: "Chanson supprimée avec succès",
       deletedDescription: "{name} a été supprimée",
-      deletedFailedTitle: "Échec de la suppression de la chanson"
+      deletedFailedTitle: "Échec de la suppression de la chanson",
+      filters: {
+        title: "Filtres",
+        clear: "Effacer les filtres actifs",
+        sortBy: "Trier par",
+        favorites: "Favoris uniquement",
+        favoritesDescription: "Afficher uniquement les chansons favorites",
+        lyrics: "Avec paroles",
+        lyricsDescription: "Afficher uniquement les chansons avec paroles",
+        releaseYear: "Année de sortie",
+        duration: "Durée",
+        durationMin: "Minimum",
+        durationMax: "Maximum",
+        playCount: "Nombre de lectures",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        lastPlayed: "Dernière lecture",
+        lastPlayedAfter: "Après",
+        lastPlayedBefore: "Avant",
+        selectDate: "Sélectionner une date",
+        sortOptions: {
+          name: "Nom",
+          duration: "Durée",
+          favorites: "Favoris",
+          year: "Année",
+          playCount: "Lectures",
+          lastPlayed: "Dernière lecture",
+          createdAt: "Date de création",
+          updatedAt: "Date de mise à jour"
+        }
+      }
     },
     playlists: {
       title: "Playlists",

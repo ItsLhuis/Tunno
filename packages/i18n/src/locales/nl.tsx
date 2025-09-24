@@ -182,7 +182,37 @@ export const dutch: Language = {
       updatedFailedTitle: "Nummer bijwerken mislukt",
       deletedTitle: "Nummer succesvol verwijderd",
       deletedDescription: "{name} is verwijderd",
-      deletedFailedTitle: "Nummer verwijderen mislukt"
+      deletedFailedTitle: "Nummer verwijderen mislukt",
+      filters: {
+        title: "Filters",
+        clear: "Actieve filters wissen",
+        sortBy: "Sorteren op",
+        favorites: "Alleen favorieten",
+        favoritesDescription: "Toon alleen favoriete nummers",
+        lyrics: "Met tekst",
+        lyricsDescription: "Toon alleen nummers met tekst",
+        releaseYear: "Uitgavejaar",
+        duration: "Duur",
+        durationMin: "Minimum",
+        durationMax: "Maximum",
+        playCount: "Aantal afspelingen",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        lastPlayed: "Laatst afgespeeld",
+        lastPlayedAfter: "Na",
+        lastPlayedBefore: "Voor",
+        selectDate: "Datum selecteren",
+        sortOptions: {
+          name: "Naam",
+          duration: "Duur",
+          favorites: "Favorieten",
+          year: "Jaar",
+          playCount: "Afspelingen",
+          lastPlayed: "Laatst afgespeeld",
+          createdAt: "Aanmaakdatum",
+          updatedAt: "Bijwerkdatum"
+        }
+      }
     },
     playlists: {
       title: "Afspellijsten",

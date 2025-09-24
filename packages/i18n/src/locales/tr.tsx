@@ -181,7 +181,37 @@ export const turkish: Language = {
       updatedFailedTitle: "Şarkı güncellenemedi",
       deletedTitle: "Şarkı başarıyla silindi",
       deletedDescription: "{name} silindi",
-      deletedFailedTitle: "Şarkı silinemedi"
+      deletedFailedTitle: "Şarkı silinemedi",
+      filters: {
+        title: "Filtreler",
+        clear: "Aktif filtreleri temizle",
+        sortBy: "Sırala",
+        favorites: "Sadece favoriler",
+        favoritesDescription: "Sadece favori şarkıları göster",
+        lyrics: "Sözleri olan",
+        lyricsDescription: "Sadece sözleri olan şarkıları göster",
+        releaseYear: "Çıkış yılı",
+        duration: "Süre",
+        durationMin: "Minimum",
+        durationMax: "Maksimum",
+        playCount: "Çalma sayısı",
+        playCountMin: "Minimum",
+        playCountMax: "Maksimum",
+        lastPlayed: "Son çalınan",
+        lastPlayedAfter: "Sonra",
+        lastPlayedBefore: "Önce",
+        selectDate: "Tarih seç",
+        sortOptions: {
+          name: "İsim",
+          duration: "Süre",
+          favorites: "Favoriler",
+          year: "Yıl",
+          playCount: "Çalma sayısı",
+          lastPlayed: "Son çalınan",
+          createdAt: "Oluşturulma tarihi",
+          updatedAt: "Güncelleme tarihi"
+        }
+      }
     },
     playlists: {
       title: "Çalma Listeleri",

@@ -185,6 +185,36 @@ export type Translations = {
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string
+    filters: {
+      title: string
+      clear: string
+      sortBy: string
+      favorites: string
+      favoritesDescription: string
+      lyrics: string
+      lyricsDescription: string
+      releaseYear: string
+      duration: string
+      durationMin: string
+      durationMax: string
+      playCount: string
+      playCountMin: string
+      playCountMax: string
+      lastPlayed: string
+      lastPlayedAfter: string
+      lastPlayedBefore: string
+      selectDate: string
+      sortOptions: {
+        name: string
+        duration: string
+        favorites: string
+        year: string
+        playCount: string
+        lastPlayed: string
+        createdAt: string
+        updatedAt: string
+      }
+    }
   }
   playlists: {
     title: string

@@ -181,7 +181,37 @@ export const russian: Language = {
       updatedFailedTitle: "Не удалось обновить песню",
       deletedTitle: "Песня успешно удалена",
       deletedDescription: "{name} удалена",
-      deletedFailedTitle: "Не удалось удалить песню"
+      deletedFailedTitle: "Не удалось удалить песню",
+      filters: {
+        title: "Фильтры",
+        clear: "Очистить активные фильтры",
+        sortBy: "Сортировать по",
+        favorites: "Только избранные",
+        favoritesDescription: "Показать только избранные песни",
+        lyrics: "С текстом",
+        lyricsDescription: "Показать только песни с текстом",
+        releaseYear: "Год выпуска",
+        duration: "Длительность",
+        durationMin: "Минимум",
+        durationMax: "Максимум",
+        playCount: "Количество воспроизведений",
+        playCountMin: "Минимум",
+        playCountMax: "Максимум",
+        lastPlayed: "Последнее воспроизведение",
+        lastPlayedAfter: "После",
+        lastPlayedBefore: "До",
+        selectDate: "Выбрать дату",
+        sortOptions: {
+          name: "Название",
+          duration: "Длительность",
+          favorites: "Избранные",
+          year: "Год",
+          playCount: "Воспроизведения",
+          lastPlayed: "Последнее воспроизведение",
+          createdAt: "Дата создания",
+          updatedAt: "Дата обновления"
+        }
+      }
     },
     playlists: {
       title: "Плейлисты",
