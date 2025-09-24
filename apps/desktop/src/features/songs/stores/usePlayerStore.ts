@@ -11,7 +11,7 @@ import {
 
 import TrackPlayer, { RepeatMode, State } from "react-track-player-web"
 
-import { resolveTrack } from "../utils/player"
+import { resolveTrack, clearTrackCaches } from "../utils/player"
 
 import { shuffleArray } from "@repo/utils"
 
@@ -92,6 +92,7 @@ type PlayerActions = {
   reconcileQueue: (newQueueIds: number[], newCurrentIndex: number) => Promise<void>
   validateAndUpdateState: () => Promise<void>
   setPlaySource: (source: PlaySource) => void
+  updateTrackMetadata: (song: SongWithMainRelations) => Promise<void>
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -1120,6 +1121,43 @@ export const usePlayerStore = create<PlayerStore>()(
       },
       setPlaySource: (source: PlaySource) => {
         set({ playSource: source })
+      },
+      updateTrackMetadata: async (song) => {
+        const { currentTrackId, currentTrackIndex, windowStartIndex, queueIds } = get()
+
+        clearTrackCaches(song)
+        songsCacheById.set(song.id, song)
+
+        const queueIndex = queueIds.findIndex(id => id === song.id)
+        if (queueIndex === -1) return
+
+        try {
+          const updatedTrack = await resolveTrack(song)
+
+          if (currentTrackId === song.id && currentTrackIndex !== null) {
+            set({
+              currentTrack: updatedTrack,
+              duration: updatedTrack.duration
+            })
+          }
+
+          const windowEndIndex = windowStartIndex + get().windowSize
+          const isInCurrentWindow = queueIndex >= windowStartIndex && queueIndex < windowEndIndex
+
+          if (isInCurrentWindow) {
+            const playerIndex = queueIndex - windowStartIndex
+
+            await TrackPlayer.updateMetadataForTrack(playerIndex, {
+              title: updatedTrack.title,
+              artist: updatedTrack.artist,
+              album: updatedTrack.album,
+              artwork: updatedTrack.artwork,
+              duration: updatedTrack.duration
+            })
+          }
+        } catch (error) {
+          console.error("Error updating track metadata:", error)
+        }
       },
       setHasHydrated: (hasHydrated) => {
         set({ hasHydrated })

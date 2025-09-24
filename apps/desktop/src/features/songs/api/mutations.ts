@@ -82,6 +82,18 @@ export const updateSong = async (
   return updatedSong
 }
 
+export const toggleSongFavorite = async (id: number): Promise<Song> => {
+  const [existingSong] = await database.select().from(schema.songs).where(eq(schema.songs.id, id))
+
+  const [updatedSong] = await database
+    .update(schema.songs)
+    .set({ isFavorite: !existingSong.isFavorite })
+    .where(eq(schema.songs.id, id))
+    .returning()
+
+  return updatedSong
+}
+
 export const deleteSong = async (id: number): Promise<Song> => {
   const [deletedSong] = await database
     .delete(schema.songs)

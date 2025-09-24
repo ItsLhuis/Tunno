@@ -4,6 +4,8 @@ import { type SongWithMainRelations } from "@repo/api"
 
 import { type Track } from "../types/player"
 
+import defaultArtwork from "@assets/images/app/icon.png"
+
 const MAX_CACHE_SIZE = 1000
 
 const audioUrlCache = new Map<string, string>()
@@ -31,6 +33,8 @@ export const resolveTrack = async (song: SongWithMainRelations): Promise<Track> 
       artworkUrl = await getRenderableFileSrc(song.thumbnail as string, "thumbnails")
       setWithEviction(artworkUrlCache, song.thumbnail as string, artworkUrl)
     }
+  } else {
+    artworkUrl = defaultArtwork
   }
 
   return {
@@ -70,4 +74,11 @@ export const inverseVolumeCurve = (gainValue: number): number => {
 
 export const volumePercentage = (linearValue: number): number => {
   return Math.round(linearValue * 100)
+}
+
+export const clearTrackCaches = (song: SongWithMainRelations) => {
+  audioUrlCache.delete(song.file)
+  if (song.thumbnail) {
+    artworkUrlCache.delete(song.thumbnail as string)
+  }
 }

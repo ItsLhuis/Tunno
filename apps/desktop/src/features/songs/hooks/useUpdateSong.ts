@@ -5,11 +5,16 @@ import { useTranslation } from "@repo/i18n"
 import { songKeys } from "@repo/api"
 
 import { updateSong } from "../api/mutations"
+import { getSongByIdWithMainRelations } from "../api/queries"
+
+import { usePlayerStore } from "../stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
 export function useUpdateSong() {
   const queryClient = useQueryClient()
+
+  const updateTrackMetadata = usePlayerStore((state) => state.updateTrackMetadata)
 
   const { t } = useTranslation()
 
@@ -31,7 +36,12 @@ export function useUpdateSong() {
       await queryClient.cancelQueries({ queryKey: songKeys.details(id) })
       await queryClient.cancelQueries({ queryKey: songKeys.list() })
     },
-    onSuccess: (song) => {
+    onSuccess: async (song) => {
+      const songWithMainRelations = await getSongByIdWithMainRelations(song.id)
+      if (songWithMainRelations) {
+        await updateTrackMetadata(songWithMainRelations)
+      }
+      
       toast.success(t("songs.updatedTitle"), {
         description: t("songs.updatedDescription", { name: song.name })
       })
