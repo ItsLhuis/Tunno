@@ -25,4 +25,3 @@ const Checkbox = forwardRef<
 ))
 
 export { Checkbox }
-

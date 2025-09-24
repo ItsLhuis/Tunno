@@ -25,6 +25,7 @@ export type VirtualizedListWithHeadersProps<TItem> = Omit<
     HeaderComponent: ComponentType<{ list: VirtualizedListController<TItem> }>
     StickyHeaderComponent?: ComponentType<{ list: VirtualizedListController<TItem> }>
     ListHeaderComponent?: ComponentType<{ list: VirtualizedListController<TItem> }>
+    ListFooterComponent?: ComponentType<{ list: VirtualizedListController<TItem> }>
     ListEmptyComponent?: ComponentType
     stickyHeaderContainerClassName?: string
     containerClassName?: string
@@ -34,6 +35,7 @@ const VirtualizedListWithHeaders = <TItem,>({
   HeaderComponent,
   StickyHeaderComponent,
   ListHeaderComponent,
+  ListFooterComponent,
   ListEmptyComponent,
   stickyHeaderContainerClassName,
   stickHeaderThreshold = 10,
@@ -62,7 +64,7 @@ const VirtualizedListWithHeaders = <TItem,>({
 
   useEffect(() => {
     calculateHeaderHeight()
-    
+
     if (controller) {
       const timer = setTimeout(calculateHeaderHeight, 100)
       return () => clearTimeout(timer)
@@ -97,6 +99,7 @@ const VirtualizedListWithHeaders = <TItem,>({
             scrollRef={scrollRef}
             containerClassName={cn("relative", isListEmpty && "h-full")}
             ListEmptyComponent={ListEmptyComponent}
+            ListFooterComponent={ListFooterComponent}
             onController={(controller) => setController(controller)}
           />
         </div>

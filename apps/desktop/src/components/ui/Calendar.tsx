@@ -8,6 +8,30 @@ import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"
 
 import { Button, buttonVariants } from "@components/ui/Button"
 
+import { useTranslation } from "@repo/i18n"
+
+import {
+  de,
+  enUS,
+  es,
+  fi,
+  fr,
+  hi,
+  it,
+  ja,
+  ko,
+  nb,
+  nl,
+  pl,
+  pt,
+  ru,
+  sv,
+  tr,
+  uk,
+  vi,
+  zhCN
+} from "date-fns/locale"
+
 const Calendar = ({
   className,
   classNames,
@@ -20,7 +44,33 @@ const Calendar = ({
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: ComponentProps<typeof Button>["variant"]
 }) => {
+  const { i18n } = useTranslation()
   const defaultClassNames = getDefaultClassNames()
+
+  const localeMap = {
+    da: nb,
+    de: de,
+    en: enUS,
+    es: es,
+    fi: fi,
+    fr: fr,
+    hi: hi,
+    it: it,
+    ja: ja,
+    ko: ko,
+    nl: nl,
+    no: nb,
+    pl: pl,
+    pt: pt,
+    ru: ru,
+    sv: sv,
+    tr: tr,
+    uk: uk,
+    vi: vi,
+    zh: zhCN
+  }
+
+  const currentLocale = localeMap[i18n.language as keyof typeof localeMap] || enUS
 
   return (
     <DayPicker
@@ -32,8 +82,12 @@ const Calendar = ({
         className
       )}
       captionLayout={captionLayout}
+      locale={currentLocale}
       formatters={{
-        formatMonthDropdown: (date) => date.toLocaleString("default", { month: "short" }),
+        formatMonthDropdown: (date) =>
+          new Intl.DateTimeFormat(i18n.language, { month: "short" }).format(date),
+        formatWeekdayName: (date) =>
+          new Intl.DateTimeFormat(i18n.language, { weekday: "short" }).format(date),
         ...formatters
       }}
       classNames={{

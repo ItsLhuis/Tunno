@@ -64,4 +64,3 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
 )
 
 export { Slider }
-

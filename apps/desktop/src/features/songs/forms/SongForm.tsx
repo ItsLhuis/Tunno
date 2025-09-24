@@ -188,7 +188,7 @@ const SongForm = ({
     return (
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-8">
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="flex items-start gap-4">
               <div className="flex-1">
                 <FormField

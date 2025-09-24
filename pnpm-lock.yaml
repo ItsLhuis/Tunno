@@ -77,7 +77,7 @@ importers:
         specifier: ^2.2.6
         version: 2.2.16(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dialog':
-        specifier: ^1.1.6
+        specifier: ^1.1.15
         version: 1.1.15(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.2
@@ -107,7 +107,7 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3(@types/react@18.3.23)(react@18.3.1)
       '@radix-ui/react-switch':
-        specifier: ^1.1.3
+        specifier: ^1.2.6
         version: 1.2.6(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-tooltip':
         specifier: ^1.1.4
@@ -209,8 +209,8 @@ importers:
         specifier: ^7.62.0
         version: 7.62.0(react@18.3.1)
       react-track-player-web:
-        specifier: ^1.1.4
-        version: 1.1.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.1.5
+        version: 1.1.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       sonner:
         specifier: ^2.0.1
         version: 2.0.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7248,8 +7248,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-track-player-web@1.1.4:
-    resolution: {integrity: sha512-u/9N6GYZ3rYeBWhbLH/eJ4Gr21DnDBp2pmHNhUyv7CcPATEDTTi/Vj6nYN+D9Pvpw5EX5xDKu/JOVyTov8TkVw==}
+  react-track-player-web@1.1.5:
+    resolution: {integrity: sha512-epCOrkK6e9oom6NDpwO847ut5usy2lJidJdkvJ99fZH+M2wwdzd2G/rwb4lqIt0d4Asdm3mamZ9RAf9lS8fkqg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -15642,7 +15642,7 @@ snapshots:
       react-shallow-renderer: 16.15.0(react@18.3.1)
       scheduler: 0.23.2
 
-  react-track-player-web@1.1.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-track-player-web@1.1.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)

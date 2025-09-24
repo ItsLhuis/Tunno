@@ -73,12 +73,18 @@ const DialogContent = forwardRef<
 })
 
 const DialogHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col text-center sm:text-left transition-colors", className)} {...props} />
+  <div
+    className={cn("flex flex-col text-center transition-colors sm:text-left", className)}
+    {...props}
+  />
 )
 
 const DialogFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 transition-colors", className)}
+    className={cn(
+      "flex flex-col-reverse transition-colors sm:flex-row sm:justify-end sm:space-x-2",
+      className
+    )}
     {...props}
   />
 )
@@ -117,4 +123,3 @@ export {
   DialogTitle,
   DialogTrigger
 }
-

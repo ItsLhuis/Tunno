@@ -13,6 +13,7 @@ import {
   VirtualizedListWithHeaders
 } from "@components/ui"
 
+import { Filters } from "./Filters"
 import { HeaderComponent } from "./Header"
 import { SearchComponent } from "./Search"
 import { SongItem } from "./SongItem"
@@ -24,15 +25,16 @@ import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 type SongListProps = { list: VirtualizedListController<SongWithMainRelations> }
 
 const SongsList = () => {
-  const { debouncedSearchTerm } = useSongsStore(
+  const { debouncedFilters, orderBy } = useSongsStore(
     useShallow((state) => ({
-      debouncedSearchTerm: state.debouncedSearchTerm
+      debouncedFilters: state.debouncedFilters,
+      orderBy: state.orderBy
     }))
   )
 
   const queryParams: QuerySongsParams = {
-    orderBy: { column: "createdAt", direction: "desc" },
-    filters: debouncedSearchTerm ? { search: debouncedSearchTerm } : undefined
+    orderBy: orderBy || { column: "createdAt", direction: "desc" },
+    filters: Object.keys(debouncedFilters).length > 0 ? debouncedFilters : undefined
   }
 
   const { data, isLoading } = useFetchSongsWithMainRelations(queryParams)
@@ -54,7 +56,7 @@ const SongsList = () => {
   const ListHeader = useCallback(
     ({ list }: SongListProps) => (
       <Fragment>
-        <SearchComponent />
+        <SearchComponent renderRight={<Filters />} />
         <div className="px-9 pb-3 pt-6">
           <SongsListHeader list={list} className="border-b" />
         </div>
@@ -91,3 +93,4 @@ const SongsList = () => {
 }
 
 export { SongsList }
+

@@ -47,8 +47,11 @@ export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
   rowClassName?: string
   rowStyle?: CSSProperties
   ListEmptyComponent?: React.ComponentType
+  ListFooterComponent?: React.ComponentType<{ list: VirtualizedListController<TItem> }>
   onSelectionChange?: (selectedIds: string[], selectedItems: TItem[]) => void
   onController?: (controller: VirtualizedListController<TItem>) => void
+  onEndReached?: () => void
+  onEndReachedThreshold?: number
   scrollRef?: React.RefObject<HTMLDivElement>
 }
 
@@ -199,8 +202,11 @@ function VirtualizedList<TItem>({
   rowClassName = "",
   rowStyle = {},
   ListEmptyComponent,
+  ListFooterComponent,
   onSelectionChange,
   onController,
+  onEndReached,
+  onEndReachedThreshold = 0.1,
   scrollRef: externalScrollRef,
   className,
   ...props
@@ -209,6 +215,8 @@ function VirtualizedList<TItem>({
   const gridContainerRef = useRef<HTMLDivElement | null>(null)
 
   const [selectionState, setSelectionState] = useState<Record<string, boolean>>({})
+
+  const [hasReachedEnd, setHasReachedEnd] = useState<boolean>(false)
 
   const scrollRef = externalScrollRef || internalScrollRef
 
@@ -347,6 +355,38 @@ function VirtualizedList<TItem>({
     return viewport ? (viewport as HTMLElement) : scrollRef.current
   }, [scrollRef])
 
+  // Handle end reached detection
+  useEffect(() => {
+    if (!onEndReached) return
+
+    const scrollElement = getScrollElement()
+    if (!scrollElement) return
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollElement
+      const threshold = onEndReachedThreshold * clientHeight
+      const isNearEnd = scrollTop + clientHeight >= scrollHeight - threshold
+
+      if (isNearEnd && !hasReachedEnd) {
+        setHasReachedEnd(true)
+        onEndReached()
+      } else if (!isNearEnd && hasReachedEnd) {
+        setHasReachedEnd(false)
+      }
+    }
+
+    scrollElement.addEventListener("scroll", handleScroll, { passive: true })
+
+    return () => {
+      scrollElement.removeEventListener("scroll", handleScroll)
+    }
+  }, [onEndReached, onEndReachedThreshold, hasReachedEnd, getScrollElement])
+
+  // Reset hasReachedEnd when data changes
+  useEffect(() => {
+    setHasReachedEnd(false)
+  }, [data])
+
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement,
@@ -401,6 +441,7 @@ function VirtualizedList<TItem>({
           </div>
         )}
       </Fade>
+      {controller && ListFooterComponent && <ListFooterComponent list={controller} />}
     </div>
   )
 }

@@ -74,7 +74,7 @@ async function runCommand(command: string): Promise<void> {
 }
 
 async function createComponent(componentName: string) {
-  const command = `npx shadcn@latest add ${componentName}`
+  const command = `pnpm dlx shadcn@latest add ${componentName}`
   console.log(chalk.yellow(`Executing: ${command}`))
   await runCommand(command)
 }
@@ -211,7 +211,7 @@ async function runPrettier(basePath: string) {
       return
     }
 
-    const command = `npx prettier --write ${dirsToFormat.map((d) => `"${d}"`).join(" ")}`
+    const command = `pnpm dlx prettier --write ${dirsToFormat.map((d) => `"${d}"`).join(" ")}`
     console.log(chalk.yellow(`Executing: ${command}`))
     await runCommand(command)
   } catch (error) {

@@ -13,10 +13,10 @@ export async function getAppPaths(): Promise<AppPaths> {
   if (cachedPaths) return cachedPaths
 
   const appDir = await appDataDir()
-  
+
   cachedPaths = {
     songs: await join(appDir, "songs"),
-    thumbnails: await join(appDir, "thumbnails"), 
+    thumbnails: await join(appDir, "thumbnails"),
     playlists: await join(appDir, "playlists"),
     temp: await join(appDir, "temp")
   }

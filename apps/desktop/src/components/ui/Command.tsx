@@ -133,4 +133,3 @@ export {
   CommandSeparator,
   CommandShortcut
 }
-

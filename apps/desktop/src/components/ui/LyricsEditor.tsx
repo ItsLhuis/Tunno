@@ -243,4 +243,3 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
 }
 
 export { LyricsEditor }
-

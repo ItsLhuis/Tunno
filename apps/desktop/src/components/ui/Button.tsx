@@ -71,7 +71,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <Fade show={isLoading} className="absolute" initial={false} unmountOnExit={false}>
           <Spinner className="text-inherit" />
         </Fade>
-        <Fade show={!isLoading} initial={false} unmountOnExit={false}>
+        <Fade
+          show={!isLoading}
+          initial={false}
+          unmountOnExit={false}
+          className="flex items-center justify-center gap-2"
+        >
           {children}
         </Fade>
       </div>
