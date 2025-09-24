@@ -1,10 +1,16 @@
 import { relations, sql } from "drizzle-orm"
 import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core"
 
+import { v4 as randomUUID } from "uuid"
+
 export const songs = sqliteTable(
   "songs",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
+    uuid: text("uuid", { length: 36 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => randomUUID()),
     name: text("name", { length: 200 }).notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
     file: text("file", { length: 50 }).notNull().unique(),
@@ -78,6 +84,10 @@ export const artists = sqliteTable(
   "artists",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
+    uuid: text("uuid", { length: 36 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => randomUUID()),
     name: text("name", { length: 100 }).unique().notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
     playCount: integer("play_count").notNull().default(0),
@@ -120,6 +130,10 @@ export const albums = sqliteTable(
   "albums",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
+    uuid: text("uuid", { length: 36 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => randomUUID()),
     name: text("name", { length: 150 }).notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
     releaseYear: integer("release_year"),
@@ -184,6 +198,10 @@ export const playlists = sqliteTable(
   "playlists",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
+    uuid: text("uuid", { length: 36 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => randomUUID()),
     name: text("name", { length: 100 }).notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
     playCount: integer("play_count").notNull().default(0),
