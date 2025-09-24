@@ -3,6 +3,7 @@ import { useTranslation } from "@repo/i18n"
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
+import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
 import { cn } from "@lib/utils"
 
@@ -16,6 +17,14 @@ const TrackInfo = () => {
       currentTrack: state.currentTrack
     }))
   )
+
+  const toggleFavoriteMutation = useToggleSongFavorite()
+
+  const handleToggleFavorite = () => {
+    if (currentTrack?.id) {
+      toggleFavoriteMutation.mutate({ id: currentTrack.id })
+    }
+  }
 
   return (
     <div className="flex h-full items-center gap-3 truncate">
@@ -34,11 +43,12 @@ const TrackInfo = () => {
       <Fade show={!!currentTrack} className="w-full truncate">
         <IconButton
           name="Heart"
-          isFilled
-          tooltip={t("common.favorite")}
+          isFilled={currentTrack?.isFavorite}
+          tooltip={currentTrack?.isFavorite ? t("common.unfavorite") : t("common.favorite")}
           variant="text"
-          className="shrink-0"
-          disabled={!currentTrack}
+          className={cn("shrink-0", currentTrack?.isFavorite && "!text-primary")}
+          disabled={!currentTrack || toggleFavoriteMutation.isPending}
+          onClick={handleToggleFavorite}
         />
         <Marquee>
           <Typography variant="h6">{currentTrack?.title}</Typography>
