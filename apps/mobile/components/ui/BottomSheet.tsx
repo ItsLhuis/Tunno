@@ -112,4 +112,3 @@ const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
 )
 
 export { BottomSheet }
-

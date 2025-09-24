@@ -35,7 +35,6 @@ Before using **Tunno CLI**, make sure you have the following installed on your s
 
 - **yt-dlp**: You need to have **yt-dlp** installed for downloading YouTube content. You can install
   it using:
-
   - On Linux: `sudo apt install yt-dlp`
   - On macOS (using [Homebrew](https://brew.sh/)): `brew install yt-dlp`
   - On Windows (using [Chocolatey](https://chocolatey.org/)): `choco install yt-dlp`
@@ -44,7 +43,6 @@ Before using **Tunno CLI**, make sure you have the following installed on your s
   page.
 
 - **ffmpeg**: **ffmpeg** is required for audio processing. You can install it using:
-
   - On Linux: `sudo apt install ffmpeg`
   - On macOS (using [Homebrew](https://brew.sh/)): `brew install ffmpeg`
   - On Windows (using [Chocolatey](https://chocolatey.org/)): `choco install ffmpeg`
@@ -57,16 +55,19 @@ Before using **Tunno CLI**, make sure you have the following installed on your s
 You can install Tunno CLI directly using your preferred package manager:
 
 **Using npm:**
+
 ```bash
 npm install -g @tunno/cli
 ```
 
 **Using yarn:**
+
 ```bash
 yarn global add @tunno/cli
 ```
 
 **Using pnpm:**
+
 ```bash
 pnpm add -g @tunno/cli
 ```
@@ -231,16 +232,19 @@ If you want to contribute to Tunno CLI, you can set up the development environme
 2. Install dependencies using your preferred package manager:
 
    **Using npm:**
+
    ```bash
    npm install
    ```
 
    **Using yarn:**
+
    ```bash
    yarn install
    ```
 
    **Using pnpm:**
+
    ```bash
    pnpm install
    ```
@@ -248,16 +252,19 @@ If you want to contribute to Tunno CLI, you can set up the development environme
 3. Build the TypeScript project:
 
    **Using npm:**
+
    ```bash
    npm run build
    ```
 
    **Using yarn:**
+
    ```bash
    yarn build
    ```
 
    **Using pnpm:**
+
    ```bash
    pnpm build
    ```
@@ -265,16 +272,19 @@ If you want to contribute to Tunno CLI, you can set up the development environme
 4. For local testing, you can link the package:
 
    **Using npm:**
+
    ```bash
    npm link
    ```
 
    **Using yarn:**
+
    ```bash
    yarn global add file:$(pwd)
    ```
 
    **Using pnpm:**
+
    ```bash
    pnpm link --global
    ```

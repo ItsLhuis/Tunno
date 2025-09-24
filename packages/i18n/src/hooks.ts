@@ -20,4 +20,4 @@ export const useTranslation = (): UseTranslationState => {
     ready,
     locales
   }
-} 
+}

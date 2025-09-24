@@ -14,4 +14,4 @@ export const getTranslationResources = () => {
   }
 
   return resources
-} 
+}

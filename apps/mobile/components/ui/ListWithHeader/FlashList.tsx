@@ -244,4 +244,3 @@ const FlashListWithHeaders = forwardRef(FlashListWithHeadersComp) as <ItemT = an
 ) => ReactElement | null
 
 export { FlashListWithHeaders }
-

@@ -40,7 +40,8 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const isControlled = value !== undefined
     const currentValue = isControlled ? Number(value) : internalValue
 
-    const displayValue = format && currentValue !== undefined ? format(currentValue) : (currentValue?.toString() ?? "")
+    const displayValue =
+      format && currentValue !== undefined ? format(currentValue) : (currentValue?.toString() ?? "")
 
     const handleValueChange = (newValue: number | undefined) => {
       if (!isControlled) {

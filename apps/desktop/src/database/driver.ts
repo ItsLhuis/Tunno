@@ -53,22 +53,24 @@ function isDeleteQuery(sql: string): boolean {
 
 function extractWhereClause(sql: string): string | null {
   // More robust WHERE clause extraction that handles nested parentheses
-  const whereMatch = sql.match(/WHERE\s+(.*?)(?:\s+ORDER\s+BY|\s+LIMIT|\s+GROUP\s+BY|\s+HAVING|;|\s*$)/i)
+  const whereMatch = sql.match(
+    /WHERE\s+(.*?)(?:\s+ORDER\s+BY|\s+LIMIT|\s+GROUP\s+BY|\s+HAVING|;|\s*$)/i
+  )
   return whereMatch ? whereMatch[1].trim() : null
 }
 
 function extractWhereParams(sql: string, allParams: unknown[]): unknown[] {
   const whereClause = extractWhereClause(sql)
   if (!whereClause) return []
-  
+
   const whereParamCount = (whereClause.match(/\?/g) || []).length
-  
+
   if (whereParamCount === 0) return []
-  
+
   if (isUpdateQuery(sql) || isDeleteQuery(sql)) {
     return allParams.slice(-whereParamCount)
   }
-  
+
   return allParams.slice(-whereParamCount)
 }
 

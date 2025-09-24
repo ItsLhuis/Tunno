@@ -55,4 +55,4 @@ export const getLocales = (): { [key in LocaleKeys]: Language } => {
   }
 
   return result
-} 
+}

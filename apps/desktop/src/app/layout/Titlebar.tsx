@@ -182,4 +182,3 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
 }
 
 export { Titlebar }
-
