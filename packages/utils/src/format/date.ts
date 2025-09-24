@@ -20,3 +20,13 @@ export function formatRelativeDate(data: Date | string, lang: string, t: TFuncti
     year: "numeric"
   }).format(date)
 }
+
+export function formatFilterDate(data: Date | string, lang: string): string {
+  const date = typeof data === "string" ? parseISO(data) : data
+
+  return new Intl.DateTimeFormat(lang, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  }).format(date)
+}
