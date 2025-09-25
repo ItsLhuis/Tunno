@@ -355,7 +355,6 @@ function VirtualizedList<TItem>({
     return viewport ? (viewport as HTMLElement) : scrollRef.current
   }, [scrollRef])
 
-  // Handle end reached detection
   useEffect(() => {
     if (!onEndReached) return
 
@@ -382,7 +381,6 @@ function VirtualizedList<TItem>({
     }
   }, [onEndReached, onEndReachedThreshold, hasReachedEnd, getScrollElement])
 
-  // Reset hasReachedEnd when data changes
   useEffect(() => {
     setHasReachedEnd(false)
   }, [data])

@@ -110,7 +110,7 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
       if (multiple) {
         return Array.isArray(value) ? value : []
       }
-      return typeof value === "string" && value ? [value] : []
+      return value !== undefined && value !== null && value !== "" ? [String(value)] : []
     }, [value, multiple])
 
     const groupedOptions = useMemo(() => {
@@ -196,15 +196,16 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
     const isOptionSelected = (optionValue: string) => normalizedValue.includes(optionValue)
 
     const toggleOption = (optionValue: string) => {
-      const newValues = normalizedValue.includes(optionValue)
-        ? normalizedValue.filter((v) => v !== optionValue)
-        : multiple
-          ? [...normalizedValue, optionValue]
-          : [optionValue]
+      if (multiple) {
+        const newValues = normalizedValue.includes(optionValue)
+          ? normalizedValue.filter((v) => v !== optionValue)
+          : [...normalizedValue, optionValue]
+        emitValue(newValues)
+      } else {
+        const isCurrentlySelected = normalizedValue.includes(optionValue)
+        const newValues = isCurrentlySelected ? [] : [optionValue]
+        emitValue(newValues)
 
-      emitValue(newValues)
-
-      if (!multiple) {
         setIsPopoverOpen(false)
       }
     }
