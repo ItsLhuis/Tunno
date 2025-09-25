@@ -47,7 +47,7 @@ const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
 
     const snap = useMemo(() => snapPoints, [snapPoints])
 
-    const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false)
+    const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
 
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (

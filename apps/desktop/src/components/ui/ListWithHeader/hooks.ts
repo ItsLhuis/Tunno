@@ -7,7 +7,7 @@ type UseScrollProps = {
 }
 
 export const useScroll = ({ scrollRef, headerHeight, threshold = 0 }: UseScrollProps) => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   const handleScroll = useCallback(() => {
     if (scrollRef.current) {

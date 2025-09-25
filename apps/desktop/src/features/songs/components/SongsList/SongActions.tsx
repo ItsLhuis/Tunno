@@ -108,14 +108,14 @@ const SongActions = ({
   }
 
   const handlePlayNext = async () => {
-    if (targetSong) {
-      await addToQueue(targetSong, "next")
+    if (targetSongs.length > 0) {
+      await addToQueue(targetSongs, "next")
     }
   }
 
   const handleAddToQueue = async () => {
-    if (targetSong) {
-      await addToQueue(targetSong, "end")
+    if (targetSongs.length > 0) {
+      await addToQueue(targetSongs, "end")
     }
   }
 
@@ -388,7 +388,6 @@ const SongActions = ({
           onOpen={setIsEditOpen}
         />
       )}
-
       {targetSong && (
         <DeleteSongDialog song={targetSong} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
       )}

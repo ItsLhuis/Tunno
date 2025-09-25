@@ -104,7 +104,7 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
   ) => {
     const { t } = useTranslation()
 
-    const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
     const normalizedValue = useMemo((): string[] => {
       if (multiple) {

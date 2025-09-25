@@ -32,8 +32,8 @@ const PlaybackProgress = () => {
     }))
   )
 
-  const [wasPlaying, setWasPlaying] = useState<boolean>(false)
-  const [isDragging, setIsDragging] = useState<boolean>(false)
+  const [wasPlaying, setWasPlaying] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
 
   const canSeek = currentTrack !== null && !isTrackLoading && duration > 0
   const value = duration > 0 ? [Math.min(position, duration)] : [0]

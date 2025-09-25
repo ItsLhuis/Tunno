@@ -26,7 +26,7 @@ export const Route = createRootRoute({
 })
 
 function RootComponent() {
-  const [isAppReady, setIsAppReady] = useState<boolean>(false)
+  const [isAppReady, setIsAppReady] = useState(false)
 
   const { language } = useSettingsStore(
     useShallow((state) => ({

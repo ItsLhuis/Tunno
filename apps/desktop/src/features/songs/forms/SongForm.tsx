@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useMemo, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -126,50 +126,40 @@ const SongForm = ({
     }
   )
 
-  useEffect(() => {
-    if (form.formState.isSubmitSuccessful) {
-      if (mode === "insert") {
-        form.reset()
-      }
-
-      if (asModal) {
-        setIsOpen(false)
-      }
-    }
-  }, [form.formState.isSubmitSuccessful, mode, song])
-
   const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
     if (onSubmit) {
       await onSubmit(values)
-      return
-    }
-
-    if (mode === "insert") {
+    } else if (mode === "insert") {
       await createMutation.mutateAsync(values as InsertSongType)
-      return
+      form.reset()
+    } else if (song?.id) {
+      const { thumbnail, artists, ...updates } = values
+
+      let thumbnailAction: "keep" | "update" | "remove" = "keep"
+      let thumbnailPath: string | undefined = undefined
+
+      if (thumbnail === null || thumbnail === "") {
+        thumbnailAction = "remove"
+      } else if (thumbnail && thumbnail !== song.thumbnail) {
+        thumbnailAction = "update"
+        thumbnailPath = thumbnail
+      }
+
+      await updateMutation.mutateAsync({
+        id: song.id,
+        updates: { ...updates, albumId: updates.albumId === undefined ? null : updates.albumId },
+        thumbnailAction,
+        thumbnailPath,
+        artists
+      })
+
+      const formValues = form.getValues()
+      form.reset(formValues)
     }
 
-    if (!song?.id) return
-
-    const { thumbnail, artists, ...updates } = values
-
-    let thumbnailAction: "keep" | "update" | "remove" = "keep"
-    let thumbnailPath: string | undefined = undefined
-
-    if (thumbnail === null || thumbnail === "") {
-      thumbnailAction = "remove"
-    } else if (thumbnail && thumbnail !== song.thumbnail) {
-      thumbnailAction = "update"
-      thumbnailPath = thumbnail
+    if (asModal) {
+      setIsOpen(false)
     }
-
-    await updateMutation.mutateAsync({
-      id: song.id,
-      updates: { ...updates, albumId: updates.albumId === undefined ? null : updates.albumId },
-      thumbnailAction,
-      thumbnailPath,
-      artists
-    })
   }
 
   const renderProps = {
@@ -381,10 +371,8 @@ const SongForm = ({
                         placeholder={t("form.labels.album")}
                         options={albumOptions}
                         loading={isAlbumsLoading}
-                        value={form.watch("albumId") ? String(form.watch("albumId")) : ""}
-                        onValueChange={(value) =>
-                          field.onChange(value ? parseInt(value) : undefined)
-                        }
+                        value={form.getValues("albumId") ? String(form.getValues("albumId")) : ""}
+                        onValueChange={(value) => field.onChange(value ? Number(value) : undefined)}
                         minWidth={300}
                         maxHeight={200}
                       />

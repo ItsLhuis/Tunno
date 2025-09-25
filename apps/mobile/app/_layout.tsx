@@ -70,7 +70,7 @@ export default function RootLayout() {
 
   SystemUI.setBackgroundColorAsync(colors.background)
 
-  const [isAppReady, setIsAppReady] = useState<boolean>(false)
+  const [isAppReady, setIsAppReady] = useState(false)
 
   const { hasHydrated, language } = useSettingsStore()
 

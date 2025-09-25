@@ -55,7 +55,7 @@ export const SongsListHeader = ({ list, className }: SongsListHeaderProps) => {
         <Icon name="Timer" className="text-muted-foreground" />
       </div>
       <div className="flex items-center justify-center">
-        <Fade show={hasSelectedRows} unmountOnExit={false}>
+        <Fade show={hasSelectedRows}>
           <SongActions list={list} variant="dropdown" />
         </Fade>
       </div>

@@ -216,7 +216,7 @@ function VirtualizedList<TItem>({
 
   const [selectionState, setSelectionState] = useState<Record<string, boolean>>({})
 
-  const [hasReachedEnd, setHasReachedEnd] = useState<boolean>(false)
+  const [hasReachedEnd, setHasReachedEnd] = useState(false)
 
   const scrollRef = externalScrollRef || internalScrollRef
 
@@ -389,10 +389,6 @@ function VirtualizedList<TItem>({
     count: rowCount,
     getScrollElement,
     estimateSize: () => estimateItemHeight,
-    measureElement:
-      typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
-        ? (element) => element?.getBoundingClientRect().height
-        : undefined,
     overscan: 5
   })
 

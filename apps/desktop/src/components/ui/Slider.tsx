@@ -19,7 +19,7 @@ const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
 
     const currentValue = value || internalValue
 
-    const [tooltipOpen, setTooltipOpen] = useState<boolean>(false)
+    const [tooltipOpen, setTooltipOpen] = useState(false)
 
     const formatValue = formatTooltip || ((value: number) => value.toString())
 

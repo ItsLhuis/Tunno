@@ -15,7 +15,7 @@ export type MarqueeProps = React.HTMLAttributes<HTMLDivElement> & {
 const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: MarqueeProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  const [shouldAnimate, setShouldAnimate] = useState<boolean>(false)
+  const [shouldAnimate, setShouldAnimate] = useState(false)
   const controls = useAnimation()
 
   const checkOverflow = useCallback(() => {

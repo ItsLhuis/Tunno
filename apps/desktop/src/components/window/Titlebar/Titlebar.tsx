@@ -21,8 +21,8 @@ const Titlebar = forwardRef<HTMLDivElement, TitlebarProps>(
   ({ className, children, onMinimize, onMaximize, onFullSceen, onClose, ...props }, ref) => {
     const isMacOs = platform() === "macos"
 
-    const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(false)
-    const [isWindowFocused, setIsWindowFocused] = useState<boolean>(false)
+    const [isWindowMaximized, setIsWindowMaximized] = useState(false)
+    const [isWindowFocused, setIsWindowFocused] = useState(false)
 
     useEffect(() => {
       const initializeTitlebarState = async () => {
