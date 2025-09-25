@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "22f24805-ec8b-4933-b67c-a0dc81d3015b",
+  "id": "03528bf3-74e9-4ba4-8a25-c9fab8f521d4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "album_stats": {
@@ -959,7 +959,7 @@
           "tableTo": "albums",
           "columnsFrom": ["album_id"],
           "columnsTo": ["id"],
-          "onDelete": "restrict",
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },

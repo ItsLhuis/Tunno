@@ -17,7 +17,7 @@ export const songs = sqliteTable(
     duration: integer("duration").notNull(),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
     releaseYear: integer("release_year"),
-    albumId: integer("album_id").references(() => albums.id, { onDelete: "restrict" }),
+    albumId: integer("album_id").references(() => albums.id, { onDelete: "set null" }),
     lyrics: text("lyrics", { mode: "json" }).$type<
       {
         text: string
