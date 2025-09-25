@@ -104,7 +104,8 @@ export const artists = sqliteTable(
     index("artists_name_idx").on(table.name),
     index("artists_favorite_idx").on(table.isFavorite),
     index("artists_playcount_idx").on(table.playCount),
-    index("artists_favorite_playcount_idx").on(table.isFavorite, table.playCount)
+    index("artists_favorite_playcount_idx").on(table.isFavorite, table.playCount),
+    index("artists_last_played_idx").on(table.lastPlayedAt)
   ]
 )
 
@@ -142,6 +143,7 @@ export const albums = sqliteTable(
     albumType: text("album_type", { enum: ["single", "album", "compilation"] }).notNull(),
     totalTracks: integer("total_tracks").notNull().default(0),
     totalDuration: integer("total_duration").notNull().default(0),
+    lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     createdAt: integer("created_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`),
@@ -155,7 +157,8 @@ export const albums = sqliteTable(
     index("albums_playcount_idx").on(table.playCount),
     index("albums_release_year_idx").on(table.releaseYear),
     index("albums_album_type_idx").on(table.albumType),
-    uniqueIndex("albums_name_type_unique_idx").on(table.name, table.albumType)
+    uniqueIndex("albums_name_type_unique_idx").on(table.name, table.albumType),
+    index("albums_last_played_idx").on(table.lastPlayedAt)
   ]
 )
 
@@ -274,13 +277,15 @@ export const playHistory = sqliteTable(
       enum: ["playlist", "album", "artist", "queue", "unknown"]
     })
       .notNull()
-      .default("unknown")
+      .default("unknown"),
+    timeListened: integer("time_listened").notNull().default(0)
   },
   (table) => [
     index("play_history_song_idx").on(table.songId),
     index("play_history_played_at_idx").on(table.playedAt),
     index("play_history_source_idx").on(table.playSource),
-    index("play_history_song_date_idx").on(table.songId, table.playedAt)
+    index("play_history_song_date_idx").on(table.songId, table.playedAt),
+    index("play_history_time_listened_idx").on(table.timeListened)
   ]
 )
 

@@ -18,6 +18,7 @@ CREATE TABLE `albums` (
 	`album_type` text NOT NULL,
 	`total_tracks` integer DEFAULT 0 NOT NULL,
 	`total_duration` integer DEFAULT 0 NOT NULL,
+	`last_played_at` integer,
 	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch()) NOT NULL
 );
@@ -29,6 +30,7 @@ CREATE INDEX `albums_playcount_idx` ON `albums` (`play_count`);--> statement-bre
 CREATE INDEX `albums_release_year_idx` ON `albums` (`release_year`);--> statement-breakpoint
 CREATE INDEX `albums_album_type_idx` ON `albums` (`album_type`);--> statement-breakpoint
 CREATE UNIQUE INDEX `albums_name_type_unique_idx` ON `albums` (`name`,`album_type`);--> statement-breakpoint
+CREATE INDEX `albums_last_played_idx` ON `albums` (`last_played_at`);--> statement-breakpoint
 CREATE TABLE `album_artists` (
 	`album_id` integer NOT NULL,
 	`artist_id` integer NOT NULL,
@@ -66,11 +68,13 @@ CREATE INDEX `artists_name_idx` ON `artists` (`name`);--> statement-breakpoint
 CREATE INDEX `artists_favorite_idx` ON `artists` (`is_favorite`);--> statement-breakpoint
 CREATE INDEX `artists_playcount_idx` ON `artists` (`play_count`);--> statement-breakpoint
 CREATE INDEX `artists_favorite_playcount_idx` ON `artists` (`is_favorite`,`play_count`);--> statement-breakpoint
+CREATE INDEX `artists_last_played_idx` ON `artists` (`last_played_at`);--> statement-breakpoint
 CREATE TABLE `play_history` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`song_id` integer NOT NULL,
 	`played_at` integer DEFAULT (unixepoch()) NOT NULL,
 	`play_source` text DEFAULT 'unknown' NOT NULL,
+	`time_listened` integer DEFAULT 0 NOT NULL,
 	FOREIGN KEY (`song_id`) REFERENCES `songs`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
@@ -78,6 +82,7 @@ CREATE INDEX `play_history_song_idx` ON `play_history` (`song_id`);--> statement
 CREATE INDEX `play_history_played_at_idx` ON `play_history` (`played_at`);--> statement-breakpoint
 CREATE INDEX `play_history_source_idx` ON `play_history` (`play_source`);--> statement-breakpoint
 CREATE INDEX `play_history_song_date_idx` ON `play_history` (`song_id`,`played_at`);--> statement-breakpoint
+CREATE INDEX `play_history_time_listened_idx` ON `play_history` (`time_listened`);--> statement-breakpoint
 CREATE TABLE `playlist_stats` (
 	`playlist_id` integer PRIMARY KEY NOT NULL,
 	`total_play_time` integer DEFAULT 0 NOT NULL,

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "8723e8f2-46d5-45ad-8650-8f21aec79d68",
+  "id": "22f24805-ec8b-4933-b67c-a0dc81d3015b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "album_stats": {
@@ -135,6 +135,13 @@
           "autoincrement": false,
           "default": 0
         },
+        "last_played_at": {
+          "name": "last_played_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "integer",
@@ -187,6 +194,11 @@
           "name": "albums_name_type_unique_idx",
           "columns": ["name", "album_type"],
           "isUnique": true
+        },
+        "albums_last_played_idx": {
+          "name": "albums_last_played_idx",
+          "columns": ["last_played_at"],
+          "isUnique": false
         }
       },
       "foreignKeys": {},
@@ -408,6 +420,11 @@
           "name": "artists_favorite_playcount_idx",
           "columns": ["is_favorite", "play_count"],
           "isUnique": false
+        },
+        "artists_last_played_idx": {
+          "name": "artists_last_played_idx",
+          "columns": ["last_played_at"],
+          "isUnique": false
         }
       },
       "foreignKeys": {},
@@ -447,6 +464,14 @@
           "notNull": true,
           "autoincrement": false,
           "default": "'unknown'"
+        },
+        "time_listened": {
+          "name": "time_listened",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
         }
       },
       "indexes": {
@@ -468,6 +493,11 @@
         "play_history_song_date_idx": {
           "name": "play_history_song_date_idx",
           "columns": ["song_id", "played_at"],
+          "isUnique": false
+        },
+        "play_history_time_listened_idx": {
+          "name": "play_history_time_listened_idx",
+          "columns": ["time_listened"],
           "isUnique": false
         }
       },
