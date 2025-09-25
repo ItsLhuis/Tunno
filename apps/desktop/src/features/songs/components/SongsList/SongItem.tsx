@@ -11,28 +11,9 @@ import { State } from "react-track-player-web"
 import PlayingLottie from "@assets/lotties/Playing.json"
 import Lottie from "lottie-react"
 
-import { SongForm } from "../../forms/SongForm"
-import { DeleteSongDialog } from "../DeleteSongDialog"
-import { RowContextMenuComponent } from "./RowContextMenu"
+import { SongActions } from "./SongActions"
 
-import {
-  Checkbox,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-  Fade,
-  Icon,
-  IconButton,
-  Marquee,
-  Thumbnail,
-  Typography
-} from "@components/ui"
+import { Checkbox, Fade, IconButton, Marquee, Thumbnail, Typography } from "@components/ui"
 
 import { formatRelativeDate, formatTime } from "@repo/utils"
 
@@ -82,7 +63,7 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
   const isCurrentlyPlaying = currentTrack?.id === song.id && playbackState === State.Playing
 
   return (
-    <RowContextMenuComponent song={song} index={index} songs={songs}>
+    <SongActions variant="context" song={song} index={index} songs={songs}>
       <div
         className={cn(
           "group grid w-full grid-cols-[24px_24px_1fr_1fr_0.5fr_80px_40px] items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent/50",
@@ -141,94 +122,10 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
         </div>
         <div className="flex items-center justify-center">
           <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <IconButton name="MoreHorizontal" variant="ghost" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
-                <DropdownMenuItem onClick={handlePlaySong}>
-                  <Icon name="Play" />
-                  {t("common.play")}
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Icon name="Forward" />
-                  {t("common.playNext")}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Icon name="Plus" />
-                    {t("common.addTo")}
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent>
-                    <DropdownMenuItem>
-                      <Icon name="ListVideo" />
-                      {t("common.queue")}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Icon name="Plus" />
-                      {t("common.playlist")}
-                    </DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-                {song.album && (
-                  <DropdownMenuItem>
-                    <Icon name="DiscAlbum" />
-                    {t("common.goToAlbum")}{" "}
-                    <Typography affects="muted">{song.album.name}</Typography>
-                  </DropdownMenuItem>
-                )}
-                {song.artists.length === 1 && (
-                  <DropdownMenuItem>
-                    <Icon name="User" />
-                    {t("common.goToArtist")}{" "}
-                    <Typography affects="muted">{song.artists[0].artist.name}</Typography>
-                  </DropdownMenuItem>
-                )}
-                {song.artists.length > 1 && (
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                      <Icon name="User" />
-                      {t("common.goToArtist")}
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent>
-                      {song.artists.map((artistLink) => (
-                        <DropdownMenuItem key={artistLink.artistId}>
-                          {artistLink.artist.name}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
-                )}
-                <SongForm
-                  song={{
-                    ...song,
-                    artists: song.artists.map((artist) => artist.artistId)
-                  }}
-                  mode="update"
-                  trigger={
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                      <Icon name="Edit" />
-                      {t("form.buttons.update")}
-                    </DropdownMenuItem>
-                  }
-                />
-                <DeleteSongDialog
-                  song={song}
-                  trigger={
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                      <Icon name="Trash2" />
-                      {t("form.buttons.delete")}
-                    </DropdownMenuItem>
-                  }
-                />
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <SongActions variant="dropdown" song={song} index={index} songs={songs} />
           </div>
         </div>
       </div>
-    </RowContextMenuComponent>
+    </SongActions>
   )
 }

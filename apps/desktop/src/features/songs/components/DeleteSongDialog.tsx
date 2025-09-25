@@ -20,13 +20,18 @@ import { type SongWithMainRelations } from "@repo/api"
 
 type DeleteSongDialogProps = {
   song: SongWithMainRelations
-  trigger: React.ReactNode
+  trigger?: React.ReactNode
+  open?: boolean
+  onOpen?: (open: boolean) => void
 }
 
-export const DeleteSongDialog = ({ song, trigger }: DeleteSongDialogProps) => {
+export const DeleteSongDialog = ({ song, trigger, open, onOpen }: DeleteSongDialogProps) => {
   const { t } = useTranslation()
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [internalOpen, setInternalOpen] = useState(false)
+
+  const isOpen = open !== undefined ? open : internalOpen
+  const setIsOpen = onOpen || setInternalOpen
 
   const deleteSongMutation = useDeleteSong()
 
@@ -46,7 +51,7 @@ export const DeleteSongDialog = ({ song, trigger }: DeleteSongDialogProps) => {
         if (!deleteSongMutation.isPending) setIsOpen(open)
       }}
     >
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("form.titles.deleteSong")}</DialogTitle>

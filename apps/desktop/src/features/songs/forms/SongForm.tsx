@@ -68,6 +68,8 @@ export type SongFormProps = {
   onSubmit?: (values: InsertSongType | UpdateSongType) => void | Promise<void>
   children?: (props: SongFormRenderProps<"insert" | "update">) => ReactNode
   asModal?: boolean
+  open?: boolean
+  onOpen?: (open: boolean) => void
 }
 
 const SongForm = ({
@@ -77,11 +79,16 @@ const SongForm = ({
   title,
   onSubmit,
   children,
-  asModal = true
+  asModal = true,
+  open,
+  onOpen
 }: SongFormProps) => {
   const { t } = useTranslation()
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [internalOpen, setInternalOpen] = useState(false)
+
+  const isOpen = open !== undefined ? open : internalOpen
+  const setIsOpen = onOpen || setInternalOpen
 
   const createMutation = useInsertSong()
   const updateMutation = useUpdateSong()
@@ -158,7 +165,7 @@ const SongForm = ({
 
     await updateMutation.mutateAsync({
       id: song.id,
-      updates,
+      updates: { ...updates, albumId: updates.albumId === undefined ? null : updates.albumId },
       thumbnailAction,
       thumbnailPath,
       artists
@@ -374,7 +381,7 @@ const SongForm = ({
                         placeholder={t("form.labels.album")}
                         options={albumOptions}
                         loading={isAlbumsLoading}
-                        value={field.value ? String(field.value) : ""}
+                        value={form.watch("albumId") ? String(form.watch("albumId")) : ""}
                         onValueChange={(value) =>
                           field.onChange(value ? parseInt(value) : undefined)
                         }

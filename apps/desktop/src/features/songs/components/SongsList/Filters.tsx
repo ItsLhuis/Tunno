@@ -10,6 +10,7 @@ import {
   Badge,
   Button,
   Calendar,
+  Fade,
   Icon,
   Label,
   NumberInput,
@@ -25,6 +26,7 @@ import {
   Separator,
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -80,15 +82,9 @@ const Filters = () => {
         <SheetContent className="flex w-96 flex-col gap-0 p-0">
           <SheetHeader className="flex max-h-full flex-col items-start justify-between p-6">
             <SheetTitle>{t("songs.filters.title")}</SheetTitle>
-            {hasActiveFilters && (
-              <Button variant="outline" size="sm" onClick={clearFilters}>
-                <Icon name="X" />
-                {t("songs.filters.clear")}
-              </Button>
-            )}
           </SheetHeader>
           <Separator />
-          <ScrollArea>
+          <ScrollArea className="h-full">
             <div className="space-y-8 p-6">
               <div className="space-y-2">
                 <Label className="text-sm font-medium">{t("songs.filters.sortBy")}</Label>
@@ -313,6 +309,17 @@ const Filters = () => {
               </div>
             </div>
           </ScrollArea>
+          {hasActiveFilters && (
+            <Fade>
+              <Separator />
+              <SheetFooter className="p-6">
+                <Button variant="outline" className="w-full" onClick={clearFilters}>
+                  <Icon name="X" />
+                  {t("songs.filters.clear")}
+                </Button>
+              </SheetFooter>
+            </Fade>
+          )}
         </SheetContent>
       </Sheet>
     </div>
