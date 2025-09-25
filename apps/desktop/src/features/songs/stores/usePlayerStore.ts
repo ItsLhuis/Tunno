@@ -11,7 +11,7 @@ import {
 
 import TrackPlayer, { RepeatMode, State } from "react-track-player-web"
 
-import { resolveTrack, clearTrackCaches } from "../utils/player"
+import { clearTrackCaches, resolveTrack } from "../utils/player"
 
 import { shuffleArray } from "@repo/utils"
 
@@ -50,6 +50,7 @@ type PlayerState = {
   isQueueLoading: boolean
   isTransitioning: boolean
   playSource: PlaySource
+  sourceContextId: number | null
   isRehydrating: boolean
   hasHydrated: boolean
 }
@@ -64,9 +65,14 @@ type PlayerActions = {
     songs: SongWithMainRelations[],
     startIndex?: number,
     source?: PlaySource,
+    sourceContextId?: number,
     forceShuf‌fle?: boolean
   ) => Promise<void>
-  shuffleAndPlay: (songs: SongWithMainRelations[], source?: PlaySource) => Promise<void>
+  shuffleAndPlay: (
+    songs: SongWithMainRelations[],
+    source?: PlaySource,
+    sourceContextId?: number
+  ) => Promise<void>
   play: () => Promise<void>
   pause: () => Promise<void>
   stop: () => Promise<void>
@@ -167,6 +173,7 @@ export const usePlayerStore = create<PlayerStore>()(
       isQueueLoading: false,
       isTransitioning: false,
       playSource: "unknown",
+      sourceContextId: null,
       isRehydrating: false,
       hasHydrated: false,
       validateAndUpdateState: async () => {
@@ -182,7 +189,7 @@ export const usePlayerStore = create<PlayerStore>()(
         const { windowSize } = get()
 
         if (!isValidIndex(newCurrentIndex, newQueueIds.length)) {
-          throw new Error("Invalid current index for new queue")
+          throw new Error("PlayerStore: Invalid current index for new queue")
         }
 
         const { start: newStart, end: newEnd } = calculateOptimalWindow(
@@ -199,7 +206,7 @@ export const usePlayerStore = create<PlayerStore>()(
           const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
 
           if (missingSongsData.length !== missingSongs.length) {
-            throw new Error("Failed to load missing songs")
+            throw new Error("PlayerStore: Failed to load missing songs")
           }
 
           missingSongsData.forEach((s) => songsCacheById.set(s.id, s))
@@ -241,7 +248,7 @@ export const usePlayerStore = create<PlayerStore>()(
         try {
           await TrackPlayer.setVolume(clampedVolume)
         } catch (error) {
-          console.error("Error in setVolume:", error)
+          console.error("PlayerStore: Error in setVolume:", error)
         }
       },
       setIsMuted: async (isMuted) => {
@@ -254,7 +261,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
           await TrackPlayer.setVolume(targetVolume)
         } catch (error) {
-          console.error("Error in setIsMuted:", error)
+          console.error("PlayerStore: Error in setIsMuted:", error)
         }
       },
       setRepeatMode: async (mode) => {
@@ -265,7 +272,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
           get().updateNavigationStates()
         } catch (error) {
-          console.error("Error in setRepeatMode:", error)
+          console.error("PlayerStore: Error in setRepeatMode:", error)
         }
       },
       setShuffleEnabled: async (enabled) => {
@@ -393,24 +400,27 @@ export const usePlayerStore = create<PlayerStore>()(
 
         await get().setShuffleEnabled(!isShuffleEnabled)
       },
-      loadTracks: async (songs, startIndex = 0, source, forceShuf‌fle = false) => {
+      loadTracks: async (songs, startIndex = 0, source, sourceContextId, forceShuf‌fle = false) => {
         if (!songs || !Array.isArray(songs) || songs.length === 0) {
-          throw new Error("No songs provided or invalid songs array")
+          throw new Error("PlayerStore: No songs provided or invalid songs array")
         }
 
         if (!isValidIndex(startIndex, songs.length)) {
-          throw new Error(`Invalid start index: ${startIndex} for ${songs.length} songs`)
+          throw new Error(
+            `PlayerStore: Invalid start index: ${startIndex} for ${songs.length} songs`
+          )
         }
 
         const { playSource, isQueueLoading } = get()
 
         if (isQueueLoading) {
-          throw new Error("Queue is already loading")
+          throw new Error("PlayerStore: Queue is already loading")
         }
 
         set({
           isQueueLoading: true,
-          playSource: source ?? playSource
+          playSource: source ?? playSource,
+          sourceContextId: sourceContextId ?? null
         })
 
         try {
@@ -424,7 +434,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
           const allIds = songs.map((s) => s.id).filter((id) => typeof id === "number")
           if (allIds.length !== songs.length) {
-            throw new Error("Some songs have invalid IDs")
+            throw new Error("PlayerStore: Some songs have invalid IDs")
           }
 
           const { windowSize, isShuffleEnabled } = get()
@@ -450,11 +460,11 @@ export const usePlayerStore = create<PlayerStore>()(
           const windowIds = queueIds.slice(start, end)
 
           if (windowIds.length === 0) {
-            throw new Error("Empty window calculated")
+            throw new Error("PlayerStore: Empty window calculated")
           }
 
           if (!windowIds.includes(currentId)) {
-            throw new Error(`Current track ${currentId} not in calculated window`)
+            throw new Error(`PlayerStore: Current track ${currentId} not in calculated window`)
           }
 
           let tracks: Track[]
@@ -464,7 +474,7 @@ export const usePlayerStore = create<PlayerStore>()(
             const missingSongs = windowIds.filter((id) => !songsCacheById.has(id))
 
             if (missingSongs.length > 0) {
-              throw new Error(`Songs not found in cache: ${missingSongs.join(", ")}`)
+              throw new Error(`PlayerStore: Songs not found in cache: ${missingSongs.join(", ")}`)
             }
 
             tracks = await Promise.all(
@@ -472,7 +482,7 @@ export const usePlayerStore = create<PlayerStore>()(
                 const song = songsCacheById.get(id)
 
                 if (!song) {
-                  throw new Error(`Song with id ${id} not found in cache`)
+                  throw new Error(`PlayerStore: Song with id ${id} not found in cache`)
                 }
 
                 return resolveTrack(song)
@@ -482,35 +492,37 @@ export const usePlayerStore = create<PlayerStore>()(
             await TrackPlayer.reset()
 
             if (tracks.length === 0) {
-              throw new Error("No tracks to add to player")
+              throw new Error("PlayerStore: No tracks to add to player")
             }
 
             await TrackPlayer.add(tracks)
 
             playerIndex = currentIndex - start
             if (!isValidIndex(playerIndex, tracks.length)) {
-              throw new Error(`Invalid player index: ${playerIndex} for ${tracks.length} tracks`)
+              throw new Error(
+                `PlayerStore: Invalid player index: ${playerIndex} for ${tracks.length} tracks`
+              )
             }
 
             await TrackPlayer.skip(playerIndex)
           } catch (error) {
-            throw new Error(`Failed to prepare tracks: ${error}`)
+            throw new Error(`PlayerStore: Failed to prepare tracks: ${error}`)
           }
 
           if (currentIndex >= queueIds.length) {
             throw new Error(
-              `Invalid state: currentIndex ${currentIndex} >= queueIds.length ${queueIds.length}`
+              `PlayerStore: Invalid state: currentIndex ${currentIndex} >= queueIds.length ${queueIds.length}`
             )
           }
 
           if (queueIds[currentIndex] !== currentId) {
             throw new Error(
-              `Invalid state: queueIds[${currentIndex}] = ${queueIds[currentIndex]} !== currentId ${currentId}`
+              `PlayerStore: Invalid state: queueIds[${currentIndex}] = ${queueIds[currentIndex]} !== currentId ${currentId}`
             )
           }
 
           if (!windowIds.includes(currentId)) {
-            throw new Error(`Current track ${currentId} not found in window`)
+            throw new Error(`PlayerStore: Current track ${currentId} not found in window`)
           }
 
           set({
@@ -532,7 +544,7 @@ export const usePlayerStore = create<PlayerStore>()(
           throw error
         }
       },
-      shuffleAndPlay: async (songs, source) => {
+      shuffleAndPlay: async (songs, source, sourceContextId) => {
         const { isShuffling, loadTracks, play } = get()
 
         if (!songs || songs.length === 0 || isShuffling) return
@@ -542,10 +554,10 @@ export const usePlayerStore = create<PlayerStore>()(
         try {
           const randomStartIndex = Math.floor(Math.random() * songs.length)
 
-          await loadTracks(songs, randomStartIndex, source, true)
+          await loadTracks(songs, randomStartIndex, source, sourceContextId, true)
           await play()
         } catch (error) {
-          console.error("Error in shuffleAndPlay:", error)
+          console.error("PlayerStore: Error in shuffleAndPlay:", error)
         } finally {
           set({ isShuffling: false })
         }
@@ -555,7 +567,7 @@ export const usePlayerStore = create<PlayerStore>()(
           const { currentTrack } = get()
 
           if (!currentTrack) {
-            throw new Error("No track loaded")
+            throw new Error("PlayerStore: No track loaded")
           }
 
           await TrackPlayer.play()
@@ -567,21 +579,21 @@ export const usePlayerStore = create<PlayerStore>()(
         try {
           await TrackPlayer.pause()
         } catch (error) {
-          console.error("Error in pause:", error)
+          console.error("PlayerStore: Error in pause:", error)
         }
       },
       stop: async () => {
         try {
           await TrackPlayer.stop()
         } catch (error) {
-          console.error("Error in stop:", error)
+          console.error("PlayerStore: Error in stop:", error)
         }
       },
       retry: async () => {
         try {
           await TrackPlayer.retry()
         } catch (error) {
-          console.error("Error in retry:", error)
+          console.error("PlayerStore: Error in retry:", error)
         }
       },
       playNext: async () => {
@@ -596,7 +608,7 @@ export const usePlayerStore = create<PlayerStore>()(
             await TrackPlayer.seekTo(0)
             await TrackPlayer.play()
           } catch (error) {
-            console.error("Error in playNext (repeat track):", error)
+            console.error("PlayerStore: Error in playNext (repeat track):", error)
           }
           return
         }
@@ -626,7 +638,7 @@ export const usePlayerStore = create<PlayerStore>()(
             await TrackPlayer.seekTo(0)
             await TrackPlayer.play()
           } catch (error) {
-            console.error("Error in playPrevious (repeat track):", error)
+            console.error("PlayerStore: Error in playPrevious (repeat track):", error)
           }
           return
         }
@@ -648,7 +660,7 @@ export const usePlayerStore = create<PlayerStore>()(
         const { queueIds, windowStartIndex, windowSize } = get()
 
         if (!isValidIndex(index, queueIds.length)) {
-          throw new Error("Invalid track index")
+          throw new Error("PlayerStore: Invalid track index")
         }
 
         const windowEndIndex = windowStartIndex + windowSize
@@ -700,14 +712,14 @@ export const usePlayerStore = create<PlayerStore>()(
 
           await TrackPlayer.seekTo(clampedPosition)
         } catch (error) {
-          console.error("Error in seekTo:", error)
+          console.error("PlayerStore: Error in seekTo:", error)
         }
       },
       seekBy: async (seconds) => {
         try {
           await TrackPlayer.seekBy(seconds)
         } catch (error) {
-          console.error("Error in seekBy:", error)
+          console.error("PlayerStore: Error in seekBy:", error)
         }
       },
       addToQueue: async (newTracks, position = "end") => {
@@ -783,7 +795,7 @@ export const usePlayerStore = create<PlayerStore>()(
         const { queueIds, windowStartIndex, windowSize, currentTrackIndex } = get()
 
         if (!isValidIndex(index, queueIds.length)) {
-          throw new Error("Invalid index to remove")
+          throw new Error("PlayerStore: Invalid index to remove")
         }
 
         set({ isQueueLoading: true })
@@ -894,7 +906,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
           get().updateNavigationStates()
         } catch (error) {
-          console.error("Error in removeSongById:", error)
+          console.error("PlayerStore: Error in removeSongById:", error)
           set({ isQueueLoading: false })
           throw error
         }
@@ -903,7 +915,7 @@ export const usePlayerStore = create<PlayerStore>()(
         const { queueIds, windowStartIndex, windowSize } = get()
 
         if (!isValidIndex(fromIndex, queueIds.length) || !isValidIndex(toIndex, queueIds.length)) {
-          throw new Error("Invalid move indices")
+          throw new Error("PlayerStore: Invalid move indices")
         }
 
         set({ isQueueLoading: true })
@@ -930,7 +942,7 @@ export const usePlayerStore = create<PlayerStore>()(
         try {
           await TrackPlayer.reset()
         } catch (error) {
-          console.error("Error in clearQueue (reset):", error)
+          console.error("PlayerStore: Error in clearQueue (reset):", error)
         }
 
         set({
@@ -947,7 +959,8 @@ export const usePlayerStore = create<PlayerStore>()(
           duration: 0,
           buffered: 0,
           playbackState: State.None,
-          isQueueLoading: false
+          isQueueLoading: false,
+          sourceContextId: null
         })
       },
       ensureWindowForIndex: async (index) => {
@@ -972,7 +985,7 @@ export const usePlayerStore = create<PlayerStore>()(
             const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
 
             if (missingSongsData.length !== missingSongs.length) {
-              throw new Error("Failed to load missing songs for window")
+              throw new Error("PlayerStore: Failed to load missing songs for window")
             }
 
             missingSongsData.forEach((s) => songsCacheById.set(s.id, s))
@@ -1088,14 +1101,14 @@ export const usePlayerStore = create<PlayerStore>()(
             get().updateNavigationStates()
           }
         } catch (error) {
-          console.error("Error in syncStateWithPlayer:", error)
+          console.error("PlayerStore: Error in syncStateWithPlayer:", error)
         }
       },
       destroyPlayer: async () => {
         try {
           await TrackPlayer.destroy()
         } catch (error) {
-          console.error("Error in destroyPlayer:", error)
+          console.error("PlayerStore: Error in destroyPlayer:", error)
         }
 
         set({
@@ -1114,7 +1127,8 @@ export const usePlayerStore = create<PlayerStore>()(
           isQueueLoading: false,
           canPlayNext: false,
           canPlayPrevious: false,
-          playSource: "unknown"
+          playSource: "unknown",
+          sourceContextId: null
         })
 
         unregisterPlaybackListeners()
@@ -1156,7 +1170,7 @@ export const usePlayerStore = create<PlayerStore>()(
             })
           }
         } catch (error) {
-          console.error("Error updating track metadata:", error)
+          console.error("PlayerStore: Error updating track metadata:", error)
         }
       },
       setHasHydrated: (hasHydrated) => {
@@ -1178,7 +1192,8 @@ export const usePlayerStore = create<PlayerStore>()(
         isShuffleEnabled: state.isShuffleEnabled,
         position: state.position,
         windowSize: state.windowSize,
-        playSource: state.playSource
+        playSource: state.playSource,
+        sourceContextId: state.sourceContextId
       }),
       onRehydrateStorage: () => {
         return async (state) => {
@@ -1281,7 +1296,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
                   usePlayerStore.getState().updateNavigationStates()
                 } catch (error) {
-                  console.error("Error in onRehydrateStorage:", error)
+                  console.error("PlayerStore: Error in onRehydrateStorage:", error)
                   usePlayerStore.setState({
                     trackIds: [],
                     queueIds: [],

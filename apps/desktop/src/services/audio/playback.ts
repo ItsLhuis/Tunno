@@ -1,5 +1,7 @@
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
+import { Statistics } from "@services/statistics"
+
 import TrackPlayer, {
   Event,
   type EventData,
@@ -25,6 +27,22 @@ export const registerPlaybackListeners = () => {
       playbackState: state,
       isTrackLoading: state === State.Buffering
     })
+
+    switch (state) {
+      case State.Playing:
+        const { currentTrackId, playSource, sourceContextId } = usePlayerStore.getState()
+        if (currentTrackId && typeof currentTrackId === "number") {
+          Statistics.startPlay(currentTrackId, playSource, sourceContextId ?? undefined)
+        }
+        break
+      case State.Paused:
+      case State.Stopped:
+        Statistics.endPlay()
+        break
+      case State.Error:
+        Statistics.forceEnd()
+        break
+    }
   }
 
   const onTrackChanged = async () => {
@@ -48,7 +66,7 @@ export const registerPlaybackListeners = () => {
 
       updateNavigationStates()
     } catch (error) {
-      console.error("Error in onTrackChanged:", error)
+      console.error("Playback: Error in onTrackChanged:", error)
       await validateAndUpdateState()
     }
   }
@@ -62,10 +80,13 @@ export const registerPlaybackListeners = () => {
       duration: Math.round(duration),
       buffered: Math.floor(buffered)
     })
+
+    Statistics.updatePlayTime()
   }
 
   const onError = () => {
     usePlayerStore.setState({ isTrackLoading: false, playbackState: State.Error })
+    Statistics.forceEnd()
   }
 
   TrackPlayer.addEventListener(Event.PlaybackState, onPlaybackState)
@@ -89,4 +110,6 @@ export const unregisterPlaybackListeners = () => {
   if (unsubscribeFns.length === 0) return
   unsubscribeFns.forEach((fn) => fn())
   unsubscribeFns = []
+
+  Statistics.forceEnd()
 }
