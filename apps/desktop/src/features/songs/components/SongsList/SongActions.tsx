@@ -85,7 +85,6 @@ const SongActions = ({
       : null)
 
   const handlePlaySong = async () => {
-    // Se há uma música específica (context menu ou seleção única)
     if (targetSong) {
       if (currentTrack && currentTrack.id === targetSong.id && playbackState === State.Playing) {
         await pause()
@@ -102,7 +101,6 @@ const SongActions = ({
       return
     }
 
-    // Se há seleções múltiplas, toca apenas as músicas selecionadas
     if (list && list.selectedIds.length > 0) {
       const selectedIds = list.selectedIds.map((id) => Number(id))
       await loadTracks(selectedIds, 0, "queue")
@@ -113,12 +111,24 @@ const SongActions = ({
   const handlePlayNext = async () => {
     if (targetSong) {
       await addToQueue([targetSong], "next")
+      return
+    }
+
+    if (list && list.selectedIds.length > 0) {
+      const selectedSongs = list.data.filter((s) => list.selectedIds.includes(String(s.id)))
+      await addToQueue(selectedSongs, "next")
     }
   }
 
   const handleAddToQueue = async () => {
     if (targetSong) {
       await addToQueue([targetSong], "end")
+      return
+    }
+
+    if (list && list.selectedIds.length > 0) {
+      const selectedSongs = list.data.filter((s) => list.selectedIds.includes(String(s.id)))
+      await addToQueue(selectedSongs, "end")
     }
   }
 
