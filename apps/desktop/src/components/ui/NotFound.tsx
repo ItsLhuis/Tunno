@@ -15,7 +15,10 @@ const NotFound = ({ className, ...props }: NotFoundProps) => {
   const { t } = useTranslation()
 
   return (
-    <div className={cn("flex flex-col items-center justify-center", className)} {...props}>
+    <div
+      className={cn("flex h-full w-full flex-col items-center justify-center", className)}
+      {...props}
+    >
       <Lottie
         animationData={NotFoundLottie}
         className="h-[240px] w-[240px]"

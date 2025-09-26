@@ -13,7 +13,16 @@ import Lottie from "lottie-react"
 
 import { SongActions } from "./SongActions"
 
-import { Checkbox, Fade, IconButton, Marquee, Thumbnail, Typography } from "@components/ui"
+import {
+  Checkbox,
+  Fade,
+  IconButton,
+  Marquee,
+  Thumbnail,
+  Typography,
+  Button,
+  SafeLink
+} from "@components/ui"
 
 import { formatRelativeDate, formatTime } from "@repo/utils"
 
@@ -92,7 +101,11 @@ export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps
           <Thumbnail fileName={song.thumbnail} alt={song.name} />
           <div className="w-full truncate">
             <Marquee>
-              <Typography className="truncate">{song.name}</Typography>
+              <Button variant="link" asChild>
+                <SafeLink to={`/songs/$id`} params={{ id: song.id.toString() }}>
+                  <Typography className="truncate">{song.name}</Typography>
+                </SafeLink>
+              </Button>
             </Marquee>
             <Marquee>
               {song.artists.length > 0 ? (

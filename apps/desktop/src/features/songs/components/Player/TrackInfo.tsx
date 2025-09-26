@@ -7,7 +7,7 @@ import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
 import { cn } from "@lib/utils"
 
-import { Fade, IconButton, Marquee, Thumbnail, Typography } from "@components/ui"
+import { Button, Fade, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 const TrackInfo = () => {
   const { t } = useTranslation()
@@ -51,7 +51,11 @@ const TrackInfo = () => {
           onClick={handleToggleFavorite}
         />
         <Marquee>
-          <Typography variant="h6">{currentTrack?.title}</Typography>
+          <Button variant="link" asChild>
+            <SafeLink to={`/songs/$id`} params={{ id: currentTrack?.id?.toString() }}>
+              <Typography variant="h6">{currentTrack?.title}</Typography>
+            </SafeLink>
+          </Button>
         </Marquee>
         <Marquee>
           {currentTrack?.artist ? (

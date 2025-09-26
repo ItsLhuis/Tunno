@@ -2,6 +2,8 @@ import { useRouter, useRouterState } from "@tanstack/react-router"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useBreadcrumbs } from "./hooks"
+
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import Logo from "@assets/images/app/icons/primary.png"
@@ -18,7 +20,8 @@ import {
   Icon,
   IconButton,
   Image,
-  SafeLink
+  SafeLink,
+  Spinner
 } from "@components/ui"
 import { Titlebar as WindowTitlebar } from "@components/window"
 
@@ -34,57 +37,13 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   const canGoBack = router.history.canGoBack()
   const canGoForward = router.history.length > routerState.location.state.__TSR_index + 1
 
+  const { breadcrumbs } = useBreadcrumbs()
+
   const toggleFullScreen = async () => {
     const window = getCurrentWindow()
     const fullscreenState = await window.isFullscreen()
     await window.setFullscreen(!fullscreenState)
   }
-
-  const getTranslatedLabel = (segment: string): string => {
-    const segmentMap: Record<string, string> = {
-      home: t("breadcrumbs.home.title"),
-      songs: t("breadcrumbs.songs.title"),
-      playlists: t("breadcrumbs.playlists.title"),
-      albums: t("breadcrumbs.albums.title"),
-      artists: t("breadcrumbs.artists.title"),
-      settings: t("breadcrumbs.settings.title"),
-      appearance: t("breadcrumbs.settings.appearance.title"),
-      language: t("breadcrumbs.settings.language.title"),
-      sync: t("breadcrumbs.settings.sync.title"),
-      "fast-upload": t("breadcrumbs.fastUpload.title")
-    }
-
-    return (
-      segmentMap[segment] ||
-      segment
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ")
-    )
-  }
-
-  const generateBreadcrumbs = () => {
-    const pathname = routerState.location.pathname
-
-    const pathSegments = pathname.split("/").filter(Boolean)
-
-    if (pathSegments.length === 0) {
-      return [{ label: t("breadcrumbs.home.title"), path: "/" }]
-    }
-
-    const breadcrumbs = [{ label: t("breadcrumbs.home.title"), path: "/" }]
-
-    pathSegments.forEach((segment, index) => {
-      const path = "/" + pathSegments.slice(0, index + 1).join("/")
-      const label = getTranslatedLabel(segment)
-
-      breadcrumbs.push({ label, path })
-    })
-
-    return breadcrumbs
-  }
-
-  const breadcrumbs = generateBreadcrumbs()
 
   return (
     <div className="h-full border-b bg-sidebar transition-[background-color,border-color]">
@@ -127,14 +86,20 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                 <BreadcrumbList data-tauri-drag-region className="gap-0 sm:gap-0">
                   {breadcrumbs.map((breadcrumb, index) => {
                     const isLast = index === breadcrumbs.length - 1
-                    const isNotClickable = breadcrumb.path === "/settings"
 
                     return (
                       <div key={breadcrumb.path} className="flex items-center">
                         <BreadcrumbItem>
-                          {isLast || isNotClickable ? (
+                          {isLast || breadcrumb.isNotClickable ? (
                             <BreadcrumbPage data-tauri-drag-region>
-                              {breadcrumb.label}
+                              {breadcrumb.isLoading ? (
+                                <div className="flex items-center gap-2">
+                                  <Spinner variant="ellipsis" size={12} />
+                                  <span className="text-muted-foreground">{breadcrumb.label}</span>
+                                </div>
+                              ) : (
+                                <span>{breadcrumb.label}</span>
+                              )}
                             </BreadcrumbPage>
                           ) : (
                             <BreadcrumbLink
