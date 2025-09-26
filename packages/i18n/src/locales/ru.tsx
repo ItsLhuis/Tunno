@@ -16,7 +16,7 @@ export const russian: Language = {
       yesterday: "Вчера",
       goBack: "Назад",
       goFoward: "Вперёд",
-      favorite: "В избранное",
+      favorite: "Добавить в избранное",
       unfavorite: "Удалить из избранного",
       enableShuffle: "Включить перемешивание",
       disableShuffle: "Выключить перемешивание",
@@ -55,7 +55,9 @@ export const russian: Language = {
       goToAlbum: "Перейти к альбому",
       goToArtist: "Перейти к исполнителю",
       shuffleAndPlay: "Перемешать и воспроизвести",
-      unknown: "Неизвестно"
+      unknown: "Неизвестно",
+      unknownAlbum: "Неизвестный альбом",
+      unknownArtist: "Неизвестный исполнитель"
     },
     form: {
       titles: {

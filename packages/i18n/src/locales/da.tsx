@@ -16,7 +16,7 @@ export const danish: Language = {
       yesterday: "I går",
       goBack: "Gå tilbage",
       goFoward: "Gå fremad",
-      favorite: "Favorit",
+      favorite: "Tilføj til favoritter",
       unfavorite: "Fjern favorit",
       enableShuffle: "Aktivér bland",
       disableShuffle: "Deaktivér bland",
@@ -55,7 +55,9 @@ export const danish: Language = {
       goToAlbum: "Gå til album",
       goToArtist: "Gå til kunstner",
       shuffleAndPlay: "Bland og afspil",
-      unknown: "Ukendt"
+      unknown: "Ukendt",
+      unknownAlbum: "Ukendt album",
+      unknownArtist: "Ukendt kunstner"
     },
     form: {
       titles: {

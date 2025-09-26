@@ -16,7 +16,7 @@ export const dutch: Language = {
       yesterday: "Gisteren",
       goBack: "Ga terug",
       goFoward: "Ga vooruit",
-      favorite: "Favoriet",
+      favorite: "Toevoegen aan favorieten",
       unfavorite: "Favoriet verwijderen",
       enableShuffle: "Schud afspelen inschakelen",
       disableShuffle: "Schud afspelen uitschakelen",
@@ -55,7 +55,9 @@ export const dutch: Language = {
       goToAlbum: "Ga naar album",
       goToArtist: "Ga naar artiest",
       shuffleAndPlay: "Schudden en afspelen",
-      unknown: "Onbekend"
+      unknown: "Onbekend",
+      unknownAlbum: "Onbekend album",
+      unknownArtist: "Onbekende artiest"
     },
     form: {
       titles: {

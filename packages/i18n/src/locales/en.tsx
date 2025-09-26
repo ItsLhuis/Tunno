@@ -16,8 +16,8 @@ export const english: Language = {
       yesterday: "Yesterday",
       goBack: "Go back",
       goFoward: "Go forward",
-      favorite: "Favorite",
-      unfavorite: "Unfavorite",
+      favorite: "Add to favorites",
+      unfavorite: "Remove from favorites",
       enableShuffle: "Enable shuffle",
       disableShuffle: "Disable shuffle",
       previous: "Previous",
@@ -55,7 +55,9 @@ export const english: Language = {
       goToAlbum: "Go to album",
       goToArtist: "Go to artist",
       shuffleAndPlay: "Shuffle and play",
-      unknown: "Unknown"
+      unknown: "Unknown",
+      unknownAlbum: "Unknown album",
+      unknownArtist: "Unknown artist"
     },
     form: {
       titles: {

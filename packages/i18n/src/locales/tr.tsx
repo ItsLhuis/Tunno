@@ -16,7 +16,7 @@ export const turkish: Language = {
       yesterday: "Dün",
       goBack: "Geri git",
       goFoward: "İleri git",
-      favorite: "Favori",
+      favorite: "Favorilere ekle",
       unfavorite: "Favorilerden kaldır",
       enableShuffle: "Karışık çalma aç",
       disableShuffle: "Karışık çalma kapat",
@@ -55,7 +55,9 @@ export const turkish: Language = {
       goToAlbum: "Albüme git",
       goToArtist: "Sanatçıya git",
       shuffleAndPlay: "Karıştır ve çal",
-      unknown: "Bilinmeyen"
+      unknown: "Bilinmeyen",
+      unknownAlbum: "Bilinmeyen albüm",
+      unknownArtist: "Bilinmeyen sanatçı"
     },
     form: {
       titles: {

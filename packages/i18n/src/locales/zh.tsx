@@ -16,7 +16,7 @@ export const chinese: Language = {
       yesterday: "昨天",
       goBack: "返回",
       goFoward: "前进",
-      favorite: "收藏",
+      favorite: "添加到收藏",
       unfavorite: "取消收藏",
       enableShuffle: "开启随机播放",
       disableShuffle: "关闭随机播放",
@@ -55,7 +55,9 @@ export const chinese: Language = {
       goToAlbum: "转到专辑",
       goToArtist: "转到艺术家",
       shuffleAndPlay: "随机播放",
-      unknown: "未知"
+      unknown: "未知",
+      unknownAlbum: "未知专辑",
+      unknownArtist: "未知艺术家"
     },
     form: {
       titles: {

@@ -16,7 +16,7 @@ export const hindi: Language = {
       yesterday: "कल",
       goBack: "वापस जाएं",
       goFoward: "आगे बढ़ें",
-      favorite: "पसंदीदा",
+      favorite: "पसंदीदा में जोड़ें",
       unfavorite: "पसंदीदा हटाएं",
       enableShuffle: "शफल सक्षम करें",
       disableShuffle: "शफल अक्षम करें",
@@ -55,7 +55,9 @@ export const hindi: Language = {
       goToAlbum: "एल्बम पर जाएं",
       goToArtist: "कलाकार के पास जाएं",
       shuffleAndPlay: "शफल करें और चलाएं",
-      unknown: "अज्ञात"
+      unknown: "अज्ञात",
+      unknownAlbum: "अज्ञात एल्बम",
+      unknownArtist: "अज्ञात कलाकार"
     },
     form: {
       titles: {

@@ -16,7 +16,7 @@ export const swedish: Language = {
       yesterday: "Igår",
       goBack: "Gå tillbaka",
       goFoward: "Gå framåt",
-      favorite: "Favorit",
+      favorite: "Lägg till i favoriter",
       unfavorite: "Ta bort favorit",
       enableShuffle: "Aktivera slumpmässig uppspelning",
       disableShuffle: "Inaktivera slumpmässig uppspelning",
@@ -55,7 +55,9 @@ export const swedish: Language = {
       goToAlbum: "Gå till album",
       goToArtist: "Gå till artist",
       shuffleAndPlay: "Blanda och spela",
-      unknown: "Okänd"
+      unknown: "Okänd",
+      unknownAlbum: "Okänt album",
+      unknownArtist: "Okänd artist"
     },
     form: {
       titles: {

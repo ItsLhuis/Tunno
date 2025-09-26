@@ -16,7 +16,7 @@ export const portuguese: Language = {
       yesterday: "Ontem",
       goBack: "Voltar",
       goFoward: "Avançar",
-      favorite: "Favorito",
+      favorite: "Adicionar aos favoritos",
       unfavorite: "Remover dos favoritos",
       enableShuffle: "Ativar reprodução aleatória",
       disableShuffle: "Desativar reprodução aleatória",
@@ -55,7 +55,9 @@ export const portuguese: Language = {
       goToAlbum: "Ir para álbum",
       goToArtist: "Ir para artista",
       shuffleAndPlay: "Baralhar e reproduzir",
-      unknown: "Desconhecido"
+      unknown: "Desconhecido",
+      unknownAlbum: "Álbum desconhecido",
+      unknownArtist: "Artista desconhecido"
     },
     form: {
       titles: {

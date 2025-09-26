@@ -16,7 +16,7 @@ export const polish: Language = {
       yesterday: "Wczoraj",
       goBack: "Wróć",
       goFoward: "Dalej",
-      favorite: "Ulubione",
+      favorite: "Dodaj do ulubionych",
       unfavorite: "Usuń z ulubionych",
       enableShuffle: "Włącz losowe odtwarzanie",
       disableShuffle: "Wyłącz losowe odtwarzanie",
@@ -55,7 +55,9 @@ export const polish: Language = {
       goToAlbum: "Przejdź do albumu",
       goToArtist: "Przejdź do artysty",
       shuffleAndPlay: "Losuj i odtwarzaj",
-      unknown: "Nieznane"
+      unknown: "Nieznane",
+      unknownAlbum: "Nieznany album",
+      unknownArtist: "Nieznany artysta"
     },
     form: {
       titles: {

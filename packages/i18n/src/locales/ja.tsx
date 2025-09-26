@@ -16,7 +16,7 @@ export const japanese: Language = {
       yesterday: "昨日",
       goBack: "戻る",
       goFoward: "進む",
-      favorite: "お気に入り",
+      favorite: "お気に入りに追加",
       unfavorite: "お気に入り解除",
       enableShuffle: "シャッフルを有効にする",
       disableShuffle: "シャッフルを無効にする",
@@ -55,7 +55,9 @@ export const japanese: Language = {
       goToAlbum: "アルバムに移動",
       goToArtist: "アーティストに移動",
       shuffleAndPlay: "シャッフルして再生",
-      unknown: "不明"
+      unknown: "不明",
+      unknownAlbum: "不明なアルバム",
+      unknownArtist: "不明なアーティスト"
     },
     form: {
       titles: {

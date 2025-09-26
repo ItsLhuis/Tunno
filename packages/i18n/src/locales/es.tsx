@@ -16,7 +16,7 @@ export const spanish: Language = {
       yesterday: "Ayer",
       goBack: "Volver",
       goFoward: "Adelante",
-      favorite: "Favorito",
+      favorite: "Añadir a favoritos",
       unfavorite: "Quitar de favoritos",
       enableShuffle: "Activar aleatorio",
       disableShuffle: "Desactivar aleatorio",
@@ -55,7 +55,9 @@ export const spanish: Language = {
       goToAlbum: "Ir al álbum",
       goToArtist: "Ir al artista",
       shuffleAndPlay: "Mezclar y reproducir",
-      unknown: "Desconocido"
+      unknown: "Desconocido",
+      unknownAlbum: "Álbum desconocido",
+      unknownArtist: "Artista desconocido"
     },
     form: {
       titles: {

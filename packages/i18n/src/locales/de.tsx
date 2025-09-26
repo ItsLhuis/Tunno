@@ -16,7 +16,7 @@ export const german: Language = {
       yesterday: "Gestern",
       goBack: "Zurück gehen",
       goFoward: "Vorwärts gehen",
-      favorite: "Favorit",
+      favorite: "Zu Favoriten hinzufügen",
       unfavorite: "Favorit entfernen",
       enableShuffle: "Zufallswiedergabe aktivieren",
       disableShuffle: "Zufallswiedergabe deaktivieren",
@@ -55,7 +55,9 @@ export const german: Language = {
       goToAlbum: "Zum Album gehen",
       goToArtist: "Zum Künstler gehen",
       shuffleAndPlay: "Mischen und abspielen",
-      unknown: "Unbekannt"
+      unknown: "Unbekannt",
+      unknownAlbum: "Unbekanntes Album",
+      unknownArtist: "Unbekannter Künstler"
     },
     form: {
       titles: {

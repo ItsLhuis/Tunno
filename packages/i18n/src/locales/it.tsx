@@ -16,7 +16,7 @@ export const italian: Language = {
       yesterday: "Ieri",
       goBack: "Torna indietro",
       goFoward: "Avanti",
-      favorite: "Preferito",
+      favorite: "Aggiungi ai preferiti",
       unfavorite: "Rimuovi dai preferiti",
       enableShuffle: "Abilita riproduzione casuale",
       disableShuffle: "Disabilita riproduzione casuale",
@@ -55,7 +55,9 @@ export const italian: Language = {
       goToAlbum: "Vai all'album",
       goToArtist: "Vai all'artista",
       shuffleAndPlay: "Mescola e riproduci",
-      unknown: "Sconosciuto"
+      unknown: "Sconosciuto",
+      unknownAlbum: "Album sconosciuto",
+      unknownArtist: "Artista sconosciuto"
     },
     form: {
       titles: {

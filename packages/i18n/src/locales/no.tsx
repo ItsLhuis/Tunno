@@ -16,7 +16,7 @@ export const norwegian: Language = {
       yesterday: "I går",
       goBack: "Gå tilbake",
       goFoward: "Gå fremover",
-      favorite: "Favoritt",
+      favorite: "Legg til i favoritter",
       unfavorite: "Fjern favoritt",
       enableShuffle: "Slå på tilfeldig rekkefølge",
       disableShuffle: "Slå av tilfeldig rekkefølge",
@@ -55,7 +55,9 @@ export const norwegian: Language = {
       goToAlbum: "Gå til album",
       goToArtist: "Gå til artist",
       shuffleAndPlay: "Stokk og spill",
-      unknown: "Ukjent"
+      unknown: "Ukjent",
+      unknownAlbum: "Ukjent album",
+      unknownArtist: "Ukjent artist"
     },
     form: {
       titles: {

@@ -59,6 +59,8 @@ export type Translations = {
     goToArtist: string
     shuffleAndPlay: string
     unknown: string
+    unknownAlbum: string
+    unknownArtist: string
   }
   form: {
     titles: {

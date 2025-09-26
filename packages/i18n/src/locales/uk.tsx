@@ -16,7 +16,7 @@ export const ukrainian: Language = {
       yesterday: "Вчора",
       goBack: "Повернутися назад",
       goFoward: "Пройти вперед",
-      favorite: "Вибране",
+      favorite: "Додати до улюблених",
       unfavorite: "Видалити з вибраного",
       enableShuffle: "Увімкнути випадковий порядок",
       disableShuffle: "Вимкнути випадковий порядок",
@@ -55,7 +55,9 @@ export const ukrainian: Language = {
       goToAlbum: "Перейти до альбому",
       goToArtist: "Перейти до виконавця",
       shuffleAndPlay: "Перемішати та відтворити",
-      unknown: "Невідомо"
+      unknown: "Невідомо",
+      unknownAlbum: "Невідомий альбом",
+      unknownArtist: "Невідомий виконавець"
     },
     form: {
       titles: {

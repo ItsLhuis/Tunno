@@ -16,7 +16,7 @@ export const korean: Language = {
       yesterday: "어제",
       goBack: "뒤로 가기",
       goFoward: "앞으로 가기",
-      favorite: "즐겨찾기",
+      favorite: "즐겨찾기에 추가",
       unfavorite: "즐겨찾기 해제",
       enableShuffle: "셔플 활성화",
       disableShuffle: "셔플 비활성화",
@@ -55,7 +55,9 @@ export const korean: Language = {
       goToAlbum: "앨범으로 이동",
       goToArtist: "아티스트로 이동",
       shuffleAndPlay: "셔플 및 재생",
-      unknown: "알 수 없음"
+      unknown: "알 수 없음",
+      unknownAlbum: "알 수 없는 앨범",
+      unknownArtist: "알 수 없는 아티스트"
     },
     form: {
       titles: {

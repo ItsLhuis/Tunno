@@ -16,7 +16,7 @@ export const finnish: Language = {
       yesterday: "Eilen",
       goBack: "Takaisin",
       goFoward: "Eteenpäin",
-      favorite: "Suosikki",
+      favorite: "Lisää suosikkeihin",
       unfavorite: "Poista suosikeista",
       enableShuffle: "Ota satunnaistoisto käyttöön",
       disableShuffle: "Poista satunnaistoisto käytöstä",
@@ -55,7 +55,9 @@ export const finnish: Language = {
       goToAlbum: "Siirry albumiin",
       goToArtist: "Siirry artistiin",
       shuffleAndPlay: "Sekoita ja toista",
-      unknown: "Tuntematon"
+      unknown: "Tuntematon",
+      unknownAlbum: "Tuntematon albumi",
+      unknownArtist: "Tuntematon artisti"
     },
     form: {
       titles: {

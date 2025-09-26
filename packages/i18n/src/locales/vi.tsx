@@ -16,7 +16,7 @@ export const vietnamese: Language = {
       yesterday: "Hôm qua",
       goBack: "Quay lại",
       goFoward: "Tiến tới",
-      favorite: "Yêu thích",
+      favorite: "Thêm vào yêu thích",
       unfavorite: "Bỏ yêu thích",
       enableShuffle: "Bật phát ngẫu nhiên",
       disableShuffle: "Tắt phát ngẫu nhiên",
@@ -55,7 +55,9 @@ export const vietnamese: Language = {
       goToAlbum: "Đến album",
       goToArtist: "Đến nghệ sĩ",
       shuffleAndPlay: "Trộn và phát",
-      unknown: "Không xác định"
+      unknown: "Không xác định",
+      unknownAlbum: "Album không xác định",
+      unknownArtist: "Nghệ sĩ không xác định"
     },
     form: {
       titles: {
