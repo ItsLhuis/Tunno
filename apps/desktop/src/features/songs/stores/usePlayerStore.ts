@@ -15,7 +15,7 @@ import { clearTrackCaches, resolveTrack } from "../utils/player"
 
 import { shuffleArray } from "@repo/utils"
 
-import { getSongsByIdsWithMainRelations } from "../api/queries"
+import { getSongFromCacheOrFetch, prefetchSongs } from "../utils/player"
 
 import { type Track } from "../types/player"
 
@@ -62,14 +62,14 @@ type PlayerActions = {
   setShuffleEnabled: (enabled: boolean) => Promise<void>
   toggleShuffle: () => Promise<void>
   loadTracks: (
-    songs: SongWithMainRelations[],
+    songIds: number[],
     startIndex?: number,
     source?: PlaySource,
     sourceContextId?: number,
     forceShuf‌fle?: boolean
   ) => Promise<void>
   shuffleAndPlay: (
-    songs: SongWithMainRelations[],
+    songIds: number[],
     source?: PlaySource,
     sourceContextId?: number
   ) => Promise<void>
@@ -203,13 +203,19 @@ export const usePlayerStore = create<PlayerStore>()(
         const missingSongs = newWindowIds.filter((id) => !songsCacheById.has(id))
 
         if (missingSongs.length > 0) {
-          const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
+          await prefetchSongs(missingSongs)
 
-          if (missingSongsData.length !== missingSongs.length) {
-            throw new Error("PlayerStore: Failed to load missing songs")
+          for (const id of missingSongs) {
+            const song = await getSongFromCacheOrFetch(id)
+            if (song) {
+              songsCacheById.set(song.id, song)
+            }
           }
 
-          missingSongsData.forEach((s) => songsCacheById.set(s.id, s))
+          const stillMissing = missingSongs.filter((id) => !songsCacheById.has(id))
+          if (stillMissing.length > 0) {
+            throw new Error("PlayerStore: Failed to load missing songs")
+          }
         }
 
         const tracks = await Promise.all(
@@ -400,15 +406,35 @@ export const usePlayerStore = create<PlayerStore>()(
 
         await get().setShuffleEnabled(!isShuffleEnabled)
       },
-      loadTracks: async (songs, startIndex = 0, source, sourceContextId, forceShuf‌fle = false) => {
-        if (!songs || !Array.isArray(songs) || songs.length === 0) {
-          throw new Error("PlayerStore: No songs provided or invalid songs array")
+      loadTracks: async (
+        songIds,
+        startIndex = 0,
+        source,
+        sourceContextId,
+        forceShuf‌fle = false
+      ) => {
+        if (!songIds || !Array.isArray(songIds) || songIds.length === 0) {
+          throw new Error("PlayerStore: No song IDs provided or invalid song IDs array")
         }
 
-        if (!isValidIndex(startIndex, songs.length)) {
+        if (!isValidIndex(startIndex, songIds.length)) {
           throw new Error(
-            `PlayerStore: Invalid start index: ${startIndex} for ${songs.length} songs`
+            `PlayerStore: Invalid start index: ${startIndex} for ${songIds.length} songs`
           )
+        }
+
+        await prefetchSongs(songIds)
+
+        const songs: SongWithMainRelations[] = []
+        for (const id of songIds) {
+          const song = await getSongFromCacheOrFetch(id)
+          if (song) {
+            songs.push(song)
+          }
+        }
+
+        if (songs.length !== songIds.length) {
+          throw new Error("PlayerStore: Some songs could not be loaded")
         }
 
         const { playSource, isQueueLoading } = get()
@@ -544,17 +570,17 @@ export const usePlayerStore = create<PlayerStore>()(
           throw error
         }
       },
-      shuffleAndPlay: async (songs, source, sourceContextId) => {
+      shuffleAndPlay: async (songIds, source, sourceContextId) => {
         const { isShuffling, loadTracks, play } = get()
 
-        if (!songs || songs.length === 0 || isShuffling) return
+        if (!songIds || songIds.length === 0 || isShuffling) return
 
         set({ isShuffling: true })
 
         try {
-          const randomStartIndex = Math.floor(Math.random() * songs.length)
+          const randomStartIndex = Math.floor(Math.random() * songIds.length)
 
-          await loadTracks(songs, randomStartIndex, source, sourceContextId, true)
+          await loadTracks(songIds, randomStartIndex, source, sourceContextId, true)
           await play()
         } catch (error) {
           console.error("PlayerStore: Error in shuffleAndPlay:", error)
@@ -982,13 +1008,22 @@ export const usePlayerStore = create<PlayerStore>()(
           const missingSongs = windowIds.filter((id) => !songsCacheById.has(id))
 
           if (missingSongs.length > 0) {
-            const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
+            await prefetchSongs(missingSongs)
 
-            if (missingSongsData.length !== missingSongs.length) {
-              throw new Error("PlayerStore: Failed to load missing songs for window")
+            for (const id of missingSongs) {
+              const song = await getSongFromCacheOrFetch(id)
+              if (song) {
+                songsCacheById.set(
+                  (song as SongWithMainRelations).id,
+                  song as SongWithMainRelations
+                )
+              }
             }
 
-            missingSongsData.forEach((s) => songsCacheById.set(s.id, s))
+            const stillMissing = missingSongs.filter((id) => !songsCacheById.has(id))
+            if (stillMissing.length > 0) {
+              throw new Error("PlayerStore: Failed to load missing songs for window")
+            }
           }
 
           const tracks = await Promise.all(
@@ -1019,13 +1054,22 @@ export const usePlayerStore = create<PlayerStore>()(
           const missingSongs = toAddIds.filter((id) => !songsCacheById.has(id))
 
           if (missingSongs.length > 0) {
-            const missingSongsData = await getSongsByIdsWithMainRelations(missingSongs)
+            await prefetchSongs(missingSongs)
 
-            if (missingSongsData.length !== missingSongs.length) {
-              return
+            for (const id of missingSongs) {
+              const song = await getSongFromCacheOrFetch(id)
+              if (song) {
+                songsCacheById.set(
+                  (song as SongWithMainRelations).id,
+                  song as SongWithMainRelations
+                )
+              }
             }
 
-            missingSongsData.forEach((s) => songsCacheById.set(s.id, s))
+            const stillMissing = missingSongs.filter((id) => !songsCacheById.has(id))
+            if (stillMissing.length === missingSongs.length) {
+              return
+            }
           }
 
           const toAddTracks = await Promise.all(
@@ -1244,7 +1288,15 @@ export const usePlayerStore = create<PlayerStore>()(
                 const windowIds = queueIds.slice(start, end)
 
                 try {
-                  const windowSongs = await getSongsByIdsWithMainRelations(windowIds)
+                  await prefetchSongs(windowIds)
+
+                  const windowSongs: SongWithMainRelations[] = []
+                  for (const id of windowIds) {
+                    const song = await getSongFromCacheOrFetch(id)
+                    if (song) {
+                      windowSongs.push(song)
+                    }
+                  }
 
                   if (windowSongs.length !== windowIds.length) {
                     usePlayerStore.setState({

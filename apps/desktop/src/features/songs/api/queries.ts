@@ -16,14 +16,122 @@ import {
   sql
 } from "drizzle-orm"
 
-import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
+import { type QuerySongsParams, type SongWithMainRelations, PAGE_SIZE } from "@repo/api"
 
-export const getAllSongsWithMainRelations = async ({
-  limit,
-  offset,
+export const getSongsWithMainRelationsPaginated = async ({
+  limit = PAGE_SIZE,
+  offset = 0,
   orderBy,
   filters
-}: QuerySongsParams = {}): Promise<SongWithMainRelations[]> => {
+}: QuerySongsParams & { limit?: number; offset?: number }) => {
+  const whereConditions = buildWhereConditions(filters)
+
+  const songs = await database.query.songs.findMany({
+    limit,
+    offset,
+    where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
+    orderBy: orderBy
+      ? orderBy.direction === "asc"
+        ? asc(schema.songs[orderBy.column])
+        : desc(schema.songs[orderBy.column])
+      : undefined,
+    with: {
+      album: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      },
+      playlists: {
+        with: {
+          playlist: true
+        }
+      }
+    }
+  })
+
+  const totalCount = await database
+    .select({ count: sql<number>`count(*)` })
+    .from(schema.songs)
+    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+    .then((result) => result[0]?.count ?? 0)
+
+  return {
+    songs,
+    totalCount,
+    hasNextPage: offset + songs.length < totalCount,
+    nextOffset: offset + songs.length
+  }
+}
+
+export const getSongByIdWithMainRelations = async (
+  id: number
+): Promise<SongWithMainRelations | undefined> => {
+  return await database.query.songs.findFirst({
+    where: eq(schema.songs.id, id),
+    with: {
+      album: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      },
+      playlists: {
+        with: {
+          playlist: true
+        }
+      }
+    }
+  })
+}
+
+export const getSongsByIdsWithMainRelations = async (
+  ids: number[]
+): Promise<SongWithMainRelations[]> => {
+  if (ids.length === 0) return []
+
+  const songs = await database.query.songs.findMany({
+    where: inArray(schema.songs.id, ids),
+    with: {
+      album: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      },
+      playlists: {
+        with: {
+          playlist: true
+        }
+      }
+    }
+  })
+
+  return songs
+}
+
+export const getSongIdsOnly = async ({ orderBy, filters }: QuerySongsParams): Promise<number[]> => {
+  const whereConditions = buildWhereConditions(filters)
+
+  const baseQuery = database.select({ id: schema.songs.id }).from(schema.songs)
+
+  const whereQuery =
+    whereConditions.length > 0 ? baseQuery.where(and(...whereConditions)) : baseQuery
+
+  const finalQuery = orderBy
+    ? whereQuery.orderBy(
+        orderBy.direction === "asc"
+          ? asc(schema.songs[orderBy.column])
+          : desc(schema.songs[orderBy.column])
+      )
+    : whereQuery
+
+  const result = await finalQuery
+
+  return result.map((row) => row.id)
+}
+
+function buildWhereConditions(filters?: QuerySongsParams["filters"]) {
   const whereConditions = []
 
   if (filters) {
@@ -98,76 +206,5 @@ export const getAllSongsWithMainRelations = async ({
     }
   }
 
-  return await database.query.songs.findMany({
-    limit,
-    offset,
-    where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
-    orderBy: orderBy
-      ? orderBy.direction === "asc"
-        ? asc(schema.songs[orderBy.column])
-        : desc(schema.songs[orderBy.column])
-      : undefined,
-    with: {
-      album: true,
-      artists: {
-        with: {
-          artist: true
-        }
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
-      }
-    }
-  })
-}
-
-export const getSongByIdWithMainRelations = async (
-  id: number
-): Promise<SongWithMainRelations | undefined> => {
-  return await database.query.songs.findFirst({
-    where: eq(schema.songs.id, id),
-    with: {
-      album: true,
-      artists: {
-        with: {
-          artist: true
-        }
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
-      }
-    }
-  })
-}
-
-export const getSongsByIdsWithMainRelations = async (
-  ids: number[]
-): Promise<SongWithMainRelations[]> => {
-  if (ids.length === 0) return []
-
-  const rows = await database.query.songs.findMany({
-    where: inArray(schema.songs.id, ids),
-    with: {
-      album: true,
-      artists: {
-        with: {
-          artist: true
-        }
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
-      }
-    }
-  })
-
-  const orderIndex = new Map<number, number>()
-  ids.forEach((id, idx) => orderIndex.set(id, idx))
-
-  return rows.sort((a, b) => orderIndex.get(a.id)! - orderIndex.get(b.id)!)
+  return whereConditions
 }

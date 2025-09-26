@@ -41,8 +41,6 @@ import { type SongWithMainRelations } from "@repo/api"
 
 type SongActionsProps = {
   song?: SongWithMainRelations
-  songs?: SongWithMainRelations[]
-  index?: number
   list?: VirtualizedListController<SongWithMainRelations>
   variant?: "dropdown" | "context"
   children?: ReactNode
@@ -53,8 +51,6 @@ type SongActionsProps = {
 
 const SongActions = ({
   song,
-  songs = [],
-  index = 0,
   list,
   variant = "dropdown",
   children,
@@ -82,40 +78,47 @@ const SongActions = ({
       }))
     )
 
-  const targetSongs = list
-    ? list.data.filter((s) => list.selectedIds.includes(s.id.toString()))
-    : songs
-  const targetSong = song || (targetSongs.length === 1 ? targetSongs[0] : null)
-  const targetIndex = song ? index : 0
+  const targetSong =
+    song ||
+    (list && list.selectedIds.length === 1
+      ? list.data.find((s) => s.id === Number(list.selectedIds[0]))
+      : null)
 
   const handlePlaySong = async () => {
-    if (!targetSongs.length) return
-
-    if (currentTrack && targetSong) {
-      if (currentTrack.id === targetSong.id && playbackState === State.Playing) {
+    // Se há uma música específica (context menu ou seleção única)
+    if (targetSong) {
+      if (currentTrack && currentTrack.id === targetSong.id && playbackState === State.Playing) {
         await pause()
         return
       }
 
-      if (currentTrack.id === targetSong.id && playbackState === State.Paused) {
+      if (currentTrack && currentTrack.id === targetSong.id && playbackState === State.Paused) {
         await play()
         return
       }
+
+      await loadTracks([targetSong.id], 0, "queue")
+      await play()
+      return
     }
 
-    await loadTracks(targetSongs, targetIndex, "queue")
-    await play()
+    // Se há seleções múltiplas, toca apenas as músicas selecionadas
+    if (list && list.selectedIds.length > 0) {
+      const selectedIds = list.selectedIds.map((id) => Number(id))
+      await loadTracks(selectedIds, 0, "queue")
+      await play()
+    }
   }
 
   const handlePlayNext = async () => {
-    if (targetSongs.length > 0) {
-      await addToQueue(targetSongs, "next")
+    if (targetSong) {
+      await addToQueue([targetSong], "next")
     }
   }
 
   const handleAddToQueue = async () => {
-    if (targetSongs.length > 0) {
-      await addToQueue(targetSongs, "end")
+    if (targetSong) {
+      await addToQueue([targetSong], "end")
     }
   }
 

@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from "react"
+import { useEffect, useMemo, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -126,12 +126,19 @@ const SongForm = ({
     }
   )
 
+  useEffect(() => {
+    if (form.formState.isSubmitted) {
+      if (mode === "insert") {
+        form.reset()
+      }
+    }
+  }, [form.formState.isSubmitted])
+
   const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
     if (onSubmit) {
       await onSubmit(values)
     } else if (mode === "insert") {
       await createMutation.mutateAsync(values as InsertSongType)
-      form.reset()
     } else if (song?.id) {
       const { thumbnail, artists, ...updates } = values
 
@@ -220,7 +227,7 @@ const SongForm = ({
                     <FormControl>
                       <IconButton
                         name="Heart"
-                        variant="ghost"
+                        variant="text"
                         isFilled={field.value}
                         tooltip={field.value ? t("common.unfavorite") : t("common.favorite")}
                         className={cn(field.value && "!text-primary")}

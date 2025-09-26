@@ -62,6 +62,14 @@ export const songKeys = {
     const key = [...songKeys.all, "list", ...songKeys.withAllRelations]
     return params ? [...key, params] : key
   },
+  listInfiniteWithMainRelations: (params?: QuerySongsParams) => {
+    const key = [...songKeys.all, "list", "infinite", ...songKeys.withMainRelations]
+    return params ? [...key, params] : key
+  },
+  listIdsOnly: (params?: QuerySongsParams) => {
+    const key = [...songKeys.all, "list", "ids"]
+    return params ? [...key, params] : key
+  },
   listWithCustomRelations: (relationKey: string, params?: QuerySongsParams) => {
     const key = [...songKeys.all, "list", "custom", relationKey]
     return params ? [...key, params] : key

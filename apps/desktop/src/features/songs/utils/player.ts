@@ -2,6 +2,11 @@ import { getRenderableFileSrc } from "@services/storage"
 
 import { type SongWithMainRelations } from "@repo/api"
 
+import { queryClient } from "@lib/queryClient"
+
+import { songKeys } from "@repo/api"
+import { getSongByIdWithMainRelations, getSongsByIdsWithMainRelations } from "../api/queries"
+
 import { type Track } from "../types/player"
 
 import defaultArtwork from "@assets/images/app/icon.png"
@@ -48,6 +53,39 @@ export const resolveTrack = async (song: SongWithMainRelations): Promise<Track> 
     duration: song.duration,
     isLiveStream: false
   }
+}
+
+export const getSongFromCacheOrFetch = async (
+  id: number
+): Promise<SongWithMainRelations | null> => {
+  const cacheKey = songKeys.detailsWithMainRelations(id)
+  const cachedSong = queryClient.getQueryData(cacheKey)
+
+  if (cachedSong) {
+    return cachedSong as SongWithMainRelations
+  }
+
+  const song = await getSongByIdWithMainRelations(id)
+
+  if (song) {
+    queryClient.setQueryData(cacheKey, song)
+  }
+
+  return song || null
+}
+
+export const prefetchSongs = async (ids: number[]): Promise<void> => {
+  const uncachedIds = ids.filter(
+    (id) => !queryClient.getQueryData(songKeys.detailsWithMainRelations(id))
+  )
+
+  if (uncachedIds.length === 0) return
+
+  const songs = await getSongsByIdsWithMainRelations(uncachedIds)
+
+  songs.forEach((song) => {
+    queryClient.setQueryData(songKeys.detailsWithMainRelations(song.id), song)
+  })
 }
 
 export const volumeCurve = (linearValue: number): number => {

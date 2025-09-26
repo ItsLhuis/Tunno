@@ -46,7 +46,7 @@ const TrackInfo = () => {
           isFilled={currentTrack?.isFavorite}
           tooltip={currentTrack?.isFavorite ? t("common.unfavorite") : t("common.favorite")}
           variant="text"
-          className={cn("shrink-0", currentTrack?.isFavorite && "!text-primary")}
+          className="shrink-0"
           disabled={!currentTrack || toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />

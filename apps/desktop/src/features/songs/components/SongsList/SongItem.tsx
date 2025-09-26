@@ -21,13 +21,12 @@ import { type SongWithMainRelations } from "@repo/api"
 
 type SongItemProps = {
   song: SongWithMainRelations
-  index: number
   selected: boolean
+  allSongIds: number[]
   onToggle: () => void
-  songs: SongWithMainRelations[]
 }
 
-export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemProps) => {
+export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps) => {
   const { t, i18n } = useTranslation()
 
   const { loadTracks, play, pause, currentTrack, playbackState, isTrackLoading } = usePlayerStore(
@@ -42,7 +41,7 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
   )
 
   const handlePlaySong = async () => {
-    if (!songs) return
+    if (!allSongIds) return
 
     if (currentTrack) {
       if (currentTrack.id === song.id && playbackState === State.Playing) {
@@ -56,14 +55,17 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
       }
     }
 
-    await loadTracks(songs, index, "queue")
-    await play()
+    const targetIdIndex = allSongIds.findIndex((id) => id === song.id)
+    if (targetIdIndex >= 0) {
+      await loadTracks(allSongIds, targetIdIndex, "queue")
+      await play()
+    }
   }
 
   const isCurrentlyPlaying = currentTrack?.id === song.id && playbackState === State.Playing
 
   return (
-    <SongActions variant="context" song={song} index={index} songs={songs}>
+    <SongActions variant="context" song={song}>
       <div
         className={cn(
           "group grid w-full grid-cols-[24px_24px_1fr_1fr_0.5fr_80px_40px] items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent/50",
@@ -122,7 +124,7 @@ export const SongItem = ({ song, index, selected, onToggle, songs }: SongItemPro
         </div>
         <div className="flex items-center justify-center">
           <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-            <SongActions variant="dropdown" song={song} index={index} songs={songs} />
+            <SongActions variant="dropdown" song={song} />
           </div>
         </div>
       </div>

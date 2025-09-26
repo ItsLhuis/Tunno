@@ -8,21 +8,13 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import { useAllStoresHydrated } from "@utils/stores"
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      retry: 1
-    }
-  }
-})
+import { queryClient } from "@lib/queryClient"
 
 const router = createRouter({
   routeTree,

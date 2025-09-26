@@ -12,9 +12,10 @@ import { type SongWithMainRelations } from "@repo/api"
 
 type HeaderComponentProps = {
   list: VirtualizedListController<SongWithMainRelations>
+  allSongIds: number[]
 }
 
-const HeaderComponent = ({ list }: HeaderComponentProps) => {
+const HeaderComponent = ({ list, allSongIds }: HeaderComponentProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -24,12 +25,10 @@ const HeaderComponent = ({ list }: HeaderComponentProps) => {
     }))
   )
 
-  const songs = list.data
-
   const handleShuffleAndPlay = () => {
     if (isShuffling) return
 
-    shuffleAndPlay(songs, "queue")
+    shuffleAndPlay(allSongIds, "queue")
   }
 
   const hasSelectedRows = list.hasSelection

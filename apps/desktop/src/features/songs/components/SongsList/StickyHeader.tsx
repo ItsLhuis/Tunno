@@ -17,9 +17,10 @@ import { type SongWithMainRelations } from "@repo/api"
 
 type StickyHeaderComponentProps = {
   list: VirtualizedListController<SongWithMainRelations>
+  allSongIds: number[]
 }
 
-const StickyHeaderComponent = ({ list }: StickyHeaderComponentProps) => {
+const StickyHeaderComponent = ({ list, allSongIds }: StickyHeaderComponentProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -29,12 +30,10 @@ const StickyHeaderComponent = ({ list }: StickyHeaderComponentProps) => {
     }))
   )
 
-  const songs = list.data
-
   const handleShuffleAndPlay = () => {
     if (isShuffling) return
 
-    shuffleAndPlay(songs, "queue")
+    shuffleAndPlay(allSongIds, "queue")
   }
 
   const hasSelectedRows = list.hasSelection
