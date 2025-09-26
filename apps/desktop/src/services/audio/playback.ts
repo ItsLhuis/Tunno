@@ -36,6 +36,8 @@ export const registerPlaybackListeners = () => {
         }
         break
       case State.Paused:
+        Statistics.pausePlay()
+        break
       case State.Stopped:
         Statistics.endPlay()
         break

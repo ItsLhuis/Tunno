@@ -7,4 +7,5 @@ export type PlaySession = {
   startTime: number
   playHistoryId?: number
   totalTimeListened: number
+  isPaused: boolean
 }

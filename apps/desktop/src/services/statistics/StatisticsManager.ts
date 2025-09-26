@@ -28,46 +28,74 @@ export class StatisticsManager {
       return
     }
 
-    if (this.currentSession) {
+    if (
+      this.currentSession &&
+      this.currentSession.songId === songId &&
+      this.currentSession.isPaused
+    ) {
+      this.resumePlay()
+      return
+    }
+
+    if (this.currentSession && this.currentSession.songId !== songId) {
       await this.endPlay()
     }
 
-    try {
-      const [result] = await database
-        .insert(playHistory)
-        .values({
+    if (!this.currentSession || this.currentSession.songId !== songId) {
+      try {
+        const [result] = await database
+          .insert(playHistory)
+          .values({
+            songId,
+            playSource,
+            timeListened: 0
+          })
+          .returning({ id: playHistory.id })
+
+        if (!result) {
+          throw new Error("StatisticsManager: Failed to create play history entry")
+        }
+
+        this.currentSession = {
           songId,
           playSource,
-          timeListened: 0
-        })
-        .returning({ id: playHistory.id })
-
-      if (!result) {
-        throw new Error("StatisticsManager: Failed to create play history entry")
+          sourceContextId,
+          startTime: Date.now(),
+          playHistoryId: result.id,
+          totalTimeListened: 0,
+          isPaused: false
+        }
+      } catch (error) {
+        console.error("StatisticsManager: Error starting play session:", error)
       }
+    }
+  }
 
-      this.currentSession = {
-        songId,
-        playSource,
-        sourceContextId,
-        startTime: Date.now(),
-        playHistoryId: result.id,
-        totalTimeListened: 0
-      }
-    } catch (error) {
-      console.error("StatisticsManager: Error starting play session:", error)
+  private resumePlay(): void {
+    if (this.currentSession && this.currentSession.isPaused) {
+      this.currentSession.startTime = Date.now()
+      this.currentSession.isPaused = false
     }
   }
 
   updatePlayTime(): void {
-    if (!this.currentSession) return
+    if (!this.currentSession || this.currentSession.isPaused) return
 
     const sessionDuration = (Date.now() - this.currentSession.startTime) / 1000
     this.currentSession.totalTimeListened = Math.floor(sessionDuration)
   }
 
+  pausePlay(): void {
+    if (this.currentSession && !this.currentSession.isPaused) {
+      this.updatePlayTime()
+      this.currentSession.isPaused = true
+    }
+  }
+
   async endPlay(): Promise<void> {
     if (!this.currentSession) return
+
+    this.updatePlayTime()
 
     const session = this.currentSession
     const timeListened = this.currentSession.totalTimeListened
