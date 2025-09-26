@@ -1,6 +1,20 @@
 import { database, schema } from "@database/client"
 
-import { and, asc, desc, eq, gte, inArray, isNotNull, isNull, like, lte } from "drizzle-orm"
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  gte,
+  inArray,
+  isNotNull,
+  isNull,
+  like,
+  lte,
+  ne,
+  or,
+  sql
+} from "drizzle-orm"
 
 import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 
@@ -42,9 +56,11 @@ export const getAllSongsWithMainRelations = async ({
 
     if (filters.hasLyrics !== undefined) {
       if (filters.hasLyrics) {
-        whereConditions.push(isNotNull(schema.songs.lyrics))
+        whereConditions.push(
+          and(isNotNull(schema.songs.lyrics), ne(schema.songs.lyrics, sql`'[]'`))
+        )
       } else {
-        whereConditions.push(isNull(schema.songs.lyrics))
+        whereConditions.push(or(isNull(schema.songs.lyrics), eq(schema.songs.lyrics, sql`'[]'`)))
       }
     }
 
