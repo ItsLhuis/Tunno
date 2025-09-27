@@ -1,2 +1,5 @@
 export * from "./Player/Player"
-export * from "./SongsList/SongsList"
+export * from "./SongActions"
+export * from "./SongInfo"
+export * from "./SongItem"
+export * from "./SongsList"

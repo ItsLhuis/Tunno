@@ -4,12 +4,12 @@ import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
-import { usePlayerStore } from "../../stores/usePlayerStore"
+import { usePlayerStore } from "../stores/usePlayerStore"
 
 import { State } from "react-track-player-web"
 
-import { SongForm } from "../../forms/SongForm"
-import { DeleteSongDialog } from "../DeleteSongDialog"
+import { SongForm } from "../forms/SongForm"
+import { DeleteSongDialog } from "./DeleteSongDialog"
 
 import {
   ContextMenu,
@@ -372,7 +372,7 @@ const SongActions = ({
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <IconButton name="MoreHorizontal" variant="ghost" className={className} />
+          {children || <IconButton name="MoreHorizontal" variant="ghost" className={className} />}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>

@@ -2,11 +2,13 @@ import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
-import { usePlayerStore } from "../../stores/usePlayerStore"
+import { usePlayerStore } from "../stores/usePlayerStore"
 
 import { cn } from "@lib/utils"
 
 import { State } from "react-track-player-web"
+
+import { type PlaySource } from "../types/playSource"
 
 import PlayingLottie from "@assets/lotties/Playing.json"
 import Lottie from "lottie-react"
@@ -14,14 +16,14 @@ import Lottie from "lottie-react"
 import { SongActions } from "./SongActions"
 
 import {
+  Button,
   Checkbox,
   Fade,
   IconButton,
   Marquee,
+  SafeLink,
   Thumbnail,
-  Typography,
-  Button,
-  SafeLink
+  Typography
 } from "@components/ui"
 
 import { formatRelativeDate, formatTime } from "@repo/utils"
@@ -30,12 +32,21 @@ import { type SongWithMainRelations } from "@repo/api"
 
 type SongItemProps = {
   song: SongWithMainRelations
-  selected: boolean
-  allSongIds: number[]
-  onToggle: () => void
+  selected?: boolean
+  allSongIds?: number[]
+  onToggle?: () => void
+  playSource?: PlaySource
+  sourceContextId?: number
 }
 
-export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps) => {
+const SongItem = ({
+  song,
+  allSongIds,
+  selected = false,
+  onToggle,
+  playSource = "queue",
+  sourceContextId
+}: SongItemProps) => {
   const { t, i18n } = useTranslation()
 
   const { loadTracks, play, pause, currentTrack, playbackState, isTrackLoading } = usePlayerStore(
@@ -50,8 +61,6 @@ export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps
   )
 
   const handlePlaySong = async () => {
-    if (!allSongIds) return
-
     if (currentTrack) {
       if (currentTrack.id === song.id && playbackState === State.Playing) {
         await pause()
@@ -64,26 +73,40 @@ export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps
       }
     }
 
-    const targetIdIndex = allSongIds.findIndex((id) => id === song.id)
-    if (targetIdIndex >= 0) {
-      await loadTracks(allSongIds, targetIdIndex, "queue")
+    if (allSongIds && allSongIds.length > 0) {
+      const targetIdIndex = allSongIds.findIndex((id) => id === song.id)
+      if (targetIdIndex >= 0) {
+        await loadTracks(allSongIds, targetIdIndex, playSource, sourceContextId)
+        await play()
+      }
+    } else {
+      await loadTracks([song.id], 0, playSource, sourceContextId)
       await play()
     }
   }
 
   const isCurrentlyPlaying = currentTrack?.id === song.id && playbackState === State.Playing
 
+  const showCheckbox = !!onToggle
+
+  const gridCols = showCheckbox
+    ? "grid-cols-[24px_40px_1fr_1fr_0.5fr_80px_40px]"
+    : "grid-cols-[40px_1fr_1fr_0.5fr_80px_40px]"
+
   return (
     <SongActions variant="context" song={song}>
       <div
         className={cn(
-          "group grid w-full grid-cols-[24px_24px_1fr_1fr_0.5fr_80px_40px] items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent/50",
+          "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent/50",
+          gridCols,
           selected && "bg-accent/50"
         )}
       >
-        <div className="flex items-center justify-center">
-          <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select row" />
-        </div>
+        {showCheckbox && (
+          <div className="flex items-center justify-center">
+            <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select row" />
+          </div>
+        )}
         <div className="relative flex items-center justify-center">
           <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
             <IconButton
@@ -114,7 +137,7 @@ export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps
                 </Typography>
               ) : (
                 <Typography className="truncate" affects={["muted", "small"]}>
-                  {t("common.unknown")}
+                  {t("common.unknownArtist")}
                 </Typography>
               )}
             </Marquee>
@@ -124,7 +147,7 @@ export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps
           {song.album ? (
             <Typography className="truncate">{song.album.name}</Typography>
           ) : (
-            <Typography affects={["muted"]}>{t("common.unknown")}</Typography>
+            <Typography affects={["muted"]}>{t("common.unknownAlbum")}</Typography>
           )}
         </div>
         <div className="truncate">
@@ -144,3 +167,5 @@ export const SongItem = ({ song, allSongIds, selected, onToggle }: SongItemProps
     </SongActions>
   )
 }
+
+export { SongItem }

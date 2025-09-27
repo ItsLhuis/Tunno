@@ -1,4 +1,4 @@
-import { SongsList } from "@features/songs/components/SongsList/SongsList"
+import { SongsList } from "@features/songs/components"
 
 const Songs = () => {
   return <SongsList />

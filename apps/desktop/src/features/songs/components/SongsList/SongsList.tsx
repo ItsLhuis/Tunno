@@ -14,12 +14,12 @@ import {
   VirtualizedListWithHeaders
 } from "@components/ui"
 
-import { Filters } from "./Filters"
-import { HeaderComponent } from "./Header"
-import { SearchComponent } from "./Search"
-import { SongItem } from "./SongItem"
+import { SongItem } from "../SongItem"
+import { SongsListFilters } from "./SongsListFilters"
 import { SongsListHeader } from "./SongsListHeader"
-import { StickyHeaderComponent } from "./StickyHeader"
+import { SongsListSearch } from "./SongsListSearch"
+import { SongsListStickyHeader } from "./SongsListStickyHeader"
+import { SongsListSubHeader } from "./SongsListSubHeader"
 
 import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 
@@ -51,16 +51,16 @@ const SongsList = () => {
   const songIds = useMemo(() => allSongIds || [], [allSongIds])
 
   const Header = useCallback(
-    ({ list }: SongListProps) => <HeaderComponent list={list} allSongIds={songIds} />,
+    ({ list }: SongListProps) => <SongsListHeader list={list} allSongIds={songIds} />,
     []
   )
 
   const StickyHeader = useCallback(
     ({ list }: SongListProps) => (
       <Fragment>
-        <StickyHeaderComponent list={list} allSongIds={songIds} />
+        <SongsListStickyHeader list={list} allSongIds={songIds} />
         <div className="pt-6">
-          <SongsListHeader list={list} />
+          <SongsListSubHeader list={list} />
         </div>
       </Fragment>
     ),
@@ -70,9 +70,9 @@ const SongsList = () => {
   const ListHeader = useCallback(
     ({ list }: SongListProps) => (
       <Fragment>
-        <SearchComponent renderRight={<Filters />} />
+        <SongsListSearch renderRight={<SongsListFilters />} />
         <div className="px-9 pb-3 pt-6">
-          <SongsListHeader list={list} className="border-b" />
+          <SongsListSubHeader list={list} className="border-b" />
         </div>
       </Fragment>
     ),

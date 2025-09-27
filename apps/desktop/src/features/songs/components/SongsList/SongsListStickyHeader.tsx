@@ -15,12 +15,12 @@ import {
 
 import { type SongWithMainRelations } from "@repo/api"
 
-type StickyHeaderComponentProps = {
+type SongsListStickyHeaderProps = {
   list: VirtualizedListController<SongWithMainRelations>
   allSongIds: number[]
 }
 
-const StickyHeaderComponent = ({ list, allSongIds }: StickyHeaderComponentProps) => {
+const SongsListStickyHeader = ({ list, allSongIds }: SongsListStickyHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -66,4 +66,4 @@ const StickyHeaderComponent = ({ list, allSongIds }: StickyHeaderComponentProps)
   )
 }
 
-export { StickyHeaderComponent }
+export { SongsListStickyHeader }

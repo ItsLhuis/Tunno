@@ -34,7 +34,7 @@ import {
   Typography
 } from "@components/ui"
 
-const Filters = () => {
+const SongsListFilters = () => {
   const { t, i18n } = useTranslation()
 
   const { filters, orderBy, setFilters, clearFilters, setOrderBy } = useSongsStore(
@@ -326,4 +326,4 @@ const Filters = () => {
   )
 }
 
-export { Filters }
+export { SongsListFilters }

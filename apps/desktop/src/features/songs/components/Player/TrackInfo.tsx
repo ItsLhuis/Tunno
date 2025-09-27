@@ -3,9 +3,8 @@ import { useTranslation } from "@repo/i18n"
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
-import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
-import { cn } from "@lib/utils"
+import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
 import { Button, Fade, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
@@ -34,7 +33,7 @@ const TrackInfo = () => {
             fileName={currentTrack?.thumbnail}
             alt={currentTrack?.title}
             containerClassName="size-24 border border-muted rounded-md"
-            className={cn("object-cover", currentTrack?.thumbnail ? "size-24" : "size-8")}
+            className={currentTrack?.thumbnail ? "size-24" : "size-8"}
           />
         </Fade>
       ) : (
@@ -61,7 +60,7 @@ const TrackInfo = () => {
           {currentTrack?.artist ? (
             <Typography affects={["muted"]}>{currentTrack?.artist}</Typography>
           ) : (
-            <Typography affects={["muted"]}>{t("common.unknown")}</Typography>
+            <Typography affects={["muted"]}>{t("common.unknownArtist")}</Typography>
           )}
         </Marquee>
       </Fade>

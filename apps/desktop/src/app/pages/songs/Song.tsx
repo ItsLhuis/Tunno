@@ -1,11 +1,7 @@
-import { useParams } from "@tanstack/react-router"
-
-import { Typography } from "@components/ui"
+import { SongInfo } from "@features/songs/components"
 
 const Song = () => {
-  const { id } = useParams({ from: "/songs/$id" })
-
-  return <Typography>{id}</Typography>
+  return <SongInfo />
 }
 
 export { Song }

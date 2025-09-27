@@ -16,7 +16,12 @@ import {
   sql
 } from "drizzle-orm"
 
-import { type QuerySongsParams, type SongWithMainRelations, PAGE_SIZE } from "@repo/api"
+import {
+  type QuerySongsParams,
+  type SongWithMainRelations,
+  type SongWithAllRelations,
+  PAGE_SIZE
+} from "@repo/api"
 
 export const getSongsWithMainRelationsPaginated = async ({
   limit = PAGE_SIZE,
@@ -81,6 +86,29 @@ export const getSongByIdWithMainRelations = async (
           playlist: true
         }
       }
+    }
+  })
+}
+
+export const getSongByIdWithAllRelations = async (
+  id: number
+): Promise<SongWithAllRelations | undefined> => {
+  return await database.query.songs.findFirst({
+    where: eq(schema.songs.id, id),
+    with: {
+      album: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      },
+      playlists: {
+        with: {
+          playlist: true
+        }
+      },
+      stats: true,
+      playHistory: true
     }
   })
 }

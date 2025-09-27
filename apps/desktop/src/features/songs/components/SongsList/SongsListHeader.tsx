@@ -1,61 +1,63 @@
 import { useTranslation } from "@repo/i18n"
 
-import { cn } from "@lib/utils"
+import { useShallow } from "zustand/shallow"
 
-import { SongActions } from "./SongActions"
+import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import {
-  Checkbox,
-  Fade,
-  Icon,
-  IconButton,
-  Typography,
-  type VirtualizedListController
-} from "@components/ui"
+import { SongForm } from "../../forms"
+
+import { Header, IconButton, Typography, type VirtualizedListController } from "@components/ui"
 
 import { type SongWithMainRelations } from "@repo/api"
 
 type SongsListHeaderProps = {
   list: VirtualizedListController<SongWithMainRelations>
-  className?: string
+  allSongIds: number[]
 }
 
-export const SongsListHeader = ({ list, className }: SongsListHeaderProps) => {
+const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
   const { t } = useTranslation()
+
+  const { shuffleAndPlay, isShuffling } = usePlayerStore(
+    useShallow((state) => ({
+      shuffleAndPlay: state.shuffleAndPlay,
+      isShuffling: state.isShuffling
+    }))
+  )
+
+  const handleShuffleAndPlay = () => {
+    if (isShuffling) return
+
+    shuffleAndPlay(allSongIds, "queue")
+  }
 
   const hasSelectedRows = list.hasSelection
 
   return (
-    <div
-      className={cn(
-        className,
-        "grid w-full grid-cols-[24px_24px_1fr_1fr_0.5fr_80px_40px] items-center gap-6 px-2 pb-2 text-sm font-medium"
-      )}
-    >
-      <Checkbox
-        checked={list.isAllSelected ? true : list.hasSelection ? "indeterminate" : false}
-        onCheckedChange={(value) => (value ? list.selectAll() : list.clearSelection())}
+    <Header className="flex items-center gap-3">
+      <SongForm
+        trigger={
+          <IconButton
+            name="Plus"
+            className="[&_svg]:size-5"
+            variant="ghost"
+            tooltip={t("form.titles.createSong")}
+          />
+        }
       />
-      <div className="flex items-center justify-center">
-        <IconButton name="Play" className="invisible" />
-      </div>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.title")}
+      <IconButton
+        name="Shuffle"
+        className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+        isLoading={isShuffling}
+        disabled={hasSelectedRows}
+        tooltip={t("common.shuffleAndPlay")}
+        onClick={handleShuffleAndPlay}
+      />
+      <Typography variant="h1" className="truncate">
+        {t("songs.title")}
       </Typography>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.album")}
-      </Typography>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.date")}
-      </Typography>
-      <div className="flex items-center justify-center">
-        <Icon name="Timer" className="text-muted-foreground" />
-      </div>
-      <div className="flex items-center justify-center">
-        <Fade show={hasSelectedRows}>
-          <SongActions list={list} variant="dropdown" />
-        </Fade>
-      </div>
-    </div>
+    </Header>
   )
 }
+
+export { SongsListHeader }

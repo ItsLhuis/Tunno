@@ -6,11 +6,11 @@ import { useSongsStore } from "../../stores/useSongsStore"
 
 import { SearchInput } from "@components/ui"
 
-type SearchComponentProps = {
+type SongsListSearchProps = {
   renderRight?: ReactNode
 }
 
-const SearchComponent = ({ renderRight }: SearchComponentProps) => {
+const SongsListSearch = ({ renderRight }: SongsListSearchProps) => {
   const { searchTerm, setSearchTerm } = useSongsStore(
     useShallow((state) => ({
       searchTerm: state.searchTerm,
@@ -36,4 +36,4 @@ const SearchComponent = ({ renderRight }: SearchComponentProps) => {
   )
 }
 
-export { SearchComponent }
+export { SongsListSearch }
