@@ -59,7 +59,13 @@ export const dutch: Language = {
       shuffleAndPlay: "Schudden en afspelen",
       unknown: "Onbekend",
       unknownAlbum: "Onbekend album",
-      unknownArtist: "Onbekende artiest"
+      unknownArtist: "Onbekende artiest",
+      years: "{count} jaar",
+      weeks: "{count} week{count, plural, one {} other{en}}",
+      days: "{count} dag{count, plural, one {} other{en}}",
+      hours: "{count} uur",
+      minutes: "{count} minuut{count, plural, one {} other{en}}",
+      seconds: "{count} seconde{count, plural, one {} other{n}}"
     },
     form: {
       titles: {

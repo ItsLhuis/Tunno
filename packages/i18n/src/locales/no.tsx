@@ -59,7 +59,13 @@ export const norwegian: Language = {
       shuffleAndPlay: "Stokk og spill",
       unknown: "Ukjent",
       unknownAlbum: "Ukjent album",
-      unknownArtist: "Ukjent artist"
+      unknownArtist: "Ukjent artist",
+      years: "{count} år",
+      weeks: "{count} uke{count, plural, one {} other{r}}",
+      days: "{count} dag{count, plural, one {} other{er}}",
+      hours: "{count} time{count, plural, one {} other{r}}",
+      minutes: "{count} minutt{count, plural, one {} other{er}}",
+      seconds: "{count} sekund{count, plural, one {} other{er}}"
     },
     form: {
       titles: {

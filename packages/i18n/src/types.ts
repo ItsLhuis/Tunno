@@ -17,6 +17,12 @@ export type Translations = {
     hoursAgo: string
     today: string
     yesterday: string
+    years: string
+    weeks: string
+    days: string
+    hours: string
+    minutes: string
+    seconds: string
     goBack: string
     goFoward: string
     favorite: string
