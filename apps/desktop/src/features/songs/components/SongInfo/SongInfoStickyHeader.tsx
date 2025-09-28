@@ -49,7 +49,7 @@ const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
   }
 
   return (
-    <StickyHeader className="flex items-center gap-3">
+    <StickyHeader className="flex items-center gap-3 pb-9">
       <IconButton
         name={isCurrentlyPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}

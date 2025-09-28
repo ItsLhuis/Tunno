@@ -97,9 +97,9 @@ const SongItem = ({
     <SongActions variant="context" song={song}>
       <div
         className={cn(
-          "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent/50",
+          "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent",
           gridCols,
-          selected && "bg-accent/50"
+          selected && "bg-accent"
         )}
       >
         {showCheckbox && (

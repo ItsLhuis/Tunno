@@ -1,6 +1,6 @@
 import { database, schema } from "@database/client"
 
-import { asc, desc, like } from "drizzle-orm"
+import { asc, desc, eq, like } from "drizzle-orm"
 
 import { type Artist, type QueryArtistParams } from "@repo/api"
 
@@ -10,7 +10,7 @@ export const getAllArtists = async ({
   orderBy,
   filters
 }: QueryArtistParams = {}): Promise<Artist[]> => {
-  return await database.query.artists.findMany({
+  const artists = await database.query.artists.findMany({
     limit,
     offset,
     where: filters?.search ? like(schema.artists.name, `%${filters.search}%`) : undefined,
@@ -20,4 +20,15 @@ export const getAllArtists = async ({
         : desc(schema.artists[orderBy.column])
       : asc(schema.artists.name)
   })
+
+  return artists
+}
+
+export const getSongIdsByArtistId = async (id: number): Promise<number[]> => {
+  const result = await database
+    .select({ songId: schema.songsToArtists.songId })
+    .from(schema.songsToArtists)
+    .where(eq(schema.songsToArtists.artistId, id))
+
+  return result.map((row) => row.songId)
 }

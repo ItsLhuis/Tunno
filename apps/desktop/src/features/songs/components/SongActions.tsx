@@ -33,6 +33,7 @@ import {
   Icon,
   IconButton,
   ScrollArea,
+  Typography,
   VirtualizedList,
   type VirtualizedListController
 } from "@components/ui"
@@ -256,7 +257,9 @@ const SongActions = ({
                   renderItem={({ item: artist }) => (
                     <ContextMenuItem onClick={() => handleArtistClick(artist)}>
                       <Icon name="User" />
-                      {artist.artist.name}
+                      <Typography className="line-clamp-none truncate">
+                        {artist.artist.name}
+                      </Typography>
                     </ContextMenuItem>
                   )}
                   estimateItemHeight={32}
@@ -306,7 +309,9 @@ const SongActions = ({
                   renderItem={({ item: artist }) => (
                     <DropdownMenuItem onClick={() => handleArtistClick(artist)}>
                       <Icon name="User" />
-                      {artist.artist.name}
+                      <Typography className="line-clamp-none truncate">
+                        {artist.artist.name}
+                      </Typography>
                     </DropdownMenuItem>
                   )}
                   estimateItemHeight={32}

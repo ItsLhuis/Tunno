@@ -18,8 +18,8 @@ import {
 
 import {
   type QuerySongsParams,
-  type SongWithMainRelations,
   type SongWithAllRelations,
+  type SongWithMainRelations,
   PAGE_SIZE
 } from "@repo/api"
 
@@ -72,7 +72,7 @@ export const getSongsWithMainRelationsPaginated = async ({
 export const getSongByIdWithMainRelations = async (
   id: number
 ): Promise<SongWithMainRelations | undefined> => {
-  return await database.query.songs.findFirst({
+  const song = await database.query.songs.findFirst({
     where: eq(schema.songs.id, id),
     with: {
       album: true,
@@ -88,12 +88,14 @@ export const getSongByIdWithMainRelations = async (
       }
     }
   })
+
+  return song
 }
 
 export const getSongByIdWithAllRelations = async (
   id: number
 ): Promise<SongWithAllRelations | undefined> => {
-  return await database.query.songs.findFirst({
+  const song = await database.query.songs.findFirst({
     where: eq(schema.songs.id, id),
     with: {
       album: true,
@@ -111,6 +113,8 @@ export const getSongByIdWithAllRelations = async (
       playHistory: true
     }
   })
+
+  return song
 }
 
 export const getSongsByIdsWithMainRelations = async (
@@ -154,9 +158,9 @@ export const getSongIdsOnly = async ({ orderBy, filters }: QuerySongsParams): Pr
       )
     : whereQuery
 
-  const result = await finalQuery
+  const songs = await finalQuery
 
-  return result.map((row) => row.id)
+  return songs.map((row) => row.id)
 }
 
 function buildWhereConditions(filters?: QuerySongsParams["filters"]) {

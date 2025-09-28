@@ -8,9 +8,9 @@ import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
 import { SongActions } from "../SongActions"
 
-import { Header, IconButton, Thumbnail, Typography } from "@components/ui"
+import { Badge, Header, IconButton, Thumbnail, Typography } from "@components/ui"
 
-import { formatRelativeDate, formatTime } from "@repo/utils"
+import { formatTime } from "@repo/utils"
 
 import { State } from "react-track-player-web"
 
@@ -21,7 +21,7 @@ type SongInfoHeaderProps = {
 }
 
 const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const { play, pause, playbackState, isTrackLoading, currentTrackId, loadTracks } = usePlayerStore(
     useShallow((state) => ({
@@ -61,8 +61,8 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   }
 
   return (
-    <Header className="flex flex-col gap-3 sm:gap-6">
-      <div className="flex items-end gap-6">
+    <Header className="flex flex-col gap-6">
+      <div className="flex flex-1 items-end gap-6">
         <div className="h-60 w-60">
           <Thumbnail
             fileName={song.thumbnail}
@@ -72,34 +72,27 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           />
         </div>
         <div className="flex flex-1 flex-col gap-2">
-          <Typography affects={["small", "muted"]}>
-            {song.album ? song.album.name : t("common.unknownAlbum")}
-          </Typography>
+          <Badge variant="muted" className="w-fit">
+            {t("common.song")}
+          </Badge>
           <Typography
             variant="h1"
             affects={["bold"]}
-            className="text-4xl leading-tight sm:text-5xl md:text-6xl lg:text-7xl"
+            className="line-clamp-2 text-4xl leading-tight md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {song.name}
           </Typography>
-          <Typography affects={["bold"]}>
-            {song.artists.length > 0
-              ? song.artists.map((artist) => artist.artist.name).join(", ")
-              : t("common.unknownArtist")}
-          </Typography>
           <div className="flex items-center gap-1">
-            <Typography affects={["small", "muted"]}>
-              {formatRelativeDate(song.createdAt, i18n.language, t)}
+            <Typography>
+              {song.artists.length > 0 ? song.artists[0].artist.name : t("common.unknownArtist")}
             </Typography>
+            <Typography affects={["small", "muted"]}>
+              • {song.album ? song.album.name : t("common.unknownAlbum")}
+            </Typography>
+            {song.releaseYear && (
+              <Typography affects={["small", "muted"]}>• {song.releaseYear}</Typography>
+            )}
             <Typography affects={["small", "muted"]}>• {formatTime(song.duration)}</Typography>
-            {song.playCount > 0 && (
-              <Typography affects={["small", "muted"]}>
-                • {song.playCount} {song.playCount === 1 ? t("common.play") : t("common.play")}
-              </Typography>
-            )}
-            {song.stats && song.stats.totalPlayTime > 0 && (
-              <Typography affects={["small", "muted"]}>• {song.stats.totalPlayTime}</Typography>
-            )}
           </div>
         </div>
       </div>

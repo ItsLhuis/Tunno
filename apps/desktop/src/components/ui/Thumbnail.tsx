@@ -32,12 +32,12 @@ const Thumbnail = ({ fileName, containerClassName, className, ...props }: Thumbn
     return (
       <div
         className={cn(
-          "flex size-14 shrink-0 items-center justify-center rounded bg-muted transition-colors",
+          "flex size-14 shrink-0 items-center justify-center rounded border border-border bg-secondary transition-colors",
           containerClassName
         )}
       >
         <Fade>
-          <Icon name="Music" className={cn("text-muted-foreground", className)} />
+          <Icon name="Music" className={cn("text-secondary-foreground", className)} />
         </Fade>
       </div>
     )

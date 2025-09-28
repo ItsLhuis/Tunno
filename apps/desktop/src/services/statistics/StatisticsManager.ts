@@ -111,14 +111,12 @@ export class StatisticsManager {
       }
     }
 
-    if (timeListened >= 5) {
-      await this.updateAllStats(
-        session.songId,
-        timeListened,
-        session.playSource,
-        session.sourceContextId
-      )
-    }
+    await this.updateAllStats(
+      session.songId,
+      timeListened,
+      session.playSource,
+      session.sourceContextId
+    )
 
     this.currentSession = null
   }
@@ -185,14 +183,24 @@ export class StatisticsManager {
         .where(eq(albums.id, albumId))
     }
 
-    for (const artistId of artistIds) {
+    if (playSource === "artist" && sourceContextId) {
       await database
         .update(artists)
         .set({
           playCount: sql`play_count + 1`,
           lastPlayedAt: sql`(unixepoch())`
         })
-        .where(eq(artists.id, artistId))
+        .where(eq(artists.id, sourceContextId))
+    } else {
+      for (const artistId of artistIds) {
+        await database
+          .update(artists)
+          .set({
+            playCount: sql`play_count + 1`,
+            lastPlayedAt: sql`(unixepoch())`
+          })
+          .where(eq(artists.id, artistId))
+      }
     }
 
     if (playSource === "playlist" && sourceContextId) {
@@ -246,11 +254,11 @@ export class StatisticsManager {
         })
     }
 
-    for (const artistId of artistIds) {
+    if (playSource === "artist" && sourceContextId) {
       await database
         .insert(artistStats)
         .values({
-          artistId,
+          artistId: sourceContextId,
           totalPlayTime: timeListened,
           lastCalculatedAt: new Date()
         })
@@ -261,6 +269,23 @@ export class StatisticsManager {
             lastCalculatedAt: new Date()
           }
         })
+    } else {
+      for (const artistId of artistIds) {
+        await database
+          .insert(artistStats)
+          .values({
+            artistId,
+            totalPlayTime: timeListened,
+            lastCalculatedAt: new Date()
+          })
+          .onConflictDoUpdate({
+            target: artistStats.artistId,
+            set: {
+              totalPlayTime: sql`${artistStats.totalPlayTime} + ${timeListened}`,
+              lastCalculatedAt: new Date()
+            }
+          })
+      }
     }
 
     if (playSource === "playlist" && sourceContextId) {

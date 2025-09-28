@@ -32,7 +32,7 @@ const TrackInfo = () => {
           <Thumbnail
             fileName={currentTrack?.thumbnail}
             alt={currentTrack?.title}
-            containerClassName="size-24 border border-muted rounded-md"
+            containerClassName="size-24 rounded-md"
             className={currentTrack?.thumbnail ? "size-24" : "size-8"}
           />
         </Fade>
