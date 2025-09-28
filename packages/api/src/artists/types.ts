@@ -8,6 +8,23 @@ export type ArtistColumns = keyof typeof artists.$inferSelect
 
 export type Artist = typeof artists.$inferSelect
 
+export type OrderableArtistColumns =
+  | "name"
+  | "playCount"
+  | "isFavorite"
+  | "lastPlayedAt"
+  | "createdAt"
+  | "updatedAt"
+
+export type ArtistFilters = {
+  search?: string
+  isFavorite?: boolean
+  minPlayCount?: number
+  maxPlayCount?: number
+  playedAfter?: Date
+  playedBefore?: Date
+}
+
 export type ArtistWithSongs = InferQueryModel<
   "artists",
   {
@@ -77,4 +94,4 @@ export type ArtistWithCustomRelations<T extends Record<string, any>> = InferQuer
 export type InsertArtist = typeof artists.$inferInsert
 export type UpdateArtist = Partial<InsertArtist>
 
-export type QueryArtistParams = QueryParams<ArtistColumns>
+export type QueryArtistParams = QueryParams<OrderableArtistColumns, ArtistFilters>

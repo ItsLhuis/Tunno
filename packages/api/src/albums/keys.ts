@@ -37,6 +37,14 @@ export const albumKeys = {
     const key = [...albumKeys.all, "list", ...albumKeys.withAllRelations]
     return params ? [...key, params] : key
   },
+  listInfiniteWithMainRelations: (params?: QueryAlbumParams) => {
+    const key = [...albumKeys.all, "list", "infinite", ...albumKeys.withMainRelations]
+    return params ? [...key, params] : key
+  },
+  listIdsOnly: (params?: QueryAlbumParams) => {
+    const key = [...albumKeys.all, "list", "ids"]
+    return params ? [...key, params] : key
+  },
   listByArtists: (artistIds: number[], params?: QueryAlbumParams) => {
     const key = [...albumKeys.all, "listByArtists", { artistIds: [...artistIds].sort() }]
     return params ? [...key, params] : key

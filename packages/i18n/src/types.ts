@@ -37,6 +37,7 @@ export type Translations = {
     album: string
     artist: string
     date: string
+    createdAt: string
     duration: string
     search: string
     selectAll: string
@@ -51,6 +52,7 @@ export type Translations = {
     actions: string
     addTo: string
     playlist: string
+    song: string
     lyrics: string
     openMiniplayer: string
     enterFullScreen: string

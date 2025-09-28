@@ -8,6 +8,33 @@ export type AlbumColumns = keyof typeof albums.$inferSelect
 
 export type Album = typeof albums.$inferSelect
 
+export type OrderableAlbumColumns =
+  | "name"
+  | "releaseYear"
+  | "playCount"
+  | "isFavorite"
+  | "albumType"
+  | "totalTracks"
+  | "totalDuration"
+  | "lastPlayedAt"
+  | "createdAt"
+  | "updatedAt"
+
+export type AlbumFilters = {
+  search?: string
+  releaseYear?: number | number[]
+  isFavorite?: boolean
+  albumType?: "single" | "album" | "compilation" | ("single" | "album" | "compilation")[]
+  minTotalTracks?: number
+  maxTotalTracks?: number
+  minTotalDuration?: number
+  maxTotalDuration?: number
+  minPlayCount?: number
+  maxPlayCount?: number
+  playedAfter?: Date
+  playedBefore?: Date
+}
+
 export type AlbumWithSongs = InferQueryModel<
   "albums",
   {
@@ -65,4 +92,4 @@ export type AlbumWithCustomRelations<T extends Record<string, any>> = InferQuery
 export type InsertAlbum = typeof albums.$inferInsert
 export type UpdateAlbum = Partial<InsertAlbum>
 
-export type QueryAlbumParams = QueryParams<AlbumColumns>
+export type QueryAlbumParams = QueryParams<OrderableAlbumColumns, AlbumFilters>

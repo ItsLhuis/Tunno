@@ -37,6 +37,14 @@ export const artistKeys = {
     const key = [...artistKeys.all, "list", ...artistKeys.withAllRelations]
     return params ? [...key, params] : key
   },
+  listInfiniteWithMainRelations: (params?: QueryArtistParams) => {
+    const key = [...artistKeys.all, "list", "infinite", ...artistKeys.withMainRelations]
+    return params ? [...key, params] : key
+  },
+  listIdsOnly: (params?: QueryArtistParams) => {
+    const key = [...artistKeys.all, "list", "ids"]
+    return params ? [...key, params] : key
+  },
   listWithCustomRelations: (relationKey: string, params?: QueryArtistParams) => {
     const key = [...artistKeys.all, "list", "custom", relationKey]
     return params ? [...key, params] : key
