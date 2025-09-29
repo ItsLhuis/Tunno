@@ -59,15 +59,19 @@ const ScrollAreaWithHeaders = ({
   return (
     <ScrollArea
       ref={scrollRef}
-      className={cn("h-full w-full flex-1 bg-background", containerClassName)}
+      className={cn(
+        "h-full w-full flex-1 bg-background [&>div>div]:!flex",
+        containerClassName,
+        "relative"
+      )}
       style={style}
     >
-      <div className={cn("relative flex w-full flex-1 flex-col")}>
+      <div className="flex w-full flex-1 flex-col">
         <Fade
           show={isScrolled && Boolean(StickyHeaderComponent)}
           mode="popLayout"
           className={cn(
-            "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/50 px-9 backdrop-blur transition-[background-color,border-color,padding]",
+            "absolute left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/50 px-9 backdrop-blur transition-[background-color,border-color,padding]",
             stickyHeaderContainerClassName
           )}
         >
@@ -77,7 +81,7 @@ const ScrollAreaWithHeaders = ({
           {HeaderComponent()}
           {ListHeaderComponent && ListHeaderComponent()}
         </div>
-        <div className={cn("h-full p-9 pt-3 transition-[padding]", className)} {...props}>
+        <div className={cn("table h-full p-9 pt-3", className)} {...props}>
           {children}
         </div>
       </div>

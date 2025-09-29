@@ -143,25 +143,22 @@ const Carousel = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & Car
 )
 Carousel.displayName = "Carousel"
 
-const CarouselContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
-    const { carouselRef, orientation } = useCarousel()
+const CarouselContent = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement> & { containerClassName?: string }
+>(({ className, containerClassName, ...props }, ref) => {
+  const { carouselRef, orientation } = useCarousel()
 
-    return (
-      <div ref={carouselRef} className="overflow-hidden">
-        <div
-          ref={ref}
-          className={cn(
-            "flex",
-            orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-            className
-          )}
-          {...props}
-        />
-      </div>
-    )
-  }
-)
+  return (
+    <div ref={carouselRef} className={cn(containerClassName, "overflow-hidden")}>
+      <div
+        ref={ref}
+        className={cn("flex", orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col", className)}
+        {...props}
+      />
+    </div>
+  )
+})
 CarouselContent.displayName = "CarouselContent"
 
 const CarouselItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(

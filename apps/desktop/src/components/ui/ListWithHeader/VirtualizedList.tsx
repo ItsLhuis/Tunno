@@ -76,14 +76,18 @@ const VirtualizedListWithHeaders = <TItem,>({
   return (
     <ScrollArea
       ref={scrollRef}
-      className={cn("h-full w-full flex-1 bg-background", containerClassName)}
+      className={cn(
+        "h-full w-full flex-1 bg-background [&>div>div]:!flex",
+        containerClassName,
+        "relative"
+      )}
     >
-      <div className={cn("relative flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
+      <div className={cn("flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
         <Fade
           show={isScrolled && Boolean(StickyHeaderComponent)}
           mode="popLayout"
           className={cn(
-            "sticky left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/50 px-9 backdrop-blur",
+            "absolute left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/50 px-9 backdrop-blur",
             stickyHeaderContainerClassName
           )}
         >

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 import { cn } from "@lib/utils"
 
-import { motion, useAnimation, useAnimationFrame } from "motion/react"
+import { motion, useAnimation } from "motion/react"
 
 export type MarqueeProps = React.HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode
@@ -15,52 +15,68 @@ export type MarqueeProps = React.HTMLAttributes<HTMLDivElement> & {
 const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: MarqueeProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+
   const [shouldAnimate, setShouldAnimate] = useState(false)
+
   const controls = useAnimation()
+
+  const startAnimation = useCallback(() => {
+    if (!contentRef.current) return
+
+    const contentWidth = contentRef.current.scrollWidth
+    controls.start({
+      x: "-100%",
+      transition: {
+        repeat: Infinity,
+        duration: contentWidth / speed,
+        ease: "linear"
+      }
+    })
+  }, [controls, speed])
 
   const checkOverflow = useCallback(() => {
     if (!containerRef.current || !contentRef.current) return
 
     const containerWidth = containerRef.current.offsetWidth + 32
     const contentWidth = contentRef.current.scrollWidth
-    setShouldAnimate(contentWidth > containerWidth)
+    const needsAnimation = contentWidth > containerWidth
+
+    setShouldAnimate(needsAnimation)
   }, [])
 
   useEffect(() => {
+    if (!contentRef.current) return
+
+    const resizeObserver = new ResizeObserver(() => {
+      checkOverflow()
+    })
+
+    resizeObserver.observe(contentRef.current)
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [checkOverflow])
+
+  useEffect(() => {
+    if (shouldAnimate) {
+      startAnimation()
+    } else {
+      controls.stop()
+      controls.set({ x: "0%" })
+    }
+  }, [shouldAnimate, startAnimation, controls])
+
+  useEffect(() => {
     checkOverflow()
+
     window.addEventListener("resize", checkOverflow)
     return () => window.removeEventListener("resize", checkOverflow)
   }, [checkOverflow])
 
   useEffect(() => {
-    if (shouldAnimate && contentRef.current) {
-      const contentWidth = contentRef.current.scrollWidth
-
-      controls.start({
-        x: "-100%",
-        transition: {
-          repeat: Infinity,
-          duration: contentWidth / speed,
-          ease: "linear"
-        }
-      })
-    } else {
-      controls.stop()
-      controls.set({ x: "0%" })
-    }
-  }, [shouldAnimate, speed, controls])
-
-  useAnimationFrame(() => {
-    if (!containerRef.current || !contentRef.current) return
-
-    const containerWidth = containerRef.current.offsetWidth + 32
-    const contentWidth = contentRef.current.scrollWidth
-    if (contentWidth <= containerWidth && shouldAnimate) {
-      setShouldAnimate(false)
-    } else if (contentWidth > containerWidth && !shouldAnimate) {
-      setShouldAnimate(true)
-    }
-  })
+    checkOverflow()
+  }, [children, checkOverflow])
 
   return (
     <div

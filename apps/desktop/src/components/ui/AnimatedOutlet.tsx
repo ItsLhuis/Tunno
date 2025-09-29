@@ -31,7 +31,7 @@ const AnimatedOutlet = ({ ...props }: AnimatedOutletProps) => {
   const key = nextMatch?.id || match.id
 
   return (
-    <Fade key={key} className="flex w-full flex-1 overflow-hidden" {...props}>
+    <Fade key={key} as="main" className="flex w-full flex-1 overflow-hidden" {...props}>
       <RouterContext.Provider value={renderedContext.current}>
         <Outlet />
       </RouterContext.Provider>
