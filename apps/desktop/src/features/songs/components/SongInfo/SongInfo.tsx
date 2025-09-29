@@ -6,7 +6,17 @@ import { useTranslation } from "@repo/i18n"
 
 import { useFetchSongByIdWithAllRelations } from "../../hooks/useFetchSongByIdWithAllRelations"
 
-import { NotFound, ScrollAreaWithHeaders, Spinner, Typography } from "@components/ui"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  NotFound,
+  ScrollAreaWithHeaders,
+  Spinner,
+  Typography
+} from "@components/ui"
 
 import { ArtistItem } from "@features/artists/components/ArtistItem"
 
@@ -69,15 +79,30 @@ const SongInfo = () => {
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
       ListHeaderComponent={ListHeader}
-      className="flex w-full flex-col gap-9"
+      className="flex w-full flex-1 flex-col gap-9"
     >
       <SongItem song={song} allSongIds={[song.id]} />
       {song.artists.length > 0 && (
         <section className="flex w-full flex-col gap-3">
           <Typography variant="h3">{t("artists.title")}</Typography>
-          {song.artists.map((artist) => (
-            <ArtistItem artist={artist.artist} />
-          ))}
+          <Carousel
+            opts={{
+              align: "start",
+              dragFree: true,
+              skipSnaps: true
+            }}
+            className="-mx-9"
+          >
+            <CarouselContent containerClassName="px-9">
+              {song.artists.map((artist, index) => (
+                <CarouselItem key={artist.artist.id || index} className="basis-auto">
+                  <ArtistItem artist={artist.artist} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="ml-20" />
+            <CarouselNext className="mr-20" />
+          </Carousel>
         </section>
       )}
     </ScrollAreaWithHeaders>
