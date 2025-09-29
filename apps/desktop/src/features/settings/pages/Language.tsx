@@ -88,18 +88,16 @@ const Language = () => {
       }}
       containerClassName="overflow-x-hidden"
     >
-      <div className="flex flex-col gap-6">
-        {settings.map((setting) => (
-          <SettingButton
-            key={setting.key}
-            title={setting.title}
-            description={setting.description}
-            renderLeft={setting.renderLeft}
-            renderRight={setting.renderRight}
-            children={setting.children}
-          />
-        ))}
-      </div>
+      {settings.map((setting) => (
+        <SettingButton
+          key={setting.key}
+          title={setting.title}
+          description={setting.description}
+          renderLeft={setting.renderLeft}
+          renderRight={setting.renderRight}
+          children={setting.children}
+        />
+      ))}
     </ScrollAreaWithHeaders>
   )
 }

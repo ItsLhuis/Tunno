@@ -54,7 +54,7 @@ const SongsListSubHeader = ({ list, className }: SongsListSubHeaderProps) => {
       </div>
       <div className="flex items-center justify-center">
         <Fade show={hasSelectedRows}>
-          <SongActions list={list} variant="dropdown" />
+          <SongActions list={list} />
         </Fade>
       </div>
     </div>
