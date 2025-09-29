@@ -8,6 +8,8 @@ import { usePlayerStore } from "../../songs/stores/usePlayerStore"
 
 import { useFetchSongIdsByArtistId } from "../hooks/useFetchSongIdsByArtistId"
 
+import { ArtistActions } from "./ArtistActions"
+
 import { Button, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { type Artist } from "@repo/api"
@@ -45,31 +47,38 @@ const ArtistItem = ({ artist }: ArtistItemProps) => {
   }
 
   return (
-    <Button variant="ghost" asChild className="group relative h-auto w-fit p-3">
-      <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
-        <div className="relative flex flex-col items-start">
-          <div className="mb-3">
-            <Thumbnail
-              fileName={artist.thumbnail}
-              alt={artist.name}
-              containerClassName="size-24 rounded-full"
-              className={artist.thumbnail ? "size-24" : "size-8"}
-            />
-          </div>
-          <Typography>{artist.name}</Typography>
-          {songIds.length > 0 && (
-            <div className="absolute bottom-7 right-0 z-10 opacity-0 transition-all group-hover:opacity-100">
-              <IconButton
-                name="Play"
-                tooltip={t("common.play")}
-                onClick={handlePlayArtist}
-                isLoading={isTrackLoading}
+    <ArtistActions variant="context" artist={artist}>
+      <Button variant="ghost" asChild className="group relative h-auto w-fit p-3">
+        <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
+          <div className="relative flex w-32 flex-col items-start">
+            <div className="mb-3">
+              <Thumbnail
+                fileName={artist.thumbnail}
+                alt={artist.name}
+                containerClassName="size-32 rounded-full"
+                className={artist.thumbnail ? "size-32" : "size-8"}
               />
             </div>
-          )}
-        </div>
-      </SafeLink>
-    </Button>
+            <div className="flex w-full items-center justify-between gap-2 truncate">
+              <Typography className="w-full truncate">{artist.name}</Typography>
+              <div className="opacity-0 transition-opacity group-hover:opacity-100">
+                <ArtistActions artist={artist} />
+              </div>
+            </div>
+            {songIds.length > 0 && (
+              <div className="absolute bottom-12 right-0 z-10 opacity-0 transition-all group-hover:opacity-100">
+                <IconButton
+                  name="Play"
+                  tooltip={t("common.play")}
+                  onClick={handlePlayArtist}
+                  isLoading={isTrackLoading}
+                />
+              </div>
+            )}
+          </div>
+        </SafeLink>
+      </Button>
+    </ArtistActions>
   )
 }
 
