@@ -32,6 +32,7 @@ import {
   DropdownMenuTrigger,
   Icon,
   IconButton,
+  SafeLink,
   ScrollArea,
   Typography,
   VirtualizedList,
@@ -230,6 +231,12 @@ const SongActions = ({
 
     return (
       <>
+        <ContextMenuItem asChild>
+          <SafeLink to="/songs/$id" params={{ id: targetSong.id.toString() }}>
+            <Icon name="Music" />
+            {t("common.goToSong")}
+          </SafeLink>
+        </ContextMenuItem>
         {targetSong.album && (
           <ContextMenuItem>
             <Icon name="DiscAlbum" />
@@ -253,7 +260,7 @@ const SongActions = ({
                 <VirtualizedList
                   scrollRef={artistsScrollRef}
                   data={targetSong.artists}
-                  keyExtractor={(artist) => String(artist.artistId)}
+                  keyExtractor={(artist) => artist.artistId.toString()}
                   renderItem={({ item: artist }) => (
                     <ContextMenuItem onClick={() => handleArtistClick(artist)}>
                       <Icon name="User" />
@@ -282,6 +289,12 @@ const SongActions = ({
 
     return (
       <>
+        <DropdownMenuItem asChild>
+          <SafeLink to="/songs/$id" params={{ id: targetSong.id.toString() }}>
+            <Icon name="Music" />
+            {t("common.goToSong")}
+          </SafeLink>
+        </DropdownMenuItem>
         {targetSong.album && (
           <DropdownMenuItem>
             <Icon name="DiscAlbum" />
@@ -305,7 +318,7 @@ const SongActions = ({
                 <VirtualizedList
                   scrollRef={artistsScrollRef}
                   data={targetSong.artists}
-                  keyExtractor={(artist) => String(artist.artistId)}
+                  keyExtractor={(artist) => artist.artistId.toString()}
                   renderItem={({ item: artist }) => (
                     <DropdownMenuItem onClick={() => handleArtistClick(artist)}>
                       <Icon name="User" />

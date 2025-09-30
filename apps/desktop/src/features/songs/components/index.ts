@@ -1,6 +1,6 @@
+export * from "./DeleteSongDialog"
 export * from "./Player/Player"
 export * from "./SongActions"
 export * from "./SongInfo"
 export * from "./SongItem"
-export * from "./SongInfo/SongInfoStats"
 export * from "./SongsList"

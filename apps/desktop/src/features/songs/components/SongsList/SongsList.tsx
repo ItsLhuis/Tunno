@@ -110,7 +110,7 @@ const SongsList = () => {
       numColumns={1}
       gap={8}
       onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
+      onEndReachedThreshold={1}
       renderItem={({ item, selected, toggle }) => (
         <SongItem song={item} selected={selected} onToggle={toggle} allSongIds={songIds} />
       )}
