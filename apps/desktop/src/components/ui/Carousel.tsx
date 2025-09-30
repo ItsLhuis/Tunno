@@ -15,6 +15,7 @@ import { cn } from "@lib/utils"
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 
 import { Button } from "@components/ui/Button"
+import { Fade } from "@components/ui/Fade"
 import { Icon } from "@components/ui/Icon"
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -187,23 +188,31 @@ const CarouselPrevious = forwardRef<HTMLButtonElement, ComponentProps<typeof But
     const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
     return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={size}
+      <Fade
+        show={canScrollPrev}
         className={cn(
-          "absolute h-8 w-8 rounded-full",
+          "absolute",
           orientation === "horizontal"
             ? "-left-12 top-1/2 -translate-y-1/2"
-            : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-          className
+            : "-top-12 left-1/2 -translate-x-1/2"
         )}
-        disabled={!canScrollPrev}
-        onClick={scrollPrev}
-        {...props}
       >
-        <Icon name="ArrowLeft" />
-      </Button>
+        <Button
+          ref={ref}
+          variant={variant}
+          size={size}
+          className={cn(
+            "h-8 w-8 rounded-full",
+            orientation === "vertical" && "rotate-90",
+            className
+          )}
+          disabled={!canScrollPrev}
+          onClick={scrollPrev}
+          {...props}
+        >
+          <Icon name="ArrowLeft" />
+        </Button>
+      </Fade>
     )
   }
 )
@@ -214,23 +223,31 @@ const CarouselNext = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>
     const { orientation, scrollNext, canScrollNext } = useCarousel()
 
     return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={size}
+      <Fade
+        show={canScrollNext}
         className={cn(
-          "absolute h-8 w-8 rounded-full",
+          "absolute",
           orientation === "horizontal"
             ? "-right-12 top-1/2 -translate-y-1/2"
-            : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-          className
+            : "-bottom-12 left-1/2 -translate-x-1/2"
         )}
-        disabled={!canScrollNext}
-        onClick={scrollNext}
-        {...props}
       >
-        <Icon name="ArrowRight" />
-      </Button>
+        <Button
+          ref={ref}
+          variant={variant}
+          size={size}
+          className={cn(
+            "h-8 w-8 rounded-full",
+            orientation === "vertical" && "rotate-90",
+            className
+          )}
+          disabled={!canScrollNext}
+          onClick={scrollNext}
+          {...props}
+        >
+          <Icon name="ArrowRight" />
+        </Button>
+      </Fade>
     )
   }
 )
