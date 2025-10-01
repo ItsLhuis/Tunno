@@ -1,27 +1,43 @@
-import { Fragment, type ReactNode } from "react"
+import { Fragment, type ReactNode, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
+
+import { useShallow } from "zustand/shallow"
+
+import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
+
+import { useFetchSongsByArtistIds } from "@features/songs/hooks/useFetchSongsByArtistIds"
+
+import { ArtistForm } from "../forms/ArtistForm"
+import { DeleteArtistDialog } from "./DeleteArtistDialog"
 
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Icon,
   IconButton,
-  type VirtualizedListController
+  ScrollArea,
+  Typography
 } from "@components/ui"
 
 import { type Artist } from "@repo/api"
 
 type ArtistActionsProps = {
   artist?: Artist
-  list?: VirtualizedListController<Artist>
   variant?: "dropdown" | "context"
   children?: ReactNode
   className?: string
@@ -29,30 +45,84 @@ type ArtistActionsProps = {
   onDeleteArtist?: (artist: Artist) => void
 }
 
-const ArtistActions = ({ variant = "dropdown", children, className }: ArtistActionsProps) => {
+const ArtistActions = ({
+  artist,
+  variant = "dropdown",
+  children,
+  className,
+  onEditArtist,
+  onDeleteArtist
+}: ArtistActionsProps) => {
   const { t } = useTranslation()
+
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+
+  const artistsScrollRef = useRef<HTMLDivElement | null>(null)
+
+  const { data: artistSongs } = useFetchSongsByArtistIds(artist ? [artist.id] : undefined)
+
+  const { loadTracks, play, isTrackLoading, addToQueue } = usePlayerStore(
+    useShallow((state) => ({
+      loadTracks: state.loadTracks,
+      play: state.play,
+      isTrackLoading: state.isTrackLoading,
+      addToQueue: state.addToQueue
+    }))
+  )
+
+  const handleEditClick = () => {
+    if (artist) {
+      if (onEditArtist) onEditArtist(artist)
+      else setIsEditOpen(true)
+    }
+  }
+
+  const handleDeleteClick = () => {
+    if (artist) {
+      if (onDeleteArtist) onDeleteArtist(artist)
+      else setIsDeleteOpen(true)
+    }
+  }
+
+  const handlePlayArtist = async () => {
+    if (!artist || !artistSongs || artistSongs.length === 0) return
+    const songIds = artistSongs.map((song) => song.id)
+    await loadTracks(songIds, 0, "artist", artist.id)
+    await play()
+  }
+
+  const handlePlayNext = async () => {
+    if (!artist || !artistSongs || artistSongs.length === 0) return
+    if (artistSongs.length > 0) await addToQueue(artistSongs, "next")
+  }
+
+  const handleAddToQueue = async () => {
+    if (!artist || !artistSongs || artistSongs.length === 0) return
+    if (artistSongs.length > 0) await addToQueue(artistSongs, "end")
+  }
 
   const renderFormActions = () => {
     return (
       <Fragment>
         {variant === "context" ? (
-          <ContextMenuItem>
+          <ContextMenuItem onClick={handleEditClick}>
             <Icon name="Edit" />
             {t("form.buttons.update")}
           </ContextMenuItem>
         ) : (
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleEditClick}>
             <Icon name="Edit" />
             {t("form.buttons.update")}
           </DropdownMenuItem>
         )}
         {variant === "context" ? (
-          <ContextMenuItem>
+          <ContextMenuItem onClick={handleDeleteClick}>
             <Icon name="Trash2" />
             {t("form.buttons.delete")}
           </ContextMenuItem>
         ) : (
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDeleteClick}>
             <Icon name="Trash2" />
             {t("form.buttons.delete")}
           </DropdownMenuItem>
@@ -61,13 +131,76 @@ const ArtistActions = ({ variant = "dropdown", children, className }: ArtistActi
     )
   }
 
+  const renderPlaybackActions = () => (
+    <>
+      {variant === "context" ? (
+        <ContextMenuItem onClick={handlePlayArtist} disabled={isTrackLoading}>
+          <Icon name="Play" />
+          {t("common.play")}
+        </ContextMenuItem>
+      ) : (
+        <DropdownMenuItem onClick={handlePlayArtist} disabled={isTrackLoading}>
+          <Icon name="Play" />
+          {t("common.play")}
+        </DropdownMenuItem>
+      )}
+      {variant === "context" ? (
+        <ContextMenuItem onClick={handlePlayNext}>
+          <Icon name="Forward" />
+          {t("common.playNext")}
+        </ContextMenuItem>
+      ) : (
+        <DropdownMenuItem onClick={handlePlayNext}>
+          <Icon name="Forward" />
+          {t("common.playNext")}
+        </DropdownMenuItem>
+      )}
+    </>
+  )
+
+  const renderAddToActions = () =>
+    variant === "context" ? (
+      <ContextMenuSub>
+        <ContextMenuSubTrigger>
+          <Icon name="Plus" />
+          {t("common.addTo")}
+        </ContextMenuSubTrigger>
+        <ContextMenuSubContent className="p-0">
+          <ScrollArea className="p-1" ref={artistsScrollRef}>
+            <ContextMenuItem onClick={handleAddToQueue}>
+              <Icon name="ListVideo" />
+              <Typography className="line-clamp-none truncate">{t("common.queue")}</Typography>
+            </ContextMenuItem>
+          </ScrollArea>
+        </ContextMenuSubContent>
+      </ContextMenuSub>
+    ) : (
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger>
+          <Icon name="Plus" />
+          {t("common.addTo")}
+        </DropdownMenuSubTrigger>
+        <DropdownMenuSubContent className="p-0">
+          <ScrollArea className="p-1" ref={artistsScrollRef}>
+            <DropdownMenuItem onClick={handleAddToQueue}>
+              <Icon name="ListVideo" />
+              <Typography className="line-clamp-none truncate">{t("common.queue")}</Typography>
+            </DropdownMenuItem>
+          </ScrollArea>
+        </DropdownMenuSubContent>
+      </DropdownMenuSub>
+    )
+
   const renderContent = () => {
     if (variant === "context") {
       return (
         <ContextMenu>
           <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
           <ContextMenuContent>
+            <ContextMenuLabel>{t("common.playback")}</ContextMenuLabel>
+            {renderPlaybackActions()}
             <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
+            {renderAddToActions()}
             {renderFormActions()}
           </ContextMenuContent>
         </ContextMenu>
@@ -80,14 +213,27 @@ const ArtistActions = ({ variant = "dropdown", children, className }: ArtistActi
           {children || <IconButton name="MoreHorizontal" variant="ghost" className={className} />}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
+          <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
+          {renderPlaybackActions()}
+          <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
+          {renderAddToActions()}
           {renderFormActions()}
         </DropdownMenuContent>
       </DropdownMenu>
     )
   }
 
-  return <Fragment>{renderContent()}</Fragment>
+  return (
+    <Fragment>
+      {renderContent()}
+      {artist && (
+        <ArtistForm artist={artist} mode="update" open={isEditOpen} onOpen={setIsEditOpen} />
+      )}
+      {artist && (
+        <DeleteArtistDialog artist={artist} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
+      )}
+    </Fragment>
+  )
 }
 
 export { ArtistActions }
