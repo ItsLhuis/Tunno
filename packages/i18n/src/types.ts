@@ -43,7 +43,7 @@ export type Translations = {
     album: string
     artist: string
     date: string
-    createdAt: string
+    added: string
     duration: string
     search: string
     selectAll: string
