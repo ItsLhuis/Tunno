@@ -52,7 +52,7 @@ const SongsList = () => {
 
   const Header = useCallback(
     ({ list }: SongListProps) => <SongsListHeader list={list} allSongIds={songIds} />,
-    []
+    [songIds]
   )
 
   const StickyHeader = useCallback(
@@ -64,7 +64,7 @@ const SongsList = () => {
         </div>
       </Fragment>
     ),
-    []
+    [songIds]
   )
 
   const ListHeader = useCallback(
@@ -107,7 +107,6 @@ const SongsList = () => {
       data={songs}
       keyExtractor={(item) => item.id.toString()}
       estimateItemHeight={70}
-      numColumns={1}
       gap={8}
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}

@@ -30,16 +30,14 @@ const Thumbnail = ({ fileName, containerClassName, className, ...props }: Thumbn
 
   if (!fileName) {
     return (
-      <div
+      <Fade
         className={cn(
           "flex size-14 shrink-0 items-center justify-center rounded border border-border bg-secondary transition-colors",
           containerClassName
         )}
       >
-        <Fade>
-          <Icon name="Music" className={cn("text-secondary-foreground", className)} />
-        </Fade>
-      </div>
+        <Icon name="Music" className={cn("text-secondary-foreground", className)} />
+      </Fade>
     )
   }
 

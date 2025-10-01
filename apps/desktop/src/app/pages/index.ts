@@ -1,5 +1,5 @@
 export * from "./Albums"
-export * from "./Artists"
+export * from "./artists"
 export * from "./FastUpload"
 export * from "./Home"
 export * from "./Playlists"

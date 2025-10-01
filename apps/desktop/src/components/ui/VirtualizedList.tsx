@@ -40,7 +40,15 @@ export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
     toggle: () => void
   }) => ReactNode
   estimateItemHeight: number
-  numColumns?: number
+  grid?: boolean
+  gridBreakpoints?: {
+    xs?: number
+    sm?: number
+    md?: number
+    lg?: number
+    xl?: number
+    "2xl"?: number
+  }
   gap?: number
   minItemWidth?: number
   containerClassName?: string
@@ -81,14 +89,15 @@ const VirtualizedItem = memo(function VirtualizedItem<TItem>({
   isLastRow,
   gap
 }: VirtualizedItemProps<TItem>) {
+  const style = useMemo(
+    () => ({
+      marginBottom: !isLastRow && gap > 0 ? `${gap}px` : undefined
+    }),
+    [isLastRow, gap]
+  )
+
   return (
-    <div
-      key={id}
-      className={cn("group relative")}
-      style={{
-        marginBottom: !isLastRow && gap > 0 ? `${gap}px` : undefined
-      }}
-    >
+    <div key={id} className={cn("group relative")} style={style}>
       {renderItem({ item, index, selected: isSelected, toggle: onToggle })}
     </div>
   )
@@ -147,24 +156,31 @@ const VirtualRow = memo(function VirtualRow<TItem>({
 
   const isLastRow = virtualRow.index === totalRows - 1
 
+  const transformStyle = useMemo(
+    () => ({
+      transform: `translateY(${virtualRow.start}px)`
+    }),
+    [virtualRow.start]
+  )
+
+  const gridStyle = useMemo(
+    () => ({
+      gridTemplateColumns: `repeat(${effectiveColumns}, minmax(0, 1fr))`,
+      gap: gap,
+      ...rowStyle
+    }),
+    [effectiveColumns, gap, rowStyle]
+  )
+
   return (
     <div
       key={virtualRow.key}
       data-index={virtualRow.index}
       ref={measureRef}
       className={cn("absolute left-0 right-0")}
-      style={{
-        transform: `translateY(${virtualRow.start}px)`
-      }}
+      style={transformStyle}
     >
-      <div
-        className={cn("grid", rowClassName)}
-        style={{
-          gridTemplateColumns: `repeat(${effectiveColumns}, minmax(0, 1fr))`,
-          gap: gap,
-          ...rowStyle
-        }}
-      >
+      <div className={cn("grid", rowClassName)} style={gridStyle}>
         {rowItems.map((item, idx) => {
           const index = fromIndex + idx
           const id = keyExtractor(item, index)
@@ -195,7 +211,15 @@ function VirtualizedList<TItem>({
   keyExtractor,
   renderItem,
   estimateItemHeight,
-  numColumns = 1,
+  grid = false,
+  gridBreakpoints = {
+    xs: 1,
+    sm: 2,
+    md: 3,
+    lg: 4,
+    xl: 5,
+    "2xl": 6
+  },
   gap = 0,
   minItemWidth,
   containerClassName,
@@ -215,12 +239,10 @@ function VirtualizedList<TItem>({
   const gridContainerRef = useRef<HTMLDivElement | null>(null)
 
   const [selectionState, setSelectionState] = useState<Record<string, boolean>>({})
-
   const [hasReachedEnd, setHasReachedEnd] = useState(false)
+  const [responsiveColumns, setResponsiveColumns] = useState<number>(1)
 
   const scrollRef = externalScrollRef || internalScrollRef
-
-  const [containerWidth, setContainerWidth] = useState<number>(0)
 
   useEffect(() => {
     const element = gridContainerRef.current
@@ -235,7 +257,19 @@ function VirtualizedList<TItem>({
       rafId = requestAnimationFrame(() => {
         const entry = entries[0]
         if (entry?.contentRect?.width != null) {
-          setContainerWidth(entry.contentRect.width)
+          const width = entry.contentRect.width
+
+          if (grid) {
+            let cols = gridBreakpoints.xs || 1
+
+            if (width >= 1536) cols = gridBreakpoints["2xl"] || 6
+            else if (width >= 1280) cols = gridBreakpoints.xl || 5
+            else if (width >= 1024) cols = gridBreakpoints.lg || 4
+            else if (width >= 768) cols = gridBreakpoints.md || 3
+            else if (width >= 640) cols = gridBreakpoints.sm || 2
+
+            setResponsiveColumns(cols)
+          }
         }
       })
     })
@@ -246,7 +280,7 @@ function VirtualizedList<TItem>({
       resizeObserver.disconnect()
       if (rafId) cancelAnimationFrame(rafId)
     }
-  }, [])
+  }, [grid, gridBreakpoints])
 
   const dataIds = useMemo(
     () => data.map((item, index) => keyExtractor(item, index)),
@@ -274,26 +308,22 @@ function VirtualizedList<TItem>({
         return { [id]: !isCurrentlySelected }
       }
 
-      const newState = { ...prev }
-
       if (isCurrentlySelected) {
+        const newState = { ...prev }
         delete newState[id]
+        return newState
       } else {
-        newState[id] = true
+        return { ...prev, [id]: true }
       }
-
-      return newState
     })
   }, [])
 
   const handleSelectAll = useCallback(() => {
     setSelectionState(() => {
       const newState: Record<string, boolean> = {}
-
       dataIds.forEach((id) => {
         newState[id] = true
       })
-
       return newState
     })
   }, [dataIds])
@@ -332,16 +362,12 @@ function VirtualizedList<TItem>({
   }, [controller, onController])
 
   const effectiveColumns = useMemo(() => {
-    if (minItemWidth && containerWidth > 0) {
-      const availableWidth = containerWidth
-      const itemWidthWithGap = minItemWidth + gap
-      const calculatedColumns = Math.floor(availableWidth / itemWidthWithGap)
-
-      return Math.max(1, Math.min(calculatedColumns, numColumns))
+    if (grid) {
+      return Math.max(1, responsiveColumns)
     }
 
-    return Math.max(1, numColumns)
-  }, [containerWidth, minItemWidth, numColumns, gap])
+    return 1
+  }, [grid, responsiveColumns])
 
   const rowCount = useMemo(
     () => Math.ceil(data.length / effectiveColumns),
@@ -350,9 +376,8 @@ function VirtualizedList<TItem>({
 
   const getScrollElement = useCallback(() => {
     if (!scrollRef.current) return null
-
     const viewport = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]")
-    return viewport ? (viewport as HTMLElement) : scrollRef.current
+    return (viewport as HTMLElement) || scrollRef.current
   }, [scrollRef])
 
   useEffect(() => {
@@ -375,10 +400,7 @@ function VirtualizedList<TItem>({
     }
 
     scrollElement.addEventListener("scroll", handleScroll, { passive: true })
-
-    return () => {
-      scrollElement.removeEventListener("scroll", handleScroll)
-    }
+    return () => scrollElement.removeEventListener("scroll", handleScroll)
   }, [onEndReached, onEndReachedThreshold, hasReachedEnd, getScrollElement])
 
   useEffect(() => {
@@ -388,13 +410,13 @@ function VirtualizedList<TItem>({
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement,
-    estimateSize: () => estimateItemHeight,
+    estimateSize: useCallback(() => estimateItemHeight, [estimateItemHeight]),
     overscan: 5
   })
 
   const virtualRows = rowVirtualizer.getVirtualItems()
-
   const isListEmpty = data.length === 0
+  const totalSize = rowVirtualizer.getTotalSize()
 
   return (
     <div
@@ -414,7 +436,7 @@ function VirtualizedList<TItem>({
             </div>
           ) : null
         ) : (
-          <div style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
+          <div style={{ height: `${totalSize}px` }}>
             {virtualRows.map((virtualRow) => (
               <VirtualRow
                 key={virtualRow.key}

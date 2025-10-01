@@ -142,6 +142,37 @@ export const getSongsByIdsWithMainRelations = async (
   return songs
 }
 
+export const getSongsByArtistIds = async (
+  artistIds: number[]
+): Promise<SongWithMainRelations[]> => {
+  if (artistIds.length === 0) return []
+
+  const songs = await database.query.songs.findMany({
+    where: inArray(
+      schema.songs.id,
+      database
+        .select({ songId: schema.songsToArtists.songId })
+        .from(schema.songsToArtists)
+        .where(inArray(schema.songsToArtists.artistId, artistIds))
+    ),
+    with: {
+      album: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      },
+      playlists: {
+        with: {
+          playlist: true
+        }
+      }
+    }
+  })
+
+  return songs
+}
+
 export const getSongIdsOnly = async ({ orderBy, filters }: QuerySongsParams): Promise<number[]> => {
   const whereConditions = buildWhereConditions(filters)
 

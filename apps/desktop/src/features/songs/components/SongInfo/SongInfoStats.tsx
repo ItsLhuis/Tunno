@@ -31,7 +31,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
       <div className="min-w-0">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="Clock" />
-          <Typography className="truncate">Listen time</Typography>
+          <Typography className="truncate">{t("common.listenTime")}</Typography>
         </div>
         <Typography affects={["bold", "medium"]} className="truncate">
           {formatDuration(totalPlayTime, t)}
@@ -40,7 +40,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
       <div className="min-w-0">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="ClockFading" />
-          <Typography className="truncate">Average listen time</Typography>
+          <Typography className="truncate">{t("common.averageListenTime")}</Typography>
         </div>
         <Typography affects={["bold", "medium"]} className="truncate">
           {formatDuration(averageListenTime, t)}
@@ -49,7 +49,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
       <div className="min-w-0">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="TrendingUp" />
-          <Typography className="truncate">Retention rate</Typography>
+          <Typography className="truncate">{t("common.retentionRate")}</Typography>
         </div>
         <Typography affects={["bold", "medium"]} className="truncate">
           {retentionRate.toFixed(1)}%
@@ -58,7 +58,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
       <div className="min-w-0">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="PlayCircle" />
-          <Typography className="truncate">Total plays</Typography>
+          <Typography className="truncate">{t("common.totalPlays")}</Typography>
         </div>
         <Typography affects={["bold", "medium"]} className="truncate">
           {formatNumber(playCount)}
@@ -68,7 +68,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Play" />
-            <Typography className="truncate">Last played</Typography>
+            <Typography className="truncate">{t("common.lastPlayed")}</Typography>
           </div>
           <Typography affects={["bold", "medium"]} className="truncate">
             {formatRelativeDate(song.lastPlayedAt, i18n.language, t)}

@@ -70,6 +70,8 @@ export const songKeys = {
     const key = [...songKeys.all, "list", "ids"]
     return params ? [...key, params] : key
   },
+  listByArtistIds: (artistIds: number[]) =>
+    [...songKeys.all, "list", "artist", "ids", artistIds] as const,
   listWithCustomRelations: (relationKey: string, params?: QuerySongsParams) => {
     const key = [...songKeys.all, "list", "custom", relationKey]
     return params ? [...key, params] : key
