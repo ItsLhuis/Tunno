@@ -47,7 +47,7 @@ const SongsListSubHeader = ({ list, className }: SongsListSubHeaderProps) => {
         {t("common.album")}
       </Typography>
       <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.createdAt")}
+        {t("common.added")}
       </Typography>
       <div className="flex items-center justify-center">
         <Icon name="Timer" className="text-muted-foreground" />

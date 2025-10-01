@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode, useRef, useState } from "react"
+import { Fragment, type ReactNode, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -29,9 +29,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Icon,
-  IconButton,
-  ScrollArea,
-  Typography
+  IconButton
 } from "@components/ui"
 
 import { type Artist } from "@repo/api"
@@ -57,8 +55,6 @@ const ArtistActions = ({
 
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-
-  const artistsScrollRef = useRef<HTMLDivElement | null>(null)
 
   const { data: artistSongs } = useFetchSongsByArtistIds(artist ? [artist.id] : undefined)
 
@@ -165,13 +161,15 @@ const ArtistActions = ({
           <Icon name="Plus" />
           {t("common.addTo")}
         </ContextMenuSubTrigger>
-        <ContextMenuSubContent className="p-0">
-          <ScrollArea className="p-1" ref={artistsScrollRef}>
-            <ContextMenuItem onClick={handleAddToQueue}>
-              <Icon name="ListVideo" />
-              <Typography className="line-clamp-none truncate">{t("common.queue")}</Typography>
-            </ContextMenuItem>
-          </ScrollArea>
+        <ContextMenuSubContent>
+          <ContextMenuItem onClick={handleAddToQueue}>
+            <Icon name="ListMusic" />
+            {t("common.queue")}
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <Icon name="List" />
+            {t("common.playlist")}
+          </ContextMenuItem>
         </ContextMenuSubContent>
       </ContextMenuSub>
     ) : (
@@ -180,13 +178,15 @@ const ArtistActions = ({
           <Icon name="Plus" />
           {t("common.addTo")}
         </DropdownMenuSubTrigger>
-        <DropdownMenuSubContent className="p-0">
-          <ScrollArea className="p-1" ref={artistsScrollRef}>
-            <DropdownMenuItem onClick={handleAddToQueue}>
-              <Icon name="ListVideo" />
-              <Typography className="line-clamp-none truncate">{t("common.queue")}</Typography>
-            </DropdownMenuItem>
-          </ScrollArea>
+        <DropdownMenuSubContent>
+          <DropdownMenuItem onClick={handleAddToQueue}>
+            <Icon name="ListMusic" />
+            {t("common.queue")}
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Icon name="List" />
+            {t("common.playlist")}
+          </DropdownMenuItem>
         </DropdownMenuSubContent>
       </DropdownMenuSub>
     )

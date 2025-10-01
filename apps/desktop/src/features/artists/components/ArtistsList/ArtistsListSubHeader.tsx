@@ -28,7 +28,7 @@ const ArtistsListSubHeader = ({ list, className }: ArtistsListSubHeaderProps) =>
     <div
       className={cn(
         className,
-        "grid w-full grid-cols-[24px_40px_1fr_0.5fr_40px] items-center gap-6 px-2 pb-2 text-sm font-medium"
+        "grid w-full grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px] items-center gap-6 px-2 pb-2 text-sm font-medium"
       )}
     >
       <Checkbox
@@ -43,7 +43,13 @@ const ArtistsListSubHeader = ({ list, className }: ArtistsListSubHeaderProps) =>
         {t("common.title")}
       </Typography>
       <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.createdAt")}
+        {t("common.totalPlays")}
+      </Typography>
+      <Typography className="text-sm font-medium text-muted-foreground">
+        {t("common.lastPlayed")}
+      </Typography>
+      <Typography className="text-sm font-medium text-muted-foreground">
+        {t("common.added")}
       </Typography>
       <div className="flex items-center justify-center">
         <Fade show={hasSelectedRows}>

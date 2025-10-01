@@ -197,7 +197,7 @@ const SongActions = memo(
             {t("common.queue")}
           </ContextMenuItem>
           <ContextMenuItem>
-            <Icon name="Plus" />
+            <Icon name="List" />
             {t("common.playlist")}
           </ContextMenuItem>
         </ContextMenuSubContent>
@@ -216,7 +216,7 @@ const SongActions = memo(
             {t("common.queue")}
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Icon name="Plus" />
+            <Icon name="List" />
             {t("common.playlist")}
           </DropdownMenuItem>
         </DropdownMenuSubContent>

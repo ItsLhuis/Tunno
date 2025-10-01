@@ -12,9 +12,17 @@ import { cn } from "@lib/utils"
 
 import { ArtistActions } from "./ArtistActions"
 
-import { Button, Checkbox, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
+import {
+  Button,
+  Checkbox,
+  IconButton,
+  Marquee,
+  SafeLink,
+  Thumbnail,
+  Typography
+} from "@components/ui"
 
-import { formatRelativeDate } from "@repo/utils"
+import { formatNumber, formatRelativeDate } from "@repo/utils"
 
 import { type Artist } from "@repo/api"
 
@@ -50,6 +58,8 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
     await play()
   }
 
+  const canPlay = songIds.length > 0
+
   const showCheckbox = !!onToggle
 
   if (variant === "card") {
@@ -74,13 +84,14 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
               <ArtistActions artist={artist} />
             </div>
           </div>
-          {songIds.length > 0 && (
+          {canPlay && (
             <div className="absolute bottom-12 right-2 z-10 opacity-0 transition-all group-hover:opacity-100">
               <IconButton
                 name="Play"
                 tooltip={t("common.play")}
                 onClick={handlePlayArtist}
                 isLoading={isTrackLoading || isLoading}
+                disabled={!canPlay}
               />
             </div>
           )}
@@ -90,8 +101,8 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
   }
 
   const gridCols = showCheckbox
-    ? "grid-cols-[24px_40px_1fr_0.5fr_40px]"
-    : "grid-cols-[40px_1fr_0.5fr_40px]"
+    ? "grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
+    : "grid-cols-[40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
 
   return (
     <ArtistActions variant="context" artist={artist}>
@@ -111,9 +122,10 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
           <div className="z-10 opacity-0 transition-opacity group-hover:opacity-100">
             <IconButton
               name="Play"
-              tooltip={t("common.play")}
+              tooltip={canPlay ? t("common.play") : "No songs available"}
               onClick={handlePlayArtist}
               isLoading={isTrackLoading || isLoading}
+              disabled={!canPlay}
             />
           </div>
         </div>
@@ -124,12 +136,29 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
             containerClassName="rounded-full"
           />
           <div className="w-full truncate">
-            <Button variant="link" asChild>
-              <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
-                <Typography className="truncate">{artist.name}</Typography>
-              </SafeLink>
-            </Button>
+            <Marquee>
+              <Button variant="link" asChild>
+                <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
+                  <Typography className="truncate">{artist.name}</Typography>
+                </SafeLink>
+              </Button>
+            </Marquee>
+            <Marquee>
+              <Typography affects={["muted", "small"]}>
+                {songIds.length} {songIds.length === 1 ? t("common.song") : t("songs.title")}
+              </Typography>
+            </Marquee>
           </div>
+        </div>
+        <div className="truncate">
+          <Typography className="truncate">{formatNumber(artist.playCount)}</Typography>
+        </div>
+        <div className="truncate">
+          <Typography className="truncate">
+            {artist.lastPlayedAt
+              ? formatRelativeDate(artist.lastPlayedAt, i18n.language, t)
+              : "Never played"}
+          </Typography>
         </div>
         <div className="truncate">
           <Typography className="truncate">
