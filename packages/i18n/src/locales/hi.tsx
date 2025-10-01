@@ -60,12 +60,18 @@ export const hindi: Language = {
       openMiniplayer: "मिनिप्लेयर खोलें",
       enterFullScreen: "पूर्ण स्क्रीन में प्रवेश करें",
       exitFullScreen: "पूर्ण स्क्रीन से बाहर निकलें",
+      goToSong: "गाने पर जाएं",
       goToAlbum: "एल्बम पर जाएं",
       goToArtist: "कलाकार के पास जाएं",
       shuffleAndPlay: "शफल करें और चलाएं",
       unknown: "अज्ञात",
       unknownAlbum: "अज्ञात एल्बम",
-      unknownArtist: "अज्ञात कलाकार"
+      unknownArtist: "अज्ञात कलाकार",
+      listenTime: "सुनने का समय",
+      averageListenTime: "औसत सुनने का समय",
+      retentionRate: "रिटेंशन दर",
+      totalPlays: "कुल प्ले",
+      lastPlayed: "अंतिम बार चलाया गया"
     },
     form: {
       titles: {

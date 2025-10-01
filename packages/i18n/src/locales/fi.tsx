@@ -60,12 +60,18 @@ export const finnish: Language = {
       openMiniplayer: "Avaa minisoitin",
       enterFullScreen: "Siirry koko näyttöön",
       exitFullScreen: "Poistu koko näytöstä",
+      goToSong: "Siirry kappaleeseen",
       goToAlbum: "Siirry albumiin",
       goToArtist: "Siirry artistiin",
       shuffleAndPlay: "Sekoita ja toista",
       unknown: "Tuntematon",
       unknownAlbum: "Tuntematon albumi",
-      unknownArtist: "Tuntematon artisti"
+      unknownArtist: "Tuntematon artisti",
+      listenTime: "Kuunteluaika",
+      averageListenTime: "Keskimääräinen kuunteluaika",
+      retentionRate: "Retention rate",
+      totalPlays: "Kokonaistoistot",
+      lastPlayed: "Viimeksi soitettu"
     },
     form: {
       titles: {

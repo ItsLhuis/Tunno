@@ -60,12 +60,18 @@ export const german: Language = {
       openMiniplayer: "Miniplayer öffnen",
       enterFullScreen: "Vollbild aktivieren",
       exitFullScreen: "Vollbild verlassen",
+      goToSong: "Zum Lied gehen",
       goToAlbum: "Zum Album gehen",
       goToArtist: "Zum Künstler gehen",
       shuffleAndPlay: "Mischen und abspielen",
       unknown: "Unbekannt",
       unknownAlbum: "Unbekanntes Album",
-      unknownArtist: "Unbekannter Künstler"
+      unknownArtist: "Unbekannter Künstler",
+      listenTime: "Hörzeit",
+      averageListenTime: "Durchschnittliche Hörzeit",
+      retentionRate: "Retention Rate",
+      totalPlays: "Gesamte Wiedergaben",
+      lastPlayed: "Zuletzt gespielt"
     },
     form: {
       titles: {

@@ -60,12 +60,18 @@ export const english: Language = {
       openMiniplayer: "Open miniplayer",
       enterFullScreen: "Enter full screen",
       exitFullScreen: "Exit full screen",
+      goToSong: "Go to song",
       goToAlbum: "Go to album",
       goToArtist: "Go to artist",
       shuffleAndPlay: "Shuffle and play",
       unknown: "Unknown",
       unknownAlbum: "Unknown album",
-      unknownArtist: "Unknown artist"
+      unknownArtist: "Unknown artist",
+      listenTime: "Listen time",
+      averageListenTime: "Average listen time",
+      retentionRate: "Retention rate",
+      totalPlays: "Total plays",
+      lastPlayed: "Last played"
     },
     form: {
       titles: {

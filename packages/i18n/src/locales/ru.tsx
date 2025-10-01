@@ -60,12 +60,18 @@ export const russian: Language = {
       openMiniplayer: "Открыть миниплеер",
       enterFullScreen: "Войти в полный экран",
       exitFullScreen: "Выйти из полного экрана",
+      goToSong: "Перейти к песне",
       goToAlbum: "Перейти к альбому",
       goToArtist: "Перейти к исполнителю",
       shuffleAndPlay: "Перемешать и воспроизвести",
       unknown: "Неизвестно",
       unknownAlbum: "Неизвестный альбом",
-      unknownArtist: "Неизвестный исполнитель"
+      unknownArtist: "Неизвестный исполнитель",
+      listenTime: "Время прослушивания",
+      averageListenTime: "Среднее время прослушивания",
+      retentionRate: "Коэффициент удержания",
+      totalPlays: "Всего воспроизведений",
+      lastPlayed: "Последнее воспроизведение"
     },
     form: {
       titles: {

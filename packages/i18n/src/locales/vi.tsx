@@ -60,12 +60,18 @@ export const vietnamese: Language = {
       openMiniplayer: "Mở trình phát nhỏ",
       enterFullScreen: "Vào toàn màn hình",
       exitFullScreen: "Thoát toàn màn hình",
+      goToSong: "Đến bài hát",
       goToAlbum: "Đến album",
       goToArtist: "Đến nghệ sĩ",
       shuffleAndPlay: "Trộn và phát",
       unknown: "Không xác định",
       unknownAlbum: "Album không xác định",
-      unknownArtist: "Nghệ sĩ không xác định"
+      unknownArtist: "Nghệ sĩ không xác định",
+      listenTime: "Thời gian nghe",
+      averageListenTime: "Thời gian nghe trung bình",
+      retentionRate: "Tỷ lệ giữ chân",
+      totalPlays: "Tổng số lần phát",
+      lastPlayed: "Lần phát cuối"
     },
     form: {
       titles: {

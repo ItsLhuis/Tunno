@@ -60,12 +60,18 @@ export const korean: Language = {
       openMiniplayer: "미니플레이어 열기",
       enterFullScreen: "전체 화면 진입",
       exitFullScreen: "전체 화면 종료",
+      goToSong: "노래로 이동",
       goToAlbum: "앨범으로 이동",
       goToArtist: "아티스트로 이동",
       shuffleAndPlay: "셔플 및 재생",
       unknown: "알 수 없음",
       unknownAlbum: "알 수 없는 앨범",
-      unknownArtist: "알 수 없는 아티스트"
+      unknownArtist: "알 수 없는 아티스트",
+      listenTime: "듣기 시간",
+      averageListenTime: "평균 듣기 시간",
+      retentionRate: "리텐션 비율",
+      totalPlays: "총 재생 횟수",
+      lastPlayed: "마지막 재생"
     },
     form: {
       titles: {

@@ -60,12 +60,18 @@ export const danish: Language = {
       openMiniplayer: "Åbn miniafspiller",
       enterFullScreen: "Gå til fuldskærm",
       exitFullScreen: "Forlad fuldskærm",
+      goToSong: "Gå til sang",
       goToAlbum: "Gå til album",
       goToArtist: "Gå til kunstner",
       shuffleAndPlay: "Bland og afspil",
       unknown: "Ukendt",
       unknownAlbum: "Ukendt album",
-      unknownArtist: "Ukendt kunstner"
+      unknownArtist: "Ukendt kunstner",
+      listenTime: "Lytte tid",
+      averageListenTime: "Gennemsnitlig lytte tid",
+      retentionRate: "Retention rate",
+      totalPlays: "Totale afspilninger",
+      lastPlayed: "Sidst afspillet"
     },
     form: {
       titles: {

@@ -60,12 +60,18 @@ export const turkish: Language = {
       openMiniplayer: "Miniçalıcıyı aç",
       enterFullScreen: "Tam ekrana geç",
       exitFullScreen: "Tam ekrandan çık",
+      goToSong: "Şarkıya git",
       goToAlbum: "Albüme git",
       goToArtist: "Sanatçıya git",
       shuffleAndPlay: "Karıştır ve çal",
       unknown: "Bilinmeyen",
       unknownAlbum: "Bilinmeyen albüm",
-      unknownArtist: "Bilinmeyen sanatçı"
+      unknownArtist: "Bilinmeyen sanatçı",
+      listenTime: "Dinleme süresi",
+      averageListenTime: "Ortalama dinleme süresi",
+      retentionRate: "Tutma oranı",
+      totalPlays: "Toplam çalma",
+      lastPlayed: "Son çalınan"
     },
     form: {
       titles: {

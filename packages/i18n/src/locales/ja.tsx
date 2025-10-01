@@ -60,12 +60,18 @@ export const japanese: Language = {
       openMiniplayer: "ミニプレーヤーを開く",
       enterFullScreen: "フルスクリーンに入る",
       exitFullScreen: "フルスクリーンを終了",
+      goToSong: "楽曲に移動",
       goToAlbum: "アルバムに移動",
       goToArtist: "アーティストに移動",
       shuffleAndPlay: "シャッフルして再生",
       unknown: "不明",
       unknownAlbum: "不明なアルバム",
-      unknownArtist: "不明なアーティスト"
+      unknownArtist: "不明なアーティスト",
+      listenTime: "リスン時間",
+      averageListenTime: "平均リスン時間",
+      retentionRate: "リテンション率",
+      totalPlays: "総再生回数",
+      lastPlayed: "最後に再生"
     },
     form: {
       titles: {

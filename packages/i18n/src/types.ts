@@ -63,12 +63,18 @@ export type Translations = {
     openMiniplayer: string
     enterFullScreen: string
     exitFullScreen: string
+    goToSong: string
     goToAlbum: string
     goToArtist: string
     shuffleAndPlay: string
     unknown: string
     unknownAlbum: string
     unknownArtist: string
+    listenTime?: string
+    averageListenTime?: string
+    retentionRate?: string
+    totalPlays?: string
+    lastPlayed?: string
   }
   form: {
     titles: {
@@ -261,6 +267,28 @@ export type Translations = {
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string
+    filters?: {
+      title: string
+      clear: string
+      sortBy: string
+      favorites: string
+      favoritesDescription: string
+      playCount: string
+      playCountMin: string
+      playCountMax: string
+      lastPlayed: string
+      lastPlayedAfter: string
+      lastPlayedBefore: string
+      selectDate: string
+      sortOptions: {
+        name: string
+        favorites: string
+        playCount: string
+        lastPlayed: string
+        createdAt: string
+        updatedAt: string
+      }
+    }
   }
   favorites: {
     createdTitle: string

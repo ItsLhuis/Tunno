@@ -60,12 +60,18 @@ export const portuguese: Language = {
       openMiniplayer: "Abrir miniplayer",
       enterFullScreen: "Entrar em ecrã completo",
       exitFullScreen: "Sair do ecrã completo",
+      goToSong: "Ir para música",
       goToAlbum: "Ir para álbum",
       goToArtist: "Ir para artista",
       shuffleAndPlay: "Baralhar e reproduzir",
       unknown: "Desconhecido",
       unknownAlbum: "Álbum desconhecido",
-      unknownArtist: "Artista desconhecido"
+      unknownArtist: "Artista desconhecido",
+      listenTime: "Tempo de escuta",
+      averageListenTime: "Tempo médio de escuta",
+      retentionRate: "Taxa de retenção",
+      totalPlays: "Total de reproduções",
+      lastPlayed: "Última reprodução"
     },
     form: {
       titles: {
@@ -258,7 +264,29 @@ export const portuguese: Language = {
       updatedFailedTitle: "Falha ao atualizar artista",
       deletedTitle: "Artista eliminado com sucesso",
       deletedDescription: "{name} foi eliminado",
-      deletedFailedTitle: "Falha ao eliminar artista"
+      deletedFailedTitle: "Falha ao eliminar artista",
+      filters: {
+        title: "Filtros",
+        clear: "Limpar filtros ativos",
+        sortBy: "Ordenar por",
+        favorites: "Apenas favoritos",
+        favoritesDescription: "Mostrar apenas artistas favoritos",
+        playCount: "Reproduções",
+        playCountMin: "Mínimo",
+        playCountMax: "Máximo",
+        lastPlayed: "Última reprodução",
+        lastPlayedAfter: "Depois de",
+        lastPlayedBefore: "Antes de",
+        selectDate: "Selecionar data",
+        sortOptions: {
+          name: "Nome",
+          favorites: "Favoritos",
+          playCount: "Reproduções",
+          lastPlayed: "Última reprodução",
+          createdAt: "Data de criação",
+          updatedAt: "Data de atualização"
+        }
+      }
     },
     favorites: {
       createdTitle: "Adicionado aos Favoritos",

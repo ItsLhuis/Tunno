@@ -60,12 +60,18 @@ export const ukrainian: Language = {
       openMiniplayer: "Відкрити міні-плеєр",
       enterFullScreen: "Увійти в повний екран",
       exitFullScreen: "Вийти з повного екрану",
+      goToSong: "Перейти до пісні",
       goToAlbum: "Перейти до альбому",
       goToArtist: "Перейти до виконавця",
       shuffleAndPlay: "Перемішати та відтворити",
       unknown: "Невідомо",
       unknownAlbum: "Невідомий альбом",
-      unknownArtist: "Невідомий виконавець"
+      unknownArtist: "Невідомий виконавець",
+      listenTime: "Час прослуховування",
+      averageListenTime: "Середній час прослуховування",
+      retentionRate: "Коефіцієнт утримання",
+      totalPlays: "Загальна кількість відтворень",
+      lastPlayed: "Останнє відтворення"
     },
     form: {
       titles: {

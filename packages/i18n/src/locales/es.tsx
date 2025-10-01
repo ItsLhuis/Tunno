@@ -60,12 +60,18 @@ export const spanish: Language = {
       openMiniplayer: "Abrir minireproductor",
       enterFullScreen: "Entrar en pantalla completa",
       exitFullScreen: "Salir de pantalla completa",
+      goToSong: "Ir a la canción",
       goToAlbum: "Ir al álbum",
       goToArtist: "Ir al artista",
       shuffleAndPlay: "Mezclar y reproducir",
       unknown: "Desconocido",
       unknownAlbum: "Álbum desconocido",
-      unknownArtist: "Artista desconocido"
+      unknownArtist: "Artista desconocido",
+      listenTime: "Tiempo de escucha",
+      averageListenTime: "Tiempo promedio de escucha",
+      retentionRate: "Tasa de retención",
+      totalPlays: "Total de reproducciones",
+      lastPlayed: "Última reproducción"
     },
     form: {
       titles: {

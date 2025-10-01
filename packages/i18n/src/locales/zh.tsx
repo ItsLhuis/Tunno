@@ -60,12 +60,18 @@ export const chinese: Language = {
       openMiniplayer: "打开迷你播放器",
       enterFullScreen: "进入全屏",
       exitFullScreen: "退出全屏",
+      goToSong: "转到歌曲",
       goToAlbum: "转到专辑",
       goToArtist: "转到艺术家",
       shuffleAndPlay: "随机播放",
       unknown: "未知",
       unknownAlbum: "未知专辑",
-      unknownArtist: "未知艺术家"
+      unknownArtist: "未知艺术家",
+      listenTime: "收听时间",
+      averageListenTime: "平均收听时间",
+      retentionRate: "留存率",
+      totalPlays: "总播放次数",
+      lastPlayed: "最后播放"
     },
     form: {
       titles: {

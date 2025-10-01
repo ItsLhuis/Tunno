@@ -60,12 +60,18 @@ export const polish: Language = {
       openMiniplayer: "Otwórz miniodtwarzacz",
       enterFullScreen: "Przejdź na pełny ekran",
       exitFullScreen: "Wyjdź z pełnego ekranu",
+      goToSong: "Przejdź do piosenki",
       goToAlbum: "Przejdź do albumu",
       goToArtist: "Przejdź do artysty",
       shuffleAndPlay: "Losuj i odtwarzaj",
       unknown: "Nieznane",
       unknownAlbum: "Nieznany album",
-      unknownArtist: "Nieznany artysta"
+      unknownArtist: "Nieznany artysta",
+      listenTime: "Czas słuchania",
+      averageListenTime: "Średni czas słuchania",
+      retentionRate: "Wskaźnik retencji",
+      totalPlays: "Łączna liczba odtworzeń",
+      lastPlayed: "Ostatnio odtwarzane"
     },
     form: {
       titles: {

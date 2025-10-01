@@ -60,12 +60,18 @@ export const french: Language = {
       openMiniplayer: "Ouvrir minilecteur",
       enterFullScreen: "Passer en plein écran",
       exitFullScreen: "Quitter le plein écran",
+      goToSong: "Aller à la chanson",
       goToAlbum: "Aller à l'album",
       goToArtist: "Aller à l'artiste",
       shuffleAndPlay: "Mélanger et lire",
       unknown: "Inconnu",
       unknownAlbum: "Album inconnu",
-      unknownArtist: "Artiste inconnu"
+      unknownArtist: "Artiste inconnu",
+      listenTime: "Temps d'écoute",
+      averageListenTime: "Temps d'écoute moyen",
+      retentionRate: "Taux de rétention",
+      totalPlays: "Total des lectures",
+      lastPlayed: "Dernière lecture"
     },
     form: {
       titles: {

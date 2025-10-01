@@ -60,12 +60,18 @@ export const swedish: Language = {
       openMiniplayer: "Öppna minispelare",
       enterFullScreen: "Gå till fullskärm",
       exitFullScreen: "Lämna fullskärm",
+      goToSong: "Gå till låt",
       goToAlbum: "Gå till album",
       goToArtist: "Gå till artist",
       shuffleAndPlay: "Blanda och spela",
       unknown: "Okänd",
       unknownAlbum: "Okänt album",
-      unknownArtist: "Okänd artist"
+      unknownArtist: "Okänd artist",
+      listenTime: "Lyssnad tid",
+      averageListenTime: "Genomsnittlig lyssnad tid",
+      retentionRate: "Retention rate",
+      totalPlays: "Totalt antal uppspelningar",
+      lastPlayed: "Senast spelad"
     },
     form: {
       titles: {

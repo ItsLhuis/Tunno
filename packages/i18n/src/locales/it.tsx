@@ -60,12 +60,18 @@ export const italian: Language = {
       openMiniplayer: "Apri miniplayer",
       enterFullScreen: "Entra a schermo intero",
       exitFullScreen: "Esci da schermo intero",
+      goToSong: "Vai alla canzone",
       goToAlbum: "Vai all'album",
       goToArtist: "Vai all'artista",
       shuffleAndPlay: "Mescola e riproduci",
       unknown: "Sconosciuto",
       unknownAlbum: "Album sconosciuto",
-      unknownArtist: "Artista sconosciuto"
+      unknownArtist: "Artista sconosciuto",
+      listenTime: "Tempo di ascolto",
+      averageListenTime: "Tempo medio di ascolto",
+      retentionRate: "Tasso di ritenzione",
+      totalPlays: "Riproduzioni totali",
+      lastPlayed: "Ultima riproduzione"
     },
     form: {
       titles: {
