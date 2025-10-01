@@ -34,7 +34,7 @@ export const dutch: Language = {
       album: "Album",
       artist: "Kunstenaar",
       date: "Datum",
-      createdAt: "Aanmaakdatum",
+      added: "Toegevoegd",
       duration: "Duur",
       search: "Zoeken",
       selectAll: "Alles selecteren",

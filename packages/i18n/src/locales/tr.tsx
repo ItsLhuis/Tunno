@@ -40,7 +40,7 @@ export const turkish: Language = {
       album: "Albüm",
       artist: "Sanatçı",
       date: "Tarih",
-      createdAt: "Oluşturulma tarihi",
+      added: "Eklendi",
       duration: "Süre",
       search: "Ara",
       selectAll: "Tümünü seç",

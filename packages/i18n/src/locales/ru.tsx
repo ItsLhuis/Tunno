@@ -40,7 +40,7 @@ export const russian: Language = {
       album: "Альбом",
       artist: "Артист",
       date: "Дата",
-      createdAt: "Дата создания",
+      added: "Добавлено",
       duration: "Длительность",
       search: "Поиск",
       selectAll: "Выбрать все",

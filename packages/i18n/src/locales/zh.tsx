@@ -40,7 +40,7 @@ export const chinese: Language = {
       album: "专辑",
       artist: "艺术家",
       date: "日期",
-      createdAt: "创建日期",
+      added: "已添加",
       duration: "时长",
       search: "搜索",
       selectAll: "全选",

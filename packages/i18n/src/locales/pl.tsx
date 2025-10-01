@@ -40,7 +40,7 @@ export const polish: Language = {
       album: "Album",
       artist: "Artysta",
       date: "Data",
-      createdAt: "Data utworzenia",
+      added: "Dodano",
       duration: "Czas trwania",
       search: "Szukaj",
       selectAll: "Zaznacz wszystko",

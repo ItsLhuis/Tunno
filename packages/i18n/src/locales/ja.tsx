@@ -40,7 +40,7 @@ export const japanese: Language = {
       album: "アルバム",
       artist: "アーティスト",
       date: "日付",
-      createdAt: "作成日",
+      added: "追加",
       duration: "再生時間",
       search: "検索",
       selectAll: "すべて選択",

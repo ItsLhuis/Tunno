@@ -40,7 +40,7 @@ export const korean: Language = {
       album: "앨범",
       artist: "아티스트",
       date: "날짜",
-      createdAt: "생성일",
+      added: "추가됨",
       duration: "재생 시간",
       search: "검색",
       selectAll: "전체 선택",

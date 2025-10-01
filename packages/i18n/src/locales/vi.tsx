@@ -40,7 +40,7 @@ export const vietnamese: Language = {
       album: "Album",
       artist: "Nghệ sĩ",
       date: "Ngày",
-      createdAt: "Ngày tạo",
+      added: "Đã thêm",
       duration: "Thời lượng",
       search: "Tìm kiếm",
       selectAll: "Chọn tất cả",

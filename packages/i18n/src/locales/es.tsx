@@ -40,7 +40,7 @@ export const spanish: Language = {
       album: "Álbum",
       artist: "Artista",
       date: "Fecha",
-      createdAt: "Fecha de creación",
+      added: "Añadido",
       duration: "Duración",
       search: "Buscar",
       selectAll: "Seleccionar todo",

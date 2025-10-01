@@ -40,7 +40,7 @@ export const finnish: Language = {
       album: "Albumi",
       artist: "Artisti",
       date: "Päivämäärä",
-      createdAt: "Luontipäivä",
+      added: "Lisätty",
       duration: "Kesto",
       search: "Haku",
       selectAll: "Valitse kaikki",

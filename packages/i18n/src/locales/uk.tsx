@@ -40,7 +40,7 @@ export const ukrainian: Language = {
       album: "Альбом",
       artist: "Артист",
       date: "Дата",
-      createdAt: "Дата створення",
+      added: "Додано",
       duration: "Тривалість",
       search: "Пошук",
       selectAll: "Вибрати все",

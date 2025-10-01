@@ -34,7 +34,7 @@ export const norwegian: Language = {
       album: "Album",
       artist: "Kunstner",
       date: "Dato",
-      createdAt: "Opprettelsesdato",
+      added: "Lagt til",
       duration: "Varighet",
       search: "Søk",
       selectAll: "Velg alle",

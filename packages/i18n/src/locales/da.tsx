@@ -40,7 +40,7 @@ export const danish: Language = {
       album: "Album",
       artist: "Kunstner",
       date: "Dato",
-      createdAt: "Oprettelsesdato",
+      added: "Tilføjet",
       duration: "Varighed",
       search: "Søg",
       selectAll: "Vælg alle",

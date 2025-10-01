@@ -40,7 +40,7 @@ export const hindi: Language = {
       album: "एल्बम",
       artist: "कलाकार",
       date: "तारीख",
-      createdAt: "निर्माण तिथि",
+      added: "जोड़ा गया",
       duration: "अवधि",
       search: "खोजें",
       selectAll: "सभी चुनें",

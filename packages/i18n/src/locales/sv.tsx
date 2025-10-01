@@ -40,7 +40,7 @@ export const swedish: Language = {
       album: "Album",
       artist: "Konstnär",
       date: "Datum",
-      createdAt: "Skapelsedatum",
+      added: "Tillagd",
       duration: "Längd",
       search: "Sök",
       selectAll: "Markera alla",

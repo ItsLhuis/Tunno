@@ -40,7 +40,7 @@ export const german: Language = {
       album: "Album",
       artist: "Künstler",
       date: "Datum",
-      createdAt: "Erstellungsdatum",
+      added: "Hinzugefügt",
       duration: "Dauer",
       search: "Suchen",
       selectAll: "Alle auswählen",
