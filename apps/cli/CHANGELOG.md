@@ -2,6 +2,12 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.2.1] - 2025-02-10
+
+### Fixed
+
+- Updated YouTube URL format for better compatibility
+
 ## [1.2.0] - 2025-07-20
 
 ### Changed
