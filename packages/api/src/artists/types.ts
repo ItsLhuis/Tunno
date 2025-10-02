@@ -12,6 +12,8 @@ export type OrderableArtistColumns =
   | "name"
   | "playCount"
   | "isFavorite"
+  | "totalTracks"
+  | "totalDuration"
   | "lastPlayedAt"
   | "createdAt"
   | "updatedAt"
@@ -21,6 +23,10 @@ export type ArtistFilters = {
   isFavorite?: boolean
   minPlayCount?: number
   maxPlayCount?: number
+  minTotalTracks?: number
+  maxTotalTracks?: number
+  minTotalDuration?: number
+  maxTotalDuration?: number
   playedAfter?: Date
   playedBefore?: Date
 }
