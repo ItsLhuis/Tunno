@@ -263,7 +263,37 @@ export const korean: Language = {
       updatedFailedTitle: "아티스트 업데이트 실패",
       deletedTitle: "아티스트가 성공적으로 삭제되었습니다",
       deletedDescription: "{name} 이(가) 삭제되었습니다",
-      deletedFailedTitle: "아티스트 삭제 실패"
+      deletedFailedTitle: "아티스트 삭제 실패",
+      filters: {
+        title: "필터",
+        clear: "활성 필터 지우기",
+        sortBy: "정렬 기준",
+        favorites: "즐겨찾기만",
+        favoritesDescription: "즐겨찾기 아티스트만 표시",
+        playCount: "재생 횟수",
+        playCountMin: "최소",
+        playCountMax: "최대",
+        totalTracks: "총 곡 수",
+        totalTracksMin: "최소",
+        totalTracksMax: "최대",
+        totalDuration: "총 재생 시간",
+        totalDurationMin: "최소",
+        totalDurationMax: "최대",
+        lastPlayed: "마지막 재생",
+        lastPlayedAfter: "이후",
+        lastPlayedBefore: "이전",
+        selectDate: "날짜 선택",
+        sortOptions: {
+          name: "이름",
+          favorites: "즐겨찾기",
+          playCount: "재생 횟수",
+          totalTracks: "총 곡 수",
+          totalDuration: "총 재생 시간",
+          lastPlayed: "마지막 재생",
+          createdAt: "생성일",
+          updatedAt: "업데이트일"
+        }
+      }
     },
     favorites: {
       createdTitle: "즐겨찾기에 추가됨",

@@ -263,7 +263,37 @@ export const finnish: Language = {
       updatedFailedTitle: "Artistin päivitys epäonnistui",
       deletedTitle: "Artisti poistettu onnistuneesti",
       deletedDescription: "{name} on poistettu",
-      deletedFailedTitle: "Artistin poisto epäonnistui"
+      deletedFailedTitle: "Artistin poisto epäonnistui",
+      filters: {
+        title: "Suodattimet",
+        clear: "Tyhjennä aktiiviset suodattimet",
+        sortBy: "Järjestä",
+        favorites: "Vain suosikit",
+        favoritesDescription: "Näytä vain suosikkiartistit",
+        playCount: "Toistokertojen määrä",
+        playCountMin: "Vähintään",
+        playCountMax: "Enintään",
+        totalTracks: "Kappaleiden kokonaismäärä",
+        totalTracksMin: "Vähintään",
+        totalTracksMax: "Enintään",
+        totalDuration: "Kokonaiskesto",
+        totalDurationMin: "Vähintään",
+        totalDurationMax: "Enintään",
+        lastPlayed: "Viimeksi soitettu",
+        lastPlayedAfter: "Jälkeen",
+        lastPlayedBefore: "Ennen",
+        selectDate: "Valitse päivämäärä",
+        sortOptions: {
+          name: "Nimi",
+          favorites: "Suosikit",
+          playCount: "Toistokertojen määrä",
+          totalTracks: "Kappaleiden kokonaismäärä",
+          totalDuration: "Kokonaiskesto",
+          lastPlayed: "Viimeksi soitettu",
+          createdAt: "Luontipäivä",
+          updatedAt: "Päivityspäivä"
+        }
+      }
     },
     favorites: {
       createdTitle: "Lisätty suosikkeihin",

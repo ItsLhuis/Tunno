@@ -70,11 +70,11 @@ export type Translations = {
     unknown: string
     unknownAlbum: string
     unknownArtist: string
-    listenTime?: string
-    averageListenTime?: string
-    retentionRate?: string
-    totalPlays?: string
-    lastPlayed?: string
+    listenTime: string
+    averageListenTime: string
+    retentionRate: string
+    totalPlays: string
+    lastPlayed: string
   }
   form: {
     titles: {
@@ -267,7 +267,7 @@ export type Translations = {
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string
-    filters?: {
+    filters: {
       title: string
       clear: string
       sortBy: string
@@ -276,6 +276,12 @@ export type Translations = {
       playCount: string
       playCountMin: string
       playCountMax: string
+      totalTracks: string
+      totalTracksMin: string
+      totalTracksMax: string
+      totalDuration: string
+      totalDurationMin: string
+      totalDurationMax: string
       lastPlayed: string
       lastPlayedAfter: string
       lastPlayedBefore: string
@@ -284,6 +290,8 @@ export type Translations = {
         name: string
         favorites: string
         playCount: string
+        totalTracks: string
+        totalDuration: string
         lastPlayed: string
         createdAt: string
         updatedAt: string

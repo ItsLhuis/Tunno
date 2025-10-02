@@ -263,7 +263,37 @@ export const russian: Language = {
       updatedFailedTitle: "Не удалось обновить исполнителя",
       deletedTitle: "Исполнитель успешно удалён",
       deletedDescription: "{name} удалён",
-      deletedFailedTitle: "Не удалось удалить исполнителя"
+      deletedFailedTitle: "Не удалось удалить исполнителя",
+      filters: {
+        title: "Фильтры",
+        clear: "Очистить активные фильтры",
+        sortBy: "Сортировать по",
+        favorites: "Только избранные",
+        favoritesDescription: "Показать только избранных исполнителей",
+        playCount: "Количество воспроизведений",
+        playCountMin: "Минимум",
+        playCountMax: "Максимум",
+        totalTracks: "Общее количество песен",
+        totalTracksMin: "Минимум",
+        totalTracksMax: "Максимум",
+        totalDuration: "Общая продолжительность",
+        totalDurationMin: "Минимум",
+        totalDurationMax: "Максимум",
+        lastPlayed: "Последнее воспроизведение",
+        lastPlayedAfter: "После",
+        lastPlayedBefore: "До",
+        selectDate: "Выбрать дату",
+        sortOptions: {
+          name: "Название",
+          favorites: "Избранные",
+          playCount: "Количество воспроизведений",
+          totalTracks: "Общее количество песен",
+          totalDuration: "Общая продолжительность",
+          lastPlayed: "Последнее воспроизведение",
+          createdAt: "Дата создания",
+          updatedAt: "Дата обновления"
+        }
+      }
     },
     favorites: {
       createdTitle: "Добавлено в избранное",

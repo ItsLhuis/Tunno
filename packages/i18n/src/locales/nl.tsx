@@ -264,7 +264,37 @@ export const dutch: Language = {
       updatedFailedTitle: "Artiest bijwerken mislukt",
       deletedTitle: "Artiest succesvol verwijderd",
       deletedDescription: "{name} is verwijderd",
-      deletedFailedTitle: "Artiest verwijderen mislukt"
+      deletedFailedTitle: "Artiest verwijderen mislukt",
+      filters: {
+        title: "Filters",
+        clear: "Actieve filters wissen",
+        sortBy: "Sorteren op",
+        favorites: "Alleen favorieten",
+        favoritesDescription: "Toon alleen favoriete artiesten",
+        playCount: "Aantal afspelingen",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        totalTracks: "Totaal aantal liedjes",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maximum",
+        totalDuration: "Totale duur",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maximum",
+        lastPlayed: "Laatst afgespeeld",
+        lastPlayedAfter: "Na",
+        lastPlayedBefore: "Voor",
+        selectDate: "Selecteer datum",
+        sortOptions: {
+          name: "Naam",
+          favorites: "Favorieten",
+          playCount: "Aantal afspelingen",
+          totalTracks: "Totaal aantal liedjes",
+          totalDuration: "Totale duur",
+          lastPlayed: "Laatst afgespeeld",
+          createdAt: "Aanmaakdatum",
+          updatedAt: "Bijwerkdatum"
+        }
+      }
     },
     favorites: {
       createdTitle: "Toegevoegd aan favorieten",

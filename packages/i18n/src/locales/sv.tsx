@@ -263,7 +263,37 @@ export const swedish: Language = {
       updatedFailedTitle: "Misslyckades att uppdatera artist",
       deletedTitle: "Artist borttagen",
       deletedDescription: "{name} har tagits bort",
-      deletedFailedTitle: "Misslyckades att ta bort artist"
+      deletedFailedTitle: "Misslyckades att ta bort artist",
+      filters: {
+        title: "Filter",
+        clear: "Rensa aktiva filter",
+        sortBy: "Sortera efter",
+        favorites: "Endast favoriter",
+        favoritesDescription: "Visa endast favoritartister",
+        playCount: "Antal uppspelningar",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        totalTracks: "Totalt antal låtar",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maximum",
+        totalDuration: "Total varaktighet",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maximum",
+        lastPlayed: "Senast spelad",
+        lastPlayedAfter: "Efter",
+        lastPlayedBefore: "Före",
+        selectDate: "Välj datum",
+        sortOptions: {
+          name: "Namn",
+          favorites: "Favoriter",
+          playCount: "Antal uppspelningar",
+          totalTracks: "Totalt antal låtar",
+          totalDuration: "Total varaktighet",
+          lastPlayed: "Senast spelad",
+          createdAt: "Skapad",
+          updatedAt: "Uppdaterad"
+        }
+      }
     },
     favorites: {
       createdTitle: "Tillagd i favoriter",

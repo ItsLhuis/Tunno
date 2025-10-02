@@ -263,7 +263,37 @@ export const turkish: Language = {
       updatedFailedTitle: "Sanatçı güncellenemedi",
       deletedTitle: "Sanatçı başarıyla silindi",
       deletedDescription: "{name} silindi",
-      deletedFailedTitle: "Sanatçı silinemedi"
+      deletedFailedTitle: "Sanatçı silinemedi",
+      filters: {
+        title: "Filtreler",
+        clear: "Aktif filtreleri temizle",
+        sortBy: "Sırala",
+        favorites: "Sadece favoriler",
+        favoritesDescription: "Sadece favori sanatçıları göster",
+        playCount: "Çalma sayısı",
+        playCountMin: "Minimum",
+        playCountMax: "Maksimum",
+        totalTracks: "Toplam şarkı sayısı",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maksimum",
+        totalDuration: "Toplam süre",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maksimum",
+        lastPlayed: "Son çalınan",
+        lastPlayedAfter: "Sonra",
+        lastPlayedBefore: "Önce",
+        selectDate: "Tarih seç",
+        sortOptions: {
+          name: "İsim",
+          favorites: "Favoriler",
+          playCount: "Çalma sayısı",
+          totalTracks: "Toplam şarkı sayısı",
+          totalDuration: "Toplam süre",
+          lastPlayed: "Son çalınan",
+          createdAt: "Oluşturulma tarihi",
+          updatedAt: "Güncellenme tarihi"
+        }
+      }
     },
     favorites: {
       createdTitle: "Favorilere eklendi",

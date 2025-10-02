@@ -263,7 +263,37 @@ export const english: Language = {
       updatedFailedTitle: "Failed to Update Artist",
       deletedTitle: "Artist Deleted Successfully",
       deletedDescription: "{name} has been deleted",
-      deletedFailedTitle: "Failed to Delete Artist"
+      deletedFailedTitle: "Failed to Delete Artist",
+      filters: {
+        title: "Filters",
+        clear: "Clear active filters",
+        sortBy: "Sort by",
+        favorites: "Favorites only",
+        favoritesDescription: "Show only favorite artists",
+        playCount: "Play count",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        totalTracks: "Total songs",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maximum",
+        totalDuration: "Total duration",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maximum",
+        lastPlayed: "Last played",
+        lastPlayedAfter: "After",
+        lastPlayedBefore: "Before",
+        selectDate: "Select date",
+        sortOptions: {
+          name: "Name",
+          favorites: "Favorites",
+          playCount: "Play count",
+          totalTracks: "Total songs",
+          totalDuration: "Total duration",
+          lastPlayed: "Last played",
+          createdAt: "Creation date",
+          updatedAt: "Update date"
+        }
+      }
     },
     favorites: {
       createdTitle: "Added to Favorites",

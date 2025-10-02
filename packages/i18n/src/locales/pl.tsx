@@ -263,7 +263,37 @@ export const polish: Language = {
       updatedFailedTitle: "Nie udało się zaktualizować artysty",
       deletedTitle: "Artysta został pomyślnie usunięty",
       deletedDescription: "{name} został usunięty",
-      deletedFailedTitle: "Nie udało się usunąć artysty"
+      deletedFailedTitle: "Nie udało się usunąć artysty",
+      filters: {
+        title: "Filtry",
+        clear: "Wyczyść aktywne filtry",
+        sortBy: "Sortuj według",
+        favorites: "Tylko ulubione",
+        favoritesDescription: "Pokaż tylko ulubionych artystów",
+        playCount: "Liczba odtworzeń",
+        playCountMin: "Minimum",
+        playCountMax: "Maksimum",
+        totalTracks: "Całkowita liczba piosenek",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maksimum",
+        totalDuration: "Całkowity czas trwania",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maksimum",
+        lastPlayed: "Ostatnio odtwarzane",
+        lastPlayedAfter: "Po",
+        lastPlayedBefore: "Przed",
+        selectDate: "Wybierz datę",
+        sortOptions: {
+          name: "Nazwa",
+          favorites: "Ulubione",
+          playCount: "Liczba odtworzeń",
+          totalTracks: "Całkowita liczba piosenek",
+          totalDuration: "Całkowity czas trwania",
+          lastPlayed: "Ostatnio odtwarzane",
+          createdAt: "Data utworzenia",
+          updatedAt: "Data aktualizacji"
+        }
+      }
     },
     favorites: {
       createdTitle: "Dodano do ulubionych",

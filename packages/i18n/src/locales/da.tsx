@@ -263,7 +263,37 @@ export const danish: Language = {
       updatedFailedTitle: "Kunne Ikke Opdatere Kunstner",
       deletedTitle: "Kunstner Slettet Succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Kunstner"
+      deletedFailedTitle: "Kunne Ikke Slette Kunstner",
+      filters: {
+        title: "Filtre",
+        clear: "Ryd aktive filtre",
+        sortBy: "Sortér efter",
+        favorites: "Kun favoritter",
+        favoritesDescription: "Vis kun favoritkunstnere",
+        playCount: "Antal afspilninger",
+        playCountMin: "Minimum",
+        playCountMax: "Maksimum",
+        totalTracks: "Samlet antal sange",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maksimum",
+        totalDuration: "Samlet varighed",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maksimum",
+        lastPlayed: "Sidst afspillet",
+        lastPlayedAfter: "Efter",
+        lastPlayedBefore: "Før",
+        selectDate: "Vælg dato",
+        sortOptions: {
+          name: "Navn",
+          favorites: "Favoritter",
+          playCount: "Antal afspilninger",
+          totalTracks: "Samlet antal sange",
+          totalDuration: "Samlet varighed",
+          lastPlayed: "Sidst afspillet",
+          createdAt: "Oprettelsesdato",
+          updatedAt: "Opdateringsdato"
+        }
+      }
     },
     favorites: {
       createdTitle: "Tilføjet Til Favoritter",

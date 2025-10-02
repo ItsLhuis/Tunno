@@ -263,7 +263,37 @@ export const german: Language = {
       updatedFailedTitle: "Künstler Aktualisierung Fehlgeschlagen",
       deletedTitle: "Künstler Erfolgreich Gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Künstler Löschung Fehlgeschlagen"
+      deletedFailedTitle: "Künstler Löschung Fehlgeschlagen",
+      filters: {
+        title: "Filter",
+        clear: "Aktive Filter löschen",
+        sortBy: "Sortieren nach",
+        favorites: "Nur Favoriten",
+        favoritesDescription: "Nur favorisierte Künstler anzeigen",
+        playCount: "Wiedergabeanzahl",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        totalTracks: "Gesamtanzahl Lieder",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maximum",
+        totalDuration: "Gesamtdauer",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maximum",
+        lastPlayed: "Zuletzt gespielt",
+        lastPlayedAfter: "Nach",
+        lastPlayedBefore: "Vor",
+        selectDate: "Datum auswählen",
+        sortOptions: {
+          name: "Name",
+          favorites: "Favoriten",
+          playCount: "Wiedergabeanzahl",
+          totalTracks: "Gesamtanzahl Lieder",
+          totalDuration: "Gesamtdauer",
+          lastPlayed: "Zuletzt gespielt",
+          createdAt: "Erstellungsdatum",
+          updatedAt: "Aktualisierungsdatum"
+        }
+      }
     },
     favorites: {
       createdTitle: "Zu Favoriten Hinzugefügt",

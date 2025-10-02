@@ -264,7 +264,37 @@ export const spanish: Language = {
       updatedFailedTitle: "Error al actualizar el artista",
       deletedTitle: "Artista eliminado con éxito",
       deletedDescription: "{name} ha sido eliminado",
-      deletedFailedTitle: "Error al eliminar el artista"
+      deletedFailedTitle: "Error al eliminar el artista",
+      filters: {
+        title: "Filtros",
+        clear: "Limpiar filtros activos",
+        sortBy: "Ordenar por",
+        favorites: "Solo favoritos",
+        favoritesDescription: "Mostrar solo artistas favoritos",
+        playCount: "Reproducciones",
+        playCountMin: "Mínimo",
+        playCountMax: "Máximo",
+        totalTracks: "Total de canciones",
+        totalTracksMin: "Mínimo",
+        totalTracksMax: "Máximo",
+        totalDuration: "Duración total",
+        totalDurationMin: "Mínimo",
+        totalDurationMax: "Máximo",
+        lastPlayed: "Última reproducción",
+        lastPlayedAfter: "Después de",
+        lastPlayedBefore: "Antes de",
+        selectDate: "Seleccionar fecha",
+        sortOptions: {
+          name: "Nombre",
+          favorites: "Favoritos",
+          playCount: "Reproducciones",
+          totalTracks: "Total de canciones",
+          totalDuration: "Duración total",
+          lastPlayed: "Última reproducción",
+          createdAt: "Fecha de creación",
+          updatedAt: "Fecha de actualización"
+        }
+      }
     },
     favorites: {
       createdTitle: "Agregado a favoritos",

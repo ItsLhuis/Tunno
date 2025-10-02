@@ -263,7 +263,37 @@ export const norwegian: Language = {
       updatedFailedTitle: "Kunne ikke oppdatere artist",
       deletedTitle: "Artist slettet",
       deletedDescription: "{name} er slettet",
-      deletedFailedTitle: "Kunne ikke slette artist"
+      deletedFailedTitle: "Kunne ikke slette artist",
+      filters: {
+        title: "Filtre",
+        clear: "Fjern aktive filtre",
+        sortBy: "Sorter etter",
+        favorites: "Kun favoritter",
+        favoritesDescription: "Vis kun favorittartister",
+        playCount: "Antall avspillinger",
+        playCountMin: "Minimum",
+        playCountMax: "Maksimum",
+        totalTracks: "Totalt antall sanger",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maksimum",
+        totalDuration: "Total varighet",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maksimum",
+        lastPlayed: "Sist spilt",
+        lastPlayedAfter: "Etter",
+        lastPlayedBefore: "Før",
+        selectDate: "Velg dato",
+        sortOptions: {
+          name: "Navn",
+          favorites: "Favoritter",
+          playCount: "Antall avspillinger",
+          totalTracks: "Totalt antall sanger",
+          totalDuration: "Total varighet",
+          lastPlayed: "Sist spilt",
+          createdAt: "Opprettet",
+          updatedAt: "Oppdatert"
+        }
+      }
     },
     favorites: {
       createdTitle: "Lagt til i favoritter",

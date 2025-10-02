@@ -263,7 +263,37 @@ export const vietnamese: Language = {
       updatedFailedTitle: "Cập nhật nghệ sĩ thất bại",
       deletedTitle: "Xóa nghệ sĩ thành công",
       deletedDescription: "{name} đã bị xóa",
-      deletedFailedTitle: "Xóa nghệ sĩ thất bại"
+      deletedFailedTitle: "Xóa nghệ sĩ thất bại",
+      filters: {
+        title: "Bộ lọc",
+        clear: "Xóa bộ lọc đang hoạt động",
+        sortBy: "Sắp xếp theo",
+        favorites: "Chỉ yêu thích",
+        favoritesDescription: "Chỉ hiển thị nghệ sĩ yêu thích",
+        playCount: "Số lần phát",
+        playCountMin: "Tối thiểu",
+        playCountMax: "Tối đa",
+        totalTracks: "Tổng số ca khúc",
+        totalTracksMin: "Tối thiểu",
+        totalTracksMax: "Tối đa",
+        totalDuration: "Tổng thời lượng",
+        totalDurationMin: "Tối thiểu",
+        totalDurationMax: "Tối đa",
+        lastPlayed: "Lần phát cuối",
+        lastPlayedAfter: "Sau",
+        lastPlayedBefore: "Trước",
+        selectDate: "Chọn ngày",
+        sortOptions: {
+          name: "Tên",
+          favorites: "Yêu thích",
+          playCount: "Số lần phát",
+          totalTracks: "Tổng số ca khúc",
+          totalDuration: "Tổng thời lượng",
+          lastPlayed: "Lần phát cuối",
+          createdAt: "Ngày tạo",
+          updatedAt: "Ngày cập nhật"
+        }
+      }
     },
     favorites: {
       createdTitle: "Đã thêm vào yêu thích",
