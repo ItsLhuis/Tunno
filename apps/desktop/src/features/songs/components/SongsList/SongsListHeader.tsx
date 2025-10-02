@@ -26,7 +26,7 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
   )
 
   const handleShuffleAndPlay = () => {
-    if (isShuffling) return
+    if (isShuffling || allSongIds.length === 0) return
 
     shuffleAndPlay(allSongIds, "queue")
   }
@@ -49,7 +49,7 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
         name="Shuffle"
         className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
         isLoading={isShuffling}
-        disabled={hasSelectedRows}
+        disabled={hasSelectedRows || allSongIds.length === 0}
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
       />

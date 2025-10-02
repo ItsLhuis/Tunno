@@ -64,17 +64,17 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
           {formatNumber(playCount)}
         </Typography>
       </div>
-      {song.lastPlayedAt && (
-        <div className="min-w-0">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Icon name="Play" />
-            <Typography className="truncate">{t("common.lastPlayed")}</Typography>
-          </div>
-          <Typography affects={["bold", "medium"]} className="truncate">
-            {formatRelativeDate(song.lastPlayedAt, i18n.language, t)}
-          </Typography>
+      <div className="min-w-0">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Icon name="Play" />
+          <Typography className="truncate">{t("common.lastPlayed")}</Typography>
         </div>
-      )}
+        <Typography affects={["bold", "medium"]} className="truncate">
+          {song.lastPlayedAt
+            ? formatRelativeDate(song.lastPlayedAt, i18n.language, t)
+            : t("common.neverPlayed")}
+        </Typography>
+      </div>
     </Header>
   )
 }

@@ -22,7 +22,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { formatNumber, formatRelativeDate } from "@repo/utils"
+import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
 import { type Artist } from "@repo/api"
 
@@ -146,7 +146,8 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
             <Marquee>
               <Typography affects={["muted", "small"]}>
                 {artist.totalTracks}{" "}
-                {artist.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
+                {formatDuration(artist.totalDuration, t)}
               </Typography>
             </Marquee>
           </div>
@@ -158,7 +159,7 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
           <Typography className="truncate">
             {artist.lastPlayedAt
               ? formatRelativeDate(artist.lastPlayedAt, i18n.language, t)
-              : "Never played"}
+              : t("common.neverPlayed")}
           </Typography>
         </div>
         <div className="truncate">

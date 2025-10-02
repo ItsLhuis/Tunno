@@ -31,7 +31,7 @@ const SongsListStickyHeader = ({ list, allSongIds }: SongsListStickyHeaderProps)
   )
 
   const handleShuffleAndPlay = () => {
-    if (isShuffling) return
+    if (isShuffling || allSongIds.length === 0) return
 
     shuffleAndPlay(allSongIds, "queue")
   }
@@ -55,7 +55,7 @@ const SongsListStickyHeader = ({ list, allSongIds }: SongsListStickyHeaderProps)
         variant="text"
         className="h-11 w-11 [&_svg]:size-5"
         isLoading={isShuffling}
-        disabled={hasSelectedRows}
+        disabled={hasSelectedRows || allSongIds.length === 0}
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
       />

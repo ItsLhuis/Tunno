@@ -37,7 +37,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   const isCurrentSong = currentTrackId === song.id
   const isCurrentlyPlaying = playbackState === State.Playing && isCurrentSong
 
-  const canPlay = currentTrackId !== null && !isTrackLoading
+  const canPlay = !isTrackLoading
 
   const handlePlayPause = async () => {
     if (!canPlay) return
