@@ -24,7 +24,8 @@ export function useUpdateArtist() {
       thumbnailAction?: Parameters<typeof updateArtist>[2]
       thumbnailPath?: Parameters<typeof updateArtist>[3]
     }) => updateArtist(id, updates, thumbnailAction, thumbnailPath),
-    onMutate: async () => {
+    onMutate: async ({ id }) => {
+      await queryClient.cancelQueries({ queryKey: artistKeys.details(id) })
       await queryClient.cancelQueries({ queryKey: artistKeys.list() })
     },
     onSuccess: async (artist) => {
@@ -36,7 +37,7 @@ export function useUpdateArtist() {
       toast.error(t("artists.updatedFailedTitle"))
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: artistKeys.list() })
+      queryClient.invalidateQueries({ queryKey: artistKeys.all })
     }
   })
 }

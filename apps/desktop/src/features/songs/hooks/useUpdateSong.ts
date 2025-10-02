@@ -49,9 +49,8 @@ export function useUpdateSong() {
     onError: () => {
       toast.error(t("songs.updatedFailedTitle"))
     },
-    onSettled: (_data, _error, { id }) => {
-      queryClient.invalidateQueries({ queryKey: songKeys.details(id) })
-      queryClient.invalidateQueries({ queryKey: songKeys.list() })
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: songKeys.all })
     }
   })
 }

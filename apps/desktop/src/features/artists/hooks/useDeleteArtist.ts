@@ -15,7 +15,8 @@ export function useDeleteArtist() {
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deleteArtist(id),
-    onMutate: async () => {
+    onMutate: async ({ id }) => {
+      await queryClient.cancelQueries({ queryKey: artistKeys.details(id) })
       await queryClient.cancelQueries({ queryKey: artistKeys.list() })
     },
     onSuccess: async (artist) => {
@@ -27,7 +28,7 @@ export function useDeleteArtist() {
       toast.error(t("artists.deletedFailedTitle"))
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: artistKeys.list() })
+      queryClient.invalidateQueries({ queryKey: artistKeys.all })
     }
   })
 }

@@ -12,6 +12,7 @@ import { type InsertArtistType } from "@repo/schemas"
 
 export function useInsertArtist() {
   const queryClient = useQueryClient()
+
   const { t } = useTranslation()
 
   return useMutation({
