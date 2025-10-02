@@ -52,13 +52,13 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
   }, [data])
 
   const handlePlayArtist = async () => {
-    if (songIds.length === 0) return
+    if (artist.totalTracks === 0) return
 
     await loadTracks(songIds, 0, "artist", artist.id)
     await play()
   }
 
-  const canPlay = songIds.length > 0
+  const canPlay = artist.totalTracks > 0
 
   const showCheckbox = !!onToggle
 
@@ -145,7 +145,8 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
             </Marquee>
             <Marquee>
               <Typography affects={["muted", "small"]}>
-                {songIds.length} {songIds.length === 1 ? t("common.song") : t("songs.title")}
+                {artist.totalTracks}{" "}
+                {artist.totalTracks === 1 ? t("common.song") : t("songs.title")}
               </Typography>
             </Marquee>
           </div>
