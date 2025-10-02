@@ -71,7 +71,8 @@ export const turkish: Language = {
       averageListenTime: "Ortalama dinleme süresi",
       retentionRate: "Tutma oranı",
       totalPlays: "Toplam çalma",
-      lastPlayed: "Son çalınan"
+      lastPlayed: "Son çalınan",
+      neverPlayed: "Hiç çalınmadı"
     },
     form: {
       titles: {

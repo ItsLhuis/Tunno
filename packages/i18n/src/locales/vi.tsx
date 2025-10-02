@@ -71,7 +71,8 @@ export const vietnamese: Language = {
       averageListenTime: "Thời gian nghe trung bình",
       retentionRate: "Tỷ lệ giữ chân",
       totalPlays: "Tổng số lần phát",
-      lastPlayed: "Lần phát cuối"
+      lastPlayed: "Lần phát cuối",
+      neverPlayed: "Chưa bao giờ phát"
     },
     form: {
       titles: {

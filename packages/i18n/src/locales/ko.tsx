@@ -71,7 +71,8 @@ export const korean: Language = {
       averageListenTime: "평균 듣기 시간",
       retentionRate: "리텐션 비율",
       totalPlays: "총 재생 횟수",
-      lastPlayed: "마지막 재생"
+      lastPlayed: "마지막 재생",
+      neverPlayed: "재생된 적 없음"
     },
     form: {
       titles: {

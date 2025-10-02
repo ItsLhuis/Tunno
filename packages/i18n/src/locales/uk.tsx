@@ -71,7 +71,8 @@ export const ukrainian: Language = {
       averageListenTime: "Середній час прослуховування",
       retentionRate: "Коефіцієнт утримання",
       totalPlays: "Загальна кількість відтворень",
-      lastPlayed: "Останнє відтворення"
+      lastPlayed: "Останнє відтворення",
+      neverPlayed: "Ніколи не відтворювалося"
     },
     form: {
       titles: {

@@ -75,6 +75,7 @@ export type Translations = {
     retentionRate: string
     totalPlays: string
     lastPlayed: string
+    neverPlayed: string
   }
   form: {
     titles: {

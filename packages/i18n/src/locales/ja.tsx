@@ -71,7 +71,8 @@ export const japanese: Language = {
       averageListenTime: "平均リスン時間",
       retentionRate: "リテンション率",
       totalPlays: "総再生回数",
-      lastPlayed: "最後に再生"
+      lastPlayed: "最後に再生",
+      neverPlayed: "再生されたことがない"
     },
     form: {
       titles: {

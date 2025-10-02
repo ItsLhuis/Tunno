@@ -71,7 +71,8 @@ export const chinese: Language = {
       averageListenTime: "平均收听时间",
       retentionRate: "留存率",
       totalPlays: "总播放次数",
-      lastPlayed: "最后播放"
+      lastPlayed: "最后播放",
+      neverPlayed: "从未播放"
     },
     form: {
       titles: {

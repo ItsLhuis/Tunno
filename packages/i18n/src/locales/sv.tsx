@@ -71,7 +71,8 @@ export const swedish: Language = {
       averageListenTime: "Genomsnittlig lyssnad tid",
       retentionRate: "Retention rate",
       totalPlays: "Totalt antal uppspelningar",
-      lastPlayed: "Senast spelad"
+      lastPlayed: "Senast spelad",
+      neverPlayed: "Aldrig spelad"
     },
     form: {
       titles: {

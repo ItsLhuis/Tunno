@@ -71,7 +71,8 @@ export const finnish: Language = {
       averageListenTime: "Keskimääräinen kuunteluaika",
       retentionRate: "Retention rate",
       totalPlays: "Kokonaistoistot",
-      lastPlayed: "Viimeksi soitettu"
+      lastPlayed: "Viimeksi soitettu",
+      neverPlayed: "Ei koskaan soitettu"
     },
     form: {
       titles: {

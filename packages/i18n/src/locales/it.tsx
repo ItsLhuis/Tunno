@@ -71,7 +71,8 @@ export const italian: Language = {
       averageListenTime: "Tempo medio di ascolto",
       retentionRate: "Tasso di ritenzione",
       totalPlays: "Riproduzioni totali",
-      lastPlayed: "Ultima riproduzione"
+      lastPlayed: "Ultima riproduzione",
+      neverPlayed: "Mai riprodotto"
     },
     form: {
       titles: {

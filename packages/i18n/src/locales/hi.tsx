@@ -71,7 +71,8 @@ export const hindi: Language = {
       averageListenTime: "औसत सुनने का समय",
       retentionRate: "रिटेंशन दर",
       totalPlays: "कुल प्ले",
-      lastPlayed: "अंतिम बार चलाया गया"
+      lastPlayed: "अंतिम बार चलाया गया",
+      neverPlayed: "कभी नहीं बजाया"
     },
     form: {
       titles: {

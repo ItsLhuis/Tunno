@@ -71,7 +71,8 @@ export const portuguese: Language = {
       averageListenTime: "Tempo médio de escuta",
       retentionRate: "Taxa de retenção",
       totalPlays: "Total de reproduções",
-      lastPlayed: "Última reprodução"
+      lastPlayed: "Última reprodução",
+      neverPlayed: "Nunca reproduzido"
     },
     form: {
       titles: {

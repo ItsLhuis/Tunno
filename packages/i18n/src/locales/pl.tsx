@@ -71,7 +71,8 @@ export const polish: Language = {
       averageListenTime: "Średni czas słuchania",
       retentionRate: "Wskaźnik retencji",
       totalPlays: "Łączna liczba odtworzeń",
-      lastPlayed: "Ostatnio odtwarzane"
+      lastPlayed: "Ostatnio odtwarzane",
+      neverPlayed: "Nigdy nie odtwarzane"
     },
     form: {
       titles: {

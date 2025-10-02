@@ -71,7 +71,8 @@ export const english: Language = {
       averageListenTime: "Average listen time",
       retentionRate: "Retention rate",
       totalPlays: "Total plays",
-      lastPlayed: "Last played"
+      lastPlayed: "Last played",
+      neverPlayed: "Never played"
     },
     form: {
       titles: {

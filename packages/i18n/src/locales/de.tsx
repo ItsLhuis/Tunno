@@ -71,7 +71,8 @@ export const german: Language = {
       averageListenTime: "Durchschnittliche Hörzeit",
       retentionRate: "Retention Rate",
       totalPlays: "Gesamte Wiedergaben",
-      lastPlayed: "Zuletzt gespielt"
+      lastPlayed: "Zuletzt gespielt",
+      neverPlayed: "Nie gespielt"
     },
     form: {
       titles: {

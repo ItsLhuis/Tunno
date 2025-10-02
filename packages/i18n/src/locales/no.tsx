@@ -14,6 +14,12 @@ export const norwegian: Language = {
       hoursAgo: "{count} time{count, plural, one {} other{r}} siden",
       today: "I dag",
       yesterday: "I går",
+      years: "{count} år",
+      weeks: "{count} uke{count, plural, one {} other{r}}",
+      days: "{count} dag{count, plural, one {} other{er}}",
+      hours: "{count} time{count, plural, one {} other{r}}",
+      minutes: "{count} minutt{count, plural, one {} other{er}}",
+      seconds: "{count} sekund{count, plural, one {} other{er}}",
       goBack: "Gå tilbake",
       goFoward: "Gå fremover",
       favorite: "Legg til i favoritter",
@@ -66,12 +72,7 @@ export const norwegian: Language = {
       retentionRate: "Retention rate",
       totalPlays: "Totale avspillinger",
       lastPlayed: "Sist spilt",
-      years: "{count} år",
-      weeks: "{count} uke{count, plural, one {} other{r}}",
-      days: "{count} dag{count, plural, one {} other{er}}",
-      hours: "{count} time{count, plural, one {} other{r}}",
-      minutes: "{count} minutt{count, plural, one {} other{er}}",
-      seconds: "{count} sekund{count, plural, one {} other{er}}"
+      neverPlayed: "Aldri spilt"
     },
     form: {
       titles: {

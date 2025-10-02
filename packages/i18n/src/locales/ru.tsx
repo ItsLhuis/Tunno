@@ -71,7 +71,8 @@ export const russian: Language = {
       averageListenTime: "Среднее время прослушивания",
       retentionRate: "Коэффициент удержания",
       totalPlays: "Всего воспроизведений",
-      lastPlayed: "Последнее воспроизведение"
+      lastPlayed: "Последнее воспроизведение",
+      neverPlayed: "Никогда не воспроизводилось"
     },
     form: {
       titles: {

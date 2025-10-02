@@ -14,6 +14,12 @@ export const dutch: Language = {
       hoursAgo: "{count} uur geleden",
       today: "Vandaag",
       yesterday: "Gisteren",
+      years: "{count} jaar",
+      weeks: "{count} week{count, plural, one {} other{en}}",
+      days: "{count} dag{count, plural, one {} other{en}}",
+      hours: "{count} uur",
+      minutes: "{count} minuut{count, plural, one {} other{en}}",
+      seconds: "{count} seconde{count, plural, one {} other{n}}",
       goBack: "Ga terug",
       goFoward: "Ga vooruit",
       favorite: "Toevoegen aan favorieten",
@@ -66,12 +72,7 @@ export const dutch: Language = {
       retentionRate: "Retentiepercentage",
       totalPlays: "Totale afspelingen",
       lastPlayed: "Laatst afgespeeld",
-      years: "{count} jaar",
-      weeks: "{count} week{count, plural, one {} other{en}}",
-      days: "{count} dag{count, plural, one {} other{en}}",
-      hours: "{count} uur",
-      minutes: "{count} minuut{count, plural, one {} other{en}}",
-      seconds: "{count} seconde{count, plural, one {} other{n}}"
+      neverPlayed: "Nooit afgespeeld"
     },
     form: {
       titles: {

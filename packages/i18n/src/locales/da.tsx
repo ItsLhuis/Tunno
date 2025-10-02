@@ -71,7 +71,8 @@ export const danish: Language = {
       averageListenTime: "Gennemsnitlig lytte tid",
       retentionRate: "Retention rate",
       totalPlays: "Totale afspilninger",
-      lastPlayed: "Sidst afspillet"
+      lastPlayed: "Sidst afspillet",
+      neverPlayed: "Aldrig afspillet"
     },
     form: {
       titles: {
