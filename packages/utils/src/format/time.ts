@@ -33,10 +33,20 @@ export const parseTime = (str: string): number | undefined => {
   return isNaN(fallback) ? undefined : fallback
 }
 
-export const formatDuration = (seconds: number | undefined, t: TFunction): string => {
+export const formatDuration = (
+  seconds: number | undefined,
+  t: TFunction,
+  options?: {
+    maxParts?: number
+    showSeconds?: boolean
+    precision?: "exact" | "rounded"
+  }
+): string => {
   const s = seconds ?? 0
 
-  if (s === 0) return "0s"
+  const { maxParts = 2, showSeconds = true, precision = "exact" } = options ?? {}
+
+  if (s === 0) return t("common.seconds", { count: 0 })
 
   const years = Math.floor(s / (365 * 24 * 3600))
   const weeks = Math.floor((s % (365 * 24 * 3600)) / (7 * 24 * 3600))
@@ -62,12 +72,28 @@ export const formatDuration = (seconds: number | undefined, t: TFunction): strin
   if (minutes > 0) {
     parts.push(t("common.minutes", { count: minutes }))
   }
-  if (secs > 0 && parts.length === 0) {
+  if (secs > 0 && (showSeconds || parts.length === 0)) {
     parts.push(t("common.seconds", { count: secs }))
   }
 
-  if (parts.length > 2) {
-    return parts.slice(0, 2).join(" ")
+  if (precision === "rounded" && parts.length > 1) {
+    const lastPart = parts[parts.length - 1]
+    const secondLastPart = parts[parts.length - 2]
+
+    if (parts.length >= 2) {
+      const lastValue = parseInt(lastPart.match(/\d+/)?.[0] || "0")
+      const secondLastValue = parseInt(secondLastPart.match(/\d+/)?.[0] || "0")
+
+      if (lastValue >= 30) {
+        const roundedValue = secondLastValue + 1
+        parts[parts.length - 2] = secondLastPart.replace(/\d+/, roundedValue.toString())
+        parts.pop()
+      }
+    }
+  }
+
+  if (parts.length > maxParts) {
+    return parts.slice(0, maxParts).join(" ")
   }
 
   return parts.join(" ")
