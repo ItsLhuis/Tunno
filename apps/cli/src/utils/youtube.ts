@@ -46,7 +46,7 @@ export const download = async (
   try {
     const downloadPath = await getDownloadPath()
 
-    const url = `https://music.youtube.com/watch?v=${videoId}`
+    const url = `https://youtube.com/watch?v=${videoId}`
 
     console.log(`[youtube] Extracting video info from: ${url}`)
     const { stdout: videoJson } = await execPromise(`yt-dlp --dump-json ${url}`)
