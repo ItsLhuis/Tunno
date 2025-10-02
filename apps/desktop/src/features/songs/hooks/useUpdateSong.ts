@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { songKeys } from "@repo/api"
+import { albumKeys, artistKeys, playlistKeys, songKeys } from "@repo/api"
 
 import { updateSong } from "../api/mutations"
 import { getSongByIdWithMainRelations } from "../api/queries"
@@ -51,6 +51,9 @@ export function useUpdateSong() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: songKeys.all })
+      queryClient.invalidateQueries({ queryKey: artistKeys.all })
+      queryClient.invalidateQueries({ queryKey: albumKeys.all })
+      queryClient.invalidateQueries({ queryKey: playlistKeys.all })
     }
   })
 }

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { songKeys } from "@repo/api"
+import { albumKeys, artistKeys, playlistKeys, songKeys } from "@repo/api"
 
 import { deleteSong } from "../api/mutations"
 import { usePlayerStore } from "../stores/usePlayerStore"
@@ -35,6 +35,9 @@ export function useDeleteSong() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: songKeys.all })
+      queryClient.invalidateQueries({ queryKey: artistKeys.all })
+      queryClient.invalidateQueries({ queryKey: albumKeys.all })
+      queryClient.invalidateQueries({ queryKey: playlistKeys.all })
     }
   })
 }

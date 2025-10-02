@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { songKeys } from "@repo/api"
+import { albumKeys, artistKeys, playlistKeys, songKeys } from "@repo/api"
 
 import { insertSong } from "../api/mutations"
 
@@ -26,11 +26,15 @@ export function useInsertSong() {
       toast.success(t("songs.createdTitle"), {
         description: t("songs.createdDescription", { name: createdSong.name })
       })
-
-      queryClient.refetchQueries({ queryKey: songKeys.list() })
     },
     onError: () => {
       toast.error(t("songs.createdFailedTitle"))
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: songKeys.all })
+      queryClient.invalidateQueries({ queryKey: artistKeys.all })
+      queryClient.invalidateQueries({ queryKey: albumKeys.all })
+      queryClient.invalidateQueries({ queryKey: playlistKeys.all })
     }
   })
 }
