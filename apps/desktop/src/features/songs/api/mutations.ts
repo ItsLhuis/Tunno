@@ -1,4 +1,5 @@
 import { database, schema } from "@database/client"
+
 import { eq } from "drizzle-orm"
 
 import {
@@ -6,6 +7,10 @@ import {
   saveFileWithUniqueNameFromPath,
   updateFileWithUniqueNameFromPath
 } from "@services/storage"
+
+import { updateAlbumStatsForSong } from "./stats/album"
+import { updateArtistStatsForSong } from "./stats/artist"
+import { updatePlaylistStatsForSong } from "./stats/playlist"
 
 import { type InsertSong, type Song, type UpdateSong } from "@repo/api"
 
@@ -34,6 +39,11 @@ export const insertSong = async (
     await database
       .insert(schema.songsToArtists)
       .values(artists.map((artistId) => ({ songId: createdSong.id, artistId })))
+  }
+
+  await updateArtistStatsForSong(artists)
+  if (song.albumId) {
+    await updateAlbumStatsForSong(song.albumId)
   }
 
   return createdSong
@@ -70,12 +80,37 @@ export const updateSong = async (
     .returning()
 
   if (Array.isArray(artists)) {
+    const oldArtists = await database
+      .select({ artistId: schema.songsToArtists.artistId })
+      .from(schema.songsToArtists)
+      .where(eq(schema.songsToArtists.songId, id))
+
+    const oldArtistIds = oldArtists.map((a) => a.artistId)
+
     await database.delete(schema.songsToArtists).where(eq(schema.songsToArtists.songId, id))
 
     if (artists.length > 0) {
       await database
         .insert(schema.songsToArtists)
         .values(artists.map((artistId) => ({ songId: id, artistId })))
+    }
+
+    await updateArtistStatsForSong(artists, oldArtistIds)
+  }
+
+  if (updates.albumId !== undefined) {
+    await updateAlbumStatsForSong(updates.albumId, existingSong.albumId)
+  }
+
+  if (updates.duration !== undefined) {
+    const playlists = await database
+      .select({ playlistId: schema.playlistsToSongs.playlistId })
+      .from(schema.playlistsToSongs)
+      .where(eq(schema.playlistsToSongs.songId, id))
+
+    const playlistIds = playlists.map((p) => p.playlistId)
+    if (playlistIds.length > 0) {
+      await updatePlaylistStatsForSong(playlistIds)
     }
   }
 
@@ -95,10 +130,45 @@ export const toggleSongFavorite = async (id: number): Promise<Song> => {
 }
 
 export const deleteSong = async (id: number): Promise<Song> => {
+  const [songToDelete] = await database
+    .select({
+      albumId: schema.songs.albumId,
+      file: schema.songs.file,
+      thumbnail: schema.songs.thumbnail
+    })
+    .from(schema.songs)
+    .where(eq(schema.songs.id, id))
+
+  if (!songToDelete) {
+    throw new Error("Song not found")
+  }
+
+  const artists = await database
+    .select({ artistId: schema.songsToArtists.artistId })
+    .from(schema.songsToArtists)
+    .where(eq(schema.songsToArtists.songId, id))
+
+  const playlists = await database
+    .select({ playlistId: schema.playlistsToSongs.playlistId })
+    .from(schema.playlistsToSongs)
+    .where(eq(schema.playlistsToSongs.songId, id))
+
+  const artistIds = artists.map((a) => a.artistId)
+  const playlistIds = playlists.map((p) => p.playlistId)
+
   const [deletedSong] = await database
     .delete(schema.songs)
     .where(eq(schema.songs.id, id))
     .returning()
+
+  // Atualiza estatísticas
+  await updateArtistStatsForSong([], artistIds)
+  if (songToDelete.albumId) {
+    await updateAlbumStatsForSong(null, songToDelete.albumId)
+  }
+  if (playlistIds.length > 0) {
+    await updatePlaylistStatsForSong([], playlistIds)
+  }
 
   await deleteFile("songs", deletedSong.file)
 
