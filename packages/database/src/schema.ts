@@ -93,6 +93,8 @@ export const artists = sqliteTable(
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
+    totalTracks: integer("total_tracks").notNull().default(0),
+    totalDuration: integer("total_duration").notNull().default(0),
     createdAt: integer("created_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`),
@@ -105,6 +107,8 @@ export const artists = sqliteTable(
     index("artists_favorite_idx").on(table.isFavorite),
     index("artists_playcount_idx").on(table.playCount),
     index("artists_favorite_playcount_idx").on(table.isFavorite, table.playCount),
+    index("artists_total_tracks_idx").on(table.totalTracks),
+    index("artists_total_duration_idx").on(table.totalDuration),
     index("artists_last_played_idx").on(table.lastPlayedAt)
   ]
 )
@@ -153,10 +157,12 @@ export const albums = sqliteTable(
   },
   (table) => [
     index("albums_name_idx").on(table.name),
-    index("albums_favorite_idx").on(table.isFavorite),
     index("albums_playcount_idx").on(table.playCount),
     index("albums_release_year_idx").on(table.releaseYear),
+    index("albums_favorite_idx").on(table.isFavorite),
     index("albums_album_type_idx").on(table.albumType),
+    index("albums_total_tracks_idx").on(table.totalTracks),
+    index("albums_total_duration_idx").on(table.totalDuration),
     uniqueIndex("albums_name_type_unique_idx").on(table.name, table.albumType),
     index("albums_last_played_idx").on(table.lastPlayedAt)
   ]
@@ -210,6 +216,8 @@ export const playlists = sqliteTable(
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
+    totalTracks: integer("total_tracks").notNull().default(0),
+    totalDuration: integer("total_duration").notNull().default(0),
     createdAt: integer("created_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`),
@@ -221,6 +229,8 @@ export const playlists = sqliteTable(
     index("playlists_name_idx").on(table.name),
     index("playlists_favorite_idx").on(table.isFavorite),
     index("playlists_playcount_idx").on(table.playCount),
+    index("playlists_total_tracks_idx").on(table.totalTracks),
+    index("playlists_total_duration_idx").on(table.totalDuration),
     index("playlists_last_played_idx").on(table.lastPlayedAt)
   ]
 )
