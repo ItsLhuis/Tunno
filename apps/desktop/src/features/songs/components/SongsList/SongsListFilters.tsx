@@ -34,6 +34,8 @@ import {
   Typography
 } from "@components/ui"
 
+import { type OrderableSongColumns } from "@repo/api"
+
 const SongsListFilters = () => {
   const { t, i18n } = useTranslation()
 
@@ -53,8 +55,7 @@ const SongsListFilters = () => {
     (orderBy.column === defaultOrderBy.column && orderBy.direction === defaultOrderBy.direction)
 
   const hasActiveFilters =
-    Object.keys(filters).some((key) => {
-      const value = filters[key as keyof typeof filters]
+    Object.entries(filters).some(([key, value]) => {
       return key !== "search" && value !== undefined && value !== null && value !== ""
     }) || !isOrderByDefault
 
@@ -63,8 +64,7 @@ const SongsListFilters = () => {
       <Sheet>
         {hasActiveFilters && (
           <Badge variant="muted">
-            {Object.keys(filters).filter((key) => {
-              const value = filters[key as keyof typeof filters]
+            {Object.entries(filters).filter(([key, value]) => {
               return key !== "search" && value !== undefined && value !== null && value !== ""
             }).length + (!isOrderByDefault ? 1 : 0)}
           </Badge>
@@ -93,7 +93,7 @@ const SongsListFilters = () => {
                     value={orderBy?.column || "createdAt"}
                     onValueChange={(column) =>
                       setOrderBy({
-                        column: column as any,
+                        column: column as OrderableSongColumns,
                         direction: orderBy?.direction || "desc"
                       })
                     }

@@ -47,8 +47,7 @@ const ArtistsListFilters = () => {
     (orderBy.column === defaultOrderBy.column && orderBy.direction === defaultOrderBy.direction)
 
   const hasActiveFilters =
-    Object.keys(filters).some((key) => {
-      const value = (filters as any)[key]
+    Object.entries(filters).some(([key, value]) => {
       return key !== "search" && value !== undefined && value !== null && value !== ""
     }) || !isOrderByDefault
 
@@ -57,8 +56,7 @@ const ArtistsListFilters = () => {
       <Sheet>
         {hasActiveFilters && (
           <Badge variant="muted">
-            {Object.keys(filters).filter((key) => {
-              const value = (filters as any)[key]
+            {Object.entries(filters).filter(([key, value]) => {
               return key !== "search" && value !== undefined && value !== null && value !== ""
             }).length + (!isOrderByDefault ? 1 : 0)}
           </Badge>
