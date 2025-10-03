@@ -41,6 +41,7 @@ export const download = async (
     releaseYear?: string
     basicDownload?: boolean
     extension?: string
+    addMetadata?: boolean
   }
 ): Promise<void> => {
   try {
@@ -146,7 +147,7 @@ export const download = async (
       fs.mkdirSync(videoDir, { recursive: true })
 
       const videoMetadata: Song = {
-        song: songUUID + "." + (options?.extension || "opus"),
+        song: songUUID + "." + (options?.extension || (options?.basicDownload ? "m4a" : "opus")),
         title: track.title,
         thumbnail: "",
         duration: videoInfo.duration,
@@ -216,15 +217,20 @@ export const download = async (
 
     const songFilePath = path.join(videoDir, `${songFileName}`)
 
+    const shouldAddMetadata =
+      options?.addMetadata !== undefined ? options.addMetadata : options?.basicDownload || false
+
+    const audioFormat = options?.extension || (options?.basicDownload ? "m4a" : "opus")
+
     await runCommand("yt-dlp", [
       "--extract-audio",
       "--audio-format",
-      options?.basicDownload ? options?.extension || "opus" : "opus",
+      audioFormat,
       "--audio-quality",
       "0",
       "--format",
       "bestaudio",
-      ...(options?.basicDownload ? ["--add-metadata", "--embed-thumbnail"] : []),
+      ...(shouldAddMetadata ? ["--add-metadata", "--embed-thumbnail"] : []),
       "--output",
       `"${songFilePath}"`,
       url
@@ -232,9 +238,7 @@ export const download = async (
 
     console.log(
       "Download completed:",
-      chalk.green(
-        options?.basicDownload ? `${songFilePath}.${options?.extension || "opus"}` : videoDir
-      )
+      chalk.green(options?.basicDownload ? `${songFilePath}.${audioFormat}` : videoDir)
     )
   } catch (error) {
     if (error instanceof Error) {

@@ -19,11 +19,15 @@ export default function youtube(program: Command) {
     .option("--year <year>", "Override release year for Spotify search")
     .option("--basic", "Download only audio without metadata")
     .option(
+      "--add-metadata",
+      "Add metadata and thumbnail to audio file (default: true for --basic, false otherwise)"
+    )
+    .option(
       "--ext <ext>",
       `Specify the output audio file extension (${[...VALID_EXTENSIONS].join(", ")})`
     )
     .action(async (options) => {
-      const { id: videoId, playlistId, title, artist, year, basic, ext } = options
+      const { id: videoId, playlistId, title, artist, year, basic, ext, addMetadata } = options
 
       if (!videoId && !playlistId) {
         console.error("error: either '--id' or '--playlist-id' must be provided")
@@ -61,7 +65,8 @@ export default function youtube(program: Command) {
             )
             await download(item.id, {
               basicDownload: basic,
-              extension: ext
+              extension: ext,
+              addMetadata: addMetadata
             })
 
             if (i < playlistItems.length - 1) {
@@ -86,7 +91,8 @@ export default function youtube(program: Command) {
         artist,
         releaseYear: year,
         basicDownload: basic,
-        extension: ext
+        extension: ext,
+        addMetadata: addMetadata
       })
     })
 }
