@@ -6,44 +6,45 @@ All notable changes to the Tunno CLI project will be documented in this file.
 
 ### Added
 
-- Added `--add-metadata` flag to control metadata embedding in audio files
-- Enhanced flexibility for audio format selection and metadata control
+- 🎛️ Added `--add-metadata` flag to control metadata embedding in audio files
+- 🔧 Enhanced flexibility for audio format selection and metadata control
 
 ### Changed
 
-- Improved extension logic: `m4a` is now the default format for `--basic` downloads (better metadata
-  support)
-- `opus` remains the default format for regular downloads without `--basic`
-- Users can now combine any download mode with any audio format and metadata settings
+- 🎵 Improved extension logic: `m4a` is now the default format for `--basic` downloads (better
+  metadata support)
+- 🎵 `opus` remains the default format for regular downloads without `--basic`
+- 🔄 Users can now combine any download mode with any audio format and metadata settings
 
 ### Fixed
 
-- Fixed extension parameter not being respected when using `--ext` flag
-- Fixed metadata embedding logic to work correctly with all audio formats
+- 🛠️ Fixed extension parameter not being respected when using `--ext` flag
+- 🛠️ Fixed metadata embedding logic to work correctly with all audio formats
 
 ## [1.2.1] - 2025-10-02
 
 ### Fixed
 
-- Updated YouTube URL format for better compatibility
+- 🛠️ Updated YouTube URL format for better compatibility
 
 ## [1.2.0] - 2025-07-20
 
 ### Changed
 
-- The Album type now includes `releaseYear`, `albumType`, and `artists` fields for richer metadata.
-- Artist thumbnails for both track and album are now always local file names, never URLs, and are
+- 🎵 The Album type now includes `releaseYear`, `albumType`, and `artists` fields for richer
+  metadata.
+- 🖼️ Artist thumbnails for both track and album are now always local file names, never URLs, and are
   deduplicated if the artist appears in both.
 
 ### Fixed
 
-- Lyrics are now always `null` when not found, never `undefined`, for better type safety.
+- 🛠️ Lyrics are now always `null` when not found, never `undefined`, for better type safety.
 
 ## [1.1.1] - 2025-07-19
 
 ### Features
 
-- Updated the output of `getLyrics` to return `plainLyrics` as an array of `{ text: string }` and
+- 🎤 Updated the output of `getLyrics` to return `plainLyrics` as an array of `{ text: string }` and
   `syncedLyrics` as an array of `{ text: string, startTime: number }`. Adjusted the corresponding
   types in `Lyrics` and `Song` to reflect this new structure.
 
