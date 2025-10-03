@@ -4,7 +4,7 @@ import { useShallow } from "zustand/shallow"
 
 import { useArtistsStore } from "../../stores/useArtistsStore"
 
-import { useFetchArtistsWithMainRelationsInfinite } from "../../hooks/useFetchArtistsWithMainRelationsInfinite"
+import { useFetchArtistsInfinite } from "../../hooks/useFetchArtistsInfinite"
 
 import { useFetchArtistIds } from "../../hooks/useFetchArtistIds"
 
@@ -40,7 +40,7 @@ const ArtistsList = () => {
   }
 
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
-    useFetchArtistsWithMainRelationsInfinite(queryParams)
+    useFetchArtistsInfinite(queryParams)
 
   const { data: allArtistIds } = useFetchArtistIds(queryParams)
 
