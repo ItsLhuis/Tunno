@@ -5,27 +5,27 @@ import { persistStorage } from "@stores/config/persist"
 
 import { debounce } from "lodash"
 
-import { type OrderableArtistColumns, type ArtistFilters } from "@repo/api"
+import { type ArtistFilters, type OrderableArtistColumns } from "@repo/api"
 
 const ARTISTS_STORE_NAME = "artists"
 
 type ArtistsState = {
   searchTerm: string
   debouncedSearchTerm: string
-  hasHydrated: boolean
   filters: ArtistFilters
   debouncedFilters: ArtistFilters
   orderBy: { column: OrderableArtistColumns; direction: "asc" | "desc" } | null
+  hasHydrated: boolean
 }
 
 type ArtistsActions = {
   setSearchTerm: (term: string) => void
-  setHasHydrated: (hasHydrated: boolean) => void
   setFilters: (filters: Partial<ArtistFilters>) => void
   clearFilters: () => void
   setOrderBy: (
     orderBy: { column: OrderableArtistColumns; direction: "asc" | "desc" } | null
   ) => void
+  setHasHydrated: (hasHydrated: boolean) => void
 }
 
 type ArtistsStore = ArtistsState & ArtistsActions
@@ -60,16 +60,13 @@ export const useArtistsStore = create<ArtistsStore>()(
       return {
         searchTerm: "",
         debouncedSearchTerm: "",
-        hasHydrated: false,
         filters: {},
         debouncedFilters: {},
         orderBy: { column: "createdAt", direction: "desc" },
+        hasHydrated: false,
         setSearchTerm: (term: string) => {
           set({ searchTerm: term })
           debouncedSearchUpdate(term)
-        },
-        setHasHydrated: (hasHydrated) => {
-          set({ hasHydrated })
         },
         setFilters: (filters: Partial<ArtistFilters>) => {
           const currentFilters = get().filters
@@ -91,6 +88,9 @@ export const useArtistsStore = create<ArtistsStore>()(
         },
         setOrderBy: (orderBy) => {
           set({ orderBy })
+        },
+        setHasHydrated: (hasHydrated) => {
+          set({ hasHydrated })
         }
       }
     },

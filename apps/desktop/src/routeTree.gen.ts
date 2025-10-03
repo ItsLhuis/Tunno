@@ -19,6 +19,7 @@ import { Route as ArtistsIndexRouteImport } from './routes/artists/index'
 import { Route as SongsIdRouteImport } from './routes/songs/$id'
 import { Route as SettingsSyncRouteImport } from './routes/settings/sync'
 import { Route as SettingsLanguageRouteImport } from './routes/settings/language'
+import { Route as SettingsEqualizerRouteImport } from './routes/settings/equalizer'
 import { Route as SettingsAppearanceRouteImport } from './routes/settings/appearance'
 
 const SettingsRoute = SettingsRouteImport.update({
@@ -71,6 +72,11 @@ const SettingsLanguageRoute = SettingsLanguageRouteImport.update({
   path: '/language',
   getParentRoute: () => SettingsRoute,
 } as any)
+const SettingsEqualizerRoute = SettingsEqualizerRouteImport.update({
+  id: '/equalizer',
+  path: '/equalizer',
+  getParentRoute: () => SettingsRoute,
+} as any)
 const SettingsAppearanceRoute = SettingsAppearanceRouteImport.update({
   id: '/appearance',
   path: '/appearance',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/playlists': typeof PlaylistsRoute
   '/settings': typeof SettingsRouteWithChildren
   '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/equalizer': typeof SettingsEqualizerRoute
   '/settings/language': typeof SettingsLanguageRoute
   '/settings/sync': typeof SettingsSyncRoute
   '/songs/$id': typeof SongsIdRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/playlists': typeof PlaylistsRoute
   '/settings': typeof SettingsRouteWithChildren
   '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/equalizer': typeof SettingsEqualizerRoute
   '/settings/language': typeof SettingsLanguageRoute
   '/settings/sync': typeof SettingsSyncRoute
   '/songs/$id': typeof SongsIdRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/playlists': typeof PlaylistsRoute
   '/settings': typeof SettingsRouteWithChildren
   '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/equalizer': typeof SettingsEqualizerRoute
   '/settings/language': typeof SettingsLanguageRoute
   '/settings/sync': typeof SettingsSyncRoute
   '/songs/$id': typeof SongsIdRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/playlists'
     | '/settings'
     | '/settings/appearance'
+    | '/settings/equalizer'
     | '/settings/language'
     | '/settings/sync'
     | '/songs/$id'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/playlists'
     | '/settings'
     | '/settings/appearance'
+    | '/settings/equalizer'
     | '/settings/language'
     | '/settings/sync'
     | '/songs/$id'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/playlists'
     | '/settings'
     | '/settings/appearance'
+    | '/settings/equalizer'
     | '/settings/language'
     | '/settings/sync'
     | '/songs/$id'
@@ -242,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsLanguageRouteImport
       parentRoute: typeof SettingsRoute
     }
+    '/settings/equalizer': {
+      id: '/settings/equalizer'
+      path: '/equalizer'
+      fullPath: '/settings/equalizer'
+      preLoaderRoute: typeof SettingsEqualizerRouteImport
+      parentRoute: typeof SettingsRoute
+    }
     '/settings/appearance': {
       id: '/settings/appearance'
       path: '/appearance'
@@ -254,12 +273,14 @@ declare module '@tanstack/react-router' {
 
 interface SettingsRouteChildren {
   SettingsAppearanceRoute: typeof SettingsAppearanceRoute
+  SettingsEqualizerRoute: typeof SettingsEqualizerRoute
   SettingsLanguageRoute: typeof SettingsLanguageRoute
   SettingsSyncRoute: typeof SettingsSyncRoute
 }
 
 const SettingsRouteChildren: SettingsRouteChildren = {
   SettingsAppearanceRoute: SettingsAppearanceRoute,
+  SettingsEqualizerRoute: SettingsEqualizerRoute,
   SettingsLanguageRoute: SettingsLanguageRoute,
   SettingsSyncRoute: SettingsSyncRoute,
 }

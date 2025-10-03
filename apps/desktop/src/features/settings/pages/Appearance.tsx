@@ -95,7 +95,6 @@ const Appearance = () => {
           </StickyHeader>
         )
       }}
-      containerClassName="overflow-x-hidden"
     >
       <div className="flex flex-col gap-6">
         {settings.map((setting) => (
@@ -113,4 +112,4 @@ const Appearance = () => {
   )
 }
 
-export default Appearance
+export { Appearance }

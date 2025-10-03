@@ -12,4 +12,4 @@ const Sync = () => {
   )
 }
 
-export default Sync
+export { Sync }

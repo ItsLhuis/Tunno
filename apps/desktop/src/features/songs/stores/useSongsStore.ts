@@ -12,18 +12,18 @@ const SONGS_STORE_NAME = "songs"
 type SongsState = {
   searchTerm: string
   debouncedSearchTerm: string
-  hasHydrated: boolean
   filters: SongFilters
   debouncedFilters: SongFilters
   orderBy: { column: OrderableSongColumns; direction: "asc" | "desc" } | null
+  hasHydrated: boolean
 }
 
 type SongsActions = {
   setSearchTerm: (term: string) => void
-  setHasHydrated: (hasHydrated: boolean) => void
   setFilters: (filters: Partial<SongFilters>) => void
   clearFilters: () => void
   setOrderBy: (orderBy: { column: OrderableSongColumns; direction: "asc" | "desc" } | null) => void
+  setHasHydrated: (hasHydrated: boolean) => void
 }
 
 type SongsStore = SongsState & SongsActions
@@ -58,16 +58,13 @@ export const useSongsStore = create<SongsStore>()(
       return {
         searchTerm: "",
         debouncedSearchTerm: "",
-        hasHydrated: false,
         filters: {},
         debouncedFilters: {},
         orderBy: { column: "createdAt", direction: "desc" },
+        hasHydrated: false,
         setSearchTerm: (term: string) => {
           set({ searchTerm: term })
           debouncedSearchUpdate(term)
-        },
-        setHasHydrated: (hasHydrated) => {
-          set({ hasHydrated })
         },
         setFilters: (filters: Partial<SongFilters>) => {
           const currentFilters = get().filters
@@ -89,6 +86,9 @@ export const useSongsStore = create<SongsStore>()(
         },
         setOrderBy: (orderBy) => {
           set({ orderBy })
+        },
+        setHasHydrated: (hasHydrated) => {
+          set({ hasHydrated })
         }
       }
     },

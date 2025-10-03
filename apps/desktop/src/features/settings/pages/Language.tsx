@@ -86,7 +86,6 @@ const Language = () => {
           </StickyHeader>
         )
       }}
-      containerClassName="overflow-x-hidden"
     >
       {settings.map((setting) => (
         <SettingButton
@@ -102,4 +101,4 @@ const Language = () => {
   )
 }
 
-export default Language
+export { Language }
