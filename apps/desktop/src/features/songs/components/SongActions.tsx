@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode, useRef, useState, memo } from "react"
+import { Fragment, memo, type ReactNode, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -391,7 +391,14 @@ const SongActions = memo(
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {children || <IconButton name="MoreHorizontal" variant="ghost" className={className} />}
+            {children || (
+              <IconButton
+                name="MoreHorizontal"
+                variant="ghost"
+                className={className}
+                tooltip={t("common.more")}
+              />
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>

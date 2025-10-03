@@ -210,7 +210,14 @@ const ArtistActions = ({
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          {children || <IconButton name="MoreHorizontal" variant="ghost" className={className} />}
+          {children || (
+            <IconButton
+              name="MoreHorizontal"
+              variant="ghost"
+              className={className}
+              tooltip={t("common.more")}
+            />
+          )}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
