@@ -2,7 +2,26 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
-## [1.2.1] - 2025-02-10
+## [1.3.0] - 2025-10-03
+
+### Added
+
+- Added `--add-metadata` flag to control metadata embedding in audio files
+- Enhanced flexibility for audio format selection and metadata control
+
+### Changed
+
+- Improved extension logic: `m4a` is now the default format for `--basic` downloads (better metadata
+  support)
+- `opus` remains the default format for regular downloads without `--basic`
+- Users can now combine any download mode with any audio format and metadata settings
+
+### Fixed
+
+- Fixed extension parameter not being respected when using `--ext` flag
+- Fixed metadata embedding logic to work correctly with all audio formats
+
+## [1.2.1] - 2025-10-02
 
 ### Fixed
 

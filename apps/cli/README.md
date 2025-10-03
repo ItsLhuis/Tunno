@@ -168,6 +168,43 @@ pnpm add -g @tunno/cli
 
   This command downloads the audio without processing metadata or album covers.
 
+- **Metadata Control**:
+
+  You can control whether metadata and thumbnails are embedded in the audio file:
+
+  ```bash
+  tunno youtube --id YOUR_VIDEO_ID --add-metadata
+  ```
+
+  Example:
+
+  ```bash
+  tunno youtube --id dQw4w9WgXcQ --add-metadata
+  ```
+
+  This command embeds metadata and thumbnail into the audio file. By default:
+  - `--basic` downloads include metadata (`m4a` format)
+  - Regular downloads don't include metadata (`opus` format)
+  - You can override this behavior with `--add-metadata` or `--add-metadata=false`
+
+- **Audio Format Control**:
+
+  You can specify the audio format using the `--ext` flag:
+
+  ```bash
+  tunno youtube --id YOUR_VIDEO_ID --ext m4a
+  ```
+
+  Example:
+
+  ```bash
+  tunno youtube --id dQw4w9WgXcQ --ext m4a --add-metadata
+  ```
+
+  This command downloads the audio in `m4a` format with embedded metadata and thumbnail.
+
+  **Supported formats**: `opus`, `m4a`, `mp3`, `flac`, `wav`
+
 - **Basic Playlist Download**:
 
   If you want to download only the audio from a playlist without any metadata processing:
