@@ -17,7 +17,11 @@ import {
 
 type SidebarItem = {
   icon: IconProps["name"]
-  label: "settings.appearance.title" | "settings.language.title" | "settings.sync.title"
+  label:
+    | "settings.appearance.title"
+    | "settings.language.title"
+    | "settings.equalizer.title"
+    | "settings.sync.title"
   href: LinkProps["to"]
 }
 
@@ -31,6 +35,11 @@ const sidebar: SidebarItem[] = [
     icon: "Languages",
     label: "settings.language.title",
     href: "/settings/language"
+  },
+  {
+    icon: "Sliders",
+    label: "settings.equalizer.title",
+    href: "/settings/equalizer"
   },
   {
     icon: "FolderSync",
