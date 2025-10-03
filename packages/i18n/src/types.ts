@@ -183,6 +183,9 @@ export type Translations = {
       language: {
         title: string
       }
+      equalizer: {
+        title: string
+      }
       sync: {
         title: string
       }
@@ -319,6 +322,64 @@ export type Translations = {
     language: {
       title: string
       description: string
+    }
+    equalizer: {
+      title: string
+      enable: {
+        title: string
+        description: string
+        enabled: string
+        disabled: string
+      }
+      presets: {
+        title: string
+        description: string
+        flat: {
+          label: string
+          description: string
+        }
+        rock: {
+          label: string
+          description: string
+        }
+        pop: {
+          label: string
+          description: string
+        }
+        jazz: {
+          label: string
+          description: string
+        }
+        classical: {
+          label: string
+          description: string
+        }
+        electronic: {
+          label: string
+          description: string
+        }
+        vocal: {
+          label: string
+          description: string
+        }
+        bass: {
+          label: string
+          description: string
+        }
+        treble: {
+          label: string
+          description: string
+        }
+      }
+      bands: {
+        title: string
+        description: string
+      }
+      reset: {
+        title: string
+        description: string
+        button: string
+      }
     }
     sync: {
       title: string
