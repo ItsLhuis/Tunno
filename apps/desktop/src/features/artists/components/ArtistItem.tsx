@@ -65,7 +65,7 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
   if (variant === "card") {
     return (
       <ArtistActions variant="context" artist={artist}>
-        <div className="group relative flex w-fit flex-col items-start rounded-lg p-2 transition-colors hover:bg-accent">
+        <div className="group relative flex w-fit max-w-36 flex-col items-start rounded-lg p-2 transition-colors hover:bg-accent">
           <div className="mb-3">
             <Thumbnail
               placeholderIcon="User"
@@ -75,18 +75,13 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
               className={artist.thumbnail ? "size-32" : "size-8"}
             />
           </div>
-          <div className="flex w-full items-center justify-between gap-2 truncate">
-            <Button variant="link" asChild>
-              <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
-                <Typography className="w-full truncate">{artist.name}</Typography>
-              </SafeLink>
-            </Button>
-            <div className="opacity-0 transition-opacity group-hover:opacity-100">
-              <ArtistActions artist={artist} />
-            </div>
-          </div>
+          <Button variant="link" className="w-full truncate" asChild>
+            <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
+              <Typography className="w-full truncate">{artist.name}</Typography>
+            </SafeLink>
+          </Button>
           {canPlay && (
-            <div className="absolute bottom-12 right-2 z-10 opacity-0 transition-all group-hover:opacity-100">
+            <div className="absolute bottom-10 left-2 right-2 z-10 flex justify-between opacity-0 transition-all group-hover:opacity-100">
               <IconButton
                 name="Play"
                 tooltip={t("common.play")}
@@ -94,6 +89,9 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
                 isLoading={isTrackLoading || isLoading}
                 disabled={!canPlay}
               />
+              <ArtistActions artist={artist}>
+                <IconButton name="MoreHorizontal" variant="secondary" tooltip={t("common.more")} />
+              </ArtistActions>
             </div>
           )}
         </div>
