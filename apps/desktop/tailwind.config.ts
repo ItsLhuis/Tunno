@@ -84,10 +84,26 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))"
         },
-        info: "hsl(var(--info))",
-        success: "hsl(var(--success))",
-        warning: "hsl(var(--warning))",
-        error: "hsl(var(--error))"
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+          border: "hsl(var(--info-border))"
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+          border: "hsl(var(--success-border))"
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+          border: "hsl(var(--warning-border))"
+        },
+        error: {
+          DEFAULT: "hsl(var(--error))",
+          foreground: "hsl(var(--error-foreground))",
+          border: "hsl(var(--error-border))"
+        }
       },
       keyframes: {
         "fade-in": {

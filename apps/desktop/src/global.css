@@ -1,18 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
   font-family: "Space Grotesk";
   src: url("./assets/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: "Space Grotesk";
   src: url("./assets/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
+
 @layer base {
   :root {
     --background: 0 0% 96%;
@@ -48,11 +51,20 @@
     --sidebar-accent-foreground: 210 13% 11%;
     --sidebar-border: 0 0% 89.8%;
     --sidebar-ring: 210 13% 11%;
-    --info: 207 100% 65%;
-    --success: 144 60% 50%;
-    --warning: 30 100% 70%;
-    --error: 0 100% 40%;
+    --info: 207.96 100% 59.61%;
+    --info-foreground: 199.5 100% 92.16%;
+    --info-border: 210.18 67.07% 51.18%;
+    --success: 158.88 70.62% 34.71%;
+    --success-foreground: 150 66.67% 90.59%;
+    --success-border: 158.3 67.14% 27.45%;
+    --warning: 41.6 95.5% 56.47%;
+    --warning-foreground: 34.55 100% 6.47%;
+    --warning-border: 42.1 81.17% 43.73%;
+    --error: 4.05 72.55% 40%;
+    --error-foreground: 13.33 100% 92.94%;
+    --error-border: 3.44 83.56% 28.63%;
   }
+
   .dark {
     --background: 0 0% 9%;
     --foreground: 210 8% 92%;
@@ -86,21 +98,32 @@
     --sidebar-accent-foreground: 210 8% 92%;
     --sidebar-border: 0 0% 18%;
     --sidebar-ring: 0 0% 83.1%;
-    --info: 207 100% 65%;
-    --success: 144 60% 50%;
-    --warning: 30 100% 70%;
-    --error: 0 100% 40%;
+    --info: 207.96 100% 59.61%;
+    --info-foreground: 199.5 100% 92.16%;
+    --info-border: 210.18 67.07% 51.18%;
+    --success: 158.88 70.62% 34.71%;
+    --success-foreground: 150 66.67% 90.59%;
+    --success-border: 158.3 67.14% 27.45%;
+    --warning: 41.6 95.5% 56.47%;
+    --warning-foreground: 34.55 100% 6.47%;
+    --warning-border: 42.1 81.17% 43.73%;
+    --error: 4.05 72.55% 40%;
+    --error-foreground: 13.33 100% 92.94%;
+    --error-border: 3.44 83.56% 28.63%;
   }
 }
+
 @layer base {
   * {
     @apply select-none;
   }
+
   html {
     font-family:
       "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
       "Segoe UI Symbol", "Noto Color Emoji";
   }
+
   img {
     pointer-events: none;
   }
@@ -108,17 +131,20 @@
   body {
     overflow: hidden;
   }
+
   ::-webkit-scrollbar-thumb {
     background-color: hsl(var(--foreground) / 0.2);
     border: 6px solid transparent;
     border-radius: 8px;
     background-clip: padding-box;
   }
+
   ::-webkit-scrollbar {
     cursor: pointer !important;
     width: 16px;
     height: 16px;
   }
+
   ::-webkit-scrollbar-corner {
     background-color: transparent;
   }
@@ -134,6 +160,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
