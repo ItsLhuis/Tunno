@@ -180,6 +180,9 @@ export const russian: Language = {
         language: {
           title: "Язык"
         },
+        equalizer: {
+          title: "Эквалайзер"
+        },
         sync: {
           title: "Синхронизация"
         }
@@ -316,6 +319,64 @@ export const russian: Language = {
       language: {
         title: "Язык",
         description: "Выберите предпочитаемый язык"
+      },
+      equalizer: {
+        title: "Эквалайзер",
+        enable: {
+          title: "Включить Эквалайзер",
+          description: "Включить или отключить аудио эквалайзер",
+          enabled: "Включен",
+          disabled: "Отключен"
+        },
+        presets: {
+          title: "Предустановки Эквалайзера",
+          description: "Выберите из предустановленных настроек эквалайзера",
+          flat: {
+            label: "Плоский",
+            description: "Без изменений"
+          },
+          rock: {
+            label: "Рок",
+            description: "Усиленные басы и высокие частоты"
+          },
+          pop: {
+            label: "Поп",
+            description: "Сбалансированный с легким усилением"
+          },
+          jazz: {
+            label: "Джаз",
+            description: "Мягкий акцент на средних частотах"
+          },
+          classical: {
+            label: "Классика",
+            description: "Естественный звук"
+          },
+          electronic: {
+            label: "Электроника",
+            description: "Тяжелые басы и четкие высокие частоты"
+          },
+          vocal: {
+            label: "Вокал",
+            description: "Усиление средних частот для ясности"
+          },
+          bass: {
+            label: "Басы",
+            description: "Сильный акцент на низких частотах"
+          },
+          treble: {
+            label: "Высокие",
+            description: "Акцент на высоких частотах"
+          }
+        },
+        bands: {
+          title: "Частотные Полосы",
+          description: "Настройка отдельных частотных полос"
+        },
+        reset: {
+          title: "Сбросить Эквалайзер",
+          description: "Сбросить все полосы к плоскому (0 дБ)",
+          button: "Сбросить к Плоскому"
+        }
       },
       sync: {
         title: "Синхронизация",

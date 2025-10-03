@@ -180,6 +180,9 @@ export const hindi: Language = {
         language: {
           title: "भाषा"
         },
+        equalizer: {
+          title: "इक्वलाइज़र"
+        },
         sync: {
           title: "सिंक"
         }
@@ -316,6 +319,64 @@ export const hindi: Language = {
       language: {
         title: "भाषा",
         description: "अपनी पसंदीदा भाषा चुनें"
+      },
+      equalizer: {
+        title: "इक्वलाइज़र",
+        enable: {
+          title: "इक्वलाइज़र सक्षम करें",
+          description: "ऑडियो इक्वलाइज़र को सक्षम या अक्षम करें",
+          enabled: "सक्षम",
+          disabled: "अक्षम"
+        },
+        presets: {
+          title: "इक्वलाइज़र प्रीसेट",
+          description: "पूर्व-परिभाषित इक्वलाइज़र सेटिंग्स से चुनें",
+          flat: {
+            label: "फ्लैट",
+            description: "कोई समायोजन नहीं"
+          },
+          rock: {
+            label: "रॉक",
+            description: "बढ़ाया गया बास और ट्रेबल"
+          },
+          pop: {
+            label: "पॉप",
+            description: "हल्के बूस्ट के साथ संतुलित"
+          },
+          jazz: {
+            label: "जैज़",
+            description: "मध्य आवृत्तियों पर नरम जोर"
+          },
+          classical: {
+            label: "क्लासिकल",
+            description: "प्राकृतिक ध्वनि"
+          },
+          electronic: {
+            label: "इलेक्ट्रॉनिक",
+            description: "भारी बास और स्पष्ट उच्च आवृत्तियां"
+          },
+          vocal: {
+            label: "वोकल",
+            description: "स्पष्टता के लिए मध्य आवृत्ति बूस्ट"
+          },
+          bass: {
+            label: "बास",
+            description: "निम्न आवृत्तियों पर भारी जोर"
+          },
+          treble: {
+            label: "ट्रेबल",
+            description: "उच्च आवृत्तियों पर जोर"
+          }
+        },
+        bands: {
+          title: "आवृत्ति बैंड",
+          description: "व्यक्तिगत आवृत्ति बैंड को समायोजित करें"
+        },
+        reset: {
+          title: "इक्वलाइज़र रीसेट करें",
+          description: "सभी बैंड को फ्लैट (0 dB) पर रीसेट करें",
+          button: "फ्लैट पर रीसेट करें"
+        }
       },
       sync: {
         title: "सिंक",

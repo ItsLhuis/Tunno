@@ -180,6 +180,9 @@ export const chinese: Language = {
         language: {
           title: "语言"
         },
+        equalizer: {
+          title: "均衡器"
+        },
         sync: {
           title: "同步"
         }
@@ -316,6 +319,64 @@ export const chinese: Language = {
       language: {
         title: "语言",
         description: "选择您偏好的语言"
+      },
+      equalizer: {
+        title: "均衡器",
+        enable: {
+          title: "启用均衡器",
+          description: "启用或禁用音频均衡器",
+          enabled: "已启用",
+          disabled: "已禁用"
+        },
+        presets: {
+          title: "均衡器预设",
+          description: "从预定义的均衡器设置中选择",
+          flat: {
+            label: "平坦",
+            description: "无调整"
+          },
+          rock: {
+            label: "摇滚",
+            description: "增强的低音和高音"
+          },
+          pop: {
+            label: "流行",
+            description: "平衡并带有轻微提升"
+          },
+          jazz: {
+            label: "爵士",
+            description: "中频的柔和强调"
+          },
+          classical: {
+            label: "古典",
+            description: "自然声音"
+          },
+          electronic: {
+            label: "电子",
+            description: "重低音和清晰高音"
+          },
+          vocal: {
+            label: "人声",
+            description: "中频提升以获得清晰度"
+          },
+          bass: {
+            label: "低音",
+            description: "低频的强烈强调"
+          },
+          treble: {
+            label: "高音",
+            description: "高频强调"
+          }
+        },
+        bands: {
+          title: "频段",
+          description: "调整各个频段"
+        },
+        reset: {
+          title: "重置均衡器",
+          description: "将所有频段重置为平坦（0 dB）",
+          button: "重置为平坦"
+        }
       },
       sync: {
         title: "同步",

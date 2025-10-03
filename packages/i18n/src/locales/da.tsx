@@ -180,6 +180,9 @@ export const danish: Language = {
         language: {
           title: "Sprog"
         },
+        equalizer: {
+          title: "Equalizer"
+        },
         sync: {
           title: "Synkronisering"
         }
@@ -316,6 +319,64 @@ export const danish: Language = {
       language: {
         title: "Sprog",
         description: "Vælg dit foretrukne sprog"
+      },
+      equalizer: {
+        title: "Equalizer",
+        enable: {
+          title: "Aktivér Equalizer",
+          description: "Aktivér eller deaktivér audio-equalizer",
+          enabled: "Aktiveret",
+          disabled: "Deaktiveret"
+        },
+        presets: {
+          title: "Equalizer Forudindstillinger",
+          description: "Vælg fra foruddefinerede equalizer-indstillinger",
+          flat: {
+            label: "Flad",
+            description: "Ingen justeringer"
+          },
+          rock: {
+            label: "Rock",
+            description: "Forstærket bas og høje toner"
+          },
+          pop: {
+            label: "Pop",
+            description: "Balanceret med let boost"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Blød betoning af mellemfrekvenser"
+          },
+          classical: {
+            label: "Klassisk",
+            description: "Naturlig lyd"
+          },
+          electronic: {
+            label: "Elektronisk",
+            description: "Tung bas og klare høje toner"
+          },
+          vocal: {
+            label: "Vokal",
+            description: "Mellemfrekvens boost for klarhed"
+          },
+          bass: {
+            label: "Bas",
+            description: "Tung betoning af lave frekvenser"
+          },
+          treble: {
+            label: "Høje toner",
+            description: "Betoning af høje frekvenser"
+          }
+        },
+        bands: {
+          title: "Frekvensbånd",
+          description: "Juster individuelle frekvensbånd"
+        },
+        reset: {
+          title: "Nulstil Equalizer",
+          description: "Nulstil alle bånd til flad (0 dB)",
+          button: "Nulstil til Flad"
+        }
       },
       sync: {
         title: "Synkronisering",

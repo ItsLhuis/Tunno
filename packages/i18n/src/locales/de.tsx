@@ -180,6 +180,9 @@ export const german: Language = {
         language: {
           title: "Sprache"
         },
+        equalizer: {
+          title: "Equalizer"
+        },
         sync: {
           title: "Synchronisation"
         }
@@ -316,6 +319,64 @@ export const german: Language = {
       language: {
         title: "Sprache",
         description: "Wählen Sie Ihre bevorzugte Sprache"
+      },
+      equalizer: {
+        title: "Equalizer",
+        enable: {
+          title: "Equalizer Aktivieren",
+          description: "Audio-Equalizer aktivieren oder deaktivieren",
+          enabled: "Aktiviert",
+          disabled: "Deaktiviert"
+        },
+        presets: {
+          title: "Equalizer-Voreinstellungen",
+          description: "Wählen Sie aus vordefinierten Equalizer-Einstellungen",
+          flat: {
+            label: "Flach",
+            description: "Keine Anpassungen"
+          },
+          rock: {
+            label: "Rock",
+            description: "Verstärkte Bässe und Höhen"
+          },
+          pop: {
+            label: "Pop",
+            description: "Ausgewogen mit leichtem Boost"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Sanfte Betonung der Mittelfrequenzen"
+          },
+          classical: {
+            label: "Klassisch",
+            description: "Natürlicher Klang"
+          },
+          electronic: {
+            label: "Elektronisch",
+            description: "Schwere Bässe und klare Höhen"
+          },
+          vocal: {
+            label: "Vokal",
+            description: "Mittelfrequenz-Boost für Klarheit"
+          },
+          bass: {
+            label: "Bass",
+            description: "Schwere Betonung der tiefen Frequenzen"
+          },
+          treble: {
+            label: "Höhen",
+            description: "Betonung der hohen Frequenzen"
+          }
+        },
+        bands: {
+          title: "Frequenzbänder",
+          description: "Einzelne Frequenzbänder anpassen"
+        },
+        reset: {
+          title: "Equalizer Zurücksetzen",
+          description: "Alle Bänder auf flach zurücksetzen (0 dB)",
+          button: "Auf Flach Zurücksetzen"
+        }
       },
       sync: {
         title: "Synchronisation",

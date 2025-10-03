@@ -181,6 +181,9 @@ export const italian: Language = {
         language: {
           title: "Lingua"
         },
+        equalizer: {
+          title: "Equalizzatore"
+        },
         sync: {
           title: "Sincronizzazione"
         }
@@ -317,6 +320,64 @@ export const italian: Language = {
       language: {
         title: "Lingua",
         description: "Scegli la tua lingua preferita"
+      },
+      equalizer: {
+        title: "Equalizzatore",
+        enable: {
+          title: "Attiva Equalizzatore",
+          description: "Attiva o disattiva l'equalizzatore audio",
+          enabled: "Attivato",
+          disabled: "Disattivato"
+        },
+        presets: {
+          title: "Preimpostazioni Equalizzatore",
+          description: "Scegli tra impostazioni predefinite dell'equalizzatore",
+          flat: {
+            label: "Piatto",
+            description: "Nessun aggiustamento"
+          },
+          rock: {
+            label: "Rock",
+            description: "Bassi e acuti potenziati"
+          },
+          pop: {
+            label: "Pop",
+            description: "Bilanciato con leggero boost"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Enfasi dolce sulle frequenze medie"
+          },
+          classical: {
+            label: "Classico",
+            description: "Suono naturale"
+          },
+          electronic: {
+            label: "Elettronico",
+            description: "Bassi pesanti e acuti nitidi"
+          },
+          vocal: {
+            label: "Vocale",
+            description: "Boost delle frequenze medie per chiarezza"
+          },
+          bass: {
+            label: "Bassi",
+            description: "Enfasi pesante sulle basse frequenze"
+          },
+          treble: {
+            label: "Acuti",
+            description: "Enfasi sulle alte frequenze"
+          }
+        },
+        bands: {
+          title: "Bande di Frequenza",
+          description: "Regola le singole bande di frequenza"
+        },
+        reset: {
+          title: "Reimposta Equalizzatore",
+          description: "Reimposta tutte le bande a piatto (0 dB)",
+          button: "Reimposta a Piatto"
+        }
       },
       sync: {
         title: "Sincronizzazione",

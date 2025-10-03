@@ -181,6 +181,9 @@ export const french: Language = {
         language: {
           title: "Langue"
         },
+        equalizer: {
+          title: "Égaliseur"
+        },
         sync: {
           title: "Synchronisation"
         }
@@ -317,6 +320,64 @@ export const french: Language = {
       language: {
         title: "Langue",
         description: "Choisissez votre langue préférée"
+      },
+      equalizer: {
+        title: "Égaliseur",
+        enable: {
+          title: "Activer l'Égaliseur",
+          description: "Activer ou désactiver l'égaliseur audio",
+          enabled: "Activé",
+          disabled: "Désactivé"
+        },
+        presets: {
+          title: "Préréglages de l'Égaliseur",
+          description: "Choisissez parmi les paramètres prédéfinis de l'égaliseur",
+          flat: {
+            label: "Plat",
+            description: "Aucun ajustement"
+          },
+          rock: {
+            label: "Rock",
+            description: "Graves et aigus améliorés"
+          },
+          pop: {
+            label: "Pop",
+            description: "Équilibré avec un léger renforcement"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Accent doux sur les fréquences moyennes"
+          },
+          classical: {
+            label: "Classique",
+            description: "Son naturel"
+          },
+          electronic: {
+            label: "Électronique",
+            description: "Graves lourds et aigus nets"
+          },
+          vocal: {
+            label: "Vocal",
+            description: "Renforcement des fréquences moyennes pour la clarté"
+          },
+          bass: {
+            label: "Graves",
+            description: "Accent lourd sur les basses fréquences"
+          },
+          treble: {
+            label: "Aigus",
+            description: "Accent sur les hautes fréquences"
+          }
+        },
+        bands: {
+          title: "Bandes de Fréquence",
+          description: "Ajuster les bandes de fréquence individuelles"
+        },
+        reset: {
+          title: "Réinitialiser l'Égaliseur",
+          description: "Réinitialiser toutes les bandes à plat (0 dB)",
+          button: "Réinitialiser à Plat"
+        }
       },
       sync: {
         title: "Synchronisation",

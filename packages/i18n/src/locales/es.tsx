@@ -181,6 +181,9 @@ export const spanish: Language = {
         language: {
           title: "Idioma"
         },
+        equalizer: {
+          title: "Ecualizador"
+        },
         sync: {
           title: "Sincronización"
         }
@@ -317,6 +320,64 @@ export const spanish: Language = {
       language: {
         title: "Idioma",
         description: "Elija su idioma preferido"
+      },
+      equalizer: {
+        title: "Ecualizador",
+        enable: {
+          title: "Activar Ecualizador",
+          description: "Activar o desactivar el ecualizador de audio",
+          enabled: "Activado",
+          disabled: "Desactivado"
+        },
+        presets: {
+          title: "Preajustes del Ecualizador",
+          description: "Elija entre configuraciones predefinidas del ecualizador",
+          flat: {
+            label: "Plano",
+            description: "Sin ajustes"
+          },
+          rock: {
+            label: "Rock",
+            description: "Graves y agudos mejorados"
+          },
+          pop: {
+            label: "Pop",
+            description: "Equilibrado con ligero refuerzo"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Énfasis suave en las frecuencias medias"
+          },
+          classical: {
+            label: "Clásico",
+            description: "Sonido natural"
+          },
+          electronic: {
+            label: "Electrónico",
+            description: "Graves pesados y agudos nítidos"
+          },
+          vocal: {
+            label: "Vocal",
+            description: "Refuerzo en frecuencias medias para claridad"
+          },
+          bass: {
+            label: "Graves",
+            description: "Énfasis pesado en las bajas frecuencias"
+          },
+          treble: {
+            label: "Agudos",
+            description: "Énfasis en las altas frecuencias"
+          }
+        },
+        bands: {
+          title: "Bandas de Frecuencia",
+          description: "Ajustar bandas de frecuencia individuales"
+        },
+        reset: {
+          title: "Restablecer Ecualizador",
+          description: "Restablecer todas las bandas a plano (0 dB)",
+          button: "Restablecer a Plano"
+        }
       },
       sync: {
         title: "Sincronización",

@@ -180,6 +180,9 @@ export const vietnamese: Language = {
         language: {
           title: "Ngôn ngữ"
         },
+        equalizer: {
+          title: "Bộ cân bằng"
+        },
         sync: {
           title: "Đồng bộ"
         }
@@ -316,6 +319,64 @@ export const vietnamese: Language = {
       language: {
         title: "Ngôn ngữ",
         description: "Chọn ngôn ngữ ưa thích của bạn"
+      },
+      equalizer: {
+        title: "Bộ cân bằng",
+        enable: {
+          title: "Bật Bộ cân bằng",
+          description: "Bật hoặc tắt bộ cân bằng âm thanh",
+          enabled: "Đã bật",
+          disabled: "Đã tắt"
+        },
+        presets: {
+          title: "Cài đặt sẵn Bộ cân bằng",
+          description: "Chọn từ các cài đặt bộ cân bằng được định sẵn",
+          flat: {
+            label: "Phẳng",
+            description: "Không điều chỉnh"
+          },
+          rock: {
+            label: "Rock",
+            description: "Tăng cường bass và treble"
+          },
+          pop: {
+            label: "Pop",
+            description: "Cân bằng với tăng cường nhẹ"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Nhấn mạnh nhẹ nhàng ở tần số trung bình"
+          },
+          classical: {
+            label: "Cổ điển",
+            description: "Âm thanh tự nhiên"
+          },
+          electronic: {
+            label: "Điện tử",
+            description: "Bass nặng và treble sắc nét"
+          },
+          vocal: {
+            label: "Giọng hát",
+            description: "Tăng cường tần số trung bình để rõ ràng"
+          },
+          bass: {
+            label: "Bass",
+            description: "Nhấn mạnh nặng ở tần số thấp"
+          },
+          treble: {
+            label: "Treble",
+            description: "Nhấn mạnh ở tần số cao"
+          }
+        },
+        bands: {
+          title: "Dải Tần số",
+          description: "Điều chỉnh các dải tần số riêng lẻ"
+        },
+        reset: {
+          title: "Đặt lại Bộ cân bằng",
+          description: "Đặt lại tất cả dải về phẳng (0 dB)",
+          button: "Đặt lại về Phẳng"
+        }
       },
       sync: {
         title: "Đồng bộ",

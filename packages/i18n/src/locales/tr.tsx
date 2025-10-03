@@ -180,6 +180,9 @@ export const turkish: Language = {
         language: {
           title: "Dil"
         },
+        equalizer: {
+          title: "Ekolayzır"
+        },
         sync: {
           title: "Senkronizasyon"
         }
@@ -316,6 +319,64 @@ export const turkish: Language = {
       language: {
         title: "Dil",
         description: "Tercih ettiğiniz dili seçin"
+      },
+      equalizer: {
+        title: "Ekolayzır",
+        enable: {
+          title: "Ekolayzırı Etkinleştir",
+          description: "Ses ekolayzırını etkinleştirin veya devre dışı bırakın",
+          enabled: "Etkin",
+          disabled: "Devre Dışı"
+        },
+        presets: {
+          title: "Ekolayzır Ön Ayarları",
+          description: "Önceden tanımlanmış ekolayzır ayarlarından seçin",
+          flat: {
+            label: "Düz",
+            description: "Ayarlama yok"
+          },
+          rock: {
+            label: "Rock",
+            description: "Güçlendirilmiş bas ve tiz"
+          },
+          pop: {
+            label: "Pop",
+            description: "Hafif artışla dengelenmiş"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Orta frekanslarda yumuşak vurgu"
+          },
+          classical: {
+            label: "Klasik",
+            description: "Doğal ses"
+          },
+          electronic: {
+            label: "Elektronik",
+            description: "Ağır bas ve net tiz"
+          },
+          vocal: {
+            label: "Vokal",
+            description: "Netlik için orta frekans artışı"
+          },
+          bass: {
+            label: "Bas",
+            description: "Düşük frekanslarda ağır vurgu"
+          },
+          treble: {
+            label: "Tiz",
+            description: "Yüksek frekanslarda vurgu"
+          }
+        },
+        bands: {
+          title: "Frekans Bantları",
+          description: "Bireysel frekans bantlarını ayarlayın"
+        },
+        reset: {
+          title: "Ekolayzırı Sıfırla",
+          description: "Tüm bantları düze sıfırla (0 dB)",
+          button: "Düze Sıfırla"
+        }
       },
       sync: {
         title: "Senkronizasyon",

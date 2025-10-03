@@ -180,6 +180,9 @@ export const korean: Language = {
         language: {
           title: "언어"
         },
+        equalizer: {
+          title: "이퀄라이저"
+        },
         sync: {
           title: "동기화"
         }
@@ -316,6 +319,64 @@ export const korean: Language = {
       language: {
         title: "언어",
         description: "선호하는 언어 선택"
+      },
+      equalizer: {
+        title: "이퀄라이저",
+        enable: {
+          title: "이퀄라이저 활성화",
+          description: "오디오 이퀄라이저를 활성화하거나 비활성화",
+          enabled: "활성화됨",
+          disabled: "비활성화됨"
+        },
+        presets: {
+          title: "이퀄라이저 프리셋",
+          description: "사전 정의된 이퀄라이저 설정에서 선택",
+          flat: {
+            label: "플랫",
+            description: "조정 없음"
+          },
+          rock: {
+            label: "록",
+            description: "강화된 저음과 고음"
+          },
+          pop: {
+            label: "팝",
+            description: "가벼운 부스트로 균형 잡힘"
+          },
+          jazz: {
+            label: "재즈",
+            description: "중간 주파수의 부드러운 강조"
+          },
+          classical: {
+            label: "클래식",
+            description: "자연스러운 소리"
+          },
+          electronic: {
+            label: "일렉트로닉",
+            description: "무거운 저음과 선명한 고음"
+          },
+          vocal: {
+            label: "보컬",
+            description: "명확성을 위한 중간 주파수 부스트"
+          },
+          bass: {
+            label: "베이스",
+            description: "저주파수의 무거운 강조"
+          },
+          treble: {
+            label: "트레블",
+            description: "고주파수 강조"
+          }
+        },
+        bands: {
+          title: "주파수 대역",
+          description: "개별 주파수 대역 조정"
+        },
+        reset: {
+          title: "이퀄라이저 재설정",
+          description: "모든 대역을 플랫(0 dB)으로 재설정",
+          button: "플랫으로 재설정"
+        }
       },
       sync: {
         title: "동기화",

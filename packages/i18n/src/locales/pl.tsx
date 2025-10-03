@@ -180,6 +180,9 @@ export const polish: Language = {
         language: {
           title: "Język"
         },
+        equalizer: {
+          title: "Korektor"
+        },
         sync: {
           title: "Synchronizacja"
         }
@@ -316,6 +319,64 @@ export const polish: Language = {
       language: {
         title: "Język",
         description: "Wybierz preferowany język"
+      },
+      equalizer: {
+        title: "Korektor",
+        enable: {
+          title: "Włącz Korektor",
+          description: "Włącz lub wyłącz korektor audio",
+          enabled: "Włączony",
+          disabled: "Wyłączony"
+        },
+        presets: {
+          title: "Predefiniowane Korektory",
+          description: "Wybierz z predefiniowanych ustawień korektora",
+          flat: {
+            label: "Płaski",
+            description: "Brak regulacji"
+          },
+          rock: {
+            label: "Rock",
+            description: "Wzmocnione basy i wysokie tony"
+          },
+          pop: {
+            label: "Pop",
+            description: "Zbalansowany z lekkim wzmocnieniem"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Delikatne podkreślenie średnich częstotliwości"
+          },
+          classical: {
+            label: "Klasyczny",
+            description: "Naturalny dźwięk"
+          },
+          electronic: {
+            label: "Elektroniczny",
+            description: "Ciężkie basy i ostre wysokie tony"
+          },
+          vocal: {
+            label: "Wokalny",
+            description: "Wzmocnienie średnich częstotliwości dla przejrzystości"
+          },
+          bass: {
+            label: "Basy",
+            description: "Silne podkreślenie niskich częstotliwości"
+          },
+          treble: {
+            label: "Wysokie tony",
+            description: "Podkreślenie wysokich częstotliwości"
+          }
+        },
+        bands: {
+          title: "Pasma Częstotliwości",
+          description: "Reguluj poszczególne pasma częstotliwości"
+        },
+        reset: {
+          title: "Resetuj Korektor",
+          description: "Resetuj wszystkie pasma do płaskiego (0 dB)",
+          button: "Resetuj do Płaskiego"
+        }
       },
       sync: {
         title: "Synchronizacja",

@@ -180,6 +180,9 @@ export const finnish: Language = {
         language: {
           title: "Kieli"
         },
+        equalizer: {
+          title: "Ekvalisaattori"
+        },
         sync: {
           title: "Synkronointi"
         }
@@ -316,6 +319,64 @@ export const finnish: Language = {
       language: {
         title: "Kieli",
         description: "Valitse haluamasi kieli"
+      },
+      equalizer: {
+        title: "Ekvalisaattori",
+        enable: {
+          title: "Ota Ekvalisaattori Käyttöön",
+          description: "Ota ääni-ekvalisaattori käyttöön tai pois käytöstä",
+          enabled: "Käytössä",
+          disabled: "Pois käytöstä"
+        },
+        presets: {
+          title: "Ekvalisaattori Esiasetukset",
+          description: "Valitse esimääritellyistä ekvalisaattori-asetuksista",
+          flat: {
+            label: "Tasainen",
+            description: "Ei säätöjä"
+          },
+          rock: {
+            label: "Rock",
+            description: "Vahvistettu basso ja korkeat"
+          },
+          pop: {
+            label: "Pop",
+            description: "Tasapainotettu kevyellä vahvistuksella"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Pehmeä painotus keski-taajuuksissa"
+          },
+          classical: {
+            label: "Klassinen",
+            description: "Luonnollinen ääni"
+          },
+          electronic: {
+            label: "Elektroninen",
+            description: "Raskas basso ja kirkkaat korkeat"
+          },
+          vocal: {
+            label: "Laulu",
+            description: "Keski-taajuuksien vahvistus selkeyttä varten"
+          },
+          bass: {
+            label: "Basso",
+            description: "Raskas painotus matalissa taajuuksissa"
+          },
+          treble: {
+            label: "Korkeat",
+            description: "Painotus korkeissa taajuuksissa"
+          }
+        },
+        bands: {
+          title: "Taajuuskaistat",
+          description: "Säädä yksittäisiä taajuuskaistoja"
+        },
+        reset: {
+          title: "Nollaa Ekvalisaattori",
+          description: "Nollaa kaikki kaistat tasaisiksi (0 dB)",
+          button: "Nollaa Tasaisiksi"
+        }
       },
       sync: {
         title: "Synkronointi",

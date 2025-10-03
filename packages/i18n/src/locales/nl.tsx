@@ -181,6 +181,9 @@ export const dutch: Language = {
         language: {
           title: "Taal"
         },
+        equalizer: {
+          title: "Equalizer"
+        },
         sync: {
           title: "Synchronisatie"
         }
@@ -317,6 +320,64 @@ export const dutch: Language = {
       language: {
         title: "Taal",
         description: "Kies je voorkeurs taal"
+      },
+      equalizer: {
+        title: "Equalizer",
+        enable: {
+          title: "Equalizer Inschakelen",
+          description: "Audio-equalizer in- of uitschakelen",
+          enabled: "Ingeschakeld",
+          disabled: "Uitgeschakeld"
+        },
+        presets: {
+          title: "Equalizer Voorinstellingen",
+          description: "Kies uit vooraf gedefinieerde equalizer-instellingen",
+          flat: {
+            label: "Vlak",
+            description: "Geen aanpassingen"
+          },
+          rock: {
+            label: "Rock",
+            description: "Versterkte bas en hoge tonen"
+          },
+          pop: {
+            label: "Pop",
+            description: "Gebalanceerd met lichte boost"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Zachte nadruk op middenfrequenties"
+          },
+          classical: {
+            label: "Klassiek",
+            description: "Natuurlijk geluid"
+          },
+          electronic: {
+            label: "Elektronisch",
+            description: "Zware bas en heldere hoge tonen"
+          },
+          vocal: {
+            label: "Vocaal",
+            description: "Middenfrequentie boost voor helderheid"
+          },
+          bass: {
+            label: "Bas",
+            description: "Zware nadruk op lage frequenties"
+          },
+          treble: {
+            label: "Hoge tonen",
+            description: "Nadruk op hoge frequenties"
+          }
+        },
+        bands: {
+          title: "Frequentiebanden",
+          description: "Individuele frequentiebanden aanpassen"
+        },
+        reset: {
+          title: "Equalizer Resetten",
+          description: "Alle banden resetten naar vlak (0 dB)",
+          button: "Resetten naar Vlak"
+        }
       },
       sync: {
         title: "Synchronisatie",

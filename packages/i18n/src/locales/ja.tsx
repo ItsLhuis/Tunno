@@ -180,6 +180,9 @@ export const japanese: Language = {
         language: {
           title: "言語"
         },
+        equalizer: {
+          title: "イコライザー"
+        },
         sync: {
           title: "同期"
         }
@@ -316,6 +319,64 @@ export const japanese: Language = {
       language: {
         title: "言語",
         description: "好みの言語を選択してください"
+      },
+      equalizer: {
+        title: "イコライザー",
+        enable: {
+          title: "イコライザーを有効にする",
+          description: "オーディオイコライザーを有効または無効にします",
+          enabled: "有効",
+          disabled: "無効"
+        },
+        presets: {
+          title: "イコライザープリセット",
+          description: "事前定義されたイコライザー設定から選択",
+          flat: {
+            label: "フラット",
+            description: "調整なし"
+          },
+          rock: {
+            label: "ロック",
+            description: "低音と高音を強化"
+          },
+          pop: {
+            label: "ポップ",
+            description: "軽いブーストでバランス調整"
+          },
+          jazz: {
+            label: "ジャズ",
+            description: "中音域をソフトに強調"
+          },
+          classical: {
+            label: "クラシック",
+            description: "自然な音"
+          },
+          electronic: {
+            label: "エレクトロニック",
+            description: "重い低音とクリアな高音"
+          },
+          vocal: {
+            label: "ボーカル",
+            description: "明瞭性のための中音域ブースト"
+          },
+          bass: {
+            label: "ベース",
+            description: "低周波数の重い強調"
+          },
+          treble: {
+            label: "トレブル",
+            description: "高周波数の強調"
+          }
+        },
+        bands: {
+          title: "周波数帯域",
+          description: "個別の周波数帯域を調整"
+        },
+        reset: {
+          title: "イコライザーをリセット",
+          description: "すべての帯域をフラット（0 dB）にリセット",
+          button: "フラットにリセット"
+        }
       },
       sync: {
         title: "同期",

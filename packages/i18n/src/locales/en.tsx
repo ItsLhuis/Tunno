@@ -180,6 +180,9 @@ export const english: Language = {
         language: {
           title: "Language"
         },
+        equalizer: {
+          title: "Equalizer"
+        },
         sync: {
           title: "Sync"
         }
@@ -316,6 +319,64 @@ export const english: Language = {
       language: {
         title: "Language",
         description: "Choose your preferred language"
+      },
+      equalizer: {
+        title: "Equalizer",
+        enable: {
+          title: "Enable Equalizer",
+          description: "Enable or disable the audio equalizer",
+          enabled: "Enabled",
+          disabled: "Disabled"
+        },
+        presets: {
+          title: "Equalizer Presets",
+          description: "Choose from predefined equalizer settings",
+          flat: {
+            label: "Flat",
+            description: "No adjustments"
+          },
+          rock: {
+            label: "Rock",
+            description: "Enhanced bass and treble"
+          },
+          pop: {
+            label: "Pop",
+            description: "Balanced with slight boost"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Smooth mid-range emphasis"
+          },
+          classical: {
+            label: "Classical",
+            description: "Natural sound"
+          },
+          electronic: {
+            label: "Electronic",
+            description: "Heavy bass and crisp highs"
+          },
+          vocal: {
+            label: "Vocal",
+            description: "Mid-range boost for clarity"
+          },
+          bass: {
+            label: "Bass",
+            description: "Heavy low-frequency emphasis"
+          },
+          treble: {
+            label: "Treble",
+            description: "High-frequency emphasis"
+          }
+        },
+        bands: {
+          title: "Frequency Bands",
+          description: "Adjust individual frequency bands"
+        },
+        reset: {
+          title: "Reset Equalizer",
+          description: "Reset all bands to flat (0 dB)",
+          button: "Reset to Flat"
+        }
       },
       sync: {
         title: "Sync",

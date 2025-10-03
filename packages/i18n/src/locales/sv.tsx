@@ -180,6 +180,9 @@ export const swedish: Language = {
         language: {
           title: "Språk"
         },
+        equalizer: {
+          title: "Equalizer"
+        },
         sync: {
           title: "Synkronisering"
         }
@@ -316,6 +319,64 @@ export const swedish: Language = {
       language: {
         title: "Språk",
         description: "Välj ditt föredragna språk"
+      },
+      equalizer: {
+        title: "Equalizer",
+        enable: {
+          title: "Aktivera Equalizer",
+          description: "Aktivera eller inaktivera audio-equalizer",
+          enabled: "Aktiverad",
+          disabled: "Inaktiverad"
+        },
+        presets: {
+          title: "Equalizer Förinställningar",
+          description: "Välj från fördefinierade equalizer-inställningar",
+          flat: {
+            label: "Platt",
+            description: "Inga justeringar"
+          },
+          rock: {
+            label: "Rock",
+            description: "Förstärkt bas och höga toner"
+          },
+          pop: {
+            label: "Pop",
+            description: "Balanserad med lätt boost"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Mjuk betoning av mellanfrekvenser"
+          },
+          classical: {
+            label: "Klassisk",
+            description: "Naturligt ljud"
+          },
+          electronic: {
+            label: "Elektronisk",
+            description: "Tung bas och klara höga toner"
+          },
+          vocal: {
+            label: "Vokal",
+            description: "Mellanfrekvens boost för klarhet"
+          },
+          bass: {
+            label: "Bas",
+            description: "Tung betoning av låga frekvenser"
+          },
+          treble: {
+            label: "Höga toner",
+            description: "Betoning av höga frekvenser"
+          }
+        },
+        bands: {
+          title: "Frekvensband",
+          description: "Justera individuella frekvensband"
+        },
+        reset: {
+          title: "Återställ Equalizer",
+          description: "Återställ alla band till platt (0 dB)",
+          button: "Återställ till Platt"
+        }
       },
       sync: {
         title: "Synkronisering",

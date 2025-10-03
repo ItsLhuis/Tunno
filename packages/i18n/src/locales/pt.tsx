@@ -181,6 +181,9 @@ export const portuguese: Language = {
         language: {
           title: "Idioma"
         },
+        equalizer: {
+          title: "Equalizador"
+        },
         sync: {
           title: "Sincronização"
         }
@@ -317,6 +320,64 @@ export const portuguese: Language = {
       language: {
         title: "Idioma",
         description: "Escolha o seu idioma preferido"
+      },
+      equalizer: {
+        title: "Equalizador",
+        enable: {
+          title: "Ativar Equalizador",
+          description: "Ativar ou desativar o equalizador de áudio",
+          enabled: "Ativado",
+          disabled: "Desativado"
+        },
+        presets: {
+          title: "Predefinições do Equalizador",
+          description: "Escolha entre configurações predefinidas do equalizador",
+          flat: {
+            label: "Plano",
+            description: "Sem ajustes"
+          },
+          rock: {
+            label: "Rock",
+            description: "Graves e agudos aprimorados"
+          },
+          pop: {
+            label: "Pop",
+            description: "Equilibrado com leve reforço"
+          },
+          jazz: {
+            label: "Jazz",
+            description: "Ênfase suave nas frequências médias"
+          },
+          classical: {
+            label: "Clássico",
+            description: "Som natural"
+          },
+          electronic: {
+            label: "Eletrônico",
+            description: "Graves pesados e agudos nítidos"
+          },
+          vocal: {
+            label: "Vocal",
+            description: "Reforço nas frequências médias para clareza"
+          },
+          bass: {
+            label: "Graves",
+            description: "Ênfase pesada nas baixas frequências"
+          },
+          treble: {
+            label: "Agudos",
+            description: "Ênfase nas altas frequências"
+          }
+        },
+        bands: {
+          title: "Bandas de Frequência",
+          description: "Ajustar bandas de frequência individuais"
+        },
+        reset: {
+          title: "Redefinir Equalizador",
+          description: "Redefinir todas as bandas para plano (0 dB)",
+          button: "Redefinir para Plano"
+        }
       },
       sync: {
         title: "Sincronização",

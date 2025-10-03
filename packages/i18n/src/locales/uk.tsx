@@ -180,6 +180,9 @@ export const ukrainian: Language = {
         language: {
           title: "Мова"
         },
+        equalizer: {
+          title: "Еквалайзер"
+        },
         sync: {
           title: "Синхронізація"
         }
@@ -316,6 +319,64 @@ export const ukrainian: Language = {
       language: {
         title: "Мова",
         description: "Оберіть бажану мову"
+      },
+      equalizer: {
+        title: "Еквалайзер",
+        enable: {
+          title: "Увімкнути Еквалайзер",
+          description: "Увімкнути або вимкнути аудіо еквалайзер",
+          enabled: "Увімкнено",
+          disabled: "Вимкнено"
+        },
+        presets: {
+          title: "Пресети Еквалайзера",
+          description: "Оберіть з попередньо визначених налаштувань еквалайзера",
+          flat: {
+            label: "Плоский",
+            description: "Без налаштувань"
+          },
+          rock: {
+            label: "Рок",
+            description: "Підсилені баси та високі частоти"
+          },
+          pop: {
+            label: "Поп",
+            description: "Збалансований з легким підсиленням"
+          },
+          jazz: {
+            label: "Джаз",
+            description: "М'який акцент на середніх частотах"
+          },
+          classical: {
+            label: "Класичний",
+            description: "Природний звук"
+          },
+          electronic: {
+            label: "Електронний",
+            description: "Важкі баси та чіткі високі частоти"
+          },
+          vocal: {
+            label: "Вокал",
+            description: "Підсилення середніх частот для чіткості"
+          },
+          bass: {
+            label: "Баси",
+            description: "Сильний акцент на низьких частотах"
+          },
+          treble: {
+            label: "Високі",
+            description: "Акцент на високих частотах"
+          }
+        },
+        bands: {
+          title: "Частотні Смуги",
+          description: "Налаштування окремих частотних смуг"
+        },
+        reset: {
+          title: "Скинути Еквалайзер",
+          description: "Скинути всі смуги до плоского (0 дБ)",
+          button: "Скинути до Плоского"
+        }
       },
       sync: {
         title: "Синхронізація",
