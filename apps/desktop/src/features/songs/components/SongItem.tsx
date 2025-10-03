@@ -124,7 +124,7 @@ const SongItem = memo(
             </Fade>
           </div>
           <div className="flex flex-1 items-center gap-3 truncate">
-            <Thumbnail fileName={song.thumbnail} alt={song.name} />
+            <Thumbnail placeholderIcon="Music" fileName={song.thumbnail} alt={song.name} />
             <div className="w-full truncate">
               <Marquee>
                 <Button variant="link" asChild>

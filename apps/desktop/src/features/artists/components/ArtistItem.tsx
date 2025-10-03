@@ -68,6 +68,7 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
         <div className="group relative flex w-fit flex-col items-start rounded-lg p-2 transition-colors hover:bg-accent">
           <div className="mb-3">
             <Thumbnail
+              placeholderIcon="User"
               fileName={artist.thumbnail}
               alt={artist.name}
               containerClassName="size-32 rounded-full"
@@ -131,6 +132,7 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
         </div>
         <div className="flex flex-1 items-center gap-3 truncate">
           <Thumbnail
+            placeholderIcon="User"
             fileName={artist.thumbnail}
             alt={artist.name}
             containerClassName="rounded-full"

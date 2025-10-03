@@ -65,6 +65,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
       <div className="flex flex-1 items-end gap-6">
         <div className="h-60 w-60">
           <Thumbnail
+            placeholderIcon="Music"
             fileName={song.thumbnail}
             alt={song.name}
             className={song.thumbnail ? "h-full w-full" : "size-20"}

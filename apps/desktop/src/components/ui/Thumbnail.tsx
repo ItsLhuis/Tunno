@@ -5,14 +5,21 @@ import { cn } from "@lib/utils"
 import { getRenderableFileSrc } from "@services/storage"
 
 import { Fade } from "@components/ui/Fade"
-import { Icon } from "@components/ui/Icon"
+import { Icon, type IconProps } from "@components/ui/Icon"
 import { Image, type ImageProps } from "@components/ui/Image"
 
 export type ThumbnailProps = ImageProps & {
+  placeholderIcon: IconProps["name"]
   fileName: string | undefined | null
 }
 
-const Thumbnail = ({ fileName, containerClassName, className, ...props }: ThumbnailProps) => {
+const Thumbnail = ({
+  fileName,
+  placeholderIcon,
+  containerClassName,
+  className,
+  ...props
+}: ThumbnailProps) => {
   const [src, setSrc] = useState<string | null>(null)
 
   useEffect(() => {
@@ -36,7 +43,7 @@ const Thumbnail = ({ fileName, containerClassName, className, ...props }: Thumbn
           containerClassName
         )}
       >
-        <Icon name="Music" className={cn("text-secondary-foreground", className)} />
+        <Icon name={placeholderIcon} className={cn("text-secondary-foreground", className)} />
       </Fade>
     )
   }
