@@ -43,10 +43,12 @@ export const getAllArtists = async ({
   orderBy,
   filters
 }: QueryArtistParams = {}): Promise<Artist[]> => {
+  const whereConditions = buildWhereConditions(filters)
+
   const artists = await database.query.artists.findMany({
     limit,
     offset,
-    where: filters?.search ? like(schema.artists.name, `%${filters.search}%`) : undefined,
+    where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
     orderBy: orderBy
       ? orderBy.direction === "asc"
         ? asc(schema.artists[orderBy.column])
@@ -124,6 +126,28 @@ function buildWhereConditions(filters?: QueryArtistParams["filters"]) {
 
     if (filters.playedBefore !== undefined) {
       whereConditions.push(lte(schema.artists.lastPlayedAt, filters.playedBefore))
+    }
+
+    if (filters.minTotalTracks !== undefined || filters.maxTotalTracks !== undefined) {
+      const totalTracksConditions = []
+      if (filters.minTotalTracks !== undefined) {
+        totalTracksConditions.push(gte(schema.artists.totalTracks, filters.minTotalTracks))
+      }
+      if (filters.maxTotalTracks !== undefined) {
+        totalTracksConditions.push(lte(schema.artists.totalTracks, filters.maxTotalTracks))
+      }
+      whereConditions.push(and(...totalTracksConditions))
+    }
+
+    if (filters.minTotalDuration !== undefined || filters.maxTotalDuration !== undefined) {
+      const totalDurationConditions = []
+      if (filters.minTotalDuration !== undefined) {
+        totalDurationConditions.push(gte(schema.artists.totalDuration, filters.minTotalDuration))
+      }
+      if (filters.maxTotalDuration !== undefined) {
+        totalDurationConditions.push(lte(schema.artists.totalDuration, filters.maxTotalDuration))
+      }
+      whereConditions.push(and(...totalDurationConditions))
     }
   }
 
