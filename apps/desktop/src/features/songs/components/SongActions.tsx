@@ -6,6 +6,10 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../stores/usePlayerStore"
 
+import { useToggleSongFavorite } from "../hooks/useToggleSongFavorite"
+
+import { cn } from "@lib/utils"
+
 import { State } from "react-track-player-web"
 
 import { SongForm } from "../forms/SongForm"
@@ -81,6 +85,8 @@ const SongActions = memo(
         }))
       )
 
+    const toggleFavoriteMutation = useToggleSongFavorite()
+
     const targetSong =
       song ||
       (list && list.selectedIds.length === 1
@@ -132,6 +138,12 @@ const SongActions = memo(
       if (list && list.selectedIds.length > 0) {
         const selectedSongs = list.data.filter((s) => list.selectedIds.includes(String(s.id)))
         await addToQueue(selectedSongs, "end")
+      }
+    }
+
+    const handleToggleFavorite = async () => {
+      if (targetSong) {
+        await toggleFavoriteMutation.mutateAsync({ id: targetSong.id })
       }
     }
 
@@ -204,6 +216,21 @@ const SongActions = memo(
       </ContextMenuSub>
     )
 
+    const renderFavoriteActions = () => {
+      if (!targetSong) return null
+
+      return (
+        <ContextMenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
+          <Icon
+            name="Heart"
+            isFilled={targetSong.isFavorite}
+            className={cn(targetSong.isFavorite && "!text-primary")}
+          />
+          {targetSong.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+        </ContextMenuItem>
+      )
+    }
+
     const renderDropdownAddToActions = () => (
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>
@@ -222,6 +249,24 @@ const SongActions = memo(
         </DropdownMenuSubContent>
       </DropdownMenuSub>
     )
+
+    const renderDropdownFavoriteActions = () => {
+      if (!targetSong) return null
+
+      return (
+        <DropdownMenuItem
+          onClick={handleToggleFavorite}
+          disabled={toggleFavoriteMutation.isPending}
+        >
+          <Icon
+            name="Heart"
+            isFilled={targetSong.isFavorite}
+            className={cn(targetSong.isFavorite && "!text-primary")}
+          />
+          {targetSong.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+        </DropdownMenuItem>
+      )
+    }
 
     const renderNavigationActions = () => {
       if (!targetSong) return null
@@ -381,6 +426,7 @@ const SongActions = memo(
               <ContextMenuSeparator />
               <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
               {renderAddToActions()}
+              {renderFavoriteActions()}
               {renderNavigationActions()}
               {renderFormActions()}
             </ContextMenuContent>
@@ -406,6 +452,7 @@ const SongActions = memo(
             <DropdownMenuSeparator />
             <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
             {renderDropdownAddToActions()}
+            {renderDropdownFavoriteActions()}
             {renderDropdownNavigationActions()}
             {renderFormActions()}
           </DropdownMenuContent>

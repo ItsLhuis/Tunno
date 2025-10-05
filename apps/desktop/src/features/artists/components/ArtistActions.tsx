@@ -8,6 +8,10 @@ import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
 import { useFetchSongsByArtistIds } from "@features/songs/hooks/useFetchSongsByArtistIds"
 
+import { useToggleArtistFavorite } from "../hooks/useToggleArtistFavorite"
+
+import { cn } from "@lib/utils"
+
 import { ArtistForm } from "../forms/ArtistForm"
 import { DeleteArtistDialog } from "./DeleteArtistDialog"
 
@@ -58,6 +62,8 @@ const ArtistActions = ({
 
   const { data: artistSongs } = useFetchSongsByArtistIds(artist ? [artist.id] : undefined)
 
+  const toggleFavoriteMutation = useToggleArtistFavorite()
+
   const { loadTracks, play, isTrackLoading, addToQueue } = usePlayerStore(
     useShallow((state) => ({
       loadTracks: state.loadTracks,
@@ -96,6 +102,12 @@ const ArtistActions = ({
   const handleAddToQueue = async () => {
     if (!artist || !artistSongs || artistSongs.length === 0) return
     if (artistSongs.length > 0) await addToQueue(artistSongs, "end")
+  }
+
+  const handleToggleFavorite = async () => {
+    if (artist) {
+      await toggleFavoriteMutation.mutateAsync({ id: artist.id })
+    }
   }
 
   const renderFormActions = () => {
@@ -154,42 +166,73 @@ const ArtistActions = ({
     </>
   )
 
-  const renderAddToActions = () =>
-    variant === "context" ? (
-      <ContextMenuSub>
-        <ContextMenuSubTrigger>
-          <Icon name="Plus" />
-          {t("common.addTo")}
-        </ContextMenuSubTrigger>
-        <ContextMenuSubContent>
-          <ContextMenuItem onClick={handleAddToQueue}>
-            <Icon name="ListMusic" />
-            {t("common.queue")}
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <Icon name="List" />
-            {t("common.playlist")}
-          </ContextMenuItem>
-        </ContextMenuSubContent>
-      </ContextMenuSub>
-    ) : (
-      <DropdownMenuSub>
-        <DropdownMenuSubTrigger>
-          <Icon name="Plus" />
-          {t("common.addTo")}
-        </DropdownMenuSubTrigger>
-        <DropdownMenuSubContent>
-          <DropdownMenuItem onClick={handleAddToQueue}>
-            <Icon name="ListMusic" />
-            {t("common.queue")}
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Icon name="List" />
-            {t("common.playlist")}
-          </DropdownMenuItem>
-        </DropdownMenuSubContent>
-      </DropdownMenuSub>
+  const renderAddToActions = () => (
+    <ContextMenuSub>
+      <ContextMenuSubTrigger>
+        <Icon name="Plus" />
+        {t("common.addTo")}
+      </ContextMenuSubTrigger>
+      <ContextMenuSubContent>
+        <ContextMenuItem onClick={handleAddToQueue}>
+          <Icon name="ListMusic" />
+          {t("common.queue")}
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <Icon name="List" />
+          {t("common.playlist")}
+        </ContextMenuItem>
+      </ContextMenuSubContent>
+    </ContextMenuSub>
+  )
+
+  const renderFavoriteActions = () => {
+    if (!artist) return null
+
+    return (
+      <ContextMenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
+        <Icon
+          name="Heart"
+          isFilled={artist.isFavorite}
+          className={cn(artist.isFavorite && "!text-primary")}
+        />
+        {artist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+      </ContextMenuItem>
     )
+  }
+
+  const renderDropdownAddToActions = () => (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        <Icon name="Plus" />
+        {t("common.addTo")}
+      </DropdownMenuSubTrigger>
+      <DropdownMenuSubContent>
+        <DropdownMenuItem onClick={handleAddToQueue}>
+          <Icon name="ListMusic" />
+          {t("common.queue")}
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Icon name="List" />
+          {t("common.playlist")}
+        </DropdownMenuItem>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
+  )
+
+  const renderDropdownFavoriteActions = () => {
+    if (!artist) return null
+
+    return (
+      <DropdownMenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
+        <Icon
+          name="Heart"
+          isFilled={artist.isFavorite}
+          className={cn(artist.isFavorite && "!text-primary")}
+        />
+        {artist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+      </DropdownMenuItem>
+    )
+  }
 
   const renderContent = () => {
     if (variant === "context") {
@@ -201,6 +244,7 @@ const ArtistActions = ({
             {renderPlaybackActions()}
             <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
             {renderAddToActions()}
+            {renderFavoriteActions()}
             {renderFormActions()}
           </ContextMenuContent>
         </ContextMenu>
@@ -223,7 +267,8 @@ const ArtistActions = ({
           <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
           {renderPlaybackActions()}
           <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
-          {renderAddToActions()}
+          {renderDropdownAddToActions()}
+          {renderDropdownFavoriteActions()}
           {renderFormActions()}
         </DropdownMenuContent>
       </DropdownMenu>
