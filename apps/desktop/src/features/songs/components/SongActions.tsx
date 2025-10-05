@@ -271,10 +271,6 @@ const SongActions = memo(
     const renderNavigationActions = () => {
       if (!targetSong) return null
 
-      const handleArtistClick = (artist: { artistId: number; artist: { name: string } }) => {
-        console.log("Navigate to artist:", artist.artist.name)
-      }
-
       return (
         <>
           <ContextMenuItem asChild>
@@ -290,9 +286,14 @@ const SongActions = memo(
             </ContextMenuItem>
           )}
           {targetSong.artists.length === 1 && (
-            <ContextMenuItem onClick={() => handleArtistClick(targetSong.artists[0])}>
-              <Icon name="User" />
-              {t("common.goToArtist")}
+            <ContextMenuItem asChild>
+              <SafeLink
+                to="/artists/$id"
+                params={{ id: targetSong.artists[0].artistId.toString() }}
+              >
+                <Icon name="User" />
+                {t("common.goToArtist")}
+              </SafeLink>
             </ContextMenuItem>
           )}
           {targetSong.artists.length > 1 && (
@@ -308,11 +309,13 @@ const SongActions = memo(
                     data={targetSong.artists}
                     keyExtractor={(artist) => artist.artistId.toString()}
                     renderItem={({ item: artist }) => (
-                      <ContextMenuItem onClick={() => handleArtistClick(artist)}>
-                        <Icon name="User" />
-                        <Typography className="line-clamp-none truncate">
-                          {artist.artist.name}
-                        </Typography>
+                      <ContextMenuItem asChild>
+                        <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                          <Icon name="User" />
+                          <Typography className="line-clamp-none truncate">
+                            {artist.artist.name}
+                          </Typography>
+                        </SafeLink>
                       </ContextMenuItem>
                     )}
                     estimateItemHeight={32}
@@ -329,10 +332,6 @@ const SongActions = memo(
     const renderDropdownNavigationActions = () => {
       if (!targetSong) return null
 
-      const handleArtistClick = (artist: { artistId: number; artist: { name: string } }) => {
-        console.log("Navigate to artist:", artist.artist.name)
-      }
-
       return (
         <>
           <DropdownMenuItem asChild>
@@ -348,9 +347,14 @@ const SongActions = memo(
             </DropdownMenuItem>
           )}
           {targetSong.artists.length === 1 && (
-            <DropdownMenuItem onClick={() => handleArtistClick(targetSong.artists[0])}>
-              <Icon name="User" />
-              {t("common.goToArtist")}
+            <DropdownMenuItem asChild>
+              <SafeLink
+                to="/artists/$id"
+                params={{ id: targetSong.artists[0].artistId.toString() }}
+              >
+                <Icon name="User" />
+                {t("common.goToArtist")}
+              </SafeLink>
             </DropdownMenuItem>
           )}
           {targetSong.artists.length > 1 && (
@@ -366,11 +370,13 @@ const SongActions = memo(
                     data={targetSong.artists}
                     keyExtractor={(artist) => artist.artistId.toString()}
                     renderItem={({ item: artist }) => (
-                      <DropdownMenuItem onClick={() => handleArtistClick(artist)}>
-                        <Icon name="User" />
-                        <Typography className="line-clamp-none truncate">
-                          {artist.artist.name}
-                        </Typography>
+                      <DropdownMenuItem asChild>
+                        <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                          <Icon name="User" />
+                          <Typography className="line-clamp-none truncate">
+                            {artist.artist.name}
+                          </Typography>
+                        </SafeLink>
                       </DropdownMenuItem>
                     )}
                     estimateItemHeight={32}

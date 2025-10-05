@@ -8,7 +8,7 @@ import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
 import { SongActions } from "../SongActions"
 
-import { Badge, Header, IconButton, Thumbnail, Typography } from "@components/ui"
+import { Badge, Header, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { formatTime } from "@repo/utils"
 
@@ -84,9 +84,11 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
             {song.name}
           </Typography>
           <div className="flex items-center gap-1">
-            <Typography>
-              {song.artists.length > 0 ? song.artists[0].artist.name : t("common.unknownArtist")}
-            </Typography>
+            <SafeLink to="/artists/$id" params={{ id: song.artists[0].artistId.toString() }}>
+              <Typography affects={["small"]}>
+                {song.artists.length > 0 ? song.artists[0].artist.name : t("common.unknownArtist")}
+              </Typography>
+            </SafeLink>
             <Typography affects={["small", "muted"]}>
               • {song.album ? song.album.name : t("common.unknownAlbum")}
             </Typography>

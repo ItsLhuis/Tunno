@@ -20,6 +20,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuSeparator,
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
@@ -28,12 +29,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Icon,
-  IconButton
+  IconButton,
+  SafeLink
 } from "@components/ui"
 
 import { type Artist } from "@repo/api"
@@ -108,6 +111,32 @@ const ArtistActions = ({
     if (artist) {
       await toggleFavoriteMutation.mutateAsync({ id: artist.id })
     }
+  }
+
+  const renderNavigationActions = () => {
+    if (!artist) return null
+
+    return (
+      <ContextMenuItem asChild>
+        <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
+          <Icon name="User" />
+          {t("common.goToArtist")}
+        </SafeLink>
+      </ContextMenuItem>
+    )
+  }
+
+  const renderDropdownNavigationActions = () => {
+    if (!artist) return null
+
+    return (
+      <DropdownMenuItem asChild>
+        <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
+          <Icon name="User" />
+          {t("common.goToArtist")}
+        </SafeLink>
+      </DropdownMenuItem>
+    )
   }
 
   const renderFormActions = () => {
@@ -242,9 +271,11 @@ const ArtistActions = ({
           <ContextMenuContent>
             <ContextMenuLabel>{t("common.playback")}</ContextMenuLabel>
             {renderPlaybackActions()}
+            <ContextMenuSeparator />
             <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
             {renderAddToActions()}
             {renderFavoriteActions()}
+            {renderNavigationActions()}
             {renderFormActions()}
           </ContextMenuContent>
         </ContextMenu>
@@ -266,9 +297,11 @@ const ArtistActions = ({
         <DropdownMenuContent>
           <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
           {renderPlaybackActions()}
+          <DropdownMenuSeparator />
           <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
           {renderDropdownAddToActions()}
           {renderDropdownFavoriteActions()}
+          {renderDropdownNavigationActions()}
           {renderFormActions()}
         </DropdownMenuContent>
       </DropdownMenu>

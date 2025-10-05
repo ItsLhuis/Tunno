@@ -12,15 +12,7 @@ import { cn } from "@lib/utils"
 
 import { ArtistActions } from "./ArtistActions"
 
-import {
-  Button,
-  Checkbox,
-  IconButton,
-  Marquee,
-  SafeLink,
-  Thumbnail,
-  Typography
-} from "@components/ui"
+import { Checkbox, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
@@ -75,11 +67,9 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
               className={artist.thumbnail ? "size-32" : "size-8"}
             />
           </div>
-          <Button variant="link" className="w-full truncate" asChild>
-            <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
-              <Typography className="w-full truncate">{artist.name}</Typography>
-            </SafeLink>
-          </Button>
+          <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
+            <Typography className="w-full truncate">{artist.name}</Typography>
+          </SafeLink>
           {canPlay && (
             <div className="absolute bottom-10 left-2 right-2 z-10 flex justify-between opacity-0 transition-all group-hover:opacity-100">
               <IconButton
@@ -137,11 +127,9 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
           />
           <div className="w-full truncate">
             <Marquee>
-              <Button variant="link" asChild>
-                <SafeLink to="/artists" params={{ id: artist.id.toString() }}>
-                  <Typography className="truncate">{artist.name}</Typography>
-                </SafeLink>
-              </Button>
+              <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
+                <Typography className="truncate">{artist.name}</Typography>
+              </SafeLink>
             </Marquee>
             <Marquee>
               <Typography affects={["muted", "small"]}>

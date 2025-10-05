@@ -6,7 +6,7 @@ import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
-import { Button, Fade, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import { Fade, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 const TrackInfo = () => {
   const { t } = useTranslation()
@@ -51,11 +51,9 @@ const TrackInfo = () => {
           onClick={handleToggleFavorite}
         />
         <Marquee>
-          <Button variant="link" asChild>
-            <SafeLink to={`/songs/$id`} params={{ id: currentTrack?.id?.toString() }}>
-              <Typography variant="h6">{currentTrack?.title}</Typography>
-            </SafeLink>
-          </Button>
+          <SafeLink to={`/songs/$id`} params={{ id: currentTrack?.id?.toString() }}>
+            <Typography variant="h6">{currentTrack?.title}</Typography>
+          </SafeLink>
         </Marquee>
         <Marquee>
           {currentTrack?.artist ? (

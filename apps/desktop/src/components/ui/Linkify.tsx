@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@components/ui/Button"
 import { SafeLink } from "@components/ui/SafeLink"
 import { Typography, type TypographyProps } from "@components/ui/Typography"
 
@@ -17,9 +16,9 @@ const Linkify = ({ text, ...props }: LinkifyProps) => {
     <Typography variant="span" {...props}>
       {parts.map((part, index) =>
         linkRegex.test(part) ? (
-          <Button key={index} variant="link" className="whitespace-normal" asChild>
+          <span key={index} className="whitespace-normal">
             <SafeLink to={part as any}>{part}</SafeLink>
-          </Button>
+          </span>
         ) : (
           part
         )
