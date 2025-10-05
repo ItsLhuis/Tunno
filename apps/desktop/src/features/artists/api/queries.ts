@@ -2,7 +2,12 @@ import { database, schema } from "@database/client"
 
 import { and, asc, desc, eq, gte, like, lte, sql } from "drizzle-orm"
 
-import { type QueryArtistParams, type Artist, PAGE_SIZE } from "@repo/api"
+import {
+  type QueryArtistParams,
+  type Artist,
+  type ArtistWithAllRelations,
+  PAGE_SIZE
+} from "@repo/api"
 
 export const getArtistsPaginated = async ({
   limit = PAGE_SIZE,
@@ -65,6 +70,29 @@ export const getArtistById = async (id: number): Promise<Artist | null> => {
   })
 
   return artist || null
+}
+
+export const getArtistByIdWithAllRelations = async (
+  id: number
+): Promise<ArtistWithAllRelations | undefined> => {
+  const artist = await database.query.artists.findFirst({
+    where: eq(schema.artists.id, id),
+    with: {
+      songs: {
+        with: {
+          song: true
+        }
+      },
+      albums: {
+        with: {
+          album: true
+        }
+      },
+      stats: true
+    }
+  })
+
+  return artist
 }
 
 export const getArtistIdsOnly = async (params?: QueryArtistParams): Promise<number[]> => {

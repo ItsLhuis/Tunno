@@ -18,6 +18,7 @@ import {
 
 import {
   type QuerySongsParams,
+  type Song,
   type SongWithAllRelations,
   type SongWithMainRelations,
   PAGE_SIZE
@@ -67,6 +68,14 @@ export const getSongsWithMainRelationsPaginated = async ({
     hasNextPage: offset + songs.length < totalCount,
     nextOffset: offset + songs.length
   }
+}
+
+export const getSongById = async (id: number): Promise<Song | null> => {
+  const song = await database.query.songs.findFirst({
+    where: eq(schema.songs.id, id)
+  })
+
+  return song || null
 }
 
 export const getSongByIdWithMainRelations = async (
