@@ -90,11 +90,11 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
       }}
       {...props}
     >
-      <motion.div ref={contentRef} className="inline-block pr-8" animate={controls}>
+      <motion.div ref={contentRef} className="inline-block pr-8 leading-none" animate={controls}>
         {children}
       </motion.div>
       {shouldAnimate && (
-        <motion.div className="inline-block pr-8" animate={controls}>
+        <motion.div className="inline-block pr-8 leading-none" animate={controls}>
           {children}
         </motion.div>
       )}
