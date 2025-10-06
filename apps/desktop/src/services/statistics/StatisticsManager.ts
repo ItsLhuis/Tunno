@@ -17,6 +17,7 @@ const {
 } = schema
 
 import { type PlaySource } from "@features/songs/types/playSource"
+
 import { type PlaySession } from "./types"
 
 export class StatisticsManager {
@@ -73,7 +74,8 @@ export class StatisticsManager {
 
   private resumePlay(): void {
     if (this.currentSession && this.currentSession.isPaused) {
-      this.currentSession.startTime = Date.now()
+      const alreadyListened = this.currentSession.totalTimeListened
+      this.currentSession.startTime = Date.now() - alreadyListened * 1000
       this.currentSession.isPaused = false
     }
   }
