@@ -125,7 +125,7 @@ const ArtistItem = ({ artist, variant = "card", selected = false, onToggle }: Ar
             alt={artist.name}
             containerClassName="rounded-full"
           />
-          <div className="w-full truncate">
+          <div className="flex w-full flex-col gap-1 truncate">
             <Marquee>
               <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
                 <Typography className="truncate">{artist.name}</Typography>
