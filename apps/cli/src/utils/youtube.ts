@@ -23,6 +23,8 @@ import { getLyrics } from "./lrclib"
 
 import { type Song } from "../shared/types"
 
+const EXTENSIONS_WITHOUT_THUMBNAIL_SUPPORT = new Set(["wav", "opus", "aac", "ogg"])
+
 type YoutubeSong = {
   title: string
   thumbnail: string
@@ -222,15 +224,43 @@ export const download = async (
 
     const audioFormat = options?.extension || (options?.basicDownload ? "m4a" : "opus")
 
+    const supportsThumbnail = !EXTENSIONS_WITHOUT_THUMBNAIL_SUPPORT.has(audioFormat)
+
+    if (shouldAddMetadata && !supportsThumbnail) {
+      console.log(
+        `[youtube] ${chalk.yellow("Warning:")} The ${chalk.blue(audioFormat)} format does not support embedded thumbnails`
+      )
+    }
+
     await runCommand("yt-dlp", [
       "--extract-audio",
-      "--audio-format",
-      audioFormat,
-      "--audio-quality",
-      "0",
+      "--no-playlist",
+      "--no-warnings",
+      "--ignore-errors",
+      "--prefer-free-formats",
+      "--no-check-certificate",
+      "--extractor-retries",
+      "3",
+      "--fragment-retries",
+      "3",
+      "--retries",
+      "3",
+      "--concurrent-fragments",
+      "4",
+      "--buffer-size",
+      "16K",
       "--format",
       "bestaudio",
-      ...(shouldAddMetadata ? ["--add-metadata", "--embed-thumbnail"] : []),
+      ...(shouldAddMetadata ? ["--add-metadata"] : []),
+      ...(audioFormat === "opus"
+        ? ["--audio-format", "opus"]
+        : [
+            "--audio-format",
+            audioFormat,
+            "--audio-quality",
+            "0",
+            ...(shouldAddMetadata && supportsThumbnail ? ["--embed-thumbnail"] : [])
+          ]),
       "--output",
       `"${songFilePath}"`,
       url
