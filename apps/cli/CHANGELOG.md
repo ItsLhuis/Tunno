@@ -2,6 +2,15 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.3.1] - 2025-10-06
+
+### Enhanced
+
+- 🚀 Improved YouTube download reliability with enhanced error handling and retry mechanisms
+- 🎵 Added support for formats without thumbnail embedding (wav, opus, aac, ogg) with user warnings
+- 🔧 Enhanced yt-dlp command with better error recovery and concurrent fragment handling
+- 📊 Added format-specific logic for opus downloads with optimized parameters
+
 ## [1.3.0] - 2025-10-03
 
 ### Added
