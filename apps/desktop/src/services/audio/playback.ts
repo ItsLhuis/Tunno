@@ -19,7 +19,7 @@ export const registerPlaybackListeners = () => {
     unsubscribeFns = []
   }
 
-  const onPlaybackState: EventHandler = (data: EventData) => {
+  const onPlaybackState: EventHandler = async (data: EventData) => {
     if ((data as PlaybackStateEventData).type !== Event.PlaybackState) return
     const { state } = data as PlaybackStateEventData
 
@@ -32,17 +32,17 @@ export const registerPlaybackListeners = () => {
       case State.Playing:
         const { currentTrackId, playSource, sourceContextId } = usePlayerStore.getState()
         if (currentTrackId && typeof currentTrackId === "number") {
-          Statistics.startPlay(currentTrackId, playSource, sourceContextId ?? undefined)
+          await Statistics.startPlay(currentTrackId, playSource, sourceContextId ?? undefined)
         }
         break
       case State.Paused:
         Statistics.pausePlay()
         break
       case State.Stopped:
-        Statistics.endPlay()
+        await Statistics.endPlay()
         break
       case State.Error:
-        Statistics.forceEnd()
+        await Statistics.forceEnd()
         break
     }
   }
@@ -61,12 +61,18 @@ export const registerPlaybackListeners = () => {
     try {
       await syncStateWithPlayer()
 
-      const { currentTrackIndex } = usePlayerStore.getState()
+      const { currentTrackIndex, currentTrackId, playSource, sourceContextId, playbackState } =
+        usePlayerStore.getState()
+
       if (typeof currentTrackIndex === "number") {
         await ensureWindowForIndex(currentTrackIndex)
       }
 
       updateNavigationStates()
+
+      if (playbackState === State.Playing && currentTrackId && typeof currentTrackId === "number") {
+        await Statistics.startPlay(currentTrackId, playSource, sourceContextId ?? undefined)
+      }
     } catch (error) {
       console.error("Playback: Error in onTrackChanged:", error)
       await validateAndUpdateState()
@@ -82,8 +88,6 @@ export const registerPlaybackListeners = () => {
       duration: Math.round(duration),
       buffered: Math.floor(buffered)
     })
-
-    Statistics.updatePlayTime()
   }
 
   const onError = () => {

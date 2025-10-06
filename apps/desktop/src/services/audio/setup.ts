@@ -2,7 +2,7 @@ import TrackPlayer, { RepeatMode } from "react-track-player-web"
 
 export const DefaultRepeatMode = RepeatMode.Queue
 
-const isTrackPlayerSetup = (): boolean => {
+const isTrackPlayerSetup = () => {
   try {
     const state = TrackPlayer.getPlaybackState()
     return state !== undefined
