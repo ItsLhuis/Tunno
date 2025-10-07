@@ -2,7 +2,7 @@ import { database, schema } from "@database/client"
 
 import { and, asc, desc, eq, exists, inArray, like } from "drizzle-orm"
 
-import { type AlbumWithMainRelations, type QueryAlbumParams } from "@repo/api"
+import { type Album, type AlbumWithMainRelations, type QueryAlbumParams } from "@repo/api"
 
 export const getAlbumsFilteredByArtistsWithMainRelations = async (
   artistIds: number[],
@@ -41,4 +41,12 @@ export const getAlbumsFilteredByArtistsWithMainRelations = async (
       }
     }
   })
+}
+
+export const getAlbumById = async (id: number): Promise<Album | null> => {
+  const album = await database.query.albums.findFirst({
+    where: eq(schema.albums.id, id)
+  })
+
+  return album || null
 }
