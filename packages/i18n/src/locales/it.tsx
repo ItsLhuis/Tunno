@@ -72,7 +72,8 @@ export const italian: Language = {
       retentionRate: "Tasso di ritenzione",
       totalPlays: "Riproduzioni totali",
       lastPlayed: "Ultima riproduzione",
-      neverPlayed: "Mai riprodotto"
+      neverPlayed: "Mai riprodotto",
+      streak: "Serie"
     },
     form: {
       titles: {

@@ -72,7 +72,8 @@ export const chinese: Language = {
       retentionRate: "留存率",
       totalPlays: "总播放次数",
       lastPlayed: "最后播放",
-      neverPlayed: "从未播放"
+      neverPlayed: "从未播放",
+      streak: "连续"
     },
     form: {
       titles: {

@@ -72,7 +72,8 @@ export const ukrainian: Language = {
       retentionRate: "Коефіцієнт утримання",
       totalPlays: "Загальна кількість відтворень",
       lastPlayed: "Останнє відтворення",
-      neverPlayed: "Ніколи не відтворювалося"
+      neverPlayed: "Ніколи не відтворювалося",
+      streak: "Серія"
     },
     form: {
       titles: {

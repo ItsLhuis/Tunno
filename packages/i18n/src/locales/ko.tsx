@@ -72,7 +72,8 @@ export const korean: Language = {
       retentionRate: "리텐션 비율",
       totalPlays: "총 재생 횟수",
       lastPlayed: "마지막 재생",
-      neverPlayed: "재생된 적 없음"
+      neverPlayed: "재생된 적 없음",
+      streak: "연속"
     },
     form: {
       titles: {

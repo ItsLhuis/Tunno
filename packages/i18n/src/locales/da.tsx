@@ -72,7 +72,8 @@ export const danish: Language = {
       retentionRate: "Retention rate",
       totalPlays: "Totale afspilninger",
       lastPlayed: "Sidst afspillet",
-      neverPlayed: "Aldrig afspillet"
+      neverPlayed: "Aldrig afspillet",
+      streak: "Serie"
     },
     form: {
       titles: {

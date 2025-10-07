@@ -72,7 +72,8 @@ export const hindi: Language = {
       retentionRate: "रिटेंशन दर",
       totalPlays: "कुल प्ले",
       lastPlayed: "अंतिम बार चलाया गया",
-      neverPlayed: "कभी नहीं बजाया"
+      neverPlayed: "कभी नहीं बजाया",
+      streak: "स्ट्रीक"
     },
     form: {
       titles: {

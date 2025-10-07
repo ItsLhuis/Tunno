@@ -72,7 +72,8 @@ export const japanese: Language = {
       retentionRate: "リテンション率",
       totalPlays: "総再生回数",
       lastPlayed: "最後に再生",
-      neverPlayed: "再生されたことがない"
+      neverPlayed: "再生されたことがない",
+      streak: "ストリーク"
     },
     form: {
       titles: {

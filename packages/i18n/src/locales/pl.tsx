@@ -72,7 +72,8 @@ export const polish: Language = {
       retentionRate: "Wskaźnik retencji",
       totalPlays: "Łączna liczba odtworzeń",
       lastPlayed: "Ostatnio odtwarzane",
-      neverPlayed: "Nigdy nie odtwarzane"
+      neverPlayed: "Nigdy nie odtwarzane",
+      streak: "Seria"
     },
     form: {
       titles: {

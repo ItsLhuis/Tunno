@@ -72,7 +72,8 @@ export const french: Language = {
       retentionRate: "Taux de rétention",
       totalPlays: "Total des lectures",
       lastPlayed: "Dernière lecture",
-      neverPlayed: "Jamais joué"
+      neverPlayed: "Jamais joué",
+      streak: "Série"
     },
     form: {
       titles: {

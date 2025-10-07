@@ -72,7 +72,8 @@ export const dutch: Language = {
       retentionRate: "Retentiepercentage",
       totalPlays: "Totale afspelingen",
       lastPlayed: "Laatst afgespeeld",
-      neverPlayed: "Nooit afgespeeld"
+      neverPlayed: "Nooit afgespeeld",
+      streak: "Reeks"
     },
     form: {
       titles: {

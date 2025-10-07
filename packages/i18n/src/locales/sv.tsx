@@ -72,7 +72,8 @@ export const swedish: Language = {
       retentionRate: "Retention rate",
       totalPlays: "Totalt antal uppspelningar",
       lastPlayed: "Senast spelad",
-      neverPlayed: "Aldrig spelad"
+      neverPlayed: "Aldrig spelad",
+      streak: "Serie"
     },
     form: {
       titles: {

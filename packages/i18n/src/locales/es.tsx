@@ -72,7 +72,8 @@ export const spanish: Language = {
       retentionRate: "Tasa de retención",
       totalPlays: "Total de reproducciones",
       lastPlayed: "Última reproducción",
-      neverPlayed: "Nunca reproducido"
+      neverPlayed: "Nunca reproducido",
+      streak: "Racha"
     },
     form: {
       titles: {

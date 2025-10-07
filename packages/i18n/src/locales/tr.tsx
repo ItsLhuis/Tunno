@@ -72,7 +72,8 @@ export const turkish: Language = {
       retentionRate: "Tutma oranı",
       totalPlays: "Toplam çalma",
       lastPlayed: "Son çalınan",
-      neverPlayed: "Hiç çalınmadı"
+      neverPlayed: "Hiç çalınmadı",
+      streak: "Seri"
     },
     form: {
       titles: {

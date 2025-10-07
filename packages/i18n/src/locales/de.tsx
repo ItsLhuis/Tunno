@@ -72,7 +72,8 @@ export const german: Language = {
       retentionRate: "Retention Rate",
       totalPlays: "Gesamte Wiedergaben",
       lastPlayed: "Zuletzt gespielt",
-      neverPlayed: "Nie gespielt"
+      neverPlayed: "Nie gespielt",
+      streak: "Serie"
     },
     form: {
       titles: {

@@ -72,7 +72,8 @@ export const russian: Language = {
       retentionRate: "Коэффициент удержания",
       totalPlays: "Всего воспроизведений",
       lastPlayed: "Последнее воспроизведение",
-      neverPlayed: "Никогда не воспроизводилось"
+      neverPlayed: "Никогда не воспроизводилось",
+      streak: "Серия"
     },
     form: {
       titles: {

@@ -72,7 +72,8 @@ export const norwegian: Language = {
       retentionRate: "Retention rate",
       totalPlays: "Totale avspillinger",
       lastPlayed: "Sist spilt",
-      neverPlayed: "Aldri spilt"
+      neverPlayed: "Aldri spilt",
+      streak: "Serie"
     },
     form: {
       titles: {

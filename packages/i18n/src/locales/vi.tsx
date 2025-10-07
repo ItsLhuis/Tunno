@@ -72,7 +72,8 @@ export const vietnamese: Language = {
       retentionRate: "Tỷ lệ giữ chân",
       totalPlays: "Tổng số lần phát",
       lastPlayed: "Lần phát cuối",
-      neverPlayed: "Chưa bao giờ phát"
+      neverPlayed: "Chưa bao giờ phát",
+      streak: "Chuỗi"
     },
     form: {
       titles: {

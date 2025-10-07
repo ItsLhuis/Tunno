@@ -72,7 +72,8 @@ export const finnish: Language = {
       retentionRate: "Retention rate",
       totalPlays: "Kokonaistoistot",
       lastPlayed: "Viimeksi soitettu",
-      neverPlayed: "Ei koskaan soitettu"
+      neverPlayed: "Ei koskaan soitettu",
+      streak: "Putki"
     },
     form: {
       titles: {
