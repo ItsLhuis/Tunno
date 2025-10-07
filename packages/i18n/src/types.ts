@@ -76,6 +76,7 @@ export type Translations = {
     totalPlays: string
     lastPlayed: string
     neverPlayed: string
+    streak: string
   }
   form: {
     titles: {
