@@ -9,6 +9,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 import Logo from "@assets/images/app/icons/primary.png"
 
 import {
+  AsyncState,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -32,6 +33,7 @@ type TitlebarProps = {
 const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   const router = useRouter()
   const routerState = useRouterState()
+
   const { t } = useTranslation()
 
   const canGoBack = router.history.canGoBack()
@@ -79,7 +81,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
             />
             <Fade
               show={!isSplashVisible}
-              className="ml-3 w-full rounded-md bg-muted p-2 px-3 text-sm"
+              className="ml-3 flex w-full items-center justify-between rounded-md bg-muted p-2 px-3 text-sm"
               data-tauri-drag-region
             >
               <Breadcrumb data-tauri-drag-region>
@@ -92,14 +94,13 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                         <BreadcrumbItem>
                           {isLast || breadcrumb.isNotClickable ? (
                             <BreadcrumbPage data-tauri-drag-region>
-                              {breadcrumb.isLoading ? (
-                                <div className="flex items-center gap-2">
-                                  <Spinner variant="ellipsis" size={12} />
-                                  <span className="text-muted-foreground">{breadcrumb.label}</span>
-                                </div>
-                              ) : (
-                                <span>{breadcrumb.label}</span>
-                              )}
+                              <AsyncState
+                                data={breadcrumb.label}
+                                isLoading={breadcrumb.isLoading}
+                                loadingComponent={<Spinner variant="ellipsis" size={12} />}
+                              >
+                                {(label) => <span>{label}</span>}
+                              </AsyncState>
                             </BreadcrumbPage>
                           ) : (
                             <BreadcrumbLink
