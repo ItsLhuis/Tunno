@@ -73,7 +73,8 @@ export const finnish: Language = {
       totalPlays: "Kokonaistoistot",
       lastPlayed: "Viimeksi soitettu",
       neverPlayed: "Ei koskaan soitettu",
-      streak: "Putki"
+      streak: "Putki",
+      refresh: "Päivitä"
     },
     form: {
       titles: {

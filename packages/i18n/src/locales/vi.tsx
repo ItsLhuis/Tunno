@@ -73,7 +73,8 @@ export const vietnamese: Language = {
       totalPlays: "Tổng số lần phát",
       lastPlayed: "Lần phát cuối",
       neverPlayed: "Chưa bao giờ phát",
-      streak: "Chuỗi"
+      streak: "Chuỗi",
+      refresh: "Làm mới"
     },
     form: {
       titles: {

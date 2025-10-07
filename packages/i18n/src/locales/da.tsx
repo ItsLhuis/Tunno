@@ -73,7 +73,8 @@ export const danish: Language = {
       totalPlays: "Totale afspilninger",
       lastPlayed: "Sidst afspillet",
       neverPlayed: "Aldrig afspillet",
-      streak: "Serie"
+      streak: "Serie",
+      refresh: "Opdater"
     },
     form: {
       titles: {

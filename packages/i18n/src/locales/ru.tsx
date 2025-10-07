@@ -73,7 +73,8 @@ export const russian: Language = {
       totalPlays: "Всего воспроизведений",
       lastPlayed: "Последнее воспроизведение",
       neverPlayed: "Никогда не воспроизводилось",
-      streak: "Серия"
+      streak: "Серия",
+      refresh: "Обновить"
     },
     form: {
       titles: {

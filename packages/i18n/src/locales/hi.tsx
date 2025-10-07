@@ -73,7 +73,8 @@ export const hindi: Language = {
       totalPlays: "कुल प्ले",
       lastPlayed: "अंतिम बार चलाया गया",
       neverPlayed: "कभी नहीं बजाया",
-      streak: "स्ट्रीक"
+      streak: "स्ट्रीक",
+      refresh: "रिफ्रेश करें"
     },
     form: {
       titles: {

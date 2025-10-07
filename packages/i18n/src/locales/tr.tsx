@@ -73,7 +73,8 @@ export const turkish: Language = {
       totalPlays: "Toplam çalma",
       lastPlayed: "Son çalınan",
       neverPlayed: "Hiç çalınmadı",
-      streak: "Seri"
+      streak: "Seri",
+      refresh: "Yenile"
     },
     form: {
       titles: {

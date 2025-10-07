@@ -73,7 +73,8 @@ export const chinese: Language = {
       totalPlays: "总播放次数",
       lastPlayed: "最后播放",
       neverPlayed: "从未播放",
-      streak: "连续"
+      streak: "连续",
+      refresh: "刷新"
     },
     form: {
       titles: {

@@ -73,7 +73,8 @@ export const italian: Language = {
       totalPlays: "Riproduzioni totali",
       lastPlayed: "Ultima riproduzione",
       neverPlayed: "Mai riprodotto",
-      streak: "Serie"
+      streak: "Serie",
+      refresh: "Aggiorna"
     },
     form: {
       titles: {

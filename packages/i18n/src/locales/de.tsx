@@ -73,7 +73,8 @@ export const german: Language = {
       totalPlays: "Gesamte Wiedergaben",
       lastPlayed: "Zuletzt gespielt",
       neverPlayed: "Nie gespielt",
-      streak: "Serie"
+      streak: "Serie",
+      refresh: "Aktualisieren"
     },
     form: {
       titles: {

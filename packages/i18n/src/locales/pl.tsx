@@ -73,7 +73,8 @@ export const polish: Language = {
       totalPlays: "Łączna liczba odtworzeń",
       lastPlayed: "Ostatnio odtwarzane",
       neverPlayed: "Nigdy nie odtwarzane",
-      streak: "Seria"
+      streak: "Seria",
+      refresh: "Odśwież"
     },
     form: {
       titles: {

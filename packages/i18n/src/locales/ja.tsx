@@ -73,7 +73,8 @@ export const japanese: Language = {
       totalPlays: "総再生回数",
       lastPlayed: "最後に再生",
       neverPlayed: "再生されたことがない",
-      streak: "ストリーク"
+      streak: "ストリーク",
+      refresh: "更新"
     },
     form: {
       titles: {

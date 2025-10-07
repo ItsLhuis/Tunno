@@ -73,7 +73,8 @@ export const dutch: Language = {
       totalPlays: "Totale afspelingen",
       lastPlayed: "Laatst afgespeeld",
       neverPlayed: "Nooit afgespeeld",
-      streak: "Reeks"
+      streak: "Reeks",
+      refresh: "Vernieuwen"
     },
     form: {
       titles: {

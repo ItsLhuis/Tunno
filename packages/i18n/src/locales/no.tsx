@@ -73,7 +73,8 @@ export const norwegian: Language = {
       totalPlays: "Totale avspillinger",
       lastPlayed: "Sist spilt",
       neverPlayed: "Aldri spilt",
-      streak: "Serie"
+      streak: "Serie",
+      refresh: "Oppdater"
     },
     form: {
       titles: {

@@ -73,7 +73,8 @@ export const korean: Language = {
       totalPlays: "총 재생 횟수",
       lastPlayed: "마지막 재생",
       neverPlayed: "재생된 적 없음",
-      streak: "연속"
+      streak: "연속",
+      refresh: "새로고침"
     },
     form: {
       titles: {

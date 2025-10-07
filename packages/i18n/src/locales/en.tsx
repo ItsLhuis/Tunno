@@ -73,7 +73,8 @@ export const english: Language = {
       totalPlays: "Total plays",
       lastPlayed: "Last played",
       neverPlayed: "Never played",
-      streak: "Streak"
+      streak: "Streak",
+      refresh: "Refresh"
     },
     form: {
       titles: {

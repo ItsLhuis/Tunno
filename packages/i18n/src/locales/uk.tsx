@@ -73,7 +73,8 @@ export const ukrainian: Language = {
       totalPlays: "Загальна кількість відтворень",
       lastPlayed: "Останнє відтворення",
       neverPlayed: "Ніколи не відтворювалося",
-      streak: "Серія"
+      streak: "Серія",
+      refresh: "Оновити"
     },
     form: {
       titles: {

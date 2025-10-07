@@ -73,7 +73,8 @@ export const swedish: Language = {
       totalPlays: "Totalt antal uppspelningar",
       lastPlayed: "Senast spelad",
       neverPlayed: "Aldrig spelad",
-      streak: "Serie"
+      streak: "Serie",
+      refresh: "Uppdatera"
     },
     form: {
       titles: {
