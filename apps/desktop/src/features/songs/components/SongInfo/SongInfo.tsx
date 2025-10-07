@@ -7,14 +7,13 @@ import { useTranslation } from "@repo/i18n"
 import { useFetchSongByIdWithAllRelations } from "../../hooks/useFetchSongByIdWithAllRelations"
 
 import {
+  AsyncState,
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  NotFound,
   ScrollAreaWithHeaders,
-  Spinner,
   Typography
 } from "@components/ui"
 
@@ -31,12 +30,16 @@ const SongInfo = () => {
 
   const { t } = useTranslation()
 
-  const { data, isLoading, isError } = useFetchSongByIdWithAllRelations(Number(id))
+  const {
+    data: songData,
+    isLoading: isSongLoading,
+    isError: isSongError
+  } = useFetchSongByIdWithAllRelations(Number(id))
 
   const song = useMemo(() => {
-    if (!data) return null
-    return data
-  }, [data])
+    if (!songData) return null
+    return songData
+  }, [songData])
 
   const Header = useCallback(() => {
     if (!song) return null
@@ -62,50 +65,42 @@ const SongInfo = () => {
     []
   )
 
-  if (isLoading) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <Spinner />
-      </div>
-    )
-  }
-
-  if (isError || !song) {
-    return <NotFound />
-  }
-
   return (
-    <ScrollAreaWithHeaders
-      HeaderComponent={Header}
-      StickyHeaderComponent={StickyHeader}
-      ListHeaderComponent={ListHeader}
-      className="flex w-full flex-1 flex-col gap-9"
-    >
-      <SongItem song={song} allSongIds={[song.id]} />
-      {song.artists.length > 0 && (
-        <section className="flex w-full flex-col gap-3">
-          <Typography variant="h3">{t("artists.title")}</Typography>
-          <Carousel
-            opts={{
-              align: "start",
-              dragFree: true,
-              skipSnaps: true
-            }}
-            className="-mx-9"
-          >
-            <CarouselContent containerClassName="px-9">
-              {song.artists.map((artist, index) => (
-                <CarouselItem key={artist.artist.id || index} className="basis-auto">
-                  <ArtistItem artist={artist.artist} variant="card" />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="ml-20" />
-            <CarouselNext className="mr-20" />
-          </Carousel>
-        </section>
+    <AsyncState data={song} isLoading={isSongLoading} isError={isSongError}>
+      {(data) => (
+        <ScrollAreaWithHeaders
+          HeaderComponent={Header}
+          StickyHeaderComponent={StickyHeader}
+          ListHeaderComponent={ListHeader}
+          className="flex w-full flex-1 flex-col gap-9"
+        >
+          <SongItem song={data} allSongIds={[data.id]} />
+          {data.artists.length > 0 && (
+            <section className="flex w-full flex-col gap-3">
+              <Typography variant="h3">{t("artists.title")}</Typography>
+              <Carousel
+                opts={{
+                  align: "start",
+                  dragFree: true,
+                  skipSnaps: true
+                }}
+                className="-mx-9"
+              >
+                <CarouselContent containerClassName="px-9">
+                  {data.artists.map((artist, index) => (
+                    <CarouselItem key={artist.artist.id || index} className="basis-auto">
+                      <ArtistItem artist={artist.artist} variant="card" />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="ml-20" />
+                <CarouselNext className="mr-20" />
+              </Carousel>
+            </section>
+          )}
+        </ScrollAreaWithHeaders>
       )}
-    </ScrollAreaWithHeaders>
+    </AsyncState>
   )
 }
 

@@ -5,7 +5,7 @@ import { useParams } from "@tanstack/react-router"
 import { useFetchSongsByIdsWithMainRelations } from "../../../songs/hooks/useFetchSongsByIdsWithMainRelations"
 import { useFetchArtistByIdWithAllRelations } from "../../hooks/useFetchArtistByIdWithAllRelations"
 
-import { NotFound, ScrollAreaWithHeaders, Spinner } from "@components/ui"
+import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
 import { SongItem } from "@features/songs/components/SongItem"
 
@@ -71,35 +71,27 @@ const ArtistInfo = () => {
     []
   )
 
-  if (isLoading) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <Spinner />
-      </div>
-    )
-  }
-
-  if (isError || !artist) {
-    return <NotFound />
-  }
-
   return (
-    <ScrollAreaWithHeaders
-      HeaderComponent={Header}
-      StickyHeaderComponent={StickyHeader}
-      ListHeaderComponent={ListHeader}
-      className="flex w-full flex-1 flex-col gap-9"
-    >
-      {songs.length > 0 && (
-        <section className="flex w-full flex-col gap-3">
-          <div className="flex flex-col gap-1">
-            {songs.map((song) => (
-              <SongItem key={song.id} song={song} allSongIds={songs.map((s) => s.id)} />
-            ))}
-          </div>
-        </section>
+    <AsyncState data={artist} isLoading={isLoading} isError={isError}>
+      {() => (
+        <ScrollAreaWithHeaders
+          HeaderComponent={Header}
+          StickyHeaderComponent={StickyHeader}
+          ListHeaderComponent={ListHeader}
+          className="flex w-full flex-1 flex-col gap-9"
+        >
+          {songs.length > 0 && (
+            <section className="flex w-full flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                {songs.map((song) => (
+                  <SongItem key={song.id} song={song} allSongIds={songs.map((s) => s.id)} />
+                ))}
+              </div>
+            </section>
+          )}
+        </ScrollAreaWithHeaders>
       )}
-    </ScrollAreaWithHeaders>
+    </AsyncState>
   )
 }
 
