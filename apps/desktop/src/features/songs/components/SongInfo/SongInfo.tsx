@@ -6,6 +6,8 @@ import { useTranslation } from "@repo/i18n"
 
 import { useFetchSongByIdWithAllRelations } from "../../hooks/useFetchSongByIdWithAllRelations"
 
+import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
+
 import {
   AsyncState,
   Carousel,
@@ -33,7 +35,8 @@ const SongInfo = () => {
   const {
     data: songData,
     isLoading: isSongLoading,
-    isError: isSongError
+    isError: isSongError,
+    refetch
   } = useFetchSongByIdWithAllRelations(Number(id))
 
   const song = useMemo(() => {
@@ -64,6 +67,14 @@ const SongInfo = () => {
     ),
     []
   )
+
+  const handleRefresh = useCallback(async () => {
+    await refetch()
+  }, [refetch])
+
+  usePageRefresh({
+    refreshFn: handleRefresh
+  })
 
   return (
     <AsyncState data={song} isLoading={isSongLoading} isError={isSongError}>

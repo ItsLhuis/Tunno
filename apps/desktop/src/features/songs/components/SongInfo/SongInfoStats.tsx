@@ -33,8 +33,8 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
 
   return (
     <Fade show={Boolean(song)} mode="popLayout" className="w-full">
-      <Header className="grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
-        <div className="min-w-0">
+      <Header className="grid w-full min-w-0 grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-6">
+        <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="PlayCircle" />
             <Typography className="truncate">{t("common.totalPlays")}</Typography>
@@ -43,7 +43,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
             {formatNumber(playCount)}
           </Typography>
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Clock" />
             <Typography className="truncate">{t("common.listenTime")}</Typography>
@@ -52,7 +52,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
             {formatDuration(totalPlayTime, t)}
           </Typography>
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="ClockFading" />
             <Typography className="truncate">{t("common.averageListenTime")}</Typography>
@@ -61,7 +61,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
             {formatDuration(averageListenTime, t)}
           </Typography>
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="TrendingUp" />
             <Typography className="truncate">{t("common.retentionRate")}</Typography>
@@ -70,7 +70,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
             {retentionRate.toFixed(1)}%
           </Typography>
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Play" />
             <Typography className="truncate">{t("common.lastPlayed")}</Typography>
@@ -81,7 +81,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
               : t("common.neverPlayed")}
           </Typography>
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Flame" />
             <Typography className="truncate">{t("common.streak")}</Typography>

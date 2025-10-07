@@ -4,9 +4,17 @@ import { useTranslation } from "@repo/i18n"
 
 import { useBreadcrumbs } from "./hooks"
 
+import { useShallow } from "zustand/shallow"
+
+import { useRefreshStore } from "./stores/useRefreshStore"
+
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
+import { cn } from "@lib/utils"
+
 import Logo from "@assets/images/app/icons/primary.png"
+
+import { Titlebar as WindowTitlebar } from "@components/window"
 
 import {
   AsyncState,
@@ -24,7 +32,6 @@ import {
   SafeLink,
   Spinner
 } from "@components/ui"
-import { Titlebar as WindowTitlebar } from "@components/window"
 
 type TitlebarProps = {
   isSplashVisible: boolean
@@ -40,6 +47,18 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   const canGoForward = router.history.length > routerState.location.state.__TSR_index + 1
 
   const { breadcrumbs } = useBreadcrumbs()
+
+  const { canRefresh, tooltip, isLoading, showSuccess, showError, executeRefresh } =
+    useRefreshStore(
+      useShallow((state) => ({
+        canRefresh: state.canRefresh,
+        tooltip: state.tooltip,
+        isLoading: state.isLoading,
+        showSuccess: state.showSuccess,
+        showError: state.showError,
+        executeRefresh: state.executeRefresh
+      }))
+    )
 
   const toggleFullScreen = async () => {
     const window = getCurrentWindow()
@@ -77,46 +96,85 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
               src={Logo}
               alt="App logo"
               containerClassName="bg-transparent border-none rounded-none"
-              className="aspect-auto w-4"
+              className="mr-3 aspect-auto w-4"
             />
-            <Fade
-              show={!isSplashVisible}
-              className="ml-3 flex w-full items-center justify-between rounded-md bg-muted p-2 px-3 text-sm"
-              data-tauri-drag-region
-            >
-              <Breadcrumb data-tauri-drag-region>
-                <BreadcrumbList data-tauri-drag-region className="gap-0 sm:gap-0">
-                  {breadcrumbs.map((breadcrumb, index) => {
-                    const isLast = index === breadcrumbs.length - 1
+            <Fade show={!isSplashVisible} className="flex w-full items-center rounded-md bg-muted">
+              <div
+                className="ml-3 flex w-full items-center justify-between text-sm"
+                data-tauri-drag-region
+              >
+                <Breadcrumb>
+                  <BreadcrumbList className="gap-0 sm:gap-0">
+                    {breadcrumbs.map((breadcrumb, index) => {
+                      const isLast = index === breadcrumbs.length - 1
 
-                    return (
-                      <div key={breadcrumb.path} className="flex items-center">
-                        <BreadcrumbItem>
-                          {isLast || breadcrumb.isNotClickable ? (
-                            <BreadcrumbPage data-tauri-drag-region>
-                              <AsyncState
-                                data={breadcrumb.label}
-                                isLoading={breadcrumb.isLoading}
-                                loadingComponent={<Spinner variant="ellipsis" size={12} />}
+                      return (
+                        <div key={breadcrumb.path} className="flex items-center">
+                          <BreadcrumbItem>
+                            {isLast || breadcrumb.isNotClickable ? (
+                              <BreadcrumbPage>
+                                <AsyncState
+                                  data={breadcrumb.label}
+                                  isLoading={breadcrumb.isLoading}
+                                  loadingComponent={<Spinner variant="ellipsis" size={12} />}
+                                >
+                                  {(label) => <span>{label}</span>}
+                                </AsyncState>
+                              </BreadcrumbPage>
+                            ) : (
+                              <BreadcrumbLink
+                                onClick={() => router.navigate({ to: breadcrumb.path })}
                               >
-                                {(label) => <span>{label}</span>}
-                              </AsyncState>
-                            </BreadcrumbPage>
-                          ) : (
-                            <BreadcrumbLink
-                              onClick={() => router.navigate({ to: breadcrumb.path })}
-                              className="hover:text-foreground"
-                            >
-                              {breadcrumb.label}
-                            </BreadcrumbLink>
+                                {breadcrumb.label}
+                              </BreadcrumbLink>
+                            )}
+                          </BreadcrumbItem>
+                          {index < breadcrumbs.length - 1 && (
+                            <BreadcrumbSeparator className="mx-2" />
                           )}
-                        </BreadcrumbItem>
-                        {index < breadcrumbs.length - 1 && <BreadcrumbSeparator className="mx-2" />}
-                      </div>
-                    )
-                  })}
-                </BreadcrumbList>
-              </Breadcrumb>
+                        </div>
+                      )
+                    })}
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
+              <Button
+                tooltip={tooltip || t("common.refresh")}
+                variant="ghost"
+                size="icon"
+                onClick={executeRefresh}
+                disabled={!canRefresh || isLoading}
+                className="relative rounded-l-none border-l-2 border-sidebar"
+              >
+                <div
+                  className={cn(
+                    "transition-all",
+                    !showSuccess && !showError
+                      ? "rotate-0 scale-100 opacity-100"
+                      : "rotate-90 scale-0 opacity-0"
+                  )}
+                >
+                  <Icon name="RefreshCw" className={cn(isLoading && "animate-spin")} />
+                </div>
+                <Icon
+                  name="Check"
+                  className={cn(
+                    "absolute transition-all",
+                    showSuccess
+                      ? "rotate-0 scale-100 text-success opacity-100"
+                      : "rotate-90 scale-0 opacity-0"
+                  )}
+                />
+                <Icon
+                  name="X"
+                  className={cn(
+                    "absolute transition-all",
+                    showError
+                      ? "rotate-0 scale-100 text-error opacity-100"
+                      : "rotate-90 scale-0 opacity-0"
+                  )}
+                />
+              </Button>
             </Fade>
           </div>
           <Fade show={!isSplashVisible} className="ml-3 flex items-center gap-2">

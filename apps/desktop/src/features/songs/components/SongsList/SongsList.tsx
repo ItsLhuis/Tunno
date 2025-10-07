@@ -7,6 +7,8 @@ import { useSongsStore } from "../../stores/useSongsStore"
 import { useFetchSongIds } from "../../hooks/useFetchSongIds"
 import { useFetchSongsWithMainRelationsInfinite } from "../../hooks/useFetchSongsWithMainRelationsInfinite"
 
+import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
+
 import {
   NotFound,
   Spinner,
@@ -38,10 +40,10 @@ const SongsList = () => {
     filters: Object.keys(debouncedFilters).length > 0 ? debouncedFilters : undefined
   }
 
-  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } =
     useFetchSongsWithMainRelationsInfinite(queryParams)
 
-  const { data: allSongIds } = useFetchSongIds(queryParams)
+  const { data: allSongIds, refetch: refetchSongIds } = useFetchSongIds(queryParams)
 
   const songs = useMemo(() => {
     if (!data?.pages) return []
@@ -95,6 +97,14 @@ const SongsList = () => {
       fetchNextPage()
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  const handleRefresh = useCallback(async () => {
+    await Promise.all([refetch(), refetchSongIds()])
+  }, [refetch, refetchSongIds])
+
+  usePageRefresh({
+    refreshFn: handleRefresh
+  })
 
   return (
     <VirtualizedListWithHeaders

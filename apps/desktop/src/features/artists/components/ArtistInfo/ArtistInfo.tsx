@@ -5,6 +5,8 @@ import { useParams } from "@tanstack/react-router"
 import { useFetchSongsByIdsWithMainRelations } from "../../../songs/hooks/useFetchSongsByIdsWithMainRelations"
 import { useFetchArtistByIdWithAllRelations } from "../../hooks/useFetchArtistByIdWithAllRelations"
 
+import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
+
 import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
 import { SongItem } from "@features/songs/components/SongItem"
@@ -20,7 +22,8 @@ const ArtistInfo = () => {
   const {
     data: artistData,
     isLoading: isArtistLoading,
-    isError: isArtistError
+    isError: isArtistError,
+    refetch: refetchArtist
   } = useFetchArtistByIdWithAllRelations(Number(id))
 
   const songIds = useMemo(() => {
@@ -31,7 +34,8 @@ const ArtistInfo = () => {
   const {
     data: songsData,
     isLoading: isSongsLoading,
-    isError: isSongsError
+    isError: isSongsError,
+    refetch: refetchSongs
   } = useFetchSongsByIdsWithMainRelations(songIds.length > 0 ? songIds : null)
 
   const isLoading = isArtistLoading || isSongsLoading
@@ -70,6 +74,14 @@ const ArtistInfo = () => {
     ),
     []
   )
+
+  const handleRefresh = useCallback(async () => {
+    await Promise.all([refetchArtist(), refetchSongs()])
+  }, [refetchArtist, refetchSongs])
+
+  usePageRefresh({
+    refreshFn: handleRefresh
+  })
 
   return (
     <AsyncState data={artist} isLoading={isLoading} isError={isError}>

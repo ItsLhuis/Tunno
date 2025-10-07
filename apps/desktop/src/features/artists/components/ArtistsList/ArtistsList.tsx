@@ -8,6 +8,8 @@ import { useFetchArtistsInfinite } from "../../hooks/useFetchArtistsInfinite"
 
 import { useFetchArtistIds } from "../../hooks/useFetchArtistIds"
 
+import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
+
 import {
   NotFound,
   Spinner,
@@ -39,10 +41,10 @@ const ArtistsList = () => {
     filters: Object.keys(debouncedFilters).length > 0 ? debouncedFilters : undefined
   }
 
-  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } =
     useFetchArtistsInfinite(queryParams)
 
-  const { data: allArtistIds } = useFetchArtistIds(queryParams)
+  const { data: allArtistIds, refetch: refetchArtistIds } = useFetchArtistIds(queryParams)
 
   const artists = useMemo(() => {
     if (!data?.pages) return []
@@ -96,6 +98,14 @@ const ArtistsList = () => {
       fetchNextPage()
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  const handleRefresh = useCallback(async () => {
+    await Promise.all([refetch(), refetchArtistIds()])
+  }, [refetch, refetchArtistIds])
+
+  usePageRefresh({
+    refreshFn: handleRefresh
+  })
 
   return (
     <VirtualizedListWithHeaders

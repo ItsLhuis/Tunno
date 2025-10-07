@@ -20,7 +20,7 @@ const ArtistInfoStats = ({ artist }: ArtistInfoStatsProps) => {
 
   return (
     <Header className="grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-      <div className="min-w-0">
+      <div className="min-w-0 truncate">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="Music" />
           <Typography className="truncate">{t("songs.title")}</Typography>
@@ -29,7 +29,7 @@ const ArtistInfoStats = ({ artist }: ArtistInfoStatsProps) => {
           {formatNumber(totalTracks)}
         </Typography>
       </div>
-      <div className="min-w-0">
+      <div className="min-w-0 truncate">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="Clock" />
           <Typography className="truncate">{t("common.duration")}</Typography>
@@ -38,7 +38,7 @@ const ArtistInfoStats = ({ artist }: ArtistInfoStatsProps) => {
           {formatDuration(totalDuration, t)}
         </Typography>
       </div>
-      <div className="min-w-0">
+      <div className="min-w-0 truncate">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="TrendingUp" />
           <Typography className="truncate">{t("common.averageListenTime")}</Typography>
@@ -49,7 +49,7 @@ const ArtistInfoStats = ({ artist }: ArtistInfoStatsProps) => {
             : formatDuration(0, t)}
         </Typography>
       </div>
-      <div className="min-w-0">
+      <div className="min-w-0 truncate">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="PlayCircle" />
           <Typography className="truncate">{t("common.totalPlays")}</Typography>
@@ -58,7 +58,7 @@ const ArtistInfoStats = ({ artist }: ArtistInfoStatsProps) => {
           {formatNumber(playCount)}
         </Typography>
       </div>
-      <div className="min-w-0">
+      <div className="min-w-0 truncate">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="Play" />
           <Typography className="truncate">{t("common.lastPlayed")}</Typography>
