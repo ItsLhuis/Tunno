@@ -42,7 +42,7 @@ const MacOs = ({ onClose, onMinimize, onFullSceen, onMaximize }: MacOsProps) => 
 
   return (
     <div
-      className="ml-3 flex h-full items-center space-x-2 text-black active:text-black dark:text-black"
+      className="ml-5 mr-1 flex h-full items-center space-x-2 text-black active:text-black dark:text-black"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

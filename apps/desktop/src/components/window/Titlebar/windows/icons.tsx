@@ -2,9 +2,9 @@ import { type SVGProps } from "react"
 
 export const Minimize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg
-    width="10"
+    width="11"
     height="1"
-    viewBox="0 0 10 1"
+    viewBox="0 0 11 1"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
@@ -18,9 +18,9 @@ export const Minimize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement
 
 export const Maximize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg
-    width="10"
-    height="10"
-    viewBox="0 0 10 10"
+    width="11"
+    height="11"
+    viewBox="0 0 11 11"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
@@ -34,9 +34,9 @@ export const Maximize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement
 
 export const Restore = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg
-    width="10"
+    width="11"
     height="11"
-    viewBox="0 0 10 11"
+    viewBox="0 0 11 11"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
@@ -50,9 +50,9 @@ export const Restore = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 
 export const Close = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg
-    width="10"
-    height="10"
-    viewBox="0 0 10 10"
+    width="11"
+    height="11"
+    viewBox="0 0 11 11"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}

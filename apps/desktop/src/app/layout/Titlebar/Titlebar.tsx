@@ -144,7 +144,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                 size="icon"
                 onClick={executeRefresh}
                 disabled={!canRefresh || isLoading}
-                className="relative rounded-l-none border-l-2 border-sidebar"
+                className="relative"
               >
                 <div
                   className={cn(
