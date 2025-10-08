@@ -107,10 +107,14 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                           data={breadcrumb.label}
                           isLoading={breadcrumb.isLoading}
                           loadingComponent={<Spinner variant="ellipsis" size={12} />}
-                          className="transition-colors"
+                          className="items-start transition-colors"
                         >
                           {(label) => (
-                            <Typography data-tauri-drag-region affects={["small", "muted"]}>
+                            <Typography
+                              data-tauri-drag-region
+                              affects="small"
+                              className="line-clamp-1"
+                            >
                               {label}
                             </Typography>
                           )}
@@ -119,7 +123,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                         <Button
                           variant="link"
                           size="sm"
-                          className="p-0"
+                          className="p-0 text-muted-foreground"
                           onClick={() => router.navigate({ to: breadcrumb.path })}
                         >
                           {breadcrumb.label}

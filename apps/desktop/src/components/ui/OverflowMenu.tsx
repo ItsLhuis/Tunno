@@ -14,6 +14,7 @@ import { cn } from "@lib/utils"
 import { Button } from "@components/ui/Button"
 import { Icon } from "@components/ui/Icon"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/Popover"
+import { ScrollArea } from "@components/ui/ScrollArea"
 
 export type OverflowMenuProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   children: ReactNode
@@ -176,8 +177,10 @@ const OverflowMenu = forwardRef<HTMLDivElement, OverflowMenuProps>(
                 <Icon name="MoreVertical" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className={cn("p-2", contentClassName)}>
-              <div className="flex flex-col gap-1">{overflowItems}</div>
+            <PopoverContent className="p-0">
+              <ScrollArea className="flex max-h-[300px] flex-col">
+                <div className={cn("p-2", contentClassName)}>{overflowItems}</div>
+              </ScrollArea>
             </PopoverContent>
           </Popover>
         )}
