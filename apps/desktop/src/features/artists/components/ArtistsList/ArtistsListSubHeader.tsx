@@ -53,7 +53,7 @@ const ArtistsListSubHeader = ({ list, className }: ArtistsListSubHeaderProps) =>
       </Typography>
       <div className="flex items-center justify-center">
         <Fade show={hasSelectedRows}>
-          <ArtistActions />
+          <ArtistActions list={list} />
         </Fade>
       </div>
     </div>

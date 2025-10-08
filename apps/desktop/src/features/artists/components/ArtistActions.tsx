@@ -36,13 +36,15 @@ import {
   DropdownMenuTrigger,
   Icon,
   IconButton,
-  SafeLink
+  SafeLink,
+  type VirtualizedListController
 } from "@components/ui"
 
 import { type Artist } from "@repo/api"
 
 type ArtistActionsProps = {
   artist?: Artist
+  list?: VirtualizedListController<Artist>
   variant?: "dropdown" | "context"
   children?: ReactNode
   className?: string
@@ -52,6 +54,7 @@ type ArtistActionsProps = {
 
 const ArtistActions = ({
   artist,
+  list,
   variant = "dropdown",
   children,
   className,
@@ -63,10 +66,6 @@ const ArtistActions = ({
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
-  const { data: artistSongs } = useFetchSongsByArtistIds(artist ? [artist.id] : undefined)
-
-  const toggleFavoriteMutation = useToggleArtistFavorite()
-
   const { loadTracks, play, isTrackLoading, addToQueue } = usePlayerStore(
     useShallow((state) => ({
       loadTracks: state.loadTracks,
@@ -76,96 +75,58 @@ const ArtistActions = ({
     }))
   )
 
+  const toggleFavoriteMutation = useToggleArtistFavorite()
+
+  const targetArtist =
+    artist ||
+    (list && list.selectedIds.length === 1
+      ? list.data.find((a) => a.id === Number(list.selectedIds[0]))
+      : null)
+
+  const selectedArtistIds =
+    list && list.selectedIds.length > 0
+      ? list.selectedIds.map((id) => Number(id))
+      : targetArtist
+        ? [targetArtist.id]
+        : undefined
+
+  const { data: artistSongs } = useFetchSongsByArtistIds(selectedArtistIds)
+
   const handleEditClick = () => {
-    if (artist) {
-      if (onEditArtist) onEditArtist(artist)
+    if (targetArtist) {
+      if (onEditArtist) onEditArtist(targetArtist)
       else setIsEditOpen(true)
     }
   }
 
   const handleDeleteClick = () => {
-    if (artist) {
-      if (onDeleteArtist) onDeleteArtist(artist)
+    if (targetArtist) {
+      if (onDeleteArtist) onDeleteArtist(targetArtist)
       else setIsDeleteOpen(true)
     }
   }
 
   const handlePlayArtist = async () => {
-    if (!artist || !artistSongs || artistSongs.length === 0) return
+    if (!artistSongs || artistSongs.length === 0) return
     const songIds = artistSongs.map((song) => song.id)
-    await loadTracks(songIds, 0, "artist", artist.id)
+    await loadTracks(songIds, 0, "artist", selectedArtistIds?.[0])
     await play()
   }
 
   const handlePlayNext = async () => {
-    if (!artist || !artistSongs || artistSongs.length === 0) return
+    if (!artistSongs || artistSongs.length === 0) return
     if (artistSongs.length > 0) await addToQueue(artistSongs, "next")
   }
 
   const handleAddToQueue = async () => {
-    if (!artist || !artistSongs || artistSongs.length === 0) return
+    if (!artistSongs || artistSongs.length === 0) return
     if (artistSongs.length > 0) await addToQueue(artistSongs, "end")
   }
 
   const handleToggleFavorite = async () => {
-    if (artist) {
-      await toggleFavoriteMutation.mutateAsync({ id: artist.id })
+    if (targetArtist) {
+      await toggleFavoriteMutation.mutateAsync({ id: targetArtist.id })
     }
-  }
-
-  const renderNavigationActions = () => {
-    if (!artist) return null
-
-    return (
-      <ContextMenuItem asChild>
-        <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
-          <Icon name="User" />
-          {t("common.goToArtist")}
-        </SafeLink>
-      </ContextMenuItem>
-    )
-  }
-
-  const renderDropdownNavigationActions = () => {
-    if (!artist) return null
-
-    return (
-      <DropdownMenuItem asChild>
-        <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
-          <Icon name="User" />
-          {t("common.goToArtist")}
-        </SafeLink>
-      </DropdownMenuItem>
-    )
-  }
-
-  const renderFormActions = () => {
-    return (
-      <Fragment>
-        {variant === "context" ? (
-          <ContextMenuItem onClick={handleEditClick}>
-            <Icon name="Edit" />
-            {t("form.buttons.update")}
-          </ContextMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={handleEditClick}>
-            <Icon name="Edit" />
-            {t("form.buttons.update")}
-          </DropdownMenuItem>
-        )}
-        {variant === "context" ? (
-          <ContextMenuItem onClick={handleDeleteClick}>
-            <Icon name="Trash2" />
-            {t("form.buttons.delete")}
-          </ContextMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={handleDeleteClick}>
-            <Icon name="Trash2" />
-            {t("form.buttons.delete")}
-          </DropdownMenuItem>
-        )}
-      </Fragment>
-    )
   }
 
   const renderPlaybackActions = () => (
@@ -215,16 +176,16 @@ const ArtistActions = ({
   )
 
   const renderFavoriteActions = () => {
-    if (!artist) return null
+    if (!targetArtist) return null
 
     return (
       <ContextMenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
         <Icon
           name="Heart"
-          isFilled={artist.isFavorite}
-          className={cn(artist.isFavorite && "!text-primary")}
+          isFilled={targetArtist.isFavorite}
+          className={cn(targetArtist.isFavorite && "!text-primary")}
         />
-        {artist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+        {targetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
       </ContextMenuItem>
     )
   }
@@ -249,17 +210,74 @@ const ArtistActions = ({
   )
 
   const renderDropdownFavoriteActions = () => {
-    if (!artist) return null
+    if (!targetArtist) return null
 
     return (
       <DropdownMenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
         <Icon
           name="Heart"
-          isFilled={artist.isFavorite}
-          className={cn(artist.isFavorite && "!text-primary")}
+          isFilled={targetArtist.isFavorite}
+          className={cn(targetArtist.isFavorite && "!text-primary")}
         />
-        {artist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+        {targetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
       </DropdownMenuItem>
+    )
+  }
+
+  const renderNavigationActions = () => {
+    if (!targetArtist) return null
+
+    return (
+      <ContextMenuItem asChild>
+        <SafeLink to="/artists/$id" params={{ id: targetArtist.id.toString() }}>
+          <Icon name="User" />
+          {t("common.goToArtist")}
+        </SafeLink>
+      </ContextMenuItem>
+    )
+  }
+
+  const renderDropdownNavigationActions = () => {
+    if (!targetArtist) return null
+
+    return (
+      <DropdownMenuItem asChild>
+        <SafeLink to="/artists/$id" params={{ id: targetArtist.id.toString() }}>
+          <Icon name="User" />
+          {t("common.goToArtist")}
+        </SafeLink>
+      </DropdownMenuItem>
+    )
+  }
+
+  const renderFormActions = () => {
+    if (!targetArtist) return null
+
+    return (
+      <Fragment>
+        {variant === "context" ? (
+          <ContextMenuItem onClick={handleEditClick}>
+            <Icon name="Edit" />
+            {t("form.buttons.update")}
+          </ContextMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={handleEditClick}>
+            <Icon name="Edit" />
+            {t("form.buttons.update")}
+          </DropdownMenuItem>
+        )}
+        {variant === "context" ? (
+          <ContextMenuItem onClick={handleDeleteClick}>
+            <Icon name="Trash2" />
+            {t("form.buttons.delete")}
+          </ContextMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={handleDeleteClick}>
+            <Icon name="Trash2" />
+            {t("form.buttons.delete")}
+          </DropdownMenuItem>
+        )}
+      </Fragment>
     )
   }
 
@@ -311,11 +329,11 @@ const ArtistActions = ({
   return (
     <Fragment>
       {renderContent()}
-      {artist && (
-        <ArtistForm artist={artist} mode="update" open={isEditOpen} onOpen={setIsEditOpen} />
+      {targetArtist && (
+        <ArtistForm artist={targetArtist} mode="update" open={isEditOpen} onOpen={setIsEditOpen} />
       )}
-      {artist && (
-        <DeleteArtistDialog artist={artist} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
+      {targetArtist && (
+        <DeleteArtistDialog artist={targetArtist} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
       )}
     </Fragment>
   )
