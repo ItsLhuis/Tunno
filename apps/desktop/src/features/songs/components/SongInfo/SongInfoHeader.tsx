@@ -83,7 +83,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           >
             {song.name}
           </Typography>
-          <div className="flex items-center gap-1">
+          <div className="flex items-end gap-1">
             {song.artists.length > 0 && (
               <SafeLink to="/artists/$id" params={{ id: song.artists[0].artistId.toString() }}>
                 <Typography affects={["small"]}>{song.artists[0].artist.name}</Typography>{" "}

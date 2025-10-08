@@ -113,7 +113,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                             <Typography
                               data-tauri-drag-region
                               affects="small"
-                              className="line-clamp-1"
+                              className="line-clamp-1 leading-4"
                             >
                               {label}
                             </Typography>
@@ -123,7 +123,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                         <Button
                           variant="link"
                           size="sm"
-                          className="p-0 text-muted-foreground"
+                          className="p-0 leading-4 text-muted-foreground"
                           onClick={() => router.navigate({ to: breadcrumb.path })}
                         >
                           {breadcrumb.label}

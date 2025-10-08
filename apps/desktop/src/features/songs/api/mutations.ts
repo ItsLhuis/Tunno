@@ -161,7 +161,6 @@ export const deleteSong = async (id: number): Promise<Song> => {
     .where(eq(schema.songs.id, id))
     .returning()
 
-  // Atualiza estatísticas
   await updateArtistStatsForSong([], artistIds)
   if (songToDelete.albumId) {
     await updateAlbumStatsForSong(null, songToDelete.albumId)

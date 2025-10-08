@@ -26,7 +26,7 @@ const TrackInfo = () => {
   }
 
   return (
-    <div className="flex h-full items-center gap-3 truncate">
+    <div className="flex h-full items-end gap-3 truncate">
       {currentTrack ? (
         <Fade>
           <Thumbnail
@@ -52,12 +52,21 @@ const TrackInfo = () => {
         />
         <Marquee>
           <SafeLink to={`/songs/$id`} params={{ id: currentTrack?.id?.toString() }}>
-            <Typography variant="h6">{currentTrack?.title}</Typography>
+            <Typography variant="h5">{currentTrack?.title}</Typography>
           </SafeLink>
         </Marquee>
         <Marquee>
           {currentTrack?.artist ? (
-            <Typography affects={["muted"]}>{currentTrack?.artist}</Typography>
+            currentTrack.artists.map((artist, index) => (
+              <span key={artist.artistId}>
+                <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                  <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
+                </SafeLink>
+                {index < currentTrack.artists.length - 1 && (
+                  <Typography affects={["muted", "small"]}>, </Typography>
+                )}
+              </span>
+            ))
           ) : (
             <Typography affects={["muted"]}>{t("common.unknownArtist")}</Typography>
           )}
