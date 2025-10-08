@@ -25,7 +25,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-visible:bg-secondary/80",
         ghost: "hover:text-accent-foreground hover:bg-accent focus-visible:bg-accent",
-        link: "inline cursor-default leading-none transition-colors hover:text-primary focus:outline-none focus-visible:text-primary [&>*]:hover:text-primary [&>*]:focus-visible:text-primary !h-auto !p-0"
+        link: "inline cursor-default leading-none hover:text-primary focus:outline-none focus-visible:text-primary [&>*]:hover:text-primary [&>*]:focus-visible:text-primary !h-auto !p-0"
       },
       size: {
         default: "h-9 px-4 py-2",

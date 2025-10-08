@@ -63,6 +63,7 @@ export const DeleteSongDialog = ({ song, trigger, open, onOpen }: DeleteSongDial
               variant="outline"
               onClick={handleCancel}
               disabled={deleteSongMutation.isPending}
+              isLoading={deleteSongMutation.isPending}
             >
               {t("form.buttons.cancel")}
             </Button>

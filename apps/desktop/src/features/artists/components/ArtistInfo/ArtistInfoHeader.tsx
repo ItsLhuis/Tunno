@@ -43,12 +43,12 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
   return (
     <Header className="flex flex-col gap-6">
       <div className="flex flex-1 items-end gap-6">
-        <div className="h-60 w-60">
+        <div className="h-64 w-64">
           <Thumbnail
             placeholderIcon="User"
             fileName={artist.thumbnail}
             alt={artist.name}
-            className={artist.thumbnail ? "h-full w-full" : "size-20"}
+            className={artist.thumbnail ? "h-full w-full" : "size-24"}
             containerClassName="h-full w-full rounded-full"
           />
         </div>
@@ -59,7 +59,7 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
           <Typography
             variant="h1"
             affects={["bold"]}
-            className="line-clamp-2 text-4xl leading-tight md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {artist.name}
           </Typography>

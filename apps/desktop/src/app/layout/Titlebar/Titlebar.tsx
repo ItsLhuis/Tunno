@@ -18,20 +18,17 @@ import { Titlebar as WindowTitlebar } from "@components/window"
 
 import {
   AsyncState,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
   Button,
   Fade,
   Icon,
   IconButton,
   Image,
   SafeLink,
-  Spinner
+  Spinner,
+  Typography
 } from "@components/ui"
+
+import { OverflowMenu } from "@components/ui/OverflowMenu"
 
 type TitlebarProps = {
   isSplashVisible: boolean
@@ -67,7 +64,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   }
 
   return (
-    <div className="h-full border-b bg-sidebar transition-[background-color,border-color]">
+    <div className="h-full border-b bg-sidebar transition-colors">
       <WindowTitlebar
         onMinimize={() => getCurrentWindow().minimize()}
         onMaximize={() => getCurrentWindow().toggleMaximize()}
@@ -99,45 +96,42 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
               className="mr-3 aspect-auto w-4"
             />
             <Fade show={!isSplashVisible} className="flex w-full items-center rounded-md bg-muted">
-              <div
-                className="ml-3 flex w-full items-center justify-between text-sm"
-                data-tauri-drag-region
-              >
-                <Breadcrumb>
-                  <BreadcrumbList className="gap-0 sm:gap-0">
-                    {breadcrumbs.map((breadcrumb, index) => {
-                      const isLast = index === breadcrumbs.length - 1
+              <OverflowMenu data-tauri-drag-region className="flex-1 px-3" triggerClassName="-ml-3">
+                {breadcrumbs.map((breadcrumb, index) => {
+                  const isLast = index === breadcrumbs.length - 1
 
-                      return (
-                        <div key={breadcrumb.path} className="flex items-center">
-                          <BreadcrumbItem>
-                            {isLast || breadcrumb.isNotClickable ? (
-                              <BreadcrumbPage>
-                                <AsyncState
-                                  data={breadcrumb.label}
-                                  isLoading={breadcrumb.isLoading}
-                                  loadingComponent={<Spinner variant="ellipsis" size={12} />}
-                                >
-                                  {(label) => <span>{label}</span>}
-                                </AsyncState>
-                              </BreadcrumbPage>
-                            ) : (
-                              <BreadcrumbLink
-                                onClick={() => router.navigate({ to: breadcrumb.path })}
-                              >
-                                {breadcrumb.label}
-                              </BreadcrumbLink>
-                            )}
-                          </BreadcrumbItem>
-                          {index < breadcrumbs.length - 1 && (
-                            <BreadcrumbSeparator className="mx-2" />
+                  return (
+                    <div key={breadcrumb.path} className="flex items-center">
+                      {isLast || breadcrumb.isNotClickable ? (
+                        <AsyncState
+                          data={breadcrumb.label}
+                          isLoading={breadcrumb.isLoading}
+                          loadingComponent={<Spinner variant="ellipsis" size={12} />}
+                          className="transition-colors"
+                        >
+                          {(label) => (
+                            <Typography data-tauri-drag-region affects={["small", "muted"]}>
+                              {label}
+                            </Typography>
                           )}
-                        </div>
-                      )
-                    })}
-                  </BreadcrumbList>
-                </Breadcrumb>
-              </div>
+                        </AsyncState>
+                      ) : (
+                        <Button
+                          variant="link"
+                          size="sm"
+                          className="p-0"
+                          onClick={() => router.navigate({ to: breadcrumb.path })}
+                        >
+                          {breadcrumb.label}
+                        </Button>
+                      )}
+                      {index < breadcrumbs.length - 1 && (
+                        <Icon name="ChevronRight" className="mx-1 text-muted-foreground" />
+                      )}
+                    </div>
+                  )
+                })}
+              </OverflowMenu>
               <Button
                 tooltip={tooltip || t("common.refresh")}
                 variant="ghost"

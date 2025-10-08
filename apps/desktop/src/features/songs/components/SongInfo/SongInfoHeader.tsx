@@ -63,12 +63,12 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   return (
     <Header className="flex flex-col gap-6">
       <div className="flex flex-1 items-end gap-6">
-        <div className="h-60 w-60">
+        <div className="h-64 w-64">
           <Thumbnail
             placeholderIcon="Music"
             fileName={song.thumbnail}
             alt={song.name}
-            className={song.thumbnail ? "h-full w-full" : "size-20"}
+            className={song.thumbnail ? "h-full w-full" : "size-24"}
             containerClassName="h-full w-full"
           />
         </div>
@@ -79,7 +79,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           <Typography
             variant="h1"
             affects={["bold"]}
-            className="line-clamp-2 text-4xl leading-tight md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {song.name}
           </Typography>
