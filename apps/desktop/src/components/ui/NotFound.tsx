@@ -4,10 +4,10 @@ import { useTranslation } from "@repo/i18n"
 
 import { cn } from "@lib/utils"
 
-import { Typography } from "@components/ui/Typography"
-
 import NotFoundLottie from "@assets/lotties/NotFound.json"
 import Lottie from "lottie-react"
+
+import { Typography } from "@components/ui/Typography"
 
 export type NotFoundProps = React.HTMLAttributes<HTMLDivElement>
 

@@ -88,7 +88,7 @@ const SongInfoStats = ({ song }: SongInfoStatsProps) => {
           </div>
           <div className="flex items-center gap-1">
             <Typography affects={["bold", "medium"]}>{formatNumber(streak)}</Typography>
-            {streak > 0 && <Lottie animationData={StreakLottie} className="-mt-1 h-6 w-6" />}
+            {streak >= 2 && <Lottie animationData={StreakLottie} className="-mt-1 h-6 w-6" />}
           </div>
         </div>
       </Header>

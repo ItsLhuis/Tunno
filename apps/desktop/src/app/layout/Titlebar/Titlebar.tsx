@@ -107,6 +107,24 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                           data={breadcrumb.label}
                           isLoading={breadcrumb.isLoading}
                           loadingComponent={<Spinner variant="ellipsis" size={12} />}
+                          errorComponent={
+                            <Typography
+                              data-tauri-drag-region
+                              affects="small"
+                              className="line-clamp-1 break-all leading-4"
+                            >
+                              {t("common.noResultsFound")}
+                            </Typography>
+                          }
+                          emptyComponent={
+                            <Typography
+                              data-tauri-drag-region
+                              affects="small"
+                              className="line-clamp-1 break-all leading-4"
+                            >
+                              {t("common.noResultsFound")}
+                            </Typography>
+                          }
                           className="items-start transition-colors"
                         >
                           {(label) => (
