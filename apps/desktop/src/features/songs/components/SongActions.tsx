@@ -105,39 +105,39 @@ const SongActions = memo(
           return
         }
 
-        await loadTracks([targetSong.id], 0, "queue")
+        await loadTracks([targetSong.id], 0, "songs")
         await play()
         return
       }
 
       if (list && list.selectedIds.length > 0) {
         const selectedIds = list.selectedIds.map((id) => Number(id))
-        await loadTracks(selectedIds, 0, "queue")
+        await loadTracks(selectedIds, 0, "songs")
         await play()
       }
     }
 
     const handlePlayNext = async () => {
       if (targetSong) {
-        await addToQueue([targetSong], "next")
+        await addToQueue([targetSong.id], "next")
         return
       }
 
       if (list && list.selectedIds.length > 0) {
-        const selectedSongs = list.data.filter((s) => list.selectedIds.includes(String(s.id)))
-        await addToQueue(selectedSongs, "next")
+        const selectedIds = list.selectedIds.map((id) => Number(id))
+        await addToQueue(selectedIds, "next")
       }
     }
 
     const handleAddToQueue = async () => {
       if (targetSong) {
-        await addToQueue([targetSong], "end")
+        await addToQueue([targetSong.id], "end")
         return
       }
 
       if (list && list.selectedIds.length > 0) {
-        const selectedSongs = list.data.filter((s) => list.selectedIds.includes(String(s.id)))
-        await addToQueue(selectedSongs, "end")
+        const selectedIds = list.selectedIds.map((id) => Number(id))
+        await addToQueue(selectedIds, "end")
       }
     }
 

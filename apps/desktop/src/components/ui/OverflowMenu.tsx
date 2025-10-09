@@ -9,10 +9,11 @@ import React, {
   type ReactNode
 } from "react"
 
+import { useTranslation } from "@repo/i18n"
+
 import { cn } from "@lib/utils"
 
-import { Button } from "@components/ui/Button"
-import { Icon } from "@components/ui/Icon"
+import { IconButton } from "@components/ui/IconButton"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/Popover"
 import { ScrollArea } from "@components/ui/ScrollArea"
 
@@ -25,6 +26,8 @@ export type OverflowMenuProps = Omit<HTMLAttributes<HTMLDivElement>, "children">
 
 const OverflowMenu = forwardRef<HTMLDivElement, OverflowMenuProps>(
   ({ children, className, triggerClassName, contentClassName, ...props }, ref) => {
+    const { t } = useTranslation()
+
     const containerRef = useRef<HTMLDivElement>(null)
     const measureRef = useRef<HTMLDivElement>(null)
     const resizeTimeoutRef = useRef<number | null>(null)
@@ -173,9 +176,12 @@ const OverflowMenu = forwardRef<HTMLDivElement, OverflowMenuProps>(
         {hasOverflow && (
           <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
-              <Button size="icon" variant="link" className={cn("shrink-0", triggerClassName)}>
-                <Icon name="MoreVertical" />
-              </Button>
+              <IconButton
+                name="MoreHorizontal"
+                variant="link"
+                className={cn("shrink-0", triggerClassName)}
+                tooltip={t("common.more")}
+              />
             </PopoverTrigger>
             <PopoverContent className="p-0">
               <ScrollArea className="flex max-h-[300px] flex-col">

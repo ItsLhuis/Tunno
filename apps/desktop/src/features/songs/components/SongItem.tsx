@@ -46,7 +46,7 @@ const SongItem = memo(
     allSongIds,
     selected = false,
     onToggle,
-    playSource = "queue",
+    playSource = "songs",
     sourceContextId
   }: SongItemProps) => {
     const { t, i18n } = useTranslation()

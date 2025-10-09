@@ -68,7 +68,7 @@ const TrackInfo = () => {
               </span>
             ))
           ) : (
-            <Typography affects={["muted"]}>{t("common.unknownArtist")}</Typography>
+            <Typography affects={["muted", "small"]}>{t("common.unknownArtist")}</Typography>
           )}
         </Marquee>
       </Fade>

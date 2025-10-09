@@ -115,12 +115,18 @@ const ArtistActions = ({
 
   const handlePlayNext = async () => {
     if (!artistSongs || artistSongs.length === 0) return
-    if (artistSongs.length > 0) await addToQueue(artistSongs, "next")
+    if (artistSongs.length > 0) {
+      const songIds = artistSongs.map((song) => song.id)
+      await addToQueue(songIds, "next")
+    }
   }
 
   const handleAddToQueue = async () => {
     if (!artistSongs || artistSongs.length === 0) return
-    if (artistSongs.length > 0) await addToQueue(artistSongs, "end")
+    if (artistSongs.length > 0) {
+      const songIds = artistSongs.map((song) => song.id)
+      await addToQueue(songIds, "end")
+    }
   }
 
   const handleToggleFavorite = async () => {

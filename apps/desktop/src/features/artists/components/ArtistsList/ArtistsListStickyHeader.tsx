@@ -37,7 +37,7 @@ const ArtistsListStickyHeader = ({ list, allArtistIds }: ArtistsListStickyHeader
   const handleShuffleAndPlay = () => {
     if (isShuffling || !allSongs || allSongs.length === 0) return
     const songIds = allSongs.map((song) => song.id)
-    shuffleAndPlay(songIds, "queue")
+    shuffleAndPlay(songIds, "songs")
   }
 
   const hasSelectedRows = list.hasSelection

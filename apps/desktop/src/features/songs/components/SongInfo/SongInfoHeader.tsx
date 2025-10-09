@@ -49,7 +49,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
         await play()
       }
     } else {
-      await loadTracks([song.id], 0, "queue")
+      await loadTracks([song.id], 0, "songs")
       await play()
     }
   }
@@ -79,7 +79,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           <Typography
             variant="h1"
             affects={["bold"]}
-            className="line-clamp-2 text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {song.name}
           </Typography>

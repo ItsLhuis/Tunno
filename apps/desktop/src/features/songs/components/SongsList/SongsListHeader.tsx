@@ -28,7 +28,7 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
   const handleShuffleAndPlay = () => {
     if (isShuffling || allSongIds.length === 0) return
 
-    shuffleAndPlay(allSongIds, "queue")
+    shuffleAndPlay(allSongIds, "songs")
   }
 
   const hasSelectedRows = list.hasSelection

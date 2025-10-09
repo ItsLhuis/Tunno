@@ -59,7 +59,7 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
           <Typography
             variant="h1"
             affects={["bold"]}
-            className="line-clamp-2 text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {artist.name}
           </Typography>

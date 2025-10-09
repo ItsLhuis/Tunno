@@ -64,7 +64,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   }
 
   return (
-    <div className="h-full border-b bg-sidebar transition-colors">
+    <div className="h-full border-b bg-sidebar">
       <WindowTitlebar
         onMinimize={() => getCurrentWindow().minimize()}
         onMaximize={() => getCurrentWindow().toggleMaximize()}
@@ -113,7 +113,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                             <Typography
                               data-tauri-drag-region
                               affects="small"
-                              className="line-clamp-1 leading-4"
+                              className="line-clamp-1 break-all leading-4"
                             >
                               {label}
                             </Typography>

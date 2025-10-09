@@ -43,7 +43,7 @@ const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
         await play()
       }
     } else {
-      await loadTracks([song.id], 0, "queue")
+      await loadTracks([song.id], 0, "songs")
       await play()
     }
   }
