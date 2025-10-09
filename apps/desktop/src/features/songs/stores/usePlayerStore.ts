@@ -82,11 +82,8 @@ type PlayerActions = {
   skipToTrack: (index: number) => Promise<void>
   seekTo: (position: number) => Promise<void>
   seekBy: (seconds: number) => Promise<void>
-  addToQueue: (
-    track: SongWithMainRelations | SongWithMainRelations[],
-    position?: "next" | "end"
-  ) => Promise<void>
-  addAfterCurrent: (track: SongWithMainRelations | SongWithMainRelations[]) => Promise<void>
+  addToQueue: (songIds: number | number[], position?: "next" | "end") => Promise<void>
+  addAfterCurrent: (songIds: number | number[]) => Promise<void>
   removeFromQueue: (index: number) => Promise<void>
   removeSongById: (id: number) => Promise<void>
   moveInQueue: (fromIndex: number, toIndex: number) => Promise<void>
@@ -748,15 +745,33 @@ export const usePlayerStore = create<PlayerStore>()(
           console.error("PlayerStore: Error in seekBy:", error)
         }
       },
-      addToQueue: async (newTracks, position = "end") => {
+      addToQueue: async (songIds, position = "end") => {
         const { queueIds, currentTrackIndex, windowStartIndex, windowSize } = get()
 
         set({ isQueueLoading: true })
 
-        const songsArray = Array.isArray(newTracks) ? newTracks : [newTracks]
-        songsArray.forEach((s) => songsCacheById.set(s.id, s))
+        const idsToInsert = Array.isArray(songIds) ? songIds : [songIds]
 
-        const idsToInsert = songsArray.map((s) => s.id)
+        await prefetchSongs(idsToInsert)
+
+        const songs: SongWithMainRelations[] = []
+        for (const id of idsToInsert) {
+          const song = await getSongFromCacheOrFetch(id)
+          if (song) {
+            songs.push(song)
+          }
+        }
+
+        if (songs.length !== idsToInsert.length) {
+          throw new Error("PlayerStore: Some songs could not be loaded")
+        }
+
+        songs.forEach((song) => {
+          if (song && typeof song.id === "number") {
+            songsCacheById.set(song.id, song)
+          }
+        })
+
         const insertIndex =
           position === "next" && currentTrackIndex !== null
             ? currentTrackIndex + 1
@@ -784,15 +799,33 @@ export const usePlayerStore = create<PlayerStore>()(
 
         get().updateNavigationStates()
       },
-      addAfterCurrent: async (newTracks) => {
+      addAfterCurrent: async (songIds) => {
         const { queueIds, currentTrackIndex, windowStartIndex, windowSize } = get()
 
         set({ isQueueLoading: true })
 
-        const songsArray = Array.isArray(newTracks) ? newTracks : [newTracks]
-        songsArray.forEach((s) => songsCacheById.set(s.id, s))
+        const idsToInsert = Array.isArray(songIds) ? songIds : [songIds]
 
-        const idsToInsert = songsArray.map((s) => s.id)
+        await prefetchSongs(idsToInsert)
+
+        const songs: SongWithMainRelations[] = []
+        for (const id of idsToInsert) {
+          const song = await getSongFromCacheOrFetch(id)
+          if (song) {
+            songs.push(song)
+          }
+        }
+
+        if (songs.length !== idsToInsert.length) {
+          throw new Error("PlayerStore: Some songs could not be loaded")
+        }
+
+        songs.forEach((song) => {
+          if (song && typeof song.id === "number") {
+            songsCacheById.set(song.id, song)
+          }
+        })
+
         const insertIndex = currentTrackIndex !== null ? currentTrackIndex + 1 : queueIds.length
 
         const newQueueIds = [...queueIds]
