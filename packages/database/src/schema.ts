@@ -284,7 +284,7 @@ export const playHistory = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
     playSource: text("play_source", {
-      enum: ["playlist", "album", "artist", "queue", "unknown"]
+      enum: ["playlist", "album", "artist", "songs", "unknown"]
     })
       .notNull()
       .default("unknown"),
