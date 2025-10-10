@@ -76,11 +76,7 @@ const VirtualizedListWithHeaders = <TItem,>({
   return (
     <ScrollArea
       ref={scrollRef}
-      className={cn(
-        "h-full w-full flex-1 bg-background [&>div>div]:!flex",
-        containerClassName,
-        "relative"
-      )}
+      className={cn("h-full w-full flex-1 bg-background", containerClassName, "relative")}
     >
       <div className={cn("flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
         <Fade
@@ -97,11 +93,11 @@ const VirtualizedListWithHeaders = <TItem,>({
           {controller && <HeaderComponent list={controller} />}
           {controller && ListHeaderComponent && <ListHeaderComponent list={controller} />}
         </div>
-        <div className={cn("flex-1", className)}>
+        <div className={cn("relative flex-1", className)}>
           <VirtualizedList
             {...(props as VirtualizedListProps<TItem>)}
             scrollRef={scrollRef}
-            containerClassName={cn("relative", isListEmpty && "h-full")}
+            containerClassName={cn(isListEmpty && "h-full")}
             ListEmptyComponent={ListEmptyComponent}
             ListFooterComponent={ListFooterComponent}
             onController={(controller) => setController(controller)}

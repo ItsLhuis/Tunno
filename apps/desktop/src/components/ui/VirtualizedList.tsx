@@ -421,7 +421,7 @@ function VirtualizedList<TItem>({
   return (
     <div
       ref={externalScrollRef ? undefined : internalScrollRef}
-      className={cn("relative", containerClassName)}
+      className={containerClassName}
       {...props}
     >
       <Fade
