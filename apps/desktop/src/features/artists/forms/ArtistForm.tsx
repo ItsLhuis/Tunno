@@ -52,9 +52,7 @@ export type ArtistFormRenderProps<T extends "insert" | "update"> = {
 
 type ArtistFormDefaultValues = Artist
 
-export type ArtistFormProps = {
-  artist?: ArtistFormDefaultValues
-  mode?: "insert" | "update"
+type BaseArtistFormProps = {
   trigger?: ReactNode
   title?: string
   onSubmit?: (values: InsertArtistType | UpdateArtistType) => void | Promise<void>
@@ -63,6 +61,18 @@ export type ArtistFormProps = {
   open?: boolean
   onOpen?: (open: boolean) => void
 }
+
+type InsertArtistFormProps = BaseArtistFormProps & {
+  mode?: "insert"
+  artist?: ArtistFormDefaultValues
+}
+
+type UpdateArtistFormProps = BaseArtistFormProps & {
+  mode: "update"
+  artist: ArtistFormDefaultValues
+}
+
+export type ArtistFormProps = InsertArtistFormProps | UpdateArtistFormProps
 
 const ArtistForm = ({
   artist,
@@ -127,7 +137,10 @@ const ArtistForm = ({
 
       await updateMutation.mutateAsync({
         id: artist.id,
-        updates,
+        updates: {
+          ...updates,
+          isFavorite: artist.isFavorite
+        },
         thumbnailAction,
         thumbnailPath
       })
@@ -170,24 +183,26 @@ const ArtistForm = ({
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="isFavorite"
-                render={({ field }) => (
-                  <FormItem className="pt-8">
-                    <FormControl>
-                      <IconButton
-                        name="Heart"
-                        variant="text"
-                        isFilled={field.value}
-                        tooltip={field.value ? t("common.unfavorite") : t("common.favorite")}
-                        className={cn(field.value && "!text-primary")}
-                        onClick={() => field.onChange(!field.value)}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              {mode === "insert" && (
+                <FormField
+                  control={form.control}
+                  name="isFavorite"
+                  render={({ field }) => (
+                    <FormItem className="pt-8">
+                      <FormControl>
+                        <IconButton
+                          name="Heart"
+                          variant="text"
+                          isFilled={field.value}
+                          tooltip={field.value ? t("common.unfavorite") : t("common.favorite")}
+                          className={cn(field.value && "!text-primary")}
+                          onClick={() => field.onChange(!field.value)}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
             <FormField
               control={form.control}
