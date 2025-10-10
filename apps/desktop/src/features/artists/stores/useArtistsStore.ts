@@ -102,8 +102,15 @@ export const useArtistsStore = create<ArtistsStore>()(
         filters: state.filters,
         orderBy: state.orderBy
       }),
-      onRehydrateStorage: (state) => {
-        return () => state?.setHasHydrated(true)
+      onRehydrateStorage: () => {
+        return (state) => {
+          if (state) {
+            state.debouncedFilters = state.filters
+            state.debouncedSearchTerm = state.searchTerm
+
+            state.setHasHydrated(true)
+          }
+        }
       }
     }
   )
