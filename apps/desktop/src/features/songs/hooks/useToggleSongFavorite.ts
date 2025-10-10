@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { albumKeys, artistKeys, playlistKeys, songKeys } from "@repo/api"
+import { invalidateQueries, songKeys } from "@repo/api"
 
 import { toggleSongFavorite } from "../api/mutations"
 import { getSongByIdWithMainRelations } from "../api/queries"
@@ -13,6 +13,7 @@ import { toast } from "@components/ui"
 
 export function useToggleSongFavorite() {
   const queryClient = useQueryClient()
+
   const { t } = useTranslation()
 
   const updateTrackMetadata = usePlayerStore((state) => state.updateTrackMetadata)
@@ -26,6 +27,7 @@ export function useToggleSongFavorite() {
     onSuccess: async (song) => {
       const songWithMainRelations = await getSongByIdWithMainRelations(song.id)
       if (songWithMainRelations) {
+        queryClient.setQueryData(songKeys.detailsWithMainRelations(song.id), songWithMainRelations)
         await updateTrackMetadata(songWithMainRelations)
       }
 
@@ -39,10 +41,7 @@ export function useToggleSongFavorite() {
       toast.error(t("favorites.createdFailedTitle"))
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: songKeys.all })
-      queryClient.invalidateQueries({ queryKey: artistKeys.all })
-      queryClient.invalidateQueries({ queryKey: albumKeys.all })
-      queryClient.invalidateQueries({ queryKey: playlistKeys.all })
+      invalidateQueries(queryClient, "song")
     }
   })
 }

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { albumKeys, artistKeys, playlistKeys, songKeys } from "@repo/api"
+import { invalidateQueries, songKeys } from "@repo/api"
 
 import { deleteSong } from "../api/mutations"
 import { usePlayerStore } from "../stores/usePlayerStore"
@@ -20,6 +20,7 @@ export function useDeleteSong() {
     mutationFn: ({ id }: { id: number }) => deleteSong(id),
     onMutate: async ({ id }) => {
       await removeSongById(id)
+
       await queryClient.cancelQueries({
         queryKey: songKeys.details(id)
       })
@@ -34,10 +35,9 @@ export function useDeleteSong() {
       toast.error(t("songs.deletedFailedTitle"))
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: songKeys.all })
-      queryClient.invalidateQueries({ queryKey: artistKeys.all })
-      queryClient.invalidateQueries({ queryKey: albumKeys.all })
-      queryClient.invalidateQueries({ queryKey: playlistKeys.all })
+      invalidateQueries(queryClient, "song", {
+        relations: ["artists", "albums", "playlists"]
+      })
     }
   })
 }
