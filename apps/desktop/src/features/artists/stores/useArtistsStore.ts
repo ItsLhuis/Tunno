@@ -106,7 +106,6 @@ export const useArtistsStore = create<ArtistsStore>()(
         return (state) => {
           if (state) {
             state.debouncedFilters = state.filters
-            state.debouncedSearchTerm = state.searchTerm
 
             state.setHasHydrated(true)
           }

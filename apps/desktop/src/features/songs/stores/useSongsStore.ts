@@ -104,7 +104,6 @@ export const useSongsStore = create<SongsStore>()(
         return (state) => {
           if (state) {
             state.debouncedFilters = state.filters
-            state.debouncedSearchTerm = state.searchTerm
 
             state.setHasHydrated(true)
           }
