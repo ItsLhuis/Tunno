@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { albumKeys, artistKeys, playlistKeys, songKeys } from "@repo/api"
+import { invalidateQueries } from "@repo/api"
 
 import { insertArtist } from "../api/mutations"
 
@@ -32,10 +32,7 @@ export function useInsertArtist() {
       toast.error(t("artists.createdFailedTitle"))
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: artistKeys.all })
-      queryClient.invalidateQueries({ queryKey: songKeys.all })
-      queryClient.invalidateQueries({ queryKey: albumKeys.all })
-      queryClient.invalidateQueries({ queryKey: playlistKeys.all })
+      invalidateQueries(queryClient, "artist")
     }
   })
 }

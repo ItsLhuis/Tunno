@@ -2,16 +2,27 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { albumKeys, artistKeys, playlistKeys, songKeys } from "@repo/api"
+import { artistKeys, invalidateQueries } from "@repo/api"
 
+import { getSongByIdWithMainRelations } from "../../songs/api/queries"
 import { deleteArtist } from "../api/mutations"
+
+import { useShallow } from "zustand/shallow"
+
+import { usePlayerStore } from "../../songs/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
 export function useDeleteArtist() {
   const queryClient = useQueryClient()
-
   const { t } = useTranslation()
+
+  const { currentTrackId, updateTrackMetadata } = usePlayerStore(
+    useShallow((state) => ({
+      currentTrackId: state.currentTrackId,
+      updateTrackMetadata: state.updateTrackMetadata
+    }))
+  )
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deleteArtist(id),
@@ -20,6 +31,13 @@ export function useDeleteArtist() {
       await queryClient.cancelQueries({ queryKey: artistKeys.list() })
     },
     onSuccess: async (artist) => {
+      if (currentTrackId) {
+        const currentSong = await getSongByIdWithMainRelations(currentTrackId)
+        if (currentSong?.artists?.some((a) => a.artistId === artist.id)) {
+          await updateTrackMetadata(currentSong)
+        }
+      }
+
       toast.success(t("artists.deletedTitle"), {
         description: t("artists.deletedDescription", { name: artist.name })
       })
@@ -28,10 +46,9 @@ export function useDeleteArtist() {
       toast.error(t("artists.deletedFailedTitle"))
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: artistKeys.all })
-      queryClient.invalidateQueries({ queryKey: songKeys.all })
-      queryClient.invalidateQueries({ queryKey: albumKeys.all })
-      queryClient.invalidateQueries({ queryKey: playlistKeys.all })
+      invalidateQueries(queryClient, "artist", {
+        relations: ["songs", "albums"]
+      })
     }
   })
 }
