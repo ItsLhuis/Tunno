@@ -158,7 +158,7 @@ const VirtualRow = memo(function VirtualRow<TItem>({
 
   const transformStyle = useMemo(
     () => ({
-      transform: `translateY(${virtualRow.start}px)`
+      transform: `translate3d(0, ${virtualRow.start}px, 0)`
     }),
     [virtualRow.start]
   )
