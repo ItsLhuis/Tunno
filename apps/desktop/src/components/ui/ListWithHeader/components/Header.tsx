@@ -1,6 +1,6 @@
 import { cn } from "@lib/utils"
 
-import { type HeaderProps, type StickyHeaderProps } from "./types"
+import { type HeaderProps, type StickyHeaderProps } from "../types"
 
 const Header = ({
   containerClassName,

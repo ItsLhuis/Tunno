@@ -38,7 +38,7 @@ const VirtualizedListWithHeaders = <TItem,>({
   ListFooterComponent,
   ListEmptyComponent,
   stickyHeaderContainerClassName,
-  stickHeaderThreshold = 10,
+  stickHeaderThreshold = 0,
   containerClassName,
   className,
   ...props
