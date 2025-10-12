@@ -58,21 +58,28 @@ const ArtistItem = memo(
     if (variant === "card") {
       return (
         <ArtistActions variant="context" artist={artist}>
-          <div className="group relative flex w-fit max-w-36 flex-col items-start rounded-lg p-2 transition-colors hover:bg-accent">
-            <div className="mb-3">
+          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors hover:bg-accent">
+            <div className="mb-3 h-full w-full">
               <Thumbnail
                 placeholderIcon="User"
                 fileName={artist.thumbnail}
                 alt={artist.name}
-                containerClassName="size-32 rounded-full"
-                className={artist.thumbnail ? "size-32" : "size-8"}
+                containerClassName="h-full w-full rounded-full"
+                className={cn("h-full w-full", !artist.thumbnail && "p-[25%]")}
               />
             </div>
             <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
               <Typography className="w-full truncate">{artist.name}</Typography>
             </SafeLink>
-            {canPlay && (
-              <div className="absolute bottom-10 left-2 right-2 z-10 flex justify-between opacity-0 transition-all group-hover:opacity-100">
+            <Marquee className="pb-1">
+              <Typography affects={["muted", "small"]}>
+                {artist.totalTracks}{" "}
+                {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
+                {formatDuration(artist.totalDuration, t)}
+              </Typography>
+            </Marquee>
+            <div className="absolute bottom-10 left-2 right-2 z-10 flex justify-between opacity-0 transition-all group-hover:opacity-100">
+              {canPlay && (
                 <IconButton
                   name="Play"
                   tooltip={t("common.play")}
@@ -80,15 +87,16 @@ const ArtistItem = memo(
                   isLoading={isTrackLoading || isLoading}
                   disabled={!canPlay}
                 />
-                <ArtistActions artist={artist}>
-                  <IconButton
-                    name="MoreHorizontal"
-                    variant="secondary"
-                    tooltip={t("common.more")}
-                  />
-                </ArtistActions>
-              </div>
-            )}
+              )}
+              <ArtistActions artist={artist}>
+                <IconButton
+                  name="MoreHorizontal"
+                  variant="secondary"
+                  tooltip={t("common.more")}
+                  className="ml-auto"
+                />
+              </ArtistActions>
+            </div>
           </div>
         </ArtistActions>
       )

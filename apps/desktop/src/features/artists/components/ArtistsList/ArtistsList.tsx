@@ -10,6 +10,8 @@ import { useFetchArtistIds } from "../../hooks/useFetchArtistIds"
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
+import { cn } from "@lib/utils"
+
 import {
   NotFound,
   Spinner,
@@ -29,10 +31,11 @@ import { type Artist, type QueryArtistParams } from "@repo/api"
 type ArtistsListProps = { list: VirtualizedListController<Artist> }
 
 const ArtistsList = () => {
-  const { debouncedFilters, orderBy } = useArtistsStore(
+  const { debouncedFilters, orderBy, viewMode } = useArtistsStore(
     useShallow((state) => ({
       debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy
+      orderBy: state.orderBy,
+      viewMode: state.viewMode
     }))
   )
 
@@ -61,25 +64,36 @@ const ArtistsList = () => {
   const StickyHeader = useCallback(
     ({ list }: ArtistsListProps) => (
       <Fragment>
-        <ArtistsListStickyHeader list={list} allArtistIds={artistIds} />
-        <div className="pt-6">
-          <ArtistsListSubHeader list={list} />
-        </div>
+        <ArtistsListStickyHeader
+          list={list}
+          allArtistIds={artistIds}
+          className={cn(viewMode === "grid" && "pb-9")}
+        />
+        {viewMode === "list" && (
+          <div className="pt-6">
+            <ArtistsListSubHeader list={list} />
+          </div>
+        )}
       </Fragment>
     ),
-    [artistIds]
+    [artistIds, viewMode]
   )
 
   const ListHeader = useCallback(
     ({ list }: ArtistsListProps) => (
       <Fragment>
-        <ArtistsListSearch renderRight={<ArtistsListFilters />} />
-        <div className="px-9 pb-3 pt-6">
-          <ArtistsListSubHeader list={list} className="border-b" />
-        </div>
+        <ArtistsListSearch
+          renderRight={<ArtistsListFilters />}
+          className={cn(viewMode === "grid" && "pb-6")}
+        />
+        {viewMode === "list" && (
+          <div className="px-9 pb-3 pt-6">
+            <ArtistsListSubHeader list={list} className="border-b" />
+          </div>
+        )}
       </Fragment>
     ),
-    []
+    [viewMode]
   )
 
   const ListEmpty = useCallback(() => (isLoading ? <Spinner /> : <NotFound />), [isLoading])
@@ -122,8 +136,22 @@ const ArtistsList = () => {
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}
       renderItem={({ item, selected, toggle }) => (
-        <ArtistItem artist={item} variant="list" selected={selected} onToggle={toggle} />
+        <ArtistItem
+          artist={item}
+          variant={viewMode === "grid" ? "card" : "list"}
+          selected={viewMode === "list" ? selected : false}
+          onToggle={viewMode === "list" ? toggle : undefined}
+        />
       )}
+      layout={viewMode}
+      gridBreakpoints={{
+        xs: 2,
+        sm: 2,
+        md: 3,
+        lg: 4,
+        xl: 5,
+        "2xl": 6
+      }}
     />
   )
 }

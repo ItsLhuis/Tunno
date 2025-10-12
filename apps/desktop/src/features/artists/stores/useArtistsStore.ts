@@ -15,6 +15,7 @@ type ArtistsState = {
   filters: ArtistFilters
   debouncedFilters: ArtistFilters
   orderBy: { column: OrderableArtistColumns; direction: "asc" | "desc" } | null
+  viewMode: "grid" | "list"
   hasHydrated: boolean
 }
 
@@ -25,6 +26,7 @@ type ArtistsActions = {
   setOrderBy: (
     orderBy: { column: OrderableArtistColumns; direction: "asc" | "desc" } | null
   ) => void
+  setViewMode: (viewMode: "grid" | "list") => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -63,6 +65,7 @@ export const useArtistsStore = create<ArtistsStore>()(
         filters: {},
         debouncedFilters: {},
         orderBy: { column: "createdAt", direction: "desc" },
+        viewMode: "grid",
         hasHydrated: false,
         setSearchTerm: (term: string) => {
           set({ searchTerm: term })
@@ -83,11 +86,15 @@ export const useArtistsStore = create<ArtistsStore>()(
             debouncedFilters: {},
             searchTerm: "",
             debouncedSearchTerm: "",
-            orderBy: { column: "createdAt", direction: "desc" }
+            orderBy: { column: "createdAt", direction: "desc" },
+            viewMode: "grid"
           })
         },
         setOrderBy: (orderBy) => {
           set({ orderBy })
+        },
+        setViewMode: (viewMode) => {
+          set({ viewMode })
         },
         setHasHydrated: (hasHydrated) => {
           set({ hasHydrated })
@@ -100,7 +107,8 @@ export const useArtistsStore = create<ArtistsStore>()(
       storage: persistStorage(`.${ARTISTS_STORE_NAME}.json`),
       partialize: (state) => ({
         filters: state.filters,
-        orderBy: state.orderBy
+        orderBy: state.orderBy,
+        viewMode: state.viewMode
       }),
       onRehydrateStorage: () => {
         return (state) => {

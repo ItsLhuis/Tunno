@@ -6,6 +6,8 @@ import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
 import { useFetchSongsByArtistIds } from "@features/songs/hooks/useFetchSongsByArtistIds"
 
+import { cn } from "@lib/utils"
+
 import { ArtistForm } from "../../forms/ArtistForm"
 
 import {
@@ -20,9 +22,14 @@ import { type Artist } from "@repo/api"
 type ArtistsListStickyHeaderProps = {
   list: VirtualizedListController<Artist>
   allArtistIds: number[]
+  className?: string
 }
 
-const ArtistsListStickyHeader = ({ list, allArtistIds }: ArtistsListStickyHeaderProps) => {
+const ArtistsListStickyHeader = ({
+  list,
+  allArtistIds,
+  className
+}: ArtistsListStickyHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -43,7 +50,7 @@ const ArtistsListStickyHeader = ({ list, allArtistIds }: ArtistsListStickyHeader
   const hasSelectedRows = list.hasSelection
 
   return (
-    <StickyHeader className="flex items-center gap-3">
+    <StickyHeader className={cn("flex items-center gap-3", className)}>
       <ArtistForm
         trigger={
           <IconButton

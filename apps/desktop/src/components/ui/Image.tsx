@@ -86,7 +86,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
             "aspect-auto w-12",
             className,
             isNewImageLoaded ? "opacity-100" : "opacity-0",
-            "transition-opacity duration-300"
+            "transition-opacity"
           )}
           {...props}
         />

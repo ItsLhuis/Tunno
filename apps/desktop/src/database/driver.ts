@@ -52,7 +52,6 @@ function isDeleteQuery(sql: string): boolean {
 }
 
 function extractWhereClause(sql: string): string | null {
-  // More robust WHERE clause extraction that handles nested parentheses
   const whereMatch = sql.match(
     /WHERE\s+(.*?)(?:\s+ORDER\s+BY|\s+LIMIT|\s+GROUP\s+BY|\s+HAVING|;|\s*$)/i
   )
