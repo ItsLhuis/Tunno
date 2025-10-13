@@ -8,6 +8,8 @@ import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
 import { useFetchSongsByArtistIds } from "@features/songs/hooks/useFetchSongsByArtistIds"
 
+import { useFetchArtistById } from "../hooks/useFetchArtistById"
+
 import { useToggleArtistFavorite } from "../hooks/useToggleArtistFavorite"
 
 import { cn } from "@lib/utils"
@@ -77,7 +79,13 @@ const ArtistActions = ({
 
   const toggleFavoriteMutation = useToggleArtistFavorite()
 
+  const artistId =
+    artist?.id || (list && list.selectedIds.length === 1 ? Number(list.selectedIds[0]) : null)
+
+  const { data: freshArtistData } = useFetchArtistById(artistId)
+
   const targetArtist =
+    freshArtistData ||
     artist ||
     (list && list.selectedIds.length === 1
       ? list.data.find((a) => a.id === Number(list.selectedIds[0]))

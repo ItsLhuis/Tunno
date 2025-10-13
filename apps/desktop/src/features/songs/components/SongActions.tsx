@@ -6,6 +6,8 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../stores/usePlayerStore"
 
+import { useFetchSongByIdWithMainRelations } from "../hooks/useFetchSongByIdWithMainRelations"
+
 import { useToggleSongFavorite } from "../hooks/useToggleSongFavorite"
 
 import { cn } from "@lib/utils"
@@ -87,7 +89,13 @@ const SongActions = memo(
 
     const toggleFavoriteMutation = useToggleSongFavorite()
 
+    const songId =
+      song?.id || (list && list.selectedIds.length === 1 ? Number(list.selectedIds[0]) : null)
+
+    const { data: freshSongData } = useFetchSongByIdWithMainRelations(songId)
+
     const targetSong =
+      freshSongData ||
       song ||
       (list && list.selectedIds.length === 1
         ? list.data.find((s) => s.id === Number(list.selectedIds[0]))
@@ -280,23 +288,25 @@ const SongActions = memo(
             </SafeLink>
           </ContextMenuItem>
           {targetSong.album && (
-            <ContextMenuItem>
-              <Icon name="DiscAlbum" />
-              {t("common.goToAlbum")}
+            <ContextMenuItem asChild>
+              <SafeLink to="/albums/$id" params={{ id: targetSong.album.id.toString() }}>
+                <Icon name="DiscAlbum" />
+                {t("common.goToAlbum")}
+              </SafeLink>
             </ContextMenuItem>
           )}
-          {targetSong.artists.length === 1 && (
+          {targetSong.artists?.length === 1 && (
             <ContextMenuItem asChild>
               <SafeLink
                 to="/artists/$id"
-                params={{ id: targetSong.artists[0].artistId.toString() }}
+                params={{ id: targetSong.artists?.[0]?.artistId.toString() }}
               >
                 <Icon name="User" />
                 {t("common.goToArtist")}
               </SafeLink>
             </ContextMenuItem>
           )}
-          {targetSong.artists.length > 1 && (
+          {targetSong.artists?.length > 1 && (
             <ContextMenuSub>
               <ContextMenuSubTrigger>
                 <Icon name="User" />
@@ -306,7 +316,7 @@ const SongActions = memo(
                 <ScrollArea className="p-1" ref={artistsScrollRef}>
                   <VirtualizedList
                     scrollRef={artistsScrollRef}
-                    data={targetSong.artists}
+                    data={targetSong.artists || []}
                     keyExtractor={(artist) => artist.artistId.toString()}
                     renderItem={({ item: artist }) => (
                       <ContextMenuItem asChild>
@@ -341,23 +351,25 @@ const SongActions = memo(
             </SafeLink>
           </DropdownMenuItem>
           {targetSong.album && (
-            <DropdownMenuItem>
-              <Icon name="DiscAlbum" />
-              {t("common.goToAlbum")}
+            <DropdownMenuItem asChild>
+              <SafeLink to="/albums/$id" params={{ id: targetSong.album.id.toString() }}>
+                <Icon name="DiscAlbum" />
+                {t("common.goToAlbum")}
+              </SafeLink>
             </DropdownMenuItem>
           )}
-          {targetSong.artists.length === 1 && (
+          {targetSong.artists?.length === 1 && (
             <DropdownMenuItem asChild>
               <SafeLink
                 to="/artists/$id"
-                params={{ id: targetSong.artists[0].artistId.toString() }}
+                params={{ id: targetSong.artists?.[0]?.artistId.toString() }}
               >
                 <Icon name="User" />
                 {t("common.goToArtist")}
               </SafeLink>
             </DropdownMenuItem>
           )}
-          {targetSong.artists.length > 1 && (
+          {targetSong.artists?.length > 1 && (
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
                 <Icon name="User" />
@@ -367,7 +379,7 @@ const SongActions = memo(
                 <ScrollArea className="p-1" ref={artistsScrollRef}>
                   <VirtualizedList
                     scrollRef={artistsScrollRef}
-                    data={targetSong.artists}
+                    data={targetSong.artists || []}
                     keyExtractor={(artist) => artist.artistId.toString()}
                     renderItem={({ item: artist }) => (
                       <DropdownMenuItem asChild>

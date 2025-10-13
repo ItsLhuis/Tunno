@@ -157,7 +157,9 @@ const SongItem = memo(
           </div>
           <div className="truncate">
             {song.album ? (
-              <Typography className="truncate">{song.album.name}</Typography>
+              <SafeLink to="/albums/$id" params={{ id: song.album.id.toString() }}>
+                <Typography className="truncate">{song.album.name}</Typography>
+              </SafeLink>
             ) : (
               <Typography affects={["muted"]}>{t("common.unknownAlbum")}</Typography>
             )}

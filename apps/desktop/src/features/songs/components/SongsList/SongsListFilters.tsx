@@ -189,7 +189,7 @@ const SongsListFilters = () => {
                       : (filters.releaseYear ?? undefined)
                   }
                   onChange={(value) => setFilters({ releaseYear: value })}
-                  min={0}
+                  min={1900}
                   max={new Date().getFullYear()}
                   step={1}
                 />

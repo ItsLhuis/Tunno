@@ -99,7 +99,7 @@ const SongInfo = () => {
               >
                 <CarouselContent containerClassName="px-9">
                   {data.artists.map((artist, index) => (
-                    <CarouselItem key={artist.artist.id || index} className="basis-auto">
+                    <CarouselItem key={artist.artist.id || index} className="w-56 basis-auto">
                       <ArtistItem artist={artist.artist} variant="card" />
                     </CarouselItem>
                   ))}

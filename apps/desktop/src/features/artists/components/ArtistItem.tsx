@@ -68,17 +68,32 @@ const ArtistItem = memo(
                 className={cn("h-full w-full", !artist.thumbnail && "p-[25%]")}
               />
             </div>
-            <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
-              <Typography className="w-full truncate">{artist.name}</Typography>
-            </SafeLink>
-            <Marquee className="pb-1">
-              <Typography affects={["muted", "small"]}>
-                {artist.totalTracks}{" "}
-                {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                {formatDuration(artist.totalDuration, t)}
-              </Typography>
-            </Marquee>
-            <div className="absolute bottom-10 left-2 right-2 z-10 flex justify-between opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="flex w-full items-start justify-between gap-2">
+              <div className="min-w-0 flex-1 pb-1">
+                <Marquee>
+                  <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
+                    <Typography className="w-full truncate">{artist.name}</Typography>
+                  </SafeLink>
+                </Marquee>
+                <Marquee>
+                  <Typography affects={["muted", "small"]}>
+                    {artist.totalTracks}{" "}
+                    {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
+                    {formatDuration(artist.totalDuration, t)}
+                  </Typography>
+                </Marquee>
+              </div>
+              <div className="flex-shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+                <ArtistActions artist={artist}>
+                  <IconButton
+                    name="MoreHorizontal"
+                    variant="secondary"
+                    tooltip={t("common.more")}
+                  />
+                </ArtistActions>
+              </div>
+            </div>
+            <div className="absolute bottom-14 right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"
@@ -88,14 +103,6 @@ const ArtistItem = memo(
                   disabled={!canPlay}
                 />
               )}
-              <ArtistActions artist={artist}>
-                <IconButton
-                  name="MoreHorizontal"
-                  variant="secondary"
-                  tooltip={t("common.more")}
-                  className="ml-auto"
-                />
-              </ArtistActions>
             </div>
           </div>
         </ArtistActions>

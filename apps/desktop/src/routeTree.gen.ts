@@ -12,16 +12,17 @@ import { Route as rootRouteImport } from "./routes/__root"
 import { Route as SettingsRouteImport } from "./routes/settings"
 import { Route as PlaylistsRouteImport } from "./routes/playlists"
 import { Route as FastUploadRouteImport } from "./routes/fast-upload"
-import { Route as AlbumsRouteImport } from "./routes/albums"
 import { Route as IndexRouteImport } from "./routes/index"
 import { Route as SongsIndexRouteImport } from "./routes/songs/index"
 import { Route as ArtistsIndexRouteImport } from "./routes/artists/index"
+import { Route as AlbumsIndexRouteImport } from "./routes/albums/index"
 import { Route as SongsIdRouteImport } from "./routes/songs/$id"
 import { Route as SettingsSyncRouteImport } from "./routes/settings/sync"
 import { Route as SettingsLanguageRouteImport } from "./routes/settings/language"
 import { Route as SettingsEqualizerRouteImport } from "./routes/settings/equalizer"
 import { Route as SettingsAppearanceRouteImport } from "./routes/settings/appearance"
 import { Route as ArtistsIdRouteImport } from "./routes/artists/$id"
+import { Route as AlbumsIdRouteImport } from "./routes/albums/$id"
 
 const SettingsRoute = SettingsRouteImport.update({
   id: "/settings",
@@ -38,11 +39,6 @@ const FastUploadRoute = FastUploadRouteImport.update({
   path: "/fast-upload",
   getParentRoute: () => rootRouteImport
 } as any)
-const AlbumsRoute = AlbumsRouteImport.update({
-  id: "/albums",
-  path: "/albums",
-  getParentRoute: () => rootRouteImport
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
@@ -56,6 +52,11 @@ const SongsIndexRoute = SongsIndexRouteImport.update({
 const ArtistsIndexRoute = ArtistsIndexRouteImport.update({
   id: "/artists/",
   path: "/artists/",
+  getParentRoute: () => rootRouteImport
+} as any)
+const AlbumsIndexRoute = AlbumsIndexRouteImport.update({
+  id: "/albums/",
+  path: "/albums/",
   getParentRoute: () => rootRouteImport
 } as any)
 const SongsIdRoute = SongsIdRouteImport.update({
@@ -88,50 +89,58 @@ const ArtistsIdRoute = ArtistsIdRouteImport.update({
   path: "/artists/$id",
   getParentRoute: () => rootRouteImport
 } as any)
+const AlbumsIdRoute = AlbumsIdRouteImport.update({
+  id: "/albums/$id",
+  path: "/albums/$id",
+  getParentRoute: () => rootRouteImport
+} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
-  "/albums": typeof AlbumsRoute
   "/fast-upload": typeof FastUploadRoute
   "/playlists": typeof PlaylistsRoute
   "/settings": typeof SettingsRouteWithChildren
+  "/albums/$id": typeof AlbumsIdRoute
   "/artists/$id": typeof ArtistsIdRoute
   "/settings/appearance": typeof SettingsAppearanceRoute
   "/settings/equalizer": typeof SettingsEqualizerRoute
   "/settings/language": typeof SettingsLanguageRoute
   "/settings/sync": typeof SettingsSyncRoute
   "/songs/$id": typeof SongsIdRoute
+  "/albums": typeof AlbumsIndexRoute
   "/artists": typeof ArtistsIndexRoute
   "/songs": typeof SongsIndexRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
-  "/albums": typeof AlbumsRoute
   "/fast-upload": typeof FastUploadRoute
   "/playlists": typeof PlaylistsRoute
   "/settings": typeof SettingsRouteWithChildren
+  "/albums/$id": typeof AlbumsIdRoute
   "/artists/$id": typeof ArtistsIdRoute
   "/settings/appearance": typeof SettingsAppearanceRoute
   "/settings/equalizer": typeof SettingsEqualizerRoute
   "/settings/language": typeof SettingsLanguageRoute
   "/settings/sync": typeof SettingsSyncRoute
   "/songs/$id": typeof SongsIdRoute
+  "/albums": typeof AlbumsIndexRoute
   "/artists": typeof ArtistsIndexRoute
   "/songs": typeof SongsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
-  "/albums": typeof AlbumsRoute
   "/fast-upload": typeof FastUploadRoute
   "/playlists": typeof PlaylistsRoute
   "/settings": typeof SettingsRouteWithChildren
+  "/albums/$id": typeof AlbumsIdRoute
   "/artists/$id": typeof ArtistsIdRoute
   "/settings/appearance": typeof SettingsAppearanceRoute
   "/settings/equalizer": typeof SettingsEqualizerRoute
   "/settings/language": typeof SettingsLanguageRoute
   "/settings/sync": typeof SettingsSyncRoute
   "/songs/$id": typeof SongsIdRoute
+  "/albums/": typeof AlbumsIndexRoute
   "/artists/": typeof ArtistsIndexRoute
   "/songs/": typeof SongsIndexRoute
 }
@@ -139,58 +148,62 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | "/"
-    | "/albums"
     | "/fast-upload"
     | "/playlists"
     | "/settings"
+    | "/albums/$id"
     | "/artists/$id"
     | "/settings/appearance"
     | "/settings/equalizer"
     | "/settings/language"
     | "/settings/sync"
     | "/songs/$id"
+    | "/albums"
     | "/artists"
     | "/songs"
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
-    | "/albums"
     | "/fast-upload"
     | "/playlists"
     | "/settings"
+    | "/albums/$id"
     | "/artists/$id"
     | "/settings/appearance"
     | "/settings/equalizer"
     | "/settings/language"
     | "/settings/sync"
     | "/songs/$id"
+    | "/albums"
     | "/artists"
     | "/songs"
   id:
     | "__root__"
     | "/"
-    | "/albums"
     | "/fast-upload"
     | "/playlists"
     | "/settings"
+    | "/albums/$id"
     | "/artists/$id"
     | "/settings/appearance"
     | "/settings/equalizer"
     | "/settings/language"
     | "/settings/sync"
     | "/songs/$id"
+    | "/albums/"
     | "/artists/"
     | "/songs/"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AlbumsRoute: typeof AlbumsRoute
   FastUploadRoute: typeof FastUploadRoute
   PlaylistsRoute: typeof PlaylistsRoute
   SettingsRoute: typeof SettingsRouteWithChildren
+  AlbumsIdRoute: typeof AlbumsIdRoute
   ArtistsIdRoute: typeof ArtistsIdRoute
   SongsIdRoute: typeof SongsIdRoute
+  AlbumsIndexRoute: typeof AlbumsIndexRoute
   ArtistsIndexRoute: typeof ArtistsIndexRoute
   SongsIndexRoute: typeof SongsIndexRoute
 }
@@ -218,13 +231,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof FastUploadRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/albums": {
-      id: "/albums"
-      path: "/albums"
-      fullPath: "/albums"
-      preLoaderRoute: typeof AlbumsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     "/": {
       id: "/"
       path: "/"
@@ -244,6 +250,13 @@ declare module "@tanstack/react-router" {
       path: "/artists"
       fullPath: "/artists"
       preLoaderRoute: typeof ArtistsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/albums/": {
+      id: "/albums/"
+      path: "/albums"
+      fullPath: "/albums"
+      preLoaderRoute: typeof AlbumsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/songs/$id": {
@@ -288,6 +301,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ArtistsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/albums/$id": {
+      id: "/albums/$id"
+      path: "/albums/$id"
+      fullPath: "/albums/$id"
+      preLoaderRoute: typeof AlbumsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -309,12 +329,13 @@ const SettingsRouteWithChildren = SettingsRoute._addFileChildren(SettingsRouteCh
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AlbumsRoute: AlbumsRoute,
   FastUploadRoute: FastUploadRoute,
   PlaylistsRoute: PlaylistsRoute,
   SettingsRoute: SettingsRouteWithChildren,
+  AlbumsIdRoute: AlbumsIdRoute,
   ArtistsIdRoute: ArtistsIdRoute,
   SongsIdRoute: SongsIdRoute,
+  AlbumsIndexRoute: AlbumsIndexRoute,
   ArtistsIndexRoute: ArtistsIndexRoute,
   SongsIndexRoute: SongsIndexRoute
 }

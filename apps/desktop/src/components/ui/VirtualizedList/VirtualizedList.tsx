@@ -69,18 +69,10 @@ function VirtualizedList<TItem>({
       disableAnimations: false
     })
 
-  const isFirstRenderRef = useRef(true)
-
   const previousLayoutRef = useRef(layout)
 
   useLayoutEffect(() => {
     if (previousLayoutRef.current !== layout) {
-      if (isFirstRenderRef.current) {
-        isFirstRenderRef.current = false
-        previousLayoutRef.current = layout
-        return
-      }
-
       requestAnimationFrame(() => {
         startTransition()
       })

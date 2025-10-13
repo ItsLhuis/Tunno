@@ -324,7 +324,7 @@ const SongForm = ({
                     placeholder={new Date().getFullYear().toString()}
                     value={field.value}
                     onChange={field.onChange}
-                    min={0}
+                    min={1900}
                     max={new Date().getFullYear()}
                     step={1}
                   />
