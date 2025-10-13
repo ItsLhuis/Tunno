@@ -37,6 +37,10 @@ export const albumKeys = {
     const key = [...albumKeys.all, "list", ...albumKeys.withAllRelations]
     return params ? [...key, params] : key
   },
+  listInfinite: (params?: QueryAlbumParams) => {
+    const key = [...albumKeys.all, "list", "infinite"]
+    return params ? [...key, params] : key
+  },
   listInfiniteWithMainRelations: (params?: QueryAlbumParams) => {
     const key = [...albumKeys.all, "list", "infinite", ...albumKeys.withMainRelations]
     return params ? [...key, params] : key
@@ -45,6 +49,7 @@ export const albumKeys = {
     const key = [...albumKeys.all, "list", "ids"]
     return params ? [...key, params] : key
   },
+  listSongIdsOnly: (id: number) => [...albumKeys.all, "list", "songs", "ids", id] as const,
   listByArtists: (artistIds: number[], params?: QueryAlbumParams) => {
     const key = [...albumKeys.all, "listByArtists", { artistIds: [...artistIds].sort() }]
     return params ? [...key, params] : key
@@ -73,6 +78,19 @@ export const albumKeys = {
       "listByArtists",
       ...albumKeys.withAllRelations,
       { artistIds: [...artistIds].sort() }
+    ]
+    return params ? [...key, params] : key
+  },
+  listBySongs: (songIds: number[], params?: QueryAlbumParams) => {
+    const key = [...albumKeys.all, "listBySongs", { songIds: [...songIds].sort() }]
+    return params ? [...key, params] : key
+  },
+  listBySongsWithMainRelations: (songIds: number[], params?: QueryAlbumParams) => {
+    const key = [
+      ...albumKeys.all,
+      "listBySongs",
+      ...albumKeys.withMainRelations,
+      { songIds: [...songIds].sort() }
     ]
     return params ? [...key, params] : key
   },
