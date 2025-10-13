@@ -4,13 +4,15 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
-import { useEndReached, useFlipLayoutTransition, useResponsiveColumns, useSelection } from "./hooks"
+import { useEndReached, useLayoutTransition, useResponsiveColumns, useSelection } from "./hooks"
 
 import { cn } from "@lib/utils"
 
 import { Fade } from "@components/ui/Fade"
 
 import { VirtualRow } from "./components"
+
+import { LayoutGroup } from "motion/react"
 
 import type { VirtualizedListProps } from "./types"
 
@@ -46,6 +48,7 @@ function VirtualizedList<TItem>({
 }: VirtualizedListProps<TItem>) {
   const internalScrollRef = useRef<HTMLDivElement | null>(null)
   const scrollRef = externalScrollRef || internalScrollRef
+
   const isGridLayout = layout === "grid"
 
   const { selectedIds, controller, handleToggleItem } = useSelection(
@@ -56,13 +59,23 @@ function VirtualizedList<TItem>({
 
   const { effectiveColumns, gridContainerRef } = useResponsiveColumns(isGridLayout, gridBreakpoints)
 
-  const { startTransition } = useFlipLayoutTransition(gridContainerRef, layoutChangeAnimation)
+  const { startTransition, isTransitioning, layoutKey, transitionConfig, shouldAnimate } =
+    useLayoutTransition({
+      duration: layoutChangeAnimation?.duration ? layoutChangeAnimation.duration / 1000 : 0.3,
+      easing: layoutChangeAnimation?.easing || [0.3, 0, 0.2, 1],
+      staggerChildren: 0.01,
+      onStart: layoutChangeAnimation?.onStart,
+      onEnd: layoutChangeAnimation?.onEnd,
+      disableAnimations: false
+    })
 
   const previousLayoutRef = useRef(layout)
 
   useLayoutEffect(() => {
     if (previousLayoutRef.current !== layout) {
-      startTransition()
+      requestAnimationFrame(() => {
+        startTransition()
+      })
       previousLayoutRef.current = layout
     }
   }, [layout, startTransition])
@@ -92,17 +105,41 @@ function VirtualizedList<TItem>({
     count: rowCount,
     getScrollElement,
     estimateSize,
-    overscan: 5
+    overscan: 5,
+    measureElement:
+      typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
+        ? (element) => element?.getBoundingClientRect().height
+        : undefined
   })
 
   const virtualRows = rowVirtualizer.getVirtualItems()
   const isListEmpty = data.length === 0
   const totalSize = rowVirtualizer.getTotalSize()
 
+  const containerStyle = useMemo(
+    () => ({
+      height: `${totalSize}px`,
+      position: "relative" as const,
+      willChange: isTransitioning ? "transform" : "auto",
+      transform: "translateZ(0)",
+      contain: "layout style paint" as const,
+      backfaceVisibility: "hidden" as const,
+      WebkitBackfaceVisibility: "hidden" as const
+    }),
+    [totalSize, isTransitioning]
+  )
+
   return (
     <div
       ref={externalScrollRef ? undefined : internalScrollRef}
       className={containerClassName}
+      style={{
+        contain: "layout style paint",
+        willChange: isTransitioning ? "transform" : "auto",
+        backfaceVisibility: "hidden" as const,
+        WebkitBackfaceVisibility: "hidden" as const,
+        transform: "translateZ(0)"
+      }}
       {...props}
     >
       <Fade
@@ -117,25 +154,29 @@ function VirtualizedList<TItem>({
             </div>
           ) : null
         ) : (
-          <div style={{ height: `${totalSize}px` }}>
-            {virtualRows.map((virtualRow) => (
-              <VirtualRow
-                key={virtualRow.key}
-                virtualRow={virtualRow}
-                data={data}
-                effectiveColumns={effectiveColumns}
-                keyExtractor={keyExtractor}
-                renderItem={renderItem}
-                gap={gap}
-                rowClassName={rowClassName}
-                rowStyle={rowStyle}
-                selectedIds={selectedIds}
-                onToggleItem={handleToggleItem}
-                totalRows={rowCount}
-                measureRef={rowVirtualizer.measureElement}
-              />
-            ))}
-          </div>
+          <LayoutGroup id={`virtualized-list-${layoutKey}`}>
+            <div style={containerStyle}>
+              {virtualRows.map((virtualRow) => (
+                <VirtualRow
+                  key={virtualRow.key}
+                  virtualRow={virtualRow}
+                  data={data}
+                  effectiveColumns={effectiveColumns}
+                  keyExtractor={keyExtractor}
+                  renderItem={renderItem}
+                  gap={gap}
+                  rowClassName={rowClassName}
+                  rowStyle={rowStyle}
+                  selectedIds={selectedIds}
+                  onToggleItem={handleToggleItem}
+                  totalRows={rowCount}
+                  measureRef={rowVirtualizer.measureElement}
+                  transitionConfig={transitionConfig}
+                  shouldAnimate={shouldAnimate}
+                />
+              ))}
+            </div>
+          </LayoutGroup>
         )}
       </Fade>
       {controller && ListFooterComponent && <ListFooterComponent list={controller} />}
