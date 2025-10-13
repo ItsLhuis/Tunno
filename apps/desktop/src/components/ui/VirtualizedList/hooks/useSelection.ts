@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import type { VirtualizedListController } from "../types"
 
@@ -9,16 +9,26 @@ export function useSelection<TItem>(
 ) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
-  const dataIds = useMemo(
-    () => data.map((item, index) => keyExtractor(item, index)),
-    [data, keyExtractor]
-  )
+  const cacheRef = useRef<{
+    data: TItem[]
+    dataIds: string[]
+    itemById: Map<string, TItem>
+  }>({ data: [], dataIds: [], itemById: new Map() })
 
-  const itemById = useMemo(() => {
-    const map = new Map<string, TItem>()
-    data.forEach((item, idx) => map.set(dataIds[idx], item))
-    return map
-  }, [data, dataIds])
+  if (cacheRef.current.data !== data) {
+    const dataIds: string[] = []
+    const itemById = new Map<string, TItem>()
+
+    for (let i = 0; i < data.length; i++) {
+      const id = keyExtractor(data[i], i)
+      dataIds.push(id)
+      itemById.set(id, data[i])
+    }
+
+    cacheRef.current = { data, dataIds, itemById }
+  }
+
+  const { itemById } = cacheRef.current
 
   const selectedCount = selectedIds.size
   const totalCount = data.length
@@ -45,8 +55,8 @@ export function useSelection<TItem>(
   }, [])
 
   const handleSelectAll = useCallback(() => {
-    setSelectedIds(new Set(dataIds))
-  }, [dataIds])
+    setSelectedIds(new Set(cacheRef.current.dataIds))
+  }, [])
 
   const handleClearSelection = useCallback(() => {
     setSelectedIds(new Set())
@@ -80,9 +90,11 @@ export function useSelection<TItem>(
   useEffect(() => {
     if (!onSelectionChange) return
 
-    const selectedItems = Array.from(selectedIds)
-      .map((id) => itemById.get(id))
-      .filter(Boolean) as TItem[]
+    const selectedItems: TItem[] = []
+    for (const id of selectedIds) {
+      const item = itemById.get(id)
+      if (item) selectedItems.push(item)
+    }
 
     onSelectionChange(selectedIdsArray, selectedItems)
   }, [onSelectionChange, selectedIds, selectedIdsArray, itemById])

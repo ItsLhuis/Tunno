@@ -1,4 +1,4 @@
 export { useEndReached } from "./useEndReached"
-export { useFlipLayoutTransition } from "./useFlipLayoutTransition"
+export { useLayoutTransition } from "./useLayoutTransition"
 export { useResponsiveColumns } from "./useResponsiveColumns"
 export { useSelection } from "./useSelection"
