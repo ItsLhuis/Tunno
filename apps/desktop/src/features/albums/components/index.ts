@@ -1,1 +1,5 @@
-export * from "./AlbumItem"
+export { AlbumActions } from "./AlbumActions"
+export { AlbumItem } from "./AlbumItem"
+export { DeleteAlbumDialog } from "./DeleteAlbumDialog"
+export * from "./AlbumInfo"
+export * from "./AlbumsList"
