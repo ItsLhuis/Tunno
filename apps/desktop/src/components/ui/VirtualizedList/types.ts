@@ -48,6 +48,7 @@ export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
     onStart?: () => void
     onEnd?: () => void
   }
+  disableAnimations?: boolean
 }
 
 export type VirtualizedItemProps<TItem> = {
@@ -65,6 +66,7 @@ export type VirtualizedItemProps<TItem> = {
   itemId: string
   isLastRow: boolean
   gap: number
+  shouldAnimate?: boolean
 }
 
 export type VirtualRowProps<TItem> = {
@@ -85,4 +87,5 @@ export type VirtualRowProps<TItem> = {
   onToggleItem: (id: string) => void
   totalRows: number
   measureRef: (element: HTMLElement | null) => void
+  shouldAnimate?: boolean
 }
