@@ -84,6 +84,9 @@ export const finnish: Language = {
         createArtist: "Luo artisti",
         updateArtist: "Päivitä artisti",
         deleteArtist: "Poista artisti",
+        createAlbum: "Luo albumi",
+        updateAlbum: "Päivitä albumi",
+        deleteAlbum: "Poista albumi",
         createPlaylist: "Luo soittolista",
         updatePlaylist: "Päivitä soittolista",
         deletePlaylist: "Poista soittolista",
@@ -97,6 +100,7 @@ export const finnish: Language = {
         file: "Tiedosto",
         releaseYear: "Julkaisuvuosi",
         album: "Albumi",
+        albumType: "Albumin tyyppi",
         artists: "Artistit",
         folder: "Kansio",
         lyrics: "Sanoitukset"
@@ -147,6 +151,9 @@ export const finnish: Language = {
       },
       artists: {
         invalid: "Virheelliset artistit"
+      },
+      albumType: {
+        invalid: "Virheellinen albumityyppi"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const finnish: Language = {
       updatedFailedTitle: "Albumin päivitys epäonnistui",
       deletedTitle: "Albumi poistettu onnistuneesti",
       deletedDescription: "{name} on poistettu",
-      deletedFailedTitle: "Albumin poisto epäonnistui"
+      deletedFailedTitle: "Albumin poisto epäonnistui",
+      filters: {
+        title: "Suodattimet",
+        clear: "Tyhjennä aktiiviset suodattimet",
+        sortBy: "Järjestä",
+        favorites: "Vain suosikit",
+        favoritesDescription: "Näytä vain suosikkialbumit",
+        albumType: "Albumin tyyppi",
+        all: "Kaikki tyypit",
+        single: "Single",
+        album: "Albumi",
+        compilation: "Kokoelma",
+        releaseYear: "Julkaisuvuosi",
+        releaseYearMin: "Vähimmäisvuosi",
+        releaseYearMax: "Enimmäisvuosi",
+        playCount: "Soittokerrat",
+        playCountMin: "Vähimmäissoittokerrat",
+        playCountMax: "Enimmäissoittokerrat",
+        totalTracks: "Kappaleiden kokonaismäärä",
+        totalTracksMin: "Vähimmäiskappaleet",
+        totalTracksMax: "Enimmäiskappaleet",
+        totalDuration: "Kokonaiskesto",
+        totalDurationMin: "Vähimmäiskesto",
+        totalDurationMax: "Enimmäiskesto",
+        lastPlayed: "Viimeksi soitettu",
+        lastPlayedAfter: "Soitettu jälkeen",
+        lastPlayedBefore: "Soitettu ennen",
+        selectDate: "Valitse päivämäärä",
+        sortOptions: {
+          name: "Nimi",
+          releaseYear: "Julkaisuvuosi",
+          favorites: "Suosikit",
+          playCount: "Soittokerrat",
+          totalTracks: "Kappaleiden kokonaismäärä",
+          totalDuration: "Kokonaiskesto",
+          lastPlayed: "Viimeksi soitettu",
+          createdAt: "Luotu",
+          updatedAt: "Päivitetty"
+        }
+      }
     },
     artists: {
       title: "Artistit",

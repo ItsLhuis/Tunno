@@ -84,6 +84,9 @@ export const chinese: Language = {
         createArtist: "创建艺术家",
         updateArtist: "更新艺术家",
         deleteArtist: "删除艺术家",
+        createAlbum: "创建专辑",
+        updateAlbum: "更新专辑",
+        deleteAlbum: "删除专辑",
         createPlaylist: "创建播放列表",
         updatePlaylist: "更新播放列表",
         deletePlaylist: "删除播放列表",
@@ -97,6 +100,7 @@ export const chinese: Language = {
         file: "文件",
         releaseYear: "发行年份",
         album: "专辑",
+        albumType: "专辑类型",
         artists: "艺术家",
         folder: "文件夹",
         lyrics: "歌词"
@@ -147,6 +151,9 @@ export const chinese: Language = {
       },
       artists: {
         invalid: "无效的艺术家"
+      },
+      albumType: {
+        invalid: "无效的专辑类型"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const chinese: Language = {
       updatedFailedTitle: "更新专辑失败",
       deletedTitle: "专辑删除成功",
       deletedDescription: "{name} 已删除",
-      deletedFailedTitle: "删除专辑失败"
+      deletedFailedTitle: "删除专辑失败",
+      filters: {
+        title: "筛选器",
+        clear: "清除活动筛选器",
+        sortBy: "排序方式",
+        favorites: "仅收藏",
+        favoritesDescription: "仅显示收藏专辑",
+        albumType: "专辑类型",
+        all: "所有类型",
+        single: "单曲",
+        album: "专辑",
+        compilation: "合辑",
+        releaseYear: "发行年份",
+        releaseYearMin: "最小年份",
+        releaseYearMax: "最大年份",
+        playCount: "播放次数",
+        playCountMin: "最小播放次数",
+        playCountMax: "最大播放次数",
+        totalTracks: "总曲目数",
+        totalTracksMin: "最小曲目数",
+        totalTracksMax: "最大曲目数",
+        totalDuration: "总时长",
+        totalDurationMin: "最小时长",
+        totalDurationMax: "最大时长",
+        lastPlayed: "最后播放",
+        lastPlayedAfter: "播放于之后",
+        lastPlayedBefore: "播放于之前",
+        selectDate: "选择日期",
+        sortOptions: {
+          name: "名称",
+          releaseYear: "发行年份",
+          favorites: "收藏",
+          playCount: "播放次数",
+          totalTracks: "总曲目数",
+          totalDuration: "总时长",
+          lastPlayed: "最后播放",
+          createdAt: "创建时间",
+          updatedAt: "更新时间"
+        }
+      }
     },
     artists: {
       title: "艺术家",

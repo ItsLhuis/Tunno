@@ -84,6 +84,9 @@ export const french: Language = {
         createArtist: "Créer un artiste",
         updateArtist: "Mettre à jour l'artiste",
         deleteArtist: "Supprimer l'artiste",
+        createAlbum: "Créer un album",
+        updateAlbum: "Mettre à jour l'album",
+        deleteAlbum: "Supprimer l'album",
         createPlaylist: "Créer une playlist",
         updatePlaylist: "Mettre à jour la playlist",
         deletePlaylist: "Supprimer la playlist",
@@ -97,6 +100,7 @@ export const french: Language = {
         file: "Fichier",
         releaseYear: "Année de sortie",
         album: "Album",
+        albumType: "Type d'album",
         artists: "Artistes",
         folder: "Dossier",
         lyrics: "Paroles"
@@ -147,6 +151,9 @@ export const french: Language = {
       },
       artists: {
         invalid: "Artistes invalides"
+      },
+      albumType: {
+        invalid: "Type d'album invalide"
       }
     },
     update: {
@@ -258,7 +265,46 @@ export const french: Language = {
       updatedFailedTitle: "Échec de la mise à jour de l'album",
       deletedTitle: "Album supprimé avec succès",
       deletedDescription: "{name} a été supprimé",
-      deletedFailedTitle: "Échec de la suppression de l'album"
+      deletedFailedTitle: "Échec de la suppression de l'album",
+      filters: {
+        title: "Filtres",
+        clear: "Effacer les filtres actifs",
+        sortBy: "Trier par",
+        favorites: "Favoris uniquement",
+        favoritesDescription: "Afficher uniquement les albums favoris",
+        albumType: "Type d'album",
+        all: "Tous les types",
+        single: "Single",
+        album: "Album",
+        compilation: "Compilation",
+        releaseYear: "Année de sortie",
+        releaseYearMin: "Année minimum",
+        releaseYearMax: "Année maximum",
+        playCount: "Lectures",
+        playCountMin: "Lectures minimum",
+        playCountMax: "Lectures maximum",
+        totalTracks: "Total des pistes",
+        totalTracksMin: "Pistes minimum",
+        totalTracksMax: "Pistes maximum",
+        totalDuration: "Durée totale",
+        totalDurationMin: "Durée minimum",
+        totalDurationMax: "Durée maximum",
+        lastPlayed: "Dernière lecture",
+        lastPlayedAfter: "Lu après",
+        lastPlayedBefore: "Lu avant",
+        selectDate: "Sélectionner une date",
+        sortOptions: {
+          name: "Nom",
+          releaseYear: "Année de sortie",
+          favorites: "Favoris",
+          playCount: "Lectures",
+          totalTracks: "Total des pistes",
+          totalDuration: "Durée totale",
+          lastPlayed: "Dernière lecture",
+          createdAt: "Créé",
+          updatedAt: "Mis à jour"
+        }
+      }
     },
     artists: {
       title: "Artistes",

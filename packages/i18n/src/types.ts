@@ -87,6 +87,9 @@ export type Translations = {
       createArtist: string
       updateArtist: string
       deleteArtist: string
+      createAlbum: string
+      updateAlbum: string
+      deleteAlbum: string
       createPlaylist: string
       updatePlaylist: string
       deletePlaylist: string
@@ -100,6 +103,7 @@ export type Translations = {
       file: string
       releaseYear: string
       album: string
+      albumType: string
       artists: string
       folder: string
       lyrics: string
@@ -149,6 +153,9 @@ export type Translations = {
       invalid: string
     }
     artists: {
+      invalid: string
+    }
+    albumType: {
       invalid: string
     }
   }
@@ -261,6 +268,45 @@ export type Translations = {
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string
+    filters: {
+      title: string
+      clear: string
+      sortBy: string
+      favorites: string
+      favoritesDescription: string
+      albumType: string
+      all: string
+      single: string
+      album: string
+      compilation: string
+      releaseYear: string
+      releaseYearMin: string
+      releaseYearMax: string
+      playCount: string
+      playCountMin: string
+      playCountMax: string
+      totalTracks: string
+      totalTracksMin: string
+      totalTracksMax: string
+      totalDuration: string
+      totalDurationMin: string
+      totalDurationMax: string
+      lastPlayed: string
+      lastPlayedAfter: string
+      lastPlayedBefore: string
+      selectDate: string
+      sortOptions: {
+        name: string
+        releaseYear: string
+        favorites: string
+        playCount: string
+        totalTracks: string
+        totalDuration: string
+        lastPlayed: string
+        createdAt: string
+        updatedAt: string
+      }
+    }
   }
   artists: {
     title: string

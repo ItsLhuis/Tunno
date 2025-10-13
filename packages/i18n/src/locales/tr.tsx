@@ -84,6 +84,9 @@ export const turkish: Language = {
         createArtist: "Sanatçı Oluştur",
         updateArtist: "Sanatçıyı Güncelle",
         deleteArtist: "Sanatçıyı Sil",
+        createAlbum: "Albüm Oluştur",
+        updateAlbum: "Albümü Güncelle",
+        deleteAlbum: "Albümü Sil",
         createPlaylist: "Çalma Listesi Oluştur",
         updatePlaylist: "Çalma Listesini Güncelle",
         deletePlaylist: "Çalma Listesini Sil",
@@ -97,6 +100,7 @@ export const turkish: Language = {
         file: "Dosya",
         releaseYear: "Yayın Yılı",
         album: "Albüm",
+        albumType: "Albüm Türü",
         artists: "Sanatçılar",
         folder: "Klasör",
         lyrics: "Şarkı Sözleri"
@@ -147,6 +151,9 @@ export const turkish: Language = {
       },
       artists: {
         invalid: "Geçersiz sanatçılar"
+      },
+      albumType: {
+        invalid: "Geçersiz albüm türü"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const turkish: Language = {
       updatedFailedTitle: "Albüm güncellenemedi",
       deletedTitle: "Albüm başarıyla silindi",
       deletedDescription: "{name} silindi",
-      deletedFailedTitle: "Albüm silinemedi"
+      deletedFailedTitle: "Albüm silinemedi",
+      filters: {
+        title: "Filtreler",
+        clear: "Aktif filtreleri temizle",
+        sortBy: "Sırala",
+        favorites: "Sadece favoriler",
+        favoritesDescription: "Sadece favori albümleri göster",
+        albumType: "Albüm Türü",
+        all: "Tüm türler",
+        single: "Tekli",
+        album: "Albüm",
+        compilation: "Derleme",
+        releaseYear: "Yayın Yılı",
+        releaseYearMin: "Minimum yıl",
+        releaseYearMax: "Maksimum yıl",
+        playCount: "Çalma sayısı",
+        playCountMin: "Minimum çalma sayısı",
+        playCountMax: "Maksimum çalma sayısı",
+        totalTracks: "Toplam parça",
+        totalTracksMin: "Minimum parça",
+        totalTracksMax: "Maksimum parça",
+        totalDuration: "Toplam süre",
+        totalDurationMin: "Minimum süre",
+        totalDurationMax: "Maksimum süre",
+        lastPlayed: "Son çalınan",
+        lastPlayedAfter: "Çalındıktan sonra",
+        lastPlayedBefore: "Çalınmadan önce",
+        selectDate: "Tarih seç",
+        sortOptions: {
+          name: "İsim",
+          releaseYear: "Yayın Yılı",
+          favorites: "Favoriler",
+          playCount: "Çalma sayısı",
+          totalTracks: "Toplam parça",
+          totalDuration: "Toplam süre",
+          lastPlayed: "Son çalınan",
+          createdAt: "Oluşturuldu",
+          updatedAt: "Güncellendi"
+        }
+      }
     },
     artists: {
       title: "Sanatçılar",

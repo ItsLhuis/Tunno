@@ -84,6 +84,9 @@ export const norwegian: Language = {
         createArtist: "Opprett artist",
         updateArtist: "Oppdater artist",
         deleteArtist: "Slett artist",
+        createAlbum: "Opprett album",
+        updateAlbum: "Oppdater album",
+        deleteAlbum: "Slett album",
         createPlaylist: "Opprett spilleliste",
         updatePlaylist: "Oppdater spilleliste",
         deletePlaylist: "Slett spilleliste",
@@ -97,6 +100,7 @@ export const norwegian: Language = {
         file: "Fil",
         releaseYear: "Utgivelsesår",
         album: "Album",
+        albumType: "Albumtype",
         artists: "Artister",
         folder: "Mappe",
         lyrics: "Tekst"
@@ -147,6 +151,9 @@ export const norwegian: Language = {
       },
       artists: {
         invalid: "Ugyldige artister"
+      },
+      albumType: {
+        invalid: "Ugyldig albumtype"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const norwegian: Language = {
       updatedFailedTitle: "Kunne ikke oppdatere album",
       deletedTitle: "Album slettet",
       deletedDescription: "{name} er slettet",
-      deletedFailedTitle: "Kunne ikke slette album"
+      deletedFailedTitle: "Kunne ikke slette album",
+      filters: {
+        title: "Filtre",
+        clear: "Tøm aktive filtre",
+        sortBy: "Sorter etter",
+        favorites: "Kun favoritter",
+        favoritesDescription: "Vis kun favorittalbum",
+        albumType: "Albumtype",
+        all: "Alle typer",
+        single: "Single",
+        album: "Album",
+        compilation: "Samling",
+        releaseYear: "Utgivelsesår",
+        releaseYearMin: "Minimum år",
+        releaseYearMax: "Maksimum år",
+        playCount: "Avspillinger",
+        playCountMin: "Minimum avspillinger",
+        playCountMax: "Maksimum avspillinger",
+        totalTracks: "Totalt antall spor",
+        totalTracksMin: "Minimum spor",
+        totalTracksMax: "Maksimum spor",
+        totalDuration: "Total varighet",
+        totalDurationMin: "Minimum varighet",
+        totalDurationMax: "Maksimum varighet",
+        lastPlayed: "Sist spilt",
+        lastPlayedAfter: "Spilt etter",
+        lastPlayedBefore: "Spilt før",
+        selectDate: "Velg dato",
+        sortOptions: {
+          name: "Navn",
+          releaseYear: "Utgivelsesår",
+          favorites: "Favoritter",
+          playCount: "Avspillinger",
+          totalTracks: "Totalt antall spor",
+          totalDuration: "Total varighet",
+          lastPlayed: "Sist spilt",
+          createdAt: "Opprettet",
+          updatedAt: "Oppdatert"
+        }
+      }
     },
     artists: {
       title: "Artister",

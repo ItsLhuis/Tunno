@@ -84,6 +84,9 @@ export const danish: Language = {
         createArtist: "Opret Kunstner",
         updateArtist: "Opdatér Kunstner",
         deleteArtist: "Slet Kunstner",
+        createAlbum: "Opret Album",
+        updateAlbum: "Opdatér Album",
+        deleteAlbum: "Slet Album",
         createPlaylist: "Opret Afspilningsliste",
         updatePlaylist: "Opdatér Afspilningsliste",
         deletePlaylist: "Slet Afspilningsliste",
@@ -97,6 +100,7 @@ export const danish: Language = {
         file: "Fil",
         releaseYear: "Udgivelsesår",
         album: "Album",
+        albumType: "Albumtype",
         artists: "Kunstnere",
         folder: "Mappe",
         lyrics: "Sangtekster"
@@ -147,6 +151,9 @@ export const danish: Language = {
       },
       artists: {
         invalid: "Ugyldige kunstnere"
+      },
+      albumType: {
+        invalid: "Ugyldig albumtype"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const danish: Language = {
       updatedFailedTitle: "Kunne Ikke Opdatere Album",
       deletedTitle: "Album Slettet Succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Album"
+      deletedFailedTitle: "Kunne Ikke Slette Album",
+      filters: {
+        title: "Filtre",
+        clear: "Ryd aktive filtre",
+        sortBy: "Sortér efter",
+        favorites: "Kun favoritter",
+        favoritesDescription: "Vis kun favorit albums",
+        albumType: "Albumtype",
+        all: "Alle Typer",
+        single: "Single",
+        album: "Album",
+        compilation: "Samling",
+        releaseYear: "Udgivelsesår",
+        releaseYearMin: "Minimum år",
+        releaseYearMax: "Maksimum år",
+        playCount: "Afspilninger",
+        playCountMin: "Minimum afspilninger",
+        playCountMax: "Maksimum afspilninger",
+        totalTracks: "Samlet spor",
+        totalTracksMin: "Minimum spor",
+        totalTracksMax: "Maksimum spor",
+        totalDuration: "Samlet varighed",
+        totalDurationMin: "Minimum varighed",
+        totalDurationMax: "Maksimum varighed",
+        lastPlayed: "Sidst afspillet",
+        lastPlayedAfter: "Afspillet efter",
+        lastPlayedBefore: "Afspillet før",
+        selectDate: "Vælg dato",
+        sortOptions: {
+          name: "Navn",
+          releaseYear: "Udgivelsesår",
+          favorites: "Favoritter",
+          playCount: "Afspilninger",
+          totalTracks: "Samlet spor",
+          totalDuration: "Samlet varighed",
+          lastPlayed: "Sidst afspillet",
+          createdAt: "Oprettet",
+          updatedAt: "Opdateret"
+        }
+      }
     },
     artists: {
       title: "Kunstnere",

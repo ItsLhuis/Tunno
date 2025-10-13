@@ -84,6 +84,9 @@ export const dutch: Language = {
         createArtist: "Artiest aanmaken",
         updateArtist: "Artiest bijwerken",
         deleteArtist: "Artiest verwijderen",
+        createAlbum: "Album aanmaken",
+        updateAlbum: "Album bijwerken",
+        deleteAlbum: "Album verwijderen",
         createPlaylist: "Afspellijst aanmaken",
         updatePlaylist: "Afspellijst bijwerken",
         deletePlaylist: "Afspellijst verwijderen",
@@ -97,6 +100,7 @@ export const dutch: Language = {
         file: "Bestand",
         releaseYear: "Uitgavejaar",
         album: "Album",
+        albumType: "Albumtype",
         artists: "Artiesten",
         folder: "Map",
         lyrics: "Songtekst"
@@ -147,6 +151,9 @@ export const dutch: Language = {
       },
       artists: {
         invalid: "Ongeldige artiesten"
+      },
+      albumType: {
+        invalid: "Ongeldig albumtype"
       }
     },
     update: {
@@ -258,7 +265,46 @@ export const dutch: Language = {
       updatedFailedTitle: "Album bijwerken mislukt",
       deletedTitle: "Album succesvol verwijderd",
       deletedDescription: "{name} is verwijderd",
-      deletedFailedTitle: "Album verwijderen mislukt"
+      deletedFailedTitle: "Album verwijderen mislukt",
+      filters: {
+        title: "Filters",
+        clear: "Actieve filters wissen",
+        sortBy: "Sorteren op",
+        favorites: "Alleen favorieten",
+        favoritesDescription: "Toon alleen favoriete albums",
+        albumType: "Albumtype",
+        all: "Alle typen",
+        single: "Single",
+        album: "Album",
+        compilation: "Compilatie",
+        releaseYear: "Uitgavejaar",
+        releaseYearMin: "Minimum jaar",
+        releaseYearMax: "Maximum jaar",
+        playCount: "Afspeelbeurten",
+        playCountMin: "Minimum afspeelbeurten",
+        playCountMax: "Maximum afspeelbeurten",
+        totalTracks: "Totaal tracks",
+        totalTracksMin: "Minimum tracks",
+        totalTracksMax: "Maximum tracks",
+        totalDuration: "Totale duur",
+        totalDurationMin: "Minimum duur",
+        totalDurationMax: "Maximum duur",
+        lastPlayed: "Laatst afgespeeld",
+        lastPlayedAfter: "Afgespeeld na",
+        lastPlayedBefore: "Afgespeeld voor",
+        selectDate: "Selecteer datum",
+        sortOptions: {
+          name: "Naam",
+          releaseYear: "Uitgavejaar",
+          favorites: "Favorieten",
+          playCount: "Afspeelbeurten",
+          totalTracks: "Totaal tracks",
+          totalDuration: "Totale duur",
+          lastPlayed: "Laatst afgespeeld",
+          createdAt: "Aangemaakt",
+          updatedAt: "Bijgewerkt"
+        }
+      }
     },
     artists: {
       title: "Artiesten",

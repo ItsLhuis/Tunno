@@ -84,6 +84,9 @@ export const german: Language = {
         createArtist: "Künstler Erstellen",
         updateArtist: "Künstler Aktualisieren",
         deleteArtist: "Künstler Löschen",
+        createAlbum: "Album Erstellen",
+        updateAlbum: "Album Aktualisieren",
+        deleteAlbum: "Album Löschen",
         createPlaylist: "Wiedergabeliste Erstellen",
         updatePlaylist: "Wiedergabeliste Aktualisieren",
         deletePlaylist: "Wiedergabeliste Löschen",
@@ -97,6 +100,7 @@ export const german: Language = {
         file: "Datei",
         releaseYear: "Erscheinungsjahr",
         album: "Album",
+        albumType: "Albumtyp",
         artists: "Künstler",
         folder: "Ordner",
         lyrics: "Songtexte"
@@ -147,6 +151,9 @@ export const german: Language = {
       },
       artists: {
         invalid: "Ungültige Künstler"
+      },
+      albumType: {
+        invalid: "Ungültiger Albumtyp"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const german: Language = {
       updatedFailedTitle: "Album Aktualisierung Fehlgeschlagen",
       deletedTitle: "Album Erfolgreich Gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Album Löschung Fehlgeschlagen"
+      deletedFailedTitle: "Album Löschung Fehlgeschlagen",
+      filters: {
+        title: "Filter",
+        clear: "Aktive Filter löschen",
+        sortBy: "Sortieren nach",
+        favorites: "Nur Favoriten",
+        favoritesDescription: "Nur Lieblingsalben anzeigen",
+        albumType: "Albumtyp",
+        all: "Alle Typen",
+        single: "Single",
+        album: "Album",
+        compilation: "Kompilation",
+        releaseYear: "Erscheinungsjahr",
+        releaseYearMin: "Mindestjahr",
+        releaseYearMax: "Höchstjahr",
+        playCount: "Wiedergaben",
+        playCountMin: "Mindestwiedergaben",
+        playCountMax: "Höchstwiedergaben",
+        totalTracks: "Gesamte Titel",
+        totalTracksMin: "Mindesttitel",
+        totalTracksMax: "Höchsttitel",
+        totalDuration: "Gesamtdauer",
+        totalDurationMin: "Mindestdauer",
+        totalDurationMax: "Höchstdauer",
+        lastPlayed: "Zuletzt gespielt",
+        lastPlayedAfter: "Gespielt nach",
+        lastPlayedBefore: "Gespielt vor",
+        selectDate: "Datum auswählen",
+        sortOptions: {
+          name: "Name",
+          releaseYear: "Erscheinungsjahr",
+          favorites: "Favoriten",
+          playCount: "Wiedergaben",
+          totalTracks: "Gesamte Titel",
+          totalDuration: "Gesamtdauer",
+          lastPlayed: "Zuletzt gespielt",
+          createdAt: "Erstellt",
+          updatedAt: "Aktualisiert"
+        }
+      }
     },
     artists: {
       title: "Künstler",

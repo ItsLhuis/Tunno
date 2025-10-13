@@ -84,6 +84,9 @@ export const swedish: Language = {
         createArtist: "Skapa artist",
         updateArtist: "Uppdatera artist",
         deleteArtist: "Ta bort artist",
+        createAlbum: "Skapa album",
+        updateAlbum: "Uppdatera album",
+        deleteAlbum: "Ta bort album",
         createPlaylist: "Skapa spellista",
         updatePlaylist: "Uppdatera spellista",
         deletePlaylist: "Ta bort spellista",
@@ -97,6 +100,7 @@ export const swedish: Language = {
         file: "Fil",
         releaseYear: "Utgivningsår",
         album: "Album",
+        albumType: "Albumtyp",
         artists: "Artister",
         folder: "Mapp",
         lyrics: "Text"
@@ -147,6 +151,9 @@ export const swedish: Language = {
       },
       artists: {
         invalid: "Ogiltiga artister"
+      },
+      albumType: {
+        invalid: "Ogiltig albumtyp"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const swedish: Language = {
       updatedFailedTitle: "Misslyckades att uppdatera album",
       deletedTitle: "Album borttaget",
       deletedDescription: "{name} har tagits bort",
-      deletedFailedTitle: "Misslyckades att ta bort album"
+      deletedFailedTitle: "Misslyckades att ta bort album",
+      filters: {
+        title: "Filter",
+        clear: "Rensa aktiva filter",
+        sortBy: "Sortera efter",
+        favorites: "Endast favoriter",
+        favoritesDescription: "Visa endast favoritalbum",
+        albumType: "Albumtyp",
+        all: "Alla typer",
+        single: "Singel",
+        album: "Album",
+        compilation: "Samling",
+        releaseYear: "Utgivningsår",
+        releaseYearMin: "Minsta år",
+        releaseYearMax: "Största år",
+        playCount: "Uppspelningar",
+        playCountMin: "Minsta uppspelningar",
+        playCountMax: "Största uppspelningar",
+        totalTracks: "Totalt antal spår",
+        totalTracksMin: "Minsta antal spår",
+        totalTracksMax: "Största antal spår",
+        totalDuration: "Total varaktighet",
+        totalDurationMin: "Minsta varaktighet",
+        totalDurationMax: "Största varaktighet",
+        lastPlayed: "Senast spelad",
+        lastPlayedAfter: "Spelad efter",
+        lastPlayedBefore: "Spelad före",
+        selectDate: "Välj datum",
+        sortOptions: {
+          name: "Namn",
+          releaseYear: "Utgivningsår",
+          favorites: "Favoriter",
+          playCount: "Uppspelningar",
+          totalTracks: "Totalt antal spår",
+          totalDuration: "Total varaktighet",
+          lastPlayed: "Senast spelad",
+          createdAt: "Skapad",
+          updatedAt: "Uppdaterad"
+        }
+      }
     },
     artists: {
       title: "Artister",

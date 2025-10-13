@@ -84,6 +84,9 @@ export const korean: Language = {
         createArtist: "아티스트 만들기",
         updateArtist: "아티스트 업데이트",
         deleteArtist: "아티스트 삭제",
+        createAlbum: "앨범 만들기",
+        updateAlbum: "앨범 업데이트",
+        deleteAlbum: "앨범 삭제",
         createPlaylist: "재생목록 만들기",
         updatePlaylist: "재생목록 업데이트",
         deletePlaylist: "재생목록 삭제",
@@ -97,6 +100,7 @@ export const korean: Language = {
         file: "파일",
         releaseYear: "출시 연도",
         album: "앨범",
+        albumType: "앨범 유형",
         artists: "아티스트",
         folder: "폴더",
         lyrics: "가사"
@@ -147,6 +151,9 @@ export const korean: Language = {
       },
       artists: {
         invalid: "잘못된 아티스트"
+      },
+      albumType: {
+        invalid: "잘못된 앨범 유형"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const korean: Language = {
       updatedFailedTitle: "앨범 업데이트 실패",
       deletedTitle: "앨범이 성공적으로 삭제되었습니다",
       deletedDescription: "{name} 이(가) 삭제되었습니다",
-      deletedFailedTitle: "앨범 삭제 실패"
+      deletedFailedTitle: "앨범 삭제 실패",
+      filters: {
+        title: "필터",
+        clear: "활성 필터 지우기",
+        sortBy: "정렬 기준",
+        favorites: "즐겨찾기만",
+        favoritesDescription: "즐겨찾기 앨범만 표시",
+        albumType: "앨범 유형",
+        all: "모든 유형",
+        single: "싱글",
+        album: "앨범",
+        compilation: "컴필레이션",
+        releaseYear: "출시 연도",
+        releaseYearMin: "최소 연도",
+        releaseYearMax: "최대 연도",
+        playCount: "재생 횟수",
+        playCountMin: "최소 재생 횟수",
+        playCountMax: "최대 재생 횟수",
+        totalTracks: "총 트랙 수",
+        totalTracksMin: "최소 트랙 수",
+        totalTracksMax: "최대 트랙 수",
+        totalDuration: "총 재생 시간",
+        totalDurationMin: "최소 재생 시간",
+        totalDurationMax: "최대 재생 시간",
+        lastPlayed: "마지막 재생",
+        lastPlayedAfter: "재생 후",
+        lastPlayedBefore: "재생 전",
+        selectDate: "날짜 선택",
+        sortOptions: {
+          name: "이름",
+          releaseYear: "출시 연도",
+          favorites: "즐겨찾기",
+          playCount: "재생 횟수",
+          totalTracks: "총 트랙 수",
+          totalDuration: "총 재생 시간",
+          lastPlayed: "마지막 재생",
+          createdAt: "생성됨",
+          updatedAt: "업데이트됨"
+        }
+      }
     },
     artists: {
       title: "아티스트",

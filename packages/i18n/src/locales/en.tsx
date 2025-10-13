@@ -84,6 +84,9 @@ export const english: Language = {
         createArtist: "Create Artist",
         updateArtist: "Update Artist",
         deleteArtist: "Delete Artist",
+        createAlbum: "Create Album",
+        updateAlbum: "Update Album",
+        deleteAlbum: "Delete Album",
         createPlaylist: "Create Playlist",
         updatePlaylist: "Update Playlist",
         deletePlaylist: "Delete Playlist",
@@ -97,6 +100,7 @@ export const english: Language = {
         file: "File",
         releaseYear: "Release year",
         album: "Album",
+        albumType: "Album type",
         artists: "Artists",
         folder: "Folder",
         lyrics: "Lyrics"
@@ -147,6 +151,9 @@ export const english: Language = {
       },
       artists: {
         invalid: "Invalid artists"
+      },
+      albumType: {
+        invalid: "Invalid album type"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const english: Language = {
       updatedFailedTitle: "Failed to Update Album",
       deletedTitle: "Album Deleted Successfully",
       deletedDescription: "{name} has been deleted",
-      deletedFailedTitle: "Failed to Delete Album"
+      deletedFailedTitle: "Failed to Delete Album",
+      filters: {
+        title: "Filters",
+        clear: "Clear active filters",
+        sortBy: "Sort by",
+        favorites: "Favorites only",
+        favoritesDescription: "Show only favorite albums",
+        albumType: "Album type",
+        all: "All Types",
+        single: "Single",
+        album: "Album",
+        compilation: "Compilation",
+        releaseYear: "Release year",
+        releaseYearMin: "Minimum",
+        releaseYearMax: "Maximum",
+        playCount: "Play count",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        totalTracks: "Total songs",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maximum",
+        totalDuration: "Total duration",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maximum",
+        lastPlayed: "Last played",
+        lastPlayedAfter: "After",
+        lastPlayedBefore: "Before",
+        selectDate: "Select date",
+        sortOptions: {
+          name: "Name",
+          favorites: "Favorites",
+          playCount: "Play count",
+          totalTracks: "Total songs",
+          totalDuration: "Total duration",
+          lastPlayed: "Last played",
+          createdAt: "Creation date",
+          updatedAt: "Update date",
+          releaseYear: "Release year"
+        }
+      }
     },
     artists: {
       title: "Artists",

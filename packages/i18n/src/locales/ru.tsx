@@ -84,6 +84,9 @@ export const russian: Language = {
         createArtist: "Создать исполнителя",
         updateArtist: "Обновить исполнителя",
         deleteArtist: "Удалить исполнителя",
+        createAlbum: "Создать альбом",
+        updateAlbum: "Обновить альбом",
+        deleteAlbum: "Удалить альбом",
         createPlaylist: "Создать плейлист",
         updatePlaylist: "Обновить плейлист",
         deletePlaylist: "Удалить плейлист",
@@ -97,6 +100,7 @@ export const russian: Language = {
         file: "Файл",
         releaseYear: "Год выпуска",
         album: "Альбом",
+        albumType: "Тип альбома",
         artists: "Исполнители",
         folder: "Папка",
         lyrics: "Текст песни"
@@ -147,6 +151,9 @@ export const russian: Language = {
       },
       artists: {
         invalid: "Недопустимые исполнители"
+      },
+      albumType: {
+        invalid: "Недопустимый тип альбома"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const russian: Language = {
       updatedFailedTitle: "Не удалось обновить альбом",
       deletedTitle: "Альбом успешно удалён",
       deletedDescription: "{name} удалён",
-      deletedFailedTitle: "Не удалось удалить альбом"
+      deletedFailedTitle: "Не удалось удалить альбом",
+      filters: {
+        title: "Фильтры",
+        clear: "Очистить активные фильтры",
+        sortBy: "Сортировать по",
+        favorites: "Только избранные",
+        favoritesDescription: "Показать только избранные альбомы",
+        albumType: "Тип альбома",
+        all: "Все типы",
+        single: "Сингл",
+        album: "Альбом",
+        compilation: "Сборник",
+        releaseYear: "Год выпуска",
+        releaseYearMin: "Минимальный год",
+        releaseYearMax: "Максимальный год",
+        playCount: "Количество воспроизведений",
+        playCountMin: "Минимальное количество воспроизведений",
+        playCountMax: "Максимальное количество воспроизведений",
+        totalTracks: "Общее количество треков",
+        totalTracksMin: "Минимальное количество треков",
+        totalTracksMax: "Максимальное количество треков",
+        totalDuration: "Общая продолжительность",
+        totalDurationMin: "Минимальная продолжительность",
+        totalDurationMax: "Максимальная продолжительность",
+        lastPlayed: "Последнее воспроизведение",
+        lastPlayedAfter: "Воспроизведено после",
+        lastPlayedBefore: "Воспроизведено до",
+        selectDate: "Выбрать дату",
+        sortOptions: {
+          name: "Имя",
+          releaseYear: "Год выпуска",
+          favorites: "Избранные",
+          playCount: "Количество воспроизведений",
+          totalTracks: "Общее количество треков",
+          totalDuration: "Общая продолжительность",
+          lastPlayed: "Последнее воспроизведение",
+          createdAt: "Создано",
+          updatedAt: "Обновлено"
+        }
+      }
     },
     artists: {
       title: "Исполнители",

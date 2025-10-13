@@ -84,6 +84,9 @@ export const japanese: Language = {
         createArtist: "アーティストを作成",
         updateArtist: "アーティストを更新",
         deleteArtist: "アーティストを削除",
+        createAlbum: "アルバムを作成",
+        updateAlbum: "アルバムを更新",
+        deleteAlbum: "アルバムを削除",
         createPlaylist: "プレイリストを作成",
         updatePlaylist: "プレイリストを更新",
         deletePlaylist: "プレイリストを削除",
@@ -97,6 +100,7 @@ export const japanese: Language = {
         file: "ファイル",
         releaseYear: "リリース年",
         album: "アルバム",
+        albumType: "アルバムタイプ",
         artists: "アーティスト",
         folder: "フォルダ",
         lyrics: "歌詞"
@@ -147,6 +151,9 @@ export const japanese: Language = {
       },
       artists: {
         invalid: "無効なアーティスト"
+      },
+      albumType: {
+        invalid: "無効なアルバムタイプ"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const japanese: Language = {
       updatedFailedTitle: "アルバムの更新に失敗しました",
       deletedTitle: "アルバムが正常に削除されました",
       deletedDescription: "{name} が削除されました",
-      deletedFailedTitle: "アルバムの削除に失敗しました"
+      deletedFailedTitle: "アルバムの削除に失敗しました",
+      filters: {
+        title: "フィルター",
+        clear: "アクティブなフィルターをクリア",
+        sortBy: "並び替え",
+        favorites: "お気に入りのみ",
+        favoritesDescription: "お気に入りのアルバムのみ表示",
+        albumType: "アルバムタイプ",
+        all: "すべてのタイプ",
+        single: "シングル",
+        album: "アルバム",
+        compilation: "コンピレーション",
+        releaseYear: "リリース年",
+        releaseYearMin: "最小年",
+        releaseYearMax: "最大年",
+        playCount: "再生回数",
+        playCountMin: "最小再生回数",
+        playCountMax: "最大再生回数",
+        totalTracks: "総トラック数",
+        totalTracksMin: "最小トラック数",
+        totalTracksMax: "最大トラック数",
+        totalDuration: "総再生時間",
+        totalDurationMin: "最小再生時間",
+        totalDurationMax: "最大再生時間",
+        lastPlayed: "最後に再生",
+        lastPlayedAfter: "再生後",
+        lastPlayedBefore: "再生前",
+        selectDate: "日付を選択",
+        sortOptions: {
+          name: "名前",
+          releaseYear: "リリース年",
+          favorites: "お気に入り",
+          playCount: "再生回数",
+          totalTracks: "総トラック数",
+          totalDuration: "総再生時間",
+          lastPlayed: "最後に再生",
+          createdAt: "作成日",
+          updatedAt: "更新日"
+        }
+      }
     },
     artists: {
       title: "アーティスト",

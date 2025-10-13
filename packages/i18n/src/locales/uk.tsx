@@ -84,6 +84,9 @@ export const ukrainian: Language = {
         createArtist: "Створити виконавця",
         updateArtist: "Оновити виконавця",
         deleteArtist: "Видалити виконавця",
+        createAlbum: "Створити альбом",
+        updateAlbum: "Оновити альбом",
+        deleteAlbum: "Видалити альбом",
         createPlaylist: "Створити плейлист",
         updatePlaylist: "Оновити плейлист",
         deletePlaylist: "Видалити плейлист",
@@ -97,6 +100,7 @@ export const ukrainian: Language = {
         file: "Файл",
         releaseYear: "Рік випуску",
         album: "Альбом",
+        albumType: "Тип альбому",
         artists: "Виконавці",
         folder: "Папка",
         lyrics: "Текст пісні"
@@ -147,6 +151,9 @@ export const ukrainian: Language = {
       },
       artists: {
         invalid: "Недійсні виконавці"
+      },
+      albumType: {
+        invalid: "Недійсний тип альбому"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const ukrainian: Language = {
       updatedFailedTitle: "Не вдалося оновити альбом",
       deletedTitle: "Альбом успішно видалено",
       deletedDescription: "{name} видалено",
-      deletedFailedTitle: "Не вдалося видалити альбом"
+      deletedFailedTitle: "Не вдалося видалити альбом",
+      filters: {
+        title: "Фільтри",
+        clear: "Очистити активні фільтри",
+        sortBy: "Сортувати за",
+        favorites: "Тільки улюблені",
+        favoritesDescription: "Показати тільки улюблені альбоми",
+        albumType: "Тип альбому",
+        all: "Всі типи",
+        single: "Сингл",
+        album: "Альбом",
+        compilation: "Збірка",
+        releaseYear: "Рік випуску",
+        releaseYearMin: "Мінімальний рік",
+        releaseYearMax: "Максимальний рік",
+        playCount: "Кількість відтворень",
+        playCountMin: "Мінімальна кількість відтворень",
+        playCountMax: "Максимальна кількість відтворень",
+        totalTracks: "Загальна кількість треків",
+        totalTracksMin: "Мінімальна кількість треків",
+        totalTracksMax: "Максимальна кількість треків",
+        totalDuration: "Загальна тривалість",
+        totalDurationMin: "Мінімальна тривалість",
+        totalDurationMax: "Максимальна тривалість",
+        lastPlayed: "Останнє відтворення",
+        lastPlayedAfter: "Відтворено після",
+        lastPlayedBefore: "Відтворено до",
+        selectDate: "Вибрати дату",
+        sortOptions: {
+          name: "Ім'я",
+          releaseYear: "Рік випуску",
+          favorites: "Улюблені",
+          playCount: "Кількість відтворень",
+          totalTracks: "Загальна кількість треків",
+          totalDuration: "Загальна тривалість",
+          lastPlayed: "Останнє відтворення",
+          createdAt: "Створено",
+          updatedAt: "Оновлено"
+        }
+      }
     },
     artists: {
       title: "Виконавці",

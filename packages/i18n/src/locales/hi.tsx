@@ -84,6 +84,9 @@ export const hindi: Language = {
         createArtist: "कलाकार बनाएं",
         updateArtist: "कलाकार अपडेट करें",
         deleteArtist: "कलाकार हटाएं",
+        createAlbum: "एल्बम बनाएं",
+        updateAlbum: "एल्बम अपडेट करें",
+        deleteAlbum: "एल्बम हटाएं",
         createPlaylist: "प्लेलिस्ट बनाएं",
         updatePlaylist: "प्लेलिस्ट अपडेट करें",
         deletePlaylist: "प्लेलिस्ट हटाएं",
@@ -97,6 +100,7 @@ export const hindi: Language = {
         file: "फ़ाइल",
         releaseYear: "रिलीज़ वर्ष",
         album: "एल्बम",
+        albumType: "एल्बम प्रकार",
         artists: "कलाकार",
         folder: "फ़ोल्डर",
         lyrics: "गीत"
@@ -147,6 +151,9 @@ export const hindi: Language = {
       },
       artists: {
         invalid: "अमान्य कलाकार"
+      },
+      albumType: {
+        invalid: "अमान्य एल्बम प्रकार"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const hindi: Language = {
       updatedFailedTitle: "एल्बम अपडेट करने में विफल",
       deletedTitle: "एल्बम सफलतापूर्वक हटाया गया",
       deletedDescription: "{name} हटाया गया है",
-      deletedFailedTitle: "एल्बम हटाने में विफल"
+      deletedFailedTitle: "एल्बम हटाने में विफल",
+      filters: {
+        title: "फ़िल्टर",
+        clear: "सक्रिय फ़िल्टर साफ़ करें",
+        sortBy: "इसके अनुसार क्रमबद्ध करें",
+        favorites: "केवल पसंदीदा",
+        favoritesDescription: "केवल पसंदीदा एल्बम दिखाएं",
+        albumType: "एल्बम प्रकार",
+        all: "सभी प्रकार",
+        single: "सिंगल",
+        album: "एल्बम",
+        compilation: "संकलन",
+        releaseYear: "रिलीज़ वर्ष",
+        releaseYearMin: "न्यूनतम वर्ष",
+        releaseYearMax: "अधिकतम वर्ष",
+        playCount: "बजाने की संख्या",
+        playCountMin: "न्यूनतम बजाने की संख्या",
+        playCountMax: "अधिकतम बजाने की संख्या",
+        totalTracks: "कुल ट्रैक",
+        totalTracksMin: "न्यूनतम ट्रैक",
+        totalTracksMax: "अधिकतम ट्रैक",
+        totalDuration: "कुल अवधि",
+        totalDurationMin: "न्यूनतम अवधि",
+        totalDurationMax: "अधिकतम अवधि",
+        lastPlayed: "अंतिम बजाया गया",
+        lastPlayedAfter: "बजाया गया के बाद",
+        lastPlayedBefore: "बजाया गया से पहले",
+        selectDate: "तारीख चुनें",
+        sortOptions: {
+          name: "नाम",
+          releaseYear: "रिलीज़ वर्ष",
+          favorites: "पसंदीदा",
+          playCount: "बजाने की संख्या",
+          totalTracks: "कुल ट्रैक",
+          totalDuration: "कुल अवधि",
+          lastPlayed: "अंतिम बजाया गया",
+          createdAt: "बनाया गया",
+          updatedAt: "अपडेट किया गया"
+        }
+      }
     },
     artists: {
       title: "कलाकार",

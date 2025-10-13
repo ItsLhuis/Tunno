@@ -84,6 +84,9 @@ export const vietnamese: Language = {
         createArtist: "Tạo nghệ sĩ",
         updateArtist: "Cập nhật nghệ sĩ",
         deleteArtist: "Xóa nghệ sĩ",
+        createAlbum: "Tạo album",
+        updateAlbum: "Cập nhật album",
+        deleteAlbum: "Xóa album",
         createPlaylist: "Tạo danh sách phát",
         updatePlaylist: "Cập nhật danh sách phát",
         deletePlaylist: "Xóa danh sách phát",
@@ -97,6 +100,7 @@ export const vietnamese: Language = {
         file: "Tệp",
         releaseYear: "Năm phát hành",
         album: "Album",
+        albumType: "Loại album",
         artists: "Nghệ sĩ",
         folder: "Thư mục",
         lyrics: "Lời bài hát"
@@ -147,6 +151,9 @@ export const vietnamese: Language = {
       },
       artists: {
         invalid: "Nghệ sĩ không hợp lệ"
+      },
+      albumType: {
+        invalid: "Loại album không hợp lệ"
       }
     },
     update: {
@@ -257,7 +264,46 @@ export const vietnamese: Language = {
       updatedFailedTitle: "Cập nhật album thất bại",
       deletedTitle: "Xóa album thành công",
       deletedDescription: "{name} đã bị xóa",
-      deletedFailedTitle: "Xóa album thất bại"
+      deletedFailedTitle: "Xóa album thất bại",
+      filters: {
+        title: "Bộ lọc",
+        clear: "Xóa bộ lọc đang hoạt động",
+        sortBy: "Sắp xếp theo",
+        favorites: "Chỉ yêu thích",
+        favoritesDescription: "Chỉ hiển thị album yêu thích",
+        albumType: "Loại album",
+        all: "Tất cả loại",
+        single: "Đĩa đơn",
+        album: "Album",
+        compilation: "Tuyển tập",
+        releaseYear: "Năm phát hành",
+        releaseYearMin: "Năm tối thiểu",
+        releaseYearMax: "Năm tối đa",
+        playCount: "Số lần phát",
+        playCountMin: "Số lần phát tối thiểu",
+        playCountMax: "Số lần phát tối đa",
+        totalTracks: "Tổng số bài hát",
+        totalTracksMin: "Số bài hát tối thiểu",
+        totalTracksMax: "Số bài hát tối đa",
+        totalDuration: "Tổng thời lượng",
+        totalDurationMin: "Thời lượng tối thiểu",
+        totalDurationMax: "Thời lượng tối đa",
+        lastPlayed: "Lần phát cuối",
+        lastPlayedAfter: "Phát sau",
+        lastPlayedBefore: "Phát trước",
+        selectDate: "Chọn ngày",
+        sortOptions: {
+          name: "Tên",
+          releaseYear: "Năm phát hành",
+          favorites: "Yêu thích",
+          playCount: "Số lần phát",
+          totalTracks: "Tổng số bài hát",
+          totalDuration: "Tổng thời lượng",
+          lastPlayed: "Lần phát cuối",
+          createdAt: "Đã tạo",
+          updatedAt: "Đã cập nhật"
+        }
+      }
     },
     artists: {
       title: "Nghệ sĩ",

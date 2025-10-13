@@ -84,6 +84,9 @@ export const spanish: Language = {
         createArtist: "Crear artista",
         updateArtist: "Actualizar artista",
         deleteArtist: "Eliminar artista",
+        createAlbum: "Crear álbum",
+        updateAlbum: "Actualizar álbum",
+        deleteAlbum: "Eliminar álbum",
         createPlaylist: "Crear lista de reproducción",
         updatePlaylist: "Actualizar lista de reproducción",
         deletePlaylist: "Eliminar lista de reproducción",
@@ -97,6 +100,7 @@ export const spanish: Language = {
         file: "Archivo",
         releaseYear: "Año de lanzamiento",
         album: "Álbum",
+        albumType: "Tipo de álbum",
         artists: "Artistas",
         folder: "Carpeta",
         lyrics: "Letras"
@@ -147,6 +151,9 @@ export const spanish: Language = {
       },
       artists: {
         invalid: "Artistas no válidos"
+      },
+      albumType: {
+        invalid: "Tipo de álbum no válido"
       }
     },
     update: {
@@ -258,7 +265,46 @@ export const spanish: Language = {
       updatedFailedTitle: "Error al actualizar el álbum",
       deletedTitle: "Álbum eliminado con éxito",
       deletedDescription: "{name} ha sido eliminado",
-      deletedFailedTitle: "Error al eliminar el álbum"
+      deletedFailedTitle: "Error al eliminar el álbum",
+      filters: {
+        title: "Filtros",
+        clear: "Limpiar filtros activos",
+        sortBy: "Ordenar por",
+        favorites: "Solo favoritos",
+        favoritesDescription: "Mostrar solo álbumes favoritos",
+        albumType: "Tipo de álbum",
+        all: "Todos los tipos",
+        single: "Single",
+        album: "Álbum",
+        compilation: "Compilación",
+        releaseYear: "Año de lanzamiento",
+        releaseYearMin: "Año mínimo",
+        releaseYearMax: "Año máximo",
+        playCount: "Reproducciones",
+        playCountMin: "Reproducciones mínimas",
+        playCountMax: "Reproducciones máximas",
+        totalTracks: "Total de pistas",
+        totalTracksMin: "Pistas mínimas",
+        totalTracksMax: "Pistas máximas",
+        totalDuration: "Duración total",
+        totalDurationMin: "Duración mínima",
+        totalDurationMax: "Duración máxima",
+        lastPlayed: "Última reproducción",
+        lastPlayedAfter: "Reproducido después de",
+        lastPlayedBefore: "Reproducido antes de",
+        selectDate: "Seleccionar fecha",
+        sortOptions: {
+          name: "Nombre",
+          releaseYear: "Año de lanzamiento",
+          favorites: "Favoritos",
+          playCount: "Reproducciones",
+          totalTracks: "Total de pistas",
+          totalDuration: "Duración total",
+          lastPlayed: "Última reproducción",
+          createdAt: "Creado",
+          updatedAt: "Actualizado"
+        }
+      }
     },
     artists: {
       title: "Artistas",
