@@ -99,7 +99,7 @@ const SongItem = memo(
       <SongActions variant="context" song={song}>
         <div
           className={cn(
-            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent",
+            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
             gridCols,
             selected && "bg-accent"
           )}
@@ -110,7 +110,7 @@ const SongItem = memo(
             </div>
           )}
           <div className="relative flex items-center justify-center">
-            <div className="z-10 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <IconButton
                 name={isCurrentlyPlaying ? "Pause" : "Play"}
                 tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
@@ -119,7 +119,10 @@ const SongItem = memo(
               />
             </div>
             <Fade show={isCurrentlyPlaying} className="absolute z-0 size-5">
-              <Lottie animationData={PlayingLottie} className="group-hover:opacity-0" />
+              <Lottie
+                animationData={PlayingLottie}
+                className="group-focus-within:opacity-0 group-hover:opacity-0"
+              />
             </Fade>
           </div>
           <div className="flex flex-1 items-center gap-3 truncate">
@@ -168,7 +171,7 @@ const SongItem = memo(
             <Typography className="truncate">{formatTime(song.duration)}</Typography>
           </div>
           <div className="flex items-center justify-center">
-            <div className="opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <SongActions song={song} />
             </div>
           </div>

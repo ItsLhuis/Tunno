@@ -145,9 +145,9 @@ const ArtistsList = () => {
       )}
       layout={viewMode}
       gridBreakpoints={{
-        xs: 2,
-        sm: 2,
-        md: 3,
+        xs: 3,
+        sm: 3,
+        md: 4,
         lg: 4,
         xl: 5,
         "2xl": 6

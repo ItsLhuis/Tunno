@@ -58,7 +58,7 @@ const ArtistItem = memo(
     if (variant === "card") {
       return (
         <ArtistActions variant="context" artist={artist}>
-          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors hover:bg-accent">
+          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
             <div className="mb-3 h-full w-full">
               <Thumbnail
                 placeholderIcon="User"
@@ -78,7 +78,7 @@ const ArtistItem = memo(
                 {formatDuration(artist.totalDuration, t)}
               </Typography>
             </Marquee>
-            <div className="absolute bottom-10 left-2 right-2 z-10 flex justify-between opacity-0 transition-all group-hover:opacity-100">
+            <div className="absolute bottom-10 left-2 right-2 z-10 flex justify-between opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"
@@ -110,7 +110,7 @@ const ArtistItem = memo(
       <ArtistActions variant="context" artist={artist}>
         <div
           className={cn(
-            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors hover:bg-accent",
+            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
             gridCols,
             selected && "bg-accent"
           )}
@@ -121,7 +121,7 @@ const ArtistItem = memo(
             </div>
           )}
           <div className="relative flex items-center justify-center">
-            <div className="z-10 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <IconButton
                 name="Play"
                 tooltip={canPlay ? t("common.play") : "No songs available"}
@@ -169,7 +169,7 @@ const ArtistItem = memo(
             </Typography>
           </div>
           <div className="flex items-center justify-center">
-            <div className="opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <ArtistActions artist={artist} />
             </div>
           </div>
