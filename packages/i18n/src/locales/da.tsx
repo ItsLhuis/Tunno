@@ -21,7 +21,7 @@ export const danish: Language = {
       minutes: "{count} minut{count, plural, one {} other{ter}}",
       seconds: "{count} sekund{count, plural, one {} other{er}}",
       goBack: "Gå tilbage",
-      goFoward: "Gå fremad",
+      goForward: "Gå fremad",
       favorite: "Tilføj til favoritter",
       unfavorite: "Fjern favorit",
       enableShuffle: "Aktivér bland",
@@ -54,7 +54,7 @@ export const danish: Language = {
       playNext: "Afspil næste",
       actions: "Handlinger",
       addTo: "Tilføj til",
-      playlist: "Afspilningsliste",
+      playlist: "Playlist",
       song: "Sang",
       lyrics: "Sangtekster",
       openMiniplayer: "Åbn miniafspiller",
@@ -88,9 +88,9 @@ export const danish: Language = {
         createAlbum: "Opret Album",
         updateAlbum: "Opdatér Album",
         deleteAlbum: "Slet Album",
-        createPlaylist: "Opret Afspilningsliste",
-        updatePlaylist: "Opdatér Afspilningsliste",
-        deletePlaylist: "Slet Afspilningsliste",
+        createPlaylist: "Opret Playlist",
+        updatePlaylist: "Opdatér Playlist",
+        deletePlaylist: "Slet Playlist",
         confirmation: "Bekræftelse",
         warning: "Advarsel",
         lyricsPreview: "Forhåndsvisning Af Sangtekster"
@@ -171,7 +171,7 @@ export const danish: Language = {
         title: "Sange"
       },
       playlists: {
-        title: "Afspilningslister"
+        title: "Playlists"
       },
       albums: {
         title: "Albums"
@@ -244,22 +244,22 @@ export const danish: Language = {
       }
     },
     playlists: {
-      title: "Afspilningslister",
-      createdTitle: "Afspilningsliste Oprettet Succesfuldt",
+      title: "Playlists",
+      createdTitle: "Playlist Oprettet Succesfuldt",
       createdDescription: "{name} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Afspilningsliste",
-      updatedTitle: "Afspilningsliste Opdateret Succesfuldt",
+      createdFailedTitle: "Kunne Ikke Oprette Playlist",
+      updatedTitle: "Playlist Opdateret Succesfuldt",
       updatedDescription: "{name} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Afspilningsliste",
-      deletedTitle: "Afspilningsliste Slettet Succesfuldt",
+      updatedFailedTitle: "Kunne Ikke Opdatere Playlist",
+      deletedTitle: "Playlist Slettet Succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Afspilningsliste",
+      deletedFailedTitle: "Kunne Ikke Slette Playlist",
       filters: {
         title: "Filtre",
         clear: "Ryd aktive filtre",
         sortBy: "Sortér efter",
         favorites: "Kun favoritter",
-        favoritesDescription: "Vis kun favorit afspilningslister",
+        favoritesDescription: "Vis kun favorit playlists",
         playCount: "Afspilninger",
         playCountMin: "Minimum afspilninger",
         playCountMax: "Maksimum afspilninger",

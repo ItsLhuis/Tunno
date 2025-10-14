@@ -21,7 +21,7 @@ export const korean: Language = {
       minutes: "{count}분",
       seconds: "{count}초",
       goBack: "뒤로 가기",
-      goFoward: "앞으로 가기",
+      goForward: "앞으로 가기",
       favorite: "즐겨찾기에 추가",
       unfavorite: "즐겨찾기 해제",
       enableShuffle: "셔플 활성화",
@@ -54,7 +54,7 @@ export const korean: Language = {
       playNext: "다음 재생",
       actions: "작업",
       addTo: "추가",
-      playlist: "재생목록",
+      playlist: "플레이리스트",
       song: "노래",
       lyrics: "가사",
       openMiniplayer: "미니플레이어 열기",
@@ -88,9 +88,9 @@ export const korean: Language = {
         createAlbum: "앨범 만들기",
         updateAlbum: "앨범 업데이트",
         deleteAlbum: "앨범 삭제",
-        createPlaylist: "재생목록 만들기",
-        updatePlaylist: "재생목록 업데이트",
-        deletePlaylist: "재생목록 삭제",
+        createPlaylist: "플레이리스트 만들기",
+        updatePlaylist: "플레이리스트 업데이트",
+        deletePlaylist: "플레이리스트 삭제",
         confirmation: "확인",
         warning: "경고",
         lyricsPreview: "가사 미리보기"
@@ -171,7 +171,7 @@ export const korean: Language = {
         title: "노래"
       },
       playlists: {
-        title: "재생목록"
+        title: "플레이리스트"
       },
       albums: {
         title: "앨범"
@@ -244,22 +244,22 @@ export const korean: Language = {
       }
     },
     playlists: {
-      title: "재생목록",
-      createdTitle: "재생목록이 성공적으로 생성되었습니다",
+      title: "플레이리스트",
+      createdTitle: "플레이리스트가 성공적으로 생성되었습니다",
       createdDescription: "{name} 이(가) 생성되었습니다",
-      createdFailedTitle: "재생목록 생성 실패",
-      updatedTitle: "재생목록이 성공적으로 업데이트되었습니다",
+      createdFailedTitle: "플레이리스트 생성 실패",
+      updatedTitle: "플레이리스트가 성공적으로 업데이트되었습니다",
       updatedDescription: "{name} 이(가) 업데이트되었습니다",
-      updatedFailedTitle: "재생목록 업데이트 실패",
-      deletedTitle: "재생목록이 성공적으로 삭제되었습니다",
+      updatedFailedTitle: "플레이리스트 업데이트 실패",
+      deletedTitle: "플레이리스트가 성공적으로 삭제되었습니다",
       deletedDescription: "{name} 이(가) 삭제되었습니다",
-      deletedFailedTitle: "재생목록 삭제 실패",
+      deletedFailedTitle: "플레이리스트 삭제 실패",
       filters: {
         title: "필터",
         clear: "활성 필터 지우기",
         sortBy: "정렬 기준",
         favorites: "즐겨찾기만",
-        favoritesDescription: "즐겨찾기 재생목록만 표시",
+        favoritesDescription: "즐겨찾기 플레이리스트만 표시",
         playCount: "재생 횟수",
         playCountMin: "최소 재생 횟수",
         playCountMax: "최대 재생 횟수",

@@ -21,7 +21,7 @@ export const vietnamese: Language = {
       minutes: "{count} phút",
       seconds: "{count} giây",
       goBack: "Quay lại",
-      goFoward: "Tiến tới",
+      goForward: "Tiến tới",
       favorite: "Thêm vào yêu thích",
       unfavorite: "Bỏ yêu thích",
       enableShuffle: "Bật phát ngẫu nhiên",
@@ -54,7 +54,7 @@ export const vietnamese: Language = {
       playNext: "Phát tiếp theo",
       actions: "Hành động",
       addTo: "Thêm vào",
-      playlist: "Danh sách phát",
+      playlist: "Playlist",
       song: "Bài hát",
       lyrics: "Lời bài hát",
       openMiniplayer: "Mở trình phát nhỏ",
@@ -62,7 +62,7 @@ export const vietnamese: Language = {
       exitFullScreen: "Thoát toàn màn hình",
       goToSong: "Đến bài hát",
       goToAlbum: "Đến album",
-      goToPlaylist: "Đến danh sách phát",
+      goToPlaylist: "Đến playlist",
       goToArtist: "Đến nghệ sĩ",
       shuffleAndPlay: "Trộn và phát",
       unknown: "Không xác định",
@@ -88,9 +88,9 @@ export const vietnamese: Language = {
         createAlbum: "Tạo album",
         updateAlbum: "Cập nhật album",
         deleteAlbum: "Xóa album",
-        createPlaylist: "Tạo danh sách phát",
-        updatePlaylist: "Cập nhật danh sách phát",
-        deletePlaylist: "Xóa danh sách phát",
+        createPlaylist: "Tạo playlist",
+        updatePlaylist: "Cập nhật playlist",
+        deletePlaylist: "Xóa playlist",
         confirmation: "Xác nhận",
         warning: "Cảnh báo",
         lyricsPreview: "Xem trước lời bài hát"
@@ -171,7 +171,7 @@ export const vietnamese: Language = {
         title: "Bài hát"
       },
       playlists: {
-        title: "Danh sách phát"
+        title: "Playlists"
       },
       albums: {
         title: "Album"
@@ -244,22 +244,22 @@ export const vietnamese: Language = {
       }
     },
     playlists: {
-      title: "Danh sách phát",
-      createdTitle: "Tạo danh sách phát thành công",
+      title: "Playlists",
+      createdTitle: "Tạo playlist thành công",
       createdDescription: "{name} đã được tạo",
-      createdFailedTitle: "Tạo danh sách phát thất bại",
-      updatedTitle: "Cập nhật danh sách phát thành công",
+      createdFailedTitle: "Tạo playlist thất bại",
+      updatedTitle: "Cập nhật playlist thành công",
       updatedDescription: "{name} đã được cập nhật",
-      updatedFailedTitle: "Cập nhật danh sách phát thất bại",
-      deletedTitle: "Xóa danh sách phát thành công",
+      updatedFailedTitle: "Cập nhật playlist thất bại",
+      deletedTitle: "Xóa playlist thành công",
       deletedDescription: "{name} đã bị xóa",
-      deletedFailedTitle: "Xóa danh sách phát thất bại",
+      deletedFailedTitle: "Xóa playlist thất bại",
       filters: {
         title: "Bộ lọc",
         clear: "Xóa bộ lọc đang hoạt động",
         sortBy: "Sắp xếp theo",
         favorites: "Chỉ yêu thích",
-        favoritesDescription: "Chỉ hiển thị danh sách phát yêu thích",
+        favoritesDescription: "Chỉ hiển thị playlist yêu thích",
         playCount: "Số lần phát",
         playCountMin: "Số lần phát tối thiểu",
         playCountMax: "Số lần phát tối đa",

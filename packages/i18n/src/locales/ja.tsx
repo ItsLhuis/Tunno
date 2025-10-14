@@ -21,7 +21,7 @@ export const japanese: Language = {
       minutes: "{count}分",
       seconds: "{count}秒",
       goBack: "戻る",
-      goFoward: "進む",
+      goForward: "進む",
       favorite: "お気に入りに追加",
       unfavorite: "お気に入り解除",
       enableShuffle: "シャッフルを有効にする",
@@ -54,7 +54,7 @@ export const japanese: Language = {
       playNext: "次を再生",
       actions: "アクション",
       addTo: "追加",
-      playlist: "プレイリスト",
+      playlist: "再生リスト",
       song: "楽曲",
       lyrics: "歌詞",
       openMiniplayer: "ミニプレーヤーを開く",
@@ -62,7 +62,7 @@ export const japanese: Language = {
       exitFullScreen: "フルスクリーンを終了",
       goToSong: "楽曲に移動",
       goToAlbum: "アルバムに移動",
-      goToPlaylist: "プレイリストに移動",
+      goToPlaylist: "再生リストに移動",
       goToArtist: "アーティストに移動",
       shuffleAndPlay: "シャッフルして再生",
       unknown: "不明",
@@ -88,9 +88,9 @@ export const japanese: Language = {
         createAlbum: "アルバムを作成",
         updateAlbum: "アルバムを更新",
         deleteAlbum: "アルバムを削除",
-        createPlaylist: "プレイリストを作成",
-        updatePlaylist: "プレイリストを更新",
-        deletePlaylist: "プレイリストを削除",
+        createPlaylist: "再生リストを作成",
+        updatePlaylist: "再生リストを更新",
+        deletePlaylist: "再生リストを削除",
         confirmation: "確認",
         warning: "警告",
         lyricsPreview: "歌詞プレビュー"
@@ -171,7 +171,7 @@ export const japanese: Language = {
         title: "曲"
       },
       playlists: {
-        title: "プレイリスト"
+        title: "再生リスト"
       },
       albums: {
         title: "アルバム"
@@ -244,22 +244,22 @@ export const japanese: Language = {
       }
     },
     playlists: {
-      title: "プレイリスト",
-      createdTitle: "プレイリストが正常に作成されました",
+      title: "再生リスト",
+      createdTitle: "再生リストが正常に作成されました",
       createdDescription: "{name} が作成されました",
-      createdFailedTitle: "プレイリストの作成に失敗しました",
-      updatedTitle: "プレイリストが正常に更新されました",
+      createdFailedTitle: "再生リストの作成に失敗しました",
+      updatedTitle: "再生リストが正常に更新されました",
       updatedDescription: "{name} が更新されました",
-      updatedFailedTitle: "プレイリストの更新に失敗しました",
-      deletedTitle: "プレイリストが正常に削除されました",
+      updatedFailedTitle: "再生リストの更新に失敗しました",
+      deletedTitle: "再生リストが正常に削除されました",
       deletedDescription: "{name} が削除されました",
-      deletedFailedTitle: "プレイリストの削除に失敗しました",
+      deletedFailedTitle: "再生リストの削除に失敗しました",
       filters: {
         title: "フィルター",
         clear: "アクティブなフィルターをクリア",
         sortBy: "並び替え",
         favorites: "お気に入りのみ",
-        favoritesDescription: "お気に入りのプレイリストのみ表示",
+        favoritesDescription: "お気に入りの再生リストのみ表示",
         playCount: "再生回数",
         playCountMin: "最小再生回数",
         playCountMax: "最大再生回数",

@@ -21,7 +21,7 @@ export const swedish: Language = {
       minutes: "{count} minut{count, plural, one {} other{er}}",
       seconds: "{count} sekund{count, plural, one {} other{er}}",
       goBack: "Gå tillbaka",
-      goFoward: "Gå framåt",
+      goForward: "Gå framåt",
       favorite: "Lägg till i favoriter",
       unfavorite: "Ta bort favorit",
       enableShuffle: "Aktivera slumpmässig uppspelning",
@@ -54,7 +54,7 @@ export const swedish: Language = {
       playNext: "Spela nästa",
       actions: "Åtgärder",
       addTo: "Lägg till",
-      playlist: "Spellista",
+      playlist: "Playlist",
       song: "Låt",
       lyrics: "Låttext",
       openMiniplayer: "Öppna minispelare",
@@ -62,7 +62,7 @@ export const swedish: Language = {
       exitFullScreen: "Lämna fullskärm",
       goToSong: "Gå till låt",
       goToAlbum: "Gå till album",
-      goToPlaylist: "Gå till spellista",
+      goToPlaylist: "Gå till playlist",
       goToArtist: "Gå till artist",
       shuffleAndPlay: "Blanda och spela",
       unknown: "Okänd",
@@ -88,9 +88,9 @@ export const swedish: Language = {
         createAlbum: "Skapa album",
         updateAlbum: "Uppdatera album",
         deleteAlbum: "Ta bort album",
-        createPlaylist: "Skapa spellista",
-        updatePlaylist: "Uppdatera spellista",
-        deletePlaylist: "Ta bort spellista",
+        createPlaylist: "Skapa playlist",
+        updatePlaylist: "Uppdatera playlist",
+        deletePlaylist: "Ta bort playlist",
         confirmation: "Bekräftelse",
         warning: "Varning",
         lyricsPreview: "Textförhandsvisning"
@@ -171,7 +171,7 @@ export const swedish: Language = {
         title: "Låtar"
       },
       playlists: {
-        title: "Spellistor"
+        title: "Playlists"
       },
       albums: {
         title: "Album"
@@ -244,22 +244,22 @@ export const swedish: Language = {
       }
     },
     playlists: {
-      title: "Spellistor",
-      createdTitle: "Spellista skapad",
+      title: "Playlists",
+      createdTitle: "Playlist skapad",
       createdDescription: "{name} har skapats",
-      createdFailedTitle: "Misslyckades att skapa spellista",
-      updatedTitle: "Spellista uppdaterad",
+      createdFailedTitle: "Misslyckades att skapa playlist",
+      updatedTitle: "Playlist uppdaterad",
       updatedDescription: "{name} har uppdaterats",
-      updatedFailedTitle: "Misslyckades att uppdatera spellista",
-      deletedTitle: "Spellista borttagen",
+      updatedFailedTitle: "Misslyckades att uppdatera playlist",
+      deletedTitle: "Playlist borttagen",
       deletedDescription: "{name} har tagits bort",
-      deletedFailedTitle: "Misslyckades att ta bort spellista",
+      deletedFailedTitle: "Misslyckades att ta bort playlist",
       filters: {
         title: "Filter",
         clear: "Rensa aktiva filter",
         sortBy: "Sortera efter",
         favorites: "Endast favoriter",
-        favoritesDescription: "Visa endast favoritspellistor",
+        favoritesDescription: "Visa endast favoritplaylists",
         playCount: "Uppspelningar",
         playCountMin: "Minsta uppspelningar",
         playCountMax: "Största uppspelningar",

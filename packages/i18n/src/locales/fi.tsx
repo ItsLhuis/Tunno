@@ -21,7 +21,7 @@ export const finnish: Language = {
       minutes: "{count} minuutti{count, plural, one {} other{a}}",
       seconds: "{count} sekunti{count, plural, one {} other{a}}",
       goBack: "Takaisin",
-      goFoward: "Eteenpäin",
+      goForward: "Eteenpäin",
       favorite: "Lisää suosikkeihin",
       unfavorite: "Poista suosikeista",
       enableShuffle: "Ota satunnaistoisto käyttöön",
@@ -54,7 +54,7 @@ export const finnish: Language = {
       playNext: "Toista seuraava",
       actions: "Toiminnot",
       addTo: "Lisää",
-      playlist: "Soittolista",
+      playlist: "Playlist",
       song: "Kappale",
       lyrics: "Sanat",
       openMiniplayer: "Avaa minisoitin",
@@ -62,7 +62,7 @@ export const finnish: Language = {
       exitFullScreen: "Poistu koko näytöstä",
       goToSong: "Siirry kappaleeseen",
       goToAlbum: "Siirry albumiin",
-      goToPlaylist: "Siirry soittolistaan",
+      goToPlaylist: "Siirry playlistiin",
       goToArtist: "Siirry artistiin",
       shuffleAndPlay: "Sekoita ja toista",
       unknown: "Tuntematon",
@@ -88,9 +88,9 @@ export const finnish: Language = {
         createAlbum: "Luo albumi",
         updateAlbum: "Päivitä albumi",
         deleteAlbum: "Poista albumi",
-        createPlaylist: "Luo soittolista",
-        updatePlaylist: "Päivitä soittolista",
-        deletePlaylist: "Poista soittolista",
+        createPlaylist: "Luo playlist",
+        updatePlaylist: "Päivitä playlist",
+        deletePlaylist: "Poista playlist",
         confirmation: "Vahvistus",
         warning: "Varoitus",
         lyricsPreview: "Sanoitusten esikatselu"
@@ -171,7 +171,7 @@ export const finnish: Language = {
         title: "Kappaleet"
       },
       playlists: {
-        title: "Soittolistat"
+        title: "Playlists"
       },
       albums: {
         title: "Albumit"
@@ -244,22 +244,22 @@ export const finnish: Language = {
       }
     },
     playlists: {
-      title: "Soittolistat",
-      createdTitle: "Soittolista luotu onnistuneesti",
+      title: "Playlists",
+      createdTitle: "Playlist luotu onnistuneesti",
       createdDescription: "{name} on luotu",
-      createdFailedTitle: "Soittolistan luonti epäonnistui",
-      updatedTitle: "Soittolista päivitetty onnistuneesti",
+      createdFailedTitle: "Playlistin luonti epäonnistui",
+      updatedTitle: "Playlist päivitetty onnistuneesti",
       updatedDescription: "{name} on päivitetty",
-      updatedFailedTitle: "Soittolistan päivitys epäonnistui",
-      deletedTitle: "Soittolista poistettu onnistuneesti",
+      updatedFailedTitle: "Playlistin päivitys epäonnistui",
+      deletedTitle: "Playlist poistettu onnistuneesti",
       deletedDescription: "{name} on poistettu",
-      deletedFailedTitle: "Soittolistan poisto epäonnistui",
+      deletedFailedTitle: "Playlistin poisto epäonnistui",
       filters: {
         title: "Suodattimet",
         clear: "Tyhjennä aktiiviset suodattimet",
         sortBy: "Järjestä",
         favorites: "Vain suosikit",
-        favoritesDescription: "Näytä vain suosikkisoittolistat",
+        favoritesDescription: "Näytä vain suosikkiplaylists",
         playCount: "Soittokerrat",
         playCountMin: "Vähimmäissoittokerrat",
         playCountMax: "Enimmäissoittokerrat",

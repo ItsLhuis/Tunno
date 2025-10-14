@@ -21,7 +21,7 @@ export const dutch: Language = {
       minutes: "{count} minuut{count, plural, one {} other{en}}",
       seconds: "{count} seconde{count, plural, one {} other{n}}",
       goBack: "Ga terug",
-      goFoward: "Ga vooruit",
+      goForward: "Ga vooruit",
       favorite: "Toevoegen aan favorieten",
       unfavorite: "Favoriet verwijderen",
       enableShuffle: "Schud afspelen inschakelen",
@@ -54,7 +54,7 @@ export const dutch: Language = {
       playNext: "Volgende afspelen",
       actions: "Acties",
       addTo: "Toevoegen aan",
-      playlist: "Afspeellijst",
+      playlist: "Playlist",
       song: "Lied",
       lyrics: "Songtekst",
       openMiniplayer: "Minispeler openen",
@@ -62,7 +62,7 @@ export const dutch: Language = {
       exitFullScreen: "Volledig scherm verlaten",
       goToSong: "Ga naar nummer",
       goToAlbum: "Ga naar album",
-      goToPlaylist: "Ga naar afspeellijst",
+      goToPlaylist: "Ga naar playlist",
       goToArtist: "Ga naar artiest",
       shuffleAndPlay: "Schudden en afspelen",
       unknown: "Onbekend",
@@ -88,9 +88,9 @@ export const dutch: Language = {
         createAlbum: "Album aanmaken",
         updateAlbum: "Album bijwerken",
         deleteAlbum: "Album verwijderen",
-        createPlaylist: "Afspellijst aanmaken",
-        updatePlaylist: "Afspellijst bijwerken",
-        deletePlaylist: "Afspellijst verwijderen",
+        createPlaylist: "Playlist aanmaken",
+        updatePlaylist: "Playlist bijwerken",
+        deletePlaylist: "Playlist verwijderen",
         confirmation: "Bevestiging",
         warning: "Waarschuwing",
         lyricsPreview: "Songtekstvoorbeeld"
@@ -172,7 +172,7 @@ export const dutch: Language = {
         title: "Nummers"
       },
       playlists: {
-        title: "Afspellijsten"
+        title: "Playlists"
       },
       albums: {
         title: "Albums"
@@ -245,22 +245,22 @@ export const dutch: Language = {
       }
     },
     playlists: {
-      title: "Afspellijsten",
-      createdTitle: "Afspellijst succesvol aangemaakt",
+      title: "Playlists",
+      createdTitle: "Playlist succesvol aangemaakt",
       createdDescription: "{name} is aangemaakt",
-      createdFailedTitle: "Afspellijst aanmaken mislukt",
-      updatedTitle: "Afspellijst succesvol bijgewerkt",
+      createdFailedTitle: "Playlist aanmaken mislukt",
+      updatedTitle: "Playlist succesvol bijgewerkt",
       updatedDescription: "{name} is bijgewerkt",
-      updatedFailedTitle: "Afspellijst bijwerken mislukt",
-      deletedTitle: "Afspellijst succesvol verwijderd",
+      updatedFailedTitle: "Playlist bijwerken mislukt",
+      deletedTitle: "Playlist succesvol verwijderd",
       deletedDescription: "{name} is verwijderd",
-      deletedFailedTitle: "Afspellijst verwijderen mislukt",
+      deletedFailedTitle: "Playlist verwijderen mislukt",
       filters: {
         title: "Filters",
         clear: "Actieve filters wissen",
         sortBy: "Sorteren op",
         favorites: "Alleen favorieten",
-        favoritesDescription: "Toon alleen favoriete afspellijsten",
+        favoritesDescription: "Toon alleen favoriete playlists",
         playCount: "Afspeelbeurten",
         playCountMin: "Minimum afspeelbeurten",
         playCountMax: "Maximum afspeelbeurten",

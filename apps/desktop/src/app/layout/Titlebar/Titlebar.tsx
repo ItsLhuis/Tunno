@@ -83,7 +83,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
               />
               <IconButton
                 name="ArrowRight"
-                tooltip={{ children: t("common.goFoward"), side: "bottom" }}
+                tooltip={{ children: t("common.goForward"), side: "bottom" }}
                 variant="ghost"
                 onClick={() => router.history.go(1)}
                 disabled={!canGoForward}

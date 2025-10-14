@@ -21,7 +21,7 @@ export const chinese: Language = {
       minutes: "{count}分钟",
       seconds: "{count}秒",
       goBack: "返回",
-      goFoward: "前进",
+      goForward: "前进",
       favorite: "添加到收藏",
       unfavorite: "取消收藏",
       enableShuffle: "开启随机播放",
@@ -54,7 +54,7 @@ export const chinese: Language = {
       playNext: "播放下一首",
       actions: "操作",
       addTo: "添加到",
-      playlist: "播放列表",
+      playlist: "歌单",
       song: "歌曲",
       lyrics: "歌词",
       openMiniplayer: "打开迷你播放器",
@@ -62,7 +62,7 @@ export const chinese: Language = {
       exitFullScreen: "退出全屏",
       goToSong: "转到歌曲",
       goToAlbum: "转到专辑",
-      goToPlaylist: "转到播放列表",
+      goToPlaylist: "转到歌单",
       goToArtist: "转到艺术家",
       shuffleAndPlay: "随机播放",
       unknown: "未知",
@@ -88,9 +88,9 @@ export const chinese: Language = {
         createAlbum: "创建专辑",
         updateAlbum: "更新专辑",
         deleteAlbum: "删除专辑",
-        createPlaylist: "创建播放列表",
-        updatePlaylist: "更新播放列表",
-        deletePlaylist: "删除播放列表",
+        createPlaylist: "创建歌单",
+        updatePlaylist: "更新歌单",
+        deletePlaylist: "删除歌单",
         confirmation: "确认",
         warning: "警告",
         lyricsPreview: "歌词预览"
@@ -171,7 +171,7 @@ export const chinese: Language = {
         title: "歌曲"
       },
       playlists: {
-        title: "播放列表"
+        title: "歌单"
       },
       albums: {
         title: "专辑"
@@ -244,22 +244,22 @@ export const chinese: Language = {
       }
     },
     playlists: {
-      title: "播放列表",
-      createdTitle: "播放列表创建成功",
+      title: "歌单",
+      createdTitle: "歌单创建成功",
       createdDescription: "{name} 已创建",
-      createdFailedTitle: "创建播放列表失败",
-      updatedTitle: "播放列表更新成功",
+      createdFailedTitle: "创建歌单失败",
+      updatedTitle: "歌单更新成功",
       updatedDescription: "{name} 已更新",
-      updatedFailedTitle: "更新播放列表失败",
-      deletedTitle: "播放列表删除成功",
+      updatedFailedTitle: "更新歌单失败",
+      deletedTitle: "歌单删除成功",
       deletedDescription: "{name} 已删除",
-      deletedFailedTitle: "删除播放列表失败",
+      deletedFailedTitle: "删除歌单失败",
       filters: {
         title: "筛选器",
         clear: "清除活动筛选器",
         sortBy: "排序方式",
         favorites: "仅收藏",
-        favoritesDescription: "仅显示收藏播放列表",
+        favoritesDescription: "仅显示收藏歌单",
         playCount: "播放次数",
         playCountMin: "最小播放次数",
         playCountMax: "最大播放次数",

@@ -21,7 +21,7 @@ export const english: Language = {
       minutes: "{count} minute{count, plural, one {} other{s}}",
       seconds: "{count} second{count, plural, one {} other{s}}",
       goBack: "Go back",
-      goFoward: "Go forward",
+      goForward: "Go forward",
       favorite: "Add to favorites",
       unfavorite: "Remove from favorites",
       enableShuffle: "Enable shuffle",

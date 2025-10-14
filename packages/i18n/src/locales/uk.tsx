@@ -21,7 +21,7 @@ export const ukrainian: Language = {
       minutes: "{count} хвилина{count, plural, one {} other{и}}",
       seconds: "{count} секунда{count, plural, one {} other{и}}",
       goBack: "Повернутися назад",
-      goFoward: "Пройти вперед",
+      goForward: "Пройти вперед",
       favorite: "Додати до улюблених",
       unfavorite: "Видалити з вибраного",
       enableShuffle: "Увімкнути випадковий порядок",

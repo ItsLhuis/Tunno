@@ -21,7 +21,7 @@ export const italian: Language = {
       minutes: "{count} minuto{count, plural, one {} other{i}}",
       seconds: "{count} secondo{count, plural, one {} other{i}}",
       goBack: "Torna indietro",
-      goFoward: "Avanti",
+      goForward: "Avanti",
       favorite: "Aggiungi ai preferiti",
       unfavorite: "Rimuovi dai preferiti",
       enableShuffle: "Abilita riproduzione casuale",

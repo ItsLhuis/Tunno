@@ -21,7 +21,7 @@ export const german: Language = {
       minutes: "{count} Minute{count, plural, one {} other{n}}",
       seconds: "{count} Sekunde{count, plural, one {} other{n}}",
       goBack: "Zurück gehen",
-      goFoward: "Vorwärts gehen",
+      goForward: "Vorwärts gehen",
       favorite: "Zu Favoriten hinzufügen",
       unfavorite: "Favorit entfernen",
       enableShuffle: "Zufallswiedergabe aktivieren",
@@ -54,7 +54,7 @@ export const german: Language = {
       playNext: "Als nächstes abspielen",
       actions: "Aktionen",
       addTo: "Hinzufügen zu",
-      playlist: "Wiedergabeliste",
+      playlist: "Playlist",
       song: "Lied",
       lyrics: "Songtexte",
       openMiniplayer: "Miniplayer öffnen",
@@ -88,9 +88,9 @@ export const german: Language = {
         createAlbum: "Album Erstellen",
         updateAlbum: "Album Aktualisieren",
         deleteAlbum: "Album Löschen",
-        createPlaylist: "Wiedergabeliste Erstellen",
-        updatePlaylist: "Wiedergabeliste Aktualisieren",
-        deletePlaylist: "Wiedergabeliste Löschen",
+        createPlaylist: "Playlist Erstellen",
+        updatePlaylist: "Playlist Aktualisieren",
+        deletePlaylist: "Playlist Löschen",
         confirmation: "Bestätigung",
         warning: "Warnung",
         lyricsPreview: "Songtexte Vorschau"
@@ -171,7 +171,7 @@ export const german: Language = {
         title: "Songs"
       },
       playlists: {
-        title: "Wiedergabelisten"
+        title: "Playlists"
       },
       albums: {
         title: "Alben"
@@ -244,22 +244,22 @@ export const german: Language = {
       }
     },
     playlists: {
-      title: "Wiedergabelisten",
-      createdTitle: "Wiedergabeliste Erfolgreich Erstellt",
+      title: "Playlists",
+      createdTitle: "Playlist Erfolgreich Erstellt",
       createdDescription: "{name} wurde erstellt",
-      createdFailedTitle: "Wiedergabeliste Erstellung Fehlgeschlagen",
-      updatedTitle: "Wiedergabeliste Erfolgreich Aktualisiert",
+      createdFailedTitle: "Playlist Erstellung Fehlgeschlagen",
+      updatedTitle: "Playlist Erfolgreich Aktualisiert",
       updatedDescription: "{name} wurde aktualisiert",
-      updatedFailedTitle: "Wiedergabeliste Aktualisierung Fehlgeschlagen",
-      deletedTitle: "Wiedergabeliste Erfolgreich Gelöscht",
+      updatedFailedTitle: "Playlist Aktualisierung Fehlgeschlagen",
+      deletedTitle: "Playlist Erfolgreich Gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Wiedergabeliste Löschung Fehlgeschlagen",
+      deletedFailedTitle: "Playlist Löschung Fehlgeschlagen",
       filters: {
         title: "Filter",
         clear: "Aktive Filter löschen",
         sortBy: "Sortieren nach",
         favorites: "Nur Favoriten",
-        favoritesDescription: "Nur Lieblingswiedergabelisten anzeigen",
+        favoritesDescription: "Nur Lieblingsplaylists anzeigen",
         playCount: "Wiedergaben",
         playCountMin: "Mindestwiedergaben",
         playCountMax: "Höchstwiedergaben",

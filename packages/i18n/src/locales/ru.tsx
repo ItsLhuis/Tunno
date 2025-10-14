@@ -21,7 +21,7 @@ export const russian: Language = {
       minutes: "{count} минут{count, plural, one {а} other{}}",
       seconds: "{count} секунд{count, plural, one {а} other{}}",
       goBack: "Назад",
-      goFoward: "Вперёд",
+      goForward: "Вперёд",
       favorite: "Добавить в избранное",
       unfavorite: "Удалить из избранного",
       enableShuffle: "Включить перемешивание",

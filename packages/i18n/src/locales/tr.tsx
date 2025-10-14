@@ -21,7 +21,7 @@ export const turkish: Language = {
       minutes: "{count} dakika{count, plural, one {} other{}}",
       seconds: "{count} saniye{count, plural, one {} other{}}",
       goBack: "Geri git",
-      goFoward: "İleri git",
+      goForward: "İleri git",
       favorite: "Favorilere ekle",
       unfavorite: "Favorilerden kaldır",
       enableShuffle: "Karışık çalma aç",
@@ -54,7 +54,7 @@ export const turkish: Language = {
       playNext: "Sonrakini çal",
       actions: "Eylemler",
       addTo: "Ekle",
-      playlist: "Çalma listesi",
+      playlist: "Playlist",
       song: "Şarkı",
       lyrics: "Şarkı sözü",
       openMiniplayer: "Miniçalıcıyı aç",
@@ -62,7 +62,7 @@ export const turkish: Language = {
       exitFullScreen: "Tam ekrandan çık",
       goToSong: "Şarkıya git",
       goToAlbum: "Albüme git",
-      goToPlaylist: "Çalma listesine git",
+      goToPlaylist: "Playlist'e git",
       goToArtist: "Sanatçıya git",
       shuffleAndPlay: "Karıştır ve çal",
       unknown: "Bilinmeyen",
@@ -88,9 +88,9 @@ export const turkish: Language = {
         createAlbum: "Albüm Oluştur",
         updateAlbum: "Albümü Güncelle",
         deleteAlbum: "Albümü Sil",
-        createPlaylist: "Çalma Listesi Oluştur",
-        updatePlaylist: "Çalma Listesini Güncelle",
-        deletePlaylist: "Çalma Listesini Sil",
+        createPlaylist: "Playlist Oluştur",
+        updatePlaylist: "Playlist'i Güncelle",
+        deletePlaylist: "Playlist'i Sil",
         confirmation: "Onay",
         warning: "Uyarı",
         lyricsPreview: "Şarkı Sözleri Önizlemesi"
@@ -171,7 +171,7 @@ export const turkish: Language = {
         title: "Şarkılar"
       },
       playlists: {
-        title: "Çalma Listeleri"
+        title: "Playlists"
       },
       albums: {
         title: "Albümler"
@@ -244,22 +244,22 @@ export const turkish: Language = {
       }
     },
     playlists: {
-      title: "Çalma Listeleri",
-      createdTitle: "Çalma listesi başarıyla oluşturuldu",
+      title: "Playlists",
+      createdTitle: "Playlist başarıyla oluşturuldu",
       createdDescription: "{name} oluşturuldu",
-      createdFailedTitle: "Çalma listesi oluşturulamadı",
-      updatedTitle: "Çalma listesi başarıyla güncellendi",
+      createdFailedTitle: "Playlist oluşturulamadı",
+      updatedTitle: "Playlist başarıyla güncellendi",
       updatedDescription: "{name} güncellendi",
-      updatedFailedTitle: "Çalma listesi güncellenemedi",
-      deletedTitle: "Çalma listesi başarıyla silindi",
+      updatedFailedTitle: "Playlist güncellenemedi",
+      deletedTitle: "Playlist başarıyla silindi",
       deletedDescription: "{name} silindi",
-      deletedFailedTitle: "Çalma listesi silinemedi",
+      deletedFailedTitle: "Playlist silinemedi",
       filters: {
         title: "Filtreler",
         clear: "Aktif filtreleri temizle",
         sortBy: "Sırala",
         favorites: "Sadece favoriler",
-        favoritesDescription: "Sadece favori çalma listelerini göster",
+        favoritesDescription: "Sadece favori playlistleri göster",
         playCount: "Çalma sayısı",
         playCountMin: "Minimum çalma sayısı",
         playCountMax: "Maksimum çalma sayısı",

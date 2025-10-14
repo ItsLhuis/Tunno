@@ -21,7 +21,7 @@ export const spanish: Language = {
       minutes: "{count} minuto{count, plural, one {} other{s}}",
       seconds: "{count} segundo{count, plural, one {} other{s}}",
       goBack: "Volver",
-      goFoward: "Adelante",
+      goForward: "Adelante",
       favorite: "Añadir a favoritos",
       unfavorite: "Quitar de favoritos",
       enableShuffle: "Activar aleatorio",
@@ -54,7 +54,7 @@ export const spanish: Language = {
       playNext: "Reproducir siguiente",
       actions: "Acciones",
       addTo: "Agregar a",
-      playlist: "Lista de reproducción",
+      playlist: "Playlist",
       song: "Canción",
       lyrics: "Letra",
       openMiniplayer: "Abrir minireproductor",
@@ -88,9 +88,9 @@ export const spanish: Language = {
         createAlbum: "Crear álbum",
         updateAlbum: "Actualizar álbum",
         deleteAlbum: "Eliminar álbum",
-        createPlaylist: "Crear lista de reproducción",
-        updatePlaylist: "Actualizar lista de reproducción",
-        deletePlaylist: "Eliminar lista de reproducción",
+        createPlaylist: "Crear playlist",
+        updatePlaylist: "Actualizar playlist",
+        deletePlaylist: "Eliminar playlist",
         confirmation: "Confirmación",
         warning: "Advertencia",
         lyricsPreview: "Vista previa de letras"
@@ -172,7 +172,7 @@ export const spanish: Language = {
         title: "Canciones"
       },
       playlists: {
-        title: "Listas de reproducción"
+        title: "Playlists"
       },
       albums: {
         title: "Álbumes"
@@ -245,22 +245,22 @@ export const spanish: Language = {
       }
     },
     playlists: {
-      title: "Listas de reproducción",
-      createdTitle: "Lista creada con éxito",
+      title: "Playlists",
+      createdTitle: "Playlist creada con éxito",
       createdDescription: "{name} ha sido creada",
-      createdFailedTitle: "Error al crear la lista",
-      updatedTitle: "Lista actualizada con éxito",
+      createdFailedTitle: "Error al crear la playlist",
+      updatedTitle: "Playlist actualizada con éxito",
       updatedDescription: "{name} ha sido actualizada",
-      updatedFailedTitle: "Error al actualizar la lista",
-      deletedTitle: "Lista eliminada con éxito",
+      updatedFailedTitle: "Error al actualizar la playlist",
+      deletedTitle: "Playlist eliminada con éxito",
       deletedDescription: "{name} ha sido eliminada",
-      deletedFailedTitle: "Error al eliminar la lista",
+      deletedFailedTitle: "Error al eliminar la playlist",
       filters: {
         title: "Filtros",
         clear: "Limpiar filtros activos",
         sortBy: "Ordenar por",
-        favorites: "Solo favoritos",
-        favoritesDescription: "Mostrar solo listas de reproducción favoritas",
+        favorites: "Solo favoritas",
+        favoritesDescription: "Mostrar solo playlists favoritas",
         playCount: "Reproducciones",
         playCountMin: "Reproducciones mínimas",
         playCountMax: "Reproducciones máximas",
@@ -276,7 +276,7 @@ export const spanish: Language = {
         selectDate: "Seleccionar fecha",
         sortOptions: {
           name: "Nombre",
-          favorites: "Favoritos",
+          favorites: "Favoritas",
           playCount: "Reproducciones",
           totalTracks: "Total de pistas",
           totalDuration: "Duración total",

@@ -24,7 +24,7 @@ export type Translations = {
     minutes: string
     seconds: string
     goBack: string
-    goFoward: string
+    goForward: string
     favorite: string
     unfavorite: string
     enableShuffle: string

@@ -21,7 +21,7 @@ export const norwegian: Language = {
       minutes: "{count} minutt{count, plural, one {} other{er}}",
       seconds: "{count} sekund{count, plural, one {} other{er}}",
       goBack: "Gå tilbake",
-      goFoward: "Gå fremover",
+      goForward: "Gå fremover",
       favorite: "Legg til i favoritter",
       unfavorite: "Fjern favoritt",
       enableShuffle: "Slå på tilfeldig rekkefølge",
@@ -54,7 +54,7 @@ export const norwegian: Language = {
       playNext: "Spill neste",
       actions: "Handlinger",
       addTo: "Legg til",
-      playlist: "Spilleliste",
+      playlist: "Playlist",
       song: "Sang",
       lyrics: "Sangtekst",
       openMiniplayer: "Åpne minispiller",
@@ -62,7 +62,7 @@ export const norwegian: Language = {
       exitFullScreen: "Forlat full skjerm",
       goToSong: "Gå til sang",
       goToAlbum: "Gå til album",
-      goToPlaylist: "Gå til spilleliste",
+      goToPlaylist: "Gå til playlist",
       goToArtist: "Gå til artist",
       shuffleAndPlay: "Stokk og spill",
       unknown: "Ukjent",
@@ -88,9 +88,9 @@ export const norwegian: Language = {
         createAlbum: "Opprett album",
         updateAlbum: "Oppdater album",
         deleteAlbum: "Slett album",
-        createPlaylist: "Opprett spilleliste",
-        updatePlaylist: "Oppdater spilleliste",
-        deletePlaylist: "Slett spilleliste",
+        createPlaylist: "Opprett playlist",
+        updatePlaylist: "Oppdater playlist",
+        deletePlaylist: "Slett playlist",
         confirmation: "Bekreftelse",
         warning: "Advarsel",
         lyricsPreview: "Tekstforhåndsvisning"
@@ -171,7 +171,7 @@ export const norwegian: Language = {
         title: "Sanger"
       },
       playlists: {
-        title: "Spillelister"
+        title: "Playlists"
       },
       albums: {
         title: "Album"
@@ -244,22 +244,22 @@ export const norwegian: Language = {
       }
     },
     playlists: {
-      title: "Spillelister",
-      createdTitle: "Spilleliste opprettet",
+      title: "Playlists",
+      createdTitle: "Playlist opprettet",
       createdDescription: "{name} er opprettet",
-      createdFailedTitle: "Kunne ikke opprette spilleliste",
-      updatedTitle: "Spilleliste oppdatert",
+      createdFailedTitle: "Kunne ikke opprette playlist",
+      updatedTitle: "Playlist oppdatert",
       updatedDescription: "{name} er oppdatert",
-      updatedFailedTitle: "Kunne ikke oppdatere spilleliste",
-      deletedTitle: "Spilleliste slettet",
+      updatedFailedTitle: "Kunne ikke oppdatere playlist",
+      deletedTitle: "Playlist slettet",
       deletedDescription: "{name} er slettet",
-      deletedFailedTitle: "Kunne ikke slette spilleliste",
+      deletedFailedTitle: "Kunne ikke slette playlist",
       filters: {
         title: "Filtre",
         clear: "Tøm aktive filtre",
         sortBy: "Sorter etter",
         favorites: "Kun favoritter",
-        favoritesDescription: "Vis kun favorittspillelister",
+        favoritesDescription: "Vis kun favorittplaylists",
         playCount: "Avspillinger",
         playCountMin: "Minimum avspillinger",
         playCountMax: "Maksimum avspillinger",

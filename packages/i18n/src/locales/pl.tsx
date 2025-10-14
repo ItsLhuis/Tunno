@@ -21,7 +21,7 @@ export const polish: Language = {
       minutes: "{count} minuta{count, plural, one {} other{y}}",
       seconds: "{count} sekunda{count, plural, one {} other{y}}",
       goBack: "Wróć",
-      goFoward: "Dalej",
+      goForward: "Dalej",
       favorite: "Dodaj do ulubionych",
       unfavorite: "Usuń z ulubionych",
       enableShuffle: "Włącz losowe odtwarzanie",
@@ -54,7 +54,7 @@ export const polish: Language = {
       playNext: "Odtwórz następny",
       actions: "Akcje",
       addTo: "Dodaj do",
-      playlist: "Lista odtwarzania",
+      playlist: "Playlist",
       song: "Piosenka",
       lyrics: "Tekst",
       openMiniplayer: "Otwórz miniodtwarzacz",
@@ -62,7 +62,7 @@ export const polish: Language = {
       exitFullScreen: "Wyjdź z pełnego ekranu",
       goToSong: "Przejdź do piosenki",
       goToAlbum: "Przejdź do albumu",
-      goToPlaylist: "Przejdź do playlisty",
+      goToPlaylist: "Przejdź do playlist",
       goToArtist: "Przejdź do artysty",
       shuffleAndPlay: "Losuj i odtwarzaj",
       unknown: "Nieznane",
@@ -88,9 +88,9 @@ export const polish: Language = {
         createAlbum: "Utwórz album",
         updateAlbum: "Aktualizuj album",
         deleteAlbum: "Usuń album",
-        createPlaylist: "Utwórz playlistę",
-        updatePlaylist: "Aktualizuj playlistę",
-        deletePlaylist: "Usuń playlistę",
+        createPlaylist: "Utwórz playlist",
+        updatePlaylist: "Aktualizuj playlist",
+        deletePlaylist: "Usuń playlist",
         confirmation: "Potwierdzenie",
         warning: "Ostrzeżenie",
         lyricsPreview: "Podgląd tekstu"
@@ -171,7 +171,7 @@ export const polish: Language = {
         title: "Utwory"
       },
       playlists: {
-        title: "Playlisty"
+        title: "Playlists"
       },
       albums: {
         title: "Albumy"
@@ -244,7 +244,7 @@ export const polish: Language = {
       }
     },
     playlists: {
-      title: "Playlisty",
+      title: "Playlists",
       createdTitle: "Playlista została pomyślnie utworzona",
       createdDescription: "{name} została utworzona",
       createdFailedTitle: "Nie udało się utworzyć playlisty",
@@ -259,7 +259,7 @@ export const polish: Language = {
         clear: "Wyczyść aktywne filtry",
         sortBy: "Sortuj według",
         favorites: "Tylko ulubione",
-        favoritesDescription: "Pokaż tylko ulubione playlisty",
+        favoritesDescription: "Pokaż tylko ulubione playlists",
         playCount: "Liczba odtworzeń",
         playCountMin: "Minimalna liczba odtworzeń",
         playCountMax: "Maksymalna liczba odtworzeń",

@@ -21,7 +21,7 @@ export const portuguese: Language = {
       minutes: "{count} minuto{count, plural, one {} other{s}}",
       seconds: "{count} segundo{count, plural, one {} other{s}}",
       goBack: "Voltar",
-      goFoward: "Avançar",
+      goForward: "Avançar",
       favorite: "Adicionar aos favoritos",
       unfavorite: "Remover dos favoritos",
       enableShuffle: "Ativar reprodução aleatória",
@@ -54,10 +54,10 @@ export const portuguese: Language = {
       playNext: "Reproduzir a seguir",
       actions: "Acções",
       addTo: "Adicionar a",
-      playlist: "Lista de reprodução",
+      playlist: "Playlist",
       song: "Música",
       lyrics: "Letra",
-      openMiniplayer: "Abrir miniplayer",
+      openMiniplayer: "Abrir mini-reprodutor",
       enterFullScreen: "Entrar em ecrã completo",
       exitFullScreen: "Sair do ecrã completo",
       goToSong: "Ir para música",
@@ -88,9 +88,9 @@ export const portuguese: Language = {
         createAlbum: "Criar Álbum",
         updateAlbum: "Atualizar Álbum",
         deleteAlbum: "Eliminar Álbum",
-        createPlaylist: "Criar Lista de Reprodução",
-        updatePlaylist: "Atualizar Lista de Reprodução",
-        deletePlaylist: "Eliminar Lista de Reprodução",
+        createPlaylist: "Criar Playlist",
+        updatePlaylist: "Atualizar Playlist",
+        deletePlaylist: "Eliminar Playlist",
         confirmation: "Confirmação",
         warning: "Aviso",
         lyricsPreview: "Pré-visualização da Letra"
@@ -172,7 +172,7 @@ export const portuguese: Language = {
         title: "Músicas"
       },
       playlists: {
-        title: "Listas de Reprodução"
+        title: "Playlists"
       },
       albums: {
         title: "Álbuns"
@@ -245,22 +245,22 @@ export const portuguese: Language = {
       }
     },
     playlists: {
-      title: "Listas de Reprodução",
-      createdTitle: "Lista de reprodução criada com sucesso",
+      title: "Playlists",
+      createdTitle: "Playlist criada com sucesso",
       createdDescription: "{name} foi criada",
-      createdFailedTitle: "Falha ao criar lista de reprodução",
-      updatedTitle: "Lista de reprodução atualizada com sucesso",
+      createdFailedTitle: "Falha ao criar playlist",
+      updatedTitle: "Playlist atualizada com sucesso",
       updatedDescription: "{name} foi atualizada",
-      updatedFailedTitle: "Falha ao atualizar lista de reprodução",
-      deletedTitle: "Lista de reprodução eliminada com sucesso",
+      updatedFailedTitle: "Falha ao atualizar playlist",
+      deletedTitle: "Playlist eliminada com sucesso",
       deletedDescription: "{name} foi eliminada",
-      deletedFailedTitle: "Falha ao eliminar lista de reprodução",
+      deletedFailedTitle: "Falha ao eliminar playlist",
       filters: {
         title: "Filtros",
         clear: "Limpar filtros ativos",
         sortBy: "Ordenar por",
-        favorites: "Apenas favoritos",
-        favoritesDescription: "Mostrar apenas listas de reprodução favoritas",
+        favorites: "Apenas favoritas",
+        favoritesDescription: "Mostrar apenas playlists favoritas",
         playCount: "Reproduções",
         playCountMin: "Reproduções mínimas",
         playCountMax: "Reproduções máximas",
@@ -276,7 +276,7 @@ export const portuguese: Language = {
         selectDate: "Selecionar data",
         sortOptions: {
           name: "Nome",
-          favorites: "Favoritos",
+          favorites: "Favoritas",
           playCount: "Reproduções",
           totalTracks: "Total de faixas",
           totalDuration: "Duração total",

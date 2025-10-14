@@ -21,7 +21,7 @@ export const hindi: Language = {
       minutes: "{count} मिनट{count, plural, one {} other{ों}}",
       seconds: "{count} सेकंड{count, plural, one {} other{ों}}",
       goBack: "वापस जाएं",
-      goFoward: "आगे बढ़ें",
+      goForward: "आगे बढ़ें",
       favorite: "पसंदीदा में जोड़ें",
       unfavorite: "पसंदीदा हटाएं",
       enableShuffle: "शफल सक्षम करें",
@@ -54,7 +54,7 @@ export const hindi: Language = {
       playNext: "अगला चलाएं",
       actions: "क्रियाएं",
       addTo: "जोड़ें",
-      playlist: "प्लेलिस्ट",
+      playlist: "गानों की सूची",
       song: "गाना",
       lyrics: "गीत का बोल",
       openMiniplayer: "मिनिप्लेयर खोलें",
@@ -62,7 +62,7 @@ export const hindi: Language = {
       exitFullScreen: "पूर्ण स्क्रीन से बाहर निकलें",
       goToSong: "गाने पर जाएं",
       goToAlbum: "एल्बम पर जाएं",
-      goToPlaylist: "प्लेलिस्ट पर जाएं",
+      goToPlaylist: "गानों की सूची पर जाएं",
       goToArtist: "कलाकार के पास जाएं",
       shuffleAndPlay: "शफल करें और चलाएं",
       unknown: "अज्ञात",
@@ -88,9 +88,9 @@ export const hindi: Language = {
         createAlbum: "एल्बम बनाएं",
         updateAlbum: "एल्बम अपडेट करें",
         deleteAlbum: "एल्बम हटाएं",
-        createPlaylist: "प्लेलिस्ट बनाएं",
-        updatePlaylist: "प्लेलिस्ट अपडेट करें",
-        deletePlaylist: "प्लेलिस्ट हटाएं",
+        createPlaylist: "गानों की सूची बनाएं",
+        updatePlaylist: "गानों की सूची अपडेट करें",
+        deletePlaylist: "गानों की सूची हटाएं",
         confirmation: "पुष्टि",
         warning: "चेतावनी",
         lyricsPreview: "गीतों का पूर्वावलोकन"
@@ -171,7 +171,7 @@ export const hindi: Language = {
         title: "गाने"
       },
       playlists: {
-        title: "प्लेलिस्ट"
+        title: "गानों की सूची"
       },
       albums: {
         title: "एल्बम"
@@ -244,22 +244,22 @@ export const hindi: Language = {
       }
     },
     playlists: {
-      title: "प्लेलिस्ट",
-      createdTitle: "प्लेलिस्ट सफलतापूर्वक बनाई गई",
+      title: "गानों की सूची",
+      createdTitle: "गानों की सूची सफलतापूर्वक बनाई गई",
       createdDescription: "{name} बनाई गई है",
-      createdFailedTitle: "प्लेलिस्ट बनाने में विफल",
-      updatedTitle: "प्लेलिस्ट सफलतापूर्वक अपडेट हुई",
+      createdFailedTitle: "गानों की सूची बनाने में विफल",
+      updatedTitle: "गानों की सूची सफलतापूर्वक अपडेट हुई",
       updatedDescription: "{name} अपडेट की गई है",
-      updatedFailedTitle: "प्लेलिस्ट अपडेट करने में विफल",
-      deletedTitle: "प्लेलिस्ट सफलतापूर्वक हटाई गई",
+      updatedFailedTitle: "गानों की सूची अपडेट करने में विफल",
+      deletedTitle: "गानों की सूची सफलतापूर्वक हटाई गई",
       deletedDescription: "{name} हटाई गई है",
-      deletedFailedTitle: "प्लेलिस्ट हटाने में विफल",
+      deletedFailedTitle: "गानों की सूची हटाने में विफल",
       filters: {
         title: "फ़िल्टर",
         clear: "सक्रिय फ़िल्टर साफ़ करें",
         sortBy: "इसके अनुसार क्रमबद्ध करें",
         favorites: "केवल पसंदीदा",
-        favoritesDescription: "केवल पसंदीदा प्लेलिस्ट दिखाएं",
+        favoritesDescription: "केवल पसंदीदा गानों की सूची दिखाएं",
         playCount: "बजाने की संख्या",
         playCountMin: "न्यूनतम बजाने की संख्या",
         playCountMax: "अधिकतम बजाने की संख्या",
