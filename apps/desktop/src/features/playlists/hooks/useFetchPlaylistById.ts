@@ -4,7 +4,7 @@ import { playlistKeys } from "@repo/api"
 
 import { getPlaylistById } from "../api/queries"
 
-export function useFetchPlaylistById(id: number | undefined | null) {
+export function useFetchPlaylistById(id: number | null | undefined) {
   return useQuery({
     queryKey: playlistKeys.details(id!),
     queryFn: () => getPlaylistById(id!),
