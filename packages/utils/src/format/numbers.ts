@@ -7,7 +7,9 @@ export function calculateRetentionRate(
   const totalListenTime = playHistory.reduce((sum, play) => sum + play.timeListened, 0)
   const averageListenTime = totalListenTime / playHistory.length
 
-  return (averageListenTime / duration) * 100
+  const retention = (averageListenTime / duration) * 100
+
+  return retention >= 99.5 ? 100 : retention
 }
 
 export function formatNumber(num: number): string {

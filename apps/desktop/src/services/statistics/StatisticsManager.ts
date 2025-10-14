@@ -2,6 +2,7 @@ import { eq, sql } from "drizzle-orm"
 
 import { database } from "@database/client"
 import { schema } from "@repo/database"
+import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
 const {
   playHistory,
@@ -84,7 +85,7 @@ export class StatisticsManager {
     if (!this.currentSession || this.currentSession.isPaused) return
 
     const sessionDuration = (Date.now() - this.currentSession.startTime) / 1000
-    this.currentSession.totalTimeListened = Math.floor(sessionDuration)
+    this.currentSession.totalTimeListened = Math.round(sessionDuration)
   }
 
   pausePlay(): void {
@@ -100,7 +101,12 @@ export class StatisticsManager {
     this.updatePlayTime()
 
     const session = this.currentSession
-    const timeListened = this.currentSession.totalTimeListened
+    let timeListened = this.currentSession.totalTimeListened
+
+    const { currentTrack } = usePlayerStore.getState()
+    if (currentTrack && timeListened >= currentTrack.duration - 1) {
+      timeListened = currentTrack.duration
+    }
 
     if (session.playHistoryId) {
       try {
