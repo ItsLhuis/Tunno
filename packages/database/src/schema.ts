@@ -71,12 +71,14 @@ export const songsToArtists = sqliteTable(
       .references(() => songs.id, { onDelete: "cascade" }),
     artistId: integer("artist_id")
       .notNull()
-      .references(() => artists.id, { onDelete: "cascade" })
+      .references(() => artists.id, { onDelete: "cascade" }),
+    artistOrder: integer("artist_order").default(0).notNull()
   },
   (table) => [
     primaryKey({ columns: [table.songId, table.artistId] }),
     index("song_artists_song_idx").on(table.songId),
-    index("song_artists_artist_idx").on(table.artistId)
+    index("song_artists_artist_idx").on(table.artistId),
+    index("song_artists_order_idx").on(table.songId, table.artistOrder)
   ]
 )
 
@@ -194,12 +196,14 @@ export const albumsToArtists = sqliteTable(
       .references(() => albums.id, { onDelete: "cascade" }),
     artistId: integer("artist_id")
       .notNull()
-      .references(() => artists.id, { onDelete: "cascade" })
+      .references(() => artists.id, { onDelete: "cascade" }),
+    artistOrder: integer("artist_order").default(0).notNull()
   },
   (table) => [
     primaryKey({ columns: [table.albumId, table.artistId] }),
     index("album_artists_album_idx").on(table.albumId),
-    index("album_artists_artist_idx").on(table.artistId)
+    index("album_artists_artist_idx").on(table.artistId),
+    index("album_artists_order_idx").on(table.albumId, table.artistOrder)
   ]
 )
 
@@ -211,7 +215,7 @@ export const playlists = sqliteTable(
       .notNull()
       .unique()
       .$defaultFn(() => randomUUID()),
-    name: text("name", { length: 100 }).notNull(),
+    name: text("name", { length: 100 }).unique().notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),

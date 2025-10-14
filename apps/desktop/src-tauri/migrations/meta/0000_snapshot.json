@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ab58cea4-7566-419a-beec-9a2914c76072",
+  "id": "56920c2a-524f-4dec-9f3b-1499036e198b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "album_stats": {
@@ -232,6 +232,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "artist_order": {
+          "name": "artist_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
         }
       },
       "indexes": {
@@ -243,6 +251,11 @@
         "album_artists_artist_idx": {
           "name": "album_artists_artist_idx",
           "columns": ["artist_id"],
+          "isUnique": false
+        },
+        "album_artists_order_idx": {
+          "name": "album_artists_order_idx",
+          "columns": ["album_id", "artist_order"],
           "isUnique": false
         }
       },
@@ -699,6 +712,11 @@
           "columns": ["uuid"],
           "isUnique": true
         },
+        "playlists_name_unique": {
+          "name": "playlists_name_unique",
+          "columns": ["name"],
+          "isUnique": true
+        },
         "playlists_name_idx": {
           "name": "playlists_name_idx",
           "columns": ["name"],
@@ -1045,6 +1063,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "artist_order": {
+          "name": "artist_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
         }
       },
       "indexes": {
@@ -1056,6 +1082,11 @@
         "song_artists_artist_idx": {
           "name": "song_artists_artist_idx",
           "columns": ["artist_id"],
+          "isUnique": false
+        },
+        "song_artists_order_idx": {
+          "name": "song_artists_order_idx",
+          "columns": ["song_id", "artist_order"],
           "isUnique": false
         }
       },
