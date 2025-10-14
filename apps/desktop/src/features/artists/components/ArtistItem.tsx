@@ -6,7 +6,7 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../songs/stores/usePlayerStore"
 
-import { useFetchSongIdsByArtistId } from "../hooks/useFetchSongIdsByArtistId"
+import { useFetchSongIdsByArtistIds } from "@features/songs/hooks/useFetchSongIdsByArtistIds"
 
 import { cn } from "@lib/utils"
 
@@ -37,7 +37,7 @@ const ArtistItem = memo(
       }))
     )
 
-    const { data, isLoading } = useFetchSongIdsByArtistId(artist.id)
+    const { data, isLoading } = useFetchSongIdsByArtistIds([artist.id])
 
     const songIds = useMemo(() => {
       if (!data) return []

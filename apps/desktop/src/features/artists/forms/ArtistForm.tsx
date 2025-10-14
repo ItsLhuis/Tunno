@@ -190,7 +190,7 @@ const ArtistForm = ({
           </div>
         }
         errorComponent={
-          <div className="flex items-center justify-center p-8">{t`common.error`}</div>
+          <div className="flex items-center justify-center p-8">{t("common.noResultsFound")}</div>
         }
       >
         {() => (

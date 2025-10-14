@@ -25,7 +25,7 @@ type DeleteArtistDialogProps = {
   onOpen?: (open: boolean) => void
 }
 
-export const DeleteArtistDialog = ({ artist, trigger, open, onOpen }: DeleteArtistDialogProps) => {
+const DeleteArtistDialog = ({ artist, trigger, open, onOpen }: DeleteArtistDialogProps) => {
   const { t } = useTranslation()
 
   const [internalOpen, setInternalOpen] = useState(false)
@@ -81,3 +81,5 @@ export const DeleteArtistDialog = ({ artist, trigger, open, onOpen }: DeleteArti
     </Dialog>
   )
 }
+
+export { DeleteArtistDialog }

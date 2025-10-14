@@ -8,6 +8,8 @@ import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
 import { useFetchArtistByIdWithSongs } from "../hooks/useFetchArtistByIdWithSongs"
 
+import { useFetchSongIdsByArtistIds } from "@features/songs/hooks/useFetchSongIdsByArtistIds"
+
 import { useToggleArtistFavorite } from "../hooks/useToggleArtistFavorite"
 
 import { cn } from "@lib/utils"
@@ -79,264 +81,286 @@ const ArtistActions = ({
 
   const toggleFavoriteMutation = useToggleArtistFavorite()
 
-  const resolvedArtistId =
-    artistId || (list && list.selectedIds.length === 1 ? Number(list.selectedIds[0]) : null)
+  const hasMultipleSelections = list && list.selectedIds.length > 1
+  const hasSingleSelection = list && list.selectedIds.length === 1
+  const shouldFetchArtist = artistId !== undefined && !hasSingleSelection
+  const resolvedArtistId = artistId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
   const {
     data: targetArtist,
     isLoading: isArtistLoading,
     isError: isArtistError
-  } = useFetchArtistByIdWithSongs(resolvedArtistId)
+  } = useFetchArtistByIdWithSongs(shouldFetchArtist ? resolvedArtistId : null)
 
-  const artistSongs = targetArtist?.songs?.map((rel) => rel.song) || []
+  const selectedArtistIds = hasMultipleSelections ? list.selectedIds.map((id) => Number(id)) : []
+  const artistsWithSongs = hasMultipleSelections
+    ? selectedArtistIds.filter((artistId) => {
+        const artist = list.data.find((a) => a.id === artistId)
+        return artist && artist.totalTracks > 0
+      })
+    : []
+  const { data: multipleSongIds } = useFetchSongIdsByArtistIds(
+    hasMultipleSelections ? artistsWithSongs : null
+  )
+
+  const finalTargetArtist =
+    hasMultipleSelections || hasSingleSelection
+      ? list.data.find((artist) => artist.id === Number(list.selectedIds[0]))
+      : targetArtist
+
+  const artistSongs = targetArtist?.songs?.map((song) => song.song) || []
+  const hasSongsInSelection = hasMultipleSelections
+    ? selectedArtistIds.some((artistId) => {
+        const artist = list.data.find((a) => a.id === artistId)
+        return artist && artist.totalTracks > 0
+      })
+    : false
+  const hasSongs =
+    artistSongs.length > 0 ||
+    hasSongsInSelection ||
+    (hasMultipleSelections && multipleSongIds && multipleSongIds.length > 0)
 
   const handleEditClick = () => {
-    if (targetArtist) {
-      if (onEditArtist) onEditArtist(targetArtist)
+    if (finalTargetArtist) {
+      if (onEditArtist) onEditArtist(finalTargetArtist)
       else setIsEditOpen(true)
     }
   }
 
   const handleDeleteClick = () => {
-    if (targetArtist) {
-      if (onDeleteArtist) onDeleteArtist(targetArtist)
+    if (finalTargetArtist) {
+      if (onDeleteArtist) onDeleteArtist(finalTargetArtist)
       else setIsDeleteOpen(true)
     }
   }
 
   const handlePlayArtist = async () => {
-    if (!artistSongs || artistSongs.length === 0) return
-    const songIds = artistSongs.map((song) => song.id)
-    await loadTracks(songIds, 0, "artist", targetArtist?.id)
-    await play()
+    if (hasMultipleSelections && multipleSongIds?.length) {
+      await loadTracks(multipleSongIds, 0, "artist")
+      await play()
+    } else if (artistSongs.length > 0) {
+      const songIds = artistSongs.map((song) => song.id)
+      await loadTracks(songIds, 0, "artist", finalTargetArtist?.id)
+      await play()
+    }
   }
 
   const handlePlayNext = async () => {
-    if (!artistSongs || artistSongs.length === 0) return
-    if (artistSongs.length > 0) {
-      const songIds = artistSongs.map((song) => song.id)
-      await addToQueue(songIds, "next")
+    if (hasMultipleSelections && multipleSongIds?.length) {
+      await addToQueue(multipleSongIds, "next")
+    } else if (artistSongs.length > 0) {
+      await addToQueue(
+        artistSongs.map((song) => song.id),
+        "next"
+      )
     }
   }
 
   const handleAddToQueue = async () => {
-    if (!artistSongs || artistSongs.length === 0) return
-    if (artistSongs.length > 0) {
-      const songIds = artistSongs.map((song) => song.id)
-      await addToQueue(songIds, "end")
+    if (hasMultipleSelections && multipleSongIds?.length) {
+      await addToQueue(multipleSongIds, "end")
+    } else if (artistSongs.length > 0) {
+      await addToQueue(
+        artistSongs.map((song) => song.id),
+        "end"
+      )
     }
   }
 
   const handleToggleFavorite = async () => {
-    if (targetArtist) {
-      await toggleFavoriteMutation.mutateAsync({ id: targetArtist.id })
+    if (finalTargetArtist) {
+      await toggleFavoriteMutation.mutateAsync({ id: finalTargetArtist.id })
     }
   }
 
+  const MenuItem = variant === "context" ? ContextMenuItem : DropdownMenuItem
+  const MenuLabel = variant === "context" ? ContextMenuLabel : DropdownMenuLabel
+  const MenuSeparator = variant === "context" ? ContextMenuSeparator : DropdownMenuSeparator
+  const MenuSub = variant === "context" ? ContextMenuSub : DropdownMenuSub
+  const MenuSubTrigger = variant === "context" ? ContextMenuSubTrigger : DropdownMenuSubTrigger
+  const MenuSubContent = variant === "context" ? ContextMenuSubContent : DropdownMenuSubContent
+
   const renderPlaybackActions = () => {
-    if (!artistSongs || artistSongs.length === 0) return null
+    if (!hasSongs) return null
 
     return (
       <>
-        {variant === "context" ? (
-          <ContextMenuItem onClick={handlePlayArtist} disabled={isTrackLoading}>
-            <Icon name="Play" />
-            {t("common.play")}
-          </ContextMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={handlePlayArtist} disabled={isTrackLoading}>
-            <Icon name="Play" />
-            {t("common.play")}
-          </DropdownMenuItem>
-        )}
-        {variant === "context" ? (
-          <ContextMenuItem onClick={handlePlayNext}>
-            <Icon name="Forward" />
-            {t("common.playNext")}
-          </ContextMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={handlePlayNext}>
-            <Icon name="Forward" />
-            {t("common.playNext")}
-          </DropdownMenuItem>
-        )}
+        <MenuItem onClick={handlePlayArtist} disabled={isTrackLoading}>
+          <Icon name="Play" />
+          {t("common.play")}
+        </MenuItem>
+        <MenuItem onClick={handlePlayNext}>
+          <Icon name="Forward" />
+          {t("common.playNext")}
+        </MenuItem>
       </>
     )
   }
 
-  const renderAddToActions = () => {
-    if (!artistSongs || artistSongs.length === 0) return null
-
-    return (
-      <ContextMenuSub>
-        <ContextMenuSubTrigger>
-          <Icon name="Plus" />
-          {t("common.addTo")}
-        </ContextMenuSubTrigger>
-        <ContextMenuSubContent>
-          <ContextMenuItem onClick={handleAddToQueue}>
-            <Icon name="ListMusic" />
-            {t("common.queue")}
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <Icon name="ListMusic" />
-            {t("common.playlist")}
-          </ContextMenuItem>
-        </ContextMenuSubContent>
-      </ContextMenuSub>
-    )
-  }
-
-  const renderFavoriteActions = () => {
-    if (!targetArtist) return null
-
-    return (
-      <ContextMenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
-        <Icon
-          name="Heart"
-          isFilled={targetArtist.isFavorite}
-          className={cn(targetArtist.isFavorite && "!text-primary")}
-        />
-        {targetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-      </ContextMenuItem>
-    )
-  }
-
-  const renderDropdownAddToActions = () => {
-    if (!artistSongs || artistSongs.length === 0) return null
-
-    return (
-      <DropdownMenuSub>
-        <DropdownMenuSubTrigger>
-          <Icon name="Plus" />
-          {t("common.addTo")}
-        </DropdownMenuSubTrigger>
-        <DropdownMenuSubContent>
-          <DropdownMenuItem onClick={handleAddToQueue}>
-            <Icon name="ListMusic" />
-            {t("common.queue")}
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Icon name="ListMusic" />
-            {t("common.playlist")}
-          </DropdownMenuItem>
-        </DropdownMenuSubContent>
-      </DropdownMenuSub>
-    )
-  }
-
-  const renderDropdownFavoriteActions = () => {
-    if (!targetArtist) return null
-
-    return (
-      <DropdownMenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
-        <Icon
-          name="Heart"
-          isFilled={targetArtist.isFavorite}
-          className={cn(targetArtist.isFavorite && "!text-primary")}
-        />
-        {targetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-      </DropdownMenuItem>
-    )
-  }
-
   const renderNavigationActions = () => {
-    if (!targetArtist) return null
+    if (!finalTargetArtist) return []
 
-    return (
-      <ContextMenuItem asChild>
-        <SafeLink to="/artists/$id" params={{ id: targetArtist.id.toString() }}>
+    return [
+      <MenuItem key="goTo" asChild>
+        <SafeLink to="/artists/$id" params={{ id: finalTargetArtist.id.toString() }}>
           <Icon name="User" />
           {t("common.goToArtist")}
         </SafeLink>
-      </ContextMenuItem>
-    )
-  }
-
-  const renderDropdownNavigationActions = () => {
-    if (!targetArtist) return null
-
-    return (
-      <DropdownMenuItem asChild>
-        <SafeLink to="/artists/$id" params={{ id: targetArtist.id.toString() }}>
-          <Icon name="User" />
-          {t("common.goToArtist")}
-        </SafeLink>
-      </DropdownMenuItem>
-    )
+      </MenuItem>
+    ]
   }
 
   const renderFormActions = () => {
-    if (!targetArtist) return null
+    if (!finalTargetArtist) return []
 
-    return (
-      <Fragment>
-        {variant === "context" ? (
-          <ContextMenuItem onClick={handleEditClick}>
-            <Icon name="Edit" />
-            {t("form.buttons.update")}
-          </ContextMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={handleEditClick}>
-            <Icon name="Edit" />
-            {t("form.buttons.update")}
-          </DropdownMenuItem>
-        )}
-        {variant === "context" ? (
-          <ContextMenuItem onClick={handleDeleteClick}>
-            <Icon name="Trash2" />
-            {t("form.buttons.delete")}
-          </ContextMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={handleDeleteClick}>
-            <Icon name="Trash2" />
-            {t("form.buttons.delete")}
-          </DropdownMenuItem>
-        )}
-      </Fragment>
-    )
+    return [
+      <MenuItem key="edit" onClick={handleEditClick}>
+        <Icon name="Edit" />
+        {t("form.buttons.update")}
+      </MenuItem>,
+      <MenuItem key="delete" onClick={handleDeleteClick}>
+        <Icon name="Trash2" />
+        {t("form.buttons.delete")}
+      </MenuItem>
+    ]
   }
 
+  const renderActions = () => {
+    const actions = []
+
+    if (hasSongs) {
+      actions.push(
+        <MenuSub key="addTo">
+          <MenuSubTrigger>
+            <Icon name="Plus" />
+            {t("common.addTo")}
+          </MenuSubTrigger>
+          <MenuSubContent>
+            <MenuItem onClick={handleAddToQueue}>
+              <Icon name="ListMusic" />
+              {t("common.queue")}
+            </MenuItem>
+            <MenuItem>
+              <Icon name="ListMusic" />
+              {t("common.playlist")}
+            </MenuItem>
+          </MenuSubContent>
+        </MenuSub>
+      )
+    }
+
+    if (!hasMultipleSelections && finalTargetArtist) {
+      actions.push(
+        <MenuItem
+          key="favorite"
+          onClick={handleToggleFavorite}
+          disabled={toggleFavoriteMutation.isPending}
+        >
+          <Icon
+            name="Heart"
+            isFilled={finalTargetArtist.isFavorite}
+            className={cn(finalTargetArtist.isFavorite && "!text-primary")}
+          />
+          {finalTargetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+        </MenuItem>
+      )
+
+      const navigationActions = renderNavigationActions()
+      if (navigationActions.length > 0) {
+        actions.push(...navigationActions)
+      }
+
+      const formActions = renderFormActions()
+      if (formActions.length > 0) {
+        actions.push(...formActions)
+      }
+    }
+
+    return actions.length > 0 ? actions : null
+  }
+
+  const playbackActions = renderPlaybackActions()
+  const actionItems = renderActions()
+  const hasAnyActions = playbackActions || actionItems
+
+  const MenuContent = variant === "context" ? ContextMenuContent : DropdownMenuContent
+
+  const renderMenuContent = () => (
+    <MenuContent>
+      {!hasAnyActions ? (
+        <div className="flex items-center justify-center p-4">{t("common.noResultsFound")}</div>
+      ) : (
+        <>
+          {playbackActions && (
+            <>
+              <MenuLabel>{t("common.playback")}</MenuLabel>
+              {playbackActions}
+              {actionItems && <MenuSeparator />}
+            </>
+          )}
+          {actionItems && (
+            <>
+              <MenuLabel>{t("common.actions")}</MenuLabel>
+              {actionItems}
+            </>
+          )}
+        </>
+      )}
+    </MenuContent>
+  )
+
   const renderContent = () => {
+    if (hasMultipleSelections || !shouldFetchArtist) {
+      if (variant === "context") {
+        return (
+          <ContextMenu>
+            <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
+            {renderMenuContent()}
+          </ContextMenu>
+        )
+      }
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            {children || (
+              <IconButton
+                name="MoreHorizontal"
+                variant="ghost"
+                className={className}
+                tooltip={t("common.more")}
+              />
+            )}
+          </DropdownMenuTrigger>
+          {renderMenuContent()}
+        </DropdownMenu>
+      )
+    }
+
     if (variant === "context") {
       return (
         <ContextMenu>
           <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
           <AsyncState
-            data={targetArtist}
+            data={finalTargetArtist}
             isLoading={isArtistLoading}
             isError={isArtistError}
             loadingComponent={
               <ContextMenuContent>
                 <div className="flex items-center justify-center p-4">
-                  <Spinner size={16} />
+                  <Spinner />
                 </div>
               </ContextMenuContent>
             }
             errorComponent={
               <ContextMenuContent>
-                <div className="flex items-center justify-center p-4 text-sm text-muted-foreground">
+                <div className="flex items-center justify-center p-4">
                   {t("common.noResultsFound")}
                 </div>
               </ContextMenuContent>
             }
           >
-            {() => (
-              <ContextMenuContent>
-                {artistSongs && artistSongs.length > 0 && (
-                  <>
-                    <ContextMenuLabel>{t("common.playback")}</ContextMenuLabel>
-                    {renderPlaybackActions()}
-                    <ContextMenuSeparator />
-                  </>
-                )}
-                <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
-                {renderAddToActions()}
-                {renderFavoriteActions()}
-                {renderNavigationActions()}
-                {renderFormActions()}
-              </ContextMenuContent>
-            )}
+            {() => renderMenuContent()}
           </AsyncState>
         </ContextMenu>
       )
@@ -355,40 +379,25 @@ const ArtistActions = ({
           )}
         </DropdownMenuTrigger>
         <AsyncState
-          data={targetArtist}
+          data={finalTargetArtist}
           isLoading={isArtistLoading}
           isError={isArtistError}
           loadingComponent={
             <DropdownMenuContent>
               <div className="flex items-center justify-center p-4">
-                <Spinner size={16} />
+                <Spinner />
               </div>
             </DropdownMenuContent>
           }
           errorComponent={
             <DropdownMenuContent>
-              <div className="flex items-center justify-center p-4 text-sm text-muted-foreground">
+              <div className="flex items-center justify-center p-4">
                 {t("common.noResultsFound")}
               </div>
             </DropdownMenuContent>
           }
         >
-          {() => (
-            <DropdownMenuContent>
-              {artistSongs && artistSongs.length > 0 && (
-                <>
-                  <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
-                  {renderPlaybackActions()}
-                  <DropdownMenuSeparator />
-                </>
-              )}
-              <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
-              {renderDropdownAddToActions()}
-              {renderDropdownFavoriteActions()}
-              {renderDropdownNavigationActions()}
-              {renderFormActions()}
-            </DropdownMenuContent>
-          )}
+          {() => renderMenuContent()}
         </AsyncState>
       </DropdownMenu>
     )
@@ -397,16 +406,20 @@ const ArtistActions = ({
   return (
     <Fragment>
       {renderContent()}
-      {targetArtist && (
-        <ArtistForm
-          artistId={targetArtist.id}
-          mode="update"
-          open={isEditOpen}
-          onOpen={setIsEditOpen}
-        />
-      )}
-      {targetArtist && (
-        <DeleteArtistDialog artist={targetArtist} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
+      {finalTargetArtist && !hasMultipleSelections && (
+        <>
+          <ArtistForm
+            artistId={finalTargetArtist.id}
+            mode="update"
+            open={isEditOpen}
+            onOpen={setIsEditOpen}
+          />
+          <DeleteArtistDialog
+            artist={finalTargetArtist}
+            open={isDeleteOpen}
+            onOpen={setIsDeleteOpen}
+          />
+        </>
       )}
     </Fragment>
   )
