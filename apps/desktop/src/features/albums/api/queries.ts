@@ -5,7 +5,9 @@ import { and, asc, desc, eq, exists, gte, inArray, like, lte, sql } from "drizzl
 import {
   type Album,
   type AlbumWithAllRelations,
+  type AlbumWithArtists,
   type AlbumWithMainRelations,
+  type AlbumWithSongsAndArtists,
   PAGE_SIZE,
   type QueryAlbumParams
 } from "@repo/api"
@@ -39,6 +41,43 @@ export const getAlbumsFilteredByArtistsWithMainRelations = async (
       : undefined,
     with: {
       songs: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      }
+    }
+  })
+}
+
+export const getAlbumsFilteredByArtistsWithArtists = async (
+  artistIds: number[],
+  params: QueryAlbumParams = {}
+): Promise<AlbumWithArtists[]> => {
+  const { limit, offset, orderBy, filters } = params
+  return await database.query.albums.findMany({
+    limit,
+    offset,
+    where: and(
+      exists(
+        database
+          .select()
+          .from(schema.albumsToArtists)
+          .where(
+            and(
+              eq(schema.albumsToArtists.albumId, schema.albums.id),
+              inArray(schema.albumsToArtists.artistId, artistIds)
+            )
+          )
+      ),
+      filters?.search ? like(schema.albums.name, `%${filters.search}%`) : undefined
+    ),
+    orderBy: orderBy
+      ? orderBy.direction === "asc"
+        ? asc(schema.albums[orderBy.column])
+        : desc(schema.albums[orderBy.column])
+      : undefined,
+    with: {
       artists: {
         with: {
           artist: true
@@ -124,6 +163,41 @@ export const getAlbumByIdWithAllRelations = async (
         }
       },
       stats: true
+    }
+  })
+
+  return album
+}
+
+export const getAlbumByIdWithArtists = async (
+  id: number
+): Promise<AlbumWithArtists | undefined> => {
+  const album = await database.query.albums.findFirst({
+    where: eq(schema.albums.id, id),
+    with: {
+      artists: {
+        with: {
+          artist: true
+        }
+      }
+    }
+  })
+
+  return album
+}
+
+export const getAlbumByIdWithSongsAndArtists = async (
+  id: number
+): Promise<AlbumWithSongsAndArtists | undefined> => {
+  const album = await database.query.albums.findFirst({
+    where: eq(schema.albums.id, id),
+    with: {
+      songs: true,
+      artists: {
+        with: {
+          artist: true
+        }
+      }
     }
   })
 
