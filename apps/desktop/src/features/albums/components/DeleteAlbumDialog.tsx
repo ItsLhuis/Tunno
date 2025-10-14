@@ -25,7 +25,7 @@ type DeleteAlbumDialogProps = {
   onOpen?: (open: boolean) => void
 }
 
-export const DeleteAlbumDialog = ({ album, trigger, open, onOpen }: DeleteAlbumDialogProps) => {
+const DeleteAlbumDialog = ({ album, trigger, open, onOpen }: DeleteAlbumDialogProps) => {
   const { t } = useTranslation()
 
   const [internalOpen, setInternalOpen] = useState(false)
@@ -81,3 +81,5 @@ export const DeleteAlbumDialog = ({ album, trigger, open, onOpen }: DeleteAlbumD
     </Dialog>
   )
 }
+
+export { DeleteAlbumDialog }

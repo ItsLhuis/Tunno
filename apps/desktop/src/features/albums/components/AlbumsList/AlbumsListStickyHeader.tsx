@@ -4,7 +4,7 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
-import { useFetchSongsByAlbumIds } from "@features/songs/hooks/useFetchSongsByAlbumIds"
+import { useFetchSongIdsByAlbumIds } from "@features/songs/hooks/useFetchSongIdsByAlbumIds"
 
 import { cn } from "@lib/utils"
 
@@ -35,12 +35,11 @@ const AlbumsListStickyHeader = ({ list, allAlbumIds, className }: AlbumsListStic
     }))
   )
 
-  const { data: allSongs } = useFetchSongsByAlbumIds(allAlbumIds)
+  const { data: allSongIds } = useFetchSongIdsByAlbumIds(allAlbumIds)
 
   const handleShuffleAndPlay = () => {
-    if (isShuffling || !allSongs || allSongs.length === 0) return
-    const songIds = allSongs.map((song) => song.id)
-    shuffleAndPlay(songIds, "songs")
+    if (isShuffling || !allSongIds || allSongIds.length === 0) return
+    shuffleAndPlay(allSongIds, "songs")
   }
 
   const hasSelectedRows = list.hasSelection
@@ -62,7 +61,7 @@ const AlbumsListStickyHeader = ({ list, allAlbumIds, className }: AlbumsListStic
         variant="text"
         className="h-11 w-11 [&_svg]:size-5"
         isLoading={isShuffling}
-        disabled={hasSelectedRows || !allSongs || allSongs.length === 0}
+        disabled={hasSelectedRows || !allSongIds || allSongIds.length === 0}
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
       />

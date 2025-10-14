@@ -6,7 +6,7 @@ import { useAlbumsStore } from "@features/albums/stores/useAlbumsStore"
 
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
-import { useFetchSongsByAlbumIds } from "@features/songs/hooks/useFetchSongsByAlbumIds"
+import { useFetchSongIdsByAlbumIds } from "@features/songs/hooks/useFetchSongIdsByAlbumIds"
 
 import { AlbumForm } from "../../forms/AlbumForm"
 
@@ -45,12 +45,11 @@ const AlbumsListHeader = ({ list, allAlbumIds }: AlbumsListHeaderProps) => {
     }))
   )
 
-  const { data: allSongs, isLoading } = useFetchSongsByAlbumIds(allAlbumIds)
+  const { data: allSongIds, isLoading } = useFetchSongIdsByAlbumIds(allAlbumIds)
 
   const handleShuffleAndPlay = () => {
-    if (isShuffling || !allSongs || allSongs.length === 0) return
-    const songIds = allSongs.map((song) => song.id)
-    shuffleAndPlay(songIds, "songs")
+    if (isShuffling || !allSongIds || allSongIds.length === 0) return
+    shuffleAndPlay(allSongIds, "songs")
   }
 
   const hasSelectedRows = list.hasSelection
@@ -71,7 +70,7 @@ const AlbumsListHeader = ({ list, allAlbumIds }: AlbumsListHeaderProps) => {
         name="Shuffle"
         className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
         isLoading={isShuffling || isLoading}
-        disabled={hasSelectedRows || !allSongs || allSongs.length === 0}
+        disabled={hasSelectedRows || !allSongIds || allSongIds.length === 0}
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
       />

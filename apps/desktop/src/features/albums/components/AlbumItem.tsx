@@ -6,7 +6,7 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../songs/stores/usePlayerStore"
 
-import { useFetchSongIdsByAlbumId } from "../hooks/useFetchSongIdsByAlbumId"
+import { useFetchSongIdsByAlbumIds } from "@features/songs/hooks/useFetchSongIdsByAlbumIds"
 
 import { cn } from "@lib/utils"
 
@@ -37,7 +37,7 @@ const AlbumItem = memo(
       }))
     )
 
-    const { data, isLoading } = useFetchSongIdsByAlbumId(album.id)
+    const { data, isLoading } = useFetchSongIdsByAlbumIds([album.id])
 
     const songIds = useMemo(() => {
       if (!data) return []
@@ -139,12 +139,7 @@ const AlbumItem = memo(
             </div>
           </div>
           <div className="flex flex-1 items-center gap-3 truncate">
-            <Thumbnail
-              placeholderIcon="Disc"
-              fileName={album.thumbnail}
-              alt={album.name}
-              containerClassName="rounded-lg"
-            />
+            <Thumbnail placeholderIcon="Disc" fileName={album.thumbnail} alt={album.name} />
             <div className="flex w-full flex-col gap-1 truncate">
               <Marquee>
                 <SafeLink to="/albums/$id" params={{ id: album.id.toString() }}>
