@@ -4,8 +4,6 @@ import { cn } from "@lib/utils"
 
 import { VirtualizedItem } from "./VirtualizedItem"
 
-import { motion } from "motion/react"
-
 import type { VirtualRowProps } from "../types"
 
 const VirtualRow = memo(function VirtualRow<TItem>({
@@ -20,13 +18,8 @@ const VirtualRow = memo(function VirtualRow<TItem>({
   selectedIds,
   onToggleItem,
   totalRows,
-  measureRef,
-  transitionConfig,
-  shouldAnimate = true
-}: VirtualRowProps<TItem> & {
-  transitionConfig?: any
-  shouldAnimate?: boolean
-}) {
+  measureRef
+}: VirtualRowProps<TItem>) {
   const fromIndex = virtualRow.index * effectiveColumns
   const toIndex = Math.min(fromIndex + effectiveColumns, data.length)
   const isLastRow = virtualRow.index === totalRows - 1
@@ -34,12 +27,11 @@ const VirtualRow = memo(function VirtualRow<TItem>({
   const transformStyle = useMemo(
     () => ({
       transform: `translate3d(0, ${virtualRow.start}px, 0)`,
-      willChange: shouldAnimate ? "transform" : "auto",
+      contain: "layout style paint" as const,
       backfaceVisibility: "hidden" as const,
-      WebkitBackfaceVisibility: "hidden" as const,
-      contain: "layout style paint" as const
+      WebkitBackfaceVisibility: "hidden" as const
     }),
-    [virtualRow.start, shouldAnimate]
+    [virtualRow.start]
   )
 
   const gridStyle = useMemo(
@@ -70,17 +62,6 @@ const VirtualRow = memo(function VirtualRow<TItem>({
     return result
   }, [fromIndex, toIndex, data, keyExtractor, selectedIds])
 
-  const motionTransition = useMemo(() => {
-    if (!shouldAnimate) return { duration: 0 }
-
-    return {
-      duration: transitionConfig?.duration || 0.3,
-      ease: transitionConfig?.ease || [0.25, 0.46, 0.45, 0.94],
-      type: "tween" as const,
-      staggerChildren: transitionConfig?.stagger || 0.02
-    }
-  }, [shouldAnimate, transitionConfig])
-
   return (
     <div
       key={virtualRow.key}
@@ -89,15 +70,7 @@ const VirtualRow = memo(function VirtualRow<TItem>({
       className={cn("absolute left-0 right-0")}
       style={transformStyle}
     >
-      <motion.div
-        layout={shouldAnimate}
-        transition={motionTransition}
-        className={cn("grid", rowClassName)}
-        style={{
-          ...gridStyle,
-          willChange: shouldAnimate ? "transform" : "auto"
-        }}
-      >
+      <div className={cn("grid", rowClassName)} style={gridStyle}>
         {items.map((item) => (
           <VirtualizedItem
             key={item.key}
@@ -110,13 +83,11 @@ const VirtualRow = memo(function VirtualRow<TItem>({
             itemId={item.id}
             isLastRow={isLastRow}
             gap={gap}
-            transitionConfig={transitionConfig}
-            shouldAnimate={shouldAnimate}
           />
         ))}
-      </motion.div>
+      </div>
     </div>
   )
-}) as <TItem>(props: VirtualRowProps<TItem> & { transitionConfig?: any }) => ReactElement
+}) as <TItem>(props: VirtualRowProps<TItem>) => ReactElement
 
 export { VirtualRow }

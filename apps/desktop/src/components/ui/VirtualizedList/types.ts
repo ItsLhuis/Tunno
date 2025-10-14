@@ -42,13 +42,6 @@ export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
   onEndReached?: () => void
   onEndReachedThreshold?: number
   scrollRef?: React.RefObject<HTMLDivElement>
-  layoutChangeAnimation?: {
-    duration?: number
-    easing?: string
-    onStart?: () => void
-    onEnd?: () => void
-  }
-  disableAnimations?: boolean
 }
 
 export type VirtualizedItemProps<TItem> = {
@@ -66,7 +59,6 @@ export type VirtualizedItemProps<TItem> = {
   itemId: string
   isLastRow: boolean
   gap: number
-  shouldAnimate?: boolean
 }
 
 export type VirtualRowProps<TItem> = {
@@ -87,5 +79,4 @@ export type VirtualRowProps<TItem> = {
   onToggleItem: (id: string) => void
   totalRows: number
   measureRef: (element: HTMLElement | null) => void
-  shouldAnimate?: boolean
 }
