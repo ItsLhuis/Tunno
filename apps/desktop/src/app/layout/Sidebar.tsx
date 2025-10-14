@@ -16,7 +16,7 @@ const sidebar: SidebarItem[] = [
   { icon: "Home", label: "home.title", href: "/" },
   { icon: "Music", label: "songs.title", href: "/songs" },
   { icon: "DiscAlbum", label: "albums.title", href: "/albums" },
-  { icon: "List", label: "playlists.title", href: "/playlists" },
+  { icon: "ListMusic", label: "playlists.title", href: "/playlists" },
   { icon: "Users", label: "artists.title", href: "/artists" }
 ] as const
 
