@@ -155,60 +155,37 @@ export const getSongsByIdsWithMainRelations = async (
   return songs
 }
 
-export const getSongsByArtistIds = async (
-  artistIds: number[]
-): Promise<SongWithMainRelations[]> => {
-  if (artistIds.length === 0) return []
+export const getSongIdsByPlaylistIds = async (playlistIds: number[]): Promise<number[]> => {
+  if (playlistIds.length === 0) return []
 
-  const songs = await database.query.songs.findMany({
-    where: inArray(
-      schema.songs.id,
-      database
-        .select({ songId: schema.songsToArtists.songId })
-        .from(schema.songsToArtists)
-        .where(inArray(schema.songsToArtists.artistId, artistIds))
-    ),
-    with: {
-      album: true,
-      artists: {
-        with: {
-          artist: true
-        },
-        orderBy: asc(schema.songsToArtists.artistOrder)
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
-      }
-    }
-  })
+  const result = await database
+    .select({ songId: schema.playlistsToSongs.songId })
+    .from(schema.playlistsToSongs)
+    .where(inArray(schema.playlistsToSongs.playlistId, playlistIds))
 
-  return songs
+  return result.map((row) => row.songId)
 }
 
-export const getSongsByAlbumIds = async (albumIds: number[]): Promise<SongWithMainRelations[]> => {
+export const getSongIdsByArtistIds = async (artistIds: number[]): Promise<number[]> => {
+  if (artistIds.length === 0) return []
+
+  const result = await database
+    .select({ songId: schema.songsToArtists.songId })
+    .from(schema.songsToArtists)
+    .where(inArray(schema.songsToArtists.artistId, artistIds))
+
+  return result.map((row) => row.songId)
+}
+
+export const getSongIdsByAlbumIds = async (albumIds: number[]): Promise<number[]> => {
   if (albumIds.length === 0) return []
 
-  const songs = await database.query.songs.findMany({
-    where: inArray(schema.songs.albumId, albumIds),
-    with: {
-      album: true,
-      artists: {
-        with: {
-          artist: true
-        },
-        orderBy: asc(schema.songsToArtists.artistOrder)
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
-      }
-    }
-  })
+  const result = await database
+    .select({ songId: schema.songs.id })
+    .from(schema.songs)
+    .where(inArray(schema.songs.albumId, albumIds))
 
-  return songs
+  return result.map((row) => row.songId)
 }
 
 export const getSongIdsOnly = async ({ orderBy, filters }: QuerySongsParams): Promise<number[]> => {
