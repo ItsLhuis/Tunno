@@ -85,7 +85,7 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />
-        <AlbumActions album={album} />
+        <AlbumActions albumId={album.id} />
       </div>
     </Header>
   )

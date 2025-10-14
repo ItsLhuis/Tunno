@@ -117,7 +117,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />
-        <SongActions song={song} />
+        <SongActions songId={song.id} />
       </div>
     </Header>
   )

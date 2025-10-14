@@ -87,7 +87,7 @@ const ArtistInfoStickyHeader = ({ artist }: ArtistInfoStickyHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />
-        <ArtistActions artist={artist} />
+        <ArtistActions artistId={artist.id} />
       </div>
     </div>
   )

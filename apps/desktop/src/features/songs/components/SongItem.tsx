@@ -96,7 +96,7 @@ const SongItem = memo(
       : "grid-cols-[40px_1fr_1fr_0.5fr_80px_40px]"
 
     return (
-      <SongActions variant="context" song={song}>
+      <SongActions variant="context" songId={song.id}>
         <div
           className={cn(
             "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
@@ -174,7 +174,7 @@ const SongItem = memo(
           </div>
           <div className="flex items-center justify-center">
             <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-              <SongActions song={song} />
+              <SongActions songId={song.id} />
             </div>
           </div>
         </div>

@@ -57,7 +57,7 @@ const AlbumItem = memo(
 
     if (variant === "card") {
       return (
-        <AlbumActions variant="context" album={album}>
+        <AlbumActions variant="context" albumId={album.id}>
           <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
             <div className="mb-3 h-full w-full">
               <Thumbnail
@@ -84,7 +84,7 @@ const AlbumItem = memo(
                 </Marquee>
               </div>
               <div className="flex-shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-                <AlbumActions album={album}>
+                <AlbumActions albumId={album.id}>
                   <IconButton
                     name="MoreHorizontal"
                     variant="secondary"
@@ -114,7 +114,7 @@ const AlbumItem = memo(
       : "grid-cols-[40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
 
     return (
-      <AlbumActions variant="context" album={album}>
+      <AlbumActions variant="context" albumId={album.id}>
         <div
           className={cn(
             "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
@@ -177,7 +177,7 @@ const AlbumItem = memo(
           </div>
           <div className="flex items-center justify-center">
             <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-              <AlbumActions album={album} />
+              <AlbumActions albumId={album.id} />
             </div>
           </div>
         </div>

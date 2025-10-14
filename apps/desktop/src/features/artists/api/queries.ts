@@ -6,6 +6,7 @@ import {
   type QueryArtistParams,
   type Artist,
   type ArtistWithAllRelations,
+  type ArtistWithSongs,
   PAGE_SIZE
 } from "@repo/api"
 
@@ -89,6 +90,21 @@ export const getArtistByIdWithAllRelations = async (
         }
       },
       stats: true
+    }
+  })
+
+  return artist
+}
+
+export const getArtistByIdWithSongs = async (id: number): Promise<ArtistWithSongs | undefined> => {
+  const artist = await database.query.artists.findFirst({
+    where: eq(schema.artists.id, id),
+    with: {
+      songs: {
+        with: {
+          song: true
+        }
+      }
     }
   })
 

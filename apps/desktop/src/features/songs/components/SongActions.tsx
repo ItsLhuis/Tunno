@@ -8,6 +8,8 @@ import { usePlayerStore } from "../stores/usePlayerStore"
 
 import { useFetchSongByIdWithMainRelations } from "../hooks/useFetchSongByIdWithMainRelations"
 
+import { AsyncState, Spinner } from "@components/ui"
+
 import { useToggleSongFavorite } from "../hooks/useToggleSongFavorite"
 
 import { cn } from "@lib/utils"
@@ -48,7 +50,7 @@ import {
 import { type SongWithMainRelations } from "@repo/api"
 
 type SongActionsProps = {
-  song?: SongWithMainRelations
+  songId?: number
   list?: VirtualizedListController<SongWithMainRelations>
   variant?: "dropdown" | "context"
   children?: ReactNode
@@ -59,7 +61,7 @@ type SongActionsProps = {
 
 const SongActions = memo(
   ({
-    song,
+    songId,
     list,
     variant = "dropdown",
     children,
@@ -89,17 +91,14 @@ const SongActions = memo(
 
     const toggleFavoriteMutation = useToggleSongFavorite()
 
-    const songId =
-      song?.id || (list && list.selectedIds.length === 1 ? Number(list.selectedIds[0]) : null)
+    const resolvedSongId =
+      songId || (list && list.selectedIds.length === 1 ? Number(list.selectedIds[0]) : null)
 
-    const { data: freshSongData } = useFetchSongByIdWithMainRelations(songId)
-
-    const targetSong =
-      freshSongData ||
-      song ||
-      (list && list.selectedIds.length === 1
-        ? list.data.find((s) => s.id === Number(list.selectedIds[0]))
-        : null)
+    const {
+      data: targetSong,
+      isLoading: isSongLoading,
+      isError: isSongError
+    } = useFetchSongByIdWithMainRelations(resolvedSongId)
 
     const handlePlaySong = async () => {
       if (targetSong) {
@@ -217,7 +216,7 @@ const SongActions = memo(
             {t("common.queue")}
           </ContextMenuItem>
           <ContextMenuItem>
-            <Icon name="List" />
+            <Icon name="ListMusic" />
             {t("common.playlist")}
           </ContextMenuItem>
         </ContextMenuSubContent>
@@ -251,7 +250,7 @@ const SongActions = memo(
             {t("common.queue")}
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Icon name="List" />
+            <Icon name="ListMusic" />
             {t("common.playlist")}
           </DropdownMenuItem>
         </DropdownMenuSubContent>
@@ -290,7 +289,7 @@ const SongActions = memo(
           {targetSong.album && (
             <ContextMenuItem asChild>
               <SafeLink to="/albums/$id" params={{ id: targetSong.album.id.toString() }}>
-                <Icon name="DiscAlbum" />
+                <Icon name="Disc" />
                 {t("common.goToAlbum")}
               </SafeLink>
             </ContextMenuItem>
@@ -353,7 +352,7 @@ const SongActions = memo(
           {targetSong.album && (
             <DropdownMenuItem asChild>
               <SafeLink to="/albums/$id" params={{ id: targetSong.album.id.toString() }}>
-                <Icon name="DiscAlbum" />
+                <Icon name="Disc" />
                 {t("common.goToAlbum")}
               </SafeLink>
             </DropdownMenuItem>
@@ -438,16 +437,36 @@ const SongActions = memo(
         return (
           <ContextMenu>
             <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
-            <ContextMenuContent>
-              <ContextMenuLabel>{t("common.playback")}</ContextMenuLabel>
-              {renderPlaybackActions()}
-              <ContextMenuSeparator />
-              <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
-              {renderAddToActions()}
-              {renderFavoriteActions()}
-              {renderNavigationActions()}
-              {renderFormActions()}
-            </ContextMenuContent>
+            <AsyncState
+              data={targetSong}
+              isLoading={isSongLoading}
+              isError={isSongError}
+              loadingComponent={
+                <ContextMenuContent>
+                  <div className="flex items-center justify-center p-4">
+                    <Spinner />
+                  </div>
+                </ContextMenuContent>
+              }
+              errorComponent={
+                <ContextMenuContent>
+                  <div className="flex items-center justify-center p-4">{t`common.error`}</div>
+                </ContextMenuContent>
+              }
+            >
+              {() => (
+                <ContextMenuContent>
+                  <ContextMenuLabel>{t("common.playback")}</ContextMenuLabel>
+                  {renderPlaybackActions()}
+                  <ContextMenuSeparator />
+                  <ContextMenuLabel>{t("common.actions")}</ContextMenuLabel>
+                  {renderAddToActions()}
+                  {renderFavoriteActions()}
+                  {renderNavigationActions()}
+                  {renderFormActions()}
+                </ContextMenuContent>
+              )}
+            </AsyncState>
           </ContextMenu>
         )
       }
@@ -464,16 +483,36 @@ const SongActions = memo(
               />
             )}
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
-            {renderDropdownPlaybackActions()}
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
-            {renderDropdownAddToActions()}
-            {renderDropdownFavoriteActions()}
-            {renderDropdownNavigationActions()}
-            {renderFormActions()}
-          </DropdownMenuContent>
+          <AsyncState
+            data={targetSong}
+            isLoading={isSongLoading}
+            isError={isSongError}
+            loadingComponent={
+              <DropdownMenuContent>
+                <div className="flex items-center justify-center p-4">
+                  <Spinner />
+                </div>
+              </DropdownMenuContent>
+            }
+            errorComponent={
+              <DropdownMenuContent>
+                <div className="flex items-center justify-center p-4">{t`common.error`}</div>
+              </DropdownMenuContent>
+            }
+          >
+            {() => (
+              <DropdownMenuContent>
+                <DropdownMenuLabel>{t("common.playback")}</DropdownMenuLabel>
+                {renderDropdownPlaybackActions()}
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
+                {renderDropdownAddToActions()}
+                {renderDropdownFavoriteActions()}
+                {renderDropdownNavigationActions()}
+                {renderFormActions()}
+              </DropdownMenuContent>
+            )}
+          </AsyncState>
         </DropdownMenu>
       )
     }
@@ -482,15 +521,7 @@ const SongActions = memo(
       <Fragment>
         {renderContent()}
         {targetSong && (
-          <SongForm
-            song={{
-              ...targetSong,
-              artists: targetSong.artists.map((artist) => artist.artistId)
-            }}
-            mode="update"
-            open={isEditOpen}
-            onOpen={setIsEditOpen}
-          />
+          <SongForm songId={targetSong.id} mode="update" open={isEditOpen} onOpen={setIsEditOpen} />
         )}
         {targetSong && (
           <DeleteSongDialog song={targetSong} open={isDeleteOpen} onOpen={setIsDeleteOpen} />

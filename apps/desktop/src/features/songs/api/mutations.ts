@@ -36,9 +36,13 @@ export const insertSong = async (
     .returning()
 
   if (artists.length > 0) {
-    await database
-      .insert(schema.songsToArtists)
-      .values(artists.map((artistId) => ({ songId: createdSong.id, artistId })))
+    await database.insert(schema.songsToArtists).values(
+      artists.map((artistId, index) => ({
+        songId: createdSong.id,
+        artistId,
+        artistOrder: index
+      }))
+    )
   }
 
   await updateArtistStatsForSong(artists)
@@ -90,9 +94,13 @@ export const updateSong = async (
     await database.delete(schema.songsToArtists).where(eq(schema.songsToArtists.songId, id))
 
     if (artists.length > 0) {
-      await database
-        .insert(schema.songsToArtists)
-        .values(artists.map((artistId) => ({ songId: id, artistId })))
+      await database.insert(schema.songsToArtists).values(
+        artists.map((artistId, index) => ({
+          songId: id,
+          artistId,
+          artistOrder: index
+        }))
+      )
     }
 
     await updateArtistStatsForSong(artists, oldArtistIds)

@@ -46,7 +46,8 @@ export const getSongsWithMainRelationsPaginated = async ({
       artists: {
         with: {
           artist: true
-        }
+        },
+        orderBy: asc(schema.songsToArtists.artistOrder)
       },
       playlists: {
         with: {
@@ -88,7 +89,8 @@ export const getSongByIdWithMainRelations = async (
       artists: {
         with: {
           artist: true
-        }
+        },
+        orderBy: asc(schema.songsToArtists.artistOrder)
       },
       playlists: {
         with: {
@@ -111,7 +113,8 @@ export const getSongByIdWithAllRelations = async (
       artists: {
         with: {
           artist: true
-        }
+        },
+        orderBy: asc(schema.songsToArtists.artistOrder)
       },
       playlists: {
         with: {
@@ -138,7 +141,8 @@ export const getSongsByIdsWithMainRelations = async (
       artists: {
         with: {
           artist: true
-        }
+        },
+        orderBy: asc(schema.songsToArtists.artistOrder)
       },
       playlists: {
         with: {
@@ -169,7 +173,8 @@ export const getSongsByArtistIds = async (
       artists: {
         with: {
           artist: true
-        }
+        },
+        orderBy: asc(schema.songsToArtists.artistOrder)
       },
       playlists: {
         with: {
@@ -192,7 +197,8 @@ export const getSongsByAlbumIds = async (albumIds: number[]): Promise<SongWithMa
       artists: {
         with: {
           artist: true
-        }
+        },
+        orderBy: asc(schema.songsToArtists.artistOrder)
       },
       playlists: {
         with: {
