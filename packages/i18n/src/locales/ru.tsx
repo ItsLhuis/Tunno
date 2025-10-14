@@ -62,6 +62,7 @@ export const russian: Language = {
       exitFullScreen: "Выйти из полного экрана",
       goToSong: "Перейти к песне",
       goToAlbum: "Перейти к альбому",
+      goToPlaylist: "Перейти к плейлисту",
       goToArtist: "Перейти к исполнителю",
       shuffleAndPlay: "Перемешать и воспроизвести",
       unknown: "Неизвестно",
@@ -252,7 +253,37 @@ export const russian: Language = {
       updatedFailedTitle: "Не удалось обновить плейлист",
       deletedTitle: "Плейлист успешно удалён",
       deletedDescription: "{name} удалён",
-      deletedFailedTitle: "Не удалось удалить плейлист"
+      deletedFailedTitle: "Не удалось удалить плейлист",
+      filters: {
+        title: "Фильтры",
+        clear: "Очистить активные фильтры",
+        sortBy: "Сортировать по",
+        favorites: "Только избранные",
+        favoritesDescription: "Показать только избранные плейлисты",
+        playCount: "Количество воспроизведений",
+        playCountMin: "Минимальное количество воспроизведений",
+        playCountMax: "Максимальное количество воспроизведений",
+        totalTracks: "Общее количество треков",
+        totalTracksMin: "Минимальное количество треков",
+        totalTracksMax: "Максимальное количество треков",
+        totalDuration: "Общая продолжительность",
+        totalDurationMin: "Минимальная продолжительность",
+        totalDurationMax: "Максимальная продолжительность",
+        lastPlayed: "Последнее воспроизведение",
+        lastPlayedAfter: "После",
+        lastPlayedBefore: "До",
+        selectDate: "Выбрать дату",
+        sortOptions: {
+          name: "Название",
+          favorites: "Избранные",
+          playCount: "Количество воспроизведений",
+          totalTracks: "Общее количество треков",
+          totalDuration: "Общая продолжительность",
+          lastPlayed: "Последнее воспроизведение",
+          createdAt: "Дата создания",
+          updatedAt: "Дата обновления"
+        }
+      }
     },
     albums: {
       title: "Альбомы",

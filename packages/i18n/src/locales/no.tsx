@@ -62,6 +62,7 @@ export const norwegian: Language = {
       exitFullScreen: "Forlat full skjerm",
       goToSong: "Gå til sang",
       goToAlbum: "Gå til album",
+      goToPlaylist: "Gå til spilleliste",
       goToArtist: "Gå til artist",
       shuffleAndPlay: "Stokk og spill",
       unknown: "Ukjent",
@@ -252,7 +253,37 @@ export const norwegian: Language = {
       updatedFailedTitle: "Kunne ikke oppdatere spilleliste",
       deletedTitle: "Spilleliste slettet",
       deletedDescription: "{name} er slettet",
-      deletedFailedTitle: "Kunne ikke slette spilleliste"
+      deletedFailedTitle: "Kunne ikke slette spilleliste",
+      filters: {
+        title: "Filtre",
+        clear: "Tøm aktive filtre",
+        sortBy: "Sorter etter",
+        favorites: "Kun favoritter",
+        favoritesDescription: "Vis kun favorittspillelister",
+        playCount: "Avspillinger",
+        playCountMin: "Minimum avspillinger",
+        playCountMax: "Maksimum avspillinger",
+        totalTracks: "Totalt antall spor",
+        totalTracksMin: "Minimum spor",
+        totalTracksMax: "Maksimum spor",
+        totalDuration: "Total varighet",
+        totalDurationMin: "Minimum varighet",
+        totalDurationMax: "Maksimum varighet",
+        lastPlayed: "Sist avspilt",
+        lastPlayedAfter: "Etter",
+        lastPlayedBefore: "Før",
+        selectDate: "Velg dato",
+        sortOptions: {
+          name: "Navn",
+          favorites: "Favoritter",
+          playCount: "Avspillinger",
+          totalTracks: "Totalt antall spor",
+          totalDuration: "Total varighet",
+          lastPlayed: "Sist avspilt",
+          createdAt: "Opprettelsesdato",
+          updatedAt: "Oppdateringsdato"
+        }
+      }
     },
     albums: {
       title: "Album",

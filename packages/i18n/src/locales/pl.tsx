@@ -62,6 +62,7 @@ export const polish: Language = {
       exitFullScreen: "Wyjdź z pełnego ekranu",
       goToSong: "Przejdź do piosenki",
       goToAlbum: "Przejdź do albumu",
+      goToPlaylist: "Przejdź do playlisty",
       goToArtist: "Przejdź do artysty",
       shuffleAndPlay: "Losuj i odtwarzaj",
       unknown: "Nieznane",
@@ -252,7 +253,37 @@ export const polish: Language = {
       updatedFailedTitle: "Nie udało się zaktualizować playlisty",
       deletedTitle: "Playlista została pomyślnie usunięta",
       deletedDescription: "{name} została usunięta",
-      deletedFailedTitle: "Nie udało się usunąć playlisty"
+      deletedFailedTitle: "Nie udało się usunąć playlisty",
+      filters: {
+        title: "Filtry",
+        clear: "Wyczyść aktywne filtry",
+        sortBy: "Sortuj według",
+        favorites: "Tylko ulubione",
+        favoritesDescription: "Pokaż tylko ulubione playlisty",
+        playCount: "Liczba odtworzeń",
+        playCountMin: "Minimalna liczba odtworzeń",
+        playCountMax: "Maksymalna liczba odtworzeń",
+        totalTracks: "Całkowita liczba utworów",
+        totalTracksMin: "Minimalna liczba utworów",
+        totalTracksMax: "Maksymalna liczba utworów",
+        totalDuration: "Całkowity czas trwania",
+        totalDurationMin: "Minimalny czas trwania",
+        totalDurationMax: "Maksymalny czas trwania",
+        lastPlayed: "Ostatnie odtworzenie",
+        lastPlayedAfter: "Po",
+        lastPlayedBefore: "Przed",
+        selectDate: "Wybierz datę",
+        sortOptions: {
+          name: "Nazwa",
+          favorites: "Ulubione",
+          playCount: "Liczba odtworzeń",
+          totalTracks: "Całkowita liczba utworów",
+          totalDuration: "Całkowity czas trwania",
+          lastPlayed: "Ostatnie odtworzenie",
+          createdAt: "Data utworzenia",
+          updatedAt: "Data aktualizacji"
+        }
+      }
     },
     albums: {
       title: "Albumy",

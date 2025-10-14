@@ -62,6 +62,7 @@ export const turkish: Language = {
       exitFullScreen: "Tam ekrandan çık",
       goToSong: "Şarkıya git",
       goToAlbum: "Albüme git",
+      goToPlaylist: "Çalma listesine git",
       goToArtist: "Sanatçıya git",
       shuffleAndPlay: "Karıştır ve çal",
       unknown: "Bilinmeyen",
@@ -252,7 +253,37 @@ export const turkish: Language = {
       updatedFailedTitle: "Çalma listesi güncellenemedi",
       deletedTitle: "Çalma listesi başarıyla silindi",
       deletedDescription: "{name} silindi",
-      deletedFailedTitle: "Çalma listesi silinemedi"
+      deletedFailedTitle: "Çalma listesi silinemedi",
+      filters: {
+        title: "Filtreler",
+        clear: "Aktif filtreleri temizle",
+        sortBy: "Sırala",
+        favorites: "Sadece favoriler",
+        favoritesDescription: "Sadece favori çalma listelerini göster",
+        playCount: "Çalma sayısı",
+        playCountMin: "Minimum çalma sayısı",
+        playCountMax: "Maksimum çalma sayısı",
+        totalTracks: "Toplam parça",
+        totalTracksMin: "Minimum parça",
+        totalTracksMax: "Maksimum parça",
+        totalDuration: "Toplam süre",
+        totalDurationMin: "Minimum süre",
+        totalDurationMax: "Maksimum süre",
+        lastPlayed: "Son çalma",
+        lastPlayedAfter: "Sonra",
+        lastPlayedBefore: "Önce",
+        selectDate: "Tarih seç",
+        sortOptions: {
+          name: "İsim",
+          favorites: "Favoriler",
+          playCount: "Çalma sayısı",
+          totalTracks: "Toplam parça",
+          totalDuration: "Toplam süre",
+          lastPlayed: "Son çalma",
+          createdAt: "Oluşturulma tarihi",
+          updatedAt: "Güncelleme tarihi"
+        }
+      }
     },
     albums: {
       title: "Albümler",

@@ -62,6 +62,7 @@ export const danish: Language = {
       exitFullScreen: "Forlad fuldskærm",
       goToSong: "Gå til sang",
       goToAlbum: "Gå til album",
+      goToPlaylist: "Gå til playlist",
       goToArtist: "Gå til kunstner",
       shuffleAndPlay: "Bland og afspil",
       unknown: "Ukendt",
@@ -252,7 +253,37 @@ export const danish: Language = {
       updatedFailedTitle: "Kunne Ikke Opdatere Afspilningsliste",
       deletedTitle: "Afspilningsliste Slettet Succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Afspilningsliste"
+      deletedFailedTitle: "Kunne Ikke Slette Afspilningsliste",
+      filters: {
+        title: "Filtre",
+        clear: "Ryd aktive filtre",
+        sortBy: "Sortér efter",
+        favorites: "Kun favoritter",
+        favoritesDescription: "Vis kun favorit afspilningslister",
+        playCount: "Afspilninger",
+        playCountMin: "Minimum afspilninger",
+        playCountMax: "Maksimum afspilninger",
+        totalTracks: "Samlet spor",
+        totalTracksMin: "Minimum spor",
+        totalTracksMax: "Maksimum spor",
+        totalDuration: "Samlet varighed",
+        totalDurationMin: "Minimum varighed",
+        totalDurationMax: "Maksimum varighed",
+        lastPlayed: "Sidst afspillet",
+        lastPlayedAfter: "Efter",
+        lastPlayedBefore: "Før",
+        selectDate: "Vælg dato",
+        sortOptions: {
+          name: "Navn",
+          favorites: "Favoritter",
+          playCount: "Afspilninger",
+          totalTracks: "Samlet spor",
+          totalDuration: "Samlet varighed",
+          lastPlayed: "Sidst afspillet",
+          createdAt: "Oprettelsesdato",
+          updatedAt: "Opdateringsdato"
+        }
+      }
     },
     albums: {
       title: "Albums",

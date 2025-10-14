@@ -62,6 +62,7 @@ export const ukrainian: Language = {
       exitFullScreen: "Вийти з повного екрану",
       goToSong: "Перейти до пісні",
       goToAlbum: "Перейти до альбому",
+      goToPlaylist: "Перейти до плейлисту",
       goToArtist: "Перейти до виконавця",
       shuffleAndPlay: "Перемішати та відтворити",
       unknown: "Невідомо",
@@ -252,7 +253,37 @@ export const ukrainian: Language = {
       updatedFailedTitle: "Не вдалося оновити плейлист",
       deletedTitle: "Плейлист успішно видалено",
       deletedDescription: "{name} видалено",
-      deletedFailedTitle: "Не вдалося видалити плейлист"
+      deletedFailedTitle: "Не вдалося видалити плейлист",
+      filters: {
+        title: "Фільтри",
+        clear: "Очистити активні фільтри",
+        sortBy: "Сортувати за",
+        favorites: "Тільки улюблені",
+        favoritesDescription: "Показати тільки улюблені плейлисти",
+        playCount: "Кількість відтворень",
+        playCountMin: "Мінімальна кількість відтворень",
+        playCountMax: "Максимальна кількість відтворень",
+        totalTracks: "Загальна кількість треків",
+        totalTracksMin: "Мінімальна кількість треків",
+        totalTracksMax: "Максимальна кількість треків",
+        totalDuration: "Загальна тривалість",
+        totalDurationMin: "Мінімальна тривалість",
+        totalDurationMax: "Максимальна тривалість",
+        lastPlayed: "Останнє відтворення",
+        lastPlayedAfter: "Після",
+        lastPlayedBefore: "До",
+        selectDate: "Вибрати дату",
+        sortOptions: {
+          name: "Назва",
+          favorites: "Улюблені",
+          playCount: "Кількість відтворень",
+          totalTracks: "Загальна кількість треків",
+          totalDuration: "Загальна тривалість",
+          lastPlayed: "Останнє відтворення",
+          createdAt: "Дата створення",
+          updatedAt: "Дата оновлення"
+        }
+      }
     },
     albums: {
       title: "Альбоми",

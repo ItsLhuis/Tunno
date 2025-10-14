@@ -62,6 +62,7 @@ export const spanish: Language = {
       exitFullScreen: "Salir de pantalla completa",
       goToSong: "Ir a la canción",
       goToAlbum: "Ir al álbum",
+      goToPlaylist: "Ir a la playlist",
       goToArtist: "Ir al artista",
       shuffleAndPlay: "Mezclar y reproducir",
       unknown: "Desconocido",
@@ -253,7 +254,37 @@ export const spanish: Language = {
       updatedFailedTitle: "Error al actualizar la lista",
       deletedTitle: "Lista eliminada con éxito",
       deletedDescription: "{name} ha sido eliminada",
-      deletedFailedTitle: "Error al eliminar la lista"
+      deletedFailedTitle: "Error al eliminar la lista",
+      filters: {
+        title: "Filtros",
+        clear: "Limpiar filtros activos",
+        sortBy: "Ordenar por",
+        favorites: "Solo favoritos",
+        favoritesDescription: "Mostrar solo listas de reproducción favoritas",
+        playCount: "Reproducciones",
+        playCountMin: "Reproducciones mínimas",
+        playCountMax: "Reproducciones máximas",
+        totalTracks: "Total de pistas",
+        totalTracksMin: "Pistas mínimas",
+        totalTracksMax: "Pistas máximas",
+        totalDuration: "Duración total",
+        totalDurationMin: "Duración mínima",
+        totalDurationMax: "Duración máxima",
+        lastPlayed: "Última reproducción",
+        lastPlayedAfter: "Después de",
+        lastPlayedBefore: "Antes de",
+        selectDate: "Seleccionar fecha",
+        sortOptions: {
+          name: "Nombre",
+          favorites: "Favoritos",
+          playCount: "Reproducciones",
+          totalTracks: "Total de pistas",
+          totalDuration: "Duración total",
+          lastPlayed: "Última reproducción",
+          createdAt: "Fecha de creación",
+          updatedAt: "Fecha de actualización"
+        }
+      }
     },
     albums: {
       title: "Álbumes",

@@ -62,6 +62,7 @@ export const french: Language = {
       exitFullScreen: "Quitter le plein écran",
       goToSong: "Aller à la chanson",
       goToAlbum: "Aller à l'album",
+      goToPlaylist: "Aller à la playlist",
       goToArtist: "Aller à l'artiste",
       shuffleAndPlay: "Mélanger et lire",
       unknown: "Inconnu",
@@ -253,7 +254,37 @@ export const french: Language = {
       updatedFailedTitle: "Échec de la mise à jour de la playlist",
       deletedTitle: "Playlist supprimée avec succès",
       deletedDescription: "{name} a été supprimée",
-      deletedFailedTitle: "Échec de la suppression de la playlist"
+      deletedFailedTitle: "Échec de la suppression de la playlist",
+      filters: {
+        title: "Filtres",
+        clear: "Effacer les filtres actifs",
+        sortBy: "Trier par",
+        favorites: "Favoris uniquement",
+        favoritesDescription: "Afficher uniquement les playlists favorites",
+        playCount: "Lectures",
+        playCountMin: "Lectures minimum",
+        playCountMax: "Lectures maximum",
+        totalTracks: "Total des pistes",
+        totalTracksMin: "Pistes minimum",
+        totalTracksMax: "Pistes maximum",
+        totalDuration: "Durée totale",
+        totalDurationMin: "Durée minimum",
+        totalDurationMax: "Durée maximum",
+        lastPlayed: "Dernière lecture",
+        lastPlayedAfter: "Après",
+        lastPlayedBefore: "Avant",
+        selectDate: "Sélectionner une date",
+        sortOptions: {
+          name: "Nom",
+          favorites: "Favoris",
+          playCount: "Lectures",
+          totalTracks: "Total des pistes",
+          totalDuration: "Durée totale",
+          lastPlayed: "Dernière lecture",
+          createdAt: "Date de création",
+          updatedAt: "Date de mise à jour"
+        }
+      }
     },
     albums: {
       title: "Albums",

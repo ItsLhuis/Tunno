@@ -62,6 +62,7 @@ export const dutch: Language = {
       exitFullScreen: "Volledig scherm verlaten",
       goToSong: "Ga naar nummer",
       goToAlbum: "Ga naar album",
+      goToPlaylist: "Ga naar afspeellijst",
       goToArtist: "Ga naar artiest",
       shuffleAndPlay: "Schudden en afspelen",
       unknown: "Onbekend",
@@ -253,7 +254,37 @@ export const dutch: Language = {
       updatedFailedTitle: "Afspellijst bijwerken mislukt",
       deletedTitle: "Afspellijst succesvol verwijderd",
       deletedDescription: "{name} is verwijderd",
-      deletedFailedTitle: "Afspellijst verwijderen mislukt"
+      deletedFailedTitle: "Afspellijst verwijderen mislukt",
+      filters: {
+        title: "Filters",
+        clear: "Actieve filters wissen",
+        sortBy: "Sorteren op",
+        favorites: "Alleen favorieten",
+        favoritesDescription: "Toon alleen favoriete afspellijsten",
+        playCount: "Afspeelbeurten",
+        playCountMin: "Minimum afspeelbeurten",
+        playCountMax: "Maximum afspeelbeurten",
+        totalTracks: "Totaal tracks",
+        totalTracksMin: "Minimum tracks",
+        totalTracksMax: "Maximum tracks",
+        totalDuration: "Totale duur",
+        totalDurationMin: "Minimum duur",
+        totalDurationMax: "Maximum duur",
+        lastPlayed: "Laatst afgespeeld",
+        lastPlayedAfter: "Na",
+        lastPlayedBefore: "Voor",
+        selectDate: "Selecteer datum",
+        sortOptions: {
+          name: "Naam",
+          favorites: "Favorieten",
+          playCount: "Afspeelbeurten",
+          totalTracks: "Totaal tracks",
+          totalDuration: "Totale duur",
+          lastPlayed: "Laatst afgespeeld",
+          createdAt: "Aanmaakdatum",
+          updatedAt: "Bijwerkdatum"
+        }
+      }
     },
     albums: {
       title: "Albums",

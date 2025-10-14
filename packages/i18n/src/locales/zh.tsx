@@ -62,6 +62,7 @@ export const chinese: Language = {
       exitFullScreen: "退出全屏",
       goToSong: "转到歌曲",
       goToAlbum: "转到专辑",
+      goToPlaylist: "转到播放列表",
       goToArtist: "转到艺术家",
       shuffleAndPlay: "随机播放",
       unknown: "未知",
@@ -252,7 +253,37 @@ export const chinese: Language = {
       updatedFailedTitle: "更新播放列表失败",
       deletedTitle: "播放列表删除成功",
       deletedDescription: "{name} 已删除",
-      deletedFailedTitle: "删除播放列表失败"
+      deletedFailedTitle: "删除播放列表失败",
+      filters: {
+        title: "筛选器",
+        clear: "清除活动筛选器",
+        sortBy: "排序方式",
+        favorites: "仅收藏",
+        favoritesDescription: "仅显示收藏播放列表",
+        playCount: "播放次数",
+        playCountMin: "最小播放次数",
+        playCountMax: "最大播放次数",
+        totalTracks: "总曲目数",
+        totalTracksMin: "最小曲目数",
+        totalTracksMax: "最大曲目数",
+        totalDuration: "总时长",
+        totalDurationMin: "最小时长",
+        totalDurationMax: "最大时长",
+        lastPlayed: "最后播放",
+        lastPlayedAfter: "之后",
+        lastPlayedBefore: "之前",
+        selectDate: "选择日期",
+        sortOptions: {
+          name: "名称",
+          favorites: "收藏",
+          playCount: "播放次数",
+          totalTracks: "总曲目数",
+          totalDuration: "总时长",
+          lastPlayed: "最后播放",
+          createdAt: "创建日期",
+          updatedAt: "更新日期"
+        }
+      }
     },
     albums: {
       title: "专辑",

@@ -62,6 +62,7 @@ export const swedish: Language = {
       exitFullScreen: "Lämna fullskärm",
       goToSong: "Gå till låt",
       goToAlbum: "Gå till album",
+      goToPlaylist: "Gå till spellista",
       goToArtist: "Gå till artist",
       shuffleAndPlay: "Blanda och spela",
       unknown: "Okänd",
@@ -252,7 +253,37 @@ export const swedish: Language = {
       updatedFailedTitle: "Misslyckades att uppdatera spellista",
       deletedTitle: "Spellista borttagen",
       deletedDescription: "{name} har tagits bort",
-      deletedFailedTitle: "Misslyckades att ta bort spellista"
+      deletedFailedTitle: "Misslyckades att ta bort spellista",
+      filters: {
+        title: "Filter",
+        clear: "Rensa aktiva filter",
+        sortBy: "Sortera efter",
+        favorites: "Endast favoriter",
+        favoritesDescription: "Visa endast favoritspellistor",
+        playCount: "Uppspelningar",
+        playCountMin: "Minsta uppspelningar",
+        playCountMax: "Största uppspelningar",
+        totalTracks: "Totalt antal spår",
+        totalTracksMin: "Minsta antal spår",
+        totalTracksMax: "Största antal spår",
+        totalDuration: "Total varaktighet",
+        totalDurationMin: "Minsta varaktighet",
+        totalDurationMax: "Största varaktighet",
+        lastPlayed: "Senast uppspelad",
+        lastPlayedAfter: "Efter",
+        lastPlayedBefore: "Före",
+        selectDate: "Välj datum",
+        sortOptions: {
+          name: "Namn",
+          favorites: "Favoriter",
+          playCount: "Uppspelningar",
+          totalTracks: "Totalt antal spår",
+          totalDuration: "Total varaktighet",
+          lastPlayed: "Senast uppspelad",
+          createdAt: "Skapelsedatum",
+          updatedAt: "Uppdateringsdatum"
+        }
+      }
     },
     albums: {
       title: "Album",

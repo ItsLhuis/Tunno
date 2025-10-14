@@ -62,6 +62,7 @@ export const vietnamese: Language = {
       exitFullScreen: "Thoát toàn màn hình",
       goToSong: "Đến bài hát",
       goToAlbum: "Đến album",
+      goToPlaylist: "Đến danh sách phát",
       goToArtist: "Đến nghệ sĩ",
       shuffleAndPlay: "Trộn và phát",
       unknown: "Không xác định",
@@ -252,7 +253,37 @@ export const vietnamese: Language = {
       updatedFailedTitle: "Cập nhật danh sách phát thất bại",
       deletedTitle: "Xóa danh sách phát thành công",
       deletedDescription: "{name} đã bị xóa",
-      deletedFailedTitle: "Xóa danh sách phát thất bại"
+      deletedFailedTitle: "Xóa danh sách phát thất bại",
+      filters: {
+        title: "Bộ lọc",
+        clear: "Xóa bộ lọc đang hoạt động",
+        sortBy: "Sắp xếp theo",
+        favorites: "Chỉ yêu thích",
+        favoritesDescription: "Chỉ hiển thị danh sách phát yêu thích",
+        playCount: "Số lần phát",
+        playCountMin: "Số lần phát tối thiểu",
+        playCountMax: "Số lần phát tối đa",
+        totalTracks: "Tổng số bài hát",
+        totalTracksMin: "Số bài hát tối thiểu",
+        totalTracksMax: "Số bài hát tối đa",
+        totalDuration: "Tổng thời lượng",
+        totalDurationMin: "Thời lượng tối thiểu",
+        totalDurationMax: "Thời lượng tối đa",
+        lastPlayed: "Lần phát cuối",
+        lastPlayedAfter: "Sau",
+        lastPlayedBefore: "Trước",
+        selectDate: "Chọn ngày",
+        sortOptions: {
+          name: "Tên",
+          favorites: "Yêu thích",
+          playCount: "Số lần phát",
+          totalTracks: "Tổng số bài hát",
+          totalDuration: "Tổng thời lượng",
+          lastPlayed: "Lần phát cuối",
+          createdAt: "Ngày tạo",
+          updatedAt: "Ngày cập nhật"
+        }
+      }
     },
     albums: {
       title: "Album",

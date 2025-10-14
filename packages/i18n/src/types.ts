@@ -65,6 +65,7 @@ export type Translations = {
     exitFullScreen: string
     goToSong: string
     goToAlbum: string
+    goToPlaylist: string
     goToArtist: string
     shuffleAndPlay: string
     unknown: string
@@ -256,6 +257,36 @@ export type Translations = {
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string
+    filters: {
+      title: string
+      clear: string
+      sortBy: string
+      favorites: string
+      favoritesDescription: string
+      playCount: string
+      playCountMin: string
+      playCountMax: string
+      totalTracks: string
+      totalTracksMin: string
+      totalTracksMax: string
+      totalDuration: string
+      totalDurationMin: string
+      totalDurationMax: string
+      lastPlayed: string
+      lastPlayedAfter: string
+      lastPlayedBefore: string
+      selectDate: string
+      sortOptions: {
+        name: string
+        favorites: string
+        playCount: string
+        totalTracks: string
+        totalDuration: string
+        lastPlayed: string
+        createdAt: string
+        updatedAt: string
+      }
+    }
   }
   albums: {
     title: string

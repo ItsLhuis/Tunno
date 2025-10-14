@@ -62,6 +62,7 @@ export const korean: Language = {
       exitFullScreen: "전체 화면 종료",
       goToSong: "노래로 이동",
       goToAlbum: "앨범으로 이동",
+      goToPlaylist: "플레이리스트로 이동",
       goToArtist: "아티스트로 이동",
       shuffleAndPlay: "셔플 및 재생",
       unknown: "알 수 없음",
@@ -252,7 +253,37 @@ export const korean: Language = {
       updatedFailedTitle: "재생목록 업데이트 실패",
       deletedTitle: "재생목록이 성공적으로 삭제되었습니다",
       deletedDescription: "{name} 이(가) 삭제되었습니다",
-      deletedFailedTitle: "재생목록 삭제 실패"
+      deletedFailedTitle: "재생목록 삭제 실패",
+      filters: {
+        title: "필터",
+        clear: "활성 필터 지우기",
+        sortBy: "정렬 기준",
+        favorites: "즐겨찾기만",
+        favoritesDescription: "즐겨찾기 재생목록만 표시",
+        playCount: "재생 횟수",
+        playCountMin: "최소 재생 횟수",
+        playCountMax: "최대 재생 횟수",
+        totalTracks: "총 트랙 수",
+        totalTracksMin: "최소 트랙 수",
+        totalTracksMax: "최대 트랙 수",
+        totalDuration: "총 재생 시간",
+        totalDurationMin: "최소 재생 시간",
+        totalDurationMax: "최대 재생 시간",
+        lastPlayed: "마지막 재생",
+        lastPlayedAfter: "이후",
+        lastPlayedBefore: "이전",
+        selectDate: "날짜 선택",
+        sortOptions: {
+          name: "이름",
+          favorites: "즐겨찾기",
+          playCount: "재생 횟수",
+          totalTracks: "총 트랙 수",
+          totalDuration: "총 재생 시간",
+          lastPlayed: "마지막 재생",
+          createdAt: "생성일",
+          updatedAt: "업데이트일"
+        }
+      }
     },
     albums: {
       title: "앨범",

@@ -62,6 +62,7 @@ export const finnish: Language = {
       exitFullScreen: "Poistu koko näytöstä",
       goToSong: "Siirry kappaleeseen",
       goToAlbum: "Siirry albumiin",
+      goToPlaylist: "Siirry soittolistaan",
       goToArtist: "Siirry artistiin",
       shuffleAndPlay: "Sekoita ja toista",
       unknown: "Tuntematon",
@@ -252,7 +253,37 @@ export const finnish: Language = {
       updatedFailedTitle: "Soittolistan päivitys epäonnistui",
       deletedTitle: "Soittolista poistettu onnistuneesti",
       deletedDescription: "{name} on poistettu",
-      deletedFailedTitle: "Soittolistan poisto epäonnistui"
+      deletedFailedTitle: "Soittolistan poisto epäonnistui",
+      filters: {
+        title: "Suodattimet",
+        clear: "Tyhjennä aktiiviset suodattimet",
+        sortBy: "Järjestä",
+        favorites: "Vain suosikit",
+        favoritesDescription: "Näytä vain suosikkisoittolistat",
+        playCount: "Soittokerrat",
+        playCountMin: "Vähimmäissoittokerrat",
+        playCountMax: "Enimmäissoittokerrat",
+        totalTracks: "Kappaleiden kokonaismäärä",
+        totalTracksMin: "Vähimmäiskappaleet",
+        totalTracksMax: "Enimmäiskappaleet",
+        totalDuration: "Kokonaiskesto",
+        totalDurationMin: "Vähimmäiskesto",
+        totalDurationMax: "Enimmäiskesto",
+        lastPlayed: "Viimeksi soitettu",
+        lastPlayedAfter: "Jälkeen",
+        lastPlayedBefore: "Ennen",
+        selectDate: "Valitse päivämäärä",
+        sortOptions: {
+          name: "Nimi",
+          favorites: "Suosikit",
+          playCount: "Soittokerrat",
+          totalTracks: "Kappaleiden kokonaismäärä",
+          totalDuration: "Kokonaiskesto",
+          lastPlayed: "Viimeksi soitettu",
+          createdAt: "Luontipäivämäärä",
+          updatedAt: "Päivityspäivämäärä"
+        }
+      }
     },
     albums: {
       title: "Albumit",

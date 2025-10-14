@@ -62,6 +62,7 @@ export const english: Language = {
       exitFullScreen: "Exit full screen",
       goToSong: "Go to song",
       goToAlbum: "Go to album",
+      goToPlaylist: "Go to playlist",
       goToArtist: "Go to artist",
       shuffleAndPlay: "Shuffle and play",
       unknown: "Unknown",
@@ -252,7 +253,37 @@ export const english: Language = {
       updatedFailedTitle: "Failed to Update Playlist",
       deletedTitle: "Playlist Deleted Successfully",
       deletedDescription: "{name} has been deleted",
-      deletedFailedTitle: "Failed to Delete Playlist"
+      deletedFailedTitle: "Failed to Delete Playlist",
+      filters: {
+        title: "Filters",
+        clear: "Clear active filters",
+        sortBy: "Sort by",
+        favorites: "Favorites only",
+        favoritesDescription: "Show only favorite playlists",
+        playCount: "Play count",
+        playCountMin: "Minimum",
+        playCountMax: "Maximum",
+        totalTracks: "Total songs",
+        totalTracksMin: "Minimum",
+        totalTracksMax: "Maximum",
+        totalDuration: "Total duration",
+        totalDurationMin: "Minimum",
+        totalDurationMax: "Maximum",
+        lastPlayed: "Last played",
+        lastPlayedAfter: "After",
+        lastPlayedBefore: "Before",
+        selectDate: "Select date",
+        sortOptions: {
+          name: "Name",
+          favorites: "Favorites",
+          playCount: "Play count",
+          totalTracks: "Total songs",
+          totalDuration: "Total duration",
+          lastPlayed: "Last played",
+          createdAt: "Creation date",
+          updatedAt: "Update date"
+        }
+      }
     },
     albums: {
       title: "Albums",

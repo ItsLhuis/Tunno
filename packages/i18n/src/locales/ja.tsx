@@ -62,6 +62,7 @@ export const japanese: Language = {
       exitFullScreen: "フルスクリーンを終了",
       goToSong: "楽曲に移動",
       goToAlbum: "アルバムに移動",
+      goToPlaylist: "プレイリストに移動",
       goToArtist: "アーティストに移動",
       shuffleAndPlay: "シャッフルして再生",
       unknown: "不明",
@@ -252,7 +253,37 @@ export const japanese: Language = {
       updatedFailedTitle: "プレイリストの更新に失敗しました",
       deletedTitle: "プレイリストが正常に削除されました",
       deletedDescription: "{name} が削除されました",
-      deletedFailedTitle: "プレイリストの削除に失敗しました"
+      deletedFailedTitle: "プレイリストの削除に失敗しました",
+      filters: {
+        title: "フィルター",
+        clear: "アクティブなフィルターをクリア",
+        sortBy: "並び替え",
+        favorites: "お気に入りのみ",
+        favoritesDescription: "お気に入りのプレイリストのみ表示",
+        playCount: "再生回数",
+        playCountMin: "最小再生回数",
+        playCountMax: "最大再生回数",
+        totalTracks: "総トラック数",
+        totalTracksMin: "最小トラック数",
+        totalTracksMax: "最大トラック数",
+        totalDuration: "総再生時間",
+        totalDurationMin: "最小再生時間",
+        totalDurationMax: "最大再生時間",
+        lastPlayed: "最終再生",
+        lastPlayedAfter: "以降",
+        lastPlayedBefore: "以前",
+        selectDate: "日付を選択",
+        sortOptions: {
+          name: "名前",
+          favorites: "お気に入り",
+          playCount: "再生回数",
+          totalTracks: "総トラック数",
+          totalDuration: "総再生時間",
+          lastPlayed: "最終再生",
+          createdAt: "作成日",
+          updatedAt: "更新日"
+        }
+      }
     },
     albums: {
       title: "アルバム",

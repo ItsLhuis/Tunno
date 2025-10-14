@@ -62,6 +62,7 @@ export const italian: Language = {
       exitFullScreen: "Esci da schermo intero",
       goToSong: "Vai alla canzone",
       goToAlbum: "Vai all'album",
+      goToPlaylist: "Vai alla playlist",
       goToArtist: "Vai all'artista",
       shuffleAndPlay: "Mescola e riproduci",
       unknown: "Sconosciuto",
@@ -253,7 +254,37 @@ export const italian: Language = {
       updatedFailedTitle: "Aggiornamento playlist fallito",
       deletedTitle: "Playlist eliminata con successo",
       deletedDescription: "{name} è stata eliminata",
-      deletedFailedTitle: "Eliminazione playlist fallita"
+      deletedFailedTitle: "Eliminazione playlist fallita",
+      filters: {
+        title: "Filtri",
+        clear: "Cancella filtri attivi",
+        sortBy: "Ordina per",
+        favorites: "Solo preferiti",
+        favoritesDescription: "Mostra solo playlist preferite",
+        playCount: "Riproduzioni",
+        playCountMin: "Riproduzioni minime",
+        playCountMax: "Riproduzioni massime",
+        totalTracks: "Totale tracce",
+        totalTracksMin: "Tracce minime",
+        totalTracksMax: "Tracce massime",
+        totalDuration: "Durata totale",
+        totalDurationMin: "Durata minima",
+        totalDurationMax: "Durata massima",
+        lastPlayed: "Ultima riproduzione",
+        lastPlayedAfter: "Dopo",
+        lastPlayedBefore: "Prima",
+        selectDate: "Seleziona data",
+        sortOptions: {
+          name: "Nome",
+          favorites: "Preferiti",
+          playCount: "Riproduzioni",
+          totalTracks: "Totale tracce",
+          totalDuration: "Durata totale",
+          lastPlayed: "Ultima riproduzione",
+          createdAt: "Data di creazione",
+          updatedAt: "Data di aggiornamento"
+        }
+      }
     },
     albums: {
       title: "Album",

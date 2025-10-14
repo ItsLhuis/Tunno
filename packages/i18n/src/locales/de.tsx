@@ -62,6 +62,7 @@ export const german: Language = {
       exitFullScreen: "Vollbild verlassen",
       goToSong: "Zum Lied gehen",
       goToAlbum: "Zum Album gehen",
+      goToPlaylist: "Zur Playlist gehen",
       goToArtist: "Zum Künstler gehen",
       shuffleAndPlay: "Mischen und abspielen",
       unknown: "Unbekannt",
@@ -252,7 +253,37 @@ export const german: Language = {
       updatedFailedTitle: "Wiedergabeliste Aktualisierung Fehlgeschlagen",
       deletedTitle: "Wiedergabeliste Erfolgreich Gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Wiedergabeliste Löschung Fehlgeschlagen"
+      deletedFailedTitle: "Wiedergabeliste Löschung Fehlgeschlagen",
+      filters: {
+        title: "Filter",
+        clear: "Aktive Filter löschen",
+        sortBy: "Sortieren nach",
+        favorites: "Nur Favoriten",
+        favoritesDescription: "Nur Lieblingswiedergabelisten anzeigen",
+        playCount: "Wiedergaben",
+        playCountMin: "Mindestwiedergaben",
+        playCountMax: "Höchstwiedergaben",
+        totalTracks: "Gesamte Titel",
+        totalTracksMin: "Mindesttitel",
+        totalTracksMax: "Höchsttitel",
+        totalDuration: "Gesamtdauer",
+        totalDurationMin: "Mindestdauer",
+        totalDurationMax: "Höchstdauer",
+        lastPlayed: "Letzte Wiedergabe",
+        lastPlayedAfter: "Nach",
+        lastPlayedBefore: "Vor",
+        selectDate: "Datum auswählen",
+        sortOptions: {
+          name: "Name",
+          favorites: "Favoriten",
+          playCount: "Wiedergaben",
+          totalTracks: "Gesamte Titel",
+          totalDuration: "Gesamtdauer",
+          lastPlayed: "Letzte Wiedergabe",
+          createdAt: "Erstellungsdatum",
+          updatedAt: "Aktualisierungsdatum"
+        }
+      }
     },
     albums: {
       title: "Alben",

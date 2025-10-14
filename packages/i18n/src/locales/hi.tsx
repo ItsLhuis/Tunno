@@ -62,6 +62,7 @@ export const hindi: Language = {
       exitFullScreen: "पूर्ण स्क्रीन से बाहर निकलें",
       goToSong: "गाने पर जाएं",
       goToAlbum: "एल्बम पर जाएं",
+      goToPlaylist: "प्लेलिस्ट पर जाएं",
       goToArtist: "कलाकार के पास जाएं",
       shuffleAndPlay: "शफल करें और चलाएं",
       unknown: "अज्ञात",
@@ -252,7 +253,37 @@ export const hindi: Language = {
       updatedFailedTitle: "प्लेलिस्ट अपडेट करने में विफल",
       deletedTitle: "प्लेलिस्ट सफलतापूर्वक हटाई गई",
       deletedDescription: "{name} हटाई गई है",
-      deletedFailedTitle: "प्लेलिस्ट हटाने में विफल"
+      deletedFailedTitle: "प्लेलिस्ट हटाने में विफल",
+      filters: {
+        title: "फ़िल्टर",
+        clear: "सक्रिय फ़िल्टर साफ़ करें",
+        sortBy: "इसके अनुसार क्रमबद्ध करें",
+        favorites: "केवल पसंदीदा",
+        favoritesDescription: "केवल पसंदीदा प्लेलिस्ट दिखाएं",
+        playCount: "बजाने की संख्या",
+        playCountMin: "न्यूनतम बजाने की संख्या",
+        playCountMax: "अधिकतम बजाने की संख्या",
+        totalTracks: "कुल ट्रैक",
+        totalTracksMin: "न्यूनतम ट्रैक",
+        totalTracksMax: "अधिकतम ट्रैक",
+        totalDuration: "कुल अवधि",
+        totalDurationMin: "न्यूनतम अवधि",
+        totalDurationMax: "अधिकतम अवधि",
+        lastPlayed: "अंतिम बजाना",
+        lastPlayedAfter: "बाद में",
+        lastPlayedBefore: "पहले",
+        selectDate: "तिथि चुनें",
+        sortOptions: {
+          name: "नाम",
+          favorites: "पसंदीदा",
+          playCount: "बजाने की संख्या",
+          totalTracks: "कुल ट्रैक",
+          totalDuration: "कुल अवधि",
+          lastPlayed: "अंतिम बजाना",
+          createdAt: "निर्माण तिथि",
+          updatedAt: "अपडेट तिथि"
+        }
+      }
     },
     albums: {
       title: "एल्बम",
