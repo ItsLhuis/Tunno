@@ -63,6 +63,15 @@ export const albumKeys = {
     ]
     return params ? [...key, params] : key
   },
+  listByArtistsWithArtists: (artistIds: number[], params?: QueryAlbumParams) => {
+    const key = [
+      ...albumKeys.all,
+      "listByArtists",
+      ...albumKeys.withArtists,
+      { artistIds: [...artistIds].sort() }
+    ]
+    return params ? [...key, params] : key
+  },
   listByArtistsWithMainRelations: (artistIds: number[], params?: QueryAlbumParams) => {
     const key = [
       ...albumKeys.all,
