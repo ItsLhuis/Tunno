@@ -134,7 +134,7 @@ export type SongWithAlbumAndArtistsAndPlaylists = InferQueryModel<
   }
 >
 
-export type SongWithMainRelations = SongWithAlbumAndArtistsAndPlaylists
+export type SongWithMainRelations = SongWithAlbumAndArtists
 
 export type SongWithAllRelations = InferQueryModel<
   "songs",
