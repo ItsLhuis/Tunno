@@ -5,7 +5,7 @@ import { persistStorage } from "@stores/config/persist"
 
 import { debounce } from "lodash"
 
-import { type PlaylistFilters, type OrderablePlaylistColumns } from "@repo/api"
+import { type OrderablePlaylistColumns, type PlaylistFilters } from "@repo/api"
 
 const PLAYLISTS_STORE_NAME = "playlists"
 
@@ -106,7 +106,7 @@ export const usePlaylistsStore = create<PlaylistsStore>()(
       version: 1,
       storage: persistStorage(`.${PLAYLISTS_STORE_NAME}.json`),
       partialize: (state) => ({
-        filters: state.filters,
+        filters: { ...state.filters, search: undefined },
         orderBy: state.orderBy,
         viewMode: state.viewMode
       }),

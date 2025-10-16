@@ -104,7 +104,7 @@ export const useAlbumsStore = create<AlbumsStore>()(
       version: 1,
       storage: persistStorage(`.${ALBUMS_STORE_NAME}.json`),
       partialize: (state) => ({
-        filters: state.filters,
+        filters: { ...state.filters, search: undefined },
         orderBy: state.orderBy,
         viewMode: state.viewMode
       }),

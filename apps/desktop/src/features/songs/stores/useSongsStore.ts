@@ -15,6 +15,7 @@ type SongsState = {
   filters: SongFilters
   debouncedFilters: SongFilters
   orderBy: { column: OrderableSongColumns; direction: "asc" | "desc" } | null
+  viewMode: "grid" | "list"
   hasHydrated: boolean
 }
 
@@ -23,6 +24,7 @@ type SongsActions = {
   setFilters: (filters: Partial<SongFilters>) => void
   clearFilters: () => void
   setOrderBy: (orderBy: { column: OrderableSongColumns; direction: "asc" | "desc" } | null) => void
+  setViewMode: (viewMode: "grid" | "list") => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -61,6 +63,7 @@ export const useSongsStore = create<SongsStore>()(
         filters: {},
         debouncedFilters: {},
         orderBy: { column: "createdAt", direction: "desc" },
+        viewMode: "list",
         hasHydrated: false,
         setSearchTerm: (term: string) => {
           set({ searchTerm: term })
@@ -81,11 +84,15 @@ export const useSongsStore = create<SongsStore>()(
             debouncedFilters: {},
             searchTerm: "",
             debouncedSearchTerm: "",
-            orderBy: { column: "createdAt", direction: "desc" }
+            orderBy: { column: "createdAt", direction: "desc" },
+            viewMode: "grid"
           })
         },
         setOrderBy: (orderBy) => {
           set({ orderBy })
+        },
+        setViewMode: (viewMode) => {
+          set({ viewMode })
         },
         setHasHydrated: (hasHydrated) => {
           set({ hasHydrated })
@@ -97,8 +104,9 @@ export const useSongsStore = create<SongsStore>()(
       version: 1,
       storage: persistStorage(`.${SONGS_STORE_NAME}.json`),
       partialize: (state) => ({
-        filters: state.filters,
-        orderBy: state.orderBy
+        filters: { ...state.filters, search: undefined },
+        orderBy: state.orderBy,
+        viewMode: state.viewMode
       }),
       onRehydrateStorage: () => {
         return (state) => {
