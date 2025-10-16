@@ -47,7 +47,7 @@ export function useDeleteAlbum() {
     },
     onSettled: () => {
       invalidateQueries(queryClient, "album", {
-        relations: ["songs", "artists"]
+        relations: ["home", "songs", "artists"]
       })
     }
   })

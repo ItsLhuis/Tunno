@@ -1,6 +1,6 @@
 import { type QueryClient } from "@tanstack/react-query"
 
-import { albumKeys, artistKeys, playlistKeys, songKeys } from "./"
+import { albumKeys, artistKeys, homeKeys, playlistKeys, songKeys } from "./"
 
 import { type EntityType, type InvalidationContext, type RelationsMap } from "./types"
 
@@ -13,6 +13,7 @@ const STRATEGIES: Record<EntityType, InvalidationStrategy> = {
   song: {
     primary: [songKeys.all],
     relations: {
+      home: [homeKeys.all],
       artists: [artistKeys.all],
       albums: [albumKeys.all],
       playlists: [playlistKeys.all]
@@ -21,6 +22,7 @@ const STRATEGIES: Record<EntityType, InvalidationStrategy> = {
   artist: {
     primary: [artistKeys.all],
     relations: {
+      home: [homeKeys.all],
       songs: [songKeys.all],
       albums: [albumKeys.all]
     }
@@ -28,6 +30,7 @@ const STRATEGIES: Record<EntityType, InvalidationStrategy> = {
   album: {
     primary: [albumKeys.all],
     relations: {
+      home: [homeKeys.all],
       songs: [songKeys.all],
       artists: [artistKeys.all]
     }
@@ -35,6 +38,7 @@ const STRATEGIES: Record<EntityType, InvalidationStrategy> = {
   playlist: {
     primary: [playlistKeys.all],
     relations: {
+      home: [homeKeys.all],
       songs: [songKeys.all]
     }
   }

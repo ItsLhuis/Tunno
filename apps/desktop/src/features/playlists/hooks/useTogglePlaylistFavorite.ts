@@ -34,7 +34,9 @@ export function useTogglePlaylistFavorite() {
       toast.error(t("favorites.deletedFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "playlist")
+      invalidateQueries(queryClient, "playlist", {
+        relations: ["home", "songs"]
+      })
     }
   })
 }

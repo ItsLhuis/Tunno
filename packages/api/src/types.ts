@@ -7,10 +7,10 @@ export type QueryParams<TOrderByColumn extends string, TFilters = Record<string,
 
 export type EntityType = "song" | "artist" | "album" | "playlist"
 
-export type SongRelations = "artists" | "albums" | "playlists"
-export type ArtistRelations = "songs" | "albums"
-export type AlbumRelations = "songs" | "artists"
-export type PlaylistRelations = "songs"
+export type SongRelations = "home" | "artists" | "albums" | "playlists"
+export type ArtistRelations = "home" | "songs" | "albums"
+export type AlbumRelations = "home" | "songs" | "artists"
+export type PlaylistRelations = "home" | "songs"
 
 export type RelationsMap = {
   song: SongRelations

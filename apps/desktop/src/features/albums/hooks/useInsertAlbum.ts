@@ -32,7 +32,9 @@ export function useInsertAlbum() {
       toast.error(t("albums.createdFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "album")
+      invalidateQueries(queryClient, "album", {
+        relations: ["home"]
+      })
     }
   })
 }

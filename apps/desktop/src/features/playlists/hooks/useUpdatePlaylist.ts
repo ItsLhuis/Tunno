@@ -38,7 +38,9 @@ export function useUpdatePlaylist() {
       toast.error(t("playlists.updatedFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "playlist")
+      invalidateQueries(queryClient, "playlist", {
+        relations: ["home", "songs"]
+      })
     }
   })
 }

@@ -41,7 +41,9 @@ export function useToggleSongFavorite() {
       toast.error(t("favorites.createdFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "song")
+      invalidateQueries(queryClient, "song", {
+        relations: ["home"]
+      })
     }
   })
 }

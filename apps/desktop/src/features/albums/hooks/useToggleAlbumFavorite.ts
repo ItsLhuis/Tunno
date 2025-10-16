@@ -30,7 +30,9 @@ export function useToggleAlbumFavorite() {
       toast.error(t("favorites.createdFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "album")
+      invalidateQueries(queryClient, "album", {
+        relations: ["home"]
+      })
     }
   })
 }

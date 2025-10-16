@@ -32,7 +32,9 @@ export function useInsertArtist() {
       toast.error(t("artists.createdFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "artist")
+      invalidateQueries(queryClient, "artist", {
+        relations: ["home"]
+      })
     }
   })
 }

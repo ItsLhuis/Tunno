@@ -26,7 +26,9 @@ export function useDeletePlaylist() {
       toast.error(t("playlists.deletedFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "playlist")
+      invalidateQueries(queryClient, "playlist", {
+        relations: ["home", "songs"]
+      })
     }
   })
 }

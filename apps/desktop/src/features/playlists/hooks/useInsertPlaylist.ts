@@ -32,7 +32,9 @@ export function useInsertPlaylist() {
       toast.error(t("playlists.createdFailedTitle"))
     },
     onSettled: () => {
-      invalidateQueries(queryClient, "playlist")
+      invalidateQueries(queryClient, "playlist", {
+        relations: ["home", "songs"]
+      })
     }
   })
 }

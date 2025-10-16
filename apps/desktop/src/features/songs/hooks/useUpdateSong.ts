@@ -97,6 +97,8 @@ export function useUpdateSong() {
         relations.push("albums")
       }
 
+      relations.push("home")
+
       invalidateQueries(queryClient, "song", {
         relations: relations.length > 0 ? relations : undefined
       })
