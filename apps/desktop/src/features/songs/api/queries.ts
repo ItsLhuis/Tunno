@@ -48,11 +48,6 @@ export const getSongsWithMainRelationsPaginated = async ({
           artist: true
         },
         orderBy: asc(schema.songsToArtists.artistOrder)
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
       }
     }
   })

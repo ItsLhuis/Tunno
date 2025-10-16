@@ -4,13 +4,16 @@ import { useShallow } from "zustand/shallow"
 
 import { useSongsStore } from "../../stores/useSongsStore"
 
+import { cn } from "@lib/utils"
+
 import { SearchInput } from "@components/ui"
 
 type SongsListSearchProps = {
   renderRight?: ReactNode
+  className?: string
 }
 
-const SongsListSearch = ({ renderRight }: SongsListSearchProps) => {
+const SongsListSearch = ({ renderRight, className }: SongsListSearchProps) => {
   const { searchTerm, setSearchTerm } = useSongsStore(
     useShallow((state) => ({
       searchTerm: state.searchTerm,
@@ -27,7 +30,7 @@ const SongsListSearch = ({ renderRight }: SongsListSearchProps) => {
 
   return (
     <SearchInput
-      containerClassName="p-9 pb-0 pt-6"
+      containerClassName={cn("p-9 pb-0 pt-6", className)}
       value={searchTerm}
       onChange={handleInputChange}
       className="flex-1"

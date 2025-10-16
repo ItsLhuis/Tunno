@@ -10,6 +10,8 @@ import { useFetchSongsWithMainRelationsInfinite } from "../../hooks/useFetchSong
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
+import { cn } from "@lib/utils"
+
 import {
   NotFound,
   Spinner,
@@ -29,10 +31,11 @@ import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 type SongListProps = { list: VirtualizedListController<SongWithMainRelations> }
 
 const SongsList = () => {
-  const { debouncedFilters, orderBy } = useSongsStore(
+  const { debouncedFilters, orderBy, viewMode } = useSongsStore(
     useShallow((state) => ({
       debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy
+      orderBy: state.orderBy,
+      viewMode: state.viewMode
     }))
   )
 
@@ -61,25 +64,36 @@ const SongsList = () => {
   const StickyHeader = useCallback(
     ({ list }: SongListProps) => (
       <Fragment>
-        <SongsListStickyHeader list={list} allSongIds={songIds} />
-        <div className="pt-6">
-          <SongsListSubHeader list={list} />
-        </div>
+        <SongsListStickyHeader
+          list={list}
+          allSongIds={songIds}
+          className={cn(viewMode === "grid" && "pb-9")}
+        />
+        {viewMode === "list" && (
+          <div className="pt-6">
+            <SongsListSubHeader list={list} />
+          </div>
+        )}
       </Fragment>
     ),
-    [songIds]
+    [songIds, viewMode]
   )
 
   const ListHeader = useCallback(
     ({ list }: SongListProps) => (
       <Fragment>
-        <SongsListSearch renderRight={<SongsListFilters />} />
-        <div className="px-9 pb-3 pt-6">
-          <SongsListSubHeader list={list} className="border-b" />
-        </div>
+        <SongsListSearch
+          renderRight={<SongsListFilters />}
+          className={cn(viewMode === "grid" && "pb-6")}
+        />
+        {viewMode === "list" && (
+          <div className="px-9 pb-3 pt-6">
+            <SongsListSubHeader list={list} className="border-b" />
+          </div>
+        )}
       </Fragment>
     ),
-    []
+    [viewMode]
   )
 
   const ListEmpty = () => (isLoading ? <Spinner /> : <NotFound />)
@@ -120,8 +134,23 @@ const SongsList = () => {
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}
       renderItem={({ item, selected, toggle }) => (
-        <SongItem song={item} selected={selected} onToggle={toggle} allSongIds={songIds} />
+        <SongItem
+          song={item}
+          variant={viewMode === "grid" ? "card" : "list"}
+          selected={viewMode === "list" ? selected : false}
+          onToggle={viewMode === "list" ? toggle : undefined}
+          allSongIds={songIds}
+        />
       )}
+      layout={viewMode}
+      gridBreakpoints={{
+        xs: 3,
+        sm: 3,
+        md: 4,
+        lg: 4,
+        xl: 5,
+        "2xl": 6
+      }}
     />
   )
 }

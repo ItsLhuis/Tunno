@@ -6,6 +6,8 @@ import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { SongForm } from "../../forms"
 
+import { cn } from "@lib/utils"
+
 import {
   IconButton,
   StickyHeader,
@@ -18,9 +20,10 @@ import { type SongWithMainRelations } from "@repo/api"
 type SongsListStickyHeaderProps = {
   list: VirtualizedListController<SongWithMainRelations>
   allSongIds: number[]
+  className?: string
 }
 
-const SongsListStickyHeader = ({ list, allSongIds }: SongsListStickyHeaderProps) => {
+const SongsListStickyHeader = ({ list, allSongIds, className }: SongsListStickyHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -39,7 +42,7 @@ const SongsListStickyHeader = ({ list, allSongIds }: SongsListStickyHeaderProps)
   const hasSelectedRows = list.hasSelection
 
   return (
-    <StickyHeader className="flex items-center gap-3">
+    <StickyHeader className={cn("flex items-center gap-3", className)}>
       <SongForm
         trigger={
           <IconButton
