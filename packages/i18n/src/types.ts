@@ -203,6 +203,46 @@ export type Translations = {
   }
   home: {
     title: string
+    jumpBackIn: {
+      title: string
+      description: string
+    }
+    yourPlaylists: {
+      title: string
+      description: string
+    }
+    onRepeat: {
+      title: string
+      description: string
+    }
+    newReleases: {
+      title: string
+      description: string
+    }
+    favoriteArtists: {
+      title: string
+      description: string
+    }
+    topAlbums: {
+      title: string
+      description: string
+    }
+    recentlyAdded: {
+      title: string
+      description: string
+    }
+    hiddenGems: {
+      title: string
+      description: string
+    }
+    discover: {
+      title: string
+      description: string
+    }
+    yourStats: {
+      title: string
+      description: string
+    }
   }
   songs: {
     title: string

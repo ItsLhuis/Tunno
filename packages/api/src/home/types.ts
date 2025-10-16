@@ -1,55 +1,14 @@
-import { schema } from "@repo/database"
-
 import { type QueryParams } from "../types"
 
 export type QueryHomeParams = QueryParams<string, Record<string, unknown>>
 
-import type { Song, SongWithMainRelations } from "../songs"
+import type { SongWithMainRelations } from "../songs"
 
 import type { Artist, ArtistWithStats } from "../artists"
 
 import type { Album, AlbumWithArtists } from "../albums"
 
-export type PlayHistory = typeof schema.playHistory.$inferSelect
-
-export type JumpBackIn = {
-  song: SongWithMainRelations
-  playedAt: Date
-  timeListened: number
-  playSource: string
-}
-
-export type TopMix = SongWithMainRelations & {
-  recentPlayCount: number
-  totalPlayTime: number
-}
-
-export type OnRepeat = SongWithMainRelations & {
-  recentPlayCount: number
-  daysActive: number
-}
-
-export type FavoriteArtist = ArtistWithStats & {
-  recentPlayCount: number
-  totalPlayTime: number
-}
-
-export type TopAlbum = AlbumWithArtists & {
-  recentPlayCount: number
-  totalPlayTime: number
-}
-
-export type RecentlyAdded = SongWithMainRelations & {
-  addedAt: Date
-}
-
-export type Discover = SongWithMainRelations & {
-  discoveryScore: number
-}
-
-export type HiddenGems = SongWithMainRelations & {
-  nostalgiaScore: number
-}
+import type { Playlist } from "../playlists"
 
 export type UserStats = {
   totalSongs: number
@@ -59,18 +18,123 @@ export type UserStats = {
   totalPlayTime: number
   totalPlayCount: number
   averageSessionTime: number
-  mostPlayedGenre?: string
   topArtist?: Artist
   topAlbum?: Album
-  topSong?: Song
+  topSong?: SongWithMainRelations
+  topPlaylist?: Playlist
+  recentActivity: {
+    songsPlayedToday: number
+    songsPlayedThisWeek: number
+    songsPlayedThisMonth: number
+    timeListenedToday: number
+    timeListenedThisWeek: number
+    timeListenedThisMonth: number
+  }
 }
 
-export type PlaylistWithComputed = typeof schema.playlists.$inferSelect & {
-  songCount: number
-  totalDuration: number
+export type JumpBackIn = {
+  items: Array<{
+    song: SongWithMainRelations
+    playedAt: Date
+    timeListened: number
+    playSource: string
+  }>
+  totalItems: number
+  totalTimeListened: number
+  averageTimePerSession: number
 }
 
-export type AlbumRelease = AlbumWithArtists & {
-  songCount: number
+export type OnRepeat = {
+  songs: Array<
+    SongWithMainRelations & {
+      recentPlayCount: number
+      daysActive: number
+    }
+  >
+  totalSongs: number
+  totalRecentPlays: number
+  averagePlaysPerSong: number
+  mostPlayedSong?: SongWithMainRelations & {
+    recentPlayCount: number
+    daysActive: number
+  }
+}
+
+export type YourPlaylists = {
+  playlists: Playlist[]
+  totalPlaylists: number
+  totalTracks: number
   totalDuration: number
+  favoritePlaylists: number
+}
+
+export type NewReleases = {
+  albums: AlbumWithArtists[]
+  totalAlbums: number
+  totalTracks: number
+  totalDuration: number
+  releaseDateRange: {
+    earliest: Date
+    latest: Date
+  }
+}
+
+export type FavoriteArtists = {
+  artists: ArtistWithStats[]
+  totalArtists: number
+  totalRecentPlays: number
+  totalPlayTime: number
+  topArtist?: ArtistWithStats
+}
+
+export type TopAlbums = {
+  albums: AlbumWithArtists[]
+  totalAlbums: number
+  totalRecentPlays: number
+  totalPlayTime: number
+  topAlbum?: AlbumWithArtists
+}
+
+export type RecentlyAddedItem =
+  | { type: "song"; data: SongWithMainRelations }
+  | { type: "album"; data: AlbumWithArtists }
+  | { type: "playlist"; data: Playlist }
+  | { type: "artist"; data: Artist }
+
+export type RecentlyAdded = {
+  items: RecentlyAddedItem[]
+  totalItems: number
+  totalSongs: number
+  totalAlbums: number
+  totalPlaylists: number
+  totalArtists: number
+  totalDuration: number
+  addedDateRange: {
+    earliest: Date
+    latest: Date
+  }
+}
+
+export type HiddenGems = {
+  songs: Array<
+    SongWithMainRelations & {
+      nostalgiaScore: number
+    }
+  >
+  totalSongs: number
+  totalDuration: number
+  averageNostalgiaScore: number
+  highestNostalgiaScore: number
+}
+
+export type Discover = {
+  songs: Array<
+    SongWithMainRelations & {
+      discoveryScore: number
+    }
+  >
+  totalSongs: number
+  totalDuration: number
+  averageDiscoveryScore: number
+  highestDiscoveryScore: number
 }

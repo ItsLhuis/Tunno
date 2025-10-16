@@ -1,6 +1,6 @@
 import { type TFunction } from "@repo/i18n"
 
-export const formatTime = (seconds: number | undefined) => {
+export function formatTime(seconds: number | undefined) {
   const s = seconds ?? 0
   const hrs = Math.floor(s / 3600)
   const mins = Math.floor((s % 3600) / 60)
@@ -13,7 +13,7 @@ export const formatTime = (seconds: number | undefined) => {
   return `${mins}:${secs.toString().padStart(2, "0")}`
 }
 
-export const parseTime = (str: string): number | undefined => {
+export function parseTime(str: string): number | undefined {
   const parts = str.split(":").map((p) => p.trim())
 
   if (parts.length === 3) {
@@ -33,7 +33,7 @@ export const parseTime = (str: string): number | undefined => {
   return isNaN(fallback) ? undefined : fallback
 }
 
-export const formatDuration = (
+export function formatDuration(
   seconds: number | undefined,
   t: TFunction,
   options?: {
@@ -41,7 +41,7 @@ export const formatDuration = (
     showSeconds?: boolean
     precision?: "exact" | "rounded"
   }
-): string => {
+): string {
   const s = seconds ?? 0
 
   const { maxParts = 2, showSeconds = true, precision = "exact" } = options ?? {}
@@ -57,24 +57,13 @@ export const formatDuration = (
 
   const parts: string[] = []
 
-  if (years > 0) {
-    parts.push(t("common.years", { count: years }))
-  }
-  if (weeks > 0) {
-    parts.push(t("common.weeks", { count: weeks }))
-  }
-  if (days > 0) {
-    parts.push(t("common.days", { count: days }))
-  }
-  if (hours > 0) {
-    parts.push(t("common.hours", { count: hours }))
-  }
-  if (minutes > 0) {
-    parts.push(t("common.minutes", { count: minutes }))
-  }
-  if (secs > 0 && (showSeconds || parts.length === 0)) {
+  if (years > 0) parts.push(t("common.years", { count: years }))
+  if (weeks > 0) parts.push(t("common.weeks", { count: weeks }))
+  if (days > 0) parts.push(t("common.days", { count: days }))
+  if (hours > 0) parts.push(t("common.hours", { count: hours }))
+  if (minutes > 0) parts.push(t("common.minutes", { count: minutes }))
+  if (secs > 0 && (showSeconds || parts.length === 0))
     parts.push(t("common.seconds", { count: secs }))
-  }
 
   if (precision === "rounded" && parts.length > 1) {
     const lastPart = parts[parts.length - 1]
@@ -92,9 +81,7 @@ export const formatDuration = (
     }
   }
 
-  if (parts.length > maxParts) {
-    return parts.slice(0, maxParts).join(" ")
-  }
+  if (parts.length > maxParts) return parts.slice(0, maxParts).join(" ")
 
   return parts.join(" ")
 }
