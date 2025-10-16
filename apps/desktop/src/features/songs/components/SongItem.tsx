@@ -33,6 +33,7 @@ import { type SongWithMainRelations } from "@repo/api"
 
 type SongItemProps = {
   song: SongWithMainRelations
+  variant?: "list" | "card"
   selected?: boolean
   allSongIds?: number[]
   onToggle?: () => void
@@ -44,6 +45,7 @@ const SongItem = memo(
   ({
     song,
     allSongIds,
+    variant = "list",
     selected = false,
     onToggle,
     playSource = "songs",
@@ -91,6 +93,75 @@ const SongItem = memo(
 
     const showCheckbox = !!onToggle
 
+    if (variant === "card") {
+      return (
+        <SongActions variant="context" songId={song.id}>
+          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
+            <div className="mb-3 h-full w-full">
+              <Thumbnail
+                placeholderIcon="Music"
+                fileName={song.thumbnail}
+                alt={song.name}
+                containerClassName="h-full w-full rounded-lg"
+                className={cn("h-full w-full", !song.thumbnail && "p-[25%]")}
+              />
+            </div>
+            <div className="flex w-full items-start justify-between gap-2">
+              <div className="min-w-0 flex-1 pb-1">
+                <Marquee>
+                  <SafeLink to="/songs/$id" params={{ id: song.id.toString() }}>
+                    <Typography className="w-full truncate">{song.name}</Typography>
+                  </SafeLink>
+                </Marquee>
+                <Marquee>
+                  {song.artists.length > 0 ? (
+                    song.artists.map((artist, index) => (
+                      <span key={artist.artistId}>
+                        <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                          <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
+                        </SafeLink>
+                        {index < song.artists.length - 1 && (
+                          <Typography affects={["muted", "small"]}>, </Typography>
+                        )}
+                      </span>
+                    ))
+                  ) : (
+                    <Typography affects={["muted", "small"]}>
+                      {t("common.unknownArtist")}
+                    </Typography>
+                  )}
+                </Marquee>
+              </div>
+              <div className="flex-shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+                <SongActions songId={song.id}>
+                  <IconButton
+                    name="MoreHorizontal"
+                    variant="secondary"
+                    tooltip={t("common.more")}
+                  />
+                </SongActions>
+              </div>
+              <div className="absolute bottom-5 right-4 -z-10 flex-shrink-0 opacity-100 transition-opacity group-focus-within:opacity-0 group-hover:opacity-0">
+                <Fade show={isCurrentlyPlaying}>
+                  <Lottie animationData={PlayingLottie} className="size-5" />
+                </Fade>
+              </div>
+            </div>
+            <div className="absolute bottom-14 right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+              <div className="relative">
+                <IconButton
+                  name={isCurrentlyPlaying ? "Pause" : "Play"}
+                  tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
+                  onClick={handlePlaySong}
+                  isLoading={isTrackLoading}
+                />
+              </div>
+            </div>
+          </div>
+        </SongActions>
+      )
+    }
+
     const gridCols = showCheckbox
       ? "grid-cols-[24px_40px_1fr_1fr_0.5fr_80px_40px]"
       : "grid-cols-[40px_1fr_1fr_0.5fr_80px_40px]"
@@ -135,22 +206,18 @@ const SongItem = memo(
               </Marquee>
               <Marquee>
                 {song.artists.length > 0 ? (
-                  <div className="flex gap-1">
-                    {song.artists.map((artist, index) => (
-                      <span key={artist.artistId} className="flex items-center">
-                        <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
-                          <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
-                        </SafeLink>
-                        {index < song.artists.length - 1 && (
-                          <Typography affects={["muted", "small"]}>, </Typography>
-                        )}
-                      </span>
-                    ))}
-                  </div>
+                  song.artists.map((artist, index) => (
+                    <span key={artist.artistId}>
+                      <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                        <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
+                      </SafeLink>
+                      {index < song.artists.length - 1 && (
+                        <Typography affects={["muted", "small"]}>, </Typography>
+                      )}
+                    </span>
+                  ))
                 ) : (
-                  <Typography className="truncate" affects={["muted", "small"]}>
-                    {t("common.unknownArtist")}
-                  </Typography>
+                  <Typography affects={["muted", "small"]}>{t("common.unknownArtist")}</Typography>
                 )}
               </Marquee>
             </div>

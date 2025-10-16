@@ -3,13 +3,14 @@ import { useCallback, useMemo } from "react"
 import { useParams } from "@tanstack/react-router"
 
 import { useFetchSongsByIdsWithMainRelations } from "../../../songs/hooks/useFetchSongsByIdsWithMainRelations"
+
 import { useFetchPlaylistByIdWithAllRelations } from "../../hooks/useFetchPlaylistByIdWithAllRelations"
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
 import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
-import { SongItem } from "@features/songs/components/SongItem"
+import { SongItem } from "@features/songs/components"
 
 import { PlaylistInfoHeader } from "./PlaylistInfoHeader"
 import { PlaylistInfoStats } from "./PlaylistInfoStats"
@@ -28,7 +29,7 @@ const PlaylistInfo = () => {
 
   const songIds = useMemo(() => {
     if (!playlistData?.songs) return []
-    return playlistData.songs.map((relation) => relation.song.id)
+    return playlistData.songs.map((relation) => relation.songId)
   }, [playlistData?.songs])
 
   const {
@@ -41,15 +42,11 @@ const PlaylistInfo = () => {
   const isLoading = isPlaylistLoading || isSongsLoading
   const isError = isPlaylistError || isSongsError
 
-  const playlist = useMemo(() => {
-    if (!playlistData) return null
-    return playlistData
-  }, [playlistData])
+  const playlist = playlistData
 
-  const songs = useMemo(() => {
-    if (!songsData) return []
-    return songsData
-  }, [songsData])
+  const songs = songsData ?? []
+
+  const allSongIds = useMemo(() => songs.map((song) => song.id), [songs])
 
   const Header = useCallback(() => {
     if (!playlist) return null
@@ -84,7 +81,7 @@ const PlaylistInfo = () => {
   })
 
   return (
-    <AsyncState data={playlist} isLoading={isLoading} isError={isError}>
+    <AsyncState data isLoading={isLoading} isError={isError}>
       {() => (
         <ScrollAreaWithHeaders
           HeaderComponent={Header}
@@ -96,7 +93,7 @@ const PlaylistInfo = () => {
             <section className="flex w-full flex-col gap-3">
               <div className="flex flex-col gap-1">
                 {songs.map((song) => (
-                  <SongItem key={song.id} song={song} allSongIds={songs.map((s) => s.id)} />
+                  <SongItem key={song.id} song={song} allSongIds={allSongIds} />
                 ))}
               </div>
             </section>

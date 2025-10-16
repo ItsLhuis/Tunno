@@ -1,5 +1,5 @@
-export { AlbumActions } from "./AlbumActions"
-export { AlbumItem } from "./AlbumItem"
-export { DeleteAlbumDialog } from "./DeleteAlbumDialog"
+export * from "./AlbumActions"
 export * from "./AlbumInfo"
+export * from "./AlbumItem"
 export * from "./AlbumsList"
+export * from "./DeleteAlbumDialog"

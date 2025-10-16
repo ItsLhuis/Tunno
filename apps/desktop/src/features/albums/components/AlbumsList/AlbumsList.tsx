@@ -54,7 +54,7 @@ const AlbumsList = () => {
     return data.pages.flatMap((page) => page.albums)
   }, [data?.pages])
 
-  const albumIds = useMemo(() => allAlbumIds || [], [allAlbumIds])
+  const albumIds = allAlbumIds ?? []
 
   const Header = useCallback(
     ({ list }: AlbumsListProps) => <AlbumsListHeader list={list} allAlbumIds={albumIds} />,
@@ -96,16 +96,14 @@ const AlbumsList = () => {
     [viewMode]
   )
 
-  const ListEmpty = useCallback(() => (isLoading ? <Spinner /> : <NotFound />), [isLoading])
+  const ListEmpty = () => (isLoading ? <Spinner /> : <NotFound />)
 
-  const ListFooter = useCallback(() => {
-    if (!hasNextPage) return null
-    return (
+  const ListFooter = () =>
+    hasNextPage ? (
       <div className="flex justify-center py-3">
         <Spinner />
       </div>
-    )
-  }, [hasNextPage])
+    ) : null
 
   const handleEndReached = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {

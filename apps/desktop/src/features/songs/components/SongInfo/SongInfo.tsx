@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react"
+import { useCallback } from "react"
 
 import { useParams } from "@tanstack/react-router"
 
@@ -33,16 +33,11 @@ const SongInfo = () => {
   const { t } = useTranslation()
 
   const {
-    data: songData,
+    data: song,
     isLoading: isSongLoading,
     isError: isSongError,
     refetch
   } = useFetchSongByIdWithAllRelations(Number(id))
-
-  const song = useMemo(() => {
-    if (!songData) return null
-    return songData
-  }, [songData])
 
   const Header = useCallback(() => {
     if (!song) return null

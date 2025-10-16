@@ -3,13 +3,14 @@ import { useCallback, useMemo } from "react"
 import { useParams } from "@tanstack/react-router"
 
 import { useFetchSongsByIdsWithMainRelations } from "../../../songs/hooks/useFetchSongsByIdsWithMainRelations"
+
 import { useFetchAlbumByIdWithAllRelations } from "../../hooks/useFetchAlbumByIdWithAllRelations"
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
 import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
-import { SongItem } from "@features/songs/components/SongItem"
+import { SongItem } from "@features/songs/components"
 
 import { AlbumInfoHeader } from "./AlbumInfoHeader"
 import { AlbumInfoStats } from "./AlbumInfoStats"
@@ -41,15 +42,11 @@ const AlbumInfo = () => {
   const isLoading = isAlbumLoading || isSongsLoading
   const isError = isAlbumError || isSongsError
 
-  const album = useMemo(() => {
-    if (!albumData) return null
-    return albumData
-  }, [albumData])
+  const album = albumData
 
-  const songs = useMemo(() => {
-    if (!songsData) return []
-    return songsData
-  }, [songsData])
+  const songs = songsData ?? []
+
+  const allSongIds = useMemo(() => songs.map((song) => song.id), [songs])
 
   const Header = useCallback(() => {
     if (!album) return null
@@ -84,7 +81,7 @@ const AlbumInfo = () => {
   })
 
   return (
-    <AsyncState data={album} isLoading={isLoading} isError={isError}>
+    <AsyncState data isLoading={isLoading} isError={isError}>
       {() => (
         <ScrollAreaWithHeaders
           HeaderComponent={Header}
@@ -96,7 +93,7 @@ const AlbumInfo = () => {
             <section className="flex w-full flex-col gap-3">
               <div className="flex flex-col gap-1">
                 {songs.map((song) => (
-                  <SongItem key={song.id} song={song} allSongIds={songs.map((s) => s.id)} />
+                  <SongItem key={song.id} song={song} allSongIds={allSongIds} />
                 ))}
               </div>
             </section>

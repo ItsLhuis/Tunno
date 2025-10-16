@@ -54,7 +54,7 @@ const PlaylistsList = () => {
     return data.pages.flatMap((page) => page.playlists)
   }, [data?.pages])
 
-  const playlistIds = useMemo(() => allPlaylistIds || [], [allPlaylistIds])
+  const playlistIds = allPlaylistIds ?? []
 
   const Header = useCallback(
     ({ list }: PlaylistsListProps) => (

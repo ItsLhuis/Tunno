@@ -51,7 +51,7 @@ const SongsList = () => {
     return data.pages.flatMap((page) => page.songs)
   }, [data?.pages])
 
-  const songIds = useMemo(() => allSongIds || [], [allSongIds])
+  const songIds = allSongIds ?? []
 
   const Header = useCallback(
     ({ list }: SongListProps) => <SongsListHeader list={list} allSongIds={songIds} />,
@@ -82,16 +82,14 @@ const SongsList = () => {
     []
   )
 
-  const ListEmpty = useCallback(() => (isLoading ? <Spinner /> : <NotFound />), [isLoading])
+  const ListEmpty = () => (isLoading ? <Spinner /> : <NotFound />)
 
-  const ListFooter = useCallback(() => {
-    if (!hasNextPage) return null
-    return (
+  const ListFooter = () =>
+    hasNextPage ? (
       <div className="flex justify-center py-3">
         <Spinner />
       </div>
-    )
-  }, [hasNextPage])
+    ) : null
 
   const handleEndReached = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {

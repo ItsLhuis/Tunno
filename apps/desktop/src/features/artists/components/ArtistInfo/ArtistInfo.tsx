@@ -3,13 +3,14 @@ import { useCallback, useMemo } from "react"
 import { useParams } from "@tanstack/react-router"
 
 import { useFetchSongsByIdsWithMainRelations } from "../../../songs/hooks/useFetchSongsByIdsWithMainRelations"
+
 import { useFetchArtistByIdWithAllRelations } from "../../hooks/useFetchArtistByIdWithAllRelations"
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
 import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
-import { SongItem } from "@features/songs/components/SongItem"
+import { SongItem } from "@features/songs/components"
 
 import { ArtistInfoHeader } from "./ArtistInfoHeader"
 import { ArtistInfoStats } from "./ArtistInfoStats"
@@ -28,7 +29,7 @@ const ArtistInfo = () => {
 
   const songIds = useMemo(() => {
     if (!artistData?.songs) return []
-    return artistData.songs.map((relation) => relation.song.id)
+    return artistData.songs.map((relation) => relation.songId)
   }, [artistData?.songs])
 
   const {
@@ -41,15 +42,11 @@ const ArtistInfo = () => {
   const isLoading = isArtistLoading || isSongsLoading
   const isError = isArtistError || isSongsError
 
-  const artist = useMemo(() => {
-    if (!artistData) return null
-    return artistData
-  }, [artistData])
+  const artist = artistData
 
-  const songs = useMemo(() => {
-    if (!songsData) return []
-    return songsData
-  }, [songsData])
+  const songs = songsData ?? []
+
+  const allSongIds = useMemo(() => songs.map((song) => song.id), [songs])
 
   const Header = useCallback(() => {
     if (!artist) return null
@@ -84,7 +81,7 @@ const ArtistInfo = () => {
   })
 
   return (
-    <AsyncState data={artist} isLoading={isLoading} isError={isError}>
+    <AsyncState data isLoading={isLoading} isError={isError}>
       {() => (
         <ScrollAreaWithHeaders
           HeaderComponent={Header}
@@ -96,7 +93,7 @@ const ArtistInfo = () => {
             <section className="flex w-full flex-col gap-3">
               <div className="flex flex-col gap-1">
                 {songs.map((song) => (
-                  <SongItem key={song.id} song={song} allSongIds={songs.map((s) => s.id)} />
+                  <SongItem key={song.id} song={song} allSongIds={allSongIds} />
                 ))}
               </div>
             </section>

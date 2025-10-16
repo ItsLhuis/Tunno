@@ -91,11 +91,6 @@ export const getSongByIdWithMainRelations = async (
           artist: true
         },
         orderBy: asc(schema.songsToArtists.artistOrder)
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
       }
     }
   })
@@ -143,11 +138,6 @@ export const getSongsByIdsWithMainRelations = async (
           artist: true
         },
         orderBy: asc(schema.songsToArtists.artistOrder)
-      },
-      playlists: {
-        with: {
-          playlist: true
-        }
       }
     }
   })
