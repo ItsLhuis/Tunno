@@ -199,7 +199,47 @@ export const polish: Language = {
       }
     },
     home: {
-      title: "Strona główna"
+      title: "Strona główna",
+      jumpBackIn: {
+        title: "Kontynuuj",
+        description: "Kontynuuj tam gdzie skończyłeś"
+      },
+      yourPlaylists: {
+        title: "Stworzone Dla Ciebie",
+        description: "Twoje osobiste playlisty"
+      },
+      onRepeat: {
+        title: "Na Powtórce",
+        description: "Utwory których nie możesz przestać słuchać"
+      },
+      newReleases: {
+        title: "Nowe Wydania",
+        description: "Świeża muzyka od artystów których obserwujesz"
+      },
+      favoriteArtists: {
+        title: "Twoi Artyści",
+        description: "Artyści których kochasz najbardziej"
+      },
+      topAlbums: {
+        title: "Top Albumy",
+        description: "Twoje najczęściej odtwarzane albumy"
+      },
+      recentlyAdded: {
+        title: "Ostatnio Dodane",
+        description: "Najnowsze dodatki do twojej biblioteki"
+      },
+      hiddenGems: {
+        title: "Ukryte Perły",
+        description: "Odkryj ponownie zapomniane ulubione"
+      },
+      discover: {
+        title: "Odkryj",
+        description: "Nowe rekomendacje muzyczne dla ciebie"
+      },
+      yourStats: {
+        title: "Twoja Muzyka",
+        description: "Twoje statystyki słuchania i spostrzeżenia"
+      }
     },
     songs: {
       title: "Utwory",

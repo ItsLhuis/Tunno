@@ -199,7 +199,47 @@ export const danish: Language = {
       }
     },
     home: {
-      title: "Hjem"
+      title: "Hjem",
+      jumpBackIn: {
+        title: "Fortsæt Afspilning",
+        description: "Fortsæt hvor du slap"
+      },
+      yourPlaylists: {
+        title: "Lavet Til Dig",
+        description: "Dine personlige afspilningslister"
+      },
+      onRepeat: {
+        title: "På Gentagelse",
+        description: "Sange du ikke kan stoppe med at spille"
+      },
+      newReleases: {
+        title: "Nye Udgivelser",
+        description: "Frisk musik fra kunstnere du følger"
+      },
+      favoriteArtists: {
+        title: "Dine Kunstnere",
+        description: "Kunstnere du elsker mest"
+      },
+      topAlbums: {
+        title: "Top Album",
+        description: "Dine mest spillede album"
+      },
+      recentlyAdded: {
+        title: "Nyligt Tilføjet",
+        description: "Seneste tilføjelser til dit bibliotek"
+      },
+      hiddenGems: {
+        title: "Skjulte Perler",
+        description: "Genopdag glemte favoritter"
+      },
+      discover: {
+        title: "Opdag",
+        description: "Nye musikkanbefalinger til dig"
+      },
+      yourStats: {
+        title: "Din Musik",
+        description: "Dine lytte statistikker og indsigter"
+      }
     },
     songs: {
       title: "Sange",

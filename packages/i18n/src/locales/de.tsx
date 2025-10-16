@@ -199,7 +199,47 @@ export const german: Language = {
       }
     },
     home: {
-      title: "Startseite"
+      title: "Startseite",
+      jumpBackIn: {
+        title: "Weitermachen",
+        description: "Setzen Sie dort fort, wo Sie aufgehört haben"
+      },
+      yourPlaylists: {
+        title: "Für Sie Erstellt",
+        description: "Ihre persönlichen Playlists"
+      },
+      onRepeat: {
+        title: "Im Wiederholungsmodus",
+        description: "Songs, die Sie nicht aufhören können zu spielen"
+      },
+      newReleases: {
+        title: "Neue Veröffentlichungen",
+        description: "Frische Musik von Künstlern, denen Sie folgen"
+      },
+      favoriteArtists: {
+        title: "Ihre Künstler",
+        description: "Künstler, die Sie am meisten lieben"
+      },
+      topAlbums: {
+        title: "Top Alben",
+        description: "Ihre meistgespielten Alben"
+      },
+      recentlyAdded: {
+        title: "Kürzlich Hinzugefügt",
+        description: "Neueste Ergänzungen zu Ihrer Bibliothek"
+      },
+      hiddenGems: {
+        title: "Versteckte Schätze",
+        description: "Entdecken Sie vergessene Favoriten neu"
+      },
+      discover: {
+        title: "Entdecken",
+        description: "Neue Musikeempfehlungen für Sie"
+      },
+      yourStats: {
+        title: "Ihre Musik",
+        description: "Ihre Hörstatistiken und Einblicke"
+      }
     },
     songs: {
       title: "Songs",

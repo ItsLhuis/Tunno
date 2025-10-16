@@ -199,7 +199,47 @@ export const turkish: Language = {
       }
     },
     home: {
-      title: "Ana Sayfa"
+      title: "Ana Sayfa",
+      jumpBackIn: {
+        title: "Devam Et",
+        description: "Kaldığın yerden devam et"
+      },
+      yourPlaylists: {
+        title: "Senin İçin Yapıldı",
+        description: "Kişisel çalma listelerin"
+      },
+      onRepeat: {
+        title: "Tekrarda",
+        description: "Çalmayı bırakamadığın şarkılar"
+      },
+      newReleases: {
+        title: "Yeni Çıkışlar",
+        description: "Takip ettiğin sanatçılardan taze müzik"
+      },
+      favoriteArtists: {
+        title: "Sanatçıların",
+        description: "En çok sevdiğin sanatçılar"
+      },
+      topAlbums: {
+        title: "Top Albümler",
+        description: "En çok çaldığın albümler"
+      },
+      recentlyAdded: {
+        title: "Son Eklenenler",
+        description: "Kütüphanene son eklenenler"
+      },
+      hiddenGems: {
+        title: "Gizli Mücevherler",
+        description: "Unutulan favorileri yeniden keşfet"
+      },
+      discover: {
+        title: "Keşfet",
+        description: "Senin için yeni müzik önerileri"
+      },
+      yourStats: {
+        title: "Müziğin",
+        description: "Dinleme istatistiklerin ve içgörülerin"
+      }
     },
     songs: {
       title: "Şarkılar",

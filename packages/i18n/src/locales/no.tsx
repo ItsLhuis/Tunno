@@ -199,7 +199,47 @@ export const norwegian: Language = {
       }
     },
     home: {
-      title: "Hjem"
+      title: "Hjem",
+      jumpBackIn: {
+        title: "Fortsett Spilling",
+        description: "Fortsett der du slapp"
+      },
+      yourPlaylists: {
+        title: "Laget For Deg",
+        description: "Dine personlige spillelister"
+      },
+      onRepeat: {
+        title: "På Gjentakelse",
+        description: "Låter du ikke kan slutte å spille"
+      },
+      newReleases: {
+        title: "Nye Utgivelser",
+        description: "Frisk musikk fra artister du følger"
+      },
+      favoriteArtists: {
+        title: "Dine Artister",
+        description: "Artister du elsker mest"
+      },
+      topAlbums: {
+        title: "Topp Album",
+        description: "Dine mest spilte album"
+      },
+      recentlyAdded: {
+        title: "Nylig Lagt Til",
+        description: "Siste tillegg til biblioteket ditt"
+      },
+      hiddenGems: {
+        title: "Skjulte Perler",
+        description: "Gjenoppdag glemte favoritter"
+      },
+      discover: {
+        title: "Oppdag",
+        description: "Nye musikanbefalinger for deg"
+      },
+      yourStats: {
+        title: "Din Musikk",
+        description: "Dine lyttestatistikker og innsikter"
+      }
     },
     songs: {
       title: "Sanger",

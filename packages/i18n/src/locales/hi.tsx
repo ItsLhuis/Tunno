@@ -199,7 +199,47 @@ export const hindi: Language = {
       }
     },
     home: {
-      title: "मुख्य पृष्ठ"
+      title: "मुख्य पृष्ठ",
+      jumpBackIn: {
+        title: "जारी रखें",
+        description: "जहाँ आपने छोड़ा था वहाँ से जारी रखें"
+      },
+      yourPlaylists: {
+        title: "आपके लिए बनाया गया",
+        description: "आपकी व्यक्तिगत प्लेलिस्ट"
+      },
+      onRepeat: {
+        title: "दोहराव पर",
+        description: "गाने जिन्हें आप बजाना बंद नहीं कर सकते"
+      },
+      newReleases: {
+        title: "नए रिलीज़",
+        description: "आपके फॉलो किए गए कलाकारों से ताजा संगीत"
+      },
+      favoriteArtists: {
+        title: "आपके कलाकार",
+        description: "कलाकार जिन्हें आप सबसे अधिक प्यार करते हैं"
+      },
+      topAlbums: {
+        title: "टॉप एल्बम",
+        description: "आपके सबसे अधिक बजाए गए एल्बम"
+      },
+      recentlyAdded: {
+        title: "हाल ही में जोड़े गए",
+        description: "आपके लाइब्रेरी में नवीनतम जोड़"
+      },
+      hiddenGems: {
+        title: "छुपे हुए रत्न",
+        description: "भूली हुई पसंदीदा को फिर से खोजें"
+      },
+      discover: {
+        title: "खोजें",
+        description: "आपके लिए नए संगीत सुझाव"
+      },
+      yourStats: {
+        title: "आपका संगीत",
+        description: "आपके सुनने के आंकड़े और अंतर्दृष्टि"
+      }
     },
     songs: {
       title: "गाने",

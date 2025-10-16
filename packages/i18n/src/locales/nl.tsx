@@ -200,7 +200,47 @@ export const dutch: Language = {
       }
     },
     home: {
-      title: "Startpagina"
+      title: "Startpagina",
+      jumpBackIn: {
+        title: "Verder Afspelen",
+        description: "Ga verder waar je was gebleven"
+      },
+      yourPlaylists: {
+        title: "Voor Jou Gemaakt",
+        description: "Jouw persoonlijke afspeellijsten"
+      },
+      onRepeat: {
+        title: "Op Herhaling",
+        description: "Nummers die je niet kunt stoppen met luisteren"
+      },
+      newReleases: {
+        title: "Nieuwe Releases",
+        description: "Verse muziek van artiesten die je volgt"
+      },
+      favoriteArtists: {
+        title: "Jouw Artiesten",
+        description: "Artiesten waar je het meest van houdt"
+      },
+      topAlbums: {
+        title: "Top Albums",
+        description: "Jouw meest afgespeelde albums"
+      },
+      recentlyAdded: {
+        title: "Recent Toegevoegd",
+        description: "Laatste toevoegingen aan je bibliotheek"
+      },
+      hiddenGems: {
+        title: "Verborgen Parels",
+        description: "Herontdek vergeten favorieten"
+      },
+      discover: {
+        title: "Ontdekken",
+        description: "Nieuwe muziekaanbevelingen voor jou"
+      },
+      yourStats: {
+        title: "Jouw Muziek",
+        description: "Jouw luisterstatistieken en inzichten"
+      }
     },
     songs: {
       title: "Nummers",

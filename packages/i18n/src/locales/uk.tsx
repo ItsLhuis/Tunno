@@ -199,7 +199,47 @@ export const ukrainian: Language = {
       }
     },
     home: {
-      title: "Головна"
+      title: "Головна",
+      jumpBackIn: {
+        title: "Продовжити",
+        description: "Продовжіть з того місця, де зупинилися"
+      },
+      yourPlaylists: {
+        title: "Створено Для Вас",
+        description: "Ваші персональні плейлисти"
+      },
+      onRepeat: {
+        title: "На Повторі",
+        description: "Пісні, які ви не можете перестати слухати"
+      },
+      newReleases: {
+        title: "Нові Релізи",
+        description: "Свіжа музика від виконавців, на яких ви підписані"
+      },
+      favoriteArtists: {
+        title: "Ваші Виконавці",
+        description: "Виконавці, яких ви любите найбільше"
+      },
+      topAlbums: {
+        title: "Топ Альбоми",
+        description: "Ваші найбільш прослуховувані альбоми"
+      },
+      recentlyAdded: {
+        title: "Нещодавно Додані",
+        description: "Останні додавання до вашої бібліотеки"
+      },
+      hiddenGems: {
+        title: "Приховані Перлини",
+        description: "Перевідкрийте забуті улюблені"
+      },
+      discover: {
+        title: "Відкрити",
+        description: "Нові музичні рекомендації для вас"
+      },
+      yourStats: {
+        title: "Ваша Музика",
+        description: "Ваша статистика прослуховування та інсайти"
+      }
     },
     songs: {
       title: "Пісні",

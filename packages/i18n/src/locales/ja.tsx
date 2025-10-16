@@ -199,7 +199,47 @@ export const japanese: Language = {
       }
     },
     home: {
-      title: "ホーム"
+      title: "ホーム",
+      jumpBackIn: {
+        title: "続きを再生",
+        description: "中断したところから再開"
+      },
+      yourPlaylists: {
+        title: "あなたのために作成",
+        description: "あなたの個人プレイリスト"
+      },
+      onRepeat: {
+        title: "リピート中",
+        description: "止められない楽曲"
+      },
+      newReleases: {
+        title: "新着リリース",
+        description: "フォロー中のアーティストの新曲"
+      },
+      favoriteArtists: {
+        title: "あなたのアーティスト",
+        description: "最も愛するアーティスト"
+      },
+      topAlbums: {
+        title: "トップアルバム",
+        description: "最も再生されたアルバム"
+      },
+      recentlyAdded: {
+        title: "最近追加",
+        description: "ライブラリへの最新追加"
+      },
+      hiddenGems: {
+        title: "隠れた名曲",
+        description: "忘れられたお気に入りを再発見"
+      },
+      discover: {
+        title: "発見",
+        description: "あなたのための新しい音楽レコメンデーション"
+      },
+      yourStats: {
+        title: "あなたの音楽",
+        description: "リスニング統計とインサイト"
+      }
     },
     songs: {
       title: "曲",

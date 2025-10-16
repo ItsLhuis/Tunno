@@ -200,7 +200,47 @@ export const spanish: Language = {
       }
     },
     home: {
-      title: "Inicio"
+      title: "Inicio",
+      jumpBackIn: {
+        title: "Retomar",
+        description: "Continúa donde lo dejaste"
+      },
+      yourPlaylists: {
+        title: "Hecho Para Ti",
+        description: "Tus listas de reproducción personales"
+      },
+      onRepeat: {
+        title: "En Repetición",
+        description: "Canciones que no puedes dejar de reproducir"
+      },
+      newReleases: {
+        title: "Nuevos Lanzamientos",
+        description: "Música nueva de artistas que sigues"
+      },
+      favoriteArtists: {
+        title: "Tus Artistas",
+        description: "Artistas que más amas"
+      },
+      topAlbums: {
+        title: "Top Álbumes",
+        description: "Tus álbumes más reproducidos"
+      },
+      recentlyAdded: {
+        title: "Agregados Recientemente",
+        description: "Últimas adiciones a tu biblioteca"
+      },
+      hiddenGems: {
+        title: "Joyas Ocultas",
+        description: "Redescubre favoritos olvidados"
+      },
+      discover: {
+        title: "Descubrir",
+        description: "Nuevas recomendaciones musicales para ti"
+      },
+      yourStats: {
+        title: "Tu Música",
+        description: "Tus estadísticas e insights de escucha"
+      }
     },
     songs: {
       title: "Canciones",

@@ -199,7 +199,47 @@ export const chinese: Language = {
       }
     },
     home: {
-      title: "首页"
+      title: "首页",
+      jumpBackIn: {
+        title: "继续播放",
+        description: "从上次停止的地方继续"
+      },
+      yourPlaylists: {
+        title: "为你推荐",
+        description: "你的个人播放列表"
+      },
+      onRepeat: {
+        title: "循环播放",
+        description: "你停不下来的歌曲"
+      },
+      newReleases: {
+        title: "新歌发布",
+        description: "你关注的艺术家发布的新歌"
+      },
+      favoriteArtists: {
+        title: "你的艺术家",
+        description: "你最喜爱的艺术家"
+      },
+      topAlbums: {
+        title: "热门专辑",
+        description: "你播放最多的专辑"
+      },
+      recentlyAdded: {
+        title: "最近添加",
+        description: "最近添加到你的音乐库"
+      },
+      hiddenGems: {
+        title: "隐藏的宝石",
+        description: "重新发现被遗忘的收藏"
+      },
+      discover: {
+        title: "发现",
+        description: "为你推荐的新音乐"
+      },
+      yourStats: {
+        title: "你的音乐",
+        description: "你的收听统计和洞察"
+      }
     },
     songs: {
       title: "歌曲",

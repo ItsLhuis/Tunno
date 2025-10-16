@@ -199,7 +199,47 @@ export const english: Language = {
       }
     },
     home: {
-      title: "Home"
+      title: "Home",
+      jumpBackIn: {
+        title: "Jump Back In",
+        description: "Pick up where you left off"
+      },
+      yourPlaylists: {
+        title: "Made For You",
+        description: "Your personal playlists"
+      },
+      onRepeat: {
+        title: "On Repeat",
+        description: "Songs you can't stop playing"
+      },
+      newReleases: {
+        title: "New Releases",
+        description: "Fresh music from artists you follow"
+      },
+      favoriteArtists: {
+        title: "Your Artists",
+        description: "Artists you love most"
+      },
+      topAlbums: {
+        title: "Top Albums",
+        description: "Your most played albums"
+      },
+      recentlyAdded: {
+        title: "Recently Added",
+        description: "Latest additions to your library"
+      },
+      hiddenGems: {
+        title: "Hidden Gems",
+        description: "Rediscover forgotten favorites"
+      },
+      discover: {
+        title: "Discover",
+        description: "New music recommendations for you"
+      },
+      yourStats: {
+        title: "Your Music",
+        description: "Your listening statistics and insights"
+      }
     },
     songs: {
       title: "Songs",

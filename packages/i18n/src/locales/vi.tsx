@@ -199,7 +199,47 @@ export const vietnamese: Language = {
       }
     },
     home: {
-      title: "Trang chủ"
+      title: "Trang chủ",
+      jumpBackIn: {
+        title: "Tiếp tục",
+        description: "Tiếp tục từ nơi bạn đã dừng lại"
+      },
+      yourPlaylists: {
+        title: "Dành Cho Bạn",
+        description: "Danh sách phát cá nhân của bạn"
+      },
+      onRepeat: {
+        title: "Đang Lặp Lại",
+        description: "Những bài hát bạn không thể ngừng phát"
+      },
+      newReleases: {
+        title: "Phát Hành Mới",
+        description: "Âm nhạc mới từ các nghệ sĩ bạn theo dõi"
+      },
+      favoriteArtists: {
+        title: "Nghệ Sĩ Của Bạn",
+        description: "Những nghệ sĩ bạn yêu thích nhất"
+      },
+      topAlbums: {
+        title: "Album Hàng Đầu",
+        description: "Những album bạn phát nhiều nhất"
+      },
+      recentlyAdded: {
+        title: "Mới Thêm Gần Đây",
+        description: "Những bản nhạc mới nhất được thêm vào thư viện"
+      },
+      hiddenGems: {
+        title: "Viên Ngọc Ẩn",
+        description: "Khám phá lại những yêu thích đã quên"
+      },
+      discover: {
+        title: "Khám Phá",
+        description: "Những gợi ý âm nhạc mới dành cho bạn"
+      },
+      yourStats: {
+        title: "Âm Nhạc Của Bạn",
+        description: "Thống kê nghe nhạc và hiểu biết của bạn"
+      }
     },
     songs: {
       title: "Bài hát",

@@ -200,7 +200,47 @@ export const italian: Language = {
       }
     },
     home: {
-      title: "Home"
+      title: "Home",
+      jumpBackIn: {
+        title: "Riprendi",
+        description: "Riprendi da dove hai lasciato"
+      },
+      yourPlaylists: {
+        title: "Fatto Per Te",
+        description: "Le tue playlist personali"
+      },
+      onRepeat: {
+        title: "In Ripetizione",
+        description: "Canzoni che non riesci a smettere di ascoltare"
+      },
+      newReleases: {
+        title: "Nuove Uscite",
+        description: "Musica fresca dagli artisti che segui"
+      },
+      favoriteArtists: {
+        title: "I Tuoi Artisti",
+        description: "Artisti che ami di più"
+      },
+      topAlbums: {
+        title: "Top Album",
+        description: "I tuoi album più ascoltati"
+      },
+      recentlyAdded: {
+        title: "Aggiunti Di Recente",
+        description: "Ultimi aggiunti alla tua libreria"
+      },
+      hiddenGems: {
+        title: "Gemme Nascoste",
+        description: "Riscopri i tuoi preferiti dimenticati"
+      },
+      discover: {
+        title: "Scopri",
+        description: "Nuove raccomandazioni musicali per te"
+      },
+      yourStats: {
+        title: "La Tua Musica",
+        description: "Le tue statistiche e insights di ascolto"
+      }
     },
     songs: {
       title: "Canzoni",

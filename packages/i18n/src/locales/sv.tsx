@@ -199,7 +199,47 @@ export const swedish: Language = {
       }
     },
     home: {
-      title: "Hem"
+      title: "Hem",
+      jumpBackIn: {
+        title: "Fortsätt Spela",
+        description: "Fortsätt där du slutade"
+      },
+      yourPlaylists: {
+        title: "Skapad För Dig",
+        description: "Dina personliga spellistor"
+      },
+      onRepeat: {
+        title: "På Upprepning",
+        description: "Låtar du inte kan sluta spela"
+      },
+      newReleases: {
+        title: "Nya Utgivningar",
+        description: "Färsk musik från artister du följer"
+      },
+      favoriteArtists: {
+        title: "Dina Artister",
+        description: "Artister du älskar mest"
+      },
+      topAlbums: {
+        title: "Topp Album",
+        description: "Dina mest spelade album"
+      },
+      recentlyAdded: {
+        title: "Nyligen Tillagda",
+        description: "Senaste tilläggen till ditt bibliotek"
+      },
+      hiddenGems: {
+        title: "Dolda Pärlor",
+        description: "Återupptäck glömda favoriter"
+      },
+      discover: {
+        title: "Upptäck",
+        description: "Nya musikrekommendationer för dig"
+      },
+      yourStats: {
+        title: "Din Musik",
+        description: "Dina lyssningsstatistik och insikter"
+      }
     },
     songs: {
       title: "Låtar",

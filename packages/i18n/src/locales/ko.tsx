@@ -199,7 +199,47 @@ export const korean: Language = {
       }
     },
     home: {
-      title: "홈"
+      title: "홈",
+      jumpBackIn: {
+        title: "이어서 재생",
+        description: "중단한 지점부터 계속하기"
+      },
+      yourPlaylists: {
+        title: "당신을 위해 만들어진",
+        description: "개인 플레이리스트"
+      },
+      onRepeat: {
+        title: "반복 재생",
+        description: "멈출 수 없는 곡들"
+      },
+      newReleases: {
+        title: "신곡",
+        description: "팔로우하는 아티스트의 신곡"
+      },
+      favoriteArtists: {
+        title: "당신의 아티스트",
+        description: "가장 사랑하는 아티스트"
+      },
+      topAlbums: {
+        title: "인기 앨범",
+        description: "가장 많이 재생된 앨범"
+      },
+      recentlyAdded: {
+        title: "최근 추가됨",
+        description: "라이브러리에 최근 추가된 음악"
+      },
+      hiddenGems: {
+        title: "숨겨진 보석",
+        description: "잊혀진 즐겨찾기 재발견"
+      },
+      discover: {
+        title: "발견",
+        description: "당신을 위한 새로운 음악 추천"
+      },
+      yourStats: {
+        title: "당신의 음악",
+        description: "듣기 통계 및 인사이트"
+      }
     },
     songs: {
       title: "노래",

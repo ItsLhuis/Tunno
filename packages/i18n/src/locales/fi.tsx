@@ -199,7 +199,47 @@ export const finnish: Language = {
       }
     },
     home: {
-      title: "Koti"
+      title: "Koti",
+      jumpBackIn: {
+        title: "Jatka Toistoa",
+        description: "Jatka siitä mihin jäit"
+      },
+      yourPlaylists: {
+        title: "Sinulle Tehty",
+        description: "Henkilökohtaiset soittolistasi"
+      },
+      onRepeat: {
+        title: "Toistossa",
+        description: "Kappaleet joita et voi lopettaa soittamasta"
+      },
+      newReleases: {
+        title: "Uudet Julkaisut",
+        description: "Tuoretta musiikkia seuraamiltasi artisteilta"
+      },
+      favoriteArtists: {
+        title: "Sinun Artistisi",
+        description: "Artistit joita rakastat eniten"
+      },
+      topAlbums: {
+        title: "Top Albumit",
+        description: "Eniten kuunnellut albumisi"
+      },
+      recentlyAdded: {
+        title: "Äsken Lisätty",
+        description: "Viimeisimmät lisäykset kirjastoon"
+      },
+      hiddenGems: {
+        title: "Piilotetut Helmet",
+        description: "Löydä uudelleen unohdetut suosikit"
+      },
+      discover: {
+        title: "Löydä",
+        description: "Uusia musiikkisuosituksia sinulle"
+      },
+      yourStats: {
+        title: "Sinun Musiikkisi",
+        description: "Kuuntelustatistiikkasi ja oivallukset"
+      }
     },
     songs: {
       title: "Kappaleet",

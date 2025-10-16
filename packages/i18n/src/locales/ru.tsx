@@ -199,7 +199,47 @@ export const russian: Language = {
       }
     },
     home: {
-      title: "Главная"
+      title: "Главная",
+      jumpBackIn: {
+        title: "Продолжить",
+        description: "Продолжите с того места, где остановились"
+      },
+      yourPlaylists: {
+        title: "Создано Для Вас",
+        description: "Ваши персональные плейлисты"
+      },
+      onRepeat: {
+        title: "На Повторе",
+        description: "Песни, которые вы не можете перестать слушать"
+      },
+      newReleases: {
+        title: "Новые Релизы",
+        description: "Свежая музыка от исполнителей, на которых вы подписаны"
+      },
+      favoriteArtists: {
+        title: "Ваши Исполнители",
+        description: "Исполнители, которых вы любите больше всего"
+      },
+      topAlbums: {
+        title: "Топ Альбомы",
+        description: "Ваши самые прослушиваемые альбомы"
+      },
+      recentlyAdded: {
+        title: "Недавно Добавленные",
+        description: "Последние добавления в вашу библиотеку"
+      },
+      hiddenGems: {
+        title: "Скрытые Жемчужины",
+        description: "Переоткройте забытые фавориты"
+      },
+      discover: {
+        title: "Открыть",
+        description: "Новые музыкальные рекомендации для вас"
+      },
+      yourStats: {
+        title: "Ваша Музыка",
+        description: "Ваша статистика прослушивания и инсайты"
+      }
     },
     songs: {
       title: "Песни",
