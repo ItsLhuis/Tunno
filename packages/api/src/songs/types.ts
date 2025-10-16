@@ -155,6 +155,8 @@ export type SongWithAllRelations = InferQueryModel<
   }
 >
 
+export type PlayHistory = typeof schema.playHistory.$inferSelect
+
 export type SongWithCustomRelations<T extends Record<string, any>> = InferQueryModel<"songs", T>
 
 export type InsertSong = typeof songs.$inferInsert
