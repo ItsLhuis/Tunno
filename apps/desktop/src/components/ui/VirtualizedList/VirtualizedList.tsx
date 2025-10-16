@@ -121,9 +121,7 @@ function VirtualizedList<TItem>({
       >
         {isListEmpty ? (
           ListEmptyComponent ? (
-            <div className="flex min-h-14 items-center justify-center">
-              <ListEmptyComponent />
-            </div>
+            <ListEmptyComponent />
           ) : null
         ) : (
           <div style={containerStyle}>

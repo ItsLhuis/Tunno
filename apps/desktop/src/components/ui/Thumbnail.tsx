@@ -53,7 +53,7 @@ const Thumbnail = ({
       src={src ?? undefined}
       alt="thumbnail"
       className={cn("size-14", className)}
-      containerClassName={cn("size-14", containerClassName)}
+      containerClassName={cn("size-14 aspect-square", containerClassName)}
       {...props}
     />
   )

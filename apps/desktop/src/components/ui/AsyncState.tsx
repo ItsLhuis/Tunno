@@ -7,7 +7,7 @@ import { NotFound } from "@components/ui/NotFound"
 import { Spinner } from "@components/ui/Spinner"
 
 export type AsyncStateProps<TItem> = {
-  data?: TItem | null
+  data: TItem | boolean | null
   isLoading?: boolean
   isError?: boolean
   loadingComponent?: ReactNode

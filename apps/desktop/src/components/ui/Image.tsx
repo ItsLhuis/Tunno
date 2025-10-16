@@ -13,25 +13,19 @@ export type ImageProps = {
 }
 
 const Image = forwardRef<HTMLImageElement, ImageProps>(
-  ({ src, alt, className, containerClassName, onLoad, ...props }, ref) => {
-    const [isNewImageLoaded, setIsNewImageLoaded] = useState(false)
+  ({ src, className, containerClassName, onLoad, ...props }, ref) => {
+    const [displaySrc, setDisplaySrc] = useState<string | null>(src ?? null)
 
-    const [currentSrc, setCurrentSrc] = useState<string | null>(src ?? null)
-    const [previousSrc, setPreviousSrc] = useState<string | null>(null)
-
-    const imageRef = useRef<HTMLImageElement>(null)
     const preloadRef = useRef<HTMLImageElement | null>(null)
 
     useEffect(() => {
-      if (src && src !== currentSrc) {
+      if (src && src !== displaySrc) {
         const preloadImage = new window.Image()
         preloadRef.current = preloadImage
         preloadImage.src = src
 
         preloadImage.onload = () => {
-          setPreviousSrc(currentSrc)
-          setCurrentSrc(src)
-          setIsNewImageLoaded(false)
+          setDisplaySrc(src)
           preloadRef.current = null
         }
 
@@ -46,12 +40,10 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
             preloadRef.current = null
           }
         }
-      } else if (!src && currentSrc !== null) {
-        setPreviousSrc(null)
-        setCurrentSrc(null)
-        setIsNewImageLoaded(false)
+      } else if (!src && displaySrc !== null) {
+        setDisplaySrc(null)
       }
-    }, [src, currentSrc])
+    }, [src, displaySrc])
 
     useEffect(() => {
       return () => {
@@ -63,57 +55,26 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
       }
     }, [])
 
-    const handleNewImageLoad = () => {
-      requestAnimationFrame(() => {
-        setIsNewImageLoaded(true)
-        if (onLoad) onLoad()
-      })
-    }
-
     return (
       <div
         className={cn(
           "overflow-hidden rounded-md border border-border bg-muted",
           containerClassName,
-          "relative shrink-0 overflow-hidden transition-colors"
+          "relative shrink-0"
         )}
       >
-        <img
-          ref={ref}
-          src={currentSrc ?? undefined}
-          alt={alt}
-          className={cn(
-            "aspect-auto w-12",
-            className,
-            isNewImageLoaded ? "opacity-100" : "opacity-0",
-            "transition-opacity"
-          )}
-          {...props}
-        />
-        <AnimatePresence>
-          {previousSrc && !isNewImageLoaded && (
+        <AnimatePresence mode="popLayout">
+          {displaySrc && (
             <motion.img
-              key={previousSrc}
-              src={previousSrc}
-              alt={alt}
-              initial={{ opacity: 1 }}
-              animate={{ opacity: 0 }}
-              exit={{ opacity: 0 }}
-              className={cn(className, "absolute inset-0")}
-              {...props}
-            />
-          )}
-          {!isNewImageLoaded && currentSrc && (
-            <motion.img
-              key={currentSrc}
-              ref={imageRef}
-              src={currentSrc}
-              alt={alt}
+              ref={ref}
+              key={displaySrc}
+              src={displaySrc}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onLoad={handleNewImageLoad}
-              className={cn(className, "absolute inset-0")}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              onLoad={onLoad}
+              className={cn("aspect-auto w-12", className, "transition-opacity")}
               {...props}
             />
           )}
@@ -122,4 +83,5 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
     )
   }
 )
+
 export { Image }
