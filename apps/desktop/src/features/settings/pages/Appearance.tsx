@@ -18,7 +18,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { SettingButton, type SettingButtonProps } from "@features/settings/components/ui"
+import { SettingButton, type SettingButtonProps } from "@features/settings/components"
 
 type ThemeValue = "light" | "dark" | "system"
 

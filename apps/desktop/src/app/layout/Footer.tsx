@@ -1,4 +1,4 @@
-import { Player } from "@features/songs/components/Player/Player"
+import { Player } from "@features/songs/components"
 
 const Footer = () => {
   return (

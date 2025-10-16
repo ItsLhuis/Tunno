@@ -21,7 +21,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { SettingButton, type SettingButtonProps } from "@features/settings/components/ui"
+import { SettingButton, type SettingButtonProps } from "@features/settings/components"
 
 import { type EqualizerPreset } from "react-track-player-web"
 

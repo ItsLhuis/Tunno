@@ -1,4 +1,4 @@
-import { ArtistInfo } from "@features/artists/components/ArtistInfo"
+import { ArtistInfo } from "@features/artists/components"
 
 const Artist = () => {
   return <ArtistInfo />
