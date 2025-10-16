@@ -69,6 +69,34 @@ const HomePage = () => {
     ]
   )
 
+  const hasAnyData = useMemo(
+    () =>
+      !!(
+        fetchUserStats.data ||
+        fetchJumpBackIn.data ||
+        fetchOnRepeat.data ||
+        fetchYourPlaylists.data ||
+        fetchNewReleases.data ||
+        fetchFavoriteArtists.data ||
+        fetchTopAlbums.data ||
+        fetchRecentlyAdded.data ||
+        fetchHiddenGems.data ||
+        fetchDiscover.data
+      ),
+    [
+      fetchUserStats.data,
+      fetchJumpBackIn.data,
+      fetchOnRepeat.data,
+      fetchYourPlaylists.data,
+      fetchNewReleases.data,
+      fetchFavoriteArtists.data,
+      fetchTopAlbums.data,
+      fetchRecentlyAdded.data,
+      fetchHiddenGems.data,
+      fetchDiscover.data
+    ]
+  )
+
   const handleRefresh = useCallback(async () => {
     await Promise.all([
       fetchUserStats.refetch(),
@@ -103,9 +131,13 @@ const HomePage = () => {
     <ScrollAreaWithHeaders
       HeaderComponent={HomeHeader}
       StickyHeaderComponent={HomeStickyHeader}
-      className="flex w-full flex-1 flex-col pt-0"
+      className="flex w-full flex-1 flex-col pb-0 pt-0"
     >
-      <AsyncState data isLoading={isLoading} className="flex w-full flex-1 flex-col gap-9 pb-9">
+      <AsyncState
+        data={hasAnyData}
+        isLoading={isLoading && !hasAnyData}
+        className="flex w-full flex-1 flex-col gap-9 pb-9"
+      >
         {() => (
           <>
             {fetchUserStats.data && <YourStats stats={fetchUserStats.data} />}
