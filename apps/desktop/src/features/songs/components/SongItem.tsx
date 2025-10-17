@@ -107,7 +107,7 @@ const SongItem = memo(
               />
             </div>
             <div className="flex w-full items-start justify-between gap-2">
-              <div className="min-w-0 flex-1 pb-1">
+              <div className="min-w-0 flex-1">
                 <Marquee>
                   <SafeLink to="/songs/$id" params={{ id: song.id.toString() }}>
                     <Typography className="w-full truncate">{song.name}</Typography>

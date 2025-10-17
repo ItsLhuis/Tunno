@@ -69,7 +69,7 @@ const AlbumItem = memo(
               />
             </div>
             <div className="flex w-full items-start justify-between gap-2">
-              <div className="min-w-0 flex-1 pb-1">
+              <div className="min-w-0 flex-1">
                 <Marquee>
                   <SafeLink to="/albums/$id" params={{ id: album.id.toString() }}>
                     <Typography className="w-full truncate">{album.name}</Typography>
