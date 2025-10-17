@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useRef, useState, type HTMLAttributes } from "react"
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type HTMLAttributes,
+  type RefObject
+} from "react"
 
 import { cn } from "@lib/utils"
 
@@ -20,6 +27,7 @@ type ScrollAreaWithHeadersProps = HTMLAttributes<HTMLDivElement> &
     children: React.ReactNode
     className?: string
     style?: React.CSSProperties
+    scrollRef?: RefObject<HTMLDivElement>
   }
 
 const ScrollAreaWithHeaders = ({
@@ -32,9 +40,13 @@ const ScrollAreaWithHeaders = ({
   children,
   className,
   style,
+  scrollRef: externalScrollRef,
   ...props
 }: ScrollAreaWithHeadersProps) => {
-  const scrollRef = useRef<HTMLDivElement | null>(null)
+  const internalScrollRef = useRef<HTMLDivElement | null>(null)
+
+  const scrollRef = externalScrollRef || internalScrollRef
+
   const headerRef = useRef<HTMLDivElement | null>(null)
 
   const [headerHeight, setHeaderHeight] = useState<number>(0)

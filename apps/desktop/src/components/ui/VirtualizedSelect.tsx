@@ -428,9 +428,12 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
                       </div>
                     ))}
                     {options.length === 0 && (
-                      <div className="flex h-full items-center justify-center py-6 text-sm text-muted-foreground">
+                      <Typography
+                        affects={["muted"]}
+                        className="flex h-full items-center justify-center py-6"
+                      >
                         {t("common.noResultsFound")}
-                      </div>
+                      </Typography>
                     )}
                   </div>
                 </ScrollArea>
