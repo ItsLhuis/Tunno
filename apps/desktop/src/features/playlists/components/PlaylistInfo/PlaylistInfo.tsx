@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react"
+import { useCallback, useMemo, useRef } from "react"
 
 import { useParams } from "@tanstack/react-router"
 
@@ -8,7 +8,7 @@ import { useFetchPlaylistByIdWithAllRelations } from "../../hooks/useFetchPlayli
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
-import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
+import { AsyncState, ScrollAreaWithHeaders, VirtualizedList } from "@components/ui"
 
 import { SongItem } from "@features/songs/components"
 
@@ -19,6 +19,8 @@ import { PlaylistInfoSubHeader } from "./PlaylistInfoSubHeader"
 
 const PlaylistInfo = () => {
   const { id } = useParams({ from: "/playlists/$id" })
+
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const {
     data: playlistData,
@@ -84,20 +86,20 @@ const PlaylistInfo = () => {
     <AsyncState data isLoading={isLoading} isError={isError}>
       {() => (
         <ScrollAreaWithHeaders
+          scrollRef={scrollRef}
           HeaderComponent={Header}
           StickyHeaderComponent={StickyHeader}
           ListHeaderComponent={ListHeader}
           className="flex w-full flex-1 flex-col gap-9"
         >
-          {songs.length > 0 && (
-            <section className="flex w-full flex-col gap-3">
-              <div className="flex flex-col gap-1">
-                {songs.map((song) => (
-                  <SongItem key={song.id} song={song} allSongIds={allSongIds} />
-                ))}
-              </div>
-            </section>
-          )}
+          <VirtualizedList
+            data={songs}
+            keyExtractor={(song) => song.id.toString()}
+            estimateItemHeight={70}
+            gap={8}
+            scrollRef={scrollRef}
+            renderItem={({ item }) => <SongItem song={item} allSongIds={allSongIds} />}
+          />
         </ScrollAreaWithHeaders>
       )}
     </AsyncState>
