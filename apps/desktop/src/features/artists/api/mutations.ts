@@ -12,7 +12,7 @@ import { type Artist, type InsertArtist, type UpdateArtist } from "@repo/api"
 
 export const insertArtist = async (
   artist: Omit<InsertArtist, "thumbnail">,
-  thumbnailPath?: string
+  thumbnailPath?: string | null
 ): Promise<Artist> => {
   const thumbnailName = thumbnailPath
     ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)

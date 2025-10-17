@@ -12,7 +12,7 @@ import { type Playlist, type InsertPlaylist, type UpdatePlaylist } from "@repo/a
 
 export const insertPlaylist = async (
   playlist: Omit<InsertPlaylist, "thumbnail">,
-  thumbnailPath?: string
+  thumbnailPath?: string | null
 ): Promise<Playlist> => {
   const thumbnailName = thumbnailPath
     ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)

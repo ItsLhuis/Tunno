@@ -12,7 +12,7 @@ import { type Album, type InsertAlbum, type UpdateAlbum } from "@repo/api"
 
 export const insertAlbum = async (
   album: Omit<InsertAlbum, "thumbnail">,
-  thumbnailPath?: string,
+  thumbnailPath?: string | null,
   artists?: number[]
 ): Promise<Album> => {
   const thumbnailName = thumbnailPath

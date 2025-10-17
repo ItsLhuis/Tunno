@@ -18,7 +18,7 @@ export const insertSong = async (
   song: Omit<InsertSong, "file" | "thumbnail">,
   artists: number[],
   filePath: string,
-  thumbnailPath?: string
+  thumbnailPath?: string | null
 ): Promise<Song> => {
   const fileName = await saveFileWithUniqueNameFromPath("songs", filePath)
 
@@ -108,18 +108,6 @@ export const updateSong = async (
 
   if (updates.albumId !== undefined) {
     await updateAlbumStatsForSong(updates.albumId, existingSong.albumId)
-  }
-
-  if (updates.duration !== undefined) {
-    const playlists = await database
-      .select({ playlistId: schema.playlistsToSongs.playlistId })
-      .from(schema.playlistsToSongs)
-      .where(eq(schema.playlistsToSongs.songId, id))
-
-    const playlistIds = playlists.map((p) => p.playlistId)
-    if (playlistIds.length > 0) {
-      await updatePlaylistStatsForSong(playlistIds)
-    }
   }
 
   return updatedSong
