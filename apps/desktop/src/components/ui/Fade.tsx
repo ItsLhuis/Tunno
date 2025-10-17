@@ -1,6 +1,6 @@
 "use client"
 
-import { type CSSProperties, type ReactNode, useEffect, useState, forwardRef } from "react"
+import { type CSSProperties, forwardRef, type ReactNode, useEffect, useState } from "react"
 
 import { AnimatePresence, motion, type Transition, type Variant, type Variants } from "motion/react"
 
@@ -151,7 +151,5 @@ const Fade = forwardRef<HTMLDivElement, FadeProps>(
     return fadeContent
   }
 )
-
-Fade.displayName = "Fade"
 
 export { Fade }

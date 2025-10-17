@@ -88,7 +88,6 @@ const FormItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
     )
   }
 )
-FormItem.displayName = "FormItem"
 
 const FormLabel = forwardRef<
   ElementRef<typeof LabelPrimitive.Root>,
@@ -105,7 +104,6 @@ const FormLabel = forwardRef<
     />
   )
 })
-FormLabel.displayName = "FormLabel"
 
 const FormControl = forwardRef<ElementRef<typeof Slot>, ComponentPropsWithoutRef<typeof Slot>>(
   ({ ...props }, ref) => {
@@ -122,7 +120,6 @@ const FormControl = forwardRef<ElementRef<typeof Slot>, ComponentPropsWithoutRef
     )
   }
 )
-FormControl.displayName = "FormControl"
 
 const FormDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => {
@@ -138,7 +135,6 @@ const FormDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLPara
     )
   }
 )
-FormDescription.displayName = "FormDescription"
 
 const FormMessage = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, children, ...props }, ref) => {
@@ -161,7 +157,6 @@ const FormMessage = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
     )
   }
 )
-FormMessage.displayName = "FormMessage"
 
 export {
   Form,

@@ -142,7 +142,6 @@ const Carousel = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & Car
     )
   }
 )
-Carousel.displayName = "Carousel"
 
 const CarouselContent = forwardRef<
   HTMLDivElement,
@@ -160,7 +159,6 @@ const CarouselContent = forwardRef<
     </div>
   )
 })
-CarouselContent.displayName = "CarouselContent"
 
 const CarouselItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
@@ -181,7 +179,6 @@ const CarouselItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
     )
   }
 )
-CarouselItem.displayName = "CarouselItem"
 
 const CarouselPrevious = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>>(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
@@ -216,7 +213,6 @@ const CarouselPrevious = forwardRef<HTMLButtonElement, ComponentProps<typeof But
     )
   }
 )
-CarouselPrevious.displayName = "CarouselPrevious"
 
 const CarouselNext = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>>(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
@@ -251,6 +247,5 @@ const CarouselNext = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>
     )
   }
 )
-CarouselNext.displayName = "CarouselNext"
 
 export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi }

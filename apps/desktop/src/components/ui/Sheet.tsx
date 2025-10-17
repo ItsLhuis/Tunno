@@ -37,7 +37,6 @@ const SheetOverlay = forwardRef<
     ref={ref}
   />
 ))
-SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
 const sheetVariants = cva(
   "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out",
@@ -91,12 +90,10 @@ const SheetContent = forwardRef<ElementRef<typeof SheetPrimitive.Content>, Sheet
     )
   }
 )
-SheetContent.displayName = SheetPrimitive.Content.displayName
 
 const SheetHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div className={cn("flex flex-col space-y-2 text-center sm:text-left", className)} {...props} />
 )
-SheetHeader.displayName = "SheetHeader"
 
 const SheetFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div
@@ -104,7 +101,6 @@ const SheetFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) =>
     {...props}
   />
 )
-SheetFooter.displayName = "SheetFooter"
 
 const SheetTitle = forwardRef<
   ElementRef<typeof SheetPrimitive.Title>,
@@ -116,7 +112,6 @@ const SheetTitle = forwardRef<
     {...props}
   />
 ))
-SheetTitle.displayName = SheetPrimitive.Title.displayName
 
 const SheetDescription = forwardRef<
   ElementRef<typeof SheetPrimitive.Description>,
@@ -128,7 +123,6 @@ const SheetDescription = forwardRef<
     {...props}
   />
 ))
-SheetDescription.displayName = SheetPrimitive.Description.displayName
 
 export {
   Sheet,

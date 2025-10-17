@@ -23,6 +23,5 @@ const Switch = forwardRef<
     />
   </SwitchPrimitives.Root>
 ))
-Switch.displayName = SwitchPrimitives.Root.displayName
 
 export { Switch }
