@@ -133,13 +133,9 @@ const HomePage = () => {
       StickyHeaderComponent={HomeStickyHeader}
       className="flex w-full flex-1 flex-col pb-0 pt-0"
     >
-      <AsyncState
-        data={hasAnyData}
-        isLoading={isLoading && !hasAnyData}
-        className="flex w-full flex-1 flex-col justify-start gap-9 pb-9"
-      >
+      <AsyncState data={hasAnyData} isLoading={isLoading} className="flex w-full flex-1">
         {() => (
-          <>
+          <div className="flex w-full flex-1 flex-col justify-start gap-9 pb-9">
             {fetchUserStats.data && <YourStats stats={fetchUserStats.data} />}
             {fetchJumpBackIn.data && <JumpBackIn jumpBackIn={fetchJumpBackIn.data} />}
             {fetchOnRepeat.data && <OnRepeat onRepeat={fetchOnRepeat.data} />}
@@ -152,7 +148,7 @@ const HomePage = () => {
             {fetchRecentlyAdded.data && <RecentlyAdded recentlyAdded={fetchRecentlyAdded.data} />}
             {fetchHiddenGems.data && <HiddenGems hiddenGems={fetchHiddenGems.data} />}
             {fetchDiscover.data && <Discover discover={fetchDiscover.data} />}
-          </>
+          </div>
         )}
       </AsyncState>
     </ScrollAreaWithHeaders>
