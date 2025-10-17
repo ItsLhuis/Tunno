@@ -82,6 +82,7 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
           isFilled={artist.isFavorite}
           tooltip={artist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
           variant="text"
+          className="shrink-0"
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />

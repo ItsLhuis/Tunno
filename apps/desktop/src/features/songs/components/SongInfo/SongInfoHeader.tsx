@@ -114,6 +114,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           isFilled={song.isFavorite}
           tooltip={song.isFavorite ? t("common.unfavorite") : t("common.favorite")}
           variant="text"
+          className="shrink-0"
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />

@@ -82,6 +82,7 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
           isFilled={album.isFavorite}
           tooltip={album.isFavorite ? t("common.unfavorite") : t("common.favorite")}
           variant="text"
+          className="shrink-0"
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />

@@ -368,8 +368,10 @@ const SongActions = memo(
 
     const renderMenuContent = () => (
       <MenuContent>
-        {!hasAnyActions ? (
-          <div className="flex items-center justify-center p-4">{t("common.noResultsFound")}</div>
+        {hasAnyActions ? (
+          <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
+            {t("common.noResultsFound")}
+          </Typography>
         ) : (
           <>
             {playbackActions && (
@@ -408,7 +410,7 @@ const SongActions = memo(
                 <IconButton
                   name="MoreHorizontal"
                   variant="ghost"
-                  className={className}
+                  className={cn(className, "shrink-0")}
                   tooltip={t("common.more")}
                 />
               )}
@@ -454,7 +456,7 @@ const SongActions = memo(
               <IconButton
                 name="MoreHorizontal"
                 variant="ghost"
-                className={className}
+                className={cn(className, "shrink-0")}
                 tooltip={t("common.more")}
               />
             )}

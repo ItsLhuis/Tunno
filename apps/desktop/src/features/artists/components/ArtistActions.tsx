@@ -41,6 +41,7 @@ import {
   IconButton,
   SafeLink,
   Spinner,
+  Typography,
   type VirtualizedListController
 } from "@components/ui"
 
@@ -83,7 +84,7 @@ const ArtistActions = ({
 
   const hasMultipleSelections = list && list.selectedIds.length > 1
   const hasSingleSelection = list && list.selectedIds.length === 1
-  const shouldFetchArtist = artistId !== undefined && !hasSingleSelection
+  const shouldFetchArtist = artistId !== undefined || hasSingleSelection
   const resolvedArtistId = artistId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
   const {
@@ -117,6 +118,7 @@ const ArtistActions = ({
     : false
   const hasSongs =
     artistSongs.length > 0 ||
+    (hasSingleSelection && finalTargetArtist && finalTargetArtist.totalTracks > 0) ||
     hasSongsInSelection ||
     (hasMultipleSelections && multipleSongIds && multipleSongIds.length > 0)
 
@@ -288,7 +290,9 @@ const ArtistActions = ({
   const renderMenuContent = () => (
     <MenuContent>
       {!hasAnyActions ? (
-        <div className="flex items-center justify-center p-4">{t("common.noResultsFound")}</div>
+        <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
+          {t("common.noResultsFound")}
+        </Typography>
       ) : (
         <>
           {playbackActions && (
@@ -327,7 +331,7 @@ const ArtistActions = ({
               <IconButton
                 name="MoreHorizontal"
                 variant="ghost"
-                className={className}
+                className={cn(className, "shrink-0")}
                 tooltip={t("common.more")}
               />
             )}
@@ -373,7 +377,7 @@ const ArtistActions = ({
             <IconButton
               name="MoreHorizontal"
               variant="ghost"
-              className={className}
+              className={cn(className, "shrink-0")}
               tooltip={t("common.more")}
             />
           )}

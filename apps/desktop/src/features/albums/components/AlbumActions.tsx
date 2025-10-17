@@ -88,7 +88,7 @@ const AlbumActions = ({
 
   const hasMultipleSelections = list && list.selectedIds.length > 1
   const hasSingleSelection = list && list.selectedIds.length === 1
-  const shouldFetchAlbum = albumId !== undefined && !hasSingleSelection
+  const shouldFetchAlbum = albumId !== undefined || hasSingleSelection
   const resolvedAlbumId = albumId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
   const {
@@ -124,6 +124,7 @@ const AlbumActions = ({
     : false
   const hasSongs =
     albumSongs.length > 0 ||
+    (hasSingleSelection && finalTargetAlbum && finalTargetAlbum.totalTracks > 0) ||
     hasSongsInSelection ||
     (hasMultipleSelections && multipleSongIds && multipleSongIds.length > 0)
 
@@ -335,7 +336,9 @@ const AlbumActions = ({
   const renderMenuContent = () => (
     <MenuContent>
       {!hasAnyActions ? (
-        <div className="flex items-center justify-center p-4">{t("common.noResultsFound")}</div>
+        <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
+          {t("common.noResultsFound")}
+        </Typography>
       ) : (
         <>
           {playbackActions && (
@@ -374,7 +377,7 @@ const AlbumActions = ({
               <IconButton
                 name="MoreHorizontal"
                 variant="ghost"
-                className={className}
+                className={cn(className, "shrink-0")}
                 tooltip={t("common.more")}
               />
             )}
@@ -420,7 +423,7 @@ const AlbumActions = ({
             <IconButton
               name="MoreHorizontal"
               variant="ghost"
-              className={className}
+              className={cn(className, "shrink-0")}
               tooltip={t("common.more")}
             />
           )}
