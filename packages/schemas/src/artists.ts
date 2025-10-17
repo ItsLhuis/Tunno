@@ -14,7 +14,7 @@ export const createInsertArtistSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: z
       .string()
-      .optional()
+      .nullable()
       .refine(
         (value) => {
           if (!value) return true
@@ -38,7 +38,7 @@ export const createUpdateArtistSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: z
       .string()
-      .optional()
+      .nullable()
       .refine(
         (value) => {
           if (!value) return true
