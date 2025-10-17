@@ -97,6 +97,10 @@ const HomePage = () => {
     ]
   )
 
+  const Header = useCallback(() => <HomeHeader />, [])
+
+  const StickyHeader = useCallback(() => <HomeStickyHeader />, [])
+
   const handleRefresh = useCallback(async () => {
     await Promise.all([
       fetchUserStats.refetch(),
@@ -129,8 +133,8 @@ const HomePage = () => {
 
   return (
     <ScrollAreaWithHeaders
-      HeaderComponent={HomeHeader}
-      StickyHeaderComponent={HomeStickyHeader}
+      HeaderComponent={Header}
+      StickyHeaderComponent={StickyHeader}
       className="flex w-full flex-1 flex-col pb-0 pt-0"
     >
       <AsyncState data={hasAnyData} isLoading={isLoading} className="flex w-full flex-1">
