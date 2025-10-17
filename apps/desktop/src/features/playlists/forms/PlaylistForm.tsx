@@ -110,9 +110,9 @@ const PlaylistForm = ({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      name: playlist?.name ?? "",
-      thumbnail: playlist?.thumbnail ?? undefined,
-      isFavorite: playlist?.isFavorite ?? false
+      name: "",
+      thumbnail: null,
+      isFavorite: false
     }
   })
 
@@ -120,19 +120,17 @@ const PlaylistForm = ({
     if (playlist && mode === "update") {
       form.reset({
         name: playlist.name,
-        thumbnail: playlist.thumbnail ?? undefined,
+        thumbnail: playlist.thumbnail ?? null,
         isFavorite: playlist.isFavorite
       })
     }
   }, [playlist, mode])
 
   useEffect(() => {
-    if (form.formState.isSubmitted) {
-      if (mode === "insert") {
-        form.reset()
-      }
+    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+      form.reset()
     }
-  }, [form.formState.isSubmitted])
+  }, [form.formState.isSubmitted, form.formState.isValid, mode])
 
   const handleFormSubmit = async (values: InsertPlaylistType | UpdatePlaylistType) => {
     if (onSubmit) {
@@ -161,9 +159,6 @@ const PlaylistForm = ({
         thumbnailAction,
         thumbnailPath
       })
-
-      const formValues = form.getValues()
-      form.reset(formValues)
     }
 
     if (asModal) {
@@ -243,7 +238,7 @@ const PlaylistForm = ({
                       <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
                       <UploadPicker
                         mode="file"
-                        value={field.value}
+                        value={field.value ?? undefined}
                         onChange={field.onChange}
                         onError={(msg) => form.setError(field.name, { message: msg })}
                         accept={VALID_THUMBNAIL_FILE_EXTENSIONS}

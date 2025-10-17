@@ -136,7 +136,7 @@ const HomePage = () => {
       <AsyncState
         data={hasAnyData}
         isLoading={isLoading && !hasAnyData}
-        className="flex w-full flex-1 flex-col gap-9 pb-9"
+        className="flex w-full flex-1 flex-col justify-start gap-9 pb-9"
       >
         {() => (
           <>

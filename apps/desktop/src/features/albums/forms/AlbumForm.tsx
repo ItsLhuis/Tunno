@@ -118,12 +118,12 @@ const AlbumForm = ({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      name: album?.name ?? "",
-      thumbnail: album?.thumbnail ?? undefined,
-      isFavorite: album?.isFavorite ?? false,
-      albumType: album?.albumType ?? "album",
-      releaseYear: album?.releaseYear ?? undefined,
-      artists: album?.artists?.map((a) => a.artistId) ?? []
+      name: "",
+      thumbnail: null,
+      isFavorite: false,
+      albumType: "album",
+      releaseYear: null,
+      artists: []
     }
   })
 
@@ -131,26 +131,24 @@ const AlbumForm = ({
     if (album && mode === "update") {
       form.reset({
         name: album.name,
-        thumbnail: album.thumbnail ?? undefined,
+        thumbnail: album.thumbnail ?? null,
         isFavorite: album.isFavorite,
         albumType: album.albumType,
-        releaseYear: album.releaseYear,
+        releaseYear: album.releaseYear ?? null,
         artists: album.artists?.map((a) => a.artistId) ?? []
       })
     }
-  }, [album, mode, form])
+  }, [album, mode])
 
   const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
     orderBy: { column: "name", direction: "asc" }
   })
 
   useEffect(() => {
-    if (form.formState.isSubmitted) {
-      if (mode === "insert") {
-        form.reset()
-      }
+    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+      form.reset()
     }
-  }, [form.formState.isSubmitted])
+  }, [form.formState.isSubmitted, form.formState.isValid, mode])
 
   const handleFormSubmit = async (values: InsertAlbumType | UpdateAlbumType) => {
     if (onSubmit) {
@@ -180,9 +178,6 @@ const AlbumForm = ({
         thumbnailPath,
         artists
       })
-
-      const formValues = form.getValues()
-      form.reset(formValues)
     }
 
     if (asModal) {
@@ -339,7 +334,7 @@ const AlbumForm = ({
                       <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
                       <UploadPicker
                         mode="file"
-                        value={field.value}
+                        value={field.value ?? undefined}
                         onChange={field.onChange}
                         onError={(msg) => form.setError(field.name, { message: msg })}
                         accept={VALID_THUMBNAIL_FILE_EXTENSIONS}

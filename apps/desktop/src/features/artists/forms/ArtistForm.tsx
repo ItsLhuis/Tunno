@@ -109,9 +109,9 @@ const ArtistForm = ({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      name: artist?.name ?? "",
-      thumbnail: artist?.thumbnail ?? undefined,
-      isFavorite: artist?.isFavorite ?? false
+      name: "",
+      thumbnail: null,
+      isFavorite: false
     }
   })
 
@@ -119,19 +119,17 @@ const ArtistForm = ({
     if (artist && mode === "update") {
       form.reset({
         name: artist.name,
-        thumbnail: artist.thumbnail ?? undefined,
+        thumbnail: artist.thumbnail ?? null,
         isFavorite: artist.isFavorite
       })
     }
   }, [artist, mode])
 
   useEffect(() => {
-    if (form.formState.isSubmitted) {
-      if (mode === "insert") {
-        form.reset()
-      }
+    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+      form.reset()
     }
-  }, [form.formState.isSubmitted])
+  }, [form.formState.isSubmitted, form.formState.isValid, mode])
 
   const handleFormSubmit = async (values: InsertArtistType | UpdateArtistType) => {
     if (onSubmit) {
@@ -160,9 +158,6 @@ const ArtistForm = ({
         thumbnailAction,
         thumbnailPath
       })
-
-      const formValues = form.getValues()
-      form.reset(formValues)
     }
 
     if (asModal) {
@@ -242,7 +237,7 @@ const ArtistForm = ({
                       <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
                       <UploadPicker
                         mode="file"
-                        value={field.value}
+                        value={field.value ?? undefined}
                         onChange={field.onChange}
                         onError={(msg) => form.setError(field.name, { message: msg })}
                         accept={VALID_THUMBNAIL_FILE_EXTENSIONS}

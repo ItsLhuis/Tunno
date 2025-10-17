@@ -119,14 +119,14 @@ const SongForm = ({
     mode: "onChange",
     defaultValues: {
       name: song?.name ?? "",
-      thumbnail: song?.thumbnail ?? undefined,
+      thumbnail: song?.thumbnail ?? null,
       duration: song?.duration ?? 0,
       file: song?.file ?? undefined,
       isFavorite: song?.isFavorite ?? false,
-      releaseYear: song?.releaseYear ?? undefined,
-      albumId: song?.albumId ?? undefined,
+      releaseYear: song?.releaseYear ?? null,
+      albumId: song?.albumId ?? null,
       artists: song?.artists?.map((a) => a.artistId) ?? [],
-      lyrics: song?.lyrics ?? undefined
+      lyrics: song?.lyrics ?? null
     }
   })
 
@@ -147,25 +147,23 @@ const SongForm = ({
     if (song && mode === "update") {
       form.reset({
         name: song.name,
-        thumbnail: song.thumbnail ?? undefined,
+        thumbnail: song.thumbnail ?? null,
         duration: song.duration,
         file: song.file,
         isFavorite: song.isFavorite,
-        releaseYear: song.releaseYear ?? undefined,
-        albumId: song.albumId ?? undefined,
+        releaseYear: song.releaseYear ?? null,
+        albumId: song.albumId ?? null,
         artists: song.artists?.map((a) => a.artistId) ?? [],
-        lyrics: song.lyrics
+        lyrics: song.lyrics ?? null
       })
     }
-  }, [song, mode, form])
+  }, [song, mode])
 
   useEffect(() => {
-    if (form.formState.isSubmitted) {
-      if (mode === "insert") {
-        form.reset()
-      }
+    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+      form.reset()
     }
-  }, [form.formState.isSubmitted])
+  }, [form.formState.isSubmitted, form.formState.isValid, mode])
 
   const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
     if (onSubmit) {
@@ -189,16 +187,12 @@ const SongForm = ({
         id: song.id,
         updates: {
           ...updates,
-          albumId: updates.albumId === undefined ? null : updates.albumId,
           isFavorite: song.isFavorite
         },
         thumbnailAction,
         thumbnailPath,
         artists
       })
-
-      const formValues = form.getValues()
-      form.reset(formValues)
     }
 
     if (asModal) {
@@ -333,7 +327,7 @@ const SongForm = ({
                       <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
                       <UploadPicker
                         mode="file"
-                        value={field.value}
+                        value={field.value ?? undefined}
                         onChange={field.onChange}
                         onError={(msg) => form.setError(field.name, { message: msg })}
                         accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
@@ -359,7 +353,7 @@ const SongForm = ({
                     <FormControl>
                       <NumberInput
                         placeholder={new Date().getFullYear().toString()}
-                        value={field.value}
+                        value={field.value ?? undefined}
                         onChange={field.onChange}
                         min={1900}
                         max={new Date().getFullYear()}
@@ -405,11 +399,17 @@ const SongForm = ({
                               )
 
                               if (!hasMatchingArtist) {
-                                form.setValue("albumId", undefined, { shouldValidate: true })
+                                form.setValue("albumId", null, {
+                                  shouldValidate: true,
+                                  shouldDirty: true
+                                })
                               }
                             }
                           } else if (currentAlbumId && newArtistIds.length === 0) {
-                            form.setValue("albumId", undefined, { shouldValidate: true })
+                            form.setValue("albumId", null, {
+                              shouldValidate: true,
+                              shouldDirty: true
+                            })
                           }
                         }}
                       />
@@ -432,12 +432,8 @@ const SongForm = ({
                             placeholder={t("form.labels.album")}
                             options={albumOptions}
                             loading={isAlbumsLoading}
-                            value={
-                              form.getValues("albumId") ? String(form.getValues("albumId")) : ""
-                            }
-                            onValueChange={(value) =>
-                              field.onChange(value ? Number(value) : undefined)
-                            }
+                            value={field.value !== null ? String(field.value) : ""}
+                            onValueChange={(value) => field.onChange(value ? Number(value) : null)}
                             minWidth={300}
                             maxHeight={200}
                           />
@@ -483,7 +479,6 @@ const SongForm = ({
     <Dialog
       open={isOpen}
       onOpenChange={(open) => {
-        if (!open) form.reset()
         if (!renderProps.isSubmitting) setIsOpen(open)
       }}
     >
