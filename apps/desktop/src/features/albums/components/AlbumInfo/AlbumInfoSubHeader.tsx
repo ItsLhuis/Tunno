@@ -15,7 +15,7 @@ const AlbumInfoSubHeader = ({ className }: AlbumInfoSubHeaderProps) => {
     <div
       className={cn(
         className,
-        "grid w-full grid-cols-[40px_1fr_1fr_0.5fr_80px_40px] items-center gap-6 px-2 pb-2 text-sm font-medium"
+        "grid w-full grid-cols-[40px_1fr_1fr_0.5fr_80px_40px] items-center gap-3 px-2 pb-2 text-sm font-medium"
       )}
     >
       <div className="flex items-center justify-center">

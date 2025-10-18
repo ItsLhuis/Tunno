@@ -18,15 +18,18 @@ import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
 import { type Album } from "@repo/api"
 
+type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
+
 type AlbumItemProps = {
   album: Album
   variant?: "list" | "card"
   selected?: boolean
   onToggle?: () => void
+  visibleColumns?: ColumnKey[]
 }
 
 const AlbumItem = memo(
-  ({ album, variant = "card", selected = false, onToggle }: AlbumItemProps) => {
+  ({ album, variant = "card", selected = false, onToggle, visibleColumns }: AlbumItemProps) => {
     const { t, i18n } = useTranslation()
 
     const { loadTracks, play, isTrackLoading } = usePlayerStore(
@@ -54,6 +57,15 @@ const AlbumItem = memo(
     const canPlay = album.totalTracks > 0
 
     const showCheckbox = !!onToggle
+
+    const allColumns: ColumnKey[] = ["checkbox", "title", "playCount", "lastPlayed", "date"]
+    const columnsToShow = visibleColumns || allColumns
+
+    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox
+    const showTitleColumn = columnsToShow.includes("title")
+    const showPlayCountColumn = columnsToShow.includes("playCount")
+    const showLastPlayedColumn = columnsToShow.includes("lastPlayed")
+    const showDateColumn = columnsToShow.includes("date")
 
     if (variant === "card") {
       return (
@@ -109,20 +121,30 @@ const AlbumItem = memo(
       )
     }
 
-    const gridCols = showCheckbox
-      ? "grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
-      : "grid-cols-[40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
+    const getGridTemplateColumns = () => {
+      const cols: string[] = []
+
+      if (showCheckboxColumn) cols.push("24px")
+      cols.push("40px")
+      if (showTitleColumn) cols.push("1fr")
+      if (showPlayCountColumn) cols.push("0.5fr")
+      if (showLastPlayedColumn) cols.push("0.5fr")
+      if (showDateColumn) cols.push("0.5fr")
+      cols.push("40px")
+
+      return cols.join(" ")
+    }
 
     return (
       <AlbumActions variant="context" albumId={album.id}>
         <div
           className={cn(
-            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
-            gridCols,
+            "group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
             selected && "bg-accent"
           )}
+          style={{ gridTemplateColumns: getGridTemplateColumns() }}
         >
-          {showCheckbox && (
+          {showCheckboxColumn && (
             <div className="flex items-center justify-center">
               <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select row" />
             </div>
@@ -138,38 +160,46 @@ const AlbumItem = memo(
               />
             </div>
           </div>
-          <div className="flex flex-1 items-center gap-3 truncate">
-            <Thumbnail placeholderIcon="Disc" fileName={album.thumbnail} alt={album.name} />
-            <div className="flex w-full flex-col gap-1 truncate">
-              <Marquee>
-                <SafeLink to="/albums/$id" params={{ id: album.id.toString() }}>
-                  <Typography className="truncate">{album.name}</Typography>
-                </SafeLink>
-              </Marquee>
-              <Marquee>
-                <Typography affects={["muted", "small"]}>
-                  {album.totalTracks}{" "}
-                  {album.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                  {formatDuration(album.totalDuration, t)}
-                </Typography>
-              </Marquee>
+          {showTitleColumn && (
+            <div className="flex flex-1 items-center gap-3 truncate">
+              <Thumbnail placeholderIcon="Disc" fileName={album.thumbnail} alt={album.name} />
+              <div className="flex w-full flex-col gap-1 truncate">
+                <Marquee>
+                  <SafeLink to="/albums/$id" params={{ id: album.id.toString() }}>
+                    <Typography className="truncate">{album.name}</Typography>
+                  </SafeLink>
+                </Marquee>
+                <Marquee>
+                  <Typography affects={["muted", "small"]}>
+                    {album.totalTracks}{" "}
+                    {album.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
+                    {formatDuration(album.totalDuration, t)}
+                  </Typography>
+                </Marquee>
+              </div>
             </div>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">{formatNumber(album.playCount)}</Typography>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">
-              {album.lastPlayedAt
-                ? formatRelativeDate(album.lastPlayedAt, i18n.language, t)
-                : t("common.neverPlayed")}
-            </Typography>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">
-              {formatRelativeDate(album.createdAt, i18n.language, t)}
-            </Typography>
-          </div>
+          )}
+          {showPlayCountColumn && (
+            <div className="truncate">
+              <Typography className="truncate">{formatNumber(album.playCount)}</Typography>
+            </div>
+          )}
+          {showLastPlayedColumn && (
+            <div className="truncate">
+              <Typography className="truncate">
+                {album.lastPlayedAt
+                  ? formatRelativeDate(album.lastPlayedAt, i18n.language, t)
+                  : t("common.neverPlayed")}
+              </Typography>
+            </div>
+          )}
+          {showDateColumn && (
+            <div className="truncate">
+              <Typography className="truncate">
+                {formatRelativeDate(album.createdAt, i18n.language, t)}
+              </Typography>
+            </div>
+          )}
           <div className="flex items-center justify-center">
             <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <AlbumActions albumId={album.id} />

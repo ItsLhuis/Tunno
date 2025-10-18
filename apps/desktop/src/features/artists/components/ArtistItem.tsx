@@ -18,15 +18,18 @@ import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
 import { type Artist } from "@repo/api"
 
+type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
+
 type ArtistItemProps = {
   artist: Artist
   variant?: "list" | "card"
   selected?: boolean
   onToggle?: () => void
+  visibleColumns?: ColumnKey[]
 }
 
 const ArtistItem = memo(
-  ({ artist, variant = "card", selected = false, onToggle }: ArtistItemProps) => {
+  ({ artist, variant = "card", selected = false, onToggle, visibleColumns }: ArtistItemProps) => {
     const { t, i18n } = useTranslation()
 
     const { loadTracks, play, isTrackLoading } = usePlayerStore(
@@ -54,6 +57,15 @@ const ArtistItem = memo(
     const canPlay = artist.totalTracks > 0
 
     const showCheckbox = !!onToggle
+
+    const allColumns: ColumnKey[] = ["checkbox", "title", "playCount", "lastPlayed", "date"]
+    const columnsToShow = visibleColumns || allColumns
+
+    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox
+    const showTitleColumn = columnsToShow.includes("title")
+    const showPlayCountColumn = columnsToShow.includes("playCount")
+    const showLastPlayedColumn = columnsToShow.includes("lastPlayed")
+    const showDateColumn = columnsToShow.includes("date")
 
     if (variant === "card") {
       return (
@@ -109,20 +121,30 @@ const ArtistItem = memo(
       )
     }
 
-    const gridCols = showCheckbox
-      ? "grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
-      : "grid-cols-[40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
+    const getGridTemplateColumns = () => {
+      const cols: string[] = []
+
+      if (showCheckboxColumn) cols.push("24px")
+      cols.push("40px")
+      if (showTitleColumn) cols.push("1fr")
+      if (showPlayCountColumn) cols.push("0.5fr")
+      if (showLastPlayedColumn) cols.push("0.5fr")
+      if (showDateColumn) cols.push("0.5fr")
+      cols.push("40px")
+
+      return cols.join(" ")
+    }
 
     return (
       <ArtistActions variant="context" artistId={artist.id}>
         <div
           className={cn(
-            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
-            gridCols,
+            "group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
             selected && "bg-accent"
           )}
+          style={{ gridTemplateColumns: getGridTemplateColumns() }}
         >
-          {showCheckbox && (
+          {showCheckboxColumn && (
             <div className="flex items-center justify-center">
               <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select row" />
             </div>
@@ -138,43 +160,51 @@ const ArtistItem = memo(
               />
             </div>
           </div>
-          <div className="flex flex-1 items-center gap-3 truncate">
-            <Thumbnail
-              placeholderIcon="User"
-              fileName={artist.thumbnail}
-              alt={artist.name}
-              containerClassName="rounded-full"
-            />
-            <div className="flex w-full flex-col gap-1 truncate">
-              <Marquee>
-                <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
-                  <Typography className="truncate">{artist.name}</Typography>
-                </SafeLink>
-              </Marquee>
-              <Marquee>
-                <Typography affects={["muted", "small"]}>
-                  {artist.totalTracks}{" "}
-                  {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                  {formatDuration(artist.totalDuration, t)}
-                </Typography>
-              </Marquee>
+          {showTitleColumn && (
+            <div className="flex flex-1 items-center gap-3 truncate">
+              <Thumbnail
+                placeholderIcon="User"
+                fileName={artist.thumbnail}
+                alt={artist.name}
+                containerClassName="rounded-full"
+              />
+              <div className="flex w-full flex-col gap-1 truncate">
+                <Marquee>
+                  <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
+                    <Typography className="truncate">{artist.name}</Typography>
+                  </SafeLink>
+                </Marquee>
+                <Marquee>
+                  <Typography affects={["muted", "small"]}>
+                    {artist.totalTracks}{" "}
+                    {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
+                    {formatDuration(artist.totalDuration, t)}
+                  </Typography>
+                </Marquee>
+              </div>
             </div>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">{formatNumber(artist.playCount)}</Typography>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">
-              {artist.lastPlayedAt
-                ? formatRelativeDate(artist.lastPlayedAt, i18n.language, t)
-                : t("common.neverPlayed")}
-            </Typography>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">
-              {formatRelativeDate(artist.createdAt, i18n.language, t)}
-            </Typography>
-          </div>
+          )}
+          {showPlayCountColumn && (
+            <div className="truncate">
+              <Typography className="truncate">{formatNumber(artist.playCount)}</Typography>
+            </div>
+          )}
+          {showLastPlayedColumn && (
+            <div className="truncate">
+              <Typography className="truncate">
+                {artist.lastPlayedAt
+                  ? formatRelativeDate(artist.lastPlayedAt, i18n.language, t)
+                  : t("common.neverPlayed")}
+              </Typography>
+            </div>
+          )}
+          {showDateColumn && (
+            <div className="truncate">
+              <Typography className="truncate">
+                {formatRelativeDate(artist.createdAt, i18n.language, t)}
+              </Typography>
+            </div>
+          )}
           <div className="flex items-center justify-center">
             <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <ArtistActions artistId={artist.id} />

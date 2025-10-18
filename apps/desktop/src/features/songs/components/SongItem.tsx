@@ -31,6 +31,8 @@ import { formatRelativeDate, formatTime } from "@repo/utils"
 
 import { type SongWithMainRelations } from "@repo/api"
 
+type ColumnKey = "checkbox" | "title" | "album" | "date" | "duration"
+
 type SongItemProps = {
   song: SongWithMainRelations
   variant?: "list" | "card"
@@ -39,6 +41,7 @@ type SongItemProps = {
   onToggle?: () => void
   playSource?: PlaySource
   sourceContextId?: number
+  visibleColumns?: ColumnKey[]
 }
 
 const SongItem = memo(
@@ -49,7 +52,8 @@ const SongItem = memo(
     selected = false,
     onToggle,
     playSource = "songs",
-    sourceContextId
+    sourceContextId,
+    visibleColumns
   }: SongItemProps) => {
     const { t, i18n } = useTranslation()
 
@@ -92,6 +96,15 @@ const SongItem = memo(
     const isCurrentlyPlaying = currentTrack?.id === song.id && playbackState === State.Playing
 
     const showCheckbox = !!onToggle
+
+    const allColumns: ColumnKey[] = ["checkbox", "title", "album", "date", "duration"]
+    const columnsToShow = visibleColumns || allColumns
+
+    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox
+    const showTitleColumn = columnsToShow.includes("title")
+    const showAlbumColumn = columnsToShow.includes("album")
+    const showDateColumn = columnsToShow.includes("date")
+    const showDurationColumn = columnsToShow.includes("duration")
 
     if (variant === "card") {
       return (
@@ -162,20 +175,30 @@ const SongItem = memo(
       )
     }
 
-    const gridCols = showCheckbox
-      ? "grid-cols-[24px_40px_1fr_1fr_0.5fr_80px_40px]"
-      : "grid-cols-[40px_1fr_1fr_0.5fr_80px_40px]"
+    const getGridTemplateColumns = () => {
+      const cols: string[] = []
+
+      if (showCheckboxColumn) cols.push("24px")
+      cols.push("40px")
+      if (showTitleColumn) cols.push("1fr")
+      if (showAlbumColumn) cols.push("1fr")
+      if (showDateColumn) cols.push("0.5fr")
+      if (showDurationColumn) cols.push("80px")
+      cols.push("40px")
+
+      return cols.join(" ")
+    }
 
     return (
       <SongActions variant="context" songId={song.id}>
         <div
           className={cn(
-            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
-            gridCols,
+            "group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
             selected && "bg-accent"
           )}
+          style={{ gridTemplateColumns: getGridTemplateColumns() }}
         >
-          {showCheckbox && (
+          {showCheckboxColumn && (
             <div className="flex items-center justify-center">
               <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select row" />
             </div>
@@ -196,49 +219,59 @@ const SongItem = memo(
               />
             </Fade>
           </div>
-          <div className="flex flex-1 items-center gap-3 truncate">
-            <Thumbnail placeholderIcon="Music" fileName={song.thumbnail} alt={song.name} />
-            <div className="flex w-full flex-col gap-1 truncate">
-              <Marquee>
-                <SafeLink to={`/songs/$id`} params={{ id: song.id.toString() }}>
-                  <Typography className="truncate">{song.name}</Typography>
-                </SafeLink>
-              </Marquee>
-              <Marquee>
-                {song.artists.length > 0 ? (
-                  song.artists.map((artist, index) => (
-                    <span key={artist.artistId}>
-                      <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
-                        <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
-                      </SafeLink>
-                      {index < song.artists.length - 1 && (
-                        <Typography affects={["muted", "small"]}>, </Typography>
-                      )}
-                    </span>
-                  ))
-                ) : (
-                  <Typography affects={["muted", "small"]}>{t("common.unknownArtist")}</Typography>
-                )}
-              </Marquee>
+          {showTitleColumn && (
+            <div className="flex flex-1 items-center gap-3 truncate">
+              <Thumbnail placeholderIcon="Music" fileName={song.thumbnail} alt={song.name} />
+              <div className="flex w-full flex-col gap-1 truncate">
+                <Marquee>
+                  <SafeLink to={`/songs/$id`} params={{ id: song.id.toString() }}>
+                    <Typography className="truncate">{song.name}</Typography>
+                  </SafeLink>
+                </Marquee>
+                <Marquee>
+                  {song.artists.length > 0 ? (
+                    song.artists.map((artist, index) => (
+                      <span key={artist.artistId}>
+                        <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                          <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
+                        </SafeLink>
+                        {index < song.artists.length - 1 && (
+                          <Typography affects={["muted", "small"]}>, </Typography>
+                        )}
+                      </span>
+                    ))
+                  ) : (
+                    <Typography affects={["muted", "small"]}>
+                      {t("common.unknownArtist")}
+                    </Typography>
+                  )}
+                </Marquee>
+              </div>
             </div>
-          </div>
-          <div className="truncate">
-            {song.album ? (
-              <SafeLink to="/albums/$id" params={{ id: song.album.id.toString() }}>
-                <Typography className="truncate">{song.album.name}</Typography>
-              </SafeLink>
-            ) : (
-              <Typography affects={["muted"]}>{t("common.unknownAlbum")}</Typography>
-            )}
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">
-              {formatRelativeDate(song.createdAt, i18n.language, t)}
-            </Typography>
-          </div>
-          <div className="flex items-center justify-center">
-            <Typography className="truncate">{formatTime(song.duration)}</Typography>
-          </div>
+          )}
+          {showAlbumColumn && (
+            <div className="truncate">
+              {song.album ? (
+                <SafeLink to="/albums/$id" params={{ id: song.album.id.toString() }}>
+                  <Typography className="truncate">{song.album.name}</Typography>
+                </SafeLink>
+              ) : (
+                <Typography affects={["muted"]}>{t("common.unknownAlbum")}</Typography>
+              )}
+            </div>
+          )}
+          {showDateColumn && (
+            <div className="truncate">
+              <Typography className="truncate">
+                {formatRelativeDate(song.createdAt, i18n.language, t)}
+              </Typography>
+            </div>
+          )}
+          {showDurationColumn && (
+            <div className="flex items-center justify-center">
+              <Typography className="truncate">{formatTime(song.duration)}</Typography>
+            </div>
+          )}
           <div className="flex items-center justify-center">
             <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <SongActions songId={song.id} />

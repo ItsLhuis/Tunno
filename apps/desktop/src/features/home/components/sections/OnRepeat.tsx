@@ -1,13 +1,6 @@
 import { useTranslation } from "@repo/i18n"
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  Typography
-} from "@components/ui"
+import { Typography } from "@components/ui"
 
 import { SongItem } from "@features/songs/components"
 
@@ -30,24 +23,13 @@ const OnRepeat = ({ onRepeat }: OnRepeatProps) => {
         <Typography variant="h3">{t("home.onRepeat.title", "On Repeat")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.onRepeat.description")}</Typography>
       </div>
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-9"
-      >
-        <CarouselContent containerClassName="px-9">
-          {onRepeat.songs.map((song, index) => (
-            <CarouselItem key={`${song.id}-${index}`} className="w-56 basis-auto">
-              <SongItem song={song} variant="card" />
-            </CarouselItem>
+      {onRepeat.songs.length > 0 && (
+        <div className="flex flex-col gap-1">
+          {onRepeat.songs.map((song) => (
+            <SongItem key={song.id} song={song} visibleColumns={["title"]} />
           ))}
-        </CarouselContent>
-        <CarouselPrevious className="ml-20" />
-        <CarouselNext className="mr-20" />
-      </Carousel>
+        </div>
+      )}
     </section>
   )
 }

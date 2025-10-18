@@ -6,7 +6,7 @@ import { getOnRepeat } from "../api/queries"
 
 export function useFetchOnRepeat(options?: { days?: number; limit?: number }) {
   const days = options?.days ?? 14
-  const limit = options?.limit ?? 8
+  const limit = options?.limit ?? 5
 
   return useQuery({
     queryKey: homeKeys.listOnRepeat({ days, limit }),

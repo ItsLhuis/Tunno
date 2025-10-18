@@ -40,8 +40,8 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
       >
         <CarouselContent containerClassName="px-9">
           {yourPlaylists.playlists.map((playlist, index) => (
-            <CarouselItem key={`${playlist.id}-${index}`} className="w-56 basis-auto">
-              <PlaylistItem playlist={playlist} />
+            <CarouselItem key={`${playlist.id}-${index}`} className="w-32 basis-auto">
+              <PlaylistItem playlist={playlist} variant="compact" />
             </CarouselItem>
           ))}
         </CarouselContent>

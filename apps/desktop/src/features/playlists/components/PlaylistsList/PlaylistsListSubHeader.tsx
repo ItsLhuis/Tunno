@@ -28,7 +28,7 @@ const PlaylistsListSubHeader = ({ list, className }: PlaylistsListSubHeaderProps
     <div
       className={cn(
         className,
-        "grid w-full grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px] items-center gap-6 px-2 pb-2 text-sm font-medium"
+        "grid w-full grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px] items-center gap-3 px-2 pb-2 text-sm font-medium"
       )}
     >
       <Checkbox

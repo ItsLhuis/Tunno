@@ -12,21 +12,38 @@ import { cn } from "@lib/utils"
 
 import { PlaylistActions } from "./PlaylistActions"
 
-import { Checkbox, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import {
+  Checkbox,
+  IconButton,
+  Marquee,
+  SafeLink,
+  ScopedTheme,
+  Thumbnail,
+  Typography
+} from "@components/ui"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
 import { type Playlist } from "@repo/api"
 
+type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
+
 type PlaylistItemProps = {
   playlist: Playlist
-  variant?: "list" | "card"
+  variant?: "list" | "card" | "compact"
   selected?: boolean
   onToggle?: () => void
+  visibleColumns?: ColumnKey[]
 }
 
 const PlaylistItem = memo(
-  ({ playlist, variant = "card", selected = false, onToggle }: PlaylistItemProps) => {
+  ({
+    playlist,
+    variant = "card",
+    selected = false,
+    onToggle,
+    visibleColumns
+  }: PlaylistItemProps) => {
     const { t, i18n } = useTranslation()
 
     const { loadTracks, play, isTrackLoading } = usePlayerStore(
@@ -54,6 +71,15 @@ const PlaylistItem = memo(
     const canPlay = playlist.totalTracks > 0
 
     const showCheckbox = !!onToggle
+
+    const allColumns: ColumnKey[] = ["checkbox", "title", "playCount", "lastPlayed", "date"]
+    const columnsToShow = visibleColumns || allColumns
+
+    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox
+    const showTitleColumn = columnsToShow.includes("title")
+    const showPlayCountColumn = columnsToShow.includes("playCount")
+    const showLastPlayedColumn = columnsToShow.includes("lastPlayed")
+    const showDateColumn = columnsToShow.includes("date")
 
     if (variant === "card") {
       return (
@@ -109,20 +135,63 @@ const PlaylistItem = memo(
       )
     }
 
-    const gridCols = showCheckbox
-      ? "grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
-      : "grid-cols-[40px_1fr_0.5fr_0.5fr_0.5fr_40px]"
+    if (variant === "compact") {
+      return (
+        <PlaylistActions variant="context" playlistId={playlist.id}>
+          <ScopedTheme theme="dark" className="text-foreground">
+            <div className="group relative flex h-full w-full flex-col items-start overflow-hidden rounded-lg transition-colors">
+              <div className="h-full w-full p-2">
+                <Thumbnail
+                  placeholderIcon="ListMusic"
+                  fileName={playlist.thumbnail}
+                  alt={playlist.name}
+                  containerClassName="h-full w-full rounded-lg"
+                  className={cn("h-full w-full", !playlist.thumbnail && "p-[25%]")}
+                />
+              </div>
+              <div className="absolute inset-0 m-2 rounded-lg bg-black/25 opacity-0 backdrop-blur transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <IconButton
+                    name="Play"
+                    variant="ghost"
+                    className="h-14 w-14 shrink-0 [&_svg]:size-7"
+                    tooltip={t("common.play")}
+                    onClick={handlePlayPlaylist}
+                    isLoading={isTrackLoading || isLoading}
+                    disabled={!canPlay}
+                  />
+                </div>
+              </div>
+            </div>
+          </ScopedTheme>
+        </PlaylistActions>
+      )
+    }
+
+    const getGridTemplateColumns = () => {
+      const cols: string[] = []
+
+      if (showCheckboxColumn) cols.push("24px")
+      cols.push("40px")
+      if (showTitleColumn) cols.push("1fr")
+      if (showPlayCountColumn) cols.push("0.5fr")
+      if (showLastPlayedColumn) cols.push("0.5fr")
+      if (showDateColumn) cols.push("0.5fr")
+      cols.push("40px")
+
+      return cols.join(" ")
+    }
 
     return (
       <PlaylistActions variant="context" playlistId={playlist.id}>
         <div
           className={cn(
-            "group grid w-full items-center gap-6 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
-            gridCols,
+            "group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
             selected && "bg-accent"
           )}
+          style={{ gridTemplateColumns: getGridTemplateColumns() }}
         >
-          {showCheckbox && (
+          {showCheckboxColumn && (
             <div className="flex items-center justify-center">
               <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select row" />
             </div>
@@ -138,42 +207,50 @@ const PlaylistItem = memo(
               />
             </div>
           </div>
-          <div className="flex flex-1 items-center gap-3 truncate">
-            <Thumbnail
-              placeholderIcon="ListMusic"
-              fileName={playlist.thumbnail}
-              alt={playlist.name}
-            />
-            <div className="flex w-full flex-col gap-1 truncate">
-              <Marquee>
-                <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
-                  <Typography className="truncate">{playlist.name}</Typography>
-                </SafeLink>
-              </Marquee>
-              <Marquee>
-                <Typography affects={["muted", "small"]}>
-                  {playlist.totalTracks}{" "}
-                  {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                  {formatDuration(playlist.totalDuration, t)}
-                </Typography>
-              </Marquee>
+          {showTitleColumn && (
+            <div className="flex flex-1 items-center gap-3 truncate">
+              <Thumbnail
+                placeholderIcon="ListMusic"
+                fileName={playlist.thumbnail}
+                alt={playlist.name}
+              />
+              <div className="flex w-full flex-col gap-1 truncate">
+                <Marquee>
+                  <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
+                    <Typography className="truncate">{playlist.name}</Typography>
+                  </SafeLink>
+                </Marquee>
+                <Marquee>
+                  <Typography affects={["muted", "small"]}>
+                    {playlist.totalTracks}{" "}
+                    {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
+                    {formatDuration(playlist.totalDuration, t)}
+                  </Typography>
+                </Marquee>
+              </div>
             </div>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">{formatNumber(playlist.playCount)}</Typography>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">
-              {playlist.lastPlayedAt
-                ? formatRelativeDate(playlist.lastPlayedAt, i18n.language, t)
-                : t("common.neverPlayed")}
-            </Typography>
-          </div>
-          <div className="truncate">
-            <Typography className="truncate">
-              {formatRelativeDate(playlist.createdAt, i18n.language, t)}
-            </Typography>
-          </div>
+          )}
+          {showPlayCountColumn && (
+            <div className="truncate">
+              <Typography className="truncate">{formatNumber(playlist.playCount)}</Typography>
+            </div>
+          )}
+          {showLastPlayedColumn && (
+            <div className="truncate">
+              <Typography className="truncate">
+                {playlist.lastPlayedAt
+                  ? formatRelativeDate(playlist.lastPlayedAt, i18n.language, t)
+                  : t("common.neverPlayed")}
+              </Typography>
+            </div>
+          )}
+          {showDateColumn && (
+            <div className="truncate">
+              <Typography className="truncate">
+                {formatRelativeDate(playlist.createdAt, i18n.language, t)}
+              </Typography>
+            </div>
+          )}
           <div className="flex items-center justify-center">
             <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <PlaylistActions playlistId={playlist.id} />
