@@ -368,7 +368,7 @@ const SongActions = memo(
 
     const renderMenuContent = () => (
       <MenuContent>
-        {hasAnyActions ? (
+        {!hasAnyActions ? (
           <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
             {t("common.noResultsFound")}
           </Typography>
