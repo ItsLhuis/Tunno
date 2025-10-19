@@ -30,6 +30,9 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
         <Typography variant="h3">{t("home.newReleases.title", "New Releases")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.newReleases.description")}</Typography>
       </div>
+      {newReleases.albums.slice(0, 1).map((album, index) => (
+        <AlbumItem album={album} variant="hero" key={`${album.id}-${index}`} />
+      ))}
       <Carousel
         opts={{
           align: "start",
@@ -39,8 +42,8 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
         className="-mx-9"
       >
         <CarouselContent containerClassName="px-9">
-          {newReleases.albums.map((album, index) => (
-            <CarouselItem key={`${album.id}-${index}`} className="w-56 basis-auto">
+          {newReleases.albums.slice(1).map((album, index) => (
+            <CarouselItem key={`${album.id}-${index}`} className="w-40 basis-auto">
               <AlbumItem album={album} variant="card" />
             </CarouselItem>
           ))}

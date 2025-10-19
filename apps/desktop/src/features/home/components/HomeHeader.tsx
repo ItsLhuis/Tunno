@@ -10,7 +10,6 @@ const HomeHeader = () => {
       <div className="flex flex-1 items-end gap-6">
         <Typography
           variant="h1"
-          affects={["bold"]}
           className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
         >
           {t("home.title")}

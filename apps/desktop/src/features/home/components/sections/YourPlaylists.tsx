@@ -39,11 +39,13 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
         className="-mx-9"
       >
         <CarouselContent containerClassName="px-9">
-          {yourPlaylists.playlists.map((playlist, index) => (
-            <CarouselItem key={`${playlist.id}-${index}`} className="w-32 basis-auto">
-              <PlaylistItem playlist={playlist} variant="compact" />
-            </CarouselItem>
-          ))}
+          <div className="grid auto-cols-max grid-flow-col grid-rows-2 gap-y-1 overflow-x-auto">
+            {yourPlaylists.playlists.map((playlist, index) => (
+              <CarouselItem key={`${playlist.id}-${index}`} className="w-32 basis-auto">
+                <PlaylistItem playlist={playlist} variant="compact" />
+              </CarouselItem>
+            ))}
+          </div>
         </CarouselContent>
         <CarouselPrevious className="ml-20" />
         <CarouselNext className="mr-20" />
