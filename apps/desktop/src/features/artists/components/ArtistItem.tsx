@@ -71,7 +71,7 @@ const ArtistItem = memo(
       return (
         <ArtistActions variant="context" artistId={artist.id}>
           <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
-            <div className="mb-3 h-full w-full">
+            <div className="mb-2 h-full w-full">
               <Thumbnail
                 placeholderIcon="User"
                 fileName={artist.thumbnail}
@@ -105,7 +105,7 @@ const ArtistItem = memo(
                 </ArtistActions>
               </div>
             </div>
-            <div className="absolute bottom-14 right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute bottom-[3.225rem] right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"

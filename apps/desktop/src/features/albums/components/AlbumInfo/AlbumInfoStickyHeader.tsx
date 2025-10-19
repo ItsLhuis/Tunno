@@ -61,7 +61,7 @@ const AlbumInfoStickyHeader = ({ album }: AlbumInfoStickyHeaderProps) => {
             <Badge variant="muted" className="text-xs">
               {t(`albums.filters.${album.albumType}`)}
             </Badge>
-            <Typography variant="h3" affects={["bold"]} className="truncate">
+            <Typography variant="h3" className="truncate">
               {album.name}
             </Typography>
           </div>

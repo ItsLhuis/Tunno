@@ -32,7 +32,7 @@ const SettingButton = ({
         {renderLeft && <div>{renderLeft()}</div>}
         <div className="min-w-0 text-left">
           {typeof title === "string" ? (
-            <Typography variant="h6" affects={["bold"]} className="break-words">
+            <Typography variant="h6" className="break-words">
               {title}
             </Typography>
           ) : (

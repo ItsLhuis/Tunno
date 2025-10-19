@@ -12,15 +12,7 @@ import { cn } from "@lib/utils"
 
 import { PlaylistActions } from "./PlaylistActions"
 
-import {
-  Checkbox,
-  IconButton,
-  Marquee,
-  SafeLink,
-  ScopedTheme,
-  Thumbnail,
-  Typography
-} from "@components/ui"
+import { Checkbox, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
@@ -85,7 +77,7 @@ const PlaylistItem = memo(
       return (
         <PlaylistActions variant="context" playlistId={playlist.id}>
           <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
-            <div className="mb-3 h-full w-full">
+            <div className="mb-2 h-full w-full">
               <Thumbnail
                 placeholderIcon="ListMusic"
                 fileName={playlist.thumbnail}
@@ -119,7 +111,7 @@ const PlaylistItem = memo(
                 </PlaylistActions>
               </div>
             </div>
-            <div className="absolute bottom-14 right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute bottom-[3.225rem] right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"
@@ -138,32 +130,30 @@ const PlaylistItem = memo(
     if (variant === "compact") {
       return (
         <PlaylistActions variant="context" playlistId={playlist.id}>
-          <ScopedTheme theme="dark" className="text-foreground">
-            <div className="group relative flex h-full w-full flex-col items-start overflow-hidden rounded-lg transition-colors">
-              <div className="h-full w-full p-2">
-                <Thumbnail
-                  placeholderIcon="ListMusic"
-                  fileName={playlist.thumbnail}
-                  alt={playlist.name}
-                  containerClassName="h-full w-full rounded-lg"
-                  className={cn("h-full w-full", !playlist.thumbnail && "p-[25%]")}
-                />
-              </div>
-              <div className="absolute inset-0 m-2 rounded-lg bg-black/25 opacity-0 backdrop-blur transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-                <div className="absolute inset-0 flex items-center justify-center">
+          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
+            <div className="h-full w-full">
+              <Thumbnail
+                placeholderIcon="ListMusic"
+                fileName={playlist.thumbnail}
+                alt={playlist.name}
+                containerClassName="h-full w-full rounded-lg"
+                className={cn("h-full w-full", !playlist.thumbnail && "p-[25%]")}
+              />
+            </div>
+            <div className="absolute bottom-2 right-2 flex items-center justify-center">
+              <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+                {canPlay && (
                   <IconButton
                     name="Play"
-                    variant="ghost"
-                    className="h-14 w-14 shrink-0 [&_svg]:size-7"
                     tooltip={t("common.play")}
                     onClick={handlePlayPlaylist}
                     isLoading={isTrackLoading || isLoading}
                     disabled={!canPlay}
                   />
-                </div>
+                )}
               </div>
             </div>
-          </ScopedTheme>
+          </div>
         </PlaylistActions>
       )
     }

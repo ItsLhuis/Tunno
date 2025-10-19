@@ -22,7 +22,7 @@ type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
 
 type AlbumItemProps = {
   album: Album
-  variant?: "list" | "card"
+  variant?: "list" | "card" | "hero"
   selected?: boolean
   onToggle?: () => void
   visibleColumns?: ColumnKey[]
@@ -32,11 +32,13 @@ const AlbumItem = memo(
   ({ album, variant = "card", selected = false, onToggle, visibleColumns }: AlbumItemProps) => {
     const { t, i18n } = useTranslation()
 
-    const { loadTracks, play, isTrackLoading } = usePlayerStore(
+    const { loadTracks, play, isTrackLoading, shuffleAndPlay, isShuffling } = usePlayerStore(
       useShallow((state) => ({
         loadTracks: state.loadTracks,
         play: state.play,
-        isTrackLoading: state.isTrackLoading
+        isTrackLoading: state.isTrackLoading,
+        shuffleAndPlay: state.shuffleAndPlay,
+        isShuffling: state.isShuffling
       }))
     )
 
@@ -52,6 +54,11 @@ const AlbumItem = memo(
 
       await loadTracks(songIds, 0, "album", album.id)
       await play()
+    }
+
+    const handleShuffleAndPlay = () => {
+      if (isShuffling || !songIds || songIds.length === 0) return
+      shuffleAndPlay(songIds, "album", album.id)
     }
 
     const canPlay = album.totalTracks > 0
@@ -71,7 +78,7 @@ const AlbumItem = memo(
       return (
         <AlbumActions variant="context" albumId={album.id}>
           <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
-            <div className="mb-3 h-full w-full">
+            <div className="mb-2 h-full w-full">
               <Thumbnail
                 placeholderIcon="Disc"
                 fileName={album.thumbnail}
@@ -105,7 +112,7 @@ const AlbumItem = memo(
                 </AlbumActions>
               </div>
             </div>
-            <div className="absolute bottom-14 right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute bottom-[3.225rem] right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"
@@ -118,6 +125,47 @@ const AlbumItem = memo(
             </div>
           </div>
         </AlbumActions>
+      )
+    }
+
+    if (variant === "hero") {
+      return (
+        <div className="flex flex-1 items-end gap-6">
+          <div className="h-64 w-64">
+            <Thumbnail
+              placeholderIcon="Disc"
+              fileName={album.thumbnail}
+              alt={album.name}
+              className={album.thumbnail ? "h-full w-full" : "size-24"}
+              containerClassName="h-full w-full rounded-lg"
+            />
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="flex flex-1 flex-col gap-2">
+              <Typography
+                variant="h1"
+                className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+              >
+                {album.name}
+              </Typography>
+              <Typography affects={["muted", "small"]}>
+                {album.totalTracks} {album.totalTracks === 1 ? t("common.song") : t("songs.title")}{" "}
+                • {formatDuration(album.totalDuration, t)}
+              </Typography>
+            </div>
+            <div className="flex items-center gap-3 pt-3">
+              <IconButton
+                name="Shuffle"
+                className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+                isLoading={isShuffling}
+                disabled={!songIds || songIds.length === 0}
+                tooltip={t("common.shuffleAndPlay")}
+                onClick={handleShuffleAndPlay}
+              />
+              <AlbumActions albumId={album.id} />
+            </div>
+          </div>
+        </div>
       )
     }
 

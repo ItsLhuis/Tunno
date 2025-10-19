@@ -58,7 +58,6 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            affects={["bold"]}
             className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {album.name}

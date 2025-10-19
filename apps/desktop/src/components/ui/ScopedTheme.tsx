@@ -19,7 +19,9 @@ const ScopedThemeContext = createContext<ScopedThemeContextType | null>(null)
 const ScopedTheme = ({ children, theme, className }: ScopedThemeProps) => {
   return (
     <ScopedThemeContext.Provider value={{ theme }}>
-      <div className={cn(theme === "dark" ? "dark" : "", className)}>{children}</div>
+      <div className={cn(theme === "dark" ? "dark" : "", "text-foreground", className)}>
+        {children}
+      </div>
     </ScopedThemeContext.Provider>
   )
 }

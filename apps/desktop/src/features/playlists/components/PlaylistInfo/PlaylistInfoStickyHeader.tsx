@@ -61,7 +61,7 @@ const PlaylistInfoStickyHeader = ({ playlist }: PlaylistInfoStickyHeaderProps) =
             <Badge variant="muted" className="text-xs">
               {t("common.playlist")}
             </Badge>
-            <Typography variant="h3" affects={["bold"]} className="truncate">
+            <Typography variant="h3" className="truncate">
               {playlist.name}
             </Typography>
           </div>
