@@ -307,6 +307,80 @@ export const getNewReleases = async (
   }
 }
 
+export const getDiscover = async (limit: number = 12): Promise<Discover> => {
+  const discoverResults = await database
+    .select({
+      songId: schema.songs.id,
+      discoveryScore: sql<number>`
+        CASE 
+          WHEN ${schema.songs.playCount} = 0 THEN 100
+          WHEN ${schema.songs.playCount} <= 2 THEN 80
+          WHEN ${schema.songs.playCount} <= 5 THEN 60
+          ELSE 40
+        END
+      `.as("discoveryScore")
+    })
+    .from(schema.songs)
+    .innerJoin(schema.songsToArtists, eq(schema.songs.id, schema.songsToArtists.songId))
+    .innerJoin(schema.artists, eq(schema.songsToArtists.artistId, schema.artists.id))
+    .leftJoin(schema.albums, eq(schema.songs.albumId, schema.albums.id))
+    .where(
+      and(
+        sql`${schema.songs.playCount} <= 5`,
+        sql`${schema.artists.playCount} > 10 OR ${schema.albums.playCount} > 5`
+      )
+    )
+    .groupBy(schema.songs.id)
+    .orderBy(desc(sql`discoveryScore`))
+    .limit(limit)
+
+  if (discoverResults.length === 0) {
+    return {
+      songs: [],
+      totalSongs: 0,
+      totalDuration: 0,
+      averageDiscoveryScore: 0,
+      highestDiscoveryScore: 0
+    }
+  }
+
+  const songIds = discoverResults.map((discoverResult) => discoverResult.songId)
+
+  const songs = await database.query.songs.findMany({
+    where: inArray(schema.songs.id, songIds),
+    with: {
+      album: true,
+      artists: { with: { artist: true }, orderBy: asc(schema.songsToArtists.artistOrder) }
+    }
+  })
+
+  const songMap = new Map(songs.map((song) => [song.id, song]))
+  const songsWithScores = discoverResults
+    .map((discoverResult) => {
+      const song = songMap.get(discoverResult.songId)
+      if (!song) return null
+      return { ...song, discoveryScore: discoverResult.discoveryScore }
+    })
+    .filter((song): song is NonNullable<typeof song> => song !== null)
+
+  const totalDuration = songsWithScores.reduce((total, song) => total + (song.duration || 0), 0)
+  const averageDiscoveryScore =
+    songsWithScores.length > 0
+      ? songsWithScores.reduce((total, song) => total + song.discoveryScore, 0) /
+        songsWithScores.length
+      : 0
+  const highestDiscoveryScore =
+    songsWithScores.length > 0 ? Math.max(...songsWithScores.map((song) => song.discoveryScore)) : 0
+
+  return {
+    songs: songsWithScores,
+    totalSongs: songsWithScores.length,
+    totalDuration,
+    averageDiscoveryScore,
+    highestDiscoveryScore
+  }
+}
+
 export const getFavoriteArtists = async (limit: number = 12): Promise<FavoriteArtists> => {
   const artistsWithStats = await database
     .select({
@@ -419,6 +493,87 @@ export const getTopAlbums = async (limit: number = 10): Promise<TopAlbums> => {
   }
 }
 
+export const getHiddenGems = async (
+  limit: number = 12,
+  options?: { minYearsOld?: number; maxPlayCount?: number }
+): Promise<HiddenGems> => {
+  const currentYear = new Date().getFullYear()
+  const minYearsOld = options?.minYearsOld ?? 5
+  const maxPlayCount = options?.maxPlayCount ?? 3
+
+  const hiddenResults = await database
+    .select({
+      songId: schema.songs.id,
+      nostalgiaScore: sql<number>`
+        (CASE WHEN ${schema.songs.releaseYear} IS NULL THEN 0 ELSE ${currentYear} - ${schema.songs.releaseYear} END)
+        + (CASE WHEN ${schema.artists.isFavorite} = 1 THEN 10 ELSE 0 END)
+        + (CASE WHEN ${schema.songs.playCount} = 0 THEN 8
+               WHEN ${schema.songs.playCount} <= 1 THEN 6
+               WHEN ${schema.songs.playCount} <= 3 THEN 4
+               ELSE 0 END)
+      `.as("nostalgiaScore")
+    })
+    .from(schema.songs)
+    .innerJoin(schema.songsToArtists, eq(schema.songs.id, schema.songsToArtists.songId))
+    .innerJoin(schema.artists, eq(schema.songsToArtists.artistId, schema.artists.id))
+    .leftJoin(schema.albums, eq(schema.songs.albumId, schema.albums.id))
+    .where(
+      and(
+        sql`${schema.songs.playCount} <= ${maxPlayCount}`,
+        sql`${schema.songs.releaseYear} IS NULL OR ${schema.songs.releaseYear} <= ${currentYear - minYearsOld}`
+      )
+    )
+    .groupBy(schema.songs.id)
+    .orderBy(desc(sql`nostalgiaScore`))
+    .limit(limit)
+
+  if (hiddenResults.length === 0) {
+    return {
+      songs: [],
+      totalSongs: 0,
+      totalDuration: 0,
+      averageNostalgiaScore: 0,
+      highestNostalgiaScore: 0
+    }
+  }
+
+  const songIds = hiddenResults.map((hiddenResult) => hiddenResult.songId)
+
+  const songs = await database.query.songs.findMany({
+    where: inArray(schema.songs.id, songIds),
+    with: {
+      album: true,
+      artists: { with: { artist: true }, orderBy: asc(schema.songsToArtists.artistOrder) }
+    }
+  })
+
+  const songMap = new Map(songs.map((song) => [song.id, song]))
+  const songsWithScores = hiddenResults
+    .map((hiddenResult) => {
+      const song = songMap.get(hiddenResult.songId)
+      if (!song) return null
+      return { ...song, nostalgiaScore: hiddenResult.nostalgiaScore }
+    })
+    .filter((song): song is NonNullable<typeof song> => song !== null)
+
+  const totalDuration = songsWithScores.reduce((total, song) => total + (song.duration || 0), 0)
+  const averageNostalgiaScore =
+    songsWithScores.length > 0
+      ? songsWithScores.reduce((total, song) => total + song.nostalgiaScore, 0) /
+        songsWithScores.length
+      : 0
+  const highestNostalgiaScore =
+    songsWithScores.length > 0 ? Math.max(...songsWithScores.map((song) => song.nostalgiaScore)) : 0
+
+  return {
+    songs: songsWithScores,
+    totalSongs: songsWithScores.length,
+    totalDuration,
+    averageNostalgiaScore,
+    highestNostalgiaScore
+  }
+}
+
 export const getRecentlyAdded = async (limit: number = 12): Promise<RecentlyAdded> => {
   const [songs, albums, playlists, artists] = await Promise.all([
     database.query.songs.findMany({
@@ -505,160 +660,5 @@ export const getRecentlyAdded = async (limit: number = 12): Promise<RecentlyAdde
     totalArtists,
     totalDuration,
     addedDateRange
-  }
-}
-
-export const getHiddenGems = async (
-  limit: number = 12,
-  options?: { minYearsOld?: number; maxPlayCount?: number }
-): Promise<HiddenGems> => {
-  const currentYear = new Date().getFullYear()
-  const minYearsOld = options?.minYearsOld ?? 5
-  const maxPlayCount = options?.maxPlayCount ?? 3
-
-  const hiddenResults = await database
-    .select({
-      songId: schema.songs.id,
-      nostalgiaScore: sql<number>`
-        (CASE WHEN ${schema.songs.releaseYear} IS NULL THEN 0 ELSE ${currentYear} - ${schema.songs.releaseYear} END)
-        + (CASE WHEN ${schema.artists.isFavorite} = 1 THEN 10 ELSE 0 END)
-        + (CASE WHEN ${schema.songs.playCount} = 0 THEN 8
-               WHEN ${schema.songs.playCount} <= 1 THEN 6
-               WHEN ${schema.songs.playCount} <= 3 THEN 4
-               ELSE 0 END)
-      `.as("nostalgiaScore")
-    })
-    .from(schema.songs)
-    .innerJoin(schema.songsToArtists, eq(schema.songs.id, schema.songsToArtists.songId))
-    .innerJoin(schema.artists, eq(schema.songsToArtists.artistId, schema.artists.id))
-    .leftJoin(schema.albums, eq(schema.songs.albumId, schema.albums.id))
-    .where(
-      and(
-        sql`${schema.songs.playCount} <= ${maxPlayCount}`,
-        sql`${schema.songs.releaseYear} IS NULL OR ${schema.songs.releaseYear} <= ${currentYear - minYearsOld}`
-      )
-    )
-    .groupBy(schema.songs.id)
-    .orderBy(desc(sql`nostalgiaScore`))
-    .limit(limit)
-
-  if (hiddenResults.length === 0) {
-    return {
-      songs: [],
-      totalSongs: 0,
-      totalDuration: 0,
-      averageNostalgiaScore: 0,
-      highestNostalgiaScore: 0
-    }
-  }
-
-  const songIds = hiddenResults.map((hiddenResult) => hiddenResult.songId)
-
-  const songs = await database.query.songs.findMany({
-    where: inArray(schema.songs.id, songIds),
-    with: {
-      album: true,
-      artists: { with: { artist: true }, orderBy: asc(schema.songsToArtists.artistOrder) }
-    }
-  })
-
-  const songMap = new Map(songs.map((song) => [song.id, song]))
-  const songsWithScores = hiddenResults
-    .map((hiddenResult) => {
-      const song = songMap.get(hiddenResult.songId)
-      if (!song) return null
-      return { ...song, nostalgiaScore: hiddenResult.nostalgiaScore }
-    })
-    .filter((song): song is NonNullable<typeof song> => song !== null)
-
-  const totalDuration = songsWithScores.reduce((total, song) => total + (song.duration || 0), 0)
-  const averageNostalgiaScore =
-    songsWithScores.length > 0
-      ? songsWithScores.reduce((total, song) => total + song.nostalgiaScore, 0) /
-        songsWithScores.length
-      : 0
-  const highestNostalgiaScore =
-    songsWithScores.length > 0 ? Math.max(...songsWithScores.map((song) => song.nostalgiaScore)) : 0
-
-  return {
-    songs: songsWithScores,
-    totalSongs: songsWithScores.length,
-    totalDuration,
-    averageNostalgiaScore,
-    highestNostalgiaScore
-  }
-}
-
-export const getDiscover = async (limit: number = 12): Promise<Discover> => {
-  const discoverResults = await database
-    .select({
-      songId: schema.songs.id,
-      discoveryScore: sql<number>`
-        CASE 
-          WHEN ${schema.songs.playCount} = 0 THEN 100
-          WHEN ${schema.songs.playCount} <= 2 THEN 80
-          WHEN ${schema.songs.playCount} <= 5 THEN 60
-          ELSE 40
-        END
-      `.as("discoveryScore")
-    })
-    .from(schema.songs)
-    .innerJoin(schema.songsToArtists, eq(schema.songs.id, schema.songsToArtists.songId))
-    .innerJoin(schema.artists, eq(schema.songsToArtists.artistId, schema.artists.id))
-    .leftJoin(schema.albums, eq(schema.songs.albumId, schema.albums.id))
-    .where(
-      and(
-        sql`${schema.songs.playCount} <= 5`,
-        sql`${schema.artists.playCount} > 10 OR ${schema.albums.playCount} > 5`
-      )
-    )
-    .groupBy(schema.songs.id)
-    .orderBy(desc(sql`discoveryScore`))
-    .limit(limit)
-
-  if (discoverResults.length === 0) {
-    return {
-      songs: [],
-      totalSongs: 0,
-      totalDuration: 0,
-      averageDiscoveryScore: 0,
-      highestDiscoveryScore: 0
-    }
-  }
-
-  const songIds = discoverResults.map((discoverResult) => discoverResult.songId)
-
-  const songs = await database.query.songs.findMany({
-    where: inArray(schema.songs.id, songIds),
-    with: {
-      album: true,
-      artists: { with: { artist: true }, orderBy: asc(schema.songsToArtists.artistOrder) }
-    }
-  })
-
-  const songMap = new Map(songs.map((song) => [song.id, song]))
-  const songsWithScores = discoverResults
-    .map((discoverResult) => {
-      const song = songMap.get(discoverResult.songId)
-      if (!song) return null
-      return { ...song, discoveryScore: discoverResult.discoveryScore }
-    })
-    .filter((song): song is NonNullable<typeof song> => song !== null)
-
-  const totalDuration = songsWithScores.reduce((total, song) => total + (song.duration || 0), 0)
-  const averageDiscoveryScore =
-    songsWithScores.length > 0
-      ? songsWithScores.reduce((total, song) => total + song.discoveryScore, 0) /
-        songsWithScores.length
-      : 0
-  const highestDiscoveryScore =
-    songsWithScores.length > 0 ? Math.max(...songsWithScores.map((song) => song.discoveryScore)) : 0
-
-  return {
-    songs: songsWithScores,
-    totalSongs: songsWithScores.length,
-    totalDuration,
-    averageDiscoveryScore,
-    highestDiscoveryScore
   }
 }
