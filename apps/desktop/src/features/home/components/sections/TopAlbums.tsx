@@ -26,10 +26,13 @@ const TopAlbums = ({ topAlbums }: TopAlbumsProps) => {
 
   return (
     <section className="flex w-full flex-col gap-3">
-      <div className="flex flex-col gap-1">
+      <div className="mb-2 flex flex-col gap-1">
         <Typography variant="h3">{t("home.topAlbums.title", "Top Albums")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.topAlbums.description")}</Typography>
       </div>
+      {topAlbums.albums.slice(0, 1).map((album, index) => (
+        <AlbumItem key={`${album.id}-${index}`} album={album} variant="hero" />
+      ))}
       <Carousel
         opts={{
           align: "start",
@@ -39,9 +42,9 @@ const TopAlbums = ({ topAlbums }: TopAlbumsProps) => {
         className="-mx-9"
       >
         <CarouselContent containerClassName="px-9">
-          {topAlbums.albums.map((album, index) => (
-            <CarouselItem key={`${album.id}-${index}`} className="w-56 basis-auto">
-              <AlbumItem album={album} />
+          {topAlbums.albums.slice(1).map((album, index) => (
+            <CarouselItem key={`${album.id}-${index}`} className="w-40 basis-auto">
+              <AlbumItem album={album} variant="card" />
             </CarouselItem>
           ))}
         </CarouselContent>

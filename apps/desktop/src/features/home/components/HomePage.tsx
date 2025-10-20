@@ -1,6 +1,8 @@
-import { useCallback, useMemo } from "react"
+import { useCallback } from "react"
 
 import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
+
+import { useFetchHome } from "../hooks/useFetchHome"
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
@@ -20,112 +22,16 @@ import {
 import { HomeHeader } from "./HomeHeader"
 import { HomeStickyHeader } from "./HomeStickyHeader"
 
-import { useFetchDiscover } from "../hooks/useFetchDiscover"
-import { useFetchFavoriteArtists } from "../hooks/useFetchFavoriteArtists"
-import { useFetchHiddenGems } from "../hooks/useFetchHiddenGems"
-import { useFetchJumpBackIn } from "../hooks/useFetchJumpBackIn"
-import { useFetchNewReleases } from "../hooks/useFetchNewReleases"
-import { useFetchOnRepeat } from "../hooks/useFetchOnRepeat"
-import { useFetchRecentlyAdded } from "../hooks/useFetchRecentlyAdded"
-import { useFetchTopAlbums } from "../hooks/useFetchTopAlbums"
-import { useFetchUserStats } from "../hooks/useFetchUserStats"
-import { useFetchYourPlaylists } from "../hooks/useFetchYourPlaylists"
-
 const HomePage = () => {
-  const fetchUserStats = useFetchUserStats()
-  const fetchJumpBackIn = useFetchJumpBackIn()
-  const fetchOnRepeat = useFetchOnRepeat()
-  const fetchYourPlaylists = useFetchYourPlaylists()
-  const fetchNewReleases = useFetchNewReleases()
-  const fetchFavoriteArtists = useFetchFavoriteArtists()
-  const fetchTopAlbums = useFetchTopAlbums()
-  const fetchRecentlyAdded = useFetchRecentlyAdded()
-  const fetchHiddenGems = useFetchHiddenGems()
-  const fetchDiscover = useFetchDiscover()
-
-  const isLoading = useMemo(
-    () =>
-      fetchUserStats.isLoading ||
-      fetchJumpBackIn.isLoading ||
-      fetchOnRepeat.isLoading ||
-      fetchYourPlaylists.isLoading ||
-      fetchNewReleases.isLoading ||
-      fetchFavoriteArtists.isLoading ||
-      fetchTopAlbums.isLoading ||
-      fetchRecentlyAdded.isLoading ||
-      fetchHiddenGems.isLoading ||
-      fetchDiscover.isLoading,
-    [
-      fetchUserStats.isLoading,
-      fetchJumpBackIn.isLoading,
-      fetchOnRepeat.isLoading,
-      fetchYourPlaylists.isLoading,
-      fetchNewReleases.isLoading,
-      fetchFavoriteArtists.isLoading,
-      fetchTopAlbums.isLoading,
-      fetchRecentlyAdded.isLoading,
-      fetchHiddenGems.isLoading,
-      fetchDiscover.isLoading
-    ]
-  )
-
-  const hasAnyData = useMemo(
-    () =>
-      !!(
-        fetchUserStats.data ||
-        fetchJumpBackIn.data ||
-        fetchOnRepeat.data ||
-        fetchYourPlaylists.data ||
-        fetchNewReleases.data ||
-        fetchFavoriteArtists.data ||
-        fetchTopAlbums.data ||
-        fetchRecentlyAdded.data ||
-        fetchHiddenGems.data ||
-        fetchDiscover.data
-      ),
-    [
-      fetchUserStats.data,
-      fetchJumpBackIn.data,
-      fetchOnRepeat.data,
-      fetchYourPlaylists.data,
-      fetchNewReleases.data,
-      fetchFavoriteArtists.data,
-      fetchTopAlbums.data,
-      fetchRecentlyAdded.data,
-      fetchHiddenGems.data,
-      fetchDiscover.data
-    ]
-  )
+  const { data: home, isLoading, refetch } = useFetchHome()
 
   const Header = useCallback(() => <HomeHeader />, [])
 
   const StickyHeader = useCallback(() => <HomeStickyHeader />, [])
 
   const handleRefresh = useCallback(async () => {
-    await Promise.all([
-      fetchUserStats.refetch(),
-      fetchJumpBackIn.refetch(),
-      fetchOnRepeat.refetch(),
-      fetchYourPlaylists.refetch(),
-      fetchNewReleases.refetch(),
-      fetchFavoriteArtists.refetch(),
-      fetchTopAlbums.refetch(),
-      fetchRecentlyAdded.refetch(),
-      fetchHiddenGems.refetch(),
-      fetchDiscover.refetch()
-    ])
-  }, [
-    fetchUserStats.refetch,
-    fetchJumpBackIn.refetch,
-    fetchOnRepeat.refetch,
-    fetchYourPlaylists.refetch,
-    fetchNewReleases.refetch,
-    fetchFavoriteArtists.refetch,
-    fetchTopAlbums.refetch,
-    fetchRecentlyAdded.refetch,
-    fetchHiddenGems.refetch,
-    fetchDiscover.refetch
-  ])
+    await refetch()
+  }, [refetch])
 
   usePageRefresh({
     refreshFn: handleRefresh
@@ -135,24 +41,22 @@ const HomePage = () => {
     <ScrollAreaWithHeaders
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
-      className="flex w-full flex-1 flex-col pb-0 pt-0"
+      className="flex w-full flex-1 flex-col pt-0"
     >
-      <AsyncState data={hasAnyData} isLoading={isLoading} className="flex w-full flex-1">
-        {() => (
-          <div className="flex w-full flex-1 flex-col justify-start gap-9 pb-9">
-            {fetchUserStats.data && <YourStats stats={fetchUserStats.data} />}
-            {fetchJumpBackIn.data && <JumpBackIn jumpBackIn={fetchJumpBackIn.data} />}
-            {fetchOnRepeat.data && <OnRepeat onRepeat={fetchOnRepeat.data} />}
-            {fetchYourPlaylists.data && <YourPlaylists yourPlaylists={fetchYourPlaylists.data} />}
-            {fetchNewReleases.data && <NewReleases newReleases={fetchNewReleases.data} />}
-            {fetchFavoriteArtists.data && (
-              <FavoriteArtists favoriteArtists={fetchFavoriteArtists.data} />
-            )}
-            {fetchTopAlbums.data && <TopAlbums topAlbums={fetchTopAlbums.data} />}
-            {fetchRecentlyAdded.data && <RecentlyAdded recentlyAdded={fetchRecentlyAdded.data} />}
-            {fetchHiddenGems.data && <HiddenGems hiddenGems={fetchHiddenGems.data} />}
-            {fetchDiscover.data && <Discover discover={fetchDiscover.data} />}
-          </div>
+      <AsyncState data={home} isLoading={isLoading} className="flex w-full flex-1 flex-col gap-9">
+        {(data) => (
+          <>
+            {data.userStats && <YourStats stats={data.userStats} />}
+            {data.jumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn} />}
+            {data.onRepeat && <OnRepeat onRepeat={data.onRepeat} />}
+            {data.yourPlaylists && <YourPlaylists yourPlaylists={data.yourPlaylists} />}
+            {data.newReleases && <NewReleases newReleases={data.newReleases} />}
+            {data.discover && <Discover discover={data.discover} />}
+            {data.favoriteArtists && <FavoriteArtists favoriteArtists={data.favoriteArtists} />}
+            {data.topAlbums && <TopAlbums topAlbums={data.topAlbums} />}
+            {data.hiddenGems && <HiddenGems hiddenGems={data.hiddenGems} />}
+            {data.recentlyAdded && <RecentlyAdded recentlyAdded={data.recentlyAdded} />}
+          </>
         )}
       </AsyncState>
     </ScrollAreaWithHeaders>

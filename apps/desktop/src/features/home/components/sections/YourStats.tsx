@@ -1,6 +1,8 @@
 import { useTranslation } from "@repo/i18n"
 
-import { Typography } from "@components/ui"
+import { Icon, Typography } from "@components/ui"
+
+import { formatNumber } from "@repo/utils"
 
 import { type UserStats } from "@repo/api"
 
@@ -14,10 +16,48 @@ const YourStats = ({ stats }: YourStatsProps) => {
   if (!stats) return null
 
   return (
-    <section className="flex w-full flex-col gap-3">
+    <section className="flex w-full flex-col gap-5">
       <div className="flex flex-col gap-1">
         <Typography variant="h3">{t("home.yourStats.title")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.yourStats.description")}</Typography>
+      </div>
+      <div className="grid w-full min-w-0 grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="Music" />
+            <Typography className="truncate">{t("common.song")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {formatNumber(stats.totalSongs)}
+          </Typography>
+        </div>
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="Users" />
+            <Typography className="truncate">{t("common.artist")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {formatNumber(stats.totalArtists)}
+          </Typography>
+        </div>
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="Disc" />
+            <Typography className="truncate">{t("common.album")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {formatNumber(stats.totalAlbums)}
+          </Typography>
+        </div>
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="List" />
+            <Typography className="truncate">{t("common.playlist")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {formatNumber(stats.totalPlaylists)}
+          </Typography>
+        </div>
       </div>
     </section>
   )

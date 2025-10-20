@@ -26,12 +26,12 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
 
   return (
     <section className="flex w-full flex-col gap-3">
-      <div className="flex flex-col gap-1">
+      <div className="mb-2 flex flex-col gap-1">
         <Typography variant="h3">{t("home.newReleases.title", "New Releases")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.newReleases.description")}</Typography>
       </div>
       {newReleases.albums.slice(0, 1).map((album, index) => (
-        <AlbumItem album={album} variant="hero" key={`${album.id}-${index}`} />
+        <AlbumItem key={`${album.id}-${index}`} album={album} variant="hero" />
       ))}
       <Carousel
         opts={{

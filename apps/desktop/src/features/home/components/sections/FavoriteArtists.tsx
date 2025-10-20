@@ -26,7 +26,7 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
 
   return (
     <section className="flex w-full flex-col gap-3">
-      <div className="flex flex-col gap-1">
+      <div className="mb-2 flex flex-col gap-1">
         <Typography variant="h3">
           {t("home.favoriteArtists.title", "Your Favorite Artists")}
         </Typography>
@@ -34,6 +34,9 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
           {t("home.favoriteArtists.description")}
         </Typography>
       </div>
+      {favoriteArtists.artists.slice(0, 1).map((artist, index) => (
+        <ArtistItem key={`${artist.id}-${index}`} artist={artist} variant="hero" />
+      ))}
       <Carousel
         opts={{
           align: "start",
@@ -43,8 +46,8 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
         className="-mx-9"
       >
         <CarouselContent containerClassName="px-9">
-          {favoriteArtists.artists.map((artist, index) => (
-            <CarouselItem key={`${artist.id}-${index}`} className="w-56 basis-auto">
+          {favoriteArtists.artists.slice(1).map((artist, index) => (
+            <CarouselItem key={`${artist.id}-${index}`} className="w-40 basis-auto">
               <ArtistItem artist={artist} />
             </CarouselItem>
           ))}

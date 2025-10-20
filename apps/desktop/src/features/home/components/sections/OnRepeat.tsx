@@ -19,15 +19,20 @@ const OnRepeat = ({ onRepeat }: OnRepeatProps) => {
 
   return (
     <section className="flex w-full flex-col gap-3">
-      <div className="flex flex-col gap-1">
+      <div className="mb-2 flex flex-col gap-1">
         <Typography variant="h3">{t("home.onRepeat.title", "On Repeat")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.onRepeat.description")}</Typography>
       </div>
       {onRepeat.songs.length > 0 && (
-        <div className="flex flex-col gap-1">
-          {onRepeat.songs.map((song) => (
-            <SongItem key={song.id} song={song} visibleColumns={["title"]} />
-          ))}
+        <div className="flex flex-col gap-3">
+          <SongItem song={onRepeat.songs[0]} variant="hero" />
+          {onRepeat.songs.length > 1 && (
+            <div className="flex flex-col gap-1">
+              {onRepeat.songs.slice(1).map((song, index) => (
+                <SongItem key={`${song.id}-${index}`} song={song} visibleColumns={["title"]} />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </section>
