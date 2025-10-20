@@ -1,3 +1,4 @@
+// apps/desktop/src/features/artists/components/ArtistItem.tsx
 import { memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
@@ -22,7 +23,7 @@ type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
 
 type ArtistItemProps = {
   artist: Artist
-  variant?: "list" | "card"
+  variant?: "list" | "card" | "hero"
   selected?: boolean
   onToggle?: () => void
   visibleColumns?: ColumnKey[]
@@ -32,11 +33,13 @@ const ArtistItem = memo(
   ({ artist, variant = "card", selected = false, onToggle, visibleColumns }: ArtistItemProps) => {
     const { t, i18n } = useTranslation()
 
-    const { loadTracks, play, isTrackLoading } = usePlayerStore(
+    const { loadTracks, play, isTrackLoading, shuffleAndPlay, isShuffling } = usePlayerStore(
       useShallow((state) => ({
         loadTracks: state.loadTracks,
         play: state.play,
-        isTrackLoading: state.isTrackLoading
+        isTrackLoading: state.isTrackLoading,
+        shuffleAndPlay: state.shuffleAndPlay,
+        isShuffling: state.isShuffling
       }))
     )
 
@@ -52,6 +55,11 @@ const ArtistItem = memo(
 
       await loadTracks(songIds, 0, "artist", artist.id)
       await play()
+    }
+
+    const handleShuffleAndPlay = () => {
+      if (isShuffling || !songIds || songIds.length === 0) return
+      shuffleAndPlay(songIds, "artist", artist.id)
     }
 
     const canPlay = artist.totalTracks > 0
@@ -105,7 +113,7 @@ const ArtistItem = memo(
                 </ArtistActions>
               </div>
             </div>
-            <div className="absolute bottom-[3.225rem] right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute bottom-[3.225rem] right-2 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"
@@ -118,6 +126,48 @@ const ArtistItem = memo(
             </div>
           </div>
         </ArtistActions>
+      )
+    }
+
+    if (variant === "hero") {
+      return (
+        <div className="flex flex-1 items-end gap-6">
+          <div className="h-64 w-64">
+            <Thumbnail
+              placeholderIcon="User"
+              fileName={artist.thumbnail}
+              alt={artist.name}
+              className={artist.thumbnail ? "h-full w-full" : "size-24"}
+              containerClassName="h-full w-full rounded-full"
+            />
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="flex flex-1 flex-col gap-2">
+              <Typography
+                variant="h1"
+                className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+              >
+                {artist.name}
+              </Typography>
+              <Typography affects={["muted", "small"]}>
+                {artist.totalTracks}{" "}
+                {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
+                {formatDuration(artist.totalDuration, t)}
+              </Typography>
+            </div>
+            <div className="flex items-center gap-3 pt-3">
+              <IconButton
+                name="Shuffle"
+                className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+                isLoading={isShuffling}
+                disabled={!songIds || songIds.length === 0}
+                tooltip={t("common.shuffleAndPlay")}
+                onClick={handleShuffleAndPlay}
+              />
+              <ArtistActions artistId={artist.id} />
+            </div>
+          </div>
+        </div>
       )
     }
 

@@ -93,8 +93,10 @@ const ScrollAreaWithHeaders = ({
           {HeaderComponent()}
           {ListHeaderComponent && ListHeaderComponent()}
         </div>
-        <div className={cn("table h-full p-9 pt-3", className)} {...props}>
-          {children}
+        <div className="flex h-full flex-1 flex-col">
+          <div className={cn("flex flex-col p-9 pt-3", className)} {...props}>
+            {children}
+          </div>
         </div>
       </div>
     </ScrollArea>

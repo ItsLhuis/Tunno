@@ -90,7 +90,7 @@ const PlaylistInfo = () => {
           HeaderComponent={Header}
           StickyHeaderComponent={StickyHeader}
           ListHeaderComponent={ListHeader}
-          className="flex w-full flex-1 flex-col gap-9"
+          className="space-y-6"
         >
           <VirtualizedList
             data={songs}

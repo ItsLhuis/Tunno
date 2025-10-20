@@ -19,7 +19,9 @@ import {
   Typography
 } from "@components/ui"
 
+import { AlbumItem } from "@features/albums/components/AlbumItem"
 import { ArtistItem } from "@features/artists/components/ArtistItem"
+import { PlaylistItem } from "@features/playlists/components/PlaylistItem"
 
 import { SongItem } from "../SongItem"
 import { SongInfoHeader } from "./SongInfoHeader"
@@ -78,9 +80,19 @@ const SongInfo = () => {
           HeaderComponent={Header}
           StickyHeaderComponent={StickyHeader}
           ListHeaderComponent={ListHeader}
-          className="flex w-full flex-1 flex-col gap-9"
+          className="space-y-6"
         >
           <SongItem song={data} allSongIds={[data.id]} />
+          {data.album && (
+            <section className="-mx-2 flex w-full flex-col gap-3">
+              <Typography variant="h3" className="mx-2">
+                {t("common.album")}
+              </Typography>
+              <div className="w-56">
+                <AlbumItem album={data.album} variant="card" />
+              </div>
+            </section>
+          )}
           {data.artists.length > 0 && (
             <section className="flex w-full flex-col gap-3">
               <Typography variant="h3">{t("artists.title")}</Typography>
@@ -96,6 +108,29 @@ const SongInfo = () => {
                   {data.artists.map((artist, index) => (
                     <CarouselItem key={artist.artist.id || index} className="w-56 basis-auto">
                       <ArtistItem artist={artist.artist} variant="card" />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="ml-20" />
+                <CarouselNext className="mr-20" />
+              </Carousel>
+            </section>
+          )}
+          {data.playlists.length > 0 && (
+            <section className="flex w-full flex-col gap-3">
+              <Typography variant="h3">{t("playlists.title")}</Typography>
+              <Carousel
+                opts={{
+                  align: "start",
+                  dragFree: true,
+                  skipSnaps: true
+                }}
+                className="-mx-9"
+              >
+                <CarouselContent containerClassName="px-9">
+                  {data.playlists.map((playlist, index) => (
+                    <CarouselItem key={playlist.playlist.id || index} className="w-56 basis-auto">
+                      <PlaylistItem playlist={playlist.playlist} variant="card" />
                     </CarouselItem>
                   ))}
                 </CarouselContent>

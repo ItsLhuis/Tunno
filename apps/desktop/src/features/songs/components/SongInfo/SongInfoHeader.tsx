@@ -83,19 +83,29 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
             {song.name}
           </Typography>
           <div className="flex items-end gap-1">
-            {song.artists.length > 0 && (
+            {song.artists.length > 0 ? (
               <SafeLink to="/artists/$id" params={{ id: song.artists[0].artistId.toString() }}>
                 <Typography affects={["small"]}>{song.artists[0].artist.name}</Typography>{" "}
                 <Typography affects={["small", "muted"]}>•</Typography>
               </SafeLink>
+            ) : (
+              <Typography affects={["small", "muted"]}>{t("common.unknownArtist")} •</Typography>
             )}
-            <Typography affects={["small", "muted"]}>
-              {song.album ? song.album.name : t("common.unknownAlbum")}
-            </Typography>
+            {song.album ? (
+              <SafeLink to="/albums/$id" params={{ id: song.album.id.toString() }}>
+                <Typography affects={["small", "muted"]}>{song.album.name}</Typography>
+              </SafeLink>
+            ) : (
+              <Typography affects={["small", "muted"]}>{t("common.unknownAlbum")}</Typography>
+            )}
             {song.releaseYear && (
-              <Typography affects={["small", "muted"]}>• {song.releaseYear}</Typography>
+              <div className="leading-none">
+                <Typography affects={["small", "muted"]}>• {song.releaseYear}</Typography>
+              </div>
             )}
-            <Typography affects={["small", "muted"]}>• {formatTime(song.duration)}</Typography>
+            <div className="leading-none">
+              <Typography affects={["small", "muted"]}>• {formatTime(song.duration)}</Typography>
+            </div>
           </div>
         </div>
       </div>

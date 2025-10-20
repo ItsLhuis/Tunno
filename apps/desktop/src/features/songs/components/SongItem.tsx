@@ -35,7 +35,7 @@ type ColumnKey = "checkbox" | "title" | "album" | "date" | "duration"
 
 type SongItemProps = {
   song: SongWithMainRelations
-  variant?: "list" | "card"
+  variant?: "list" | "card" | "hero"
   selected?: boolean
   allSongIds?: number[]
   onToggle?: () => void
@@ -106,6 +106,71 @@ const SongItem = memo(
     const showDateColumn = columnsToShow.includes("date")
     const showDurationColumn = columnsToShow.includes("duration")
 
+    if (variant === "hero") {
+      return (
+        <div className="flex flex-1 items-end gap-6">
+          <div className="h-64 w-64">
+            <Thumbnail
+              placeholderIcon="Music"
+              fileName={song.thumbnail}
+              alt={song.name}
+              className={song.thumbnail ? "h-full w-full" : "size-24"}
+              containerClassName="h-full w-full"
+            />
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="flex flex-1 flex-col gap-2">
+              <Typography
+                variant="h1"
+                className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+              >
+                {song.name}
+              </Typography>
+              <div className="flex items-end gap-1">
+                {song.artists.length > 0 ? (
+                  <SafeLink to="/artists/$id" params={{ id: song.artists[0].artistId.toString() }}>
+                    <Typography affects={["small"]}>{song.artists[0].artist.name}</Typography>{" "}
+                    <Typography affects={["small", "muted"]}>•</Typography>
+                  </SafeLink>
+                ) : (
+                  <Typography affects={["small", "muted"]}>
+                    {t("common.unknownArtist")} •
+                  </Typography>
+                )}
+                {song.album ? (
+                  <SafeLink to="/albums/$id" params={{ id: song.album.id.toString() }}>
+                    <Typography affects={["small", "muted"]}>{song.album.name}</Typography>
+                  </SafeLink>
+                ) : (
+                  <Typography affects={["small", "muted"]}>{t("common.unknownAlbum")}</Typography>
+                )}
+                {song.releaseYear && (
+                  <div className="leading-none">
+                    <Typography affects={["small", "muted"]}>• {song.releaseYear}</Typography>
+                  </div>
+                )}
+                <div className="leading-none">
+                  <Typography affects={["small", "muted"]}>
+                    • {formatTime(song.duration)}
+                  </Typography>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 pt-3">
+              <IconButton
+                name={isCurrentlyPlaying ? "Pause" : "Play"}
+                className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+                tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
+                onClick={handlePlaySong}
+                isLoading={isTrackLoading}
+              />
+              <SongActions songId={song.id} />
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     if (variant === "card") {
       return (
         <SongActions variant="context" songId={song.id}>
@@ -160,7 +225,7 @@ const SongItem = memo(
                 </Fade>
               </div>
             </div>
-            <div className="absolute bottom-[3.225rem] right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute bottom-[3.225rem] right-2 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               <div className="relative">
                 <IconButton
                   name={isCurrentlyPlaying ? "Pause" : "Play"}

@@ -17,6 +17,7 @@ import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-reac
 import { Button } from "@components/ui/Button"
 import { Fade } from "@components/ui/Fade"
 import { Icon } from "@components/ui/Icon"
+import { ScopedTheme } from "./ScopedTheme"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -194,21 +195,24 @@ const CarouselPrevious = forwardRef<HTMLButtonElement, ComponentProps<typeof But
             : "-top-12 left-1/2 -translate-x-1/2"
         )}
       >
-        <Button
-          ref={ref}
-          variant={variant}
-          size={size}
-          className={cn(
-            "h-8 w-8 rounded-full",
-            orientation === "vertical" && "rotate-90",
-            className
-          )}
-          disabled={!canScrollPrev}
-          onClick={scrollPrev}
-          {...props}
-        >
-          <Icon name="ArrowLeft" />
-        </Button>
+        <ScopedTheme theme="dark">
+          <Button
+            ref={ref}
+            variant={variant}
+            size={size}
+            className={cn(
+              "h-8 w-8 rounded-full",
+              orientation === "vertical" && "rotate-90",
+              className,
+              "bg-background/75 backdrop-blur"
+            )}
+            disabled={!canScrollPrev}
+            onClick={scrollPrev}
+            {...props}
+          >
+            <Icon name="ArrowLeft" />
+          </Button>
+        </ScopedTheme>
       </Fade>
     )
   }
@@ -228,21 +232,24 @@ const CarouselNext = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>
             : "-bottom-12 left-1/2 -translate-x-1/2"
         )}
       >
-        <Button
-          ref={ref}
-          variant={variant}
-          size={size}
-          className={cn(
-            "h-8 w-8 rounded-full",
-            orientation === "vertical" && "rotate-90",
-            className
-          )}
-          disabled={!canScrollNext}
-          onClick={scrollNext}
-          {...props}
-        >
-          <Icon name="ArrowRight" />
-        </Button>
+        <ScopedTheme theme="dark">
+          <Button
+            ref={ref}
+            variant={variant}
+            size={size}
+            className={cn(
+              "h-8 w-8 rounded-full",
+              orientation === "vertical" && "rotate-90",
+              className,
+              "bg-background/75 backdrop-blur"
+            )}
+            disabled={!canScrollNext}
+            onClick={scrollNext}
+            {...props}
+          >
+            <Icon name="ArrowRight" />
+          </Button>
+        </ScopedTheme>
       </Fade>
     )
   }

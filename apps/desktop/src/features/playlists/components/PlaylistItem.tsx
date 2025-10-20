@@ -111,7 +111,7 @@ const PlaylistItem = memo(
                 </PlaylistActions>
               </div>
             </div>
-            <div className="absolute bottom-[3.225rem] right-2 z-10 flex justify-start opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute bottom-[3.225rem] right-2 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"

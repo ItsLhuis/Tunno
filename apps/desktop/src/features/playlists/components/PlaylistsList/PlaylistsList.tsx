@@ -125,7 +125,7 @@ const PlaylistsList = () => {
 
   return (
     <VirtualizedListWithHeaders
-      className="p-9 pt-0"
+      className={cn("p-9 pt-0", viewMode === "grid" && "-m-2")}
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
       ListHeaderComponent={ListHeader}
