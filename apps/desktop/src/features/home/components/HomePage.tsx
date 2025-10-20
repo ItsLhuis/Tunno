@@ -1,4 +1,4 @@
-import { useCallback } from "react"
+import { Fragment, useCallback } from "react"
 
 import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
@@ -45,7 +45,7 @@ const HomePage = () => {
     >
       <AsyncState data={home} isLoading={isLoading} className="flex w-full flex-1 flex-col gap-9">
         {(data) => (
-          <>
+          <Fragment>
             {data.userStats && <YourStats stats={data.userStats} />}
             {data.jumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn} />}
             {data.onRepeat && <OnRepeat onRepeat={data.onRepeat} />}
@@ -56,7 +56,7 @@ const HomePage = () => {
             {data.topAlbums && <TopAlbums topAlbums={data.topAlbums} />}
             {data.hiddenGems && <HiddenGems hiddenGems={data.hiddenGems} />}
             {data.recentlyAdded && <RecentlyAdded recentlyAdded={data.recentlyAdded} />}
-          </>
+          </Fragment>
         )}
       </AsyncState>
     </ScrollAreaWithHeaders>
