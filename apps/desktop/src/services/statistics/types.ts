@@ -8,4 +8,6 @@ export type PlaySession = {
   playHistoryId?: number
   totalTimeListened: number
   isPaused: boolean
+  playCountRecorded: boolean
+  playCountTimer?: NodeJS.Timeout
 }
