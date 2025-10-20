@@ -79,6 +79,18 @@ export type NewReleases = {
   }
 }
 
+export type Discover = {
+  songs: Array<
+    SongWithMainRelations & {
+      discoveryScore: number
+    }
+  >
+  totalSongs: number
+  totalDuration: number
+  averageDiscoveryScore: number
+  highestDiscoveryScore: number
+}
+
 export type FavoriteArtists = {
   artists: ArtistWithStats[]
   totalArtists: number
@@ -93,6 +105,18 @@ export type TopAlbums = {
   totalRecentPlays: number
   totalPlayTime: number
   topAlbum?: AlbumWithArtists
+}
+
+export type HiddenGems = {
+  songs: Array<
+    SongWithMainRelations & {
+      nostalgiaScore: number
+    }
+  >
+  totalSongs: number
+  totalDuration: number
+  averageNostalgiaScore: number
+  highestNostalgiaScore: number
 }
 
 export type RecentlyAddedItem =
@@ -113,28 +137,4 @@ export type RecentlyAdded = {
     earliest: Date
     latest: Date
   }
-}
-
-export type HiddenGems = {
-  songs: Array<
-    SongWithMainRelations & {
-      nostalgiaScore: number
-    }
-  >
-  totalSongs: number
-  totalDuration: number
-  averageNostalgiaScore: number
-  highestNostalgiaScore: number
-}
-
-export type Discover = {
-  songs: Array<
-    SongWithMainRelations & {
-      discoveryScore: number
-    }
-  >
-  totalSongs: number
-  totalDuration: number
-  averageDiscoveryScore: number
-  highestDiscoveryScore: number
 }
