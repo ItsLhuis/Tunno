@@ -36,9 +36,10 @@ export function useUpdateArtist() {
       thumbnailAction?: Parameters<typeof updateArtist>[2]
       thumbnailPath?: Parameters<typeof updateArtist>[3]
     }) => updateArtist(id, updates, thumbnailAction, thumbnailPath),
-    onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: artistKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: artistKeys.list() })
+    onMutate: async () => {
+      // Cancel ALL in-flight queries for artists (including infinite queries)
+      // This prevents race conditions where fetchNextPage completes after mutation
+      await queryClient.cancelQueries({ queryKey: artistKeys.all })
     },
     onSuccess: async (artist) => {
       if (currentTrackId) {

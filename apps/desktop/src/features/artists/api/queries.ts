@@ -1,59 +1,86 @@
 import { database, schema } from "@database/client"
 
-import { and, asc, desc, eq, gte, like, lte, sql } from "drizzle-orm"
+import { and, asc, desc, eq, gte, like, lte } from "drizzle-orm"
+
+import { buildCursorCondition, type CursorValue, getOrderByFromColumn } from "@repo/database"
+
+import { decodeCursor, encodeCursor } from "@database/helpers"
 
 import {
-  type QueryArtistParams,
   type Artist,
   type ArtistWithAllRelations,
   type ArtistWithSongs,
-  PAGE_SIZE
+  PAGE_SIZE,
+  type PaginatedResponse,
+  type QueryArtistParams
 } from "@repo/api"
 
 export const getArtistsPaginated = async ({
   limit = PAGE_SIZE,
-  offset = 0,
+  cursor,
   orderBy,
   filters
-}: QueryArtistParams & { limit?: number; offset?: number }) => {
+}: QueryArtistParams): Promise<PaginatedResponse<Artist>> => {
   const whereConditions = buildWhereConditions(filters)
+  const orderColumn = orderBy?.column || "createdAt"
+  const orderDirection = orderBy?.direction || "desc"
+
+  const cursorValues = cursor ? decodeCursor(cursor) : []
+  const cursorCondition =
+    cursorValues.length > 0
+      ? buildCursorCondition({
+          cursorValues,
+          columns: [schema.artists[orderColumn], schema.artists.id],
+          direction: orderDirection
+        })
+      : undefined
+
+  const allConditions = [
+    ...(whereConditions.length > 0 ? [and(...whereConditions)] : []),
+    ...(cursorCondition ? [cursorCondition] : [])
+  ].filter(Boolean)
 
   const artists = await database.query.artists.findMany({
-    limit,
-    offset,
-    where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
-    orderBy: orderBy
-      ? orderBy.direction === "asc"
-        ? asc(schema.artists[orderBy.column])
-        : desc(schema.artists[orderBy.column])
-      : undefined
+    limit: limit + 1,
+    where: allConditions.length > 0 ? and(...allConditions) : undefined,
+    orderBy: [
+      getOrderByFromColumn(schema.artists[orderColumn], orderDirection),
+      asc(schema.artists.id)
+    ]
   })
 
-  const totalCount = await database
-    .select({ count: sql<number>`count(*)` })
-    .from(schema.artists)
-    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
-    .then((result) => result[0]?.count ?? 0)
+  const hasNextPage = artists.length > limit
+  const items = hasNextPage ? artists.slice(0, limit) : artists
+
+  const nextCursor =
+    hasNextPage && items.length > 0
+      ? encodeCursor([
+          items[items.length - 1][orderColumn] as CursorValue,
+          items[items.length - 1].id
+        ])
+      : undefined
+
+  const prevCursor =
+    items.length > 0 && cursor
+      ? encodeCursor([items[0][orderColumn] as CursorValue, items[0].id])
+      : undefined
 
   return {
-    artists,
-    totalCount,
-    hasNextPage: offset + artists.length < totalCount,
-    nextOffset: offset + artists.length
+    items,
+    nextCursor,
+    prevCursor,
+    hasNextPage,
+    hasPrevPage: !!cursor
   }
 }
 
-export const getAllArtists = async ({
-  limit,
-  offset,
-  orderBy,
-  filters
-}: QueryArtistParams = {}): Promise<Artist[]> => {
+export const getAllArtists = async ({ limit, orderBy, filters }: QueryArtistParams = {}): Promise<
+  Artist[]
+> => {
   const whereConditions = buildWhereConditions(filters)
 
   const artists = await database.query.artists.findMany({
     limit,
-    offset,
     where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
     orderBy: orderBy
       ? orderBy.direction === "asc"

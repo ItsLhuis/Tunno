@@ -51,7 +51,7 @@ const ArtistsList = () => {
 
   const artists = useMemo(() => {
     if (!data?.pages) return []
-    return data.pages.flatMap((page) => page.artists)
+    return data.pages.flatMap((page) => page.items)
   }, [data?.pages])
 
   const artistIds = allArtistIds ?? []

@@ -26,9 +26,8 @@ export function useDeleteArtist() {
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deleteArtist(id),
-    onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: artistKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: artistKeys.list() })
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: artistKeys.all })
     },
     onSuccess: async (artist) => {
       if (currentTrackId) {

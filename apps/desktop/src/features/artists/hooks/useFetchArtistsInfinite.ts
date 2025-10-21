@@ -7,15 +7,18 @@ import { getArtistsPaginated } from "../api/queries"
 export function useFetchArtistsInfinite(params?: QueryArtistParams) {
   return useInfiniteQuery({
     queryKey: artistKeys.listInfinite(params),
-    queryFn: async ({ pageParam = 0 }) => {
+    queryFn: async ({ pageParam }) => {
       return getArtistsPaginated({
         ...params,
-        offset: pageParam
+        cursor: pageParam
       })
     },
-    initialPageParam: 0,
+    initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.nextOffset : undefined
+      return lastPage.hasNextPage ? lastPage.nextCursor : undefined
+    },
+    getPreviousPageParam: (firstPage) => {
+      return firstPage.hasPrevPage ? firstPage.prevCursor : undefined
     }
   })
 }

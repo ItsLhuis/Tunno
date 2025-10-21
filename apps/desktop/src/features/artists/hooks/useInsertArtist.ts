@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { invalidateQueries } from "@repo/api"
+import { artistKeys, invalidateQueries } from "@repo/api"
 
 import { insertArtist } from "../api/mutations"
 
@@ -20,6 +20,9 @@ export function useInsertArtist() {
       const { thumbnail, ...rest } = artist
       const createdArtist = await insertArtist(rest, thumbnail)
       return createdArtist
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: artistKeys.all })
     },
     onSuccess: (createdArtist) => {
       if (!createdArtist) return
