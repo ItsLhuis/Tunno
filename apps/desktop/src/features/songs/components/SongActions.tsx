@@ -57,6 +57,7 @@ type SongActionsProps = {
   className?: string
   onEditSong?: (song: SongWithMainRelations) => void
   onDeleteSong?: (song: SongWithMainRelations) => void
+  queueIndex?: number
 }
 
 const SongActions = memo(
@@ -67,7 +68,8 @@ const SongActions = memo(
     children,
     className,
     onEditSong,
-    onDeleteSong
+    onDeleteSong,
+    queueIndex
   }: SongActionsProps) => {
     const { t } = useTranslation()
 
@@ -76,18 +78,27 @@ const SongActions = memo(
 
     const artistsScrollRef = useRef<HTMLDivElement | null>(null)
 
-    const { loadTracks, play, pause, currentTrack, playbackState, isTrackLoading, addToQueue } =
-      usePlayerStore(
-        useShallow((state) => ({
-          loadTracks: state.loadTracks,
-          play: state.play,
-          pause: state.pause,
-          currentTrack: state.currentTrack,
-          playbackState: state.playbackState,
-          isTrackLoading: state.isTrackLoading,
-          addToQueue: state.addToQueue
-        }))
-      )
+    const {
+      loadTracks,
+      play,
+      pause,
+      currentTrack,
+      playbackState,
+      isTrackLoading,
+      addToQueue,
+      removeFromQueue
+    } = usePlayerStore(
+      useShallow((state) => ({
+        loadTracks: state.loadTracks,
+        play: state.play,
+        pause: state.pause,
+        currentTrack: state.currentTrack,
+        playbackState: state.playbackState,
+        isTrackLoading: state.isTrackLoading,
+        addToQueue: state.addToQueue,
+        removeFromQueue: state.removeFromQueue
+      }))
+    )
 
     const toggleFavoriteMutation = useToggleSongFavorite()
 
@@ -190,6 +201,12 @@ const SongActions = memo(
         } else {
           setIsDeleteOpen(true)
         }
+      }
+    }
+
+    const handleRemoveFromQueue = async () => {
+      if (queueIndex !== undefined && queueIndex !== null) {
+        await removeFromQueue(queueIndex)
       }
     }
 
@@ -343,6 +360,15 @@ const SongActions = memo(
         const navigationActions = renderNavigationActions()
         if (navigationActions.length > 0) {
           actions.push(...navigationActions)
+        }
+
+        if (queueIndex !== undefined && queueIndex !== null) {
+          actions.push(
+            <MenuItem key="removeFromQueue" onClick={handleRemoveFromQueue}>
+              <Icon name="ListX" />
+              {t("common.removeFromQueue")}
+            </MenuItem>
+          )
         }
 
         actions.push(

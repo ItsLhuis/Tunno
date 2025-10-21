@@ -42,6 +42,7 @@ type SongItemProps = {
   playSource?: PlaySource
   sourceContextId?: number
   visibleColumns?: ColumnKey[]
+  queueIndex?: number
 }
 
 const SongItem = memo(
@@ -53,7 +54,8 @@ const SongItem = memo(
     onToggle,
     playSource = "songs",
     sourceContextId,
-    visibleColumns
+    visibleColumns,
+    queueIndex
   }: SongItemProps) => {
     const { t, i18n } = useTranslation()
 
@@ -164,7 +166,7 @@ const SongItem = memo(
                 onClick={handlePlaySong}
                 isLoading={isTrackLoading}
               />
-              <SongActions songId={song.id} />
+              <SongActions songId={song.id} queueIndex={queueIndex} />
             </div>
           </div>
         </div>
@@ -173,7 +175,7 @@ const SongItem = memo(
 
     if (variant === "card") {
       return (
-        <SongActions variant="context" songId={song.id}>
+        <SongActions variant="context" songId={song.id} queueIndex={queueIndex}>
           <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
             <div className="mb-2 h-full w-full">
               <Thumbnail
@@ -211,7 +213,7 @@ const SongItem = memo(
                 </Marquee>
               </div>
               <div className="flex-shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-                <SongActions songId={song.id}>
+                <SongActions songId={song.id} queueIndex={queueIndex}>
                   <IconButton
                     name="MoreHorizontal"
                     variant="secondary"
@@ -255,7 +257,7 @@ const SongItem = memo(
     }
 
     return (
-      <SongActions variant="context" songId={song.id}>
+      <SongActions variant="context" songId={song.id} queueIndex={queueIndex}>
         <div
           className={cn(
             "group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
@@ -339,7 +341,7 @@ const SongItem = memo(
           )}
           <div className="flex items-center justify-center">
             <div className="opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-              <SongActions songId={song.id} />
+              <SongActions songId={song.id} queueIndex={queueIndex} />
             </div>
           </div>
         </div>

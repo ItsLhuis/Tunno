@@ -1,6 +1,7 @@
 import { useTranslation } from "@repo/i18n"
 
 import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
+import { QueueSheet } from "./QueueSheet"
 
 import { IconButton } from "@components/ui"
 
@@ -16,12 +17,7 @@ const PlaybackOptions = () => {
         className="shrink-0"
       />
       <PlaybackVolumeControl />
-      <IconButton
-        name="ListMusic"
-        tooltip={t("common.queue")}
-        variant="ghost"
-        className="shrink-0"
-      />
+      <QueueSheet />
       <IconButton
         name="PictureInPicture2"
         tooltip={t("common.openMiniplayer")}
