@@ -44,8 +44,7 @@ export function useUpdateSong() {
       artists?: number[]
     }) => updateSong(id, updates, thumbnailAction, thumbnailPath, artists),
     onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: songKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: songKeys.list() })
+      await queryClient.cancelQueries({ queryKey: songKeys.all })
 
       const previousSong = queryClient.getQueryData(songKeys.detailsWithMainRelations(id)) as
         | SongWithMainRelations

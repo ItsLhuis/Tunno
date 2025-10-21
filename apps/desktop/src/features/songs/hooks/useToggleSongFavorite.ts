@@ -20,9 +20,8 @@ export function useToggleSongFavorite() {
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => toggleSongFavorite(id),
-    onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: songKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: songKeys.list() })
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: songKeys.all })
     },
     onSuccess: async (song) => {
       const songWithMainRelations = await getSongByIdWithMainRelations(song.id)

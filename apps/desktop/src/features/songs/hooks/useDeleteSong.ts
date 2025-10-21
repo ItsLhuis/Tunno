@@ -19,12 +19,9 @@ export function useDeleteSong() {
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deleteSong(id),
     onMutate: async ({ id }) => {
-      await removeSongById(id)
+      await queryClient.cancelQueries({ queryKey: songKeys.all })
 
-      await queryClient.cancelQueries({
-        queryKey: songKeys.details(id)
-      })
-      await queryClient.cancelQueries({ queryKey: songKeys.list() })
+      await removeSongById(id)
     },
     onSuccess: async (song) => {
       toast.success(t("songs.deletedTitle"), {

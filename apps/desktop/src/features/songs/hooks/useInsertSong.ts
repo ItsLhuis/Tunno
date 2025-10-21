@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { invalidateQueries, type SongRelations } from "@repo/api"
+import { invalidateQueries, songKeys, type SongRelations } from "@repo/api"
 
 import { insertSong } from "../api/mutations"
 
@@ -20,6 +20,9 @@ export function useInsertSong() {
       const { file, thumbnail, artists, ...rest } = song
       const createdSong = await insertSong(rest, artists, file, thumbnail)
       return createdSong
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: songKeys.all })
     },
     onSuccess: (createdSong) => {
       if (!createdSong) return

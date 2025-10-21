@@ -16,31 +16,51 @@ import {
   sql
 } from "drizzle-orm"
 
+import { buildCursorCondition, type CursorValue, getOrderByFromColumn } from "@repo/database"
+
+import { decodeCursor, encodeCursor } from "@database/helpers"
+
 import {
+  PAGE_SIZE,
+  type PaginatedResponse,
   type QuerySongsParams,
   type Song,
   type SongWithAllRelations,
-  type SongWithMainRelations,
-  PAGE_SIZE
+  type SongWithMainRelations
 } from "@repo/api"
 
 export const getSongsWithMainRelationsPaginated = async ({
   limit = PAGE_SIZE,
-  offset = 0,
+  cursor,
   orderBy,
   filters
-}: QuerySongsParams & { limit?: number; offset?: number }) => {
+}: QuerySongsParams): Promise<PaginatedResponse<SongWithMainRelations>> => {
   const whereConditions = buildWhereConditions(filters)
+  const orderColumn = orderBy?.column || "createdAt"
+  const orderDirection = orderBy?.direction || "desc"
+
+  const cursorValues = cursor ? decodeCursor(cursor) : []
+  const cursorCondition =
+    cursorValues.length > 0
+      ? buildCursorCondition({
+          cursorValues,
+          columns: [schema.songs[orderColumn], schema.songs.id],
+          direction: orderDirection
+        })
+      : undefined
+
+  const allConditions = [
+    ...(whereConditions.length > 0 ? [and(...whereConditions)] : []),
+    ...(cursorCondition ? [cursorCondition] : [])
+  ].filter(Boolean)
 
   const songs = await database.query.songs.findMany({
-    limit,
-    offset,
-    where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
-    orderBy: orderBy
-      ? orderBy.direction === "asc"
-        ? asc(schema.songs[orderBy.column])
-        : desc(schema.songs[orderBy.column])
-      : undefined,
+    limit: limit + 1,
+    where: allConditions.length > 0 ? and(...allConditions) : undefined,
+    orderBy: [
+      getOrderByFromColumn(schema.songs[orderColumn], orderDirection),
+      asc(schema.songs.id)
+    ],
     with: {
       album: true,
       artists: {
@@ -52,17 +72,28 @@ export const getSongsWithMainRelationsPaginated = async ({
     }
   })
 
-  const totalCount = await database
-    .select({ count: sql<number>`count(*)` })
-    .from(schema.songs)
-    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
-    .then((result) => result[0]?.count ?? 0)
+  const hasNextPage = songs.length > limit
+  const items = hasNextPage ? songs.slice(0, limit) : songs
+
+  const nextCursor =
+    hasNextPage && items.length > 0
+      ? encodeCursor([
+          items[items.length - 1][orderColumn] as CursorValue,
+          items[items.length - 1].id
+        ])
+      : undefined
+
+  const prevCursor =
+    items.length > 0 && cursor
+      ? encodeCursor([items[0][orderColumn] as CursorValue, items[0].id])
+      : undefined
 
   return {
-    songs,
-    totalCount,
-    hasNextPage: offset + songs.length < totalCount,
-    nextOffset: offset + songs.length
+    items,
+    nextCursor,
+    prevCursor,
+    hasNextPage,
+    hasPrevPage: !!cursor
   }
 }
 

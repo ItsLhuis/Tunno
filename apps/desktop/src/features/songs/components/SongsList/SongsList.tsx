@@ -51,7 +51,7 @@ const SongsList = () => {
 
   const songs = useMemo(() => {
     if (!data?.pages) return []
-    return data.pages.flatMap((page) => page.songs)
+    return data.pages.flatMap((page) => page.items)
   }, [data?.pages])
 
   const songIds = allSongIds ?? []

@@ -7,15 +7,18 @@ import { getSongsWithMainRelationsPaginated } from "../api/queries"
 export function useFetchSongsWithMainRelationsInfinite(params?: QuerySongsParams) {
   return useInfiniteQuery({
     queryKey: songKeys.listInfiniteWithMainRelations(params),
-    queryFn: async ({ pageParam = 0 }) => {
+    queryFn: async ({ pageParam }) => {
       return getSongsWithMainRelationsPaginated({
         ...params,
-        offset: pageParam
+        cursor: pageParam
       })
     },
-    initialPageParam: 0,
+    initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.nextOffset : undefined
+      return lastPage.hasNextPage ? lastPage.nextCursor : undefined
+    },
+    getPreviousPageParam: (firstPage) => {
+      return firstPage.hasPrevPage ? firstPage.prevCursor : undefined
     }
   })
 }
