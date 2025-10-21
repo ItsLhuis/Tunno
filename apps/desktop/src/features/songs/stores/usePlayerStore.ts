@@ -51,6 +51,7 @@ type PlayerState = {
   isTransitioning: boolean
   playSource: PlaySource
   sourceContextId: number | null
+  cachedSongs: Map<number, SongWithMainRelations>
   isRehydrating: boolean
   hasHydrated: boolean
 }
@@ -101,8 +102,6 @@ type PlayerActions = {
 
 type PlayerStore = PlayerState & PlayerActions
 
-const songsCacheById = new Map<number, SongWithMainRelations>()
-
 const isValidIndex = (index: number, arrayLength: number): boolean => {
   return index >= 0 && index < arrayLength && Number.isInteger(index)
 }
@@ -145,6 +144,31 @@ const validateQueueIntegrity = (
   return true
 }
 
+const updateCachedSong = (
+  set: (state: Partial<PlayerState>) => void,
+  get: () => PlayerStore,
+  id: number,
+  song: SongWithMainRelations
+) => {
+  const newCache = new Map(get().cachedSongs)
+  newCache.set(id, song)
+  set({ cachedSongs: newCache })
+}
+
+const updateCachedSongs = (
+  set: (state: Partial<PlayerState>) => void,
+  get: () => PlayerStore,
+  songs: SongWithMainRelations[]
+) => {
+  const newCache = new Map(get().cachedSongs)
+  songs.forEach((song) => newCache.set(song.id, song))
+  set({ cachedSongs: newCache })
+}
+
+const clearCachedSongs = (set: (state: Partial<PlayerState>) => void) => {
+  set({ cachedSongs: new Map() })
+}
+
 export const usePlayerStore = create<PlayerStore>()(
   persist(
     (set, get) => ({
@@ -171,6 +195,7 @@ export const usePlayerStore = create<PlayerStore>()(
       isTransitioning: false,
       playSource: "unknown",
       sourceContextId: null,
+      cachedSongs: new Map(),
       isRehydrating: false,
       hasHydrated: false,
       validateAndUpdateState: async () => {
@@ -197,26 +222,29 @@ export const usePlayerStore = create<PlayerStore>()(
 
         const newWindowIds = newQueueIds.slice(newStart, newEnd)
 
-        const missingSongs = newWindowIds.filter((id) => !songsCacheById.has(id))
+        const missingSongs = newWindowIds.filter((id) => !get().cachedSongs.has(id))
 
         if (missingSongs.length > 0) {
           await prefetchSongs(missingSongs)
 
+          const fetchedSongs: SongWithMainRelations[] = []
           for (const id of missingSongs) {
             const song = await getSongFromCacheOrFetch(id)
             if (song) {
-              songsCacheById.set(song.id, song)
+              fetchedSongs.push(song)
             }
           }
 
-          const stillMissing = missingSongs.filter((id) => !songsCacheById.has(id))
+          updateCachedSongs(set, get, fetchedSongs)
+
+          const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
           if (stillMissing.length > 0) {
             throw new Error("PlayerStore: Failed to load missing songs")
           }
         }
 
         const tracks = await Promise.all(
-          newWindowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+          newWindowIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
         )
 
         await TrackPlayer.reset()
@@ -308,13 +336,33 @@ export const usePlayerStore = create<PlayerStore>()(
         )
         const newWindowIds = newQueueIds.slice(newStart, newStart + windowSize)
 
+        const missingSongs = newWindowIds.filter((id) => !get().cachedSongs.has(id))
+        if (missingSongs.length > 0) {
+          await prefetchSongs(missingSongs)
+
+          const fetchedSongs: SongWithMainRelations[] = []
+          for (const id of missingSongs) {
+            const song = await getSongFromCacheOrFetch(id)
+            if (song) {
+              fetchedSongs.push(song)
+            }
+          }
+
+          updateCachedSongs(set, get, fetchedSongs)
+
+          const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
+          if (stillMissing.length > 0) {
+            throw new Error("PlayerStore: Failed to load missing songs for shuffle")
+          }
+        }
+
         const currentPlayerQueue = TrackPlayer.getQueue()
         const currentActiveIndex = TrackPlayer.getActiveTrackIndex()
         const currentTrackNewIndex = newWindowIds.findIndex((id) => id === currentTrackId)
 
         if (currentTrackNewIndex < 0) {
           const tracks = await Promise.all(
-            newWindowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+            newWindowIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
           )
           if (currentPlayerQueue.length > 0) {
             const indicesToRemove: number[] = []
@@ -365,10 +413,10 @@ export const usePlayerStore = create<PlayerStore>()(
         const beforeCurrentIds = newWindowIds.slice(0, currentTrackNewIndex)
         const afterCurrentIds = newWindowIds.slice(currentTrackNewIndex + 1)
         const tracksBeforeCurrent = await Promise.all(
-          beforeCurrentIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+          beforeCurrentIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
         )
         const tracksAfterCurrent = await Promise.all(
-          afterCurrentIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+          afterCurrentIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
         )
 
         if (tracksBeforeCurrent.length > 0) {
@@ -384,7 +432,7 @@ export const usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.skip(finalCurrentIndex)
         }
 
-        const newCurrentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+        const newCurrentTrack = await resolveTrack(get().cachedSongs.get(currentTrackId)!)
 
         set({
           queueIds: newQueueIds,
@@ -420,20 +468,6 @@ export const usePlayerStore = create<PlayerStore>()(
           )
         }
 
-        await prefetchSongs(songIds)
-
-        const songs: SongWithMainRelations[] = []
-        for (const id of songIds) {
-          const song = await getSongFromCacheOrFetch(id)
-          if (song) {
-            songs.push(song)
-          }
-        }
-
-        if (songs.length !== songIds.length) {
-          throw new Error("PlayerStore: Some songs could not be loaded")
-        }
-
         const { playSource, isQueueLoading } = get()
 
         if (isQueueLoading) {
@@ -447,16 +481,10 @@ export const usePlayerStore = create<PlayerStore>()(
         })
 
         try {
-          songsCacheById.clear()
+          clearCachedSongs(set)
 
-          songs.forEach((song) => {
-            if (song && typeof song.id === "number") {
-              songsCacheById.set(song.id, song)
-            }
-          })
-
-          const allIds = songs.map((s) => s.id).filter((id) => typeof id === "number")
-          if (allIds.length !== songs.length) {
+          const allIds = songIds.filter((id) => typeof id === "number")
+          if (allIds.length !== songIds.length) {
             throw new Error("PlayerStore: Some songs have invalid IDs")
           }
 
@@ -494,23 +522,23 @@ export const usePlayerStore = create<PlayerStore>()(
           let playerIndex: number
 
           try {
-            const missingSongs = windowIds.filter((id) => !songsCacheById.has(id))
+            await prefetchSongs(windowIds)
 
-            if (missingSongs.length > 0) {
-              throw new Error(`PlayerStore: Songs not found in cache: ${missingSongs.join(", ")}`)
+            const windowSongs: SongWithMainRelations[] = []
+            for (const id of windowIds) {
+              const song = await getSongFromCacheOrFetch(id)
+              if (song) {
+                windowSongs.push(song)
+              }
             }
 
-            tracks = await Promise.all(
-              windowIds.map((id) => {
-                const song = songsCacheById.get(id)
+            if (windowSongs.length !== windowIds.length) {
+              throw new Error("PlayerStore: Some window songs could not be loaded")
+            }
 
-                if (!song) {
-                  throw new Error(`PlayerStore: Song with id ${id} not found in cache`)
-                }
+            updateCachedSongs(set, get, windowSongs)
 
-                return resolveTrack(song)
-              })
-            )
+            tracks = await Promise.all(windowSongs.map((song) => resolveTrack(song)))
 
             await TrackPlayer.reset()
 
@@ -694,14 +722,30 @@ export const usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.skip(playerIndex)
 
           const currentTrackId = queueIds[index]
-          const currentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+          const cachedSong = get().cachedSongs.get(currentTrackId)
 
-          set({
-            currentTrackIndex: index,
-            currentTrackId,
-            currentTrack,
-            duration: currentTrack?.duration || 0
-          })
+          if (!cachedSong) {
+            await get().ensureWindowForIndex(index)
+            const expandedCachedSong = get().cachedSongs.get(currentTrackId)
+            if (!expandedCachedSong) {
+              throw new Error(`PlayerStore: Failed to load song ${currentTrackId}`)
+            }
+            const currentTrack = await resolveTrack(expandedCachedSong)
+            set({
+              currentTrackIndex: index,
+              currentTrackId,
+              currentTrack,
+              duration: currentTrack?.duration || 0
+            })
+          } else {
+            const currentTrack = await resolveTrack(cachedSong)
+            set({
+              currentTrackIndex: index,
+              currentTrackId,
+              currentTrack,
+              duration: currentTrack?.duration || 0
+            })
+          }
 
           get().updateNavigationStates()
         } else {
@@ -714,7 +758,15 @@ export const usePlayerStore = create<PlayerStore>()(
             await TrackPlayer.skip(playerIndex)
 
             const currentTrackId = queueIds[index]
-            const currentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+            const cachedSong = get().cachedSongs.get(currentTrackId)
+
+            if (!cachedSong) {
+              throw new Error(
+                `PlayerStore: Song ${currentTrackId} not in cache after ensureWindowForIndex`
+              )
+            }
+
+            const currentTrack = await resolveTrack(cachedSong)
 
             set({
               currentTrackIndex: index,
@@ -766,11 +818,8 @@ export const usePlayerStore = create<PlayerStore>()(
           throw new Error("PlayerStore: Some songs could not be loaded")
         }
 
-        songs.forEach((song) => {
-          if (song && typeof song.id === "number") {
-            songsCacheById.set(song.id, song)
-          }
-        })
+        const validSongs = songs.filter((song) => song && typeof song.id === "number")
+        updateCachedSongs(set, get, validSongs)
 
         const insertIndex =
           position === "next" && currentTrackIndex !== null
@@ -786,7 +835,7 @@ export const usePlayerStore = create<PlayerStore>()(
         if (insertIndex >= start && insertIndex < end) {
           const insertBeforePlayerIndex = insertIndex - start
           const tracks = await Promise.all(
-            idsToInsert.map((id) => resolveTrack(songsCacheById.get(id)!))
+            idsToInsert.map((id) => resolveTrack(get().cachedSongs.get(id)!))
           )
 
           await TrackPlayer.add(tracks, insertBeforePlayerIndex)
@@ -820,11 +869,8 @@ export const usePlayerStore = create<PlayerStore>()(
           throw new Error("PlayerStore: Some songs could not be loaded")
         }
 
-        songs.forEach((song) => {
-          if (song && typeof song.id === "number") {
-            songsCacheById.set(song.id, song)
-          }
-        })
+        const validSongs = songs.filter((song) => song && typeof song.id === "number")
+        updateCachedSongs(set, get, validSongs)
 
         const insertIndex = currentTrackIndex !== null ? currentTrackIndex + 1 : queueIds.length
 
@@ -837,7 +883,7 @@ export const usePlayerStore = create<PlayerStore>()(
         if (insertIndex >= start && insertIndex < end) {
           const insertBeforePlayerIndex = insertIndex - start
           const tracks = await Promise.all(
-            idsToInsert.map((id) => resolveTrack(songsCacheById.get(id)!))
+            idsToInsert.map((id) => resolveTrack(get().cachedSongs.get(id)!))
           )
 
           await TrackPlayer.add(tracks, insertBeforePlayerIndex)
@@ -881,13 +927,23 @@ export const usePlayerStore = create<PlayerStore>()(
 
               if (isValidIndex(nextCurrentIndex, newQueueIds.length)) {
                 const newCurrentTrackId = newQueueIds[nextCurrentIndex]
-                const newCurrentTrack = await resolveTrack(songsCacheById.get(newCurrentTrackId)!)
+                const cachedSong = get().cachedSongs.get(newCurrentTrackId)
 
-                set({
-                  currentTrack: newCurrentTrack,
-                  currentTrackId: newCurrentTrackId,
-                  duration: newCurrentTrack?.duration || 0
-                })
+                if (cachedSong) {
+                  const newCurrentTrack = await resolveTrack(cachedSong)
+
+                  set({
+                    currentTrack: newCurrentTrack,
+                    currentTrackId: newCurrentTrackId,
+                    duration: newCurrentTrack?.duration || 0
+                  })
+                } else {
+                  set({
+                    currentTrack: null,
+                    currentTrackId: newCurrentTrackId,
+                    duration: 0
+                  })
+                }
               }
             }
           }
@@ -1038,29 +1094,29 @@ export const usePlayerStore = create<PlayerStore>()(
           )
           const windowIds = queueIds.slice(newStart, newEnd)
 
-          const missingSongs = windowIds.filter((id) => !songsCacheById.has(id))
+          const missingSongs = windowIds.filter((id) => !get().cachedSongs.has(id))
 
           if (missingSongs.length > 0) {
             await prefetchSongs(missingSongs)
 
+            const fetchedSongs: SongWithMainRelations[] = []
             for (const id of missingSongs) {
               const song = await getSongFromCacheOrFetch(id)
               if (song) {
-                songsCacheById.set(
-                  (song as SongWithMainRelations).id,
-                  song as SongWithMainRelations
-                )
+                fetchedSongs.push(song as SongWithMainRelations)
               }
             }
 
-            const stillMissing = missingSongs.filter((id) => !songsCacheById.has(id))
+            updateCachedSongs(set, get, fetchedSongs)
+
+            const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
             if (stillMissing.length > 0) {
               throw new Error("PlayerStore: Failed to load missing songs for window")
             }
           }
 
           const tracks = await Promise.all(
-            windowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+            windowIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
           )
 
           await TrackPlayer.reset()
@@ -1084,29 +1140,29 @@ export const usePlayerStore = create<PlayerStore>()(
         if (index >= end - 5 && end < queueIds.length) {
           const toAddIds = queueIds.slice(end, Math.min(end + 10, queueIds.length))
 
-          const missingSongs = toAddIds.filter((id) => !songsCacheById.has(id))
+          const missingSongs = toAddIds.filter((id) => !get().cachedSongs.has(id))
 
           if (missingSongs.length > 0) {
             await prefetchSongs(missingSongs)
 
+            const fetchedSongs: SongWithMainRelations[] = []
             for (const id of missingSongs) {
               const song = await getSongFromCacheOrFetch(id)
               if (song) {
-                songsCacheById.set(
-                  (song as SongWithMainRelations).id,
-                  song as SongWithMainRelations
-                )
+                fetchedSongs.push(song as SongWithMainRelations)
               }
             }
 
-            const stillMissing = missingSongs.filter((id) => !songsCacheById.has(id))
+            updateCachedSongs(set, get, fetchedSongs)
+
+            const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
             if (stillMissing.length === missingSongs.length) {
               return
             }
           }
 
           const toAddTracks = await Promise.all(
-            toAddIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+            toAddIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
           )
 
           if (toAddTracks.length) {
@@ -1160,13 +1216,14 @@ export const usePlayerStore = create<PlayerStore>()(
           const activeTrack = playerQueue[activePlayerIndex]
           if (!activeTrack) return
 
+          const cachedSongs = get().cachedSongs
           const actualQueueIndex = queueIds.findIndex(
-            (id) => songsCacheById.get(id)?.id === activeTrack.id
+            (id) => cachedSongs.get(id)?.id === activeTrack.id
           )
 
           if (actualQueueIndex >= 0 && actualQueueIndex !== currentTrackIndex) {
             const currentTrackId = queueIds[actualQueueIndex]
-            const currentTrack = await resolveTrack(songsCacheById.get(currentTrackId)!)
+            const currentTrack = await resolveTrack(cachedSongs.get(currentTrackId)!)
 
             set({
               currentTrackIndex: actualQueueIndex,
@@ -1217,7 +1274,7 @@ export const usePlayerStore = create<PlayerStore>()(
         const { currentTrackId, currentTrackIndex, windowStartIndex, queueIds } = get()
 
         clearTrackCaches(song)
-        songsCacheById.set(song.id, song)
+        updateCachedSong(set, get, song.id, song)
 
         const queueIndex = queueIds.findIndex((id) => id === song.id)
         if (queueIndex === -1) return
@@ -1346,11 +1403,13 @@ export const usePlayerStore = create<PlayerStore>()(
                     return
                   }
 
-                  songsCacheById.clear()
-                  windowSongs.forEach((s) => songsCacheById.set(s.id, s))
+                  const cachedSongsMap = new Map<number, SongWithMainRelations>()
+                  windowSongs.forEach((s) => cachedSongsMap.set(s.id, s))
+
+                  usePlayerStore.setState({ cachedSongs: cachedSongsMap })
 
                   const tracks = await Promise.all(
-                    windowIds.map((id) => resolveTrack(songsCacheById.get(id)!))
+                    windowIds.map((id) => resolveTrack(cachedSongsMap.get(id)!))
                   )
 
                   await TrackPlayer.reset()
