@@ -96,8 +96,9 @@ const PlaylistItem = memo(
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
                     {playlist.totalTracks}{" "}
-                    {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                    {formatDuration(playlist.totalDuration, t)}
+                    {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {playlist.totalDuration > 0 &&
+                      ` • ${formatDuration(playlist.totalDuration, t)}`}
                   </Typography>
                 </Marquee>
               </div>
@@ -213,8 +214,9 @@ const PlaylistItem = memo(
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
                     {playlist.totalTracks}{" "}
-                    {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                    {formatDuration(playlist.totalDuration, t)}
+                    {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {playlist.totalDuration > 0 &&
+                      ` • ${formatDuration(playlist.totalDuration, t)}`}
                   </Typography>
                 </Marquee>
               </div>

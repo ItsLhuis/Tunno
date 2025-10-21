@@ -16,6 +16,7 @@ const PlaylistInfoStats = ({ playlist }: PlaylistInfoStatsProps) => {
   const totalTracks = playlist.totalTracks || 0
   const totalDuration = playlist.totalDuration || 0
   const playCount = playlist.playCount || 0
+  const totalPlayTime = playlist.stats?.totalPlayTime ?? 0
   const lastPlayedAt = playlist.lastPlayedAt
 
   return (
@@ -40,22 +41,20 @@ const PlaylistInfoStats = ({ playlist }: PlaylistInfoStatsProps) => {
       </div>
       <div className="min-w-0 truncate">
         <div className="flex items-center gap-2 text-muted-foreground">
-          <Icon name="TrendingUp" />
-          <Typography className="truncate">{t("common.averageListenTime")}</Typography>
-        </div>
-        <Typography affects={["bold", "medium"]} className="truncate">
-          {playCount > 0
-            ? formatDuration(Math.round(totalDuration / playCount), t)
-            : formatDuration(0, t)}
-        </Typography>
-      </div>
-      <div className="min-w-0 truncate">
-        <div className="flex items-center gap-2 text-muted-foreground">
           <Icon name="PlayCircle" />
           <Typography className="truncate">{t("common.totalPlays")}</Typography>
         </div>
         <Typography affects={["bold", "medium"]} className="truncate">
           {formatNumber(playCount)}
+        </Typography>
+      </div>
+      <div className="min-w-0 truncate">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Icon name="Clock" />
+          <Typography className="truncate">{t("common.listenTime")}</Typography>
+        </div>
+        <Typography affects={["bold", "medium"]} className="truncate">
+          {formatDuration(totalPlayTime, t)}
         </Typography>
       </div>
       <div className="min-w-0 truncate">

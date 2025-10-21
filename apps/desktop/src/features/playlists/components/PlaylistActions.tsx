@@ -358,7 +358,7 @@ const PlaylistActions = ({
               </ContextMenuContent>
             }
           >
-            {() => renderMenuContent()}
+            {renderMenuContent()}
           </AsyncState>
         </ContextMenu>
       )
@@ -395,7 +395,7 @@ const PlaylistActions = ({
             </DropdownMenuContent>
           }
         >
-          {() => renderMenuContent()}
+          {renderMenuContent()}
         </AsyncState>
       </DropdownMenu>
     )
