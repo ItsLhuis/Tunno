@@ -84,8 +84,7 @@ export const useSongsStore = create<SongsStore>()(
             debouncedFilters: {},
             searchTerm: "",
             debouncedSearchTerm: "",
-            orderBy: { column: "createdAt", direction: "desc" },
-            viewMode: "grid"
+            orderBy: { column: "createdAt", direction: "desc" }
           })
         },
         setOrderBy: (orderBy) => {

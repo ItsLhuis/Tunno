@@ -86,8 +86,7 @@ export const useArtistsStore = create<ArtistsStore>()(
             debouncedFilters: {},
             searchTerm: "",
             debouncedSearchTerm: "",
-            orderBy: { column: "createdAt", direction: "desc" },
-            viewMode: "grid"
+            orderBy: { column: "createdAt", direction: "desc" }
           })
         },
         setOrderBy: (orderBy) => {

@@ -71,7 +71,7 @@ const ArtistsListFilters = () => {
             <Icon name="Filter" />
           </Button>
         </SheetTrigger>
-        <SheetContent className="flex w-96 flex-col gap-0 p-0">
+        <SheetContent className="flex flex-col gap-0 p-0">
           <SheetHeader className="flex max-h-full flex-col items-start justify-between p-6">
             <SheetTitle>{t("artists.filters.title")}</SheetTitle>
           </SheetHeader>
