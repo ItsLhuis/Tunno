@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm"
+import { desc, relations, sql } from "drizzle-orm"
 import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core"
 
 import { v4 as randomUUID } from "uuid"
@@ -43,7 +43,12 @@ export const songs = sqliteTable(
     index("songs_last_played_idx").on(table.lastPlayedAt),
     index("songs_album_year_idx").on(table.albumId, table.releaseYear),
     index("songs_favorite_playcount_idx").on(table.isFavorite, table.playCount),
-    index("songs_file_idx").on(table.file)
+    index("songs_created_id_idx").on(desc(table.createdAt), table.id),
+    index("songs_playcount_id_idx").on(desc(table.playCount), table.id),
+    index("songs_lastplayed_id_idx").on(desc(table.lastPlayedAt), table.id),
+    index("songs_name_id_idx").on(table.name, table.id),
+    index("songs_album_created_id_idx").on(table.albumId, desc(table.createdAt), table.id),
+    index("songs_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id)
   ]
 )
 
@@ -78,7 +83,6 @@ export const songsToArtists = sqliteTable(
   },
   (table) => [
     primaryKey({ columns: [table.songId, table.artistId] }),
-    index("song_artists_song_idx").on(table.songId),
     index("song_artists_artist_idx").on(table.artistId),
     index("song_artists_order_idx").on(table.songId, table.artistOrder)
   ]
@@ -113,7 +117,12 @@ export const artists = sqliteTable(
     index("artists_favorite_playcount_idx").on(table.isFavorite, table.playCount),
     index("artists_total_tracks_idx").on(table.totalTracks),
     index("artists_total_duration_idx").on(table.totalDuration),
-    index("artists_last_played_idx").on(table.lastPlayedAt)
+    index("artists_last_played_idx").on(table.lastPlayedAt),
+    index("artists_created_id_idx").on(desc(table.createdAt), table.id),
+    index("artists_playcount_id_idx").on(desc(table.playCount), table.id),
+    index("artists_lastplayed_id_idx").on(desc(table.lastPlayedAt), table.id),
+    index("artists_name_id_idx").on(table.name, table.id),
+    index("artists_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id)
   ]
 )
 
@@ -168,7 +177,12 @@ export const albums = sqliteTable(
     index("albums_total_tracks_idx").on(table.totalTracks),
     index("albums_total_duration_idx").on(table.totalDuration),
     uniqueIndex("albums_name_type_unique_idx").on(table.name, table.albumType),
-    index("albums_last_played_idx").on(table.lastPlayedAt)
+    index("albums_last_played_idx").on(table.lastPlayedAt),
+    index("albums_created_id_idx").on(desc(table.createdAt), table.id),
+    index("albums_playcount_id_idx").on(desc(table.playCount), table.id),
+    index("albums_lastplayed_id_idx").on(desc(table.lastPlayedAt), table.id),
+    index("albums_name_id_idx").on(table.name, table.id),
+    index("albums_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id)
   ]
 )
 
@@ -203,7 +217,6 @@ export const albumsToArtists = sqliteTable(
   },
   (table) => [
     primaryKey({ columns: [table.albumId, table.artistId] }),
-    index("album_artists_album_idx").on(table.albumId),
     index("album_artists_artist_idx").on(table.artistId),
     index("album_artists_order_idx").on(table.albumId, table.artistOrder)
   ]
@@ -237,7 +250,16 @@ export const playlists = sqliteTable(
     index("playlists_playcount_idx").on(table.playCount),
     index("playlists_total_tracks_idx").on(table.totalTracks),
     index("playlists_total_duration_idx").on(table.totalDuration),
-    index("playlists_last_played_idx").on(table.lastPlayedAt)
+    index("playlists_last_played_idx").on(table.lastPlayedAt),
+    index("playlists_created_id_idx").on(desc(table.createdAt), table.id),
+    index("playlists_playcount_id_idx").on(desc(table.playCount), table.id),
+    index("playlists_lastplayed_id_idx").on(desc(table.lastPlayedAt), table.id),
+    index("playlists_name_id_idx").on(table.name, table.id),
+    index("playlists_favorite_playcount_id_idx").on(
+      table.isFavorite,
+      desc(table.playCount),
+      table.id
+    )
   ]
 )
 
@@ -274,7 +296,6 @@ export const playlistsToSongs = sqliteTable(
   },
   (table) => [
     primaryKey({ columns: [table.playlistId, table.songId] }),
-    index("playlist_songs_playlist_idx").on(table.playlistId),
     index("playlist_songs_song_idx").on(table.songId)
   ]
 )
@@ -301,7 +322,8 @@ export const playHistory = sqliteTable(
     index("play_history_played_at_idx").on(table.playedAt),
     index("play_history_source_idx").on(table.playSource),
     index("play_history_song_date_idx").on(table.songId, table.playedAt),
-    index("play_history_time_listened_idx").on(table.timeListened)
+    index("play_history_time_listened_idx").on(table.timeListened),
+    index("play_history_played_song_idx").on(desc(table.playedAt), table.songId)
   ]
 )
 
