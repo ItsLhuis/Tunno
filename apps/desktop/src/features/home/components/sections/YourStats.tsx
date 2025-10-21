@@ -1,8 +1,8 @@
 import { useTranslation } from "@repo/i18n"
 
-import { Icon, Typography } from "@components/ui"
-
 import { formatNumber } from "@repo/utils"
+
+import { Icon, Typography } from "@components/ui"
 
 import { type UserStats } from "@repo/api"
 

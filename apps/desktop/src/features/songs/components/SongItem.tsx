@@ -8,14 +8,10 @@ import { usePlayerStore } from "../stores/usePlayerStore"
 
 import { cn } from "@lib/utils"
 
-import { State } from "react-track-player-web"
-
-import { type PlaySource } from "../types/playSource"
+import { formatRelativeDate, formatTime } from "@repo/utils"
 
 import PlayingLottie from "@assets/lotties/Playing.json"
 import Lottie from "lottie-react"
-
-import { SongActions } from "./SongActions"
 
 import {
   Checkbox,
@@ -27,7 +23,11 @@ import {
   Typography
 } from "@components/ui"
 
-import { formatRelativeDate, formatTime } from "@repo/utils"
+import { SongActions } from "./SongActions"
+
+import { State } from "react-track-player-web"
+
+import { type PlaySource } from "../types/playSource"
 
 import { type SongWithMainRelations } from "@repo/api"
 

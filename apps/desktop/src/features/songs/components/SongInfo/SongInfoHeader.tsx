@@ -6,11 +6,11 @@ import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
+import { formatTime } from "@repo/utils"
+
 import { SongActions } from "../SongActions"
 
 import { Badge, Header, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
-
-import { formatTime } from "@repo/utils"
 
 import { State } from "react-track-player-web"
 

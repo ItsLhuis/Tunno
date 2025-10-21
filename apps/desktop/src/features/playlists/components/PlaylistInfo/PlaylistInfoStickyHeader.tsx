@@ -4,11 +4,11 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
+import { formatDuration } from "@repo/utils"
+
 import { IconButton, Marquee, StickyHeader, Thumbnail, Typography } from "@components/ui"
 
 import { PlaylistActions } from "../PlaylistActions"
-
-import { formatDuration } from "@repo/utils"
 
 import { type PlaylistWithAllRelations } from "@repo/api"
 

@@ -12,6 +12,8 @@ import { convertFileSrc } from "@tauri-apps/api/core"
 import { open } from "@tauri-apps/plugin-dialog"
 import { stat } from "@tauri-apps/plugin-fs"
 
+import { formatFileSize, getFileNameAndExtension, isImageExtension } from "@repo/utils"
+
 import { Badge } from "@components/ui/Badge"
 import { Button } from "@components/ui/Button"
 import { Card, CardContent } from "@components/ui/Card"
@@ -19,8 +21,6 @@ import { Icon } from "@components/ui/Icon"
 import { IconButton } from "@components/ui/IconButton"
 import { Image } from "@components/ui/Image"
 import { Typography } from "@components/ui/Typography"
-
-import { formatFileSize, getFileNameAndExtension, isImageExtension } from "@repo/utils"
 
 import { type AppPaths } from "@lib/appStorage"
 

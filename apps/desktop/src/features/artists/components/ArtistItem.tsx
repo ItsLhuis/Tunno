@@ -1,4 +1,3 @@
-// apps/desktop/src/features/artists/components/ArtistItem.tsx
 import { memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
@@ -11,11 +10,11 @@ import { useFetchSongIdsByArtistIds } from "@features/songs/hooks/useFetchSongId
 
 import { cn } from "@lib/utils"
 
-import { ArtistActions } from "./ArtistActions"
+import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
 import { Checkbox, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
-import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
+import { ArtistActions } from "./ArtistActions"
 
 import { type Artist } from "@repo/api"
 

@@ -314,7 +314,7 @@ const SongsListFilters = () => {
               <Separator />
               <SheetFooter className="p-6">
                 <Button variant="outline" className="w-full" onClick={clearFilters}>
-                  <Icon name="X" />
+                  <Icon name="Trash2" />
                   {t("songs.filters.clear")}
                 </Button>
               </SheetFooter>

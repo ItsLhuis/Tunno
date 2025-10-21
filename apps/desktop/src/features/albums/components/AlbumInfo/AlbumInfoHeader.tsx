@@ -6,11 +6,11 @@ import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
 import { useToggleAlbumFavorite } from "../../hooks/useToggleAlbumFavorite"
 
+import { formatDuration } from "@repo/utils"
+
 import { AlbumActions } from "../AlbumActions"
 
 import { Badge, Header, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
-
-import { formatDuration } from "@repo/utils"
 
 import { type AlbumWithAllRelations } from "@repo/api"
 

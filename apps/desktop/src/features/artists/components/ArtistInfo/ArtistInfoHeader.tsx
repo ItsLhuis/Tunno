@@ -6,11 +6,11 @@ import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
 import { useToggleArtistFavorite } from "../../hooks/useToggleArtistFavorite"
 
-import { ArtistActions } from "../ArtistActions"
+import { formatDuration } from "@repo/utils"
 
 import { Badge, Header, IconButton, Thumbnail, Typography } from "@components/ui"
 
-import { formatDuration } from "@repo/utils"
+import { ArtistActions } from "../ArtistActions"
 
 import { type ArtistWithAllRelations } from "@repo/api"
 

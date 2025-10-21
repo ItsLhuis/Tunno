@@ -1,11 +1,12 @@
 import { useState } from "react"
 
 import { useShallow } from "zustand/shallow"
+
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { Slider, Typography } from "@components/ui"
-
 import { formatTime } from "@repo/utils"
+
+import { Slider, Typography } from "@components/ui"
 
 const PlaybackProgress = () => {
   const {

@@ -1,10 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { Fade, Header, Icon, Typography } from "@components/ui"
-
-import StreakLottie from "@assets/lotties/Streak.json"
-import Lottie from "lottie-react"
-
 import {
   calculateRetentionRate,
   calculateStreak,
@@ -12,6 +7,11 @@ import {
   formatNumber,
   formatRelativeDate
 } from "@repo/utils"
+
+import { Fade, Header, Icon, Typography } from "@components/ui"
+
+import StreakLottie from "@assets/lotties/Streak.json"
+import Lottie from "lottie-react"
 
 import { type SongWithAllRelations } from "@repo/api"
 
