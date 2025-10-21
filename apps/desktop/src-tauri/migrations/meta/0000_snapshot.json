@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "56920c2a-524f-4dec-9f3b-1499036e198b",
+  "id": "c3b2fa16-2a71-42a0-91b3-e27d2215f14e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "album_stats": {
@@ -946,7 +946,8 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'[]'"
         },
         "play_count": {
           "name": "play_count",

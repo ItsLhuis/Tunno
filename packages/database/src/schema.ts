@@ -18,12 +18,14 @@ export const songs = sqliteTable(
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
     releaseYear: integer("release_year"),
     albumId: integer("album_id").references(() => albums.id, { onDelete: "set null" }),
-    lyrics: text("lyrics", { mode: "json" }).$type<
-      {
-        text: string
-        startTime: number
-      }[]
-    >(),
+    lyrics: text("lyrics", { mode: "json" })
+      .$type<
+        {
+          text: string
+          startTime: number
+        }[]
+      >()
+      .default([]),
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     createdAt: integer("created_at", { mode: "timestamp" })

@@ -152,7 +152,7 @@ CREATE TABLE `songs` (
 	`is_favorite` integer DEFAULT false NOT NULL,
 	`release_year` integer,
 	`album_id` integer,
-	`lyrics` text,
+	`lyrics` text DEFAULT '[]',
 	`play_count` integer DEFAULT 0 NOT NULL,
 	`last_played_at` integer,
 	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
