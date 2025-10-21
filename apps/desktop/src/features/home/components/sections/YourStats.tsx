@@ -25,7 +25,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
         <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Music" />
-            <Typography className="truncate">{t("common.song")}</Typography>
+            <Typography className="truncate">{t("songs.title")}</Typography>
           </div>
           <Typography affects={["bold", "medium"]} className="truncate">
             {formatNumber(stats.totalSongs)}
@@ -34,7 +34,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
         <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Users" />
-            <Typography className="truncate">{t("common.artist")}</Typography>
+            <Typography className="truncate">{t("artists.title")}</Typography>
           </div>
           <Typography affects={["bold", "medium"]} className="truncate">
             {formatNumber(stats.totalArtists)}
@@ -43,7 +43,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
         <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Disc" />
-            <Typography className="truncate">{t("common.album")}</Typography>
+            <Typography className="truncate">{t("albums.title")}</Typography>
           </div>
           <Typography affects={["bold", "medium"]} className="truncate">
             {formatNumber(stats.totalAlbums)}
@@ -52,7 +52,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
         <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="List" />
-            <Typography className="truncate">{t("common.playlist")}</Typography>
+            <Typography className="truncate">{t("playlists.title")}</Typography>
           </div>
           <Typography affects={["bold", "medium"]} className="truncate">
             {formatNumber(stats.totalPlaylists)}

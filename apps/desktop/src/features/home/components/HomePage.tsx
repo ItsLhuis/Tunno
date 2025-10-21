@@ -6,6 +6,8 @@ import { useFetchHome } from "../hooks/useFetchHome"
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
+import { cn } from "@lib/utils"
+
 import {
   Discover,
   FavoriteArtists,
@@ -23,7 +25,7 @@ import { HomeHeader } from "./HomeHeader"
 import { HomeStickyHeader } from "./HomeStickyHeader"
 
 const HomePage = () => {
-  const { data: home, isLoading, refetch } = useFetchHome()
+  const { data: home, isLoading, isError, refetch } = useFetchHome()
 
   const Header = useCallback(() => <HomeHeader />, [])
 
@@ -43,7 +45,12 @@ const HomePage = () => {
       StickyHeaderComponent={StickyHeader}
       className="flex w-full flex-1 flex-col pt-0"
     >
-      <AsyncState data={home} isLoading={isLoading} className="flex w-full flex-1 flex-col gap-9">
+      <AsyncState
+        data={home}
+        isLoading={isLoading}
+        isError={isError}
+        className={cn("flex w-full flex-1 flex-col gap-9", (isLoading || isError) && "min-h-44")}
+      >
         {(data) => (
           <Fragment>
             {data.userStats && <YourStats stats={data.userStats} />}

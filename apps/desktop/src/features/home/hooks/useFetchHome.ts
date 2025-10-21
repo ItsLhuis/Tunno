@@ -59,6 +59,7 @@ type Home = {
 export type HomeResult = {
   data: Home
   isLoading: boolean
+  isError: boolean
   refetch: () => Promise<void>
 }
 
@@ -189,6 +190,7 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
     return {
       data: home,
       isLoading: queryResults.some((result) => result.isLoading),
+      isError: queryResults.some((result) => result.isError),
       refetch: async () => {
         await Promise.all(queryResults.map((result) => result.refetch()))
       }
@@ -203,6 +205,7 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
   return {
     data: results.data,
     isLoading: results.isLoading,
+    isError: results.isError,
     refetch: results.refetch
   }
 }

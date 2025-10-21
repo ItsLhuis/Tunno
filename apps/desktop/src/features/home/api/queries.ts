@@ -60,39 +60,78 @@ export const getUserStats = async (): Promise<UserStats> => {
     .then((result) => result[0])
 
   const [topArtist, topAlbum, topSong, topPlaylist] = await Promise.all([
-    database.query.artists.findFirst({
-      where: sql`${schema.artists.playCount} > 0`,
-      orderBy: desc(schema.artists.playCount)
-    }),
-    database.query.albums.findFirst({
-      where: sql`${schema.albums.playCount} > 0`,
-      orderBy: desc(schema.albums.playCount),
-      with: {
-        artists: { with: { artist: true }, orderBy: asc(schema.albumsToArtists.artistOrder) }
-      }
-    }),
-    database.query.songs.findFirst({
-      where: sql`${schema.songs.playCount} > 0`,
-      orderBy: desc(schema.songs.playCount),
-      with: {
-        album: true,
-        artists: {
+    database
+      .select({
+        id: schema.artists.id,
+        playCount: schema.artists.playCount
+      })
+      .from(schema.artists)
+      .where(sql`${schema.artists.playCount} > 0`)
+      .orderBy(desc(schema.artists.playCount))
+      .limit(1)
+      .then(async (results) => {
+        if (results.length === 0) return undefined
+        return database.query.artists.findFirst({
+          where: eq(schema.artists.id, results[0].id)
+        })
+      }),
+
+    database
+      .select({
+        id: schema.albums.id,
+        playCount: schema.albums.playCount
+      })
+      .from(schema.albums)
+      .where(sql`${schema.albums.playCount} > 0`)
+      .orderBy(desc(schema.albums.playCount))
+      .limit(1)
+      .then(async (results) => {
+        if (results.length === 0) return undefined
+        return database.query.albums.findFirst({
+          where: eq(schema.albums.id, results[0].id)
+        })
+      }),
+
+    database
+      .select({
+        id: schema.songs.id,
+        playCount: schema.songs.playCount
+      })
+      .from(schema.songs)
+      .where(sql`${schema.songs.playCount} > 0`)
+      .orderBy(desc(schema.songs.playCount))
+      .limit(1)
+      .then(async (results) => {
+        if (results.length === 0) return undefined
+        return database.query.songs.findFirst({
+          where: eq(schema.songs.id, results[0].id),
           with: {
-            artist: true
-          },
-          orderBy: asc(schema.songsToArtists.artistOrder)
-        },
-        playlists: {
-          with: {
-            playlist: true
+            album: true,
+            artists: {
+              with: {
+                artist: true
+              },
+              orderBy: asc(schema.songsToArtists.artistOrder)
+            }
           }
-        }
-      }
-    }),
-    database.query.playlists.findFirst({
-      where: sql`${schema.playlists.playCount} > 0`,
-      orderBy: desc(schema.playlists.playCount)
-    })
+        })
+      }),
+
+    database
+      .select({
+        id: schema.playlists.id,
+        playCount: schema.playlists.playCount
+      })
+      .from(schema.playlists)
+      .where(sql`${schema.playlists.playCount} > 0`)
+      .orderBy(desc(schema.playlists.playCount))
+      .limit(1)
+      .then(async (results) => {
+        if (results.length === 0) return undefined
+        return database.query.playlists.findFirst({
+          where: eq(schema.playlists.id, results[0].id)
+        })
+      })
   ])
 
   const [todayStats, weekStats, monthStats] = await Promise.all([
