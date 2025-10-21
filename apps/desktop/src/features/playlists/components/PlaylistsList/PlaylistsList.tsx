@@ -51,7 +51,7 @@ const PlaylistsList = () => {
 
   const playlists = useMemo(() => {
     if (!data?.pages) return []
-    return data.pages.flatMap((page) => page.playlists)
+    return data.pages.flatMap((page) => page.items)
   }, [data?.pages])
 
   const playlistIds = allPlaylistIds ?? []

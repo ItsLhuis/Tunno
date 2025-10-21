@@ -33,6 +33,11 @@ CREATE INDEX `albums_total_tracks_idx` ON `albums` (`total_tracks`);--> statemen
 CREATE INDEX `albums_total_duration_idx` ON `albums` (`total_duration`);--> statement-breakpoint
 CREATE UNIQUE INDEX `albums_name_type_unique_idx` ON `albums` (`name`,`album_type`);--> statement-breakpoint
 CREATE INDEX `albums_last_played_idx` ON `albums` (`last_played_at`);--> statement-breakpoint
+CREATE INDEX `albums_created_id_idx` ON `albums` ("created_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `albums_playcount_id_idx` ON `albums` ("play_count" desc,`id`);--> statement-breakpoint
+CREATE INDEX `albums_lastplayed_id_idx` ON `albums` ("last_played_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `albums_name_id_idx` ON `albums` (`name`,`id`);--> statement-breakpoint
+CREATE INDEX `albums_favorite_playcount_id_idx` ON `albums` (`is_favorite`,"play_count" desc,`id`);--> statement-breakpoint
 CREATE TABLE `album_artists` (
 	`album_id` integer NOT NULL,
 	`artist_id` integer NOT NULL,
@@ -42,7 +47,6 @@ CREATE TABLE `album_artists` (
 	FOREIGN KEY (`artist_id`) REFERENCES `artists`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `album_artists_album_idx` ON `album_artists` (`album_id`);--> statement-breakpoint
 CREATE INDEX `album_artists_artist_idx` ON `album_artists` (`artist_id`);--> statement-breakpoint
 CREATE INDEX `album_artists_order_idx` ON `album_artists` (`album_id`,`artist_order`);--> statement-breakpoint
 CREATE TABLE `artist_stats` (
@@ -77,6 +81,11 @@ CREATE INDEX `artists_favorite_playcount_idx` ON `artists` (`is_favorite`,`play_
 CREATE INDEX `artists_total_tracks_idx` ON `artists` (`total_tracks`);--> statement-breakpoint
 CREATE INDEX `artists_total_duration_idx` ON `artists` (`total_duration`);--> statement-breakpoint
 CREATE INDEX `artists_last_played_idx` ON `artists` (`last_played_at`);--> statement-breakpoint
+CREATE INDEX `artists_created_id_idx` ON `artists` ("created_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `artists_playcount_id_idx` ON `artists` ("play_count" desc,`id`);--> statement-breakpoint
+CREATE INDEX `artists_lastplayed_id_idx` ON `artists` ("last_played_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `artists_name_id_idx` ON `artists` (`name`,`id`);--> statement-breakpoint
+CREATE INDEX `artists_favorite_playcount_id_idx` ON `artists` (`is_favorite`,"play_count" desc,`id`);--> statement-breakpoint
 CREATE TABLE `play_history` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`song_id` integer NOT NULL,
@@ -91,6 +100,7 @@ CREATE INDEX `play_history_played_at_idx` ON `play_history` (`played_at`);--> st
 CREATE INDEX `play_history_source_idx` ON `play_history` (`play_source`);--> statement-breakpoint
 CREATE INDEX `play_history_song_date_idx` ON `play_history` (`song_id`,`played_at`);--> statement-breakpoint
 CREATE INDEX `play_history_time_listened_idx` ON `play_history` (`time_listened`);--> statement-breakpoint
+CREATE INDEX `play_history_played_song_idx` ON `play_history` ("played_at" desc,`song_id`);--> statement-breakpoint
 CREATE TABLE `playlist_stats` (
 	`playlist_id` integer PRIMARY KEY NOT NULL,
 	`total_play_time` integer DEFAULT 0 NOT NULL,
@@ -122,6 +132,11 @@ CREATE INDEX `playlists_playcount_idx` ON `playlists` (`play_count`);--> stateme
 CREATE INDEX `playlists_total_tracks_idx` ON `playlists` (`total_tracks`);--> statement-breakpoint
 CREATE INDEX `playlists_total_duration_idx` ON `playlists` (`total_duration`);--> statement-breakpoint
 CREATE INDEX `playlists_last_played_idx` ON `playlists` (`last_played_at`);--> statement-breakpoint
+CREATE INDEX `playlists_created_id_idx` ON `playlists` ("created_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `playlists_playcount_id_idx` ON `playlists` ("play_count" desc,`id`);--> statement-breakpoint
+CREATE INDEX `playlists_lastplayed_id_idx` ON `playlists` ("last_played_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `playlists_name_id_idx` ON `playlists` (`name`,`id`);--> statement-breakpoint
+CREATE INDEX `playlists_favorite_playcount_id_idx` ON `playlists` (`is_favorite`,"play_count" desc,`id`);--> statement-breakpoint
 CREATE TABLE `playlist_songs` (
 	`playlist_id` integer NOT NULL,
 	`song_id` integer NOT NULL,
@@ -131,7 +146,6 @@ CREATE TABLE `playlist_songs` (
 	FOREIGN KEY (`song_id`) REFERENCES `songs`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `playlist_songs_playlist_idx` ON `playlist_songs` (`playlist_id`);--> statement-breakpoint
 CREATE INDEX `playlist_songs_song_idx` ON `playlist_songs` (`song_id`);--> statement-breakpoint
 CREATE TABLE `song_stats` (
 	`song_id` integer PRIMARY KEY NOT NULL,
@@ -169,7 +183,12 @@ CREATE INDEX `songs_playcount_idx` ON `songs` (`play_count`);--> statement-break
 CREATE INDEX `songs_last_played_idx` ON `songs` (`last_played_at`);--> statement-breakpoint
 CREATE INDEX `songs_album_year_idx` ON `songs` (`album_id`,`release_year`);--> statement-breakpoint
 CREATE INDEX `songs_favorite_playcount_idx` ON `songs` (`is_favorite`,`play_count`);--> statement-breakpoint
-CREATE INDEX `songs_file_idx` ON `songs` (`file`);--> statement-breakpoint
+CREATE INDEX `songs_created_id_idx` ON `songs` ("created_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `songs_playcount_id_idx` ON `songs` ("play_count" desc,`id`);--> statement-breakpoint
+CREATE INDEX `songs_lastplayed_id_idx` ON `songs` ("last_played_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `songs_name_id_idx` ON `songs` (`name`,`id`);--> statement-breakpoint
+CREATE INDEX `songs_album_created_id_idx` ON `songs` (`album_id`,"created_at" desc,`id`);--> statement-breakpoint
+CREATE INDEX `songs_favorite_playcount_id_idx` ON `songs` (`is_favorite`,"play_count" desc,`id`);--> statement-breakpoint
 CREATE TABLE `song_artists` (
 	`song_id` integer NOT NULL,
 	`artist_id` integer NOT NULL,
@@ -179,6 +198,5 @@ CREATE TABLE `song_artists` (
 	FOREIGN KEY (`artist_id`) REFERENCES `artists`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `song_artists_song_idx` ON `song_artists` (`song_id`);--> statement-breakpoint
 CREATE INDEX `song_artists_artist_idx` ON `song_artists` (`artist_id`);--> statement-breakpoint
 CREATE INDEX `song_artists_order_idx` ON `song_artists` (`song_id`,`artist_order`);

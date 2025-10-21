@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { invalidateQueries } from "@repo/api"
+import { invalidateQueries, playlistKeys } from "@repo/api"
 
 import { togglePlaylistFavorite } from "../api/mutations"
 
@@ -17,6 +17,9 @@ export function useTogglePlaylistFavorite() {
     mutationFn: async (id: number) => {
       const updatedPlaylist = await togglePlaylistFavorite(id)
       return updatedPlaylist
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: playlistKeys.all })
     },
     onSuccess: (updatedPlaylist) => {
       if (!updatedPlaylist) return

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { invalidateQueries } from "@repo/api"
+import { invalidateQueries, playlistKeys } from "@repo/api"
 
 import { updatePlaylist } from "../api/mutations"
 
@@ -26,6 +26,9 @@ export function useUpdatePlaylist() {
     mutationFn: async ({ id, updates, thumbnailAction, thumbnailPath }: UpdatePlaylistParams) => {
       const updatedPlaylist = await updatePlaylist(id, updates, thumbnailAction, thumbnailPath)
       return updatedPlaylist
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: playlistKeys.all })
     },
     onSuccess: (updatedPlaylist) => {
       if (!updatedPlaylist) return

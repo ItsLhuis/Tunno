@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { invalidateQueries } from "@repo/api"
+import { invalidateQueries, playlistKeys } from "@repo/api"
 
 import { deletePlaylist } from "../api/mutations"
 
@@ -15,6 +15,9 @@ export function useDeletePlaylist() {
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deletePlaylist(id),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: playlistKeys.all })
+    },
     onSuccess: (deletedPlaylist) => {
       if (!deletedPlaylist) return
 
