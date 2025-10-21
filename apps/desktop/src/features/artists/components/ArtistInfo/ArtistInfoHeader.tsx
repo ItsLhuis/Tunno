@@ -62,9 +62,11 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
           >
             {artist.name}
           </Typography>
-          <Typography affects={["small", "muted"]}>
-            {formatDuration(artist.totalDuration, t)}
-          </Typography>
+          {artist.totalDuration > 0 && (
+            <Typography affects={["small", "muted"]}>
+              {formatDuration(artist.totalDuration, t)}
+            </Typography>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-3 pt-3">

@@ -364,7 +364,7 @@ const ArtistActions = ({
               </ContextMenuContent>
             }
           >
-            {() => renderMenuContent()}
+            {renderMenuContent()}
           </AsyncState>
         </ContextMenu>
       )
@@ -401,7 +401,7 @@ const ArtistActions = ({
             </DropdownMenuContent>
           }
         >
-          {() => renderMenuContent()}
+          {renderMenuContent()}
         </AsyncState>
       </DropdownMenu>
     )

@@ -98,8 +98,8 @@ const ArtistItem = memo(
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
                     {artist.totalTracks}{" "}
-                    {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                    {formatDuration(artist.totalDuration, t)}
+                    {artist.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {artist.totalDuration > 0 && ` • ${formatDuration(artist.totalDuration, t)}`}
                   </Typography>
                 </Marquee>
               </div>
@@ -227,8 +227,8 @@ const ArtistItem = memo(
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
                     {artist.totalTracks}{" "}
-                    {artist.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                    {formatDuration(artist.totalDuration, t)}
+                    {artist.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {artist.totalDuration > 0 && ` • ${formatDuration(artist.totalDuration, t)}`}
                   </Typography>
                 </Marquee>
               </div>

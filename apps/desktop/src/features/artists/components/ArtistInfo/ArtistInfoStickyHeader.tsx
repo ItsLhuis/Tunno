@@ -4,11 +4,9 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
-import { useToggleArtistFavorite } from "../../hooks/useToggleArtistFavorite"
+import { IconButton, Marquee, StickyHeader, Thumbnail, Typography } from "@components/ui"
 
 import { ArtistActions } from "../ArtistActions"
-
-import { Badge, IconButton, Typography } from "@components/ui"
 
 import { formatDuration } from "@repo/utils"
 
@@ -34,62 +32,41 @@ const ArtistInfoStickyHeader = ({ artist }: ArtistInfoStickyHeaderProps) => {
     shuffleAndPlay(songIds, "artist", artist.id)
   }
 
-  const toggleFavoriteMutation = useToggleArtistFavorite()
-
-  const handleToggleFavorite = () => {
-    toggleFavoriteMutation.mutate({ id: artist.id })
-  }
-
   return (
-    <div className="flex w-full items-center gap-4 border-b bg-background/95 px-9 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex items-center gap-4">
-        <div className="h-12 w-12">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-            {artist.thumbnail ? (
-              <img
-                src={artist.thumbnail}
-                alt={artist.name}
-                className="h-12 w-12 rounded-full object-cover"
-              />
-            ) : (
-              <span className="text-lg font-bold">{artist.name.charAt(0).toUpperCase()}</span>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <Badge variant="muted" className="text-xs">
-              {t("common.artist")}
-            </Badge>
-            <Typography variant="h3" affects={["bold"]} className="truncate">
-              {artist.name}
+    <StickyHeader className="flex items-center justify-between gap-3 pb-9">
+      <IconButton
+        name="Shuffle"
+        isLoading={isShuffling}
+        variant="text"
+        className="h-11 w-11 [&_svg]:size-5"
+        tooltip={t("common.shuffleAndPlay")}
+        onClick={handleShuffleAndPlay}
+        disabled={!artist.songs || artist.songs.length === 0}
+      />
+      <div className="flex flex-1 items-center gap-3 truncate">
+        <Thumbnail
+          placeholderIcon="User"
+          fileName={artist.thumbnail}
+          alt={artist.name}
+          containerClassName="rounded-full"
+        />
+        <div className="flex w-full flex-col gap-1 truncate">
+          <Marquee>
+            <Typography className="truncate">{artist.name}</Typography>
+          </Marquee>
+          <Marquee>
+            <Typography affects={["muted", "small"]}>
+              {artist.songs?.length || 0}{" "}
+              {(artist.songs?.length || 0) === 1 ? t("common.song") : t("songs.title")}
+              {artist.totalDuration > 0 && ` • ${formatDuration(artist.totalDuration, t)}`}
             </Typography>
-          </div>
-          <Typography affects={["small", "muted"]} className="truncate">
-            {t("common.song")} ({artist.totalTracks}) • {formatDuration(artist.totalDuration, t)}
-          </Typography>
+          </Marquee>
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <IconButton
-          name="Shuffle"
-          className="h-10 w-10 shrink-0 rounded-full [&_svg]:size-5"
-          isLoading={isShuffling}
-          disabled={!artist.songs || artist.songs.length === 0}
-          tooltip={t("common.shuffleAndPlay")}
-          onClick={handleShuffleAndPlay}
-        />
-        <IconButton
-          name="Heart"
-          isFilled={artist.isFavorite}
-          tooltip={artist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-          variant="text"
-          disabled={toggleFavoriteMutation.isPending}
-          onClick={handleToggleFavorite}
-        />
+      <div className="shrink-0">
         <ArtistActions artistId={artist.id} />
       </div>
-    </div>
+    </StickyHeader>
   )
 }
 
