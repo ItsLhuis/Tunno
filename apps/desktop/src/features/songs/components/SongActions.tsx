@@ -151,26 +151,26 @@ const SongActions = memo(
     }
 
     const handlePlayNext = async () => {
-      if (finalTargetSong) {
-        await addToQueue([finalTargetSong.id], "next")
-        return
-      }
-
       if (list && list.selectedIds.length > 0) {
         const selectedIds = list.selectedIds.map((id) => Number(id))
         await addToQueue(selectedIds, "next")
+        return
+      }
+
+      if (finalTargetSong) {
+        await addToQueue([finalTargetSong.id], "next")
       }
     }
 
     const handleAddToQueue = async () => {
-      if (finalTargetSong) {
-        await addToQueue([finalTargetSong.id], "end")
-        return
-      }
-
       if (list && list.selectedIds.length > 0) {
         const selectedIds = list.selectedIds.map((id) => Number(id))
         await addToQueue(selectedIds, "end")
+        return
+      }
+
+      if (finalTargetSong) {
+        await addToQueue([finalTargetSong.id], "end")
       }
     }
 
