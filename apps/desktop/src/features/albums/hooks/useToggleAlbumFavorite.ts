@@ -15,9 +15,8 @@ export function useToggleAlbumFavorite() {
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => toggleAlbumFavorite(id),
-    onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: albumKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: albumKeys.list() })
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: albumKeys.all })
     },
     onSuccess: async (album) => {
       toast.success(album.isFavorite ? t("favorites.deletedTitle") : t("favorites.createdTitle"), {

@@ -38,9 +38,8 @@ export function useUpdateAlbum() {
       thumbnailPath?: Parameters<typeof updateAlbum>[3]
       artists?: Parameters<typeof updateAlbum>[4]
     }) => updateAlbum(id, updates, thumbnailAction, thumbnailPath, artists),
-    onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({ queryKey: albumKeys.details(id) })
-      await queryClient.cancelQueries({ queryKey: albumKeys.list() })
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: albumKeys.all })
     },
     onSuccess: async (album) => {
       if (currentTrackId) {

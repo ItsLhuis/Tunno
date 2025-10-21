@@ -7,14 +7,17 @@ import { getAlbumsPaginated } from "../api/queries"
 export function useFetchAlbumsInfinite(params?: QueryAlbumParams) {
   return useInfiniteQuery({
     queryKey: albumKeys.listInfinite(params),
-    queryFn: ({ pageParam = 0 }) =>
+    queryFn: ({ pageParam }) =>
       getAlbumsPaginated({
         ...params,
-        offset: pageParam
+        cursor: pageParam
       }),
+    initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.nextOffset : undefined
+      return lastPage.hasNextPage ? lastPage.nextCursor : undefined
     },
-    initialPageParam: 0
+    getPreviousPageParam: (firstPage) => {
+      return firstPage.hasPrevPage ? firstPage.prevCursor : undefined
+    }
   })
 }

@@ -51,7 +51,7 @@ const AlbumsList = () => {
 
   const albums = useMemo(() => {
     if (!data?.pages) return []
-    return data.pages.flatMap((page) => page.albums)
+    return data.pages.flatMap((page) => page.items)
   }, [data?.pages])
 
   const albumIds = allAlbumIds ?? []

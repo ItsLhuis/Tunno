@@ -2,6 +2,10 @@ import { database, schema } from "@database/client"
 
 import { and, asc, desc, eq, exists, gte, inArray, like, lte, sql } from "drizzle-orm"
 
+import { buildCursorCondition, type CursorValue, getOrderByFromColumn } from "@repo/database"
+
+import { decodeCursor, encodeCursor } from "@database/helpers"
+
 import {
   type Album,
   type AlbumWithAllRelations,
@@ -9,6 +13,7 @@ import {
   type AlbumWithMainRelations,
   type AlbumWithSongsAndArtists,
   PAGE_SIZE,
+  type PaginatedResponse,
   type QueryAlbumParams
 } from "@repo/api"
 
@@ -16,10 +21,9 @@ export const getAlbumsFilteredByArtistsWithMainRelations = async (
   artistIds: number[],
   params: QueryAlbumParams = {}
 ): Promise<AlbumWithMainRelations[]> => {
-  const { limit, offset, orderBy, filters } = params
+  const { limit, orderBy, filters } = params
   return await database.query.albums.findMany({
     limit,
-    offset,
     where: and(
       exists(
         database
@@ -54,10 +58,9 @@ export const getAlbumsFilteredByArtistsWithArtists = async (
   artistIds: number[],
   params: QueryAlbumParams = {}
 ): Promise<AlbumWithArtists[]> => {
-  const { limit, offset, orderBy, filters } = params
+  const { limit, orderBy, filters } = params
   return await database.query.albums.findMany({
     limit,
-    offset,
     where: and(
       exists(
         database
@@ -89,48 +92,70 @@ export const getAlbumsFilteredByArtistsWithArtists = async (
 
 export const getAlbumsPaginated = async ({
   limit = PAGE_SIZE,
-  offset = 0,
+  cursor,
   orderBy,
   filters
-}: QueryAlbumParams & { limit?: number; offset?: number }) => {
+}: QueryAlbumParams): Promise<PaginatedResponse<Album>> => {
   const whereConditions = buildWhereConditions(filters)
+  const orderColumn = orderBy?.column || "createdAt"
+  const orderDirection = orderBy?.direction || "desc"
+
+  const cursorValues = cursor ? decodeCursor(cursor) : []
+  const cursorCondition =
+    cursorValues.length > 0
+      ? buildCursorCondition({
+          cursorValues,
+          columns: [schema.albums[orderColumn], schema.albums.id],
+          direction: orderDirection
+        })
+      : undefined
+
+  const allConditions = [
+    ...(whereConditions.length > 0 ? [and(...whereConditions)] : []),
+    ...(cursorCondition ? [cursorCondition] : [])
+  ].filter(Boolean)
 
   const albums = await database.query.albums.findMany({
-    limit,
-    offset,
-    where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
-    orderBy: orderBy
-      ? orderBy.direction === "asc"
-        ? asc(schema.albums[orderBy.column])
-        : desc(schema.albums[orderBy.column])
-      : undefined
+    limit: limit + 1,
+    where: allConditions.length > 0 ? and(...allConditions) : undefined,
+    orderBy: [
+      getOrderByFromColumn(schema.albums[orderColumn], orderDirection),
+      asc(schema.albums.id)
+    ]
   })
 
-  const totalCount = await database
-    .select({ count: sql<number>`count(*)` })
-    .from(schema.albums)
-    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
-    .then((result) => result[0]?.count ?? 0)
+  const hasNextPage = albums.length > limit
+  const items = hasNextPage ? albums.slice(0, limit) : albums
+
+  const nextCursor =
+    hasNextPage && items.length > 0
+      ? encodeCursor([
+          items[items.length - 1][orderColumn] as CursorValue,
+          items[items.length - 1].id
+        ])
+      : undefined
+
+  const prevCursor =
+    items.length > 0 && cursor
+      ? encodeCursor([items[0][orderColumn] as CursorValue, items[0].id])
+      : undefined
 
   return {
-    albums,
-    totalCount,
-    hasNextPage: offset + albums.length < totalCount,
-    nextOffset: offset + albums.length
+    items,
+    nextCursor,
+    prevCursor,
+    hasNextPage,
+    hasPrevPage: !!cursor
   }
 }
 
-export const getAllAlbums = async ({
-  limit,
-  offset,
-  orderBy,
-  filters
-}: QueryAlbumParams = {}): Promise<Album[]> => {
+export const getAllAlbums = async ({ limit, orderBy, filters }: QueryAlbumParams = {}): Promise<
+  Album[]
+> => {
   const whereConditions = buildWhereConditions(filters)
 
   const albums = await database.query.albums.findMany({
     limit,
-    offset,
     where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
     orderBy: orderBy
       ? orderBy.direction === "asc"
