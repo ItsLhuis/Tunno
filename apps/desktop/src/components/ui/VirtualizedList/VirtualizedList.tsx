@@ -81,7 +81,7 @@ function VirtualizedList<TItem>({
     count: rowCount,
     getScrollElement,
     estimateSize,
-    overscan: 5,
+    overscan: 10,
     measureElement:
       typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
         ? (element) => element?.getBoundingClientRect().height
