@@ -8,6 +8,8 @@ import { useFetchAlbumByIdWithAllRelations } from "../../hooks/useFetchAlbumById
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
+import { cn } from "@lib/utils"
+
 import { AsyncState, ScrollAreaWithHeaders, VirtualizedList } from "@components/ui"
 
 import { SongItem } from "@features/songs/components"
@@ -40,9 +42,6 @@ const AlbumInfo = () => {
     isError: isSongsError,
     refetch: refetchSongs
   } = useFetchSongsByIdsWithMainRelations(songIds.length > 0 ? songIds : null)
-
-  const isLoading = isAlbumLoading || isSongsLoading
-  const isError = isAlbumError || isSongsError
 
   const album = albumData
 
@@ -83,25 +82,32 @@ const AlbumInfo = () => {
   })
 
   return (
-    <AsyncState data isLoading={isLoading} isError={isError}>
-      {() => (
-        <ScrollAreaWithHeaders
-          scrollRef={scrollRef}
-          HeaderComponent={Header}
-          StickyHeaderComponent={StickyHeader}
-          ListHeaderComponent={ListHeader}
-          className="space-y-6"
+    <AsyncState data={album} isLoading={isAlbumLoading} isError={isAlbumError}>
+      <ScrollAreaWithHeaders
+        scrollRef={scrollRef}
+        HeaderComponent={Header}
+        StickyHeaderComponent={StickyHeader}
+        ListHeaderComponent={ListHeader}
+        className={cn(!songs.length && "h-full", "space-y-6")}
+      >
+        <AsyncState
+          data={songs}
+          isLoading={isSongsLoading}
+          isError={isSongsError}
+          className={cn(!songs.length && "h-full min-h-44")}
         >
-          <VirtualizedList
-            data={songs}
-            keyExtractor={(song) => song.id.toString()}
-            estimateItemHeight={70}
-            gap={8}
-            scrollRef={scrollRef}
-            renderItem={({ item }) => <SongItem song={item} allSongIds={allSongIds} />}
-          />
-        </ScrollAreaWithHeaders>
-      )}
+          {(data) => (
+            <VirtualizedList
+              data={data}
+              keyExtractor={(song) => song.id.toString()}
+              estimateItemHeight={70}
+              gap={8}
+              scrollRef={scrollRef}
+              renderItem={({ item }) => <SongItem song={item} allSongIds={allSongIds} />}
+            />
+          )}
+        </AsyncState>
+      </ScrollAreaWithHeaders>
     </AsyncState>
   )
 }

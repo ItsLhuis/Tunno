@@ -8,7 +8,7 @@ import { useToggleAlbumFavorite } from "../../hooks/useToggleAlbumFavorite"
 
 import { AlbumActions } from "../AlbumActions"
 
-import { Badge, Header, IconButton, Thumbnail, Typography } from "@components/ui"
+import { Badge, Header, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { formatDuration } from "@repo/utils"
 
@@ -62,9 +62,22 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
           >
             {album.name}
           </Typography>
-          <Typography affects={["small", "muted"]}>
-            {formatDuration(album.totalDuration, t)}
-          </Typography>
+          <div className="flex items-end gap-1">
+            {album.artists.length > 0 ? (
+              <SafeLink to="/artists/$id" params={{ id: album.artists[0].artistId.toString() }}>
+                <Typography affects={["small"]}>{album.artists[0].artist.name}</Typography>
+              </SafeLink>
+            ) : (
+              <Typography affects={["small", "muted"]}>{t("common.unknownArtist")}</Typography>
+            )}
+            {album.totalDuration > 0 && (
+              <div className="leading-none">
+                <Typography affects={["small", "muted"]}>
+                  • {formatDuration(album.totalDuration, t)}
+                </Typography>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className="flex items-center gap-3 pt-3">

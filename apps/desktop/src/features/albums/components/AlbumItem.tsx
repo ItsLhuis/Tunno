@@ -97,8 +97,8 @@ const AlbumItem = memo(
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
                     {album.totalTracks}{" "}
-                    {album.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                    {formatDuration(album.totalDuration, t)}
+                    {album.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
                   </Typography>
                 </Marquee>
               </div>
@@ -149,8 +149,8 @@ const AlbumItem = memo(
                 {album.name}
               </Typography>
               <Typography affects={["muted", "small"]}>
-                {album.totalTracks} {album.totalTracks === 1 ? t("common.song") : t("songs.title")}{" "}
-                • {formatDuration(album.totalDuration, t)}
+                {album.totalTracks} {album.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
               </Typography>
             </div>
             <div className="flex items-center gap-3 pt-3">
@@ -220,8 +220,8 @@ const AlbumItem = memo(
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
                     {album.totalTracks}{" "}
-                    {album.totalTracks === 1 ? t("common.song") : t("songs.title")} •{" "}
-                    {formatDuration(album.totalDuration, t)}
+                    {album.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
                   </Typography>
                 </Marquee>
               </div>

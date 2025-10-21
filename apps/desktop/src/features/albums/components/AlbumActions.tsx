@@ -410,7 +410,7 @@ const AlbumActions = ({
               </ContextMenuContent>
             }
           >
-            {() => renderMenuContent()}
+            {renderMenuContent()}
           </AsyncState>
         </ContextMenu>
       )
@@ -447,7 +447,7 @@ const AlbumActions = ({
             </DropdownMenuContent>
           }
         >
-          {() => renderMenuContent()}
+          {renderMenuContent()}
         </AsyncState>
       </DropdownMenu>
     )
