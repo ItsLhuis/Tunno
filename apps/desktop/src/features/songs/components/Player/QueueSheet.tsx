@@ -163,38 +163,34 @@ const QueueSheet = () => {
         </SheetHeader>
         <Separator />
         <ScrollArea ref={scrollRef} className="h-full">
-          <Fade key={String(queueSongs.length === 0)} className="h-full">
-            {queueSongs.length === 0 ? (
-              <NotFound />
-            ) : (
-              <div className="py-6">
-                <VirtualizedList
-                  data={queueListItems}
-                  keyExtractor={(item) =>
-                    item.type === "section" ? item.id : `${item.song.id}-${item.originalIndex}`
-                  }
-                  estimateItemHeight={70}
-                  gap={8}
-                  containerClassName="px-6"
-                  scrollRef={scrollRef}
-                  renderItem={({ item }) => {
-                    if (item.type === "section") {
-                      return <Typography affects={["small", "muted"]}>{item.title}</Typography>
-                    }
-                    return (
-                      <SongItem
-                        song={item.song}
-                        variant="list"
-                        allSongIds={queueIds}
-                        visibleColumns={["title"]}
-                        queueIndex={item.originalIndex}
-                      />
-                    )
-                  }}
-                />
-              </div>
-            )}
-          </Fade>
+          <div className="relative flex h-full flex-col">
+            <VirtualizedList
+              className="flex h-full flex-col items-center justify-center"
+              ListEmptyComponent={() => <NotFound />}
+              data={queueSongs.length === 0 ? [] : queueListItems}
+              keyExtractor={(item) =>
+                item.type === "section" ? item.id : `${item.song.id}-${item.originalIndex}`
+              }
+              estimateItemHeight={70}
+              gap={8}
+              containerClassName="p-6 h-full"
+              scrollRef={scrollRef}
+              renderItem={({ item }) => {
+                if (item.type === "section") {
+                  return <Typography affects={["small", "muted"]}>{item.title}</Typography>
+                }
+                return (
+                  <SongItem
+                    song={item.song}
+                    variant="list"
+                    allSongIds={queueIds}
+                    visibleColumns={["title"]}
+                    queueIndex={item.originalIndex}
+                  />
+                )
+              }}
+            />
+          </div>
         </ScrollArea>
         {queueSongs.length > 0 && (
           <Fade>
