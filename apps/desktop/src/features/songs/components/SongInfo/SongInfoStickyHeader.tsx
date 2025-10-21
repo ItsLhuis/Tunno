@@ -4,7 +4,9 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { IconButton, StickyHeader, Typography } from "@components/ui"
+import { IconButton, Marquee, SafeLink, StickyHeader, Thumbnail, Typography } from "@components/ui"
+
+import { SongActions } from "../SongActions"
 
 import { State } from "react-track-player-web"
 
@@ -49,7 +51,7 @@ const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
   }
 
   return (
-    <StickyHeader className="flex items-center gap-3 pb-9">
+    <StickyHeader className="flex items-center justify-between gap-3 pb-9">
       <IconButton
         name={isCurrentlyPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
@@ -59,9 +61,33 @@ const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
         onClick={handlePlayPause}
         disabled={!canPlay}
       />
-      <Typography variant="h4" className="truncate">
-        {song.name}
-      </Typography>
+      <div className="flex flex-1 items-center gap-3 truncate">
+        <Thumbnail placeholderIcon="Music" fileName={song.thumbnail} alt={song.name} />
+        <div className="flex w-full flex-col gap-1 truncate">
+          <Marquee>
+            <Typography className="truncate">{song.name}</Typography>
+          </Marquee>
+          <Marquee>
+            {song.artists.length > 0 ? (
+              song.artists.map((artist, index) => (
+                <span key={artist.artistId}>
+                  <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                    <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
+                  </SafeLink>
+                  {index < song.artists.length - 1 && (
+                    <Typography affects={["muted", "small"]}>, </Typography>
+                  )}
+                </span>
+              ))
+            ) : (
+              <Typography affects={["muted", "small"]}>{t("common.unknownArtist")}</Typography>
+            )}
+          </Marquee>
+        </div>
+      </div>
+      <div className="shrink-0">
+        <SongActions songId={song.id} />
+      </div>
     </StickyHeader>
   )
 }

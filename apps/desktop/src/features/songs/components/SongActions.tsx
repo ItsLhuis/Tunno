@@ -443,7 +443,7 @@ const SongActions = memo(
                 </ContextMenuContent>
               }
             >
-              {() => renderMenuContent()}
+              {renderMenuContent()}
             </AsyncState>
           </ContextMenu>
         )
@@ -480,7 +480,7 @@ const SongActions = memo(
               </DropdownMenuContent>
             }
           >
-            {() => renderMenuContent()}
+            {renderMenuContent()}
           </AsyncState>
         </DropdownMenu>
       )
