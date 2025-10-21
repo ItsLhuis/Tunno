@@ -33,6 +33,20 @@ type QueueSongItem = {
   originalIndex: number
 }
 
+type SectionItem = {
+  type: "section"
+  title: string
+  id: string
+}
+
+type SongItemType = {
+  type: "song"
+  song: SongWithMainRelations
+  originalIndex: number
+}
+
+type QueueListItem = SectionItem | SongItemType
+
 const QueueSheet = () => {
   const { t } = useTranslation()
 
@@ -75,38 +89,58 @@ const QueueSheet = () => {
     return queueSongs.filter((item) => item.originalIndex < currentTrackIndex)
   }, [currentTrackIndex, queueSongs])
 
+  const queueListItems = useMemo(() => {
+    const items: QueueListItem[] = []
+
+    if (currentSong && currentTrackIndex !== null) {
+      items.push({
+        type: "section",
+        title: t("common.nowPlaying"),
+        id: "now-playing"
+      })
+      items.push({
+        type: "song",
+        song: currentSong.song,
+        originalIndex: currentSong.originalIndex
+      })
+    }
+
+    if (upcomingSongs.length > 0) {
+      items.push({
+        type: "section",
+        title: t("common.upNext"),
+        id: "up-next"
+      })
+      upcomingSongs.forEach((item) => {
+        items.push({
+          type: "song",
+          song: item.song,
+          originalIndex: item.originalIndex
+        })
+      })
+    }
+
+    if (previousSongs.length > 0) {
+      items.push({
+        type: "section",
+        title: t("common.previous"),
+        id: "previous"
+      })
+      previousSongs.forEach((item) => {
+        items.push({
+          type: "song",
+          song: item.song,
+          originalIndex: item.originalIndex
+        })
+      })
+    }
+
+    return items
+  }, [currentSong, currentTrackIndex, upcomingSongs, previousSongs, t])
+
   const handleClearQueue = useCallback(async () => {
     await clearQueue()
   }, [clearQueue])
-
-  const renderSection = (title: string, songs: QueueSongItem[]) => {
-    if (songs.length === 0) return null
-
-    return (
-      <div className="space-y-2">
-        <Typography affects={["small", "muted"]} className="px-6">
-          {title}
-        </Typography>
-        <VirtualizedList
-          data={songs}
-          keyExtractor={(item) => `${item.song.id}-${item.originalIndex}`}
-          estimateItemHeight={70}
-          gap={4}
-          containerClassName="px-6"
-          scrollRef={scrollRef}
-          renderItem={({ item }) => (
-            <SongItem
-              song={item.song}
-              variant="list"
-              allSongIds={queueIds}
-              visibleColumns={["title"]}
-              queueIndex={item.originalIndex}
-            />
-          )}
-        />
-      </div>
-    )
-  }
 
   return (
     <Sheet>
@@ -133,25 +167,31 @@ const QueueSheet = () => {
             {queueSongs.length === 0 ? (
               <NotFound />
             ) : (
-              <div className="space-y-6 py-6">
-                {currentSong && currentTrackIndex !== null && (
-                  <div className="space-y-2">
-                    <Typography affects={["small", "muted"]} className="px-6">
-                      {t("common.nowPlaying")}
-                    </Typography>
-                    <div className="px-6">
+              <div className="py-6">
+                <VirtualizedList
+                  data={queueListItems}
+                  keyExtractor={(item) =>
+                    item.type === "section" ? item.id : `${item.song.id}-${item.originalIndex}`
+                  }
+                  estimateItemHeight={70}
+                  gap={8}
+                  containerClassName="px-6"
+                  scrollRef={scrollRef}
+                  renderItem={({ item }) => {
+                    if (item.type === "section") {
+                      return <Typography affects={["small", "muted"]}>{item.title}</Typography>
+                    }
+                    return (
                       <SongItem
-                        song={currentSong.song}
+                        song={item.song}
                         variant="list"
                         allSongIds={queueIds}
                         visibleColumns={["title"]}
-                        queueIndex={currentSong.originalIndex}
+                        queueIndex={item.originalIndex}
                       />
-                    </div>
-                  </div>
-                )}
-                {upcomingSongs.length > 0 && renderSection(t("common.upNext"), upcomingSongs)}
-                {previousSongs.length > 0 && renderSection(t("common.previous"), previousSongs)}
+                    )
+                  }}
+                />
               </div>
             )}
           </Fade>
@@ -161,7 +201,7 @@ const QueueSheet = () => {
             <Separator />
             <SheetFooter className="p-6">
               <Button variant="outline" className="w-full" onClick={handleClearQueue}>
-                <Icon name="X" />
+                <Icon name="Trash2" />
                 {t("common.clear")}
               </Button>
             </SheetFooter>
