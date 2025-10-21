@@ -8,6 +8,8 @@ import { useFetchSongByIdWithAllRelations } from "../../hooks/useFetchSongByIdWi
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
+import { formatTime } from "@repo/utils"
+
 import {
   AsyncState,
   Carousel,
@@ -137,6 +139,24 @@ const SongInfo = () => {
                 <CarouselPrevious className="ml-20" />
                 <CarouselNext className="mr-20" />
               </Carousel>
+            </section>
+          )}
+          {data.lyrics && Array.isArray(data.lyrics) && data.lyrics.length > 0 && (
+            <section className="flex w-full flex-col gap-3">
+              <Typography variant="h3">{t("form.labels.lyrics")}</Typography>
+              <div className="w-full space-y-2">
+                {data.lyrics.map((line, index) => (
+                  <div key={index} className="flex w-full gap-2">
+                    <Typography affects="muted" className="shrink-0">
+                      [{formatTime(line.startTime)}]
+                    </Typography>
+                    <Typography className="shrink-0">-</Typography>
+                    <Typography className="overflow-wrap-anywhere min-w-0 flex-1 break-all">
+                      {line.text || "..."}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
             </section>
           )}
         </ScrollAreaWithHeaders>
