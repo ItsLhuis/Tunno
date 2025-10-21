@@ -52,6 +52,9 @@ export const dutch: Language = {
       close: "Sluiten",
       playback: "Afspelen",
       playNext: "Volgende afspelen",
+      removeFromQueue: "Verwijder uit wachtrij",
+      nowPlaying: "Nu aan het spelen",
+      upNext: "Hierna",
       actions: "Acties",
       addTo: "Toevoegen aan",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const dutch: Language = {
       lastPlayed: "Laatst afgespeeld",
       neverPlayed: "Nooit afgespeeld",
       streak: "Reeks",
-      refresh: "Vernieuwen"
+      refresh: "Vernieuwen",
+      loadedOfTotal: "{loaded} van {total} geladen"
     },
     form: {
       titles: {

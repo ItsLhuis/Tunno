@@ -55,6 +55,9 @@ export type Translations = {
     close: string
     playback: string
     playNext: string
+    removeFromQueue: string
+    nowPlaying: string
+    upNext: string
     actions: string
     addTo: string
     playlist: string
@@ -79,6 +82,7 @@ export type Translations = {
     neverPlayed: string
     streak: string
     refresh: string
+    loadedOfTotal: string
   }
   form: {
     titles: {

@@ -52,6 +52,9 @@ export const french: Language = {
       close: "Fermer",
       playback: "Lecture",
       playNext: "Lire suivant",
+      removeFromQueue: "Retirer de la file",
+      nowPlaying: "En cours de lecture",
+      upNext: "À suivre",
       actions: "Actions",
       addTo: "Ajouter à",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const french: Language = {
       lastPlayed: "Dernière lecture",
       neverPlayed: "Jamais joué",
       streak: "Série",
-      refresh: "Actualiser"
+      refresh: "Actualiser",
+      loadedOfTotal: "{loaded} sur {total} chargées"
     },
     form: {
       titles: {

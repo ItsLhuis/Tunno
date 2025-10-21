@@ -52,6 +52,9 @@ export const danish: Language = {
       close: "Luk",
       playback: "Afspilning",
       playNext: "Afspil næste",
+      removeFromQueue: "Fjern fra kø",
+      nowPlaying: "Afspiller nu",
+      upNext: "Næste",
       actions: "Handlinger",
       addTo: "Tilføj til",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const danish: Language = {
       lastPlayed: "Sidst afspillet",
       neverPlayed: "Aldrig afspillet",
       streak: "Serie",
-      refresh: "Opdater"
+      refresh: "Opdater",
+      loadedOfTotal: "{loaded} af {total} indlæst"
     },
     form: {
       titles: {

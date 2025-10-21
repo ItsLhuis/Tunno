@@ -52,6 +52,9 @@ export const hindi: Language = {
       close: "बंद करें",
       playback: "प्लेबैक",
       playNext: "अगला चलाएं",
+      removeFromQueue: "कतार से हटाएं",
+      nowPlaying: "अभी चल रहा है",
+      upNext: "आगे क्या है",
       actions: "क्रियाएं",
       addTo: "जोड़ें",
       playlist: "गानों की सूची",
@@ -75,7 +78,8 @@ export const hindi: Language = {
       lastPlayed: "अंतिम बार चलाया गया",
       neverPlayed: "कभी नहीं बजाया",
       streak: "स्ट्रीक",
-      refresh: "रिफ्रेश करें"
+      refresh: "रिफ्रेश करें",
+      loadedOfTotal: "{total} में से {loaded} लोड किए गए"
     },
     form: {
       titles: {

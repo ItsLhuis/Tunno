@@ -52,6 +52,9 @@ export const italian: Language = {
       close: "Chiudi",
       playback: "Riproduzione",
       playNext: "Riproduci successivo",
+      removeFromQueue: "Rimuovi dalla coda",
+      nowPlaying: "In riproduzione",
+      upNext: "Prossimo",
       actions: "Azioni",
       addTo: "Aggiungi a",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const italian: Language = {
       lastPlayed: "Ultima riproduzione",
       neverPlayed: "Mai riprodotto",
       streak: "Serie",
-      refresh: "Aggiorna"
+      refresh: "Aggiorna",
+      loadedOfTotal: "{loaded} di {total} caricate"
     },
     form: {
       titles: {

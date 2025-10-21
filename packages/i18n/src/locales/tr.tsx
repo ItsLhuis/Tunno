@@ -52,6 +52,9 @@ export const turkish: Language = {
       close: "Kapat",
       playback: "Oynatma",
       playNext: "Sonrakini çal",
+      removeFromQueue: "Kuyruktan kaldır",
+      nowPlaying: "Şimdi çalıyor",
+      upNext: "Sırada",
       actions: "Eylemler",
       addTo: "Ekle",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const turkish: Language = {
       lastPlayed: "Son çalınan",
       neverPlayed: "Hiç çalınmadı",
       streak: "Seri",
-      refresh: "Yenile"
+      refresh: "Yenile",
+      loadedOfTotal: "{total} üzerinden {loaded} yüklendi"
     },
     form: {
       titles: {

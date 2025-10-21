@@ -52,6 +52,9 @@ export const swedish: Language = {
       close: "Stäng",
       playback: "Uppspelning",
       playNext: "Spela nästa",
+      removeFromQueue: "Ta bort från kö",
+      nowPlaying: "Spelar nu",
+      upNext: "Nästa",
       actions: "Åtgärder",
       addTo: "Lägg till",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const swedish: Language = {
       lastPlayed: "Senast spelad",
       neverPlayed: "Aldrig spelad",
       streak: "Serie",
-      refresh: "Uppdatera"
+      refresh: "Uppdatera",
+      loadedOfTotal: "{loaded} av {total} laddade"
     },
     form: {
       titles: {

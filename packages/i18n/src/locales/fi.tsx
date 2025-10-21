@@ -52,6 +52,9 @@ export const finnish: Language = {
       close: "Sulje",
       playback: "Toisto",
       playNext: "Toista seuraava",
+      removeFromQueue: "Poista jonosta",
+      nowPlaying: "Nyt soi",
+      upNext: "Seuraavaksi",
       actions: "Toiminnot",
       addTo: "Lisää",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const finnish: Language = {
       lastPlayed: "Viimeksi soitettu",
       neverPlayed: "Ei koskaan soitettu",
       streak: "Putki",
-      refresh: "Päivitä"
+      refresh: "Päivitä",
+      loadedOfTotal: "{loaded}/{total} ladattu"
     },
     form: {
       titles: {

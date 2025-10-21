@@ -52,6 +52,9 @@ export const korean: Language = {
       close: "닫기",
       playback: "재생",
       playNext: "다음 재생",
+      removeFromQueue: "대기열에서 제거",
+      nowPlaying: "재생 중",
+      upNext: "다음 곡",
       actions: "작업",
       addTo: "추가",
       playlist: "플레이리스트",
@@ -75,7 +78,8 @@ export const korean: Language = {
       lastPlayed: "마지막 재생",
       neverPlayed: "재생된 적 없음",
       streak: "연속",
-      refresh: "새로고침"
+      refresh: "새로고침",
+      loadedOfTotal: "{total}개 중 {loaded}개 로드됨"
     },
     form: {
       titles: {

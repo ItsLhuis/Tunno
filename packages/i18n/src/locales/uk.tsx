@@ -52,6 +52,9 @@ export const ukrainian: Language = {
       close: "Закрити",
       playback: "Відтворення",
       playNext: "Відтворити наступний",
+      removeFromQueue: "Видалити з черги",
+      nowPlaying: "Зараз відтворюється",
+      upNext: "Далі",
       actions: "Дії",
       addTo: "Додати до",
       playlist: "Плейлист",
@@ -75,7 +78,8 @@ export const ukrainian: Language = {
       lastPlayed: "Останнє відтворення",
       neverPlayed: "Ніколи не відтворювалося",
       streak: "Серія",
-      refresh: "Оновити"
+      refresh: "Оновити",
+      loadedOfTotal: "{loaded} з {total} завантажено"
     },
     form: {
       titles: {

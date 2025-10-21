@@ -52,6 +52,9 @@ export const russian: Language = {
       close: "Закрыть",
       playback: "Воспроизведение",
       playNext: "Воспроизвести следующий",
+      removeFromQueue: "Удалить из очереди",
+      nowPlaying: "Сейчас играет",
+      upNext: "Далее",
       actions: "Действия",
       addTo: "Добавить в",
       playlist: "Плейлист",
@@ -75,7 +78,8 @@ export const russian: Language = {
       lastPlayed: "Последнее воспроизведение",
       neverPlayed: "Никогда не воспроизводилось",
       streak: "Серия",
-      refresh: "Обновить"
+      refresh: "Обновить",
+      loadedOfTotal: "{loaded} из {total} загружено"
     },
     form: {
       titles: {

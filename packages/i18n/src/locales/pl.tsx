@@ -52,6 +52,9 @@ export const polish: Language = {
       close: "Zamknij",
       playback: "Odtwarzanie",
       playNext: "Odtwórz następny",
+      removeFromQueue: "Usuń z kolejki",
+      nowPlaying: "Teraz odtwarzane",
+      upNext: "Następne",
       actions: "Akcje",
       addTo: "Dodaj do",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const polish: Language = {
       lastPlayed: "Ostatnio odtwarzane",
       neverPlayed: "Nigdy nie odtwarzane",
       streak: "Seria",
-      refresh: "Odśwież"
+      refresh: "Odśwież",
+      loadedOfTotal: "{loaded} z {total} załadowanych"
     },
     form: {
       titles: {

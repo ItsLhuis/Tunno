@@ -52,6 +52,9 @@ export const norwegian: Language = {
       close: "Lukk",
       playback: "Avspilling",
       playNext: "Spill neste",
+      removeFromQueue: "Fjern fra kø",
+      nowPlaying: "Spiller nå",
+      upNext: "Neste",
       actions: "Handlinger",
       addTo: "Legg til",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const norwegian: Language = {
       lastPlayed: "Sist spilt",
       neverPlayed: "Aldri spilt",
       streak: "Serie",
-      refresh: "Oppdater"
+      refresh: "Oppdater",
+      loadedOfTotal: "{loaded} av {total} lastet"
     },
     form: {
       titles: {

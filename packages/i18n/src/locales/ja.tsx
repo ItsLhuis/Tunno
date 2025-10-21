@@ -52,6 +52,9 @@ export const japanese: Language = {
       close: "閉じる",
       playback: "再生",
       playNext: "次を再生",
+      removeFromQueue: "キューから削除",
+      nowPlaying: "再生中",
+      upNext: "次の曲",
       actions: "アクション",
       addTo: "追加",
       playlist: "再生リスト",
@@ -75,7 +78,8 @@ export const japanese: Language = {
       lastPlayed: "最後に再生",
       neverPlayed: "再生されたことがない",
       streak: "ストリーク",
-      refresh: "更新"
+      refresh: "更新",
+      loadedOfTotal: "{total}のうち{loaded}読み込み済み"
     },
     form: {
       titles: {

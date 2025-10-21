@@ -52,6 +52,9 @@ export const chinese: Language = {
       close: "关闭",
       playback: "播放",
       playNext: "播放下一首",
+      removeFromQueue: "从队列中移除",
+      nowPlaying: "正在播放",
+      upNext: "接下来",
       actions: "操作",
       addTo: "添加到",
       playlist: "歌单",
@@ -75,7 +78,8 @@ export const chinese: Language = {
       lastPlayed: "最后播放",
       neverPlayed: "从未播放",
       streak: "连续",
-      refresh: "刷新"
+      refresh: "刷新",
+      loadedOfTotal: "已加载 {loaded}/{total}"
     },
     form: {
       titles: {

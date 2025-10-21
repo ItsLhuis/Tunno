@@ -52,6 +52,9 @@ export const spanish: Language = {
       close: "Cerrar",
       playback: "Reproducción",
       playNext: "Reproducir siguiente",
+      removeFromQueue: "Eliminar de la cola",
+      nowPlaying: "Reproduciendo ahora",
+      upNext: "A continuación",
       actions: "Acciones",
       addTo: "Agregar a",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const spanish: Language = {
       lastPlayed: "Última reproducción",
       neverPlayed: "Nunca reproducido",
       streak: "Racha",
-      refresh: "Actualizar"
+      refresh: "Actualizar",
+      loadedOfTotal: "{loaded} de {total} cargadas"
     },
     form: {
       titles: {

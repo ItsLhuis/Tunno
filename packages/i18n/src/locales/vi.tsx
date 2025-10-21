@@ -52,6 +52,9 @@ export const vietnamese: Language = {
       close: "Đóng",
       playback: "Phát lại",
       playNext: "Phát tiếp theo",
+      removeFromQueue: "Xóa khỏi hàng đợi",
+      nowPlaying: "Đang phát",
+      upNext: "Tiếp theo",
       actions: "Hành động",
       addTo: "Thêm vào",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const vietnamese: Language = {
       lastPlayed: "Lần phát cuối",
       neverPlayed: "Chưa bao giờ phát",
       streak: "Chuỗi",
-      refresh: "Làm mới"
+      refresh: "Làm mới",
+      loadedOfTotal: "Đã tải {loaded}/{total}"
     },
     form: {
       titles: {

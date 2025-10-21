@@ -52,6 +52,9 @@ export const german: Language = {
       close: "Schließen",
       playback: "Wiedergabe",
       playNext: "Als nächstes abspielen",
+      removeFromQueue: "Aus Warteschlange entfernen",
+      nowPlaying: "Wird abgespielt",
+      upNext: "Als nächstes",
       actions: "Aktionen",
       addTo: "Hinzufügen zu",
       playlist: "Playlist",
@@ -75,7 +78,8 @@ export const german: Language = {
       lastPlayed: "Zuletzt gespielt",
       neverPlayed: "Nie gespielt",
       streak: "Serie",
-      refresh: "Aktualisieren"
+      refresh: "Aktualisieren",
+      loadedOfTotal: "{loaded} von {total} geladen"
     },
     form: {
       titles: {
