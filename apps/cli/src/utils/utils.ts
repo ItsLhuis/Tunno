@@ -48,6 +48,8 @@ export const runCommand = (command: string, args: string[]): Promise<void> => {
 
 export const execPromise = promisify(exec)
 
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export const cleanArtistName = (artistName: string): string => {
   return artistName
     .replace(/([a-z])([A-Z])/g, "$1 $2")

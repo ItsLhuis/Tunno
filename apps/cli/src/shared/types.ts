@@ -32,3 +32,19 @@ export type Song = {
   album: Album
   lyrics: { text: string; startTime: number }[] | null
 }
+
+export type FastUploadManifest = {
+  version: number
+  createdAt: string
+  source: { cliVersion: string; os: string }
+  stats: { totalTracks: number }
+  tracks: FastUploadTrack[]
+}
+
+export type FastUploadTrack = {
+  dirName: string
+  title: string
+  artists: string[]
+  album: string
+  thumbnail: string | null
+}
