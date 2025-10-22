@@ -102,6 +102,33 @@ pnpm add -g @tunno/cli
   tunno credentials --spotify-client-id SPOTIFY_CLIENT_ID --spotify-client-secret SPOTIFY_CLIENT_SECRET
   ```
 
+### Fast Upload
+
+- **Create Portable Bundle**: Generate a portable bundle from downloaded tracks for easy import:
+
+  ```bash
+  tunno fast-upload
+  ```
+
+  This command scans your download directory for valid track folders and creates a timestamped zip
+  bundle containing all tracks and a manifest file with metadata.
+
+- **Custom Output Path**: Specify a custom output directory for the bundle:
+
+  ```bash
+  tunno fast-upload -o /path/to/output
+  ```
+
+  Example:
+
+  ```bash
+  tunno fast-upload -o ~/Desktop
+  ```
+
+  The bundle includes:
+  - `manifest.json`: Metadata about all tracks (title, artists, album, thumbnails)
+  - `tracks/`: Individual track folders with audio files, metadata, and thumbnails
+
 ### YouTube Download
 
 - **Download Audio from YouTube**:

@@ -9,4 +9,7 @@ config(program)
 import youtube from "./commands/youtube"
 youtube(program)
 
+import fastUpload from "./commands/fastUpload"
+fastUpload(program)
+
 program.parse(process.argv)
