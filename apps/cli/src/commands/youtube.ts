@@ -6,7 +6,9 @@ import { download } from "../utils/youtube"
 
 import { execPromise } from "../utils/utils"
 
-const VALID_EXTENSIONS = new Set(["opus", "m4a", "mp3", "flac", "wav"])
+import { VALID_AUDIO_EXTENSIONS } from "../shared/constants"
+
+const VALID_EXTENSIONS = VALID_AUDIO_EXTENSIONS
 
 export default function youtube(program: Command) {
   program
