@@ -2,6 +2,24 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.4.0] - 2025-10-22
+
+### Added
+
+- 📦 Added `fast-upload` command to create portable bundles from downloaded tracks
+- 🎯 Bundle includes manifest.json with metadata and timestamped zip file
+- 🔧 Added shared constants for audio and image extensions
+- ⚙️ Added strict TypeScript compiler options for better code quality
+
+### Fixed
+
+- 🛠️ Fixed `set-path` command validating old path when setting a new one
+
+### Changed
+
+- 🔄 Refactored youtube command to use centralized audio extension constants
+- ✨ Improved code consistency with shared utilities and constants
+
 ## [1.3.1] - 2025-10-06
 
 ### Enhanced
