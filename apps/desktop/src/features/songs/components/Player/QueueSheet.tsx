@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from "react"
+import { useCallback, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -6,12 +6,14 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
+import { formatNumber } from "@repo/utils"
+
 import {
+  AsyncState,
   Button,
   Fade,
   Icon,
   IconButton,
-  NotFound,
   ScrollArea,
   Separator,
   Sheet,
@@ -20,8 +22,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  Typography,
-  VirtualizedList
+  Typography
 } from "@components/ui"
 
 import { SongItem } from "../SongItem"
@@ -47,10 +48,11 @@ type SongItemType = {
 
 type QueueListItem = SectionItem | SongItemType
 
+const MAX_UPCOMING_SONGS = 25
+const MAX_PREVIOUS_SONGS = 25
+
 const QueueSheet = () => {
   const { t } = useTranslation()
-
-  const scrollRef = useRef<HTMLDivElement>(null)
 
   const { queueIds, currentTrackIndex, cachedSongs, clearQueue } = usePlayerStore(
     useShallow((state) => ({
@@ -61,38 +63,71 @@ const QueueSheet = () => {
     }))
   )
 
-  const queueSongs = useMemo(() => {
-    if (!queueIds.length || !cachedSongs.size) return []
-    return queueIds
-      .map((id, originalIndex) => {
-        const song = cachedSongs.get(id)
-        return song ? { song, originalIndex } : null
-      })
-      .filter((item): item is QueueSongItem => item !== null)
-  }, [queueIds, cachedSongs])
+  const { currentSong, upcomingSongs, previousSongs } = useMemo(() => {
+    if (queueIds.length === 0 || cachedSongs.size === 0) {
+      return { currentSong: null, upcomingSongs: [], previousSongs: [] }
+    }
+
+    let current: QueueSongItem | null = null
+    const upcoming: QueueSongItem[] = []
+    const previous: QueueSongItem[] = []
+
+    if (currentTrackIndex === null) {
+      for (let i = 0; i < queueIds.length && upcoming.length < MAX_UPCOMING_SONGS; i++) {
+        const song = cachedSongs.get(queueIds[i])
+        if (song) {
+          upcoming.push({ song, originalIndex: i })
+        }
+      }
+      return { currentSong: null, upcomingSongs: upcoming, previousSongs: [] }
+    }
+
+    const currentSongId = queueIds[currentTrackIndex]
+    const currentSongData = cachedSongs.get(currentSongId)
+
+    if (currentSongData) {
+      current = { song: currentSongData, originalIndex: currentTrackIndex }
+    }
+
+    let upcomingCount = 0
+    for (
+      let i = currentTrackIndex + 1;
+      i < queueIds.length && upcomingCount < MAX_UPCOMING_SONGS;
+      i++
+    ) {
+      const song = cachedSongs.get(queueIds[i])
+      if (song) {
+        upcoming.push({ song, originalIndex: i })
+        upcomingCount++
+      }
+    }
+
+    let previousCount = 0
+    for (let i = currentTrackIndex - 1; i >= 0 && previousCount < MAX_PREVIOUS_SONGS; i--) {
+      const song = cachedSongs.get(queueIds[i])
+      if (song) {
+        previous.unshift({ song, originalIndex: i })
+        previousCount++
+      }
+    }
+
+    return {
+      currentSong: current,
+      upcomingSongs: upcoming,
+      previousSongs: previous
+    }
+  }, [queueIds, cachedSongs, currentTrackIndex])
 
   const totalInQueue = queueIds.length
-  const loadedCount = queueSongs.length
 
-  const currentSong = useMemo(() => {
-    if (currentTrackIndex === null || !queueSongs.length) return null
-    return queueSongs.find((item) => item.originalIndex === currentTrackIndex) || null
-  }, [currentTrackIndex, queueSongs])
+  const visibleCount = (currentSong ? 1 : 0) + upcomingSongs.length + previousSongs.length
 
-  const upcomingSongs = useMemo(() => {
-    if (currentTrackIndex === null) return queueSongs
-    return queueSongs.filter((item) => item.originalIndex > currentTrackIndex)
-  }, [currentTrackIndex, queueSongs])
-
-  const previousSongs = useMemo(() => {
-    if (currentTrackIndex === null || currentTrackIndex === 0) return []
-    return queueSongs.filter((item) => item.originalIndex < currentTrackIndex)
-  }, [currentTrackIndex, queueSongs])
+  const isLoading = queueIds.length > 0 && cachedSongs.size === 0
 
   const queueListItems = useMemo(() => {
     const items: QueueListItem[] = []
 
-    if (currentSong && currentTrackIndex !== null) {
+    if (currentSong) {
       items.push({
         type: "section",
         title: t("common.nowPlaying"),
@@ -111,13 +146,13 @@ const QueueSheet = () => {
         title: t("common.upNext"),
         id: "up-next"
       })
-      upcomingSongs.forEach((item) => {
+      for (const item of upcomingSongs) {
         items.push({
           type: "song",
           song: item.song,
           originalIndex: item.originalIndex
         })
-      })
+      }
     }
 
     if (previousSongs.length > 0) {
@@ -126,17 +161,17 @@ const QueueSheet = () => {
         title: t("common.previous"),
         id: "previous"
       })
-      previousSongs.forEach((item) => {
+      for (const item of previousSongs) {
         items.push({
           type: "song",
           song: item.song,
           originalIndex: item.originalIndex
         })
-      })
+      }
     }
 
     return items
-  }, [currentSong, currentTrackIndex, upcomingSongs, previousSongs, t])
+  }, [currentSong, upcomingSongs, previousSongs, t])
 
   const handleClearQueue = useCallback(async () => {
     await clearQueue()
@@ -156,43 +191,43 @@ const QueueSheet = () => {
         <SheetHeader className="flex max-h-full flex-col items-start justify-between p-6">
           <SheetTitle>{t("common.queue")}</SheetTitle>
           <Typography affects={["small", "muted"]}>
-            {loadedCount === totalInQueue
+            {visibleCount === totalInQueue
               ? `${totalInQueue} ${totalInQueue === 1 ? t("common.song") : "songs"}`
-              : t("common.loadedOfTotal", { loaded: loadedCount, total: totalInQueue })}
+              : t("common.showingOfTotal", {
+                  showing: formatNumber(visibleCount),
+                  total: formatNumber(totalInQueue)
+                })}
           </Typography>
         </SheetHeader>
         <Separator />
-        <ScrollArea ref={scrollRef} className="h-full">
-          <div className="relative flex h-full flex-col">
-            <VirtualizedList
-              className="flex h-full flex-col items-center justify-center"
-              ListEmptyComponent={() => <NotFound />}
-              data={queueSongs.length === 0 ? [] : queueListItems}
-              keyExtractor={(item) =>
-                item.type === "section" ? item.id : `${item.song.id}-${item.originalIndex}`
-              }
-              estimateItemHeight={70}
-              gap={8}
-              containerClassName="p-6 h-full"
-              scrollRef={scrollRef}
-              renderItem={({ item }) => {
-                if (item.type === "section") {
-                  return <Typography affects={["small", "muted"]}>{item.title}</Typography>
-                }
-                return (
-                  <SongItem
-                    song={item.song}
-                    variant="list"
-                    allSongIds={queueIds}
-                    visibleColumns={["title"]}
-                    queueIndex={item.originalIndex}
-                  />
-                )
-              }}
-            />
-          </div>
+        <ScrollArea className="h-full">
+          <AsyncState data={queueListItems} isLoading={isLoading} className="h-full">
+            {(items) => (
+              <div className="flex flex-col gap-2 p-6">
+                {items.map((item) => {
+                  if (item.type === "section") {
+                    return (
+                      <Typography key={item.id} affects={["small", "muted"]} className="mt-2">
+                        {item.title}
+                      </Typography>
+                    )
+                  }
+                  return (
+                    <SongItem
+                      key={`${item.song.id}-${item.originalIndex}`}
+                      song={item.song}
+                      variant="list"
+                      allSongIds={queueIds}
+                      visibleColumns={["title"]}
+                      queueIndex={item.originalIndex}
+                    />
+                  )
+                })}
+              </div>
+            )}
+          </AsyncState>
         </ScrollArea>
-        {queueSongs.length > 0 && (
+        {visibleCount > 0 && (
           <Fade>
             <Separator />
             <SheetFooter className="p-6">

@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create, type StoreApi } from "zustand"
 import { persist } from "zustand/middleware"
 
 import { persistStorage } from "@stores/config/persist"
@@ -13,7 +13,7 @@ import TrackPlayer, { RepeatMode, State } from "react-track-player-web"
 
 import { clearTrackCaches, resolveTrack } from "../utils/player"
 
-import { shuffleArray } from "@repo/utils"
+import { LRUCache, shuffleArray } from "@repo/utils"
 
 import { getSongFromCacheOrFetch, prefetchSongs } from "../utils/player"
 
@@ -51,7 +51,7 @@ type PlayerState = {
   isTransitioning: boolean
   playSource: PlaySource
   sourceContextId: number | null
-  cachedSongs: Map<number, SongWithMainRelations>
+  cachedSongs: LRUCache<number, SongWithMainRelations>
   isRehydrating: boolean
   hasHydrated: boolean
 }
@@ -145,28 +145,52 @@ const validateQueueIntegrity = (
 }
 
 const updateCachedSong = (
-  set: (state: Partial<PlayerState>) => void,
-  get: () => PlayerStore,
+  set: StoreApi<PlayerStore>["setState"],
+  get: StoreApi<PlayerStore>["getState"],
   id: number,
   song: SongWithMainRelations
 ) => {
-  const newCache = new Map(get().cachedSongs)
+  const oldCache = get().cachedSongs
+  const maxSize = oldCache.getMaxSize()
+
+  const newCache = new LRUCache<number, SongWithMainRelations>(maxSize)
+
+  for (const [key, value] of oldCache.entries()) {
+    newCache.set(key, value)
+  }
+
   newCache.set(id, song)
+
   set({ cachedSongs: newCache })
 }
 
 const updateCachedSongs = (
-  set: (state: Partial<PlayerState>) => void,
-  get: () => PlayerStore,
+  set: StoreApi<PlayerStore>["setState"],
+  get: StoreApi<PlayerStore>["getState"],
   songs: SongWithMainRelations[]
 ) => {
-  const newCache = new Map(get().cachedSongs)
-  songs.forEach((song) => newCache.set(song.id, song))
+  const oldCache = get().cachedSongs
+  const maxSize = oldCache.getMaxSize()
+
+  const newCache = new LRUCache<number, SongWithMainRelations>(maxSize)
+
+  for (const [key, value] of oldCache.entries()) {
+    newCache.set(key, value)
+  }
+
+  for (const song of songs) {
+    newCache.set(song.id, song)
+  }
+
   set({ cachedSongs: newCache })
 }
 
-const clearCachedSongs = (set: (state: Partial<PlayerState>) => void) => {
-  set({ cachedSongs: new Map() })
+const clearCachedSongs = (
+  set: StoreApi<PlayerStore>["setState"],
+  get: StoreApi<PlayerStore>["getState"]
+) => {
+  const windowSize = get().windowSize || DEFAULT_WINDOW_SIZE
+  set({ cachedSongs: new LRUCache(windowSize) })
 }
 
 export const usePlayerStore = create<PlayerStore>()(
@@ -195,7 +219,7 @@ export const usePlayerStore = create<PlayerStore>()(
       isTransitioning: false,
       playSource: "unknown",
       sourceContextId: null,
-      cachedSongs: new Map(),
+      cachedSongs: new LRUCache<number, SongWithMainRelations>(DEFAULT_WINDOW_SIZE),
       isRehydrating: false,
       hasHydrated: false,
       validateAndUpdateState: async () => {
@@ -481,7 +505,7 @@ export const usePlayerStore = create<PlayerStore>()(
         })
 
         try {
-          clearCachedSongs(set)
+          clearCachedSongs(set, get)
 
           const allIds = songIds.filter((id) => typeof id === "number")
           if (allIds.length !== songIds.length) {
@@ -1403,7 +1427,7 @@ export const usePlayerStore = create<PlayerStore>()(
                     return
                   }
 
-                  const cachedSongsMap = new Map<number, SongWithMainRelations>()
+                  const cachedSongsMap = new LRUCache<number, SongWithMainRelations>(windowSize)
                   windowSongs.forEach((s) => cachedSongsMap.set(s.id, s))
 
                   usePlayerStore.setState({ cachedSongs: cachedSongsMap })
