@@ -79,7 +79,7 @@ export const russian: Language = {
       neverPlayed: "Никогда не воспроизводилось",
       streak: "Серия",
       refresh: "Обновить",
-      loadedOfTotal: "{loaded} из {total} загружено"
+      showingOfTotal: "Показано {showing} из {total}"
     },
     form: {
       titles: {

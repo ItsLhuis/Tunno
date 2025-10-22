@@ -79,7 +79,7 @@ export const danish: Language = {
       neverPlayed: "Aldrig afspillet",
       streak: "Serie",
       refresh: "Opdater",
-      loadedOfTotal: "{loaded} af {total} indlæst"
+      showingOfTotal: "Viser {showing} af {total}"
     },
     form: {
       titles: {

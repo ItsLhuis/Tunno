@@ -82,7 +82,7 @@ export type Translations = {
     neverPlayed: string
     streak: string
     refresh: string
-    loadedOfTotal: string
+    showingOfTotal: string
   }
   form: {
     titles: {

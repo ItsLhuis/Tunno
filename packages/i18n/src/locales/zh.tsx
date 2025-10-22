@@ -79,7 +79,7 @@ export const chinese: Language = {
       neverPlayed: "从未播放",
       streak: "连续",
       refresh: "刷新",
-      loadedOfTotal: "已加载 {loaded}/{total}"
+      showingOfTotal: "显示 {showing}/{total}"
     },
     form: {
       titles: {

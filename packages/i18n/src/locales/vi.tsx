@@ -79,7 +79,7 @@ export const vietnamese: Language = {
       neverPlayed: "Chưa bao giờ phát",
       streak: "Chuỗi",
       refresh: "Làm mới",
-      loadedOfTotal: "Đã tải {loaded}/{total}"
+      showingOfTotal: "Hiển thị {showing}/{total}"
     },
     form: {
       titles: {

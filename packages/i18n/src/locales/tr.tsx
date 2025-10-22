@@ -79,7 +79,7 @@ export const turkish: Language = {
       neverPlayed: "Hiç çalınmadı",
       streak: "Seri",
       refresh: "Yenile",
-      loadedOfTotal: "{total} üzerinden {loaded} yüklendi"
+      showingOfTotal: "{total} üzerinden {showing} gösteriliyor"
     },
     form: {
       titles: {

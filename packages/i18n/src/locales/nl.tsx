@@ -79,7 +79,7 @@ export const dutch: Language = {
       neverPlayed: "Nooit afgespeeld",
       streak: "Reeks",
       refresh: "Vernieuwen",
-      loadedOfTotal: "{loaded} van {total} geladen"
+      showingOfTotal: "{showing} van {total} weergegeven"
     },
     form: {
       titles: {

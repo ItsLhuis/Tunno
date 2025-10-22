@@ -79,7 +79,7 @@ export const spanish: Language = {
       neverPlayed: "Nunca reproducido",
       streak: "Racha",
       refresh: "Actualizar",
-      loadedOfTotal: "{loaded} de {total} cargadas"
+      showingOfTotal: "Mostrando {showing} de {total}"
     },
     form: {
       titles: {

@@ -79,7 +79,7 @@ export const italian: Language = {
       neverPlayed: "Mai riprodotto",
       streak: "Serie",
       refresh: "Aggiorna",
-      loadedOfTotal: "{loaded} di {total} caricate"
+      showingOfTotal: "Visualizzazione di {showing} su {total}"
     },
     form: {
       titles: {

@@ -79,7 +79,7 @@ export const hindi: Language = {
       neverPlayed: "कभी नहीं बजाया",
       streak: "स्ट्रीक",
       refresh: "रिफ्रेश करें",
-      loadedOfTotal: "{total} में से {loaded} लोड किए गए"
+      showingOfTotal: "{total} में से {showing} दिखाया जा रहा है"
     },
     form: {
       titles: {

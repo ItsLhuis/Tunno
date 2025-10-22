@@ -79,7 +79,7 @@ export const ukrainian: Language = {
       neverPlayed: "Ніколи не відтворювалося",
       streak: "Серія",
       refresh: "Оновити",
-      loadedOfTotal: "{loaded} з {total} завантажено"
+      showingOfTotal: "Показано {showing} з {total}"
     },
     form: {
       titles: {

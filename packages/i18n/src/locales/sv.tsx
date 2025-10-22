@@ -79,7 +79,7 @@ export const swedish: Language = {
       neverPlayed: "Aldrig spelad",
       streak: "Serie",
       refresh: "Uppdatera",
-      loadedOfTotal: "{loaded} av {total} laddade"
+      showingOfTotal: "Visar {showing} av {total}"
     },
     form: {
       titles: {

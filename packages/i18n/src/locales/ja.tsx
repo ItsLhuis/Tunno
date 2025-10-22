@@ -79,7 +79,7 @@ export const japanese: Language = {
       neverPlayed: "再生されたことがない",
       streak: "ストリーク",
       refresh: "更新",
-      loadedOfTotal: "{total}のうち{loaded}読み込み済み"
+      showingOfTotal: "{total}件中{showing}件を表示"
     },
     form: {
       titles: {

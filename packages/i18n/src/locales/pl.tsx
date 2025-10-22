@@ -79,7 +79,7 @@ export const polish: Language = {
       neverPlayed: "Nigdy nie odtwarzane",
       streak: "Seria",
       refresh: "Odśwież",
-      loadedOfTotal: "{loaded} z {total} załadowanych"
+      showingOfTotal: "Wyświetlanie {showing} z {total}"
     },
     form: {
       titles: {

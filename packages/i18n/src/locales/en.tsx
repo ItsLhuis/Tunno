@@ -79,7 +79,7 @@ export const english: Language = {
       neverPlayed: "Never played",
       streak: "Streak",
       refresh: "Refresh",
-      loadedOfTotal: "{loaded} of {total} loaded"
+      showingOfTotal: "Showing {showing} of {total}"
     },
     form: {
       titles: {

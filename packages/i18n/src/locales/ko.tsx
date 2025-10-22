@@ -79,7 +79,7 @@ export const korean: Language = {
       neverPlayed: "재생된 적 없음",
       streak: "연속",
       refresh: "새로고침",
-      loadedOfTotal: "{total}개 중 {loaded}개 로드됨"
+      showingOfTotal: "{total}개 중 {showing}개 표시"
     },
     form: {
       titles: {
