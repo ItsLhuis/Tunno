@@ -1,6 +1,6 @@
 import fs from "fs"
-import path from "path"
 import os from "os"
+import path from "path"
 
 import chalk from "chalk"
 
@@ -82,7 +82,7 @@ const validateDownloadPath = async (downloadPath: string): Promise<string> => {
   return resolvedPath.endsWith(path.sep) ? resolvedPath : resolvedPath + path.sep
 }
 
-const ensureConfigFileExists = async (): Promise<void> => {
+const ensureConfigFileExists = async (validatePath = true): Promise<void> => {
   if (!fs.existsSync(configPath)) {
     const defaultConfig: Config = { downloadPath: defaultDownloadPath, env: {} }
 
@@ -91,9 +91,11 @@ const ensureConfigFileExists = async (): Promise<void> => {
     try {
       let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
-      config.downloadPath = await validateDownloadPath(config.downloadPath || defaultDownloadPath)
+      if (validatePath) {
+        config.downloadPath = await validateDownloadPath(config.downloadPath || defaultDownloadPath)
 
-      fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
+      }
     } catch (error) {
       const defaultConfig: Config = { downloadPath: defaultDownloadPath, env: {} }
 
@@ -103,7 +105,7 @@ const ensureConfigFileExists = async (): Promise<void> => {
 }
 
 export const setDownloadPath = async (downloadPath: string): Promise<string> => {
-  await ensureConfigFileExists()
+  await ensureConfigFileExists(false)
 
   let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
