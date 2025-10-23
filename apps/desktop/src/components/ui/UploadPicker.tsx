@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useEffect, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -54,6 +54,9 @@ export type UploadPickerProps = {
   description?: string
   storageDir?: keyof AppPaths
   displayName?: string
+  trigger?: ReactNode
+  hideDefaultTrigger?: boolean
+  showPreview?: boolean
 }
 
 const UploadPicker = ({
@@ -70,7 +73,10 @@ const UploadPicker = ({
   title,
   description,
   storageDir,
-  displayName
+  displayName,
+  trigger,
+  hideDefaultTrigger = false,
+  showPreview = true
 }: UploadPickerProps) => {
   const { t } = useTranslation()
 
@@ -241,34 +247,44 @@ const UploadPicker = ({
 
   return (
     <div className={cn("w-full max-w-full space-y-3 overflow-hidden", className)}>
-      <Card className={cn("rounded-md border", className)}>
-        <Button
-          variant="ghost"
-          className="h-auto hover:text-current"
+      {trigger && (
+        <div
           onClick={handleSelectItem}
-          asChild
-          disabled={disabled}
+          className={disabled ? "pointer-events-none opacity-50" : "cursor-pointer"}
         >
-          <CardContent
-            className={cn(
-              "flex flex-col items-center justify-center p-8 text-center",
-              disabled && "opacity-50 hover:bg-inherit"
-            )}
+          {trigger}
+        </div>
+      )}
+      {!hideDefaultTrigger && (
+        <Card className={cn("rounded-md border", className)}>
+          <Button
+            variant="ghost"
+            className="h-auto hover:text-current"
+            onClick={handleSelectItem}
+            asChild
+            disabled={disabled}
           >
-            <Icon
-              name={mode === "folder" ? "FolderOpen" : "Upload"}
-              className="!size-10 text-muted-foreground"
-            />
-            <div className="space-y-2">
-              <Typography variant="h4">{getDisplayText()}</Typography>
-              <Typography affects={["muted", "small"]} className="whitespace-break-spaces">
-                {getDescriptionText()}
-              </Typography>
-            </div>
-          </CardContent>
-        </Button>
-      </Card>
-      {item && (
+            <CardContent
+              className={cn(
+                "flex flex-col items-center justify-center p-8 text-center",
+                disabled && "opacity-50 hover:bg-inherit"
+              )}
+            >
+              <Icon
+                name={mode === "folder" ? "FolderOpen" : "Upload"}
+                className="!size-10 text-muted-foreground"
+              />
+              <div className="space-y-2">
+                <Typography variant="h4">{getDisplayText()}</Typography>
+                <Typography affects={["muted", "small"]} className="whitespace-break-spaces">
+                  {getDescriptionText()}
+                </Typography>
+              </div>
+            </CardContent>
+          </Button>
+        </Card>
+      )}
+      {showPreview && item && (
         <div className="space-y-3">
           <Card className="w-full overflow-hidden p-3">
             <div className="flex w-full items-center gap-3">

@@ -4,17 +4,21 @@ import { cn } from "@lib/utils"
 
 import { getRenderableFileSrc } from "@services/storage"
 
+import type { AppPaths } from "@lib/appStorage"
+
 import { Fade } from "@components/ui/Fade"
 import { Icon, type IconProps } from "@components/ui/Icon"
 import { Image, type ImageProps } from "@components/ui/Image"
 
 export type ThumbnailProps = ImageProps & {
   placeholderIcon: IconProps["name"]
-  fileName: string | undefined | null
+  fileName: string | Promise<string> | undefined | null
+  sourceDir?: keyof Omit<AppPaths, "songs">
 }
 
 const Thumbnail = ({
   fileName,
+  sourceDir = "thumbnails",
   placeholderIcon,
   containerClassName,
   className,
@@ -29,11 +33,13 @@ const Thumbnail = ({
         return
       }
 
-      const url = await getRenderableFileSrc(fileName, "thumbnails")
+      const resolvedFileName = await Promise.resolve(fileName)
+
+      const url = await getRenderableFileSrc(resolvedFileName, sourceDir)
       setSrc(url)
     }
     load()
-  }, [fileName])
+  }, [fileName, sourceDir])
 
   if (!fileName) {
     return (

@@ -29,6 +29,8 @@ export type VirtualizedListWithHeadersProps<TItem> = Omit<
     ListEmptyComponent?: ComponentType
     stickyHeaderContainerClassName?: string
     containerClassName?: string
+    onScrollRef?: (ref: React.RefObject<HTMLDivElement>) => void
+    onController?: (controller: VirtualizedListController<TItem>) => void
   }
 
 const VirtualizedListWithHeaders = <TItem,>({
@@ -41,6 +43,8 @@ const VirtualizedListWithHeaders = <TItem,>({
   stickHeaderThreshold = 0,
   containerClassName,
   className,
+  onScrollRef,
+  onController,
   ...props
 }: VirtualizedListWithHeadersProps<TItem>) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -70,6 +74,20 @@ const VirtualizedListWithHeaders = <TItem,>({
       return () => clearTimeout(timer)
     }
   }, [calculateHeaderHeight, controller])
+
+  // Expose scroll ref to parent
+  useEffect(() => {
+    if (onScrollRef && scrollRef.current) {
+      onScrollRef(scrollRef)
+    }
+  }, [onScrollRef])
+
+  // Expose controller to parent
+  useEffect(() => {
+    if (onController && controller) {
+      onController(controller)
+    }
+  }, [onController, controller])
 
   const isListEmpty = props.data.length === 0
 
