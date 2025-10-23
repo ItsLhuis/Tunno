@@ -8,6 +8,8 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import { useAllStoresHydrated } from "@utils/stores"
 
+import { cleanupAllFastUploadCache } from "@features/fastUpload/api/tauri"
+
 import { QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
@@ -43,6 +45,7 @@ const Main = () => {
     if (!allStoresHydrated) return
 
     const showMainWindow = async () => {
+      await cleanupAllFastUploadCache()
       await new Promise((resolve) => setTimeout(resolve, 300))
       await getCurrentWindow().show()
       if (!import.meta.env.DEV) await getCurrentWindow().setFocus()
