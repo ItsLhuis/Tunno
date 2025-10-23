@@ -79,7 +79,9 @@ export const polish: Language = {
       neverPlayed: "Nigdy nie odtwarzane",
       streak: "Seria",
       refresh: "Odśwież",
-      showingOfTotal: "Wyświetlanie {showing} z {total}"
+      showingOfTotal: "Wyświetlanie {showing} z {total}",
+      start: "Rozpocznij",
+      completed: "Zakończono"
     },
     form: {
       titles: {
@@ -507,7 +509,32 @@ export const polish: Language = {
       }
     },
     fastUpload: {
-      title: "Szybkie przesyłanie"
+      title: "Szybkie przesyłanie",
+      selectBundle: "Wybierz pakiet",
+      changeBundle: "Zmień pakiet",
+      status: {
+        pending: "Oczekuje",
+        processing: "Przetwarzanie",
+        success: "Sukces",
+        error: "Błąd",
+        skipped: "Pominięto"
+      },
+      completed: {
+        allSuccess: {
+          title: "Import zakończony!",
+          description:
+            "{count} utwór{count, plural, one {} other{s}} zaimportowany{count, plural, one {} other{s}} pomyślnie"
+        },
+        withErrors: {
+          title: "Import zakończony z błędami",
+          description:
+            "{successCount} zaimportowano, {errorCount} nie powiodło się, {skippedCount} pominięto"
+        },
+        withSkipped: {
+          title: "Import zakończony",
+          description: "{successCount} zaimportowano, {skippedCount} pominięto"
+        }
+      }
     },
     languages: {
       da: "Duński",

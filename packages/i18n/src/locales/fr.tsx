@@ -79,7 +79,9 @@ export const french: Language = {
       neverPlayed: "Jamais joué",
       streak: "Série",
       refresh: "Actualiser",
-      showingOfTotal: "Affichage de {showing} sur {total}"
+      showingOfTotal: "Affichage de {showing} sur {total}",
+      start: "Démarrer",
+      completed: "Terminé"
     },
     form: {
       titles: {
@@ -508,7 +510,31 @@ export const french: Language = {
       }
     },
     fastUpload: {
-      title: "Téléversement rapide"
+      title: "Téléversement rapide",
+      selectBundle: "Sélectionner le paquet",
+      changeBundle: "Changer le paquet",
+      status: {
+        pending: "En attente",
+        processing: "Traitement",
+        success: "Succès",
+        error: "Erreur",
+        skipped: "Ignoré"
+      },
+      completed: {
+        allSuccess: {
+          title: "Importation Terminée !",
+          description:
+            "{count} piste{count, plural, one {} other{s}} importée{count, plural, one {} other{s}} avec succès"
+        },
+        withErrors: {
+          title: "Importation Terminée avec des Erreurs",
+          description: "{successCount} importées, {errorCount} échouées, {skippedCount} ignorées"
+        },
+        withSkipped: {
+          title: "Importation Terminée",
+          description: "{successCount} importées, {skippedCount} ignorées"
+        }
+      }
     },
     languages: {
       da: "Danois",

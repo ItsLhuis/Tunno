@@ -79,7 +79,9 @@ export const danish: Language = {
       neverPlayed: "Aldrig afspillet",
       streak: "Serie",
       refresh: "Opdater",
-      showingOfTotal: "Viser {showing} af {total}"
+      showingOfTotal: "Viser {showing} af {total}",
+      start: "Start",
+      completed: "Fuldført"
     },
     form: {
       titles: {
@@ -507,7 +509,31 @@ export const danish: Language = {
       }
     },
     fastUpload: {
-      title: "Hurtig Upload"
+      title: "Hurtig Upload",
+      selectBundle: "Vælg pakke",
+      changeBundle: "Skift pakke",
+      status: {
+        pending: "Afventer",
+        processing: "Behandler",
+        success: "Succes",
+        error: "Fejl",
+        skipped: "Sprunget over"
+      },
+      completed: {
+        allSuccess: {
+          title: "Import fuldført!",
+          description: "{count} spor importeret succesfuldt"
+        },
+        withErrors: {
+          title: "Import fuldført med fejl",
+          description:
+            "{successCount} importeret, {errorCount} mislykkedes, {skippedCount} sprunget over"
+        },
+        withSkipped: {
+          title: "Import fuldført",
+          description: "{successCount} importeret, {skippedCount} sprunget over"
+        }
+      }
     },
     languages: {
       da: "Dansk",

@@ -79,7 +79,9 @@ export const italian: Language = {
       neverPlayed: "Mai riprodotto",
       streak: "Serie",
       refresh: "Aggiorna",
-      showingOfTotal: "Visualizzazione di {showing} su {total}"
+      showingOfTotal: "Visualizzazione di {showing} su {total}",
+      start: "Avvia",
+      completed: "Completato"
     },
     form: {
       titles: {
@@ -508,7 +510,31 @@ export const italian: Language = {
       }
     },
     fastUpload: {
-      title: "Caricamento veloce"
+      title: "Caricamento veloce",
+      selectBundle: "Seleziona pacchetto",
+      changeBundle: "Cambia pacchetto",
+      status: {
+        pending: "In attesa",
+        processing: "Elaborazione",
+        success: "Successo",
+        error: "Errore",
+        skipped: "Saltato"
+      },
+      completed: {
+        allSuccess: {
+          title: "Importazione Completata!",
+          description:
+            "{count} traccia{count, plural, one {} other{s}} importata{count, plural, one {} other{s}} con successo"
+        },
+        withErrors: {
+          title: "Importazione Completata con Errori",
+          description: "{successCount} importate, {errorCount} fallite, {skippedCount} saltate"
+        },
+        withSkipped: {
+          title: "Importazione Completata",
+          description: "{successCount} importate, {skippedCount} saltate"
+        }
+      }
     },
     languages: {
       da: "Danese",

@@ -79,7 +79,9 @@ export const japanese: Language = {
       neverPlayed: "再生されたことがない",
       streak: "ストリーク",
       refresh: "更新",
-      showingOfTotal: "{total}件中{showing}件を表示"
+      showingOfTotal: "{total}件中{showing}件を表示",
+      start: "開始",
+      completed: "完了"
     },
     form: {
       titles: {
@@ -507,7 +509,30 @@ export const japanese: Language = {
       }
     },
     fastUpload: {
-      title: "高速アップロード"
+      title: "高速アップロード",
+      selectBundle: "バンドルを選択",
+      changeBundle: "バンドルを変更",
+      status: {
+        pending: "保留中",
+        processing: "処理中",
+        success: "成功",
+        error: "エラー",
+        skipped: "スキップ"
+      },
+      completed: {
+        allSuccess: {
+          title: "インポート完了！",
+          description: "{count}曲が正常にインポートされました"
+        },
+        withErrors: {
+          title: "エラーありでインポート完了",
+          description: "{successCount}件インポート、{errorCount}件失敗、{skippedCount}件スキップ"
+        },
+        withSkipped: {
+          title: "インポート完了",
+          description: "{successCount}件インポート、{skippedCount}件スキップ"
+        }
+      }
     },
     languages: {
       da: "デンマーク語",

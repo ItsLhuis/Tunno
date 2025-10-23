@@ -79,7 +79,9 @@ export const english: Language = {
       neverPlayed: "Never played",
       streak: "Streak",
       refresh: "Refresh",
-      showingOfTotal: "Showing {showing} of {total}"
+      showingOfTotal: "Showing {showing} of {total}",
+      start: "Start",
+      completed: "Completed"
     },
     form: {
       titles: {
@@ -507,7 +509,30 @@ export const english: Language = {
       }
     },
     fastUpload: {
-      title: "Fast Upload"
+      title: "Fast Upload",
+      selectBundle: "Select bundle",
+      changeBundle: "Change bundle",
+      status: {
+        pending: "Pending",
+        processing: "Processing",
+        success: "Success",
+        error: "Error",
+        skipped: "Skipped"
+      },
+      completed: {
+        allSuccess: {
+          title: "Import Completed!",
+          description: "{count} track{count, plural, one {} other{s}} imported successfully"
+        },
+        withErrors: {
+          title: "Import Completed with Errors",
+          description: "{successCount} imported, {errorCount} failed, {skippedCount} skipped"
+        },
+        withSkipped: {
+          title: "Import Completed",
+          description: "{successCount} imported, {skippedCount} skipped"
+        }
+      }
     },
     languages: {
       da: "Danish",

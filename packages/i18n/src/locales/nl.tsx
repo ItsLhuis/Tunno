@@ -79,7 +79,9 @@ export const dutch: Language = {
       neverPlayed: "Nooit afgespeeld",
       streak: "Reeks",
       refresh: "Vernieuwen",
-      showingOfTotal: "{showing} van {total} weergegeven"
+      showingOfTotal: "{showing} van {total} weergegeven",
+      start: "Start",
+      completed: "Voltooid"
     },
     form: {
       titles: {
@@ -508,7 +510,31 @@ export const dutch: Language = {
       }
     },
     fastUpload: {
-      title: "Snelle upload"
+      title: "Snelle upload",
+      selectBundle: "Pakket selecteren",
+      changeBundle: "Pakket wijzigen",
+      status: {
+        pending: "In behandeling",
+        processing: "Verwerken",
+        success: "Succesvol",
+        error: "Fout",
+        skipped: "Overgeslagen"
+      },
+      completed: {
+        allSuccess: {
+          title: "Importeren voltooid!",
+          description: "{count} track{count, plural, one {} other{s}} succesvol geïmporteerd"
+        },
+        withErrors: {
+          title: "Importeren voltooid met fouten",
+          description:
+            "{successCount} geïmporteerd, {errorCount} mislukt, {skippedCount} overgeslagen"
+        },
+        withSkipped: {
+          title: "Importeren voltooid",
+          description: "{successCount} geïmporteerd, {skippedCount} overgeslagen"
+        }
+      }
     },
     languages: {
       da: "Deens",

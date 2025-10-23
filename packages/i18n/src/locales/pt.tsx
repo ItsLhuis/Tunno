@@ -79,7 +79,9 @@ export const portuguese: Language = {
       neverPlayed: "Nunca reproduzido",
       streak: "Sequência",
       refresh: "Atualizar",
-      showingOfTotal: "A mostrar {showing} de {total}"
+      showingOfTotal: "A mostrar {showing} de {total}",
+      start: "Iniciar",
+      completed: "Concluído"
     },
     form: {
       titles: {
@@ -508,7 +510,31 @@ export const portuguese: Language = {
       }
     },
     fastUpload: {
-      title: "Upload Rápido"
+      title: "Upload Rápido",
+      selectBundle: "Selecionar pacote",
+      changeBundle: "Alterar pacote",
+      status: {
+        pending: "Pendente",
+        processing: "Processando",
+        success: "Sucesso",
+        error: "Erro",
+        skipped: "Ignorado"
+      },
+      completed: {
+        allSuccess: {
+          title: "Importação Concluída!",
+          description:
+            "{count} música{count, plural, one {} other{s}} importada{count, plural, one {} other{s}} com sucesso"
+        },
+        withErrors: {
+          title: "Importação Concluída com Erros",
+          description: "{successCount} importadas, {errorCount} falharam, {skippedCount} ignoradas"
+        },
+        withSkipped: {
+          title: "Importação Concluída",
+          description: "{successCount} importadas, {skippedCount} ignoradas"
+        }
+      }
     },
     languages: {
       da: "Dinamarquês",

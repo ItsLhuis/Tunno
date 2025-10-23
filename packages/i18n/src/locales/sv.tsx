@@ -79,7 +79,9 @@ export const swedish: Language = {
       neverPlayed: "Aldrig spelad",
       streak: "Serie",
       refresh: "Uppdatera",
-      showingOfTotal: "Visar {showing} av {total}"
+      showingOfTotal: "Visar {showing} av {total}",
+      start: "Starta",
+      completed: "Slutförd"
     },
     form: {
       titles: {
@@ -507,7 +509,31 @@ export const swedish: Language = {
       }
     },
     fastUpload: {
-      title: "Snabb uppladdning"
+      title: "Snabb uppladdning",
+      selectBundle: "Välj paket",
+      changeBundle: "Ändra paket",
+      status: {
+        pending: "Väntar",
+        processing: "Bearbetar",
+        success: "Lyckades",
+        error: "Fel",
+        skipped: "Hoppades över"
+      },
+      completed: {
+        allSuccess: {
+          title: "Import slutförd!",
+          description: "{count} spår importerade framgångsrikt"
+        },
+        withErrors: {
+          title: "Import slutförd med fel",
+          description:
+            "{successCount} importerade, {errorCount} misslyckades, {skippedCount} hoppades över"
+        },
+        withSkipped: {
+          title: "Import slutförd",
+          description: "{successCount} importerade, {skippedCount} hoppades över"
+        }
+      }
     },
     languages: {
       da: "Danska",

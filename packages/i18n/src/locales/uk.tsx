@@ -79,7 +79,9 @@ export const ukrainian: Language = {
       neverPlayed: "Ніколи не відтворювалося",
       streak: "Серія",
       refresh: "Оновити",
-      showingOfTotal: "Показано {showing} з {total}"
+      showingOfTotal: "Показано {showing} з {total}",
+      start: "Почати",
+      completed: "Завершено"
     },
     form: {
       titles: {
@@ -507,7 +509,31 @@ export const ukrainian: Language = {
       }
     },
     fastUpload: {
-      title: "Швидке завантаження"
+      title: "Швидке завантаження",
+      selectBundle: "Вибрати пакет",
+      changeBundle: "Змінити пакет",
+      status: {
+        pending: "Очікування",
+        processing: "Обробка",
+        success: "Успіх",
+        error: "Помилка",
+        skipped: "Пропущено"
+      },
+      completed: {
+        allSuccess: {
+          title: "Імпорт завершено!",
+          description: "{count} трек{count, plural, one {} other{s}} успішно імпортовано"
+        },
+        withErrors: {
+          title: "Імпорт завершено з помилками",
+          description:
+            "{successCount} імпортовано, {errorCount} не вдалося, {skippedCount} пропущено"
+        },
+        withSkipped: {
+          title: "Імпорт завершено",
+          description: "{successCount} імпортовано, {skippedCount} пропущено"
+        }
+      }
     },
     languages: {
       da: "Данська",

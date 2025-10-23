@@ -79,7 +79,9 @@ export const korean: Language = {
       neverPlayed: "재생된 적 없음",
       streak: "연속",
       refresh: "새로고침",
-      showingOfTotal: "{total}개 중 {showing}개 표시"
+      showingOfTotal: "{total}개 중 {showing}개 표시",
+      start: "시작",
+      completed: "완료"
     },
     form: {
       titles: {
@@ -507,7 +509,30 @@ export const korean: Language = {
       }
     },
     fastUpload: {
-      title: "빠른 업로드"
+      title: "빠른 업로드",
+      selectBundle: "번들 선택",
+      changeBundle: "번들 변경",
+      status: {
+        pending: "대기 중",
+        processing: "처리 중",
+        success: "성공",
+        error: "오류",
+        skipped: "건너뜀"
+      },
+      completed: {
+        allSuccess: {
+          title: "가져오기 완료!",
+          description: "{count}개 트랙이 성공적으로 가져와졌습니다"
+        },
+        withErrors: {
+          title: "오류와 함께 가져오기 완료",
+          description: "{successCount}개 가져옴, {errorCount}개 실패, {skippedCount}개 건너뜀"
+        },
+        withSkipped: {
+          title: "가져오기 완료",
+          description: "{successCount}개 가져옴, {skippedCount}개 건너뜀"
+        }
+      }
     },
     languages: {
       da: "덴마크어",

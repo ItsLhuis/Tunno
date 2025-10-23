@@ -79,7 +79,9 @@ export const hindi: Language = {
       neverPlayed: "कभी नहीं बजाया",
       streak: "स्ट्रीक",
       refresh: "रिफ्रेश करें",
-      showingOfTotal: "{total} में से {showing} दिखाया जा रहा है"
+      showingOfTotal: "{total} में से {showing} दिखाया जा रहा है",
+      start: "शुरू करें",
+      completed: "पूरा हुआ"
     },
     form: {
       titles: {
@@ -507,7 +509,30 @@ export const hindi: Language = {
       }
     },
     fastUpload: {
-      title: "तेज़ अपलोड"
+      title: "तेज़ अपलोड",
+      selectBundle: "बंडल चुनें",
+      changeBundle: "बंडल बदलें",
+      status: {
+        pending: "लंबित",
+        processing: "प्रसंस्करण",
+        success: "सफल",
+        error: "त्रुटि",
+        skipped: "छोड़ा गया"
+      },
+      completed: {
+        allSuccess: {
+          title: "आयात पूरा!",
+          description: "{count} ट्रैक सफलतापूर्वक आयात किया गया"
+        },
+        withErrors: {
+          title: "त्रुटियों के साथ आयात पूरा",
+          description: "{successCount} आयात किया, {errorCount} असफल, {skippedCount} छोड़ा गया"
+        },
+        withSkipped: {
+          title: "आयात पूरा",
+          description: "{successCount} आयात किया, {skippedCount} छोड़ा गया"
+        }
+      }
     },
     languages: {
       da: "डेनिश",

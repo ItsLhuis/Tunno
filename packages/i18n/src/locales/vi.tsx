@@ -79,7 +79,9 @@ export const vietnamese: Language = {
       neverPlayed: "Chưa bao giờ phát",
       streak: "Chuỗi",
       refresh: "Làm mới",
-      showingOfTotal: "Hiển thị {showing}/{total}"
+      showingOfTotal: "Hiển thị {showing}/{total}",
+      start: "Bắt đầu",
+      completed: "Hoàn thành"
     },
     form: {
       titles: {
@@ -507,7 +509,30 @@ export const vietnamese: Language = {
       }
     },
     fastUpload: {
-      title: "Tải lên nhanh"
+      title: "Tải lên nhanh",
+      selectBundle: "Chọn gói",
+      changeBundle: "Thay đổi gói",
+      status: {
+        pending: "Đang chờ",
+        processing: "Đang xử lý",
+        success: "Thành công",
+        error: "Lỗi",
+        skipped: "Bỏ qua"
+      },
+      completed: {
+        allSuccess: {
+          title: "Nhập khẩu hoàn thành!",
+          description: "{count} bài hát đã được nhập khẩu thành công"
+        },
+        withErrors: {
+          title: "Nhập khẩu hoàn thành với lỗi",
+          description: "{successCount} đã nhập khẩu, {errorCount} thất bại, {skippedCount} bỏ qua"
+        },
+        withSkipped: {
+          title: "Nhập khẩu hoàn thành",
+          description: "{successCount} đã nhập khẩu, {skippedCount} bỏ qua"
+        }
+      }
     },
     languages: {
       da: "Tiếng Đan Mạch",

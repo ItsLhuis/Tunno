@@ -79,7 +79,9 @@ export const turkish: Language = {
       neverPlayed: "Hiç çalınmadı",
       streak: "Seri",
       refresh: "Yenile",
-      showingOfTotal: "{total} üzerinden {showing} gösteriliyor"
+      showingOfTotal: "{total} üzerinden {showing} gösteriliyor",
+      start: "Başlat",
+      completed: "Tamamlandı"
     },
     form: {
       titles: {
@@ -507,7 +509,31 @@ export const turkish: Language = {
       }
     },
     fastUpload: {
-      title: "Hızlı Yükleme"
+      title: "Hızlı Yükleme",
+      selectBundle: "Paket seç",
+      changeBundle: "Paketi değiştir",
+      status: {
+        pending: "Beklemede",
+        processing: "İşleniyor",
+        success: "Başarılı",
+        error: "Hata",
+        skipped: "Atlandı"
+      },
+      completed: {
+        allSuccess: {
+          title: "İçe Aktarma Tamamlandı!",
+          description: "{count} parça başarıyla içe aktarıldı"
+        },
+        withErrors: {
+          title: "Hatalarla İçe Aktarma Tamamlandı",
+          description:
+            "{successCount} içe aktarıldı, {errorCount} başarısız, {skippedCount} atlandı"
+        },
+        withSkipped: {
+          title: "İçe Aktarma Tamamlandı",
+          description: "{successCount} içe aktarıldı, {skippedCount} atlandı"
+        }
+      }
     },
     languages: {
       da: "Danca",

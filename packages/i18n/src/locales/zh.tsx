@@ -79,7 +79,9 @@ export const chinese: Language = {
       neverPlayed: "从未播放",
       streak: "连续",
       refresh: "刷新",
-      showingOfTotal: "显示 {showing}/{total}"
+      showingOfTotal: "显示 {showing}/{total}",
+      start: "开始",
+      completed: "完成"
     },
     form: {
       titles: {
@@ -507,7 +509,30 @@ export const chinese: Language = {
       }
     },
     fastUpload: {
-      title: "快速上传"
+      title: "快速上传",
+      selectBundle: "选择包",
+      changeBundle: "更改包",
+      status: {
+        pending: "待处理",
+        processing: "处理中",
+        success: "成功",
+        error: "错误",
+        skipped: "跳过"
+      },
+      completed: {
+        allSuccess: {
+          title: "导入完成！",
+          description: "成功导入 {count} 首歌曲"
+        },
+        withErrors: {
+          title: "导入完成（有错误）",
+          description: "导入 {successCount} 首，失败 {errorCount} 首，跳过 {skippedCount} 首"
+        },
+        withSkipped: {
+          title: "导入完成",
+          description: "导入 {successCount} 首，跳过 {skippedCount} 首"
+        }
+      }
     },
     languages: {
       da: "丹麦语",

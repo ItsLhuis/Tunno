@@ -79,7 +79,9 @@ export const russian: Language = {
       neverPlayed: "Никогда не воспроизводилось",
       streak: "Серия",
       refresh: "Обновить",
-      showingOfTotal: "Показано {showing} из {total}"
+      showingOfTotal: "Показано {showing} из {total}",
+      start: "Начать",
+      completed: "Завершено"
     },
     form: {
       titles: {
@@ -507,7 +509,32 @@ export const russian: Language = {
       }
     },
     fastUpload: {
-      title: "Быстрая загрузка"
+      title: "Быстрая загрузка",
+      selectBundle: "Выбрать пакет",
+      changeBundle: "Изменить пакет",
+      status: {
+        pending: "Ожидание",
+        processing: "Обработка",
+        success: "Успех",
+        error: "Ошибка",
+        skipped: "Пропущено"
+      },
+      completed: {
+        allSuccess: {
+          title: "Импорт завершен!",
+          description:
+            "{count} трек{count, plural, one {} other{s}} успешно импортирован{count, plural, one {} other{s}}"
+        },
+        withErrors: {
+          title: "Импорт завершен с ошибками",
+          description:
+            "{successCount} импортировано, {errorCount} не удалось, {skippedCount} пропущено"
+        },
+        withSkipped: {
+          title: "Импорт завершен",
+          description: "{successCount} импортировано, {skippedCount} пропущено"
+        }
+      }
     },
     languages: {
       da: "Датский",

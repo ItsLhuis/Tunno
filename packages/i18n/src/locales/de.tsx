@@ -79,7 +79,9 @@ export const german: Language = {
       neverPlayed: "Nie gespielt",
       streak: "Serie",
       refresh: "Aktualisieren",
-      showingOfTotal: "{showing} von {total} angezeigt"
+      showingOfTotal: "{showing} von {total} angezeigt",
+      start: "Starten",
+      completed: "Abgeschlossen"
     },
     form: {
       titles: {
@@ -507,7 +509,31 @@ export const german: Language = {
       }
     },
     fastUpload: {
-      title: "Schneller Upload"
+      title: "Schneller Upload",
+      selectBundle: "Paket auswählen",
+      changeBundle: "Paket ändern",
+      status: {
+        pending: "Ausstehend",
+        processing: "Verarbeitung",
+        success: "Erfolg",
+        error: "Fehler",
+        skipped: "Übersprungen"
+      },
+      completed: {
+        allSuccess: {
+          title: "Import Abgeschlossen!",
+          description: "{count} Track{count, plural, one {} other{s}} erfolgreich importiert"
+        },
+        withErrors: {
+          title: "Import mit Fehlern Abgeschlossen",
+          description:
+            "{successCount} importiert, {errorCount} fehlgeschlagen, {skippedCount} übersprungen"
+        },
+        withSkipped: {
+          title: "Import Abgeschlossen",
+          description: "{successCount} importiert, {skippedCount} übersprungen"
+        }
+      }
     },
     languages: {
       da: "Dänisch",

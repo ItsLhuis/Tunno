@@ -83,6 +83,8 @@ export type Translations = {
     streak: string
     refresh: string
     showingOfTotal: string
+    start: string
+    completed: string
   }
   form: {
     titles: {
@@ -511,6 +513,29 @@ export type Translations = {
   }
   fastUpload: {
     title: string
+    selectBundle: string
+    changeBundle: string
+    status: {
+      pending: string
+      processing: string
+      success: string
+      error: string
+      skipped: string
+    }
+    completed: {
+      allSuccess: {
+        title: string
+        description: string
+      }
+      withErrors: {
+        title: string
+        description: string
+      }
+      withSkipped: {
+        title: string
+        description: string
+      }
+    }
   }
   languages: {
     da: string

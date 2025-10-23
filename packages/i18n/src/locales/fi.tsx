@@ -79,7 +79,9 @@ export const finnish: Language = {
       neverPlayed: "Ei koskaan soitettu",
       streak: "Putki",
       refresh: "Päivitä",
-      showingOfTotal: "Näytetään {showing}/{total}"
+      showingOfTotal: "Näytetään {showing}/{total}",
+      start: "Aloita",
+      completed: "Valmis"
     },
     form: {
       titles: {
@@ -507,7 +509,30 @@ export const finnish: Language = {
       }
     },
     fastUpload: {
-      title: "Nopea lataus"
+      title: "Nopea lataus",
+      selectBundle: "Valitse paketti",
+      changeBundle: "Vaihda paketti",
+      status: {
+        pending: "Odottaa",
+        processing: "Käsittelee",
+        success: "Onnistui",
+        error: "Virhe",
+        skipped: "Ohitettu"
+      },
+      completed: {
+        allSuccess: {
+          title: "Tuonti valmis!",
+          description: "{count} kappaletta tuotu onnistuneesti"
+        },
+        withErrors: {
+          title: "Tuonti valmis virheillä",
+          description: "{successCount} tuotu, {errorCount} epäonnistui, {skippedCount} ohitettu"
+        },
+        withSkipped: {
+          title: "Tuonti valmis",
+          description: "{successCount} tuotu, {skippedCount} ohitettu"
+        }
+      }
     },
     languages: {
       da: "Tanska",

@@ -79,7 +79,9 @@ export const spanish: Language = {
       neverPlayed: "Nunca reproducido",
       streak: "Racha",
       refresh: "Actualizar",
-      showingOfTotal: "Mostrando {showing} de {total}"
+      showingOfTotal: "Mostrando {showing} de {total}",
+      start: "Iniciar",
+      completed: "Completado"
     },
     form: {
       titles: {
@@ -508,7 +510,31 @@ export const spanish: Language = {
       }
     },
     fastUpload: {
-      title: "Carga rápida"
+      title: "Carga rápida",
+      selectBundle: "Seleccionar paquete",
+      changeBundle: "Cambiar paquete",
+      status: {
+        pending: "Pendiente",
+        processing: "Procesando",
+        success: "Éxito",
+        error: "Error",
+        skipped: "Omitido"
+      },
+      completed: {
+        allSuccess: {
+          title: "¡Importación Completada!",
+          description:
+            "{count} canción{count, plural, one {} other{s}} importada{count, plural, one {} other{s}} exitosamente"
+        },
+        withErrors: {
+          title: "Importación Completada con Errores",
+          description: "{successCount} importadas, {errorCount} fallaron, {skippedCount} omitidas"
+        },
+        withSkipped: {
+          title: "Importación Completada",
+          description: "{successCount} importadas, {skippedCount} omitidas"
+        }
+      }
     },
     languages: {
       da: "Danés",
