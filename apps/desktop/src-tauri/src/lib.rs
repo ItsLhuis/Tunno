@@ -8,9 +8,11 @@ use tauri::{
 use tauri_plugin_window_state::StateFlags;
 
 mod api;
+mod fastupload;
 mod utils;
 
 use api::commands::*;
+use fastupload::*;
 use utils::*;
 
 #[cfg(debug_assertions)]
@@ -57,7 +59,12 @@ pub fn run() {
             is_server_running,
             get_server_info,
             get_qr_data,
-            get_audio_duration
+            get_audio_duration,
+            fast_upload_copy_bundle_to_cache,
+            fast_upload_extract_manifest,
+            fast_upload_cleanup_cache_directory,
+            fast_upload_check_cache_exists,
+            fast_upload_cleanup_all_cache
         ])
         .setup(|app| {
             #[cfg(desktop)]
