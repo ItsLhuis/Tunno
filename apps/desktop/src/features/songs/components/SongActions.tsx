@@ -8,12 +8,15 @@ import { usePlayerStore } from "../stores/usePlayerStore"
 
 import { useFetchSongByIdWithMainRelations } from "../hooks/useFetchSongByIdWithMainRelations"
 
+import { useRemoveSongsFromPlaylist } from "@features/playlists/hooks/useRemoveSongsFromPlaylist"
+
 import { useToggleSongFavorite } from "../hooks/useToggleSongFavorite"
 
 import { cn } from "@lib/utils"
 
 import { State } from "react-track-player-web"
 
+import { AddToPlaylistForm } from "@features/playlists/components"
 import { SongForm } from "../forms/SongForm"
 import { DeleteSongDialog } from "./DeleteSongDialog"
 
@@ -58,6 +61,7 @@ type SongActionsProps = {
   onEditSong?: (song: SongWithMainRelations) => void
   onDeleteSong?: (song: SongWithMainRelations) => void
   queueIndex?: number
+  playlistId?: number
 }
 
 const SongActions = memo(
@@ -69,12 +73,14 @@ const SongActions = memo(
     className,
     onEditSong,
     onDeleteSong,
-    queueIndex
+    queueIndex,
+    playlistId
   }: SongActionsProps) => {
     const { t } = useTranslation()
 
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isAddToPlaylistOpen, setIsAddToPlaylistOpen] = useState(false)
 
     const artistsScrollRef = useRef<HTMLDivElement | null>(null)
 
@@ -101,6 +107,7 @@ const SongActions = memo(
     )
 
     const toggleFavoriteMutation = useToggleSongFavorite()
+    const removeFromPlaylistMutation = useRemoveSongsFromPlaylist()
 
     const hasMultipleSelections = list && list.selectedIds.length > 1
     const hasSingleSelection = list && list.selectedIds.length === 1
@@ -207,6 +214,15 @@ const SongActions = memo(
     const handleRemoveFromQueue = async () => {
       if (queueIndex !== undefined && queueIndex !== null) {
         await removeFromQueue(queueIndex)
+      }
+    }
+
+    const handleRemoveFromPlaylist = async () => {
+      if (playlistId && finalTargetSong) {
+        await removeFromPlaylistMutation.mutateAsync({
+          playlistId,
+          songIds: [finalTargetSong.id]
+        })
       }
     }
 
@@ -333,7 +349,7 @@ const SongActions = memo(
               <Icon name="ListVideo" />
               {t("common.queue")}
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => setIsAddToPlaylistOpen(true)}>
               <Icon name="ListMusic" />
               {t("common.playlist")}
             </MenuItem>
@@ -367,6 +383,19 @@ const SongActions = memo(
             <MenuItem key="removeFromQueue" onClick={handleRemoveFromQueue}>
               <Icon name="ListX" />
               {t("common.removeFromQueue")}
+            </MenuItem>
+          )
+        }
+
+        if (playlistId !== undefined && playlistId !== null) {
+          actions.push(
+            <MenuItem
+              key="removeFromPlaylist"
+              onClick={handleRemoveFromPlaylist}
+              disabled={removeFromPlaylistMutation.isPending}
+            >
+              <Icon name="ListMusic" />
+              {t("common.removeFromPlaylist")}
             </MenuItem>
           )
         }
@@ -526,6 +555,17 @@ const SongActions = memo(
             <DeleteSongDialog song={finalTargetSong} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
           </>
         )}
+        <AddToPlaylistForm
+          songIds={
+            hasMultipleSelections && list
+              ? list.selectedIds.map(Number)
+              : finalTargetSong
+                ? [finalTargetSong.id]
+                : []
+          }
+          open={isAddToPlaylistOpen}
+          onOpen={setIsAddToPlaylistOpen}
+        />
       </Fragment>
     )
   }
