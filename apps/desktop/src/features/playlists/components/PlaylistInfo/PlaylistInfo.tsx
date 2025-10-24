@@ -103,7 +103,9 @@ const PlaylistInfo = () => {
               estimateItemHeight={70}
               gap={8}
               scrollRef={scrollRef}
-              renderItem={({ item }) => <SongItem song={item} allSongIds={allSongIds} />}
+              renderItem={({ item }) => (
+                <SongItem song={item} allSongIds={allSongIds} playlistId={playlist?.id} />
+              )}
             />
           )}
         </AsyncState>

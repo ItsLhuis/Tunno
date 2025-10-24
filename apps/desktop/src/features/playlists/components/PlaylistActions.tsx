@@ -16,6 +16,7 @@ import { cn } from "@lib/utils"
 
 import { PlaylistForm } from "../forms/PlaylistForm"
 import { DeletePlaylistDialog } from "./DeletePlaylistDialog"
+import { AddToPlaylistForm } from "./AddToPlaylistForm"
 
 import {
   AsyncState,
@@ -70,6 +71,7 @@ const PlaylistActions = ({
 
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [isAddToPlaylistOpen, setIsAddToPlaylistOpen] = useState(false)
 
   const { loadTracks, play, isTrackLoading, addToQueue } = usePlayerStore(
     useShallow((state) => ({
@@ -236,7 +238,7 @@ const PlaylistActions = ({
               <Icon name="ListMusic" />
               {t("common.queue")}
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => setIsAddToPlaylistOpen(true)}>
               <Icon name="ListMusic" />
               {t("common.playlist")}
             </MenuItem>
@@ -419,6 +421,17 @@ const PlaylistActions = ({
           />
         </>
       )}
+      <AddToPlaylistForm
+        songIds={
+          hasMultipleSelections && multipleSongIds
+            ? multipleSongIds
+            : playlistSongs.length > 0
+              ? playlistSongs.map((song) => song.id)
+              : []
+        }
+        open={isAddToPlaylistOpen}
+        onOpen={setIsAddToPlaylistOpen}
+      />
     </Fragment>
   )
 }
