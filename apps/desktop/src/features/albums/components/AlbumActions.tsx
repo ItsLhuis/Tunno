@@ -17,6 +17,8 @@ import { cn } from "@lib/utils"
 import { AlbumForm } from "../forms/AlbumForm"
 import { DeleteAlbumDialog } from "./DeleteAlbumDialog"
 
+import { AddToPlaylistForm } from "@features/playlists/components"
+
 import {
   AsyncState,
   ContextMenu,
@@ -72,6 +74,7 @@ const AlbumActions = ({
 
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [isAddToPlaylistOpen, setIsAddToPlaylistOpen] = useState(false)
 
   const artistsScrollRef = useRef<HTMLDivElement | null>(null)
 
@@ -288,7 +291,7 @@ const AlbumActions = ({
               <Icon name="ListMusic" />
               {t("common.queue")}
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => setIsAddToPlaylistOpen(true)}>
               <Icon name="ListMusic" />
               {t("common.playlist")}
             </MenuItem>
@@ -471,6 +474,17 @@ const AlbumActions = ({
           />
         </>
       )}
+      <AddToPlaylistForm
+        songIds={
+          hasMultipleSelections && multipleSongIds
+            ? multipleSongIds
+            : albumSongs.length > 0
+              ? albumSongs.map((song) => song.id)
+              : []
+        }
+        open={isAddToPlaylistOpen}
+        onOpen={setIsAddToPlaylistOpen}
+      />
     </Fragment>
   )
 }
