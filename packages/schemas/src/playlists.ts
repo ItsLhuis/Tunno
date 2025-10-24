@@ -56,3 +56,11 @@ export const createUpdatePlaylistSchema = (t: TFunction) => {
 }
 
 export type UpdatePlaylistType = z.infer<ReturnType<typeof createUpdatePlaylistSchema>>
+
+export const createAddToPlaylistSchema = (t: TFunction) => {
+  return z.object({
+    playlistIds: z.array(z.number().int().positive(t("validation.playlistIds.invalid")))
+  })
+}
+
+export type AddToPlaylistType = z.infer<ReturnType<typeof createAddToPlaylistSchema>>
