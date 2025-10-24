@@ -53,6 +53,7 @@ export const english: Language = {
       playback: "Playback",
       playNext: "Play next",
       removeFromQueue: "Remove from queue",
+      removeFromPlaylist: "Remove from Playlist",
       nowPlaying: "Now playing",
       upNext: "Up next",
       actions: "Actions",
@@ -97,6 +98,7 @@ export const english: Language = {
         createPlaylist: "Create Playlist",
         updatePlaylist: "Update Playlist",
         deletePlaylist: "Delete Playlist",
+        addToPlaylists: "Add to Playlists",
         confirmation: "Confirmation",
         warning: "Warning",
         lyricsPreview: "Lyrics Preview"
@@ -116,7 +118,8 @@ export const english: Language = {
         cancel: "Cancel",
         delete: "Delete",
         update: "Update",
-        create: "Create"
+        create: "Create",
+        add: "Add"
       },
       descriptions: {
         thumbnail: "Background image (optional)",
@@ -161,6 +164,9 @@ export const english: Language = {
       },
       albumType: {
         invalid: "Invalid album type"
+      },
+      playlistIds: {
+        invalid: "Invalid playlists"
       }
     },
     update: {

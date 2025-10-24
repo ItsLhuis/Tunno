@@ -53,6 +53,7 @@ export const ukrainian: Language = {
       playback: "Відтворення",
       playNext: "Відтворити наступний",
       removeFromQueue: "Видалити з черги",
+      removeFromPlaylist: "Видалити з Плейлисту",
       nowPlaying: "Зараз відтворюється",
       upNext: "Далі",
       actions: "Дії",
@@ -97,6 +98,7 @@ export const ukrainian: Language = {
         createPlaylist: "Створити плейлист",
         updatePlaylist: "Оновити плейлист",
         deletePlaylist: "Видалити плейлист",
+        addToPlaylists: "Додати до Плейлистів",
         confirmation: "Підтвердження",
         warning: "Попередження",
         lyricsPreview: "Попередній перегляд тексту"
@@ -116,7 +118,8 @@ export const ukrainian: Language = {
         cancel: "Скасувати",
         delete: "Видалити",
         update: "Оновити",
-        create: "Створити"
+        create: "Створити",
+        add: "Додати"
       },
       descriptions: {
         thumbnail: "Фонове зображення (необов’язково)",
@@ -161,6 +164,9 @@ export const ukrainian: Language = {
       },
       albumType: {
         invalid: "Недійсний тип альбому"
+      },
+      playlistIds: {
+        invalid: "Недійсні плейлисти"
       }
     },
     update: {

@@ -53,6 +53,7 @@ export const norwegian: Language = {
       playback: "Avspilling",
       playNext: "Spill neste",
       removeFromQueue: "Fjern fra kø",
+      removeFromPlaylist: "Fjern fra Spilleliste",
       nowPlaying: "Spiller nå",
       upNext: "Neste",
       actions: "Handlinger",
@@ -97,6 +98,7 @@ export const norwegian: Language = {
         createPlaylist: "Opprett playlist",
         updatePlaylist: "Oppdater playlist",
         deletePlaylist: "Slett playlist",
+        addToPlaylists: "Legg til i Spillelister",
         confirmation: "Bekreftelse",
         warning: "Advarsel",
         lyricsPreview: "Tekstforhåndsvisning"
@@ -116,7 +118,8 @@ export const norwegian: Language = {
         cancel: "Avbryt",
         delete: "Slett",
         update: "Oppdater",
-        create: "Opprett"
+        create: "Opprett",
+        add: "Legg til"
       },
       descriptions: {
         thumbnail: "Bakgrunnsbilde (valgfritt)",
@@ -161,6 +164,9 @@ export const norwegian: Language = {
       },
       albumType: {
         invalid: "Ugyldig albumtype"
+      },
+      playlistIds: {
+        invalid: "Ugyldige spillelister"
       }
     },
     update: {

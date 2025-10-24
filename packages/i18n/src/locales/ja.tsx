@@ -53,6 +53,7 @@ export const japanese: Language = {
       playback: "再生",
       playNext: "次を再生",
       removeFromQueue: "キューから削除",
+      removeFromPlaylist: "プレイリストから削除",
       nowPlaying: "再生中",
       upNext: "次の曲",
       actions: "アクション",
@@ -97,6 +98,7 @@ export const japanese: Language = {
         createPlaylist: "再生リストを作成",
         updatePlaylist: "再生リストを更新",
         deletePlaylist: "再生リストを削除",
+        addToPlaylists: "プレイリストに追加",
         confirmation: "確認",
         warning: "警告",
         lyricsPreview: "歌詞プレビュー"
@@ -116,7 +118,8 @@ export const japanese: Language = {
         cancel: "キャンセル",
         delete: "削除",
         update: "更新",
-        create: "作成"
+        create: "作成",
+        add: "追加"
       },
       descriptions: {
         thumbnail: "背景画像（任意）",
@@ -161,6 +164,9 @@ export const japanese: Language = {
       },
       albumType: {
         invalid: "無効なアルバムタイプ"
+      },
+      playlistIds: {
+        invalid: "無効なプレイリスト"
       }
     },
     update: {

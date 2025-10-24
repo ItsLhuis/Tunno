@@ -53,6 +53,7 @@ export const vietnamese: Language = {
       playback: "Phát lại",
       playNext: "Phát tiếp theo",
       removeFromQueue: "Xóa khỏi hàng đợi",
+      removeFromPlaylist: "Xóa khỏi Danh Sách Phát",
       nowPlaying: "Đang phát",
       upNext: "Tiếp theo",
       actions: "Hành động",
@@ -97,6 +98,7 @@ export const vietnamese: Language = {
         createPlaylist: "Tạo playlist",
         updatePlaylist: "Cập nhật playlist",
         deletePlaylist: "Xóa playlist",
+        addToPlaylists: "Thêm vào Danh Sách Phát",
         confirmation: "Xác nhận",
         warning: "Cảnh báo",
         lyricsPreview: "Xem trước lời bài hát"
@@ -116,7 +118,8 @@ export const vietnamese: Language = {
         cancel: "Hủy",
         delete: "Xóa",
         update: "Cập nhật",
-        create: "Tạo"
+        create: "Tạo",
+        add: "Thêm"
       },
       descriptions: {
         thumbnail: "Hình nền (tùy chọn)",
@@ -161,6 +164,9 @@ export const vietnamese: Language = {
       },
       albumType: {
         invalid: "Loại album không hợp lệ"
+      },
+      playlistIds: {
+        invalid: "Danh sách phát không hợp lệ"
       }
     },
     update: {

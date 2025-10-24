@@ -53,6 +53,7 @@ export const korean: Language = {
       playback: "재생",
       playNext: "다음 재생",
       removeFromQueue: "대기열에서 제거",
+      removeFromPlaylist: "재생목록에서 제거",
       nowPlaying: "재생 중",
       upNext: "다음 곡",
       actions: "작업",
@@ -97,6 +98,7 @@ export const korean: Language = {
         createPlaylist: "플레이리스트 만들기",
         updatePlaylist: "플레이리스트 업데이트",
         deletePlaylist: "플레이리스트 삭제",
+        addToPlaylists: "재생목록에 추가",
         confirmation: "확인",
         warning: "경고",
         lyricsPreview: "가사 미리보기"
@@ -116,7 +118,8 @@ export const korean: Language = {
         cancel: "취소",
         delete: "삭제",
         update: "업데이트",
-        create: "만들기"
+        create: "만들기",
+        add: "추가"
       },
       descriptions: {
         thumbnail: "배경 이미지 (선택 사항)",
@@ -161,6 +164,9 @@ export const korean: Language = {
       },
       albumType: {
         invalid: "잘못된 앨범 유형"
+      },
+      playlistIds: {
+        invalid: "유효하지 않은 재생목록"
       }
     },
     update: {

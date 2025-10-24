@@ -53,6 +53,7 @@ export const french: Language = {
       playback: "Lecture",
       playNext: "Lire suivant",
       removeFromQueue: "Retirer de la file",
+      removeFromPlaylist: "Retirer de la Playlist",
       nowPlaying: "En cours de lecture",
       upNext: "À suivre",
       actions: "Actions",
@@ -97,6 +98,7 @@ export const french: Language = {
         createPlaylist: "Créer une playlist",
         updatePlaylist: "Mettre à jour la playlist",
         deletePlaylist: "Supprimer la playlist",
+        addToPlaylists: "Ajouter aux Playlists",
         confirmation: "Confirmation",
         warning: "Avertissement",
         lyricsPreview: "Aperçu des paroles"
@@ -116,7 +118,8 @@ export const french: Language = {
         cancel: "Annuler",
         delete: "Supprimer",
         update: "Mettre à jour",
-        create: "Créer"
+        create: "Créer",
+        add: "Ajouter"
       },
       descriptions: {
         thumbnail: "Image de fond (optionnelle)",
@@ -161,6 +164,9 @@ export const french: Language = {
       },
       albumType: {
         invalid: "Type d'album invalide"
+      },
+      playlistIds: {
+        invalid: "Listes de lecture invalides"
       }
     },
     update: {

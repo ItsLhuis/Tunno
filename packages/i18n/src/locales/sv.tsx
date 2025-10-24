@@ -53,6 +53,7 @@ export const swedish: Language = {
       playback: "Uppspelning",
       playNext: "Spela nästa",
       removeFromQueue: "Ta bort från kö",
+      removeFromPlaylist: "Ta bort från Spellista",
       nowPlaying: "Spelar nu",
       upNext: "Nästa",
       actions: "Åtgärder",
@@ -97,6 +98,7 @@ export const swedish: Language = {
         createPlaylist: "Skapa playlist",
         updatePlaylist: "Uppdatera playlist",
         deletePlaylist: "Ta bort playlist",
+        addToPlaylists: "Lägg till i Spellistor",
         confirmation: "Bekräftelse",
         warning: "Varning",
         lyricsPreview: "Textförhandsvisning"
@@ -116,7 +118,8 @@ export const swedish: Language = {
         cancel: "Avbryt",
         delete: "Ta bort",
         update: "Uppdatera",
-        create: "Skapa"
+        create: "Skapa",
+        add: "Lägg till"
       },
       descriptions: {
         thumbnail: "Bakgrundsbild (valfri)",
@@ -161,6 +164,9 @@ export const swedish: Language = {
       },
       albumType: {
         invalid: "Ogiltig albumtyp"
+      },
+      playlistIds: {
+        invalid: "Ogiltiga spellistor"
       }
     },
     update: {

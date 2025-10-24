@@ -53,6 +53,7 @@ export const turkish: Language = {
       playback: "Oynatma",
       playNext: "Sonrakini çal",
       removeFromQueue: "Kuyruktan kaldır",
+      removeFromPlaylist: "Çalma Listesinden Kaldır",
       nowPlaying: "Şimdi çalıyor",
       upNext: "Sırada",
       actions: "Eylemler",
@@ -97,6 +98,7 @@ export const turkish: Language = {
         createPlaylist: "Playlist Oluştur",
         updatePlaylist: "Playlist'i Güncelle",
         deletePlaylist: "Playlist'i Sil",
+        addToPlaylists: "Çalma Listelerine Ekle",
         confirmation: "Onay",
         warning: "Uyarı",
         lyricsPreview: "Şarkı Sözleri Önizlemesi"
@@ -116,7 +118,8 @@ export const turkish: Language = {
         cancel: "İptal",
         delete: "Sil",
         update: "Güncelle",
-        create: "Oluştur"
+        create: "Oluştur",
+        add: "Ekle"
       },
       descriptions: {
         thumbnail: "Arka plan resmi (isteğe bağlı)",
@@ -161,6 +164,9 @@ export const turkish: Language = {
       },
       albumType: {
         invalid: "Geçersiz albüm türü"
+      },
+      playlistIds: {
+        invalid: "Geçersiz çalma listeleri"
       }
     },
     update: {

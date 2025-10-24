@@ -53,6 +53,7 @@ export const polish: Language = {
       playback: "Odtwarzanie",
       playNext: "Odtwórz następny",
       removeFromQueue: "Usuń z kolejki",
+      removeFromPlaylist: "Usuń z Listy Odtwarzania",
       nowPlaying: "Teraz odtwarzane",
       upNext: "Następne",
       actions: "Akcje",
@@ -97,6 +98,7 @@ export const polish: Language = {
         createPlaylist: "Utwórz playlist",
         updatePlaylist: "Aktualizuj playlist",
         deletePlaylist: "Usuń playlist",
+        addToPlaylists: "Dodaj do List Odtwarzania",
         confirmation: "Potwierdzenie",
         warning: "Ostrzeżenie",
         lyricsPreview: "Podgląd tekstu"
@@ -116,7 +118,8 @@ export const polish: Language = {
         cancel: "Anuluj",
         delete: "Usuń",
         update: "Aktualizuj",
-        create: "Utwórz"
+        create: "Utwórz",
+        add: "Dodaj"
       },
       descriptions: {
         thumbnail: "Obraz tła (opcjonalnie)",
@@ -161,6 +164,9 @@ export const polish: Language = {
       },
       albumType: {
         invalid: "Nieprawidłowy typ albumu"
+      },
+      playlistIds: {
+        invalid: "Nieprawidłowe listy odtwarzania"
       }
     },
     update: {

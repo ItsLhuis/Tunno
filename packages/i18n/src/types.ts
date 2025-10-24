@@ -56,6 +56,7 @@ export type Translations = {
     playback: string
     playNext: string
     removeFromQueue: string
+    removeFromPlaylist: string
     nowPlaying: string
     upNext: string
     actions: string
@@ -100,6 +101,7 @@ export type Translations = {
       createPlaylist: string
       updatePlaylist: string
       deletePlaylist: string
+      addToPlaylists: string
       confirmation: string
       warning: string
       lyricsPreview: string
@@ -120,6 +122,7 @@ export type Translations = {
       delete: string
       update: string
       create: string
+      add: string
     }
     descriptions: {
       thumbnail: string
@@ -163,6 +166,9 @@ export type Translations = {
       invalid: string
     }
     albumType: {
+      invalid: string
+    }
+    playlistIds: {
       invalid: string
     }
   }

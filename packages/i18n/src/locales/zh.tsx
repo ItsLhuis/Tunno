@@ -53,6 +53,7 @@ export const chinese: Language = {
       playback: "播放",
       playNext: "播放下一首",
       removeFromQueue: "从队列中移除",
+      removeFromPlaylist: "从播放列表中删除",
       nowPlaying: "正在播放",
       upNext: "接下来",
       actions: "操作",
@@ -97,6 +98,7 @@ export const chinese: Language = {
         createPlaylist: "创建歌单",
         updatePlaylist: "更新歌单",
         deletePlaylist: "删除歌单",
+        addToPlaylists: "添加到播放列表",
         confirmation: "确认",
         warning: "警告",
         lyricsPreview: "歌词预览"
@@ -116,7 +118,8 @@ export const chinese: Language = {
         cancel: "取消",
         delete: "删除",
         update: "更新",
-        create: "创建"
+        create: "创建",
+        add: "添加"
       },
       descriptions: {
         thumbnail: "背景图片（可选）",
@@ -161,6 +164,9 @@ export const chinese: Language = {
       },
       albumType: {
         invalid: "无效的专辑类型"
+      },
+      playlistIds: {
+        invalid: "无效的播放列表"
       }
     },
     update: {

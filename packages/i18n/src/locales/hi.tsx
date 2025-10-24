@@ -53,6 +53,7 @@ export const hindi: Language = {
       playback: "प्लेबैक",
       playNext: "अगला चलाएं",
       removeFromQueue: "कतार से हटाएं",
+      removeFromPlaylist: "प्लेलिस्ट से हटाएं",
       nowPlaying: "अभी चल रहा है",
       upNext: "आगे क्या है",
       actions: "क्रियाएं",
@@ -97,6 +98,7 @@ export const hindi: Language = {
         createPlaylist: "गानों की सूची बनाएं",
         updatePlaylist: "गानों की सूची अपडेट करें",
         deletePlaylist: "गानों की सूची हटाएं",
+        addToPlaylists: "प्लेलिस्ट में जोड़ें",
         confirmation: "पुष्टि",
         warning: "चेतावनी",
         lyricsPreview: "गीतों का पूर्वावलोकन"
@@ -116,7 +118,8 @@ export const hindi: Language = {
         cancel: "रद्द करें",
         delete: "हटाएं",
         update: "अपडेट करें",
-        create: "बनाएं"
+        create: "बनाएं",
+        add: "जोड़ें"
       },
       descriptions: {
         thumbnail: "पृष्ठभूमि छवि (वैकल्पिक)",
@@ -161,6 +164,9 @@ export const hindi: Language = {
       },
       albumType: {
         invalid: "अमान्य एल्बम प्रकार"
+      },
+      playlistIds: {
+        invalid: "अमान्य प्लेलिस्ट"
       }
     },
     update: {

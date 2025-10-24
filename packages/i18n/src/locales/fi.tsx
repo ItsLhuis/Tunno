@@ -53,6 +53,7 @@ export const finnish: Language = {
       playback: "Toisto",
       playNext: "Toista seuraava",
       removeFromQueue: "Poista jonosta",
+      removeFromPlaylist: "Poista Soittolistasta",
       nowPlaying: "Nyt soi",
       upNext: "Seuraavaksi",
       actions: "Toiminnot",
@@ -97,6 +98,7 @@ export const finnish: Language = {
         createPlaylist: "Luo playlist",
         updatePlaylist: "Päivitä playlist",
         deletePlaylist: "Poista playlist",
+        addToPlaylists: "Lisää Soittolistoihin",
         confirmation: "Vahvistus",
         warning: "Varoitus",
         lyricsPreview: "Sanoitusten esikatselu"
@@ -116,7 +118,8 @@ export const finnish: Language = {
         cancel: "Peruuta",
         delete: "Poista",
         update: "Päivitä",
-        create: "Luo"
+        create: "Luo",
+        add: "Lisää"
       },
       descriptions: {
         thumbnail: "Taustakuva (valinnainen)",
@@ -161,6 +164,9 @@ export const finnish: Language = {
       },
       albumType: {
         invalid: "Virheellinen albumityyppi"
+      },
+      playlistIds: {
+        invalid: "Virheelliset soittolistat"
       }
     },
     update: {

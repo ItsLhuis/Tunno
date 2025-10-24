@@ -53,6 +53,7 @@ export const portuguese: Language = {
       playback: "Reprodução",
       playNext: "Reproduzir a seguir",
       removeFromQueue: "Remover da fila",
+      removeFromPlaylist: "Remover da Playlist",
       nowPlaying: "A tocar agora",
       upNext: "A seguir",
       actions: "Acções",
@@ -97,6 +98,7 @@ export const portuguese: Language = {
         createPlaylist: "Criar Playlist",
         updatePlaylist: "Atualizar Playlist",
         deletePlaylist: "Eliminar Playlist",
+        addToPlaylists: "Adicionar às Playlists",
         confirmation: "Confirmação",
         warning: "Aviso",
         lyricsPreview: "Pré-visualização da Letra"
@@ -116,7 +118,8 @@ export const portuguese: Language = {
         cancel: "Cancelar",
         delete: "Eliminar",
         update: "Atualizar",
-        create: "Criar"
+        create: "Criar",
+        add: "Adicionar"
       },
       descriptions: {
         thumbnail: "Imagem de fundo (opcional)",
@@ -161,6 +164,9 @@ export const portuguese: Language = {
       },
       albumType: {
         invalid: "Tipo de álbum inválido"
+      },
+      playlistIds: {
+        invalid: "Playlists inválidas"
       }
     },
     update: {

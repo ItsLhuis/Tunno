@@ -53,6 +53,7 @@ export const german: Language = {
       playback: "Wiedergabe",
       playNext: "Als nächstes abspielen",
       removeFromQueue: "Aus Warteschlange entfernen",
+      removeFromPlaylist: "Aus Playlist Entfernen",
       nowPlaying: "Wird abgespielt",
       upNext: "Als nächstes",
       actions: "Aktionen",
@@ -97,6 +98,7 @@ export const german: Language = {
         createPlaylist: "Playlist Erstellen",
         updatePlaylist: "Playlist Aktualisieren",
         deletePlaylist: "Playlist Löschen",
+        addToPlaylists: "Zu Playlists Hinzufügen",
         confirmation: "Bestätigung",
         warning: "Warnung",
         lyricsPreview: "Songtexte Vorschau"
@@ -116,7 +118,8 @@ export const german: Language = {
         cancel: "Abbrechen",
         delete: "Löschen",
         update: "Aktualisieren",
-        create: "Erstellen"
+        create: "Erstellen",
+        add: "Hinzufügen"
       },
       descriptions: {
         thumbnail: "Hintergrundbild (optional)",
@@ -161,6 +164,9 @@ export const german: Language = {
       },
       albumType: {
         invalid: "Ungültiger Albumtyp"
+      },
+      playlistIds: {
+        invalid: "Ungültige Playlists"
       }
     },
     update: {

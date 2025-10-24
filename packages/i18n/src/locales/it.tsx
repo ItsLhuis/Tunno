@@ -53,6 +53,7 @@ export const italian: Language = {
       playback: "Riproduzione",
       playNext: "Riproduci successivo",
       removeFromQueue: "Rimuovi dalla coda",
+      removeFromPlaylist: "Rimuovi dalla Playlist",
       nowPlaying: "In riproduzione",
       upNext: "Prossimo",
       actions: "Azioni",
@@ -97,6 +98,7 @@ export const italian: Language = {
         createPlaylist: "Crea Playlist",
         updatePlaylist: "Aggiorna Playlist",
         deletePlaylist: "Elimina Playlist",
+        addToPlaylists: "Aggiungi alle Playlist",
         confirmation: "Conferma",
         warning: "Avviso",
         lyricsPreview: "Anteprima Testo"
@@ -116,7 +118,8 @@ export const italian: Language = {
         cancel: "Annulla",
         delete: "Elimina",
         update: "Aggiorna",
-        create: "Crea"
+        create: "Crea",
+        add: "Aggiungi"
       },
       descriptions: {
         thumbnail: "Immagine di sfondo (opzionale)",
@@ -161,6 +164,9 @@ export const italian: Language = {
       },
       albumType: {
         invalid: "Tipo di album non valido"
+      },
+      playlistIds: {
+        invalid: "Playlist non valide"
       }
     },
     update: {

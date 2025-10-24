@@ -53,6 +53,7 @@ export const spanish: Language = {
       playback: "Reproducción",
       playNext: "Reproducir siguiente",
       removeFromQueue: "Eliminar de la cola",
+      removeFromPlaylist: "Quitar de la Lista de Reproducción",
       nowPlaying: "Reproduciendo ahora",
       upNext: "A continuación",
       actions: "Acciones",
@@ -97,6 +98,7 @@ export const spanish: Language = {
         createPlaylist: "Crear playlist",
         updatePlaylist: "Actualizar playlist",
         deletePlaylist: "Eliminar playlist",
+        addToPlaylists: "Agregar a Listas de Reproducción",
         confirmation: "Confirmación",
         warning: "Advertencia",
         lyricsPreview: "Vista previa de letras"
@@ -116,7 +118,8 @@ export const spanish: Language = {
         cancel: "Cancelar",
         delete: "Eliminar",
         update: "Actualizar",
-        create: "Crear"
+        create: "Crear",
+        add: "Agregar"
       },
       descriptions: {
         thumbnail: "Imagen de fondo (opcional)",
@@ -161,6 +164,9 @@ export const spanish: Language = {
       },
       albumType: {
         invalid: "Tipo de álbum no válido"
+      },
+      playlistIds: {
+        invalid: "Listas de reproducción inválidas"
       }
     },
     update: {

@@ -53,6 +53,7 @@ export const russian: Language = {
       playback: "Воспроизведение",
       playNext: "Воспроизвести следующий",
       removeFromQueue: "Удалить из очереди",
+      removeFromPlaylist: "Удалить из Плейлиста",
       nowPlaying: "Сейчас играет",
       upNext: "Далее",
       actions: "Действия",
@@ -97,6 +98,7 @@ export const russian: Language = {
         createPlaylist: "Создать плейлист",
         updatePlaylist: "Обновить плейлист",
         deletePlaylist: "Удалить плейлист",
+        addToPlaylists: "Добавить в Плейлисты",
         confirmation: "Подтверждение",
         warning: "Предупреждение",
         lyricsPreview: "Предпросмотр текста"
@@ -116,7 +118,8 @@ export const russian: Language = {
         cancel: "Отмена",
         delete: "Удалить",
         update: "Обновить",
-        create: "Создать"
+        create: "Создать",
+        add: "Добавить"
       },
       descriptions: {
         thumbnail: "Фоновое изображение (необязательно)",
@@ -161,6 +164,9 @@ export const russian: Language = {
       },
       albumType: {
         invalid: "Недопустимый тип альбома"
+      },
+      playlistIds: {
+        invalid: "Недопустимые плейлисты"
       }
     },
     update: {

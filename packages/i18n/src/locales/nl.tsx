@@ -53,6 +53,7 @@ export const dutch: Language = {
       playback: "Afspelen",
       playNext: "Volgende afspelen",
       removeFromQueue: "Verwijder uit wachtrij",
+      removeFromPlaylist: "Verwijderen uit Afspeellijst",
       nowPlaying: "Nu aan het spelen",
       upNext: "Hierna",
       actions: "Acties",
@@ -97,6 +98,7 @@ export const dutch: Language = {
         createPlaylist: "Playlist aanmaken",
         updatePlaylist: "Playlist bijwerken",
         deletePlaylist: "Playlist verwijderen",
+        addToPlaylists: "Toevoegen aan Afspeellijsten",
         confirmation: "Bevestiging",
         warning: "Waarschuwing",
         lyricsPreview: "Songtekstvoorbeeld"
@@ -116,7 +118,8 @@ export const dutch: Language = {
         cancel: "Annuleren",
         delete: "Verwijderen",
         update: "Bijwerken",
-        create: "Aanmaken"
+        create: "Aanmaken",
+        add: "Toevoegen"
       },
       descriptions: {
         thumbnail: "Achtergrondafbeelding (optioneel)",
@@ -161,6 +164,9 @@ export const dutch: Language = {
       },
       albumType: {
         invalid: "Ongeldig albumtype"
+      },
+      playlistIds: {
+        invalid: "Ongeldige afspeellijsten"
       }
     },
     update: {

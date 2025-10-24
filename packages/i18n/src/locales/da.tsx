@@ -53,6 +53,7 @@ export const danish: Language = {
       playback: "Afspilning",
       playNext: "Afspil næste",
       removeFromQueue: "Fjern fra kø",
+      removeFromPlaylist: "Fjern fra Spilleliste",
       nowPlaying: "Afspiller nu",
       upNext: "Næste",
       actions: "Handlinger",
@@ -97,6 +98,7 @@ export const danish: Language = {
         createPlaylist: "Opret Playlist",
         updatePlaylist: "Opdatér Playlist",
         deletePlaylist: "Slet Playlist",
+        addToPlaylists: "Tilføj til Spillelister",
         confirmation: "Bekræftelse",
         warning: "Advarsel",
         lyricsPreview: "Forhåndsvisning Af Sangtekster"
@@ -116,7 +118,8 @@ export const danish: Language = {
         cancel: "Annullér",
         delete: "Slet",
         update: "Opdatér",
-        create: "Opret"
+        create: "Opret",
+        add: "Tilføj"
       },
       descriptions: {
         thumbnail: "Baggrundsbillede (valgfrit)",
@@ -161,6 +164,9 @@ export const danish: Language = {
       },
       albumType: {
         invalid: "Ugyldig albumtype"
+      },
+      playlistIds: {
+        invalid: "Ugyldige spillelister"
       }
     },
     update: {
