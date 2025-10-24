@@ -25,9 +25,13 @@ export const insertAlbum = async (
     .returning()
 
   if (artists && artists.length > 0) {
-    await database
-      .insert(schema.albumsToArtists)
-      .values(artists.map((artistId) => ({ albumId: createdAlbum.id, artistId })))
+    await database.insert(schema.albumsToArtists).values(
+      artists.map((artistId, index) => ({
+        albumId: createdAlbum.id,
+        artistId,
+        artistOrder: index
+      }))
+    )
   }
 
   return createdAlbum
@@ -70,9 +74,13 @@ export const updateAlbum = async (
     await database.delete(schema.albumsToArtists).where(eq(schema.albumsToArtists.albumId, id))
 
     if (artists.length > 0) {
-      await database
-        .insert(schema.albumsToArtists)
-        .values(artists.map((artistId) => ({ albumId: id, artistId })))
+      await database.insert(schema.albumsToArtists).values(
+        artists.map((artistId, index) => ({
+          albumId: id,
+          artistId,
+          artistOrder: index
+        }))
+      )
     }
   }
 
