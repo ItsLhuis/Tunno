@@ -8,7 +8,9 @@ import {
   updateFileWithUniqueNameFromPath
 } from "@services/storage"
 
-import { type Playlist, type InsertPlaylist, type UpdatePlaylist } from "@repo/api"
+import { updatePlaylistStats } from "@features/songs/api/stats/playlist"
+
+import { type InsertPlaylist, type Playlist, type UpdatePlaylist } from "@repo/api"
 
 export const insertPlaylist = async (
   playlist: Omit<InsertPlaylist, "thumbnail">,
@@ -89,13 +91,42 @@ export const deletePlaylist = async (id: number): Promise<Playlist> => {
   return deletedPlaylist
 }
 
-export const addSongsToPlaylist = async (playlistId: number, songIds: number[]): Promise<void> => {
-  const playlistSongs = songIds.map((songId) => ({
-    playlistId,
-    songId
-  }))
+export const updateSongsToPlaylists = async (
+  songIds: number[],
+  playlistIds: number[]
+): Promise<void> => {
+  const currentAssociations = await database
+    .select({
+      songId: schema.playlistsToSongs.songId,
+      playlistId: schema.playlistsToSongs.playlistId
+    })
+    .from(schema.playlistsToSongs)
+    .where(inArray(schema.playlistsToSongs.songId, songIds))
 
-  await database.insert(schema.playlistsToSongs).values(playlistSongs)
+  const affectedPlaylistIds = new Set<number>()
+
+  currentAssociations.forEach((assoc) => affectedPlaylistIds.add(assoc.playlistId))
+
+  playlistIds.forEach((id) => affectedPlaylistIds.add(id))
+
+  await database
+    .delete(schema.playlistsToSongs)
+    .where(inArray(schema.playlistsToSongs.songId, songIds))
+
+  if (playlistIds.length > 0) {
+    const newAssociations = songIds.flatMap((songId) =>
+      playlistIds.map((playlistId) => ({
+        songId,
+        playlistId
+      }))
+    )
+
+    await database.insert(schema.playlistsToSongs).values(newAssociations)
+  }
+
+  await Promise.all(
+    Array.from(affectedPlaylistIds).map((playlistId) => updatePlaylistStats(playlistId))
+  )
 }
 
 export const removeSongsFromPlaylist = async (
@@ -110,4 +141,6 @@ export const removeSongsFromPlaylist = async (
         inArray(schema.playlistsToSongs.songId, songIds)
       )
     )
+
+  await updatePlaylistStats(playlistId)
 }
