@@ -70,6 +70,11 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
             ) : (
               <Typography affects={["small", "muted"]}>{t("common.unknownArtist")}</Typography>
             )}
+            {album.releaseYear && (
+              <div className="leading-none">
+                <Typography affects={["small", "muted"]}>• {album.releaseYear}</Typography>
+              </div>
+            )}
             {album.totalDuration > 0 && (
               <div className="leading-none">
                 <Typography affects={["small", "muted"]}>
