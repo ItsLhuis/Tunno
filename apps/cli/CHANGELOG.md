@@ -2,6 +2,27 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.5.0] - 2025-01-27
+
+### Added
+
+- 🔍 Added duplicate detection in `fast-upload` command based on song title validation
+- 📊 Added informative feedback showing number of duplicates ignored during bundle creation
+
+### Fixed
+
+- 🖼️ Fixed thumbnail quality issues by always using Spotify album thumbnails instead of YouTube
+  thumbnails
+- ✂️ Eliminated thumbnail cropping problems caused by 16:9 aspect ratio from YouTube thumbnails
+- 🎯 Improved visual consistency with 1:1 aspect ratio thumbnails across all tracks
+
+### Changed
+
+- 🔄 Simplified thumbnail logic to always use `track.album.thumbnail` for both track and album
+  thumbnails
+- 📝 Enhanced `fast-upload` validation to prevent duplicate tracks in bundles
+- 🎨 Improved overall thumbnail quality and consistency in downloaded tracks
+
 ## [1.4.0] - 2025-10-22
 
 ### Added
