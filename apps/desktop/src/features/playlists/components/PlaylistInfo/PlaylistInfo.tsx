@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from "react"
+import { Fragment, useCallback, useMemo, useRef } from "react"
 
 import { useParams } from "@tanstack/react-router"
 
@@ -61,7 +61,12 @@ const PlaylistInfo = () => {
 
   const StickyHeader = useCallback(() => {
     if (!playlist) return null
-    return <PlaylistInfoStickyHeader playlist={playlist} />
+    return (
+      <Fragment>
+        <PlaylistInfoStickyHeader className="pb-6" playlist={playlist} />
+        <PlaylistInfoSubHeader />
+      </Fragment>
+    )
   }, [playlist])
 
   const ListHeader = useCallback(

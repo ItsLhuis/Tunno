@@ -4,6 +4,8 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
 
+import { cn } from "@lib/utils"
+
 import { formatDuration } from "@repo/utils"
 
 import { IconButton, Marquee, StickyHeader, Thumbnail, Typography } from "@components/ui"
@@ -14,9 +16,10 @@ import { type PlaylistWithAllRelations } from "@repo/api"
 
 type PlaylistInfoStickyHeaderProps = {
   playlist: PlaylistWithAllRelations
+  className?: string
 }
 
-const PlaylistInfoStickyHeader = ({ playlist }: PlaylistInfoStickyHeaderProps) => {
+const PlaylistInfoStickyHeader = ({ playlist, className }: PlaylistInfoStickyHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -33,7 +36,7 @@ const PlaylistInfoStickyHeader = ({ playlist }: PlaylistInfoStickyHeaderProps) =
   }
 
   return (
-    <StickyHeader className="flex items-center justify-between gap-3 pb-9">
+    <StickyHeader className={cn("flex items-center justify-between gap-3 pb-9", className)}>
       <IconButton
         name="Shuffle"
         isLoading={isShuffling}
