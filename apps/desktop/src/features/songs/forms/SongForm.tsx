@@ -165,6 +165,12 @@ const SongForm = ({
     }
   }, [form.formState.isSubmitted, form.formState.isValid, mode])
 
+  useEffect(() => {
+    if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
+      form.reset()
+    }
+  }, [isOpen, asModal])
+
   const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
     if (onSubmit) {
       await onSubmit(values)

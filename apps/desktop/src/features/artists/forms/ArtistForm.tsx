@@ -131,6 +131,12 @@ const ArtistForm = ({
     }
   }, [form.formState.isSubmitted, form.formState.isValid, mode])
 
+  useEffect(() => {
+    if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
+      form.reset()
+    }
+  }, [isOpen, asModal])
+
   const handleFormSubmit = async (values: InsertArtistType | UpdateArtistType) => {
     if (onSubmit) {
       await onSubmit(values)
