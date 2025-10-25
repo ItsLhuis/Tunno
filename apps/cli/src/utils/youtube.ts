@@ -159,18 +159,12 @@ export const download = async (
       }
 
       const trackThumbnailUUID = uuid() + ".jpg"
-      await downloadThumbnail(
-        track.album.albumType === "single" ? track.album.thumbnail : videoInfo.thumbnail,
-        path.join(videoDir, trackThumbnailUUID),
-        640
-      )
+      await downloadThumbnail(track.album.thumbnail, path.join(videoDir, trackThumbnailUUID), 640)
       videoMetadata.thumbnail = trackThumbnailUUID
 
       const albumThumbnailUUID = uuid() + ".jpg"
-      if (track.album.albumType !== "single")
-        await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
-      videoMetadata.album.thumbnail =
-        track.album.albumType !== "single" ? albumThumbnailUUID : trackThumbnailUUID
+      await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
+      videoMetadata.album.thumbnail = albumThumbnailUUID
 
       const artistThumbnailMap: Record<string, string> = {}
 

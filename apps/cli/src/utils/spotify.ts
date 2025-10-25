@@ -83,7 +83,7 @@ async function buildTrackResult(track: SpotifySDKTrack): Promise<SpotifyTrack | 
     if (artistDetails) {
       trackArtists.push({
         name: artistDetails.name,
-        thumbnail: artistDetails.images?.[0]?.url || null, // URL, não ficheiro local
+        thumbnail: artistDetails.images?.[0]?.url || null,
         genres: artistDetails.genres.length > 0 ? artistDetails.genres : null
       })
     }
@@ -99,7 +99,7 @@ async function buildTrackResult(track: SpotifySDKTrack): Promise<SpotifyTrack | 
       if (artistDetails) {
         albumArtists.push({
           name: artistDetails.name,
-          thumbnail: artistDetails.images?.[0]?.url || null, // URL, não ficheiro local
+          thumbnail: artistDetails.images?.[0]?.url || null,
           genres: artistDetails.genres.length > 0 ? artistDetails.genres : null
         })
       }

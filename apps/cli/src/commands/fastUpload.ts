@@ -26,7 +26,7 @@ type ValidatedDirectory = {
   thumbnails: string[]
 }
 
-const isValidDirectory = (dirPath: string): ValidatedDirectory | null => {
+const isValidDirectory = (dirPath: string, seenTitles: Set<string>): ValidatedDirectory | null => {
   try {
     const entries = fs.readdirSync(dirPath)
 
@@ -39,6 +39,10 @@ const isValidDirectory = (dirPath: string): ValidatedDirectory | null => {
       const metadataContent = fs.readFileSync(metadataPath, "utf-8")
       metadata = JSON.parse(metadataContent)
     } catch {
+      return null
+    }
+
+    if (seenTitles.has(metadata.title)) {
       return null
     }
 
@@ -82,6 +86,8 @@ const isValidDirectory = (dirPath: string): ValidatedDirectory | null => {
     }
 
     const thumbnails = Array.from(referencedThumbnails)
+
+    seenTitles.add(metadata.title)
 
     return {
       dirName: path.basename(dirPath),
@@ -186,13 +192,14 @@ export default function fastUpload(program: Command) {
 
         const entries = fs.readdirSync(downloadPath)
         const validDirs: ValidatedDirectory[] = []
+        const seenTitles = new Set<string>()
 
         for (const entry of entries) {
           const entryPath = path.join(downloadPath, entry)
           const stat = fs.statSync(entryPath)
 
           if (stat.isDirectory()) {
-            const validated = isValidDirectory(entryPath)
+            const validated = isValidDirectory(entryPath, seenTitles)
             if (validated) {
               validDirs.push(validated)
             }
@@ -207,7 +214,8 @@ export default function fastUpload(program: Command) {
             "\nEach track directory must:\n" +
               "  - Have a valid metadata.json\n" +
               "  - Audio file referenced in metadata must exist\n" +
-              "  - All thumbnails referenced in metadata must exist"
+              "  - All thumbnails referenced in metadata must exist\n" +
+              "  - Have a unique song title (duplicates are ignored)"
           )
           return
         }
