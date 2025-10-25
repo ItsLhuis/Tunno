@@ -361,9 +361,12 @@ const ArtistActions = ({
             }
             errorComponent={
               <ContextMenuContent>
-                <div className="flex items-center justify-center p-4">
+                <Typography
+                  affects={["muted"]}
+                  className="flex h-full items-center justify-center py-3"
+                >
                   {t("common.noResultsFound")}
-                </div>
+                </Typography>
               </ContextMenuContent>
             }
           >
@@ -398,9 +401,12 @@ const ArtistActions = ({
           }
           errorComponent={
             <DropdownMenuContent>
-              <div className="flex items-center justify-center p-4">
+              <Typography
+                affects={["muted"]}
+                className="flex h-full items-center justify-center py-3"
+              >
                 {t("common.noResultsFound")}
-              </div>
+              </Typography>
             </DropdownMenuContent>
           }
         >

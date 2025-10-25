@@ -15,8 +15,8 @@ import { useTogglePlaylistFavorite } from "../hooks/useTogglePlaylistFavorite"
 import { cn } from "@lib/utils"
 
 import { PlaylistForm } from "../forms/PlaylistForm"
-import { DeletePlaylistDialog } from "./DeletePlaylistDialog"
 import { AddToPlaylistForm } from "./AddToPlaylistForm"
+import { DeletePlaylistDialog } from "./DeletePlaylistDialog"
 
 import {
   AsyncState,
@@ -354,9 +354,12 @@ const PlaylistActions = ({
             }
             errorComponent={
               <ContextMenuContent>
-                <div className="flex items-center justify-center p-4">
+                <Typography
+                  affects={["muted"]}
+                  className="flex h-full items-center justify-center py-3"
+                >
                   {t("common.noResultsFound")}
-                </div>
+                </Typography>
               </ContextMenuContent>
             }
           >
@@ -391,9 +394,12 @@ const PlaylistActions = ({
           }
           errorComponent={
             <DropdownMenuContent>
-              <div className="flex items-center justify-center p-4">
+              <Typography
+                affects={["muted"]}
+                className="flex h-full items-center justify-center py-3"
+              >
                 {t("common.noResultsFound")}
-              </div>
+              </Typography>
             </DropdownMenuContent>
           }
         >
