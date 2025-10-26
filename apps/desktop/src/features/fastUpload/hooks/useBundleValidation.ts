@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 import { copyBundleToCache, extractManifest } from "../api/tauri"
 
 import type { FastUploadManifest } from "../types"
@@ -21,11 +19,7 @@ type ValidationResult = {
 }
 
 export const useBundleValidation = () => {
-  const [isValidating, setIsValidating] = useState(false)
-
   const validateBundle = async (bundlePath: string): Promise<ValidationResult> => {
-    setIsValidating(true)
-
     try {
       const cachePath = await copyBundleToCache(bundlePath)
 
@@ -150,13 +144,10 @@ export const useBundleValidation = () => {
         error: `Bundle validation failed: ${errorMessage}`,
         errorType: "unknown"
       }
-    } finally {
-      setIsValidating(false)
     }
   }
 
   return {
-    validateBundle,
-    isValidating
+    validateBundle
   }
 }
