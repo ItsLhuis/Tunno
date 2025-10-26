@@ -166,7 +166,7 @@ const AddToPlaylistForm = ({
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className="flex flex-col gap-0 p-0">
         <DialogHeader className="shrink-0 border-b p-6">
-          <DialogTitle>{title ?? t("form.titles.addToPlaylists")}</DialogTitle>
+          <DialogTitle>{title ?? t("form.titles.addToPlaylist")}</DialogTitle>
         </DialogHeader>
         <ScrollArea className="flex max-h-full flex-col">
           <div className="p-6">{FormContent}</div>
