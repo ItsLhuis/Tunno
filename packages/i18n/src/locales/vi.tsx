@@ -98,7 +98,7 @@ export const vietnamese: Language = {
         createPlaylist: "Tạo playlist",
         updatePlaylist: "Cập nhật playlist",
         deletePlaylist: "Xóa playlist",
-        addToPlaylists: "Thêm vào Danh Sách Phát",
+        addToPlaylist: "Thêm vào Playlist",
         confirmation: "Xác nhận",
         warning: "Cảnh báo",
         lyricsPreview: "Xem trước lời bài hát"
@@ -516,6 +516,8 @@ export const vietnamese: Language = {
     },
     fastUpload: {
       title: "Tải lên nhanh",
+      description: "Tạo gói bằng Tunno CLI, sau đó nhập vào đây",
+      cliTooltip: "Mở tài liệu Tunno CLI",
       selectBundle: "Chọn gói",
       changeBundle: "Thay đổi gói",
       status: {

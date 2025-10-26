@@ -98,7 +98,7 @@ export const japanese: Language = {
         createPlaylist: "再生リストを作成",
         updatePlaylist: "再生リストを更新",
         deletePlaylist: "再生リストを削除",
-        addToPlaylists: "プレイリストに追加",
+        addToPlaylist: "プレイリストに追加",
         confirmation: "確認",
         warning: "警告",
         lyricsPreview: "歌詞プレビュー"
@@ -516,6 +516,8 @@ export const japanese: Language = {
     },
     fastUpload: {
       title: "高速アップロード",
+      description: "Tunno CLIを使用してバンドルを作成し、ここでインポートします",
+      cliTooltip: "Tunno CLIドキュメントを開く",
       selectBundle: "バンドルを選択",
       changeBundle: "バンドルを変更",
       status: {

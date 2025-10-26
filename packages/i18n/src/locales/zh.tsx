@@ -98,7 +98,7 @@ export const chinese: Language = {
         createPlaylist: "创建歌单",
         updatePlaylist: "更新歌单",
         deletePlaylist: "删除歌单",
-        addToPlaylists: "添加到播放列表",
+        addToPlaylist: "添加到播放列表",
         confirmation: "确认",
         warning: "警告",
         lyricsPreview: "歌词预览"
@@ -516,6 +516,8 @@ export const chinese: Language = {
     },
     fastUpload: {
       title: "快速上传",
+      description: "使用 Tunno CLI 创建包，然后在此处导入",
+      cliTooltip: "打开 Tunno CLI 文档",
       selectBundle: "选择包",
       changeBundle: "更改包",
       status: {

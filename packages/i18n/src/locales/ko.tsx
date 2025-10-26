@@ -98,7 +98,7 @@ export const korean: Language = {
         createPlaylist: "플레이리스트 만들기",
         updatePlaylist: "플레이리스트 업데이트",
         deletePlaylist: "플레이리스트 삭제",
-        addToPlaylists: "재생목록에 추가",
+        addToPlaylist: "재생목록에 추가",
         confirmation: "확인",
         warning: "경고",
         lyricsPreview: "가사 미리보기"
@@ -516,6 +516,8 @@ export const korean: Language = {
     },
     fastUpload: {
       title: "빠른 업로드",
+      description: "Tunno CLI를 사용하여 번들을 만든 다음 여기에서 가져옵니다",
+      cliTooltip: "Tunno CLI 문서 열기",
       selectBundle: "번들 선택",
       changeBundle: "번들 변경",
       status: {

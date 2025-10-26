@@ -98,7 +98,7 @@ export const polish: Language = {
         createPlaylist: "Utwórz playlist",
         updatePlaylist: "Aktualizuj playlist",
         deletePlaylist: "Usuń playlist",
-        addToPlaylists: "Dodaj do List Odtwarzania",
+        addToPlaylist: "Dodaj do Playlist",
         confirmation: "Potwierdzenie",
         warning: "Ostrzeżenie",
         lyricsPreview: "Podgląd tekstu"
@@ -516,6 +516,8 @@ export const polish: Language = {
     },
     fastUpload: {
       title: "Szybkie przesyłanie",
+      description: "Utwórz pakiet używając Tunno CLI, a następnie zaimportuj go tutaj",
+      cliTooltip: "Otwórz dokumentację Tunno CLI",
       selectBundle: "Wybierz pakiet",
       changeBundle: "Zmień pakiet",
       status: {

@@ -98,7 +98,7 @@ export const swedish: Language = {
         createPlaylist: "Skapa playlist",
         updatePlaylist: "Uppdatera playlist",
         deletePlaylist: "Ta bort playlist",
-        addToPlaylists: "Lägg till i Spellistor",
+        addToPlaylist: "Lägg till i Playlist",
         confirmation: "Bekräftelse",
         warning: "Varning",
         lyricsPreview: "Textförhandsvisning"
@@ -516,6 +516,8 @@ export const swedish: Language = {
     },
     fastUpload: {
       title: "Snabb uppladdning",
+      description: "Skapa ett paket med Tunno CLI och importera det här",
+      cliTooltip: "Öppna Tunno CLI-dokumentation",
       selectBundle: "Välj paket",
       changeBundle: "Ändra paket",
       status: {

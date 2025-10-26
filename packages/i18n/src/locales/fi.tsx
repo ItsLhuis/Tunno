@@ -86,22 +86,22 @@ export const finnish: Language = {
     },
     form: {
       titles: {
-        createSong: "Luo kappale",
-        updateSong: "Päivitä kappale",
-        deleteSong: "Poista kappale",
-        createArtist: "Luo artisti",
-        updateArtist: "Päivitä artisti",
-        deleteArtist: "Poista artisti",
-        createAlbum: "Luo albumi",
-        updateAlbum: "Päivitä albumi",
-        deleteAlbum: "Poista albumi",
-        createPlaylist: "Luo playlist",
-        updatePlaylist: "Päivitä playlist",
-        deletePlaylist: "Poista playlist",
-        addToPlaylists: "Lisää Soittolistoihin",
+        createSong: "Luo Kappale",
+        updateSong: "Päivitä Kappale",
+        deleteSong: "Poista Kappale",
+        createArtist: "Luo Artisti",
+        updateArtist: "Päivitä Artisti",
+        deleteArtist: "Poista Artisti",
+        createAlbum: "Luo Albumi",
+        updateAlbum: "Päivitä Albumi",
+        deleteAlbum: "Poista Albumi",
+        createPlaylist: "Luo Playlist",
+        updatePlaylist: "Päivitä Playlist",
+        deletePlaylist: "Poista Playlist",
+        addToPlaylist: "Lisää Playlistiin",
         confirmation: "Vahvistus",
         warning: "Varoitus",
-        lyricsPreview: "Sanoitusten esikatselu"
+        lyricsPreview: "Sanoitusten Esikatselu"
       },
       labels: {
         name: "Nimi",
@@ -516,6 +516,8 @@ export const finnish: Language = {
     },
     fastUpload: {
       title: "Nopea lataus",
+      description: "Luo paketti Tunno CLI:llä ja tuo se tähän",
+      cliTooltip: "Avaa Tunno CLI-dokumentaatio",
       selectBundle: "Valitse paketti",
       changeBundle: "Vaihda paketti",
       status: {

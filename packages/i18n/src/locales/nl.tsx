@@ -98,7 +98,7 @@ export const dutch: Language = {
         createPlaylist: "Playlist aanmaken",
         updatePlaylist: "Playlist bijwerken",
         deletePlaylist: "Playlist verwijderen",
-        addToPlaylists: "Toevoegen aan Afspeellijsten",
+        addToPlaylist: "Toevoegen aan Playlist",
         confirmation: "Bevestiging",
         warning: "Waarschuwing",
         lyricsPreview: "Songtekstvoorbeeld"
@@ -517,6 +517,8 @@ export const dutch: Language = {
     },
     fastUpload: {
       title: "Snelle upload",
+      description: "Maak een pakket met Tunno CLI en importeer het hier",
+      cliTooltip: "Open Tunno CLI-documentatie",
       selectBundle: "Pakket selecteren",
       changeBundle: "Pakket wijzigen",
       status: {

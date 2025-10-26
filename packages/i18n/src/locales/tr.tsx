@@ -98,7 +98,7 @@ export const turkish: Language = {
         createPlaylist: "Playlist Oluştur",
         updatePlaylist: "Playlist'i Güncelle",
         deletePlaylist: "Playlist'i Sil",
-        addToPlaylists: "Çalma Listelerine Ekle",
+        addToPlaylist: "Çalma Listelerine Ekle",
         confirmation: "Onay",
         warning: "Uyarı",
         lyricsPreview: "Şarkı Sözleri Önizlemesi"
@@ -516,6 +516,8 @@ export const turkish: Language = {
     },
     fastUpload: {
       title: "Hızlı Yükleme",
+      description: "Tunno CLI kullanarak bir paket oluşturun, ardından buraya aktarın",
+      cliTooltip: "Tunno CLI belgelerini aç",
       selectBundle: "Paket seç",
       changeBundle: "Paketi değiştir",
       status: {

@@ -98,7 +98,7 @@ export const italian: Language = {
         createPlaylist: "Crea Playlist",
         updatePlaylist: "Aggiorna Playlist",
         deletePlaylist: "Elimina Playlist",
-        addToPlaylists: "Aggiungi alle Playlist",
+        addToPlaylist: "Aggiungi alla Playlist",
         confirmation: "Conferma",
         warning: "Avviso",
         lyricsPreview: "Anteprima Testo"
@@ -517,6 +517,8 @@ export const italian: Language = {
     },
     fastUpload: {
       title: "Caricamento veloce",
+      description: "Crea un pacchetto usando il CLI Tunno, quindi importalo qui",
+      cliTooltip: "Apri documentazione CLI Tunno",
       selectBundle: "Seleziona pacchetto",
       changeBundle: "Cambia pacchetto",
       status: {

@@ -86,22 +86,22 @@ export const spanish: Language = {
     },
     form: {
       titles: {
-        createSong: "Crear canción",
-        updateSong: "Actualizar canción",
-        deleteSong: "Eliminar canción",
-        createArtist: "Crear artista",
-        updateArtist: "Actualizar artista",
-        deleteArtist: "Eliminar artista",
-        createAlbum: "Crear álbum",
-        updateAlbum: "Actualizar álbum",
-        deleteAlbum: "Eliminar álbum",
-        createPlaylist: "Crear playlist",
-        updatePlaylist: "Actualizar playlist",
-        deletePlaylist: "Eliminar playlist",
-        addToPlaylists: "Agregar a Listas de Reproducción",
+        createSong: "Crear Canción",
+        updateSong: "Actualizar Canción",
+        deleteSong: "Eliminar Canción",
+        createArtist: "Crear Artista",
+        updateArtist: "Actualizar Artista",
+        deleteArtist: "Eliminar Artista",
+        createAlbum: "Crear Álbum",
+        updateAlbum: "Actualizar Álbum",
+        deleteAlbum: "Eliminar Álbum",
+        createPlaylist: "Crear Playlist",
+        updatePlaylist: "Actualizar Playlist",
+        deletePlaylist: "Eliminar Playlist",
+        addToPlaylist: "Agregar a Playlist",
         confirmation: "Confirmación",
         warning: "Advertencia",
-        lyricsPreview: "Vista previa de letras"
+        lyricsPreview: "Vista Previa de Letras"
       },
       labels: {
         name: "Nombre",
@@ -517,6 +517,8 @@ export const spanish: Language = {
     },
     fastUpload: {
       title: "Carga rápida",
+      description: "Crea un paquete usando el CLI de Tunno, luego impórtalo aquí",
+      cliTooltip: "Abrir documentación del CLI de Tunno",
       selectBundle: "Seleccionar paquete",
       changeBundle: "Cambiar paquete",
       status: {

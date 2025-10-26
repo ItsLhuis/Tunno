@@ -86,22 +86,22 @@ export const french: Language = {
     },
     form: {
       titles: {
-        createSong: "Créer une chanson",
-        updateSong: "Mettre à jour la chanson",
-        deleteSong: "Supprimer la chanson",
-        createArtist: "Créer un artiste",
-        updateArtist: "Mettre à jour l'artiste",
-        deleteArtist: "Supprimer l'artiste",
-        createAlbum: "Créer un album",
-        updateAlbum: "Mettre à jour l'album",
-        deleteAlbum: "Supprimer l'album",
-        createPlaylist: "Créer une playlist",
-        updatePlaylist: "Mettre à jour la playlist",
-        deletePlaylist: "Supprimer la playlist",
-        addToPlaylists: "Ajouter aux Playlists",
+        createSong: "Créer une Chanson",
+        updateSong: "Mettre à jour la Chanson",
+        deleteSong: "Supprimer la Chanson",
+        createArtist: "Créer un Artiste",
+        updateArtist: "Mettre à jour l'Artiste",
+        deleteArtist: "Supprimer l'Artiste",
+        createAlbum: "Créer un Album",
+        updateAlbum: "Mettre à jour l'Album",
+        deleteAlbum: "Supprimer l'Album",
+        createPlaylist: "Créer une Playlist",
+        updatePlaylist: "Mettre à jour la Playlist",
+        deletePlaylist: "Supprimer la Playlist",
+        addToPlaylist: "Ajouter à la Playlist",
         confirmation: "Confirmation",
         warning: "Avertissement",
-        lyricsPreview: "Aperçu des paroles"
+        lyricsPreview: "Aperçu des Paroles"
       },
       labels: {
         name: "Nom",
@@ -517,6 +517,8 @@ export const french: Language = {
     },
     fastUpload: {
       title: "Téléversement rapide",
+      description: "Créez un paquet avec Tunno CLI, puis importez-le ici",
+      cliTooltip: "Ouvrir la documentation de Tunno CLI",
       selectBundle: "Sélectionner le paquet",
       changeBundle: "Changer le paquet",
       status: {

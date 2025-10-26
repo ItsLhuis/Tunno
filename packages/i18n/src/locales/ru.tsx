@@ -98,7 +98,7 @@ export const russian: Language = {
         createPlaylist: "Создать плейлист",
         updatePlaylist: "Обновить плейлист",
         deletePlaylist: "Удалить плейлист",
-        addToPlaylists: "Добавить в Плейлисты",
+        addToPlaylist: "Добавить в Плейлист",
         confirmation: "Подтверждение",
         warning: "Предупреждение",
         lyricsPreview: "Предпросмотр текста"
@@ -516,6 +516,8 @@ export const russian: Language = {
     },
     fastUpload: {
       title: "Быстрая загрузка",
+      description: "Создайте пакет с помощью Tunno CLI, затем импортируйте его здесь",
+      cliTooltip: "Открыть документацию Tunno CLI",
       selectBundle: "Выбрать пакет",
       changeBundle: "Изменить пакет",
       status: {

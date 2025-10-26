@@ -98,7 +98,7 @@ export const hindi: Language = {
         createPlaylist: "गानों की सूची बनाएं",
         updatePlaylist: "गानों की सूची अपडेट करें",
         deletePlaylist: "गानों की सूची हटाएं",
-        addToPlaylists: "प्लेलिस्ट में जोड़ें",
+        addToPlaylist: "प्लेलिस्ट में जोड़ें",
         confirmation: "पुष्टि",
         warning: "चेतावनी",
         lyricsPreview: "गीतों का पूर्वावलोकन"
@@ -516,6 +516,8 @@ export const hindi: Language = {
     },
     fastUpload: {
       title: "तेज़ अपलोड",
+      description: "Tunno CLI का उपयोग करके एक बंडल बनाएं, फिर इसे यहाँ आयात करें",
+      cliTooltip: "Tunno CLI दस्तावेज़ खोलें",
       selectBundle: "बंडल चुनें",
       changeBundle: "बंडल बदलें",
       status: {

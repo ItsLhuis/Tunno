@@ -98,7 +98,7 @@ export const portuguese: Language = {
         createPlaylist: "Criar Playlist",
         updatePlaylist: "Atualizar Playlist",
         deletePlaylist: "Eliminar Playlist",
-        addToPlaylists: "Adicionar às Playlists",
+        addToPlaylist: "Adicionar à Playlist",
         confirmation: "Confirmação",
         warning: "Aviso",
         lyricsPreview: "Pré-visualização da Letra"
@@ -517,11 +517,13 @@ export const portuguese: Language = {
     },
     fastUpload: {
       title: "Upload Rápido",
+      description: "Cria um pacote usando o Tunno CLI, depois importa-o aqui",
+      cliTooltip: "Abrir documentação do Tunno CLI",
       selectBundle: "Selecionar pacote",
       changeBundle: "Alterar pacote",
       status: {
         pending: "Pendente",
-        processing: "Processando",
+        processing: "A processar",
         success: "Sucesso",
         error: "Erro",
         skipped: "Ignorado"

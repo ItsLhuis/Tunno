@@ -98,7 +98,7 @@ export const norwegian: Language = {
         createPlaylist: "Opprett playlist",
         updatePlaylist: "Oppdater playlist",
         deletePlaylist: "Slett playlist",
-        addToPlaylists: "Legg til i Spillelister",
+        addToPlaylist: "Legg til i Playlist",
         confirmation: "Bekreftelse",
         warning: "Advarsel",
         lyricsPreview: "Tekstforhåndsvisning"
@@ -516,6 +516,8 @@ export const norwegian: Language = {
     },
     fastUpload: {
       title: "Rask opplasting",
+      description: "Opprett en pakke med Tunno CLI, og importer den her",
+      cliTooltip: "Åpne Tunno CLI-dokumentasjon",
       selectBundle: "Velg pakke",
       changeBundle: "Endre pakke",
       status: {

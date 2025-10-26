@@ -16,7 +16,7 @@ export const danish: Language = {
       yesterday: "I går",
       years: "{count} år",
       weeks: "{count} uge{count, plural, one {} other{r}}",
-      days: "{count} dag{count, plural, one {} other{e}}",
+      days: "{count} dag{count, plural  , one {} other{e}}",
       hours: "{count} time{count, plural, one {} other{r}}",
       minutes: "{count} minut{count, plural, one {} other{ter}}",
       seconds: "{count} sekund{count, plural, one {} other{er}}",
@@ -98,7 +98,7 @@ export const danish: Language = {
         createPlaylist: "Opret Playlist",
         updatePlaylist: "Opdatér Playlist",
         deletePlaylist: "Slet Playlist",
-        addToPlaylists: "Tilføj til Spillelister",
+        addToPlaylist: "Tilføj til Playlist",
         confirmation: "Bekræftelse",
         warning: "Advarsel",
         lyricsPreview: "Forhåndsvisning Af Sangtekster"
@@ -516,6 +516,8 @@ export const danish: Language = {
     },
     fastUpload: {
       title: "Hurtig Upload",
+      description: "Opret en pakke med Tunno CLI, og importer den her",
+      cliTooltip: "Åbn Tunno CLI-dokumentation",
       selectBundle: "Vælg pakke",
       changeBundle: "Skift pakke",
       status: {
