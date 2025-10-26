@@ -1,15 +1,11 @@
 import { useCallback } from "react"
 
-import { useQueryClient } from "@tanstack/react-query"
-
 import { database, schema } from "@database/client"
 
 import { and, eq, isNull } from "drizzle-orm"
 
 import { join } from "@tauri-apps/api/path"
 import { exists, readTextFile } from "@tauri-apps/plugin-fs"
-
-import { invalidateQueries } from "@repo/api"
 
 import { insertAlbum } from "@features/albums/api/mutations"
 import { insertArtist } from "@features/artists/api/mutations"
@@ -24,8 +20,6 @@ import { type EntityCache } from "../utils"
 import type { CLISong, ProcessingTrack, ProcessResult } from "../types"
 
 export const useTrackProcessor = () => {
-  const queryClient = useQueryClient()
-
   const processTrack = useCallback(
     async (
       track: ProcessingTrack,
@@ -42,8 +36,6 @@ export const useTrackProcessor = () => {
         }
 
         const songArtistIds: number[] = []
-
-        let artistWasCreated = false
 
         for (const artistMeta of metadata.artists) {
           let artistId: number | null = null
@@ -111,8 +103,6 @@ export const useTrackProcessor = () => {
               if (entityCache) {
                 entityCache.addArtist(artistMeta.name, artistId)
               }
-
-              artistWasCreated = true
             } catch (error) {
               if (isUniqueConstraintError(error)) {
                 const retryArtistResult = await database
@@ -147,7 +137,6 @@ export const useTrackProcessor = () => {
 
         const albumMeta = metadata.album
         let albumId: number | null = null
-        let albumWasCreated = false
 
         let cachedAlbum: ReturnType<EntityCache["getAlbum"]> | undefined
         if (entityCache) {
@@ -244,7 +233,6 @@ export const useTrackProcessor = () => {
                   artistThumbnailPath
                 )
                 artistId = newArtist.id
-                artistWasCreated = true
               } catch (error) {
                 if (error instanceof Error && error.message.includes("UNIQUE constraint failed")) {
                   const retryArtistResult = await database
@@ -316,7 +304,6 @@ export const useTrackProcessor = () => {
                 )
 
                 artistId = newArtist.id
-                artistWasCreated = true
               } catch (error) {
                 if (error instanceof Error && error.message.includes("UNIQUE constraint failed")) {
                   const retryArtistResult = await database
@@ -382,8 +369,6 @@ export const useTrackProcessor = () => {
             if (entityCache) {
               entityCache.addAlbum(albumMeta.name, albumMeta.albumType, albumId, albumArtistIds)
             }
-
-            albumWasCreated = true
           } catch (error) {
             if (error instanceof Error && error.message.includes("UNIQUE constraint failed")) {
               const retryAlbumResult = await database
@@ -516,14 +501,6 @@ export const useTrackProcessor = () => {
           }
         )
 
-        if (artistWasCreated) {
-          invalidateQueries(queryClient, "artist")
-        }
-
-        if (albumWasCreated) {
-          invalidateQueries(queryClient, "album")
-        }
-
         return {
           success: true,
           skipped: false,
@@ -537,7 +514,7 @@ export const useTrackProcessor = () => {
         }
       }
     },
-    [queryClient]
+    []
   )
 
   return { processTrack }

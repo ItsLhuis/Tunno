@@ -8,6 +8,8 @@ import { useFetchAlbumsInfinite } from "../../hooks/useFetchAlbumsInfinite"
 
 import { useFetchAlbumIds } from "../../hooks/useFetchAlbumIds"
 
+import { useFetchArtists } from "@features/artists/hooks/useFetchArtists"
+
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
 import { cn } from "@lib/utils"
@@ -48,6 +50,8 @@ const AlbumsList = () => {
     useFetchAlbumsInfinite(queryParams)
 
   const { data: allAlbumIds, refetch: refetchAlbumIds } = useFetchAlbumIds(queryParams)
+
+  const { refetch: refetchArtists } = useFetchArtists()
 
   const albums = useMemo(() => {
     if (!data?.pages) return []
@@ -112,8 +116,8 @@ const AlbumsList = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   const handleRefresh = useCallback(async () => {
-    await Promise.all([refetch(), refetchAlbumIds()])
-  }, [refetch, refetchAlbumIds])
+    await Promise.all([refetch(), refetchAlbumIds(), refetchArtists()])
+  }, [refetch, refetchAlbumIds, refetchArtists])
 
   usePageRefresh({
     refreshFn: handleRefresh

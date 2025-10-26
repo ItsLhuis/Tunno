@@ -112,10 +112,6 @@ export const useFastUploadProcessor = () => {
       incrementProgress()
       processedCount++
 
-      if (processedCount % 5 === 0) {
-        invalidateQueries(queryClient, "song", { relations: ["home"] })
-      }
-
       await new Promise((resolve) => setTimeout(resolve, 100))
     }
 
