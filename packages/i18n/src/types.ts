@@ -101,7 +101,7 @@ export type Translations = {
       createPlaylist: string
       updatePlaylist: string
       deletePlaylist: string
-      addToPlaylists: string
+      addToPlaylist: string
       confirmation: string
       warning: string
       lyricsPreview: string
@@ -519,6 +519,8 @@ export type Translations = {
   }
   fastUpload: {
     title: string
+    description: string
+    cliTooltip: string
     selectBundle: string
     changeBundle: string
     status: {
