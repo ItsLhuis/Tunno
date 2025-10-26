@@ -126,8 +126,6 @@ pub async fn fast_upload_cleanup_all_cache(app: tauri::AppHandle) -> Result<(), 
     if fast_upload_dir.exists() {
         fs::remove_dir_all(&fast_upload_dir)
             .map_err(|e| format!("Failed to cleanup FastUpload cache: {}", e))?;
-        
-        println!("[FastUpload] Cache cleaned: {:?}", fast_upload_dir);
     }
 
     Ok(())
