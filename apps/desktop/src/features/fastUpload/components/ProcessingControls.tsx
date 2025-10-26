@@ -19,7 +19,7 @@ type ProcessingControlsProps = {
 const ProcessingControls = ({ className }: ProcessingControlsProps) => {
   const { t } = useTranslation()
 
-  const { validateBundle, isValidating } = useBundleValidation()
+  const { validateBundle } = useBundleValidation()
 
   const { startProcessing, cleanupCache, isProcessing } = useFastUploadProcessor()
 
@@ -32,6 +32,8 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
       resetStore: state.resetStore
     }))
   )
+
+  const isValidating = status === "validating"
 
   const handleBundleSelect = async (path: string) => {
     if (isValidating || isProcessing) return
@@ -97,6 +99,8 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
 
   const primaryButtonText = isReady ? t("common.start") : t("fastUpload.selectBundle")
 
+  const isLoading = isProcessing || isValidating
+
   return (
     <div className={className}>
       <div className="ml-auto flex items-center gap-2">
@@ -106,7 +110,7 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
               variant="outline"
               size="sm"
               onClick={handleClearAndSelectNew}
-              isLoading={isValidating || isProcessing}
+              isLoading={isLoading}
             >
               {secondaryButtonText}
             </Button>
@@ -116,10 +120,10 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
               onChange={handleBundleSelect}
               onError={handleBundleError}
               accept={["zip"]}
-              disabled={isValidating || isProcessing}
+              disabled={isLoading}
               hideDefaultTrigger={true}
               trigger={
-                <Button variant="outline" size="sm" isLoading={isValidating || isProcessing}>
+                <Button variant="outline" size="sm" isLoading={isLoading}>
                   {secondaryButtonText}
                 </Button>
               }
@@ -131,12 +135,18 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
             {t("fastUpload.changeBundle")}
           </Button>
         )}
-        {isReady ? (
+        {isReady && (
           <Button
-            onClick={handleStartProcessing}
-            isLoading={isProcessing || isValidating}
+            variant="outline"
             size="sm"
+            onClick={handleClearAndSelectNew}
+            isLoading={isLoading}
           >
+            {t("common.clear")}
+          </Button>
+        )}
+        {isReady ? (
+          <Button onClick={handleStartProcessing} isLoading={isLoading} size="sm">
             {primaryButtonText}
           </Button>
         ) : (
@@ -145,10 +155,10 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
             onChange={handleBundleSelect}
             onError={handleBundleError}
             accept={["zip"]}
-            disabled={isValidating || isProcessing}
+            disabled={isLoading}
             hideDefaultTrigger={true}
             trigger={
-              <Button size="sm" isLoading={isValidating || isProcessing}>
+              <Button size="sm" isLoading={isLoading}>
                 {primaryButtonText}
               </Button>
             }

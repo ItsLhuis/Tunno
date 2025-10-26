@@ -4,13 +4,13 @@ import { useShallow } from "zustand/shallow"
 
 import { useFastUploadStore } from "../stores/useFastUploadStore"
 
-import { cleanupAllFastUploadCache } from "../api/tauri"
-
 import { NotFound, Spinner, VirtualizedListWithHeaders } from "@components/ui"
 
 import { FastUploadHeader } from "./FastUploadHeader"
 import { FastUploadStickyHeader } from "./FastUploadStickyHeader"
 import { TrackItem } from "./TrackItem"
+
+const ITEM_GAP = 8
 
 const FastUploadPage = () => {
   const { status, tracks, processId, currentTrackIndex } = useFastUploadStore(
@@ -23,49 +23,49 @@ const FastUploadPage = () => {
   )
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
-  const hasCleanedOnMount = useRef(false)
+  const itemHeightRef = useRef<number | null>(null)
 
   useEffect(() => {
-    const cleanupOldCache = async () => {
-      if (!hasCleanedOnMount.current && status === "idle" && !processId) {
-        await cleanupAllFastUploadCache()
-        hasCleanedOnMount.current = true
+    const scrollEl = scrollRef.current
+    const isProcessing = status === "processing"
+
+    if (!scrollEl) return
+
+    if (itemHeightRef.current === null && tracks.length > 0) {
+      const firstItem = scrollEl.querySelector("[data-track-item]")
+      if (firstItem) {
+        itemHeightRef.current = firstItem.getBoundingClientRect().height
       }
     }
 
-    cleanupOldCache()
-  }, [status, processId])
+    const preventScroll = (e: Event) => {
+      e.preventDefault()
+      e.stopPropagation()
+    }
 
-  useEffect(() => {
-    if (status === "processing" && scrollRef.current && currentTrackIndex > 0) {
-      const scrollEl = scrollRef.current
-
-      const preventScroll = (e: Event) => {
-        e.preventDefault()
-        e.stopPropagation()
-      }
-
+    if (isProcessing) {
       scrollEl.addEventListener("wheel", preventScroll, { passive: false })
       scrollEl.addEventListener("touchmove", preventScroll, { passive: false })
+      scrollEl.addEventListener("keydown", preventScroll, { passive: false })
+      scrollEl.addEventListener("scroll", preventScroll, { passive: false })
 
-      const timer = setTimeout(() => {
-        const itemHeight = 80
-        const scrollTop = currentTrackIndex * itemHeight
-        scrollEl.scrollTo({ top: scrollTop, behavior: "smooth" })
+      if (currentTrackIndex >= 0 && itemHeightRef.current !== null) {
+        const totalItemHeight = itemHeightRef.current + ITEM_GAP
+        const scrollTop = currentTrackIndex * totalItemHeight
 
-        setTimeout(() => {
-          scrollEl.removeEventListener("wheel", preventScroll)
-          scrollEl.removeEventListener("touchmove", preventScroll)
-        }, 1000)
-      }, 100)
-
-      return () => {
-        clearTimeout(timer)
-        scrollEl.removeEventListener("wheel", preventScroll)
-        scrollEl.removeEventListener("touchmove", preventScroll)
+        requestAnimationFrame(() => {
+          scrollEl.scrollTo({ top: scrollTop, behavior: "smooth" })
+        })
       }
     }
-  }, [status, currentTrackIndex])
+
+    return () => {
+      scrollEl.removeEventListener("wheel", preventScroll)
+      scrollEl.removeEventListener("touchmove", preventScroll)
+      scrollEl.removeEventListener("keydown", preventScroll)
+      scrollEl.removeEventListener("scroll", preventScroll)
+    }
+  }, [status, currentTrackIndex, tracks.length])
 
   const Header = useCallback(() => <FastUploadHeader />, [])
 
@@ -87,8 +87,12 @@ const FastUploadPage = () => {
       data={tracks}
       keyExtractor={(item) => item.id}
       estimateItemHeight={70}
-      gap={8}
-      renderItem={({ item }) => <TrackItem track={item} processId={processId} />}
+      gap={ITEM_GAP}
+      renderItem={({ item }) => (
+        <div data-track-item>
+          <TrackItem track={item} processId={processId} />
+        </div>
+      )}
       layout="list"
       onScrollRef={(ref) => {
         scrollRef.current = ref.current
