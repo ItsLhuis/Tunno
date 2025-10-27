@@ -75,7 +75,7 @@ function VirtualizedList<TItem>({
     [data.length, effectiveColumns]
   )
 
-  const estimateSize = useCallback(() => estimateItemHeight, [estimateItemHeight])
+  const estimateSize = useCallback(() => estimateItemHeight + gap, [estimateItemHeight, gap])
 
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
@@ -138,7 +138,6 @@ function VirtualizedList<TItem>({
                 rowStyle={rowStyle}
                 selectedIds={selectedIds}
                 onToggleItem={handleToggleItem}
-                totalRows={rowCount}
                 measureRef={rowVirtualizer.measureElement}
               />
             ))}

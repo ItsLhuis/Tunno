@@ -57,8 +57,6 @@ export type VirtualizedItemProps<TItem> = {
   isSelected: boolean
   onToggle: (id: string) => void
   itemId: string
-  isLastRow: boolean
-  gap: number
 }
 
 export type VirtualRowProps<TItem> = {
@@ -77,6 +75,5 @@ export type VirtualRowProps<TItem> = {
   rowStyle: CSSProperties
   selectedIds: Set<string>
   onToggleItem: (id: string) => void
-  totalRows: number
   measureRef: (element: HTMLElement | null) => void
 }

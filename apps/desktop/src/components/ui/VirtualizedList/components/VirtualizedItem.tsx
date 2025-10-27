@@ -6,26 +6,20 @@ import type { VirtualizedItemProps } from "../types"
 
 const VirtualizedItem = memo(
   forwardRef<HTMLDivElement, VirtualizedItemProps<any>>(function VirtualizedItem(
-    { item, index, id, renderItem, isSelected, onToggle, itemId, isLastRow, gap },
+    { item, index, id, renderItem, isSelected, onToggle, itemId },
     ref
   ) {
-    const style = useMemo(
-      () => ({
-        marginBottom: !isLastRow && gap > 0 ? `${gap}px` : undefined,
-        contain: "layout style paint" as const,
-        backfaceVisibility: "hidden" as const,
-        WebkitBackfaceVisibility: "hidden" as const
-      }),
-      [isLastRow, gap]
-    )
-
     const handleToggle = useMemo(() => () => onToggle(itemId), [onToggle, itemId])
 
     return (
       <div
         ref={ref}
         className={cn("group relative")}
-        style={style}
+        style={{
+          contain: "layout style paint" as const,
+          backfaceVisibility: "hidden" as const,
+          WebkitBackfaceVisibility: "hidden" as const
+        }}
         data-virtualized-item
         data-item-id={id}
       >

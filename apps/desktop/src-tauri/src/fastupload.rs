@@ -1,10 +1,10 @@
 use tauri::command;
 use tauri::Manager;
 
+use chrono::Utc;
 use std::fs::{self, File};
 use std::path::Path;
 use zip::ZipArchive;
-use chrono::Utc;
 
 #[command]
 pub async fn fast_upload_copy_bundle_to_cache(
@@ -34,8 +34,7 @@ pub async fn fast_upload_copy_bundle_to_cache(
 
     extract_bundle(&bundle_dest, &cache_dir)?;
 
-    fs::remove_file(&bundle_dest)
-        .map_err(|e| format!("Failed to remove bundle ZIP: {}", e))?;
+    fs::remove_file(&bundle_dest).map_err(|e| format!("Failed to remove bundle ZIP: {}", e))?;
 
     cache_dir
         .to_str()
@@ -44,11 +43,10 @@ pub async fn fast_upload_copy_bundle_to_cache(
 }
 
 fn extract_bundle(zip_path: &Path, output_dir: &Path) -> Result<(), String> {
-    let file = File::open(zip_path)
-        .map_err(|e| format!("Failed to open bundle: {}", e))?;
+    let file = File::open(zip_path).map_err(|e| format!("Failed to open bundle: {}", e))?;
 
-    let mut archive = ZipArchive::new(file)
-        .map_err(|e| format!("Bundle file is corrupted: {}", e))?;
+    let mut archive =
+        ZipArchive::new(file).map_err(|e| format!("Bundle file is corrupted: {}", e))?;
 
     for i in 0..archive.len() {
         let mut file = archive
@@ -88,8 +86,7 @@ pub async fn fast_upload_extract_manifest(cache_path: String) -> Result<String, 
         return Err("Invalid bundle - missing manifest.json".to_string());
     }
 
-    fs::read_to_string(&manifest_path)
-        .map_err(|e| format!("Failed to read manifest: {}", e))
+    fs::read_to_string(&manifest_path).map_err(|e| format!("Failed to read manifest: {}", e))
 }
 
 #[command]
@@ -130,4 +127,3 @@ pub async fn fast_upload_cleanup_all_cache(app: tauri::AppHandle) -> Result<(), 
 
     Ok(())
 }
-

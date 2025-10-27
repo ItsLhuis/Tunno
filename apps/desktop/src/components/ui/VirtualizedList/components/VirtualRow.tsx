@@ -17,16 +17,16 @@ const VirtualRow = memo(function VirtualRow<TItem>({
   rowStyle,
   selectedIds,
   onToggleItem,
-  totalRows,
   measureRef
 }: VirtualRowProps<TItem>) {
   const fromIndex = virtualRow.index * effectiveColumns
   const toIndex = Math.min(fromIndex + effectiveColumns, data.length)
-  const isLastRow = virtualRow.index === totalRows - 1
+
+  const gapOffset = virtualRow.index * gap
 
   const transformStyle = useMemo(
     () => ({
-      transform: `translate3d(0, ${virtualRow.start}px, 0)`,
+      transform: `translate3d(0, ${virtualRow.start + gapOffset}px, 0)`,
       contain: "layout style paint" as const,
       backfaceVisibility: "hidden" as const,
       WebkitBackfaceVisibility: "hidden" as const
@@ -81,8 +81,6 @@ const VirtualRow = memo(function VirtualRow<TItem>({
             isSelected={item.isSelected}
             onToggle={onToggleItem}
             itemId={item.id}
-            isLastRow={isLastRow}
-            gap={gap}
           />
         ))}
       </div>
