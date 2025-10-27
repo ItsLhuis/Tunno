@@ -42,6 +42,8 @@
       "identifier": "fs:scope",
       "allow": [{ "path": "$RESOURCE/**" }, { "path": "$APPDATA/**" }, { "path": "$TEMP/**" }]
     },
+    "opener:default",
+    "opener:allow-reveal-item-in-dir",
     "sql:default",
     "sql:allow-load",
     "sql:allow-execute"
