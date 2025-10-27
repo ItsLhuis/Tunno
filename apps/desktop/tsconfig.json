@@ -8,6 +8,7 @@
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@contexts/*": ["./src/contexts/*"],
+      "@data/*": ["./src/data/*"],
       "@features/*": ["./src/features/*"],
       "@database/*": ["./src/database/*"],
       "@hooks/*": ["./src/hooks/*"],

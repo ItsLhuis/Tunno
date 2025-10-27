@@ -41,6 +41,7 @@ export default defineConfig(async () => ({
       "@assets": path.resolve(root, "assets/"),
       "@components": path.resolve(root, "components/"),
       "@contexts": path.resolve(root, "contexts/"),
+      "@data": path.resolve(root, "data/"),
       "@database": path.resolve(root, "database/"),
       "@features": path.resolve(root, "features/"),
       "@hooks": path.resolve(root, "hooks/"),
