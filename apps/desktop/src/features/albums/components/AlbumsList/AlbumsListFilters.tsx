@@ -28,6 +28,8 @@ import {
   Typography
 } from "@components/ui"
 
+import { type OrderableAlbumColumns } from "@repo/api"
+
 const AlbumsListFilters = () => {
   const { t } = useTranslation()
 
@@ -85,7 +87,7 @@ const AlbumsListFilters = () => {
                     value={(orderBy?.column as string) || "createdAt"}
                     onValueChange={(column) =>
                       setOrderBy({
-                        column: column as any,
+                        column: column as OrderableAlbumColumns,
                         direction: orderBy?.direction || "desc"
                       })
                     }
@@ -126,7 +128,7 @@ const AlbumsListFilters = () => {
                     value={orderBy?.direction || "desc"}
                     onValueChange={(direction) =>
                       setOrderBy({
-                        column: (orderBy?.column as any) || "createdAt",
+                        column: (orderBy?.column as OrderableAlbumColumns) || "createdAt",
                         direction: direction as "asc" | "desc"
                       })
                     }
@@ -165,7 +167,10 @@ const AlbumsListFilters = () => {
                 <Select
                   value={(filters.albumType as string) || "all"}
                   onValueChange={(value) =>
-                    setFilters({ albumType: value === "all" ? undefined : (value as any) })
+                    setFilters({
+                      albumType:
+                        value === "all" ? undefined : (value as "single" | "album" | "compilation")
+                    })
                   }
                 >
                   <SelectTrigger>

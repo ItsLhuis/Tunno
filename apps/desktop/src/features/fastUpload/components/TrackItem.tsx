@@ -123,7 +123,7 @@ const TrackItem = memo(({ track, processId }: TrackItemProps) => {
         </Marquee>
       </div>
       <div className="flex items-center justify-center">
-        <Badge variant={config.variant} className="flex w-max items-center gap-1.5 px-2 py-1">
+        <Badge variant={config.variant} className="flex w-max items-center gap-1.5">
           {config.animate ? (
             <Spinner variant="default" className="size-4 text-current" />
           ) : (

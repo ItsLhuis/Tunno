@@ -164,7 +164,7 @@ const Equalizer = () => {
       description: t("settings.equalizer.bands.description"),
       renderLeft: () => <Icon name="Sliders" className="mt-1" />,
       children: (
-        <div className="grid grid-cols-2 gap-4 overflow-hidden sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10">
+        <div className="grid grid-cols-2 gap-3 overflow-hidden sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10">
           {equalizerBands.map((band) => (
             <div key={band.index} className="flex min-w-0 flex-col items-center gap-2">
               <Typography affects={["small"]} className="w-full truncate text-center">
@@ -236,7 +236,7 @@ const Equalizer = () => {
         )
       }}
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-9">
         {settings.map((setting) => (
           <SettingButton
             key={setting.key}

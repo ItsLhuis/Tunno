@@ -28,6 +28,8 @@ import {
   Typography
 } from "@components/ui"
 
+import { type OrderablePlaylistColumns } from "@repo/api"
+
 const PlaylistsListFilters = () => {
   const { t } = useTranslation()
 
@@ -85,7 +87,7 @@ const PlaylistsListFilters = () => {
                     value={(orderBy?.column as string) || "createdAt"}
                     onValueChange={(column) =>
                       setOrderBy({
-                        column: column as any,
+                        column: column as OrderablePlaylistColumns,
                         direction: orderBy?.direction || "desc"
                       })
                     }
@@ -124,7 +126,7 @@ const PlaylistsListFilters = () => {
                     value={orderBy?.direction || "desc"}
                     onValueChange={(direction) =>
                       setOrderBy({
-                        column: (orderBy?.column as any) || "createdAt",
+                        column: (orderBy?.column as OrderablePlaylistColumns) || "createdAt",
                         direction: direction as "asc" | "desc"
                       })
                     }

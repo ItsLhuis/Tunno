@@ -87,16 +87,18 @@ const Language = () => {
         )
       }}
     >
-      {settings.map((setting) => (
-        <SettingButton
-          key={setting.key}
-          title={setting.title}
-          description={setting.description}
-          renderLeft={setting.renderLeft}
-          renderRight={setting.renderRight}
-          children={setting.children}
-        />
-      ))}
+      <div className="flex flex-col gap-9">
+        {settings.map((setting) => (
+          <SettingButton
+            key={setting.key}
+            title={setting.title}
+            description={setting.description}
+            renderLeft={setting.renderLeft}
+            renderRight={setting.renderRight}
+            children={setting.children}
+          />
+        ))}
+      </div>
     </ScrollAreaWithHeaders>
   )
 }

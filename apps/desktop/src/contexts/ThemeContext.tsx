@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 
 import { flushSync } from "react-dom"
 
@@ -10,6 +10,7 @@ type Theme = "dark" | "light" | "system"
 
 type ThemeProviderState = {
   theme: Theme
+  resolvedTheme: "dark" | "light"
   setTheme: (theme: Theme) => void
 }
 
@@ -23,6 +24,13 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     }))
   )
 
+  const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">(() => {
+    if (theme === "system") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    }
+    return theme
+  })
+
   const isFirstRender = useRef<boolean>(true)
 
   useEffect(() => {
@@ -32,6 +40,8 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     const applyThemeWithAnimation = async (newTheme: "dark" | "light", shouldAnimate = true) => {
       const currentTheme = root.classList.contains("dark") ? "dark" : "light"
       if (currentTheme === newTheme) return
+
+      setResolvedTheme(newTheme)
 
       if (!shouldAnimate || !document.startViewTransition) {
         root.classList.remove("light", "dark")
@@ -90,6 +100,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = {
     theme,
+    resolvedTheme,
     setTheme
   }
 

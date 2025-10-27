@@ -96,7 +96,7 @@ const SongInfo = () => {
             </section>
           )}
           {data.artists.length > 0 && (
-            <section className="flex w-full flex-col gap-3">
+            <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("artists.title")}</Typography>
               <Carousel
                 opts={{
@@ -119,7 +119,7 @@ const SongInfo = () => {
             </section>
           )}
           {data.playlists.length > 0 && (
-            <section className="flex w-full flex-col gap-3">
+            <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("playlists.title")}</Typography>
               <Carousel
                 opts={{
@@ -142,7 +142,7 @@ const SongInfo = () => {
             </section>
           )}
           {data.lyrics && Array.isArray(data.lyrics) && data.lyrics.length > 0 && (
-            <section className="flex w-full flex-col gap-3">
+            <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("form.labels.lyrics")}</Typography>
               <div className="w-full space-y-2">
                 {data.lyrics.map((line, index) => (

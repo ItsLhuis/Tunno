@@ -96,7 +96,7 @@ const Appearance = () => {
         )
       }}
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-9">
         {settings.map((setting) => (
           <SettingButton
             key={setting.key}

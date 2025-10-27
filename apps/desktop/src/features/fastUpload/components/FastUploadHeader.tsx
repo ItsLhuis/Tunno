@@ -10,6 +10,10 @@ import { ProgressSection } from "./ProgressSection"
 const FastUploadHeader = () => {
   const { t } = useTranslation()
 
+  const handleOpenCliReadme = () => {
+    open("https://github.com/ItsLhuis/Tunno/blob/main/apps/cli/README.md")
+  }
+
   return (
     <Header className="space-y-6 pb-6">
       <div>
@@ -27,7 +31,7 @@ const FastUploadHeader = () => {
             name="ExternalLink"
             variant="text"
             tooltip={t("fastUpload.cliTooltip")}
-            onClick={() => open("https://github.com/ItsLhuis/Tunno/blob/main/apps/cli/README.md")}
+            onClick={handleOpenCliReadme}
           />
         </div>
       </div>

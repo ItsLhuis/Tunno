@@ -16,6 +16,10 @@ type FastUploadStickyHeaderProps = {
 const FastUploadStickyHeader = ({ className }: FastUploadStickyHeaderProps) => {
   const { t } = useTranslation()
 
+  const handleOpenCliReadme = () => {
+    open("https://github.com/ItsLhuis/Tunno/blob/main/apps/cli/README.md")
+  }
+
   return (
     <StickyHeader className={cn("flex w-full flex-col gap-6 pb-6", className)}>
       <div>
@@ -33,7 +37,7 @@ const FastUploadStickyHeader = ({ className }: FastUploadStickyHeaderProps) => {
             name="ExternalLink"
             variant="text"
             tooltip={t("fastUpload.cliTooltip")}
-            onClick={() => open("https://github.com/ItsLhuis/Tunno/blob/main/apps/cli/README.md")}
+            onClick={handleOpenCliReadme}
           />
         </div>
       </div>
