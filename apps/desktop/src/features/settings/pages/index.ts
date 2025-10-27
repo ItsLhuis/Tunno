@@ -1,3 +1,4 @@
+export * from "./about"
 export * from "./Appearance"
 export * from "./Equalizer"
 export * from "./Language"

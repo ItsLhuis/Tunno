@@ -22,6 +22,7 @@ type SidebarItem = {
     | "settings.language.title"
     | "settings.equalizer.title"
     | "settings.sync.title"
+    | "settings.about.title"
   href: LinkProps["to"]
 }
 
@@ -45,6 +46,11 @@ const sidebar: SidebarItem[] = [
     icon: "FolderSync",
     label: "settings.sync.title",
     href: "/settings/sync"
+  },
+  {
+    icon: "Info",
+    label: "settings.about.title",
+    href: "/settings/about"
   }
 ] as const
 
