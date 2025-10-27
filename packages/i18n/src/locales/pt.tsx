@@ -208,6 +208,9 @@ export const portuguese: Language = {
         },
         sync: {
           title: "Sincronização"
+        },
+        about: {
+          title: "Sobre"
         }
       }
     },
@@ -513,6 +516,34 @@ export const portuguese: Language = {
       sync: {
         title: "Sincronização",
         description: "Sincronize os seus dados entre dispositivos"
+      },
+      about: {
+        title: "Sobre",
+        identity: {
+          title: "Sobre",
+          description: "Informações da aplicação e detalhes da versão"
+        },
+        whatsNew: {
+          title: "Novidades",
+          newRelease: "Nova versão",
+          viewChangelog: "Ver changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Armazenamento e Dados",
+          description: "Gerir dados da aplicação e configurações",
+          openDataFolder: "Abrir pasta de dados"
+        },
+        legal: {
+          title: "Legal e Direitos de Autor",
+          description: "Informações de licença e documentos legais",
+          copyright: "Direitos de Autor",
+          licensed: "Licenciado sob licença MIT",
+          viewLicense: "Ver licença",
+          viewOnGitHub: "Ver no GitHub"
+        }
       }
     },
     fastUpload: {

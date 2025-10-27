@@ -207,6 +207,9 @@ export const finnish: Language = {
         },
         sync: {
           title: "Synkronointi"
+        },
+        about: {
+          title: "Tietoja"
         }
       }
     },
@@ -512,6 +515,34 @@ export const finnish: Language = {
       sync: {
         title: "Synkronointi",
         description: "Synkronoi tietosi laitteiden välillä"
+      },
+      about: {
+        title: "Tietoja",
+        identity: {
+          title: "Tietoja",
+          description: "Sovellustiedot ja versiotiedot"
+        },
+        whatsNew: {
+          title: "Mitä uutta",
+          newRelease: "Uusi julkaisu",
+          viewChangelog: "Näytä muutosloki",
+          dialog: {
+            title: "Muutosloki"
+          }
+        },
+        storage: {
+          title: "Tallennustila ja Tiedot",
+          description: "Hallitse sovelluksen tietoja ja asetuksia",
+          openDataFolder: "Avaa datakansio"
+        },
+        legal: {
+          title: "Juridinen ja Tekijänoikeudet",
+          description: "Lisenssitiedot ja juridiset dokumentit",
+          copyright: "Tekijänoikeudet",
+          licensed: "Lisensoitu MIT-lisenssillä",
+          viewLicense: "Näytä lisenssi",
+          viewOnGitHub: "Näytä GitHubissa"
+        }
       }
     },
     fastUpload: {

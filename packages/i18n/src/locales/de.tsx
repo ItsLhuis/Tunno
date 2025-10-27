@@ -207,6 +207,9 @@ export const german: Language = {
         },
         sync: {
           title: "Synchronisation"
+        },
+        about: {
+          title: "Über"
         }
       }
     },
@@ -512,6 +515,34 @@ export const german: Language = {
       sync: {
         title: "Synchronisation",
         description: "Synchronisieren Sie Ihre Daten zwischen Geräten"
+      },
+      about: {
+        title: "Über",
+        identity: {
+          title: "Über",
+          description: "Anwendungsinformationen und Versionsdetails"
+        },
+        whatsNew: {
+          title: "Neues",
+          newRelease: "Neue Version",
+          viewChangelog: "Changelog ansehen",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Speicher & Daten",
+          description: "Verwaltung von Anwendungsdaten und Einstellungen",
+          openDataFolder: "Datenordner öffnen"
+        },
+        legal: {
+          title: "Rechtliches & Copyright",
+          description: "Lizenzinformationen und rechtliche Dokumente",
+          copyright: "Copyright",
+          licensed: "Lizenziert unter MIT-Lizenz",
+          viewLicense: "Lizenz ansehen",
+          viewOnGitHub: "Auf GitHub ansehen"
+        }
       }
     },
     fastUpload: {

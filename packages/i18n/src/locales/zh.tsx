@@ -207,6 +207,9 @@ export const chinese: Language = {
         },
         sync: {
           title: "同步"
+        },
+        about: {
+          title: "关于"
         }
       }
     },
@@ -512,6 +515,34 @@ export const chinese: Language = {
       sync: {
         title: "同步",
         description: "在设备间同步您的数据"
+      },
+      about: {
+        title: "关于",
+        identity: {
+          title: "关于",
+          description: "应用程序信息和版本详情"
+        },
+        whatsNew: {
+          title: "新功能",
+          newRelease: "新版本",
+          viewChangelog: "查看更新日志",
+          dialog: {
+            title: "更新日志"
+          }
+        },
+        storage: {
+          title: "存储和数据",
+          description: "管理应用程序数据和设置",
+          openDataFolder: "打开数据文件夹"
+        },
+        legal: {
+          title: "法律和版权",
+          description: "许可证信息和法律文档",
+          copyright: "版权",
+          licensed: "根据 MIT 许可证许可",
+          viewLicense: "查看许可证",
+          viewOnGitHub: "在 GitHub 上查看"
+        }
       }
     },
     fastUpload: {

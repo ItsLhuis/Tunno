@@ -207,6 +207,9 @@ export const norwegian: Language = {
         },
         sync: {
           title: "Synkronisering"
+        },
+        about: {
+          title: "Om"
         }
       }
     },
@@ -512,6 +515,34 @@ export const norwegian: Language = {
       sync: {
         title: "Synkronisering",
         description: "Synkroniser data på tvers av enheter"
+      },
+      about: {
+        title: "Om",
+        identity: {
+          title: "Om",
+          description: "Applikasjonsinformasjon og versjonsdetaljer"
+        },
+        whatsNew: {
+          title: "Hva er nytt",
+          newRelease: "Ny versjon",
+          viewChangelog: "Se changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Lagring & Data",
+          description: "Administrer applikasjonsdata og innstillinger",
+          openDataFolder: "Åpne datamappe"
+        },
+        legal: {
+          title: "Juridisk & Opphavsrett",
+          description: "Lisensinformasjon og juridiske dokumenter",
+          copyright: "Opphavsrett",
+          licensed: "Lisensiert under MIT-lisens",
+          viewLicense: "Se lisens",
+          viewOnGitHub: "Se på GitHub"
+        }
       }
     },
     fastUpload: {

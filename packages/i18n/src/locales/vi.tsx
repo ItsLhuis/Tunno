@@ -207,6 +207,9 @@ export const vietnamese: Language = {
         },
         sync: {
           title: "Đồng bộ"
+        },
+        about: {
+          title: "Về ứng dụng"
         }
       }
     },
@@ -512,6 +515,34 @@ export const vietnamese: Language = {
       sync: {
         title: "Đồng bộ",
         description: "Đồng bộ dữ liệu của bạn trên các thiết bị"
+      },
+      about: {
+        title: "Về ứng dụng",
+        identity: {
+          title: "Về ứng dụng",
+          description: "Thông tin ứng dụng và chi tiết phiên bản"
+        },
+        whatsNew: {
+          title: "Tính năng mới",
+          newRelease: "Phiên bản mới",
+          viewChangelog: "Xem changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Lưu trữ và Dữ liệu",
+          description: "Quản lý dữ liệu ứng dụng và cài đặt",
+          openDataFolder: "Mở thư mục dữ liệu"
+        },
+        legal: {
+          title: "Pháp lý và Bản quyền",
+          description: "Thông tin giấy phép và tài liệu pháp lý",
+          copyright: "Bản quyền",
+          licensed: "Cấp phép theo giấy phép MIT",
+          viewLicense: "Xem giấy phép",
+          viewOnGitHub: "Xem trên GitHub"
+        }
       }
     },
     fastUpload: {

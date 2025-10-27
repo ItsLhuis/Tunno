@@ -207,6 +207,9 @@ export const polish: Language = {
         },
         sync: {
           title: "Synchronizacja"
+        },
+        about: {
+          title: "O Aplikacji"
         }
       }
     },
@@ -512,6 +515,34 @@ export const polish: Language = {
       sync: {
         title: "Synchronizacja",
         description: "Synchronizuj dane między urządzeniami"
+      },
+      about: {
+        title: "O Aplikacji",
+        identity: {
+          title: "O Aplikacji",
+          description: "Informacje o aplikacji i szczegóły wersji"
+        },
+        whatsNew: {
+          title: "Co Nowego",
+          newRelease: "Nowa wersja",
+          viewChangelog: "Zobacz changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Pamięć i Dane",
+          description: "Zarządzaj danymi aplikacji i ustawieniami",
+          openDataFolder: "Otwórz folder danych"
+        },
+        legal: {
+          title: "Prawne i Prawa Autorskie",
+          description: "Informacje o licencji i dokumenty prawne",
+          copyright: "Prawa Autorskie",
+          licensed: "Na licencji MIT",
+          viewLicense: "Zobacz licencję",
+          viewOnGitHub: "Zobacz na GitHubie"
+        }
       }
     },
     fastUpload: {

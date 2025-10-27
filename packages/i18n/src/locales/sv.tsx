@@ -207,6 +207,9 @@ export const swedish: Language = {
         },
         sync: {
           title: "Synkronisering"
+        },
+        about: {
+          title: "Om"
         }
       }
     },
@@ -512,6 +515,34 @@ export const swedish: Language = {
       sync: {
         title: "Synkronisering",
         description: "Synkronisera dina data mellan enheter"
+      },
+      about: {
+        title: "Om",
+        identity: {
+          title: "Om",
+          description: "Applikationsinformation och versionsdetaljer"
+        },
+        whatsNew: {
+          title: "Vad är nytt",
+          newRelease: "Ny version",
+          viewChangelog: "Visa changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Lagring & Data",
+          description: "Hantera applikationsdata och inställningar",
+          openDataFolder: "Öppna datamapp"
+        },
+        legal: {
+          title: "Juridisk & Upphovsrätt",
+          description: "Licensinformation och juridiska dokument",
+          copyright: "Upphovsrätt",
+          licensed: "Licensierad under MIT-licens",
+          viewLicense: "Visa licens",
+          viewOnGitHub: "Visa på GitHub"
+        }
       }
     },
     fastUpload: {

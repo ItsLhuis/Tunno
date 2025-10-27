@@ -207,6 +207,9 @@ export const japanese: Language = {
         },
         sync: {
           title: "同期"
+        },
+        about: {
+          title: "について"
         }
       }
     },
@@ -512,6 +515,34 @@ export const japanese: Language = {
       sync: {
         title: "同期",
         description: "デバイス間でデータを同期します"
+      },
+      about: {
+        title: "について",
+        identity: {
+          title: "について",
+          description: "アプリケーション情報とバージョン詳細"
+        },
+        whatsNew: {
+          title: "新着情報",
+          newRelease: "新リリース",
+          viewChangelog: "変更履歴を見る",
+          dialog: {
+            title: "変更履歴"
+          }
+        },
+        storage: {
+          title: "ストレージとデータ",
+          description: "アプリケーションデータと設定を管理",
+          openDataFolder: "データフォルダを開く"
+        },
+        legal: {
+          title: "法律と著作権",
+          description: "ライセンス情報と法的文書",
+          copyright: "著作権",
+          licensed: "MITライセンスの下でライセンスされています",
+          viewLicense: "ライセンスを表示",
+          viewOnGitHub: "GitHubで表示"
+        }
       }
     },
     fastUpload: {

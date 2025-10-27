@@ -207,6 +207,9 @@ export const russian: Language = {
         },
         sync: {
           title: "Синхронизация"
+        },
+        about: {
+          title: "О программе"
         }
       }
     },
@@ -512,6 +515,34 @@ export const russian: Language = {
       sync: {
         title: "Синхронизация",
         description: "Синхронизируйте данные между устройствами"
+      },
+      about: {
+        title: "О программе",
+        identity: {
+          title: "О программе",
+          description: "Информация о приложении и сведения о версии"
+        },
+        whatsNew: {
+          title: "Что нового",
+          newRelease: "Новый релиз",
+          viewChangelog: "Посмотреть changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Хранилище и Данные",
+          description: "Управление данными приложения и настройками",
+          openDataFolder: "Открыть папку с данными"
+        },
+        legal: {
+          title: "Правовая информация и Авторские права",
+          description: "Информация о лицензии и правовые документы",
+          copyright: "Авторские права",
+          licensed: "Лицензировано под лицензией MIT",
+          viewLicense: "Посмотреть лицензию",
+          viewOnGitHub: "Посмотреть на GitHub"
+        }
       }
     },
     fastUpload: {

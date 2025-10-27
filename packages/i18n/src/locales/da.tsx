@@ -207,6 +207,9 @@ export const danish: Language = {
         },
         sync: {
           title: "Synkronisering"
+        },
+        about: {
+          title: "Om"
         }
       }
     },
@@ -512,6 +515,34 @@ export const danish: Language = {
       sync: {
         title: "Synkronisering",
         description: "Synkroniser dine data på tværs af enheder"
+      },
+      about: {
+        title: "Om",
+        identity: {
+          title: "Om",
+          description: "Applikationsinformation og versionsdetaljer"
+        },
+        whatsNew: {
+          title: "Hvad er nyt",
+          newRelease: "Ny udgivelse",
+          viewChangelog: "Se changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Lager & Data",
+          description: "Administrer applikationsdata og indstillinger",
+          openDataFolder: "Åbn datamappe"
+        },
+        legal: {
+          title: "Juridisk & Ophavsret",
+          description: "Licensinformation og juridiske dokumenter",
+          copyright: "Ophavsret",
+          licensed: "Licenseret under MIT licens",
+          viewLicense: "Se licens",
+          viewOnGitHub: "Se på GitHub"
+        }
       }
     },
     fastUpload: {

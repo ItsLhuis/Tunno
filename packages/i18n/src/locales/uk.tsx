@@ -207,6 +207,9 @@ export const ukrainian: Language = {
         },
         sync: {
           title: "Синхронізація"
+        },
+        about: {
+          title: "Про програму"
         }
       }
     },
@@ -512,6 +515,34 @@ export const ukrainian: Language = {
       sync: {
         title: "Синхронізація",
         description: "Синхронізуйте дані між пристроями"
+      },
+      about: {
+        title: "Про програму",
+        identity: {
+          title: "Про програму",
+          description: "Інформація про програму та деталі версії"
+        },
+        whatsNew: {
+          title: "Що нового",
+          newRelease: "Новий реліз",
+          viewChangelog: "Переглянути changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Сховище та Дані",
+          description: "Керування даними програми та налаштуваннями",
+          openDataFolder: "Відкрити папку з даними"
+        },
+        legal: {
+          title: "Юридична інформація та Авторські права",
+          description: "Інформація про ліцензію та юридичні документи",
+          copyright: "Авторські права",
+          licensed: "Ліцензовано під ліцензією MIT",
+          viewLicense: "Переглянути ліцензію",
+          viewOnGitHub: "Переглянути на GitHub"
+        }
       }
     },
     fastUpload: {

@@ -208,6 +208,9 @@ export const dutch: Language = {
         },
         sync: {
           title: "Synchronisatie"
+        },
+        about: {
+          title: "Over"
         }
       }
     },
@@ -513,6 +516,34 @@ export const dutch: Language = {
       sync: {
         title: "Synchronisatie",
         description: "Synchroniseer je gegevens tussen apparaten"
+      },
+      about: {
+        title: "Over",
+        identity: {
+          title: "Over",
+          description: "Applicatie-informatie en versiedetails"
+        },
+        whatsNew: {
+          title: "Wat is er nieuw",
+          newRelease: "Nieuwe release",
+          viewChangelog: "Changelog bekijken",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Opslag & Gegevens",
+          description: "Beheer applicatiegegevens en instellingen",
+          openDataFolder: "Gegevensmap openen"
+        },
+        legal: {
+          title: "Juridisch & Auteursrecht",
+          description: "Licentie-informatie en juridische documenten",
+          copyright: "Auteursrecht",
+          licensed: "Gelicentieerd onder MIT-licentie",
+          viewLicense: "Licentie bekijken",
+          viewOnGitHub: "Bekijk op GitHub"
+        }
       }
     },
     fastUpload: {

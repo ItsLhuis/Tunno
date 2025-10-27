@@ -208,6 +208,9 @@ export const french: Language = {
         },
         sync: {
           title: "Synchronisation"
+        },
+        about: {
+          title: "À propos"
         }
       }
     },
@@ -512,7 +515,35 @@ export const french: Language = {
       },
       sync: {
         title: "Synchronisation",
-        description: "Synchronisez vos données sur tous vos appareils"
+        description: "Synchroniseուս vos données sur tous vos appareils"
+      },
+      about: {
+        title: "À propos",
+        identity: {
+          title: "À propos",
+          description: "Informations sur l'application et détails de la version"
+        },
+        whatsNew: {
+          title: "Nouveautés",
+          newRelease: "Nouvelle version",
+          viewChangelog: "Voir le changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Stockage et données",
+          description: "Gérer les données de l'application et les paramètres",
+          openDataFolder: "Ouvrir le dossier de données"
+        },
+        legal: {
+          title: "Légal et copyright",
+          description: "Informations de licence et documents juridiques",
+          copyright: "Copyright",
+          licensed: "Sous licence MIT",
+          viewLicense: "Voir la licence",
+          viewOnGitHub: "Voir sur GitHub"
+        }
       }
     },
     fastUpload: {

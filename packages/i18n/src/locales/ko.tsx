@@ -207,6 +207,9 @@ export const korean: Language = {
         },
         sync: {
           title: "동기화"
+        },
+        about: {
+          title: "정보"
         }
       }
     },
@@ -512,6 +515,34 @@ export const korean: Language = {
       sync: {
         title: "동기화",
         description: "기기 간 데이터 동기화"
+      },
+      about: {
+        title: "정보",
+        identity: {
+          title: "정보",
+          description: "애플리케이션 정보 및 버전 세부 정보"
+        },
+        whatsNew: {
+          title: "새로운 기능",
+          newRelease: "새 릴리스",
+          viewChangelog: "변경 로그 보기",
+          dialog: {
+            title: "변경 로그"
+          }
+        },
+        storage: {
+          title: "저장소 및 데이터",
+          description: "애플리케이션 데이터 및 설정 관리",
+          openDataFolder: "데이터 폴더 열기"
+        },
+        legal: {
+          title: "법적 정보 및 저작권",
+          description: "라이선스 정보 및 법적 문서",
+          copyright: "저작권",
+          licensed: "MIT 라이선스 하에 라이선스됨",
+          viewLicense: "라이선스 보기",
+          viewOnGitHub: "GitHub에서 보기"
+        }
       }
     },
     fastUpload: {

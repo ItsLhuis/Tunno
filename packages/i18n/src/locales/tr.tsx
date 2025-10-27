@@ -207,6 +207,9 @@ export const turkish: Language = {
         },
         sync: {
           title: "Senkronizasyon"
+        },
+        about: {
+          title: "Hakkında"
         }
       }
     },
@@ -512,6 +515,34 @@ export const turkish: Language = {
       sync: {
         title: "Senkronizasyon",
         description: "Verilerinizi cihazlar arasında senkronize edin"
+      },
+      about: {
+        title: "Hakkında",
+        identity: {
+          title: "Hakkında",
+          description: "Uygulama bilgileri ve sürüm ayrıntıları"
+        },
+        whatsNew: {
+          title: "Yenilikler",
+          newRelease: "Yeni sürüm",
+          viewChangelog: "Değişiklik listesini görüntüle",
+          dialog: {
+            title: "Değişiklik Listesi"
+          }
+        },
+        storage: {
+          title: "Depolama ve Veri",
+          description: "Uygulama verilerini ve ayarlarını yönet",
+          openDataFolder: "Veri klasörünü aç"
+        },
+        legal: {
+          title: "Yasal ve Telif Hakkı",
+          description: "Lisans bilgileri ve yasal belgeler",
+          copyright: "Telif Hakkı",
+          licensed: "MIT lisansı altında lisanslıdır",
+          viewLicense: "Lisansı görüntüle",
+          viewOnGitHub: "GitHub'da görüntüle"
+        }
       }
     },
     fastUpload: {

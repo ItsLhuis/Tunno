@@ -207,6 +207,9 @@ export const hindi: Language = {
         },
         sync: {
           title: "सिंक"
+        },
+        about: {
+          title: "के बारे में"
         }
       }
     },
@@ -512,6 +515,34 @@ export const hindi: Language = {
       sync: {
         title: "सिंक",
         description: "अपने डेटा को उपकरणों के बीच सिंक्रनाइज़ करें"
+      },
+      about: {
+        title: "के बारे में",
+        identity: {
+          title: "के बारे में",
+          description: "एप्लिकेशन जानकारी और संस्करण विवरण"
+        },
+        whatsNew: {
+          title: "क्या नया है",
+          newRelease: "नया रिलीज़",
+          viewChangelog: "चेंजलॉग देखें",
+          dialog: {
+            title: "चेंजलॉग"
+          }
+        },
+        storage: {
+          title: "भंडारण और डेटा",
+          description: "एप्लिकेशन डेटा और सेटिंग्स प्रबंधित करें",
+          openDataFolder: "डेटा फ़ोल्डर खोलें"
+        },
+        legal: {
+          title: "कानूनी और कॉपीराइट",
+          description: "लाइसेंस जानकारी और कानूनी दस्तावेज",
+          copyright: "कॉपीराइट",
+          licensed: "MIT लाइसेंस के तहत लाइसेंस प्राप्त",
+          viewLicense: "लाइसेंस देखें",
+          viewOnGitHub: "GitHub पर देखें"
+        }
       }
     },
     fastUpload: {

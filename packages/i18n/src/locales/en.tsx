@@ -207,6 +207,9 @@ export const english: Language = {
         },
         sync: {
           title: "Sync"
+        },
+        about: {
+          title: "About"
         }
       }
     },
@@ -512,6 +515,34 @@ export const english: Language = {
       sync: {
         title: "Sync",
         description: "Synchronize your data across devices"
+      },
+      about: {
+        title: "About",
+        identity: {
+          title: "About",
+          description: "Application information and version details"
+        },
+        whatsNew: {
+          title: "What's New",
+          newRelease: "New release",
+          viewChangelog: "View changelog",
+          dialog: {
+            title: "Changelog"
+          }
+        },
+        storage: {
+          title: "Storage & Data",
+          description: "Manage application data and settings",
+          openDataFolder: "Open data folder"
+        },
+        legal: {
+          title: "Legal & Copyright",
+          description: "License information and legal documents",
+          copyright: "Copyright",
+          licensed: "Licensed under MIT license",
+          viewLicense: "View license",
+          viewOnGitHub: "View on GitHub"
+        }
       }
     },
     fastUpload: {
