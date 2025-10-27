@@ -211,6 +211,9 @@ export type Translations = {
       sync: {
         title: string
       }
+      about: {
+        title: string
+      }
     }
   }
   home: {
@@ -515,6 +518,34 @@ export type Translations = {
     sync: {
       title: string
       description: string
+    }
+    about: {
+      title: string
+      identity: {
+        title: string
+        description: string
+      }
+      whatsNew: {
+        title: string
+        newRelease: string
+        viewChangelog: string
+        dialog: {
+          title: string
+        }
+      }
+      storage: {
+        title: string
+        description: string
+        openDataFolder: string
+      }
+      legal: {
+        title: string
+        description: string
+        copyright: string
+        licensed: string
+        viewLicense: string
+        viewOnGitHub: string
+      }
     }
   }
   fastUpload: {
