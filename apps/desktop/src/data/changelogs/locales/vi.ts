@@ -5,28 +5,10 @@ import { type ChangelogVersionKeys } from "../versions"
 export const vietnamese: ChangelogMap<ChangelogVersionKeys> = {
   "1.0.0": {
     summary:
-      "Tunno 1.0 đã ra mắt! Khám phá lại bộ sưu tập nhạc của bạn với một trình phát nhạc đẹp, mạnh mẽ được thiết kế cho những người yêu âm nhạc muốn kiểm soát hoàn toàn thư viện của họ.",
-    highlights: `## Chào mừng đến với Tunno 1.0.0
+      "Tunno đã ra mắt! Khám phá lại bộ sưu tập nhạc của bạn với một trình phát nhạc đẹp, mạnh mẽ được thiết kế cho những người yêu âm nhạc muốn kiểm soát hoàn toàn thư viện của họ.",
+    changelog: `# Chào mừng đến với Tunno!
 
-Âm nhạc của bạn xứng đáng được hưởng những điều tốt đẹp hơn. Khám phá lại bộ sưu tập địa phương của bạn với một trình phát nhạc đẹp, mạnh mẽ.
-
-- **Thư viện nhạc**
-Trình duyệt theo bài hát, album, nghệ sĩ và danh sách phát. Tìm kiếm mạnh mẽ, yêu thích và tổ chức tự động.
-
-- **Danh sách phát không giới hạn**
-Tạo bao nhiêu danh sách phát tùy thích với ảnh bìa tùy chỉnh.
-
-- **Âm thanh chuyên nghiệp**
-  Bộ cân bằng 10 băng tần với các cài đặt trước, lời bài hát được đồng bộ hóa theo thời gian và âm thanh trong trẻo.
-
-- **Thiết kế tuyệt đẹp**
-  Giao diện hiện đại với các chủ đề sáng và tối. Hiệu suất nhanh như chớp trên Windows, macOS và Linux.
-
-- **Công cụ mạnh mẽ**
-Nhập nhanh, tải xuống YouTube và hoàn toàn cục bộ—âm nhạc của bạn vẫn ở chế độ riêng tư.`,
-    fullChangelog: `# Phiên bản 1.0.0 - Tháng 10 năm 2025
-
-**Chào mừng đến với Tunno!**
+> Phiên bản 1.0.0 - Tháng 10 năm 2025
 
 Đây là thời điểm mà chúng tôi đã hướng tới—bản phát hành chính thức đầu tiên của Tunno. Nếu bạn yêu thích bộ sưu tập nhạc của mình và đang tìm kiếm một cách tốt hơn để sắp xếp và thưởng thức nó, bạn đã đến đúng nơi.
 
@@ -115,10 +97,7 @@ Cho dù bạn có vài trăm bản nhạc hay hàng chục nghìn, Tunno đều 
 Đối với những người muốn nhiều hơn, Tunno bao gồm các tính năng nâng cao giúp quản lý các bộ sưu tập nhạc lớn một cách dễ dàng.
 
 ### Công cụ nhập nhanh
-Bạn có một bộ sưu tập nhạc lớn cần thêm vào? Công cụ nhập dòng lệnh của chúng tôi cho phép bạn quét toàn bộ thư mục nhạc và nhập chúng vào Tunno trong vài giây. Hoàn hảo khi bạn đang thiết lập thư viện của mình hoặc thêm một lô album mới.
-
-### Tải xuống âm thanh YouTube
-Hỗ trợ tích hợp để tải xuống âm thanh từ YouTube có nghĩa là bạn có thể nhanh chóng thêm nhạc mới vào bộ sưu tập của mình mà không cần rời khỏi hệ sinh thái Tunno.
+Bạn có một bộ sưu tập nhạc lớn cần thêm vào? Sử dụng Tunno CLI để quét toàn bộ thư mục nhạc và nhập chúng vào Tunno trong vài giây. Hoàn hảo khi bạn đang thiết lập thư viện của mình hoặc thêm một lô album mới.
 
 ### Tổ chức tự động
 Tunno đọc siêu dữ liệu của các tệp nhạc của bạn và tự động sắp xếp mọi thứ. Ảnh bìa, thông tin nghệ sĩ, chi tiết album—tất cả chỉ xuất hiện ở nơi cần thiết.
@@ -133,7 +112,7 @@ Thư viện của bạn luôn sạch sẽ và ngăn nắp. Tunno xử lý các c
 Tunno hoàn toàn cục bộ. Âm nhạc của bạn vẫn ở trên máy tính của bạn và chúng tôi không thu thập bất kỳ dữ liệu nào về những gì bạn nghe hoặc cách bạn sử dụng ứng dụng.
 
 ### Hoàn toàn cục bộ
-Mọi thứ đều chạy trên máy tính của bạn. Không cần kết nối Internet (ngoại trừ các tính năng tùy chọn như tải xuống YouTube). Bộ sưu tập nhạc của bạn là của bạn và chỉ của riêng bạn.
+Mọi thứ đều chạy trên máy tính của bạn. Không cần kết nối Internet. Bộ sưu tập nhạc của bạn là của bạn và chỉ của riêng bạn.
 
 ### Không tài khoản, không theo dõi
 Không đăng ký, không tài khoản, không theo dõi. Cài đặt Tunno và bắt đầu thưởng thức âm nhạc của bạn ngay lập tức.

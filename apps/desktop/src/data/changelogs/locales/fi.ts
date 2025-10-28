@@ -5,28 +5,10 @@ import { type ChangelogVersionKeys } from "../versions"
 export const finnish: ChangelogMap<ChangelogVersionKeys> = {
   "1.0.0": {
     summary:
-      "Tunno 1.0 on täällä! Löydä musiikkikokoelmasi uudelleen kauniilla ja tehokkaalla musiikkisoittimella, joka on suunniteltu musiikin ystäville, jotka haluavat täydellisen hallinnan kirjastostaan.",
-    highlights: `## Tervetuloa Tunno 1.0.0:aan
+      "Tunno on täällä! Löydä musiikkikokoelmasi uudelleen kauniilla ja tehokkaalla musiikkisoittimella, joka on suunniteltu musiikin ystäville, jotka haluavat täydellisen hallinnan kirjastostaan.",
+    changelog: `# Tervetuloa Tunnoon!
 
-Musiikkisi ansaitsee parempaa. Löydä paikallinen kokoelmasi uudelleen kauniilla ja tehokkaalla musiikkisoittimella.
-
-- **Musiikkikirjasto**
-Selaa kappaleita, albumeita, artisteja ja soittolistoja. Tehokas haku, suosikit ja automaattinen järjestely.
-
-- **Rajoittamattomat soittolistat**
-Luo niin monta soittolistaa kuin haluat mukautetulla kansikuvalla.
-
-- **Ammattimainen ääni**
-  10-kaistainen taajuuskorjain esiasetuksilla, aikasynkronoiduilla sanoituksilla ja kristallinkirkkaalla äänellä.
-
-- **Upea muotoilu**
-  Moderni käyttöliittymä vaaleilla ja tummilla teemoilla. Salamannopea suorituskyky Windowsissa, macOS:ssä ja Linuxissa.
-
-- **Tehotyökalut**
-Nopea tuonti, YouTube-lataukset ja täysin paikallinen – musiikkisi pysyy yksityisenä.`,
-    fullChangelog: `# Versio 1.0.0 - Lokakuu 2025
-
-**Tervetuloa Tunnoon!**
+> Versio 1.0.0 - Lokakuu 2025
 
 Tämä on hetki, jota olemme tavoitelleet – Tunnon ensimmäinen virallinen julkaisu. Jos rakastat musiikkikokoelmaasi ja olet etsinyt parempaa tapaa järjestää ja nauttia siitä, olet oikeassa paikassa.
 
@@ -115,10 +97,7 @@ Olipa sinulla muutama sata kappaletta tai kymmeniä tuhansia, Tunno hoitaa kaike
 Niille, jotka haluavat enemmän, Tunno sisältää edistyneitä ominaisuuksia, jotka tekevät suurten musiikkikokoelmien hallinnasta vaivatonta.
 
 ### Nopea tuontityökalu
-Onko sinulla suuri musiikkikokoelma lisättävänä? Komentorivityökalumme avulla voit skannata kokonaisia musiikkikansioita ja tuoda ne Tunnoon sekunneissa. Täydellinen, kun perustat kirjastoasi tai lisäät uuden erän albumeita.
-
-### YouTube-äänen lataus
-Sisäänrakennettu tuki YouTube-äänen lataamiseen tarkoittaa, että voit nopeasti lisätä uutta musiikkia kokoelmaasi poistumatta Tunno-ekosysteemistä.
+Onko sinulla suuri musiikkikokoelma lisättävänä? Käytä Tunno CLI:ta skannaamaan kokonaisia musiikkikansioita ja tuomaan ne Tunnoon sekunneissa. Täydellinen, kun perustat kirjastoasi tai lisäät uuden erän albumeita.
 
 ### Automaattinen järjestely
 Tunno lukee musiikkitiedostojesi metatiedot ja järjestää kaiken automaattisesti. Kansikuva, artistitiedot, albumin tiedot – kaikki vain ilmestyy sinne, minne sen pitäisi.
@@ -133,7 +112,7 @@ Kirjastosi pysyy puhtaana ja järjestettynä. Tunno hoitaa tekniset yksityiskohd
 Tunno on täysin paikallinen. Musiikkisi pysyy tietokoneellasi, emmekä kerää tietoja siitä, mitä kuuntelet tai miten käytät sovellusta.
 
 ### Täysin paikallinen
-Kaikki toimii tietokoneellasi. Internet-yhteyttä ei tarvita (paitsi valinnaisille ominaisuuksille, kuten YouTube-latauksille). Musiikkikokoelmasi on sinun ja vain sinun.
+Kaikki toimii tietokoneellasi. Internet-yhteyttä ei tarvita. Musiikkikokoelmasi on sinun ja vain sinun.
 
 ### Ei tilejä, ei seurantaa
 Ei rekisteröitymisiä, ei tilejä, ei seurantaa. Asenna Tunno ja ala nauttia musiikistasi välittömästi.

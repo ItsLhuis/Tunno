@@ -5,28 +5,10 @@ import { type ChangelogVersionKeys } from "../versions"
 export const swedish: ChangelogMap<ChangelogVersionKeys> = {
   "1.0.0": {
     summary:
-      "Tunno 1.0 är här! Återupptäck din musiksamling med en vacker, kraftfull musikspelare designad för musikälskare som vill ha fullständig kontroll över sitt bibliotek.",
-    highlights: `## Välkommen till Tunno 1.0.0
+      "Tunno är här! Återupptäck din musiksamling med en vacker, kraftfull musikspelare designad för musikälskare som vill ha fullständig kontroll över sitt bibliotek.",
+    changelog: `# Välkommen till Tunno!
 
-Din musik förtjänar bättre. Återupptäck din lokala samling med en vacker, kraftfull musikspelare.
-
-- **Musikbibliotek**
-Bläddra efter låtar, album, artister och spellistor. Kraftfull sökning, favoriter och automatisk organisering.
-
-- **Obegränsade spellistor**
-Skapa så många spellistor du vill med anpassad omslagskonst.
-
-- **Professionellt ljud**
-  10-bands equalizer med förinställningar, tidssynkroniserade texter och kristallklart ljud.
-
-- **Fantastisk design**
-  Modernt gränssnitt med ljusa och mörka teman. Blixtsnabb prestanda på Windows, macOS och Linux.
-
-- **Kraftverktyg**
-Snabb import, YouTube-nedladdningar och helt lokalt – din musik förblir privat.`,
-    fullChangelog: `# Version 1.0.0 - Oktober 2025
-
-**Välkommen till Tunno!**
+> Version 1.0.0 - Oktober 2025
 
 Det här är ögonblicket vi har arbetat mot – den första officiella versionen av Tunno. Om du älskar din musiksamling och har letat efter ett bättre sätt att organisera och njuta av den, är du på rätt plats.
 
@@ -115,10 +97,7 @@ Oavsett om du har några hundra spår eller tiotusentals, hanterar Tunno allt ut
 För dem som vill ha mer, inkluderar Tunno avancerade funktioner som gör det enkelt att hantera stora musiksamlingar.
 
 ### Snabbimportverktyg
-Har du en stor musiksamling att lägga till? Vårt kommandoradsimportverktyg låter dig skanna hela mappar med musik och importera dem till Tunno på några sekunder. Perfekt när du konfigurerar ditt bibliotek eller lägger till en ny omgång album.
-
-### YouTube-ljudnedladdning
-Inbyggt stöd för nedladdning av ljud från YouTube innebär att du snabbt kan lägga till ny musik i din samling utan att lämna Tunno-ekosystemet.
+Har du en stor musiksamling att lägga till? Använd Tunno CLI för att skanna hela mappar med musik och importera dem till Tunno på några sekunder. Perfekt när du konfigurerar ditt bibliotek eller lägger till en ny omgång album.
 
 ### Automatisk organisering
 Tunno läser dina musikfilers metadata och organiserar allt automatiskt. Omslagskonst, artistinformation, albumdetaljer – allt dyker bara upp där det ska.
@@ -133,7 +112,7 @@ Ditt bibliotek förblir rent och organiserat. Tunno hanterar de tekniska detalje
 Tunno är helt lokalt. Din musik stannar på din dator, och vi samlar inte in några data om vad du lyssnar på eller hur du använder appen.
 
 ### Helt lokalt
-Allt körs på din dator. Ingen internetanslutning krävs (förutom för valfria funktioner som YouTube-nedladdningar). Din musiksamling är din och bara din.
+Allt körs på din dator. Ingen internetanslutning krävs. Din musiksamling är din och bara din.
 
 ### Inga konton, ingen spårning
 Inga registreringar, inga konton, ingen spårning. Installera Tunno och börja njuta av din musik direkt.

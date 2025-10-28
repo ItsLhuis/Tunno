@@ -5,28 +5,10 @@ import { type ChangelogVersionKeys } from "../versions"
 export const turkish: ChangelogMap<ChangelogVersionKeys> = {
   "1.0.0": {
     summary:
-      "Tunno 1.0 burada! Müzik koleksiyonunuzu, kütüphaneleri üzerinde tam kontrol isteyen müzik severler için tasarlanmış güzel ve güçlü bir müzik çalarla yeniden keşfedin.",
-    highlights: `## Tunno 1.0.0'a Hoş Geldiniz
+      "Tunno burada! Müzik koleksiyonunuzu, kütüphaneleri üzerinde tam kontrol isteyen müzik severler için tasarlanmış güzel ve güçlü bir müzik çalarla yeniden keşfedin.",
+    changelog: `# Tunno'ya Hoş Geldiniz!
 
-Müziğiniz daha iyisini hak ediyor. Yerel koleksiyonunuzu güzel ve güçlü bir müzik çalarla yeniden keşfedin.
-
-- **Müzik Kütüphanesi**
-Şarkılara, albümlere, sanatçılara ve çalma listelerine göre göz atın. Güçlü arama, favoriler ve otomatik organizasyon.
-
-- **Sınırsız Çalma Listeleri**
-Özel kapak sanatıyla istediğiniz kadar çalma listesi oluşturun.
-
-- **Profesyonel Ses**
-  Ön ayarlı 10 bantlı ekolayzır, zamanla senkronize edilmiş şarkı sözleri ve kristal netliğinde ses.
-
-- **Çarpıcı Tasarım**
-  Açık ve koyu temalara sahip modern arayüz. Windows, macOS ve Linux'ta yıldırım hızında performans.
-
-- **Güç Araçları**
-Hızlı içe aktarma, YouTube indirmeleri ve tamamen yerel—müziğiniz gizli kalır.`,
-    fullChangelog: `# Sürüm 1.0.0 - Ekim 2025
-
-**Tunno'ya Hoş Geldiniz!**
+> Sürüm 1.0.0 - Ekim 2025
 
 Bu, üzerinde çalıştığımız an—Tunno'nun ilk resmi sürümü. Müzik koleksiyonunuzu seviyorsanız ve onu organize etmenin ve keyfini çıkarmanın daha iyi bir yolunu arıyorsanız, doğru yerdesiniz.
 
@@ -115,10 +97,7 @@ Tunno, yıldırım hızında olacak şekilde üretilmiştir. Binlerce şarkı ar
 Daha fazlasını isteyenler için Tunno, büyük müzik koleksiyonlarını zahmetsizce yönetmeyi sağlayan gelişmiş özellikler içerir.
 
 ### Hızlı İçe Aktarma Aracı
-Eklenecek büyük bir müzik koleksiyonunuz mu var? Komut satırı içe aktarma aracımız, tüm müzik klasörlerini taramanıza ve saniyeler içinde Tunno'ya aktarmanıza olanak tanır. Kütüphanenizi kurarken veya yeni bir albüm grubu eklerken mükemmeldir.
-
-### YouTube Ses İndirme
-YouTube'dan ses indirme desteği, Tunno ekosisteminden ayrılmadan koleksiyonunuza hızla yeni müzik ekleyebileceğiniz anlamına gelir.
+Eklenecek büyük bir müzik koleksiyonunuz mu var? Tunno CLI'ı kullanarak tüm müzik klasörlerini tarayabilir ve saniyeler içinde Tunno'ya aktarabilirsiniz. Kütüphanenizi kurarken veya yeni bir albüm grubu eklerken mükemmeldir.
 
 ### Otomatik Organizasyon
 Tunno, müzik dosyalarınızın meta verilerini okur ve her şeyi otomatik olarak düzenler. Kapak resmi, sanatçı bilgileri, albüm ayrıntıları—hepsi olması gereken yerde görünür.
@@ -133,7 +112,7 @@ Kütüphaneniz temiz ve düzenli kalır. Tunno, teknik ayrıntıları halleder, 
 Tunno tamamen yereldir. Müziğiniz bilgisayarınızda kalır ve ne dinlediğiniz veya uygulamayı nasıl kullandığınız hakkında herhangi bir veri toplamayız.
 
 ### Tamamen Yerel
-Her şey bilgisayarınızda çalışır. İnternet bağlantısı gerekmez (YouTube indirmeleri gibi isteğe bağlı özellikler hariç). Müzik koleksiyonunuz sizindir ve yalnızca sizindir.
+Her şey bilgisayarınızda çalışır. İnternet bağlantısı gerekmez. Müzik koleksiyonunuz sizindir ve yalnızca sizindir.
 
 ### Hesap Yok, İzleme Yok
 Kayıt yok, hesap yok, izleme yok. Tunno'yu yükleyin ve müziğinizin keyfini hemen çıkarmaya başlayın.

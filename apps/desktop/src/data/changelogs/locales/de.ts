@@ -5,28 +5,10 @@ import { type ChangelogVersionKeys } from "../versions"
 export const german: ChangelogMap<ChangelogVersionKeys> = {
   "1.0.0": {
     summary:
-      "Tunno 1.0 ist da! Entdecken Sie Ihre Musiksammlung neu mit einem schönen, leistungsstarken Musikplayer, der für Musikliebhaber entwickelt wurde, die die volle Kontrolle über ihre Bibliothek haben möchten.",
-    highlights: `## Willkommen bei Tunno 1.0.0
+      "Tunno ist da! Entdecken Sie Ihre Musiksammlung neu mit einem schönen, leistungsstarken Musikplayer, der für Musikliebhaber entwickelt wurde, die die volle Kontrolle über ihre Bibliothek haben möchten.",
+    changelog: `# Willkommen bei Tunno!
 
-Ihre Musik verdient Besseres. Entdecken Sie Ihre lokale Sammlung neu mit einem schönen, leistungsstarken Musikplayer.
-
-- **Musikbibliothek**
-Durchsuchen Sie nach Songs, Alben, Künstlern und Playlists. Leistungsstarke Suche, Favoriten und automatische Organisation.
-
-- **Unbegrenzte Playlists**
-Erstellen Sie so viele Playlists, wie Sie möchten, mit benutzerdefiniertem Cover.
-
-- **Professionelles Audio**
-  10-Band-Equalizer mit Voreinstellungen, zeitsynchronisierten Texten und kristallklarem Klang.
-
-- **Atemberaubendes Design**
-  Moderne Benutzeroberfläche mit hellen und dunklen Themen. Blitzschnelle Leistung unter Windows, macOS und Linux.
-
-- **Power-Tools**
-Schneller Import, YouTube-Downloads und vollständig lokal – Ihre Musik bleibt privat.`,
-    fullChangelog: `# Version 1.0.0 - Oktober 2025
-
-**Willkommen bei Tunno!**
+> Version 1.0.0 - Oktober 2025
 
 Dies ist der Moment, auf den wir hingearbeitet haben – die erste offizielle Veröffentlichung von Tunno. Wenn Sie Ihre Musiksammlung lieben und nach einer besseren Möglichkeit gesucht haben, sie zu organisieren und zu genießen, sind Sie hier genau richtig.
 
@@ -115,10 +97,7 @@ Egal, ob Sie ein paar hundert Titel oder Zehntausende haben, Tunno bewältigt al
 Für diejenigen, die mehr wollen, enthält Tunno erweiterte Funktionen, die die Verwaltung großer Musiksammlungen mühelos machen.
 
 ### Schnelles Import-Tool
-Haben Sie eine große Musiksammlung hinzuzufügen? Mit unserem Befehlszeilen-Importtool können Sie ganze Musikordner scannen und in Sekundenschnelle in Tunno importieren. Perfekt, wenn Sie Ihre Bibliothek einrichten oder einen neuen Stapel Alben hinzufügen.
-
-### YouTube-Audio-Download
-Die integrierte Unterstützung für das Herunterladen von Audio von YouTube bedeutet, dass Sie schnell neue Musik zu Ihrer Sammlung hinzufügen können, ohne das Tunno-Ökosystem zu verlassen.
+Haben Sie eine große Musiksammlung hinzuzufügen? Verwenden Sie die Tunno CLI, um ganze Musikordner zu scannen und in Sekundenschnelle in Tunno zu importieren. Perfekt, wenn Sie Ihre Bibliothek einrichten oder einen neuen Stapel Alben hinzufügen.
 
 ### Automatische Organisation
 Tunno liest die Metadaten Ihrer Musikdateien und organisiert alles automatisch. Cover, Künstlerinformationen, Albumdetails – alles erscheint einfach dort, wo es hingehört.
@@ -133,7 +112,7 @@ Ihre Bibliothek bleibt sauber und organisiert. Tunno kümmert sich um die techni
 Tunno ist vollständig lokal. Ihre Musik bleibt auf Ihrem Computer, und wir sammeln keine Daten darüber, was Sie hören oder wie Sie die App verwenden.
 
 ### Vollständig lokal
-Alles läuft auf Ihrem Computer. Keine Internetverbindung erforderlich (außer für optionale Funktionen wie YouTube-Downloads). Ihre Musiksammlung gehört Ihnen und nur Ihnen.
+Alles läuft auf Ihrem Computer. Keine Internetverbindung erforderlich. Ihre Musiksammlung gehört Ihnen und nur Ihnen.
 
 ### Keine Konten, keine Nachverfolgung
 Keine Anmeldungen, keine Konten, keine Nachverfolgung. Installieren Sie Tunno und genießen Sie Ihre Musik sofort.

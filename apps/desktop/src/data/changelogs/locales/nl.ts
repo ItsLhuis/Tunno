@@ -5,28 +5,10 @@ import { type ChangelogVersionKeys } from "../versions"
 export const dutch: ChangelogMap<ChangelogVersionKeys> = {
   "1.0.0": {
     summary:
-      "Tunno 1.0 is hier! Herontdek je muziekcollectie met een prachtige, krachtige muziekspeler die is ontworpen voor muziekliefhebbers die volledige controle over hun bibliotheek willen.",
-    highlights: `## Welkom bij Tunno 1.0.0
+      "Tunno is hier! Herontdek je muziekcollectie met een prachtige, krachtige muziekspeler die is ontworpen voor muziekliefhebbers die volledige controle over hun bibliotheek willen.",
+    changelog: `# Welkom bij Tunno!
 
-Je muziek verdient beter. Herontdek je lokale collectie met een prachtige, krachtige muziekspeler.
-
-- **Muziekbibliotheek**
-Blader op nummers, albums, artiesten en playlists. Krachtige zoekfunctie, favorieten en automatische organisatie.
-
-- **Onbeperkte playlists**
-Maak zoveel playlists als je wilt met aangepaste albumhoezen.
-
-- **Professionele audio**
-  10-bands equalizer met presets, tijdgesynchroniseerde songteksten en kristalhelder geluid.
-
-- **Verbluffend ontwerp**
-  Moderne interface met lichte en donkere thema's. Bliksemsnelle prestaties op Windows, macOS en Linux.
-
-- **Krachtige tools**
-Snelle import, YouTube-downloads en volledig lokaal—je muziek blijft privé.`,
-    fullChangelog: `# Versie 1.0.0 - Oktober 2025
-
-**Welkom bij Tunno!**
+> Versie 1.0.0 - Oktober 2025
 
 Dit is het moment waar we naartoe hebben gewerkt—de eerste officiële release van Tunno. Als je van je muziekcollectie houdt en op zoek was naar een betere manier om deze te organiseren en ervan te genieten, ben je op de juiste plek.
 
@@ -115,10 +97,7 @@ Of je nu een paar honderd tracks hebt of tienduizenden, Tunno kan het allemaal a
 Voor degenen die meer willen, bevat Tunno geavanceerde functies die het beheren van grote muziekcollecties moeiteloos maken.
 
 ### Snelle importtool
-Heb je een grote muziekcollectie om toe te voegen? Onze opdrachtregelimporttool laat je hele mappen met muziek scannen en ze in seconden importeren in Tunno. Perfect voor wanneer je je bibliotheek opzet of een nieuwe batch albums toevoegt.
-
-### YouTube-audiodownload
-Ingebouwde ondersteuning voor het downloaden van audio van YouTube betekent dat je snel nieuwe muziek aan je collectie kunt toevoegen zonder het Tunno-ecosysteem te verlaten.
+Heb je een grote muziekcollectie om toe te voegen? Gebruik de Tunno CLI om hele mappen met muziek te scannen en ze in seconden te importeren in Tunno. Perfect voor wanneer je je bibliotheek opzet of een nieuwe batch albums toevoegt.
 
 ### Automatische organisatie
 Tunno leest de metadata van je muziekbestanden en organiseert alles automatisch. Albumhoezen, artiestinformatie, albumdetails—alles verschijnt gewoon waar het hoort.
@@ -133,7 +112,7 @@ Je bibliotheek blijft schoon en georganiseerd. Tunno regelt de technische detail
 Tunno is volledig lokaal. Je muziek blijft op je computer en we verzamelen geen gegevens over wat je luistert of hoe je de app gebruikt.
 
 ### Volledig lokaal
-Alles draait op je computer. Geen internetverbinding vereist (behalve voor optionele functies zoals YouTube-downloads). Je muziekcollectie is van jou en van jou alleen.
+Alles draait op je computer. Geen internetverbinding vereist. Je muziekcollectie is van jou en van jou alleen.
 
 ### Geen accounts, geen tracking
 Geen aanmeldingen, geen accounts, geen tracking. Installeer Tunno en begin meteen met het genieten van je muziek.
