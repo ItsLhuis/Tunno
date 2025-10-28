@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { invalidateQueries, playlistKeys } from "@repo/api"
+import { invalidateQueries, playlistKeys, isCustomError } from "@repo/api"
 
 import { updatePlaylist } from "../api/mutations"
 
@@ -24,7 +24,7 @@ export function useUpdatePlaylist() {
 
   return useMutation({
     mutationFn: async ({ id, updates, thumbnailAction, thumbnailPath }: UpdatePlaylistParams) => {
-      const updatedPlaylist = await updatePlaylist(id, updates, thumbnailAction, thumbnailPath)
+      const updatedPlaylist = await updatePlaylist(id, updates, thumbnailAction, thumbnailPath, t)
       return updatedPlaylist
     },
     onMutate: async () => {
@@ -37,8 +37,10 @@ export function useUpdatePlaylist() {
         description: t("playlists.updatedDescription", { name: updatedPlaylist.name })
       })
     },
-    onError: () => {
-      toast.error(t("playlists.updatedFailedTitle"))
+    onError: (error) => {
+      if (!isCustomError(error)) {
+        toast.error(t("playlists.updatedFailedTitle"))
+      }
     },
     onSettled: () => {
       invalidateQueries(queryClient, "playlist", {

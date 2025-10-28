@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
+
+import { isCustomError } from "@repo/api"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -89,6 +91,8 @@ const PlaylistForm = ({
 
   const [internalOpen, setInternalOpen] = useState(false)
 
+  const hasResetFormRef = useRef(false)
+
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
 
@@ -117,58 +121,81 @@ const PlaylistForm = ({
   })
 
   useEffect(() => {
-    if (playlist && mode === "update") {
+    if (mode === "insert") {
+      hasResetFormRef.current = false
+    }
+  }, [mode])
+
+  useEffect(() => {
+    if (!isPlaylistLoading && playlist && mode === "update" && !hasResetFormRef.current) {
       form.reset({
         name: playlist.name,
         thumbnail: playlist.thumbnail ?? null,
         isFavorite: playlist.isFavorite
       })
+      hasResetFormRef.current = true
     }
-  }, [playlist, mode])
+  }, [isPlaylistLoading, mode])
 
   useEffect(() => {
-    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+    if (
+      form.formState.isSubmitted &&
+      form.formState.isSubmitSuccessful &&
+      form.formState.isValid &&
+      mode === "insert"
+    ) {
       form.reset()
     }
-  }, [form.formState.isSubmitted, form.formState.isValid, mode])
+  }, [form.formState.isSubmitted, form.formState.isSubmitSuccessful, form.formState.isValid, mode])
 
   useEffect(() => {
     if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
       form.reset()
+      hasResetFormRef.current = false
     }
   }, [isOpen, asModal])
 
   const handleFormSubmit = async (values: InsertPlaylistType | UpdatePlaylistType) => {
-    if (onSubmit) {
-      await onSubmit(values)
-    } else if (mode === "insert") {
-      await createMutation.mutateAsync(values as InsertPlaylistType)
-    } else if (playlist?.id) {
-      const { thumbnail, ...updates } = values
+    try {
+      if (onSubmit) {
+        await onSubmit(values)
+      } else if (mode === "insert") {
+        await createMutation.mutateAsync(values as InsertPlaylistType)
+      } else if (playlist?.id) {
+        const { thumbnail, ...updates } = values
 
-      let thumbnailAction: "keep" | "update" | "remove" = "keep"
-      let thumbnailPath: string | undefined = undefined
+        let thumbnailAction: "keep" | "update" | "remove" = "keep"
+        let thumbnailPath: string | undefined = undefined
 
-      if (thumbnail === null || thumbnail === "") {
-        thumbnailAction = "remove"
-      } else if (thumbnail && thumbnail !== playlist.thumbnail) {
-        thumbnailAction = "update"
-        thumbnailPath = thumbnail
+        if (thumbnail === null || thumbnail === "") {
+          thumbnailAction = "remove"
+        } else if (thumbnail && thumbnail !== playlist.thumbnail) {
+          thumbnailAction = "update"
+          thumbnailPath = thumbnail
+        }
+
+        await updateMutation.mutateAsync({
+          id: playlist.id,
+          updates: {
+            ...updates,
+            isFavorite: playlist.isFavorite
+          },
+          thumbnailAction,
+          thumbnailPath
+        })
       }
 
-      await updateMutation.mutateAsync({
-        id: playlist.id,
-        updates: {
-          ...updates,
-          isFavorite: playlist.isFavorite
-        },
-        thumbnailAction,
-        thumbnailPath
-      })
-    }
-
-    if (asModal) {
-      setIsOpen(false)
+      if (asModal) {
+        setIsOpen(false)
+      }
+    } catch (error: unknown) {
+      if (isCustomError(error)) {
+        form.setError(error.field as Parameters<typeof form.setError>[0], {
+          message: error.message
+        })
+      } else {
+        throw error
+      }
     }
   }
 
