@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
+
+import { isCustomError } from "@repo/api"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -98,6 +100,8 @@ const AlbumForm = ({
 
   const [internalOpen, setInternalOpen] = useState(false)
 
+  const hasResetFormRef = useRef(false)
+
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
 
@@ -127,8 +131,18 @@ const AlbumForm = ({
     }
   })
 
+  const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
+    orderBy: { column: "name", direction: "asc" }
+  })
+
   useEffect(() => {
-    if (album && mode === "update") {
+    if (mode === "insert") {
+      hasResetFormRef.current = false
+    }
+  }, [mode])
+
+  useEffect(() => {
+    if (!isAlbumLoading && album && mode === "update" && !hasResetFormRef.current) {
       form.reset({
         name: album.name,
         thumbnail: album.thumbnail ?? null,
@@ -137,57 +151,70 @@ const AlbumForm = ({
         releaseYear: album.releaseYear ?? null,
         artists: album.artists?.map((a) => a.artistId) ?? []
       })
+      hasResetFormRef.current = true
     }
-  }, [album, mode])
-
-  const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
-    orderBy: { column: "name", direction: "asc" }
-  })
+  }, [isAlbumLoading, mode])
 
   useEffect(() => {
-    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+    if (
+      form.formState.isSubmitted &&
+      form.formState.isSubmitSuccessful &&
+      form.formState.isValid &&
+      mode === "insert"
+    ) {
       form.reset()
     }
-  }, [form.formState.isSubmitted, form.formState.isValid, mode])
+  }, [form.formState.isSubmitted, form.formState.isSubmitSuccessful, form.formState.isValid, mode])
 
   useEffect(() => {
     if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
       form.reset()
+      hasResetFormRef.current = false
     }
   }, [isOpen, asModal])
 
   const handleFormSubmit = async (values: InsertAlbumType | UpdateAlbumType) => {
-    if (onSubmit) {
-      await onSubmit(values)
-    } else if (mode === "insert") {
-      await createMutation.mutateAsync(values as InsertAlbumType)
-    } else if (album?.id) {
-      const { thumbnail, artists, ...updates } = values
+    try {
+      if (onSubmit) {
+        await onSubmit(values)
+      } else if (mode === "insert") {
+        await createMutation.mutateAsync(values as InsertAlbumType)
+      } else if (album?.id) {
+        const { thumbnail, artists, ...updates } = values
 
-      let thumbnailAction: "keep" | "update" | "remove" = "keep"
-      let thumbnailPath: string | undefined = undefined
+        let thumbnailAction: "keep" | "update" | "remove" = "keep"
+        let thumbnailPath: string | undefined = undefined
 
-      if (thumbnail === null || thumbnail === "") {
-        thumbnailAction = "remove"
-      } else if (thumbnail && thumbnail !== album.thumbnail) {
-        thumbnailAction = "update"
-        thumbnailPath = thumbnail
+        if (thumbnail === null || thumbnail === "") {
+          thumbnailAction = "remove"
+        } else if (thumbnail && thumbnail !== album.thumbnail) {
+          thumbnailAction = "update"
+          thumbnailPath = thumbnail
+        }
+
+        await updateMutation.mutateAsync({
+          id: album.id,
+          updates: {
+            ...updates,
+            isFavorite: album.isFavorite
+          },
+          thumbnailAction,
+          thumbnailPath,
+          artists
+        })
       }
 
-      await updateMutation.mutateAsync({
-        id: album.id,
-        updates: {
-          ...updates,
-          isFavorite: album.isFavorite
-        },
-        thumbnailAction,
-        thumbnailPath,
-        artists
-      })
-    }
-
-    if (asModal) {
-      setIsOpen(false)
+      if (asModal) {
+        setIsOpen(false)
+      }
+    } catch (error: unknown) {
+      if (isCustomError(error)) {
+        form.setError(error.field as Parameters<typeof form.setError>[0], {
+          message: error.message
+        })
+      } else {
+        throw error
+      }
     }
   }
 
