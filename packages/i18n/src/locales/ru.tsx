@@ -167,6 +167,15 @@ export const russian: Language = {
       },
       playlistIds: {
         invalid: "Недопустимые плейлисты"
+      },
+      album: {
+        duplicate: "Альбом с таким названием уже существует"
+      },
+      artist: {
+        duplicate: "Исполнитель с таким именем уже существует"
+      },
+      playlist: {
+        duplicate: "Плейлист с таким названием уже существует"
       }
     },
     update: {

@@ -167,6 +167,15 @@ export const hindi: Language = {
       },
       playlistIds: {
         invalid: "अमान्य प्लेलिस्ट"
+      },
+      album: {
+        duplicate: "इस नाम का एल्बम पहले से मौजूद है"
+      },
+      artist: {
+        duplicate: "इस नाम का कलाकार पहले से मौजूद है"
+      },
+      playlist: {
+        duplicate: "इस नाम की प्लेलिस्ट पहले से मौजूद है"
       }
     },
     update: {

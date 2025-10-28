@@ -167,6 +167,15 @@ export const chinese: Language = {
       },
       playlistIds: {
         invalid: "无效的播放列表"
+      },
+      album: {
+        duplicate: "已存在同名专辑"
+      },
+      artist: {
+        duplicate: "已存在同名艺术家"
+      },
+      playlist: {
+        duplicate: "已存在同名播放列表"
       }
     },
     update: {

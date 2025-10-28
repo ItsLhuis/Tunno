@@ -167,6 +167,15 @@ export const danish: Language = {
       },
       playlistIds: {
         invalid: "Ugyldige spillelister"
+      },
+      album: {
+        duplicate: "Der findes allerede et album med dette navn"
+      },
+      artist: {
+        duplicate: "Der findes allerede en kunstner med dette navn"
+      },
+      playlist: {
+        duplicate: "Der findes allerede en spilleliste med dette navn"
       }
     },
     update: {

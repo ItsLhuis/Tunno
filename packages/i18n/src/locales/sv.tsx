@@ -167,6 +167,15 @@ export const swedish: Language = {
       },
       playlistIds: {
         invalid: "Ogiltiga spellistor"
+      },
+      album: {
+        duplicate: "Ett album med detta namn finns redan"
+      },
+      artist: {
+        duplicate: "En artist med detta namn finns redan"
+      },
+      playlist: {
+        duplicate: "En spellista med detta namn finns redan"
       }
     },
     update: {

@@ -167,6 +167,15 @@ export const polish: Language = {
       },
       playlistIds: {
         invalid: "Nieprawidłowe listy odtwarzania"
+      },
+      album: {
+        duplicate: "Album o tej nazwie już istnieje"
+      },
+      artist: {
+        duplicate: "Artysta o tej nazwie już istnieje"
+      },
+      playlist: {
+        duplicate: "Lista odtwarzania o tej nazwie już istnieje"
       }
     },
     update: {

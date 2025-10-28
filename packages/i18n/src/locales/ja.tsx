@@ -167,6 +167,15 @@ export const japanese: Language = {
       },
       playlistIds: {
         invalid: "無効なプレイリスト"
+      },
+      album: {
+        duplicate: "この名前のアルバムは既に存在します"
+      },
+      artist: {
+        duplicate: "この名前のアーティストは既に存在します"
+      },
+      playlist: {
+        duplicate: "この名前のプレイリストは既に存在します"
       }
     },
     update: {

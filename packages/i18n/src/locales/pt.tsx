@@ -167,6 +167,15 @@ export const portuguese: Language = {
       },
       playlistIds: {
         invalid: "Playlists inválidas"
+      },
+      album: {
+        duplicate: "Já existe um álbum com este nome"
+      },
+      artist: {
+        duplicate: "Já existe um artista com este nome"
+      },
+      playlist: {
+        duplicate: "Já existe uma playlist com este nome"
       }
     },
     update: {

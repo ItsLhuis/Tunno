@@ -167,6 +167,15 @@ export const french: Language = {
       },
       playlistIds: {
         invalid: "Listes de lecture invalides"
+      },
+      album: {
+        duplicate: "Un album avec ce nom existe déjà"
+      },
+      artist: {
+        duplicate: "Un artiste avec ce nom existe déjà"
+      },
+      playlist: {
+        duplicate: "Une liste de lecture avec ce nom existe déjà"
       }
     },
     update: {

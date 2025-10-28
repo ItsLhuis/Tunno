@@ -167,6 +167,15 @@ export const dutch: Language = {
       },
       playlistIds: {
         invalid: "Ongeldige afspeellijsten"
+      },
+      album: {
+        duplicate: "Er bestaat al een album met deze naam"
+      },
+      artist: {
+        duplicate: "Er bestaat al een artiest met deze naam"
+      },
+      playlist: {
+        duplicate: "Er bestaat al een afspeellijst met deze naam"
       }
     },
     update: {

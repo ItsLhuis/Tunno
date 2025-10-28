@@ -167,6 +167,15 @@ export const finnish: Language = {
       },
       playlistIds: {
         invalid: "Virheelliset soittolistat"
+      },
+      album: {
+        duplicate: "Saman niminen albumi on jo olemassa"
+      },
+      artist: {
+        duplicate: "Saman niminen artisti on jo olemassa"
+      },
+      playlist: {
+        duplicate: "Saman niminen soittolista on jo olemassa"
       }
     },
     update: {

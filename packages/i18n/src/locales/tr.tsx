@@ -167,6 +167,15 @@ export const turkish: Language = {
       },
       playlistIds: {
         invalid: "Geçersiz çalma listeleri"
+      },
+      album: {
+        duplicate: "Bu isimde bir albüm zaten mevcut"
+      },
+      artist: {
+        duplicate: "Bu isimde bir sanatçı zaten mevcut"
+      },
+      playlist: {
+        duplicate: "Bu isimde bir çalma listesi zaten mevcut"
       }
     },
     update: {

@@ -167,6 +167,15 @@ export const vietnamese: Language = {
       },
       playlistIds: {
         invalid: "Danh sách phát không hợp lệ"
+      },
+      album: {
+        duplicate: "Đã có album với tên này"
+      },
+      artist: {
+        duplicate: "Đã có nghệ sĩ với tên này"
+      },
+      playlist: {
+        duplicate: "Đã có danh sách phát với tên này"
       }
     },
     update: {

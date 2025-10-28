@@ -167,6 +167,15 @@ export const italian: Language = {
       },
       playlistIds: {
         invalid: "Playlist non valide"
+      },
+      album: {
+        duplicate: "Esiste già un album con questo nome"
+      },
+      artist: {
+        duplicate: "Esiste già un artista con questo nome"
+      },
+      playlist: {
+        duplicate: "Esiste già una playlist con questo nome"
       }
     },
     update: {

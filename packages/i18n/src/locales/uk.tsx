@@ -167,6 +167,15 @@ export const ukrainian: Language = {
       },
       playlistIds: {
         invalid: "Недійсні плейлисти"
+      },
+      album: {
+        duplicate: "Альбом з такою назвою вже існує"
+      },
+      artist: {
+        duplicate: "Виконавець з таким ім'ям вже існує"
+      },
+      playlist: {
+        duplicate: "Плейлист з такою назвою вже існує"
       }
     },
     update: {

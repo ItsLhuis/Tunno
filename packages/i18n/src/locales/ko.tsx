@@ -167,6 +167,15 @@ export const korean: Language = {
       },
       playlistIds: {
         invalid: "유효하지 않은 재생목록"
+      },
+      album: {
+        duplicate: "이 이름의 앨범이 이미 존재합니다"
+      },
+      artist: {
+        duplicate: "이 이름의 아티스트가 이미 존재합니다"
+      },
+      playlist: {
+        duplicate: "이 이름의 재생목록이 이미 존재합니다"
       }
     },
     update: {

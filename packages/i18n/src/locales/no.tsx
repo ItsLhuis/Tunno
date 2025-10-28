@@ -167,6 +167,15 @@ export const norwegian: Language = {
       },
       playlistIds: {
         invalid: "Ugyldige spillelister"
+      },
+      album: {
+        duplicate: "Det finnes allerede et album med dette navnet"
+      },
+      artist: {
+        duplicate: "Det finnes allerede en artist med dette navnet"
+      },
+      playlist: {
+        duplicate: "Det finnes allerede en spilleliste med dette navnet"
       }
     },
     update: {
