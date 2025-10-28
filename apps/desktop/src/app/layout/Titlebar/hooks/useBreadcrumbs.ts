@@ -86,6 +86,7 @@ export function useBreadcrumbs() {
       language: t("breadcrumbs.settings.language.title"),
       equalizer: t("breadcrumbs.settings.equalizer.title"),
       sync: t("breadcrumbs.settings.sync.title"),
+      about: t("breadcrumbs.settings.about.title"),
       "fast-upload": t("breadcrumbs.fastUpload.title")
     }
 

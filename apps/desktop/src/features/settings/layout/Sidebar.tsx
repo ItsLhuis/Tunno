@@ -42,11 +42,11 @@ const sidebar: SidebarItem[] = [
     label: "settings.equalizer.title",
     href: "/settings/equalizer"
   },
-  {
+  /* {
     icon: "FolderSync",
     label: "settings.sync.title",
     href: "/settings/sync"
-  },
+  }, */
   {
     icon: "Info",
     label: "settings.about.title",
