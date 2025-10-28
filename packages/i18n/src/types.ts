@@ -171,6 +171,15 @@ export type Translations = {
     playlistIds: {
       invalid: string
     }
+    album: {
+      duplicate: string
+    }
+    artist: {
+      duplicate: string
+    }
+    playlist: {
+      duplicate: string
+    }
   }
   update: {
     downloading: string
