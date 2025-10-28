@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -98,6 +98,8 @@ const SongForm = ({
 
   const [internalOpen, setInternalOpen] = useState(false)
 
+  const hasResetFormRef = useRef(false)
+
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
 
@@ -144,7 +146,13 @@ const SongForm = ({
   )
 
   useEffect(() => {
-    if (song && mode === "update") {
+    if (mode === "insert") {
+      hasResetFormRef.current = false
+    }
+  }, [mode])
+
+  useEffect(() => {
+    if (!isSongLoading && song && mode === "update" && !hasResetFormRef.current) {
       form.reset({
         name: song.name,
         thumbnail: song.thumbnail ?? null,
@@ -156,18 +164,25 @@ const SongForm = ({
         artists: song.artists?.map((a) => a.artistId) ?? [],
         lyrics: song.lyrics ?? null
       })
+      hasResetFormRef.current = true
     }
-  }, [song, mode])
+  }, [isSongLoading, mode])
 
   useEffect(() => {
-    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+    if (
+      form.formState.isSubmitted &&
+      form.formState.isSubmitSuccessful &&
+      form.formState.isValid &&
+      mode === "insert"
+    ) {
       form.reset()
     }
-  }, [form.formState.isSubmitted, form.formState.isValid, mode])
+  }, [form.formState.isSubmitted, form.formState.isSubmitSuccessful, form.formState.isValid, mode])
 
   useEffect(() => {
     if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
       form.reset()
+      hasResetFormRef.current = false
     }
   }, [isOpen, asModal])
 
