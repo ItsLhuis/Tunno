@@ -23,7 +23,6 @@ import {
   Header,
   Icon,
   Image,
-  Markdown,
   ScrollAreaWithHeaders,
   StickyHeader,
   Typography
@@ -96,10 +95,7 @@ const About = () => {
               {t("settings.about.whatsNew.newRelease")}
             </Badge>
           )}
-          <div className="rounded-md border border-border bg-sidebar p-3">
-            <Markdown content={currentChangelog.highlights} />
-          </div>
-          <ChangelogDialog changelog={currentChangelog.fullChangelog} />
+          <ChangelogDialog changelog={currentChangelog.changelog} />
         </div>
       )
     },
