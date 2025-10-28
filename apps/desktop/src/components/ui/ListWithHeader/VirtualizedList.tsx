@@ -75,14 +75,12 @@ const VirtualizedListWithHeaders = <TItem,>({
     }
   }, [calculateHeaderHeight, controller])
 
-  // Expose scroll ref to parent
   useEffect(() => {
     if (onScrollRef && scrollRef.current) {
       onScrollRef(scrollRef)
     }
   }, [onScrollRef])
 
-  // Expose controller to parent
   useEffect(() => {
     if (onController && controller) {
       onController(controller)
