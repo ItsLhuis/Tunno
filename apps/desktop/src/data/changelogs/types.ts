@@ -8,8 +8,7 @@ export type ChangelogVersion = {
 
 export type ChangelogData = {
   summary: string
-  highlights: string
-  fullChangelog: string
+  changelog: string
 }
 
 export type ChangelogMap<T extends string = string> = {
