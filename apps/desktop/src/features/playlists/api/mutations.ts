@@ -10,29 +10,54 @@ import {
 
 import { updatePlaylistStats } from "@features/songs/api/stats/playlist"
 
-import { type InsertPlaylist, type Playlist, type UpdatePlaylist } from "@repo/api"
+import {
+  type InsertPlaylist,
+  type Playlist,
+  type UpdatePlaylist,
+  CustomError,
+  ValidationErrorCode
+} from "@repo/api"
+
+import { isUniqueConstraintError, extractConstraintInfo } from "@repo/database"
+
+import { type TFunction } from "@repo/i18n"
 
 export const insertPlaylist = async (
   playlist: Omit<InsertPlaylist, "thumbnail">,
-  thumbnailPath?: string | null
+  thumbnailPath?: string | null,
+  t?: TFunction
 ): Promise<Playlist> => {
-  const thumbnailName = thumbnailPath
-    ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
-    : null
+  try {
+    const thumbnailName = thumbnailPath
+      ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
+      : null
 
-  const [createdPlaylist] = await database
-    .insert(schema.playlists)
-    .values({ ...playlist, thumbnail: thumbnailName })
-    .returning()
+    const [createdPlaylist] = await database
+      .insert(schema.playlists)
+      .values({ ...playlist, thumbnail: thumbnailName })
+      .returning()
 
-  return createdPlaylist
+    return createdPlaylist
+  } catch (error: unknown) {
+    if (isUniqueConstraintError(error)) {
+      const constraintInfo = extractConstraintInfo(error)
+      if (constraintInfo?.table === "playlists" && constraintInfo?.column?.includes("name")) {
+        const message = t
+          ? t("validation.playlist.duplicate")
+          : "A playlist with this name already exists"
+        throw new CustomError(ValidationErrorCode.DUPLICATE_PLAYLIST, "name", message, "playlist")
+      }
+    }
+    throw error
+  }
 }
 
 export const updatePlaylist = async (
   id: number,
   updates: Omit<UpdatePlaylist, "thumbnail">,
   thumbnailAction?: "keep" | "update" | "remove",
-  thumbnailPath?: string
+  thumbnailPath?: string,
+  t?: TFunction
 ): Promise<Playlist> => {
   const [existingPlaylist] = await database
     .select()
@@ -54,13 +79,26 @@ export const updatePlaylist = async (
     thumbnailName = null
   }
 
-  const [updatedPlaylist] = await database
-    .update(schema.playlists)
-    .set({ ...updates, thumbnail: thumbnailName })
-    .where(eq(schema.playlists.id, id))
-    .returning()
+  try {
+    const [updatedPlaylist] = await database
+      .update(schema.playlists)
+      .set({ ...updates, thumbnail: thumbnailName })
+      .where(eq(schema.playlists.id, id))
+      .returning()
 
-  return updatedPlaylist
+    return updatedPlaylist
+  } catch (error: unknown) {
+    if (isUniqueConstraintError(error)) {
+      const constraintInfo = extractConstraintInfo(error)
+      if (constraintInfo?.table === "playlists" && constraintInfo?.column?.includes("name")) {
+        const message = t
+          ? t("validation.playlist.duplicate")
+          : "A playlist with this name already exists"
+        throw new CustomError(ValidationErrorCode.DUPLICATE_PLAYLIST, "name", message, "playlist")
+      }
+    }
+    throw error
+  }
 }
 
 export const togglePlaylistFavorite = async (id: number): Promise<Playlist> => {
