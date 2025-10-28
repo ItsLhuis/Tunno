@@ -34,3 +34,27 @@ export type InvalidationContext<T extends EntityType> = {
   relations?: RelationsMap[T][]
   forceAll?: boolean
 }
+
+export enum ValidationErrorCode {
+  DUPLICATE_ALBUM = "DUPLICATE_ALBUM",
+  DUPLICATE_ARTIST = "DUPLICATE_ARTIST",
+  DUPLICATE_PLAYLIST = "DUPLICATE_PLAYLIST"
+}
+
+export class CustomError extends Error {
+  readonly code: ValidationErrorCode
+  readonly field: string
+  readonly entity: EntityType
+
+  constructor(code: ValidationErrorCode, field: string, message: string, entity: EntityType) {
+    super(message)
+    this.name = "CustomError"
+    this.code = code
+    this.field = field
+    this.entity = entity
+  }
+}
+
+export function isCustomError(error: unknown): error is CustomError {
+  return error instanceof CustomError
+}
