@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
+
+import { isCustomError } from "@repo/api"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -89,6 +91,8 @@ const ArtistForm = ({
 
   const [internalOpen, setInternalOpen] = useState(false)
 
+  const hasResetFormRef = useRef(false)
+
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
 
@@ -116,58 +120,81 @@ const ArtistForm = ({
   })
 
   useEffect(() => {
-    if (artist && mode === "update") {
+    if (mode === "insert") {
+      hasResetFormRef.current = false
+    }
+  }, [mode])
+
+  useEffect(() => {
+    if (!isArtistLoading && artist && mode === "update" && !hasResetFormRef.current) {
       form.reset({
         name: artist.name,
         thumbnail: artist.thumbnail ?? null,
         isFavorite: artist.isFavorite
       })
+      hasResetFormRef.current = true
     }
-  }, [artist, mode])
+  }, [isArtistLoading, mode])
 
   useEffect(() => {
-    if (form.formState.isSubmitted && form.formState.isValid && mode === "insert") {
+    if (
+      form.formState.isSubmitted &&
+      form.formState.isSubmitSuccessful &&
+      form.formState.isValid &&
+      mode === "insert"
+    ) {
       form.reset()
     }
-  }, [form.formState.isSubmitted, form.formState.isValid, mode])
+  }, [form.formState.isSubmitted, form.formState.isSubmitSuccessful, form.formState.isValid, mode])
 
   useEffect(() => {
     if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
       form.reset()
+      hasResetFormRef.current = false
     }
   }, [isOpen, asModal])
 
   const handleFormSubmit = async (values: InsertArtistType | UpdateArtistType) => {
-    if (onSubmit) {
-      await onSubmit(values)
-    } else if (mode === "insert") {
-      await createMutation.mutateAsync(values as InsertArtistType)
-    } else if (artist?.id) {
-      const { thumbnail, ...updates } = values
+    try {
+      if (onSubmit) {
+        await onSubmit(values)
+      } else if (mode === "insert") {
+        await createMutation.mutateAsync(values as InsertArtistType)
+      } else if (artist?.id) {
+        const { thumbnail, ...updates } = values
 
-      let thumbnailAction: "keep" | "update" | "remove" = "keep"
-      let thumbnailPath: string | undefined = undefined
+        let thumbnailAction: "keep" | "update" | "remove" = "keep"
+        let thumbnailPath: string | undefined = undefined
 
-      if (thumbnail === null || thumbnail === "") {
-        thumbnailAction = "remove"
-      } else if (thumbnail && thumbnail !== artist.thumbnail) {
-        thumbnailAction = "update"
-        thumbnailPath = thumbnail
+        if (thumbnail === null || thumbnail === "") {
+          thumbnailAction = "remove"
+        } else if (thumbnail && thumbnail !== artist.thumbnail) {
+          thumbnailAction = "update"
+          thumbnailPath = thumbnail
+        }
+
+        await updateMutation.mutateAsync({
+          id: artist.id,
+          updates: {
+            ...updates,
+            isFavorite: artist.isFavorite
+          },
+          thumbnailAction,
+          thumbnailPath
+        })
       }
 
-      await updateMutation.mutateAsync({
-        id: artist.id,
-        updates: {
-          ...updates,
-          isFavorite: artist.isFavorite
-        },
-        thumbnailAction,
-        thumbnailPath
-      })
-    }
-
-    if (asModal) {
-      setIsOpen(false)
+      if (asModal) {
+        setIsOpen(false)
+      }
+    } catch (error: unknown) {
+      if (isCustomError(error)) {
+        form.setError(error.field as Parameters<typeof form.setError>[0], {
+          message: error.message
+        })
+      } else {
+        throw error
+      }
     }
   }
 

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { artistKeys, invalidateQueries } from "@repo/api"
+import { artistKeys, invalidateQueries, isCustomError } from "@repo/api"
 
 import { getSongByIdWithMainRelations } from "../../songs/api/queries"
 import { updateArtist } from "../api/mutations"
@@ -35,7 +35,7 @@ export function useUpdateArtist() {
       updates: Parameters<typeof updateArtist>[1]
       thumbnailAction?: Parameters<typeof updateArtist>[2]
       thumbnailPath?: Parameters<typeof updateArtist>[3]
-    }) => updateArtist(id, updates, thumbnailAction, thumbnailPath),
+    }) => updateArtist(id, updates, thumbnailAction, thumbnailPath, t),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: artistKeys.all })
     },
@@ -51,8 +51,10 @@ export function useUpdateArtist() {
         description: t("artists.updatedDescription", { name: artist.name })
       })
     },
-    onError: () => {
-      toast.error(t("artists.updatedFailedTitle"))
+    onError: (error) => {
+      if (!isCustomError(error)) {
+        toast.error(t("artists.updatedFailedTitle"))
+      }
     },
     onSettled: () => {
       invalidateQueries(queryClient, "artist", {

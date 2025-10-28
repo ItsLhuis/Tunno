@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { artistKeys, invalidateQueries } from "@repo/api"
+import { artistKeys, invalidateQueries, isCustomError } from "@repo/api"
 
 import { insertArtist } from "../api/mutations"
 
@@ -18,7 +18,7 @@ export function useInsertArtist() {
   return useMutation({
     mutationFn: async (artist: InsertArtistType) => {
       const { thumbnail, ...rest } = artist
-      const createdArtist = await insertArtist(rest, thumbnail)
+      const createdArtist = await insertArtist(rest, thumbnail, t)
       return createdArtist
     },
     onMutate: async () => {
@@ -31,8 +31,10 @@ export function useInsertArtist() {
         description: t("artists.createdDescription", { name: createdArtist.name })
       })
     },
-    onError: () => {
-      toast.error(t("artists.createdFailedTitle"))
+    onError: (error) => {
+      if (!isCustomError(error)) {
+        toast.error(t("artists.createdFailedTitle"))
+      }
     },
     onSettled: () => {
       invalidateQueries(queryClient, "artist", {
