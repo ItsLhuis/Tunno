@@ -20,6 +20,8 @@ import { extractConstraintInfo, isUniqueConstraintError } from "@repo/database"
 
 import { type TFunction } from "@repo/i18n"
 
+import { checkArtistDeletionIntegrity } from "@features/songs/api/validations"
+
 export const insertArtist = async (
   artist: Omit<InsertArtist, "thumbnail">,
   thumbnailPath?: string | null,
@@ -114,7 +116,15 @@ export const toggleArtistFavorite = async (id: number): Promise<Artist> => {
   return updatedArtist
 }
 
-export const deleteArtist = async (id: number): Promise<Artist> => {
+export const deleteArtist = async (id: number, t?: TFunction): Promise<Artist> => {
+  const hasConflict = await checkArtistDeletionIntegrity(id)
+  if (hasConflict) {
+    const message = t
+      ? t("validation.artist.integrity")
+      : "Cannot delete artist because there are songs that belong to both this artist and albums featuring this artist"
+    throw new CustomError(ValidationErrorCode.INTEGRITY_ARTIST_DELETION, "id", message, "artist")
+  }
+
   const [deletedArtist] = await database
     .delete(schema.artists)
     .where(eq(schema.artists.id, id))
