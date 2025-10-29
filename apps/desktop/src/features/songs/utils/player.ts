@@ -6,30 +6,24 @@ import { queryClient } from "@lib/queryClient"
 
 import { songKeys } from "@repo/api"
 
+import { LRUCache } from "@repo/utils"
+
 import { getSongByIdWithMainRelations, getSongsByIdsWithMainRelations } from "../api/queries"
 
 import { type Track } from "../types/player"
 
 import defaultArtwork from "@assets/images/app/icon.png"
 
-const MAX_CACHE_SIZE = 1000
+const MAX_CACHE_SIZE = 150
 
-const audioUrlCache = new Map<string, string>()
-const artworkUrlCache = new Map<string, string>()
-
-const setWithEviction = (map: Map<string, string>, key: string, value: string) => {
-  if (map.size >= MAX_CACHE_SIZE) {
-    const firstKey = map.keys().next().value as string
-    map.delete(firstKey)
-  }
-  map.set(key, value)
-}
+const audioUrlCache = new LRUCache<string, string>(MAX_CACHE_SIZE)
+const artworkUrlCache = new LRUCache<string, string>(MAX_CACHE_SIZE)
 
 export const resolveTrack = async (song: SongWithMainRelations): Promise<Track> => {
   let audioUrl = audioUrlCache.get(song.file)
   if (!audioUrl) {
     audioUrl = await getRenderableFileSrc(song.file, "songs")
-    setWithEviction(audioUrlCache, song.file, audioUrl)
+    audioUrlCache.set(song.file, audioUrl)
   }
 
   let artworkUrl: string | undefined
@@ -37,7 +31,7 @@ export const resolveTrack = async (song: SongWithMainRelations): Promise<Track> 
     artworkUrl = artworkUrlCache.get(song.thumbnail as string)
     if (!artworkUrl) {
       artworkUrl = await getRenderableFileSrc(song.thumbnail as string, "thumbnails")
-      setWithEviction(artworkUrlCache, song.thumbnail as string, artworkUrl)
+      artworkUrlCache.set(song.thumbnail as string, artworkUrl)
     }
   } else {
     artworkUrl = defaultArtwork
