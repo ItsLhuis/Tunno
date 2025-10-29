@@ -169,10 +169,14 @@ export const italian: Language = {
         invalid: "Playlist non valide"
       },
       album: {
-        duplicate: "Esiste già un album con questo nome"
+        duplicate: "Esiste già un album con questo nome",
+        integrity:
+          "Impossibile rimuovere l'artista dall'album perché ci sono canzoni che appartengono sia a questo album che a questo artista"
       },
       artist: {
-        duplicate: "Esiste già un artista con questo nome"
+        duplicate: "Esiste già un artista con questo nome",
+        integrity:
+          "Impossibile eliminare l'artista perché ci sono canzoni che appartengono sia a questo artista che ad album che includono anche questo artista"
       },
       playlist: {
         duplicate: "Esiste già una playlist con questo nome"

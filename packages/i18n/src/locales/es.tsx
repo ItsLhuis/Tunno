@@ -169,10 +169,14 @@ export const spanish: Language = {
         invalid: "Listas de reproducción inválidas"
       },
       album: {
-        duplicate: "Ya existe un álbum con este nombre"
+        duplicate: "Ya existe un álbum con este nombre",
+        integrity:
+          "No se puede eliminar el artista del álbum porque hay canciones que pertenecen tanto a este álbum como a este artista"
       },
       artist: {
-        duplicate: "Ya existe un artista con este nombre"
+        duplicate: "Ya existe un artista con este nombre",
+        integrity:
+          "No se puede eliminar el artista porque hay canciones que pertenecen tanto a este artista como a álbumes que también incluyen a este artista"
       },
       playlist: {
         duplicate: "Ya existe una lista de reproducción con este nombre"

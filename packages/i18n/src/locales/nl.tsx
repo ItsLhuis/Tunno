@@ -169,10 +169,14 @@ export const dutch: Language = {
         invalid: "Ongeldige afspeellijsten"
       },
       album: {
-        duplicate: "Er bestaat al een album met deze naam"
+        duplicate: "Er bestaat al een album met deze naam",
+        integrity:
+          "Kan de artiest niet van het album verwijderen omdat er nummers zijn die zowel bij dit album als bij deze artiest horen"
       },
       artist: {
-        duplicate: "Er bestaat al een artiest met deze naam"
+        duplicate: "Er bestaat al een artiest met deze naam",
+        integrity:
+          "Kan de artiest niet verwijderen omdat er nummers zijn die zowel bij deze artiest als bij albums horen die deze artiest ook bevatten"
       },
       playlist: {
         duplicate: "Er bestaat al een afspeellijst met deze naam"

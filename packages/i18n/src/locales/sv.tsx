@@ -169,10 +169,14 @@ export const swedish: Language = {
         invalid: "Ogiltiga spellistor"
       },
       album: {
-        duplicate: "Ett album med detta namn finns redan"
+        duplicate: "Ett album med detta namn finns redan",
+        integrity:
+          "Kan inte ta bort artisten från albumet eftersom det finns låtar som tillhör både detta album och denna artist"
       },
       artist: {
-        duplicate: "En artist med detta namn finns redan"
+        duplicate: "En artist med detta namn finns redan",
+        integrity:
+          "Kan inte ta bort artisten eftersom det finns låtar som tillhör både denna artist och album som också innehåller denna artist"
       },
       playlist: {
         duplicate: "En spellista med detta namn finns redan"

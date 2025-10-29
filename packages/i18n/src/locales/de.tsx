@@ -169,10 +169,14 @@ export const german: Language = {
         invalid: "Ungültige Playlists"
       },
       album: {
-        duplicate: "Ein Album mit diesem Namen existiert bereits"
+        duplicate: "Ein Album mit diesem Namen existiert bereits",
+        integrity:
+          "Künstler kann nicht vom Album entfernt werden, da es Songs gibt, die sowohl diesem Album als auch diesem Künstler angehören"
       },
       artist: {
-        duplicate: "Ein Künstler mit diesem Namen existiert bereits"
+        duplicate: "Ein Künstler mit diesem Namen existiert bereits",
+        integrity:
+          "Künstler kann nicht gelöscht werden, da es Songs gibt, die sowohl diesem Künstler als auch Alben angehören, die diesen Künstler ebenfalls enthalten"
       },
       playlist: {
         duplicate: "Eine Playlist mit diesem Namen existiert bereits"

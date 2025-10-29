@@ -169,10 +169,12 @@ export const chinese: Language = {
         invalid: "无效的播放列表"
       },
       album: {
-        duplicate: "已存在同名专辑"
+        duplicate: "已存在同名专辑",
+        integrity: "无法从专辑中移除该艺术家，因为存在同时属于该专辑和该艺术家的歌曲"
       },
       artist: {
-        duplicate: "已存在同名艺术家"
+        duplicate: "已存在同名艺术家",
+        integrity: "无法删除该艺术家，因为存在同时属于该艺术家和包含该艺术家的专辑的歌曲"
       },
       playlist: {
         duplicate: "已存在同名播放列表"

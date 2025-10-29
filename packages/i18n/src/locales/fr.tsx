@@ -169,10 +169,14 @@ export const french: Language = {
         invalid: "Listes de lecture invalides"
       },
       album: {
-        duplicate: "Un album avec ce nom existe déjà"
+        duplicate: "Un album avec ce nom existe déjà",
+        integrity:
+          "Impossible de retirer l'artiste de l'album car il y a des chansons qui appartiennent à la fois à cet album et à cet artiste"
       },
       artist: {
-        duplicate: "Un artiste avec ce nom existe déjà"
+        duplicate: "Un artiste avec ce nom existe déjà",
+        integrity:
+          "Impossible de supprimer l'artiste car il y a des chansons qui appartiennent à la fois à cet artiste et à des albums incluant également cet artiste"
       },
       playlist: {
         duplicate: "Une liste de lecture avec ce nom existe déjà"

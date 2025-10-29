@@ -169,10 +169,14 @@ export const korean: Language = {
         invalid: "유효하지 않은 재생목록"
       },
       album: {
-        duplicate: "이 이름의 앨범이 이미 존재합니다"
+        duplicate: "이 이름의 앨범이 이미 존재합니다",
+        integrity:
+          "이 앨범과 아티스트 모두에 속한 곡이 있기 때문에 앨범에서 아티스트를 제거할 수 없습니다"
       },
       artist: {
-        duplicate: "이 이름의 아티스트가 이미 존재합니다"
+        duplicate: "이 이름의 아티스트가 이미 존재합니다",
+        integrity:
+          "이 아티스트에 속한 곡 중 이 아티스트가 포함된 앨범에도 속한 곡이 있기 때문에 아티스트를 삭제할 수 없습니다"
       },
       playlist: {
         duplicate: "이 이름의 재생목록이 이미 존재합니다"

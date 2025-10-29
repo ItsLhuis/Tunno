@@ -169,10 +169,14 @@ export const polish: Language = {
         invalid: "Nieprawidłowe listy odtwarzania"
       },
       album: {
-        duplicate: "Album o tej nazwie już istnieje"
+        duplicate: "Album o tej nazwie już istnieje",
+        integrity:
+          "Nie można usunąć artysty z albumu, ponieważ są utwory, które należą zarówno do tego albumu, jak i do tego artysty"
       },
       artist: {
-        duplicate: "Artysta o tej nazwie już istnieje"
+        duplicate: "Artysta o tej nazwie już istnieje",
+        integrity:
+          "Nie można usunąć artysty, ponieważ są utwory, które należą zarówno do tego artysty, jak i do albumów, które również zawierają tego artystę"
       },
       playlist: {
         duplicate: "Lista odtwarzania o tej nazwie już istnieje"

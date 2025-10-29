@@ -169,10 +169,14 @@ export const english: Language = {
         invalid: "Invalid playlists"
       },
       album: {
-        duplicate: "An album with this name already exists"
+        duplicate: "An album with this name already exists",
+        integrity:
+          "Cannot remove artist from album because there are songs that belong to both this album and artist"
       },
       artist: {
-        duplicate: "An artist with this name already exists"
+        duplicate: "An artist with this name already exists",
+        integrity:
+          "Cannot delete artist because there are songs that belong to both this artist and albums featuring this artist"
       },
       playlist: {
         duplicate: "A playlist with this name already exists"

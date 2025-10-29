@@ -169,10 +169,14 @@ export const turkish: Language = {
         invalid: "Geçersiz çalma listeleri"
       },
       album: {
-        duplicate: "Bu isimde bir albüm zaten mevcut"
+        duplicate: "Bu isimde bir albüm zaten mevcut",
+        integrity:
+          "Bu albüm ve bu sanatçıya ait şarkılar olduğu için albümden sanatçı kaldırılamıyor"
       },
       artist: {
-        duplicate: "Bu isimde bir sanatçı zaten mevcut"
+        duplicate: "Bu isimde bir sanatçı zaten mevcut",
+        integrity:
+          "Sanatçı silinemiyor çünkü hem bu sanatçıya hem de bu sanatçıyı içeren albümlere ait şarkılar var"
       },
       playlist: {
         duplicate: "Bu isimde bir çalma listesi zaten mevcut"

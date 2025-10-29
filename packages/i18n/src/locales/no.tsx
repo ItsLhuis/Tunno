@@ -169,10 +169,14 @@ export const norwegian: Language = {
         invalid: "Ugyldige spillelister"
       },
       album: {
-        duplicate: "Det finnes allerede et album med dette navnet"
+        duplicate: "Det finnes allerede et album med dette navnet",
+        integrity:
+          "Kan ikke fjerne artisten fra albumet fordi det er sanger som tilhører både dette albumet og denne artisten"
       },
       artist: {
-        duplicate: "Det finnes allerede en artist med dette navnet"
+        duplicate: "Det finnes allerede en artist med dette navnet",
+        integrity:
+          "Kan ikke slette artisten fordi det er sanger som tilhører både denne artisten og album som også inneholder denne artisten"
       },
       playlist: {
         duplicate: "Det finnes allerede en spilleliste med dette navnet"

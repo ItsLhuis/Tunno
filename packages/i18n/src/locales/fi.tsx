@@ -169,10 +169,14 @@ export const finnish: Language = {
         invalid: "Virheelliset soittolistat"
       },
       album: {
-        duplicate: "Saman niminen albumi on jo olemassa"
+        duplicate: "Saman niminen albumi on jo olemassa",
+        integrity:
+          "Artistia ei voi poistaa albumista, koska on kappaleita, jotka kuuluvat sekä tähän albumiin että tähän artistiin"
       },
       artist: {
-        duplicate: "Saman niminen artisti on jo olemassa"
+        duplicate: "Saman niminen artisti on jo olemassa",
+        integrity:
+          "Artistia ei voi poistaa, koska on kappaleita, jotka kuuluvat sekä tälle artistille että albumeille, jotka sisältävät myös tämän artistin"
       },
       playlist: {
         duplicate: "Saman niminen soittolista on jo olemassa"

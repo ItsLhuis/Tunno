@@ -169,10 +169,14 @@ export const vietnamese: Language = {
         invalid: "Danh sách phát không hợp lệ"
       },
       album: {
-        duplicate: "Đã có album với tên này"
+        duplicate: "Đã có album với tên này",
+        integrity:
+          "Không thể xóa nghệ sĩ khỏi album vì có các bài hát thuộc về cả album này và nghệ sĩ này"
       },
       artist: {
-        duplicate: "Đã có nghệ sĩ với tên này"
+        duplicate: "Đã có nghệ sĩ với tên này",
+        integrity:
+          "Không thể xóa nghệ sĩ vì có các bài hát thuộc về cả nghệ sĩ này và các album cũng bao gồm nghệ sĩ này"
       },
       playlist: {
         duplicate: "Đã có danh sách phát với tên này"

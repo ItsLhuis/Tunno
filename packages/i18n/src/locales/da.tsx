@@ -169,10 +169,14 @@ export const danish: Language = {
         invalid: "Ugyldige spillelister"
       },
       album: {
-        duplicate: "Der findes allerede et album med dette navn"
+        duplicate: "Der findes allerede et album med dette navn",
+        integrity:
+          "Kan ikke fjerne kunstneren fra albummet, fordi der er sange, der tilhører både dette album og denne kunstner"
       },
       artist: {
-        duplicate: "Der findes allerede en kunstner med dette navn"
+        duplicate: "Der findes allerede en kunstner med dette navn",
+        integrity:
+          "Kan ikke slette kunstneren, fordi der er sange, der tilhører både denne kunstner og album, der også inkluderer denne kunstner"
       },
       playlist: {
         duplicate: "Der findes allerede en spilleliste med dette navn"
