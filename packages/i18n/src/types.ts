@@ -173,9 +173,11 @@ export type Translations = {
     }
     album: {
       duplicate: string
+      integrity: string
     }
     artist: {
       duplicate: string
+      integrity: string
     }
     playlist: {
       duplicate: string
