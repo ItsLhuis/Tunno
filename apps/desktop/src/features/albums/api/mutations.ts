@@ -18,6 +18,8 @@ import {
 
 import { extractConstraintInfo, isUniqueConstraintError } from "@repo/database"
 
+import { checkAlbumArtistIntegrity } from "@features/songs/api/validations"
+
 import { type TFunction } from "@repo/i18n"
 
 export const insertAlbum = async (
@@ -89,6 +91,33 @@ export const updateAlbum = async (
         await deleteFile("thumbnails", existingAlbum.thumbnail)
       }
       thumbnailName = null
+    }
+
+    if (Array.isArray(artists)) {
+      const currentAlbumArtists = await database
+        .select({ artistId: schema.albumsToArtists.artistId })
+        .from(schema.albumsToArtists)
+        .where(eq(schema.albumsToArtists.albumId, id))
+
+      const currentArtistIds = currentAlbumArtists.map((a) => a.artistId)
+      const newArtistIds = artists
+
+      const removedArtistIds = currentArtistIds.filter((id) => !newArtistIds.includes(id))
+
+      if (removedArtistIds.length > 0) {
+        const hasConflict = await checkAlbumArtistIntegrity(id, removedArtistIds)
+        if (hasConflict) {
+          const message = t
+            ? t("validation.album.integrity")
+            : "Cannot remove artist from album because there are songs that belong to both this album and artist"
+          throw new CustomError(
+            ValidationErrorCode.INTEGRITY_ALBUM_ARTIST,
+            "artists",
+            message,
+            "album"
+          )
+        }
+      }
     }
 
     const [updatedAlbum] = await database
