@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { artistKeys, invalidateQueries } from "@repo/api"
+import { artistKeys, invalidateQueries, isCustomError } from "@repo/api"
 
 import { getSongByIdWithMainRelations } from "../../songs/api/queries"
 import { deleteArtist } from "../api/mutations"
@@ -15,6 +15,7 @@ import { toast } from "@components/ui"
 
 export function useDeleteArtist() {
   const queryClient = useQueryClient()
+
   const { t } = useTranslation()
 
   const { currentTrackId, updateTrackMetadata } = usePlayerStore(
@@ -25,7 +26,7 @@ export function useDeleteArtist() {
   )
 
   return useMutation({
-    mutationFn: ({ id }: { id: number }) => deleteArtist(id),
+    mutationFn: ({ id }: { id: number }) => deleteArtist(id, t),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: artistKeys.all })
     },
@@ -41,8 +42,14 @@ export function useDeleteArtist() {
         description: t("artists.deletedDescription", { name: artist.name })
       })
     },
-    onError: () => {
-      toast.error(t("artists.deletedFailedTitle"))
+    onError: (error) => {
+      if (isCustomError(error)) {
+        toast.error(t("artists.deletedFailedTitle"), {
+          description: error.message
+        })
+      } else {
+        toast.error(t("artists.deletedFailedTitle"))
+      }
     },
     onSettled: () => {
       invalidateQueries(queryClient, "artist", {
