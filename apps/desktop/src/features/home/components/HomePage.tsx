@@ -51,20 +51,46 @@ const HomePage = () => {
         isError={isError}
         className={cn("flex w-full flex-1 flex-col gap-9", (isLoading || isError) && "min-h-44")}
       >
-        {(data) => (
-          <Fragment>
-            {data.userStats && <YourStats stats={data.userStats} />}
-            {data.jumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn} />}
-            {data.onRepeat && <OnRepeat onRepeat={data.onRepeat} />}
-            {data.yourPlaylists && <YourPlaylists yourPlaylists={data.yourPlaylists} />}
-            {data.newReleases && <NewReleases newReleases={data.newReleases} />}
-            {data.discover && <Discover discover={data.discover} />}
-            {data.favoriteArtists && <FavoriteArtists favoriteArtists={data.favoriteArtists} />}
-            {data.topAlbums && <TopAlbums topAlbums={data.topAlbums} />}
-            {data.hiddenGems && <HiddenGems hiddenGems={data.hiddenGems} />}
-            {data.recentlyAdded && <RecentlyAdded recentlyAdded={data.recentlyAdded} />}
-          </Fragment>
-        )}
+        {(data) => {
+          const hasUserStats = data.userStats
+          const hasJumpBackIn = (data.jumpBackIn?.totalItems ?? 0) > 0
+          const hasOnRepeat = (data.onRepeat?.totalSongs ?? 0) > 0
+          const hasYourPlaylists = (data.yourPlaylists?.totalPlaylists ?? 0) > 0
+          const hasNewReleases = (data.newReleases?.totalAlbums ?? 0) > 0
+          const hasDiscover = (data.discover?.totalSongs ?? 0) > 0
+          const hasFavoriteArtists = (data.favoriteArtists?.totalArtists ?? 0) > 0
+          const hasTopAlbums = (data.topAlbums?.totalAlbums ?? 0) > 0
+          const hasHiddenGems = (data.hiddenGems?.totalSongs ?? 0) > 0
+          const hasRecentlyAdded = (data.recentlyAdded?.totalItems ?? 0) > 0
+
+          const hasAnySection =
+            hasJumpBackIn ||
+            hasOnRepeat ||
+            hasYourPlaylists ||
+            hasNewReleases ||
+            hasDiscover ||
+            hasFavoriteArtists ||
+            hasTopAlbums ||
+            hasHiddenGems ||
+            hasRecentlyAdded
+
+          return (
+            <Fragment>
+              {hasUserStats && <YourStats stats={data.userStats!} />}
+              <AsyncState data={hasAnySection} className="flex w-full flex-1 flex-col gap-9">
+                {hasJumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn!} />}
+                {hasOnRepeat && <OnRepeat onRepeat={data.onRepeat!} />}
+                {hasYourPlaylists && <YourPlaylists yourPlaylists={data.yourPlaylists!} />}
+                {hasNewReleases && <NewReleases newReleases={data.newReleases!} />}
+                {hasDiscover && <Discover discover={data.discover!} />}
+                {hasFavoriteArtists && <FavoriteArtists favoriteArtists={data.favoriteArtists!} />}
+                {hasTopAlbums && <TopAlbums topAlbums={data.topAlbums!} />}
+                {hasHiddenGems && <HiddenGems hiddenGems={data.hiddenGems!} />}
+                {hasRecentlyAdded && <RecentlyAdded recentlyAdded={data.recentlyAdded!} />}
+              </AsyncState>
+            </Fragment>
+          )
+        }}
       </AsyncState>
     </ScrollAreaWithHeaders>
   )
