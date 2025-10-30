@@ -22,10 +22,7 @@ import { ScrollArea } from "@components/ui/ScrollArea"
 import { TextInput } from "@components/ui/TextInput"
 import { Typography } from "@components/ui/Typography"
 
-export type Lyric = {
-  text: string
-  startTime: number
-}
+import { type Lyric } from "@components/ui/LyricsReader/types"
 
 export type LyricsEditorProps = {
   value?: Lyric[] | null
