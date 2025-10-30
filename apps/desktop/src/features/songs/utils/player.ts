@@ -87,22 +87,14 @@ export const volumeCurve = (linearValue: number): number => {
   if (linearValue <= 0) return 0
   if (linearValue >= 1) return 1
 
-  const minDb = -60
-  const maxDb = 0
-
-  const db = minDb + (maxDb - minDb) * linearValue
-  return Math.pow(10, db / 20)
+  return Math.pow(linearValue, 3)
 }
 
 export const inverseVolumeCurve = (gainValue: number): number => {
   if (gainValue <= 0) return 0
   if (gainValue >= 1) return 1
 
-  const minDb = -60
-  const maxDb = 0
-
-  const db = 20 * Math.log10(gainValue)
-  return (db - minDb) / (maxDb - minDb)
+  return Math.pow(gainValue, 1 / 3)
 }
 
 export const volumePercentage = (linearValue: number): number => {
