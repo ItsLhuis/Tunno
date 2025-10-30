@@ -31,7 +31,7 @@ const VirtualRow = memo(function VirtualRow<TItem>({
       backfaceVisibility: "hidden" as const,
       WebkitBackfaceVisibility: "hidden" as const
     }),
-    [virtualRow.start]
+    [virtualRow.start, gapOffset]
   )
 
   const gridStyle = useMemo(
