@@ -225,6 +225,9 @@ export const spanish: Language = {
         about: {
           title: "Acerca de"
         }
+      },
+      lyrics: {
+        title: "Letra"
       }
     },
     home: {
@@ -587,6 +590,9 @@ export const spanish: Language = {
           description: "{successCount} importadas, {skippedCount} omitidas"
         }
       }
+    },
+    lyrics: {
+      title: "Letra"
     },
     languages: {
       da: "Danés",

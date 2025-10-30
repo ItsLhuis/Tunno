@@ -224,6 +224,9 @@ export const polish: Language = {
         about: {
           title: "O Aplikacji"
         }
+      },
+      lyrics: {
+        title: "Tekst"
       }
     },
     home: {
@@ -587,6 +590,9 @@ export const polish: Language = {
           description: "{successCount} zaimportowano, {skippedCount} pominięto"
         }
       }
+    },
+    lyrics: {
+      title: "Tekst"
     },
     languages: {
       da: "Duński",

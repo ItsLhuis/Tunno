@@ -224,6 +224,9 @@ export const hindi: Language = {
         about: {
           title: "के बारे में"
         }
+      },
+      lyrics: {
+        title: "गीत"
       }
     },
     home: {
@@ -585,6 +588,9 @@ export const hindi: Language = {
           description: "{successCount} आयात किया, {skippedCount} छोड़ा गया"
         }
       }
+    },
+    lyrics: {
+      title: "गीत"
     },
     languages: {
       da: "डेनिश",

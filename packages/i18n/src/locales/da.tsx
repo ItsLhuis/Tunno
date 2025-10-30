@@ -224,6 +224,9 @@ export const danish: Language = {
         about: {
           title: "Om"
         }
+      },
+      lyrics: {
+        title: "Sangtekster"
       }
     },
     home: {
@@ -586,6 +589,9 @@ export const danish: Language = {
           description: "{successCount} importeret, {skippedCount} sprunget over"
         }
       }
+    },
+    lyrics: {
+      title: "Sangtekster"
     },
     languages: {
       da: "Dansk",

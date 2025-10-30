@@ -225,6 +225,9 @@ export const portuguese: Language = {
         about: {
           title: "Sobre"
         }
+      },
+      lyrics: {
+        title: "Letra"
       }
     },
     home: {
@@ -587,6 +590,9 @@ export const portuguese: Language = {
           description: "{successCount} importadas, {skippedCount} ignoradas"
         }
       }
+    },
+    lyrics: {
+      title: "Letra"
     },
     languages: {
       da: "Dinamarquês",

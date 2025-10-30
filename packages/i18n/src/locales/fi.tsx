@@ -224,6 +224,9 @@ export const finnish: Language = {
         about: {
           title: "Tietoja"
         }
+      },
+      lyrics: {
+        title: "Sanat"
       }
     },
     home: {
@@ -585,6 +588,9 @@ export const finnish: Language = {
           description: "{successCount} tuotu, {skippedCount} ohitettu"
         }
       }
+    },
+    lyrics: {
+      title: "Sanat"
     },
     languages: {
       da: "Tanska",

@@ -224,6 +224,9 @@ export const swedish: Language = {
         about: {
           title: "Om"
         }
+      },
+      lyrics: {
+        title: "Låttext"
       }
     },
     home: {
@@ -586,6 +589,9 @@ export const swedish: Language = {
           description: "{successCount} importerade, {skippedCount} hoppades över"
         }
       }
+    },
+    lyrics: {
+      title: "Låttext"
     },
     languages: {
       da: "Danska",

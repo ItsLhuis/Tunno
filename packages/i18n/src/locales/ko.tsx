@@ -224,6 +224,9 @@ export const korean: Language = {
         about: {
           title: "정보"
         }
+      },
+      lyrics: {
+        title: "가사"
       }
     },
     home: {
@@ -585,6 +588,9 @@ export const korean: Language = {
           description: "{successCount}개 가져옴, {skippedCount}개 건너뜀"
         }
       }
+    },
+    lyrics: {
+      title: "가사"
     },
     languages: {
       da: "덴마크어",

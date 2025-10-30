@@ -226,6 +226,9 @@ export type Translations = {
         title: string
       }
     }
+    lyrics: {
+      title: string
+    }
   }
   home: {
     title: string
@@ -586,6 +589,9 @@ export type Translations = {
         description: string
       }
     }
+  }
+  lyrics: {
+    title: string
   }
   languages: {
     da: string

@@ -225,6 +225,9 @@ export const dutch: Language = {
         about: {
           title: "Over"
         }
+      },
+      lyrics: {
+        title: "Songtekst"
       }
     },
     home: {
@@ -587,6 +590,9 @@ export const dutch: Language = {
           description: "{successCount} geïmporteerd, {skippedCount} overgeslagen"
         }
       }
+    },
+    lyrics: {
+      title: "Songtekst"
     },
     languages: {
       da: "Deens",

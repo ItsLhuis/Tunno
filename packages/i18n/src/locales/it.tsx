@@ -225,6 +225,9 @@ export const italian: Language = {
         about: {
           title: "Informazioni"
         }
+      },
+      lyrics: {
+        title: "Testo"
       }
     },
     home: {
@@ -587,6 +590,9 @@ export const italian: Language = {
           description: "{successCount} importate, {skippedCount} saltate"
         }
       }
+    },
+    lyrics: {
+      title: "Testo"
     },
     languages: {
       da: "Danese",

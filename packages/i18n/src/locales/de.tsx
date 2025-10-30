@@ -224,6 +224,9 @@ export const german: Language = {
         about: {
           title: "Über"
         }
+      },
+      lyrics: {
+        title: "Songtexte"
       }
     },
     home: {
@@ -586,6 +589,9 @@ export const german: Language = {
           description: "{successCount} importiert, {skippedCount} übersprungen"
         }
       }
+    },
+    lyrics: {
+      title: "Songtexte"
     },
     languages: {
       da: "Dänisch",

@@ -225,6 +225,9 @@ export const french: Language = {
         about: {
           title: "À propos"
         }
+      },
+      lyrics: {
+        title: "Parole"
       }
     },
     home: {
@@ -587,6 +590,9 @@ export const french: Language = {
           description: "{successCount} importées, {skippedCount} ignorées"
         }
       }
+    },
+    lyrics: {
+      title: "Parole"
     },
     languages: {
       da: "Danois",

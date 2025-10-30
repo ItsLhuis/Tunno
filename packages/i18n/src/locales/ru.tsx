@@ -224,6 +224,9 @@ export const russian: Language = {
         about: {
           title: "О программе"
         }
+      },
+      lyrics: {
+        title: "Текст"
       }
     },
     home: {
@@ -587,6 +590,9 @@ export const russian: Language = {
           description: "{successCount} импортировано, {skippedCount} пропущено"
         }
       }
+    },
+    lyrics: {
+      title: "Текст"
     },
     languages: {
       da: "Датский",

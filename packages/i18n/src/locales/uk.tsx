@@ -224,6 +224,9 @@ export const ukrainian: Language = {
         about: {
           title: "Про програму"
         }
+      },
+      lyrics: {
+        title: "Текст"
       }
     },
     home: {
@@ -586,6 +589,9 @@ export const ukrainian: Language = {
           description: "{successCount} імпортовано, {skippedCount} пропущено"
         }
       }
+    },
+    lyrics: {
+      title: "Текст"
     },
     languages: {
       da: "Данська",

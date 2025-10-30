@@ -224,6 +224,9 @@ export const vietnamese: Language = {
         about: {
           title: "Về ứng dụng"
         }
+      },
+      lyrics: {
+        title: "Lời bài hát"
       }
     },
     home: {
@@ -585,6 +588,9 @@ export const vietnamese: Language = {
           description: "{successCount} đã nhập khẩu, {skippedCount} bỏ qua"
         }
       }
+    },
+    lyrics: {
+      title: "Lời bài hát"
     },
     languages: {
       da: "Tiếng Đan Mạch",

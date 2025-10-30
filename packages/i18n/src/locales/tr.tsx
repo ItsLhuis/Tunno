@@ -224,6 +224,9 @@ export const turkish: Language = {
         about: {
           title: "Hakkında"
         }
+      },
+      lyrics: {
+        title: "Şarkı sözü"
       }
     },
     home: {
@@ -586,6 +589,9 @@ export const turkish: Language = {
           description: "{successCount} içe aktarıldı, {skippedCount} atlandı"
         }
       }
+    },
+    lyrics: {
+      title: "Şarkı sözü"
     },
     languages: {
       da: "Danca",

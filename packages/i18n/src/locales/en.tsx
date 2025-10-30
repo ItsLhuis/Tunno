@@ -224,6 +224,9 @@ export const english: Language = {
         about: {
           title: "About"
         }
+      },
+      lyrics: {
+        title: "Lyrics"
       }
     },
     home: {
@@ -585,6 +588,9 @@ export const english: Language = {
           description: "{successCount} imported, {skippedCount} skipped"
         }
       }
+    },
+    lyrics: {
+      title: "Lyrics"
     },
     languages: {
       da: "Danish",

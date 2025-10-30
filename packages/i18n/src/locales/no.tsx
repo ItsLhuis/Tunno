@@ -224,6 +224,9 @@ export const norwegian: Language = {
         about: {
           title: "Om"
         }
+      },
+      lyrics: {
+        title: "Sangtekst"
       }
     },
     home: {
@@ -586,6 +589,9 @@ export const norwegian: Language = {
           description: "{successCount} importert, {skippedCount} hoppet over"
         }
       }
+    },
+    lyrics: {
+      title: "Sangtekst"
     },
     languages: {
       da: "Dansk",

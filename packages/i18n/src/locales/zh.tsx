@@ -222,6 +222,9 @@ export const chinese: Language = {
         about: {
           title: "关于"
         }
+      },
+      lyrics: {
+        title: "歌词"
       }
     },
     home: {
@@ -583,6 +586,9 @@ export const chinese: Language = {
           description: "导入 {successCount} 首，跳过 {skippedCount} 首"
         }
       }
+    },
+    lyrics: {
+      title: "歌词"
     },
     languages: {
       da: "丹麦语",

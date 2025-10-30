@@ -224,6 +224,9 @@ export const japanese: Language = {
         about: {
           title: "について"
         }
+      },
+      lyrics: {
+        title: "歌詞"
       }
     },
     home: {
@@ -585,6 +588,9 @@ export const japanese: Language = {
           description: "{successCount}件インポート、{skippedCount}件スキップ"
         }
       }
+    },
+    lyrics: {
+      title: "歌詞"
     },
     languages: {
       da: "デンマーク語",
