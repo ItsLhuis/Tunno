@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from "./routes/__root"
 import { Route as SettingsRouteImport } from "./routes/settings"
+import { Route as LyricsRouteImport } from "./routes/lyrics"
 import { Route as FastUploadRouteImport } from "./routes/fast-upload"
 import { Route as IndexRouteImport } from "./routes/index"
 import { Route as SongsIndexRouteImport } from "./routes/songs/index"
@@ -29,6 +30,11 @@ import { Route as AlbumsIdRouteImport } from "./routes/albums/$id"
 const SettingsRoute = SettingsRouteImport.update({
   id: "/settings",
   path: "/settings",
+  getParentRoute: () => rootRouteImport
+} as any)
+const LyricsRoute = LyricsRouteImport.update({
+  id: "/lyrics",
+  path: "/lyrics",
   getParentRoute: () => rootRouteImport
 } as any)
 const FastUploadRoute = FastUploadRouteImport.update({
@@ -110,6 +116,7 @@ const AlbumsIdRoute = AlbumsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/fast-upload": typeof FastUploadRoute
+  "/lyrics": typeof LyricsRoute
   "/settings": typeof SettingsRouteWithChildren
   "/albums/$id": typeof AlbumsIdRoute
   "/artists/$id": typeof ArtistsIdRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/fast-upload": typeof FastUploadRoute
+  "/lyrics": typeof LyricsRoute
   "/settings": typeof SettingsRouteWithChildren
   "/albums/$id": typeof AlbumsIdRoute
   "/artists/$id": typeof ArtistsIdRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
   "/fast-upload": typeof FastUploadRoute
+  "/lyrics": typeof LyricsRoute
   "/settings": typeof SettingsRouteWithChildren
   "/albums/$id": typeof AlbumsIdRoute
   "/artists/$id": typeof ArtistsIdRoute
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/fast-upload"
+    | "/lyrics"
     | "/settings"
     | "/albums/$id"
     | "/artists/$id"
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
   to:
     | "/"
     | "/fast-upload"
+    | "/lyrics"
     | "/settings"
     | "/albums/$id"
     | "/artists/$id"
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | "__root__"
     | "/"
     | "/fast-upload"
+    | "/lyrics"
     | "/settings"
     | "/albums/$id"
     | "/artists/$id"
@@ -222,6 +234,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FastUploadRoute: typeof FastUploadRoute
+  LyricsRoute: typeof LyricsRoute
   SettingsRoute: typeof SettingsRouteWithChildren
   AlbumsIdRoute: typeof AlbumsIdRoute
   ArtistsIdRoute: typeof ArtistsIdRoute
@@ -240,6 +253,13 @@ declare module "@tanstack/react-router" {
       path: "/settings"
       fullPath: "/settings"
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/lyrics": {
+      id: "/lyrics"
+      path: "/lyrics"
+      fullPath: "/lyrics"
+      preLoaderRoute: typeof LyricsRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/fast-upload": {
@@ -371,6 +391,7 @@ const SettingsRouteWithChildren = SettingsRoute._addFileChildren(SettingsRouteCh
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FastUploadRoute: FastUploadRoute,
+  LyricsRoute: LyricsRoute,
   SettingsRoute: SettingsRouteWithChildren,
   AlbumsIdRoute: AlbumsIdRoute,
   ArtistsIdRoute: ArtistsIdRoute,

@@ -1,21 +1,23 @@
 import { useTranslation } from "@repo/i18n"
 
+import { IconButton, SafeLink } from "@components/ui"
+
 import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
 import { QueueSheet } from "./QueueSheet"
-
-import { IconButton } from "@components/ui"
 
 const PlaybackOptions = () => {
   const { t } = useTranslation()
 
   return (
     <div className="flex items-center justify-end gap-2 truncate">
-      <IconButton
-        name="MicVocal"
-        tooltip={t("common.lyrics")}
-        variant="ghost"
-        className="shrink-0"
-      />
+      <SafeLink to="/lyrics">
+        <IconButton
+          name="MicVocal"
+          tooltip={t("common.lyrics")}
+          variant="ghost"
+          className="shrink-0"
+        />
+      </SafeLink>
       <PlaybackVolumeControl />
       <QueueSheet />
       <IconButton
