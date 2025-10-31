@@ -88,7 +88,8 @@ export const useFastUploadProcessor = () => {
           updateTrackStatus(track.id, "skipped", result.reason)
           incrementSkippedCount()
         } else if (result.success && result.songId) {
-          updateTrackStatus(track.id, "success", undefined, result.songId)
+          const statusMessage = result.thumbnailsUpdated ? "Thumbnails updated" : undefined
+          updateTrackStatus(track.id, "success", statusMessage, result.songId)
           incrementSuccessCount()
         } else if (result.error) {
           updateTrackStatus(track.id, "error", "Failed to import track")
