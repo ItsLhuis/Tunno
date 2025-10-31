@@ -47,6 +47,7 @@ export type ProcessResult = {
   reason?: string
   songId?: number
   error?: Error
+  thumbnailsUpdated?: boolean
 }
 
 export type CLISong = {
