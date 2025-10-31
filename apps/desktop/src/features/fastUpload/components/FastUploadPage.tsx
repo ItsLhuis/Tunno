@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useRef } from "react"
 
 import { useShallow } from "zustand/shallow"
 
 import { useFastUploadStore } from "../stores/useFastUploadStore"
+
+import { useStickToIndex } from "@hooks/useStickToIndex"
 
 import { NotFound, Spinner, VirtualizedListWithHeaders } from "@components/ui"
 
@@ -10,7 +12,7 @@ import { FastUploadHeader } from "./FastUploadHeader"
 import { FastUploadStickyHeader } from "./FastUploadStickyHeader"
 import { TrackItem } from "./TrackItem"
 
-const ITEM_GAP = 8
+import { type Virtualizer } from "@tanstack/react-virtual"
 
 const FastUploadPage = () => {
   const { status, tracks, processId, currentTrackIndex } = useFastUploadStore(
@@ -23,49 +25,21 @@ const FastUploadPage = () => {
   )
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
-  const itemHeightRef = useRef<number | null>(null)
+  const virtualizerRef = useRef<Virtualizer<HTMLElement, Element> | null>(null)
 
-  useEffect(() => {
-    const scrollEl = scrollRef.current
-    const isProcessing = status === "processing"
-
-    if (!scrollEl) return
-
-    if (itemHeightRef.current === null && tracks.length > 0) {
-      const firstItem = scrollEl.querySelector("[data-track-item]")
-      if (firstItem) {
-        itemHeightRef.current = firstItem.getBoundingClientRect().height
-      }
-    }
-
-    const preventScroll = (e: Event) => {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-
-    if (isProcessing) {
-      scrollEl.addEventListener("wheel", preventScroll, { passive: false })
-      scrollEl.addEventListener("touchmove", preventScroll, { passive: false })
-      scrollEl.addEventListener("keydown", preventScroll, { passive: false })
-      scrollEl.addEventListener("scroll", preventScroll, { passive: false })
-
-      if (currentTrackIndex >= 0 && itemHeightRef.current !== null) {
-        const totalItemHeight = itemHeightRef.current + ITEM_GAP
-        const scrollTop = currentTrackIndex * totalItemHeight
-
-        requestAnimationFrame(() => {
-          scrollEl.scrollTo({ top: scrollTop, behavior: "smooth" })
-        })
-      }
-    }
-
-    return () => {
-      scrollEl.removeEventListener("wheel", preventScroll)
-      scrollEl.removeEventListener("touchmove", preventScroll)
-      scrollEl.removeEventListener("keydown", preventScroll)
-      scrollEl.removeEventListener("scroll", preventScroll)
-    }
-  }, [status, currentTrackIndex, tracks.length])
+  useStickToIndex({
+    targetIndex: currentTrackIndex,
+    enabled: status === "processing",
+    behavior: "smooth",
+    selector: (index) => `[data-track-index="${index}"]`,
+    scrollRef: scrollRef,
+    resumeDelay: 2000,
+    resumeOnSignificantChange: true,
+    initialScroll: false,
+    virtualizer: virtualizerRef,
+    gap: 8,
+    preventUserScroll: status === "processing"
+  })
 
   const Header = useCallback(() => <FastUploadHeader />, [])
 
@@ -87,15 +61,18 @@ const FastUploadPage = () => {
       data={tracks}
       keyExtractor={(item) => item.id}
       estimateItemHeight={70}
-      gap={ITEM_GAP}
-      renderItem={({ item }) => (
-        <div data-track-item>
+      gap={8}
+      renderItem={({ item, index }) => (
+        <div data-track-index={index}>
           <TrackItem track={item} processId={processId} />
         </div>
       )}
       layout="list"
       onScrollRef={(ref) => {
         scrollRef.current = ref.current
+      }}
+      onVirtualizer={(virtualizer) => {
+        virtualizerRef.current = virtualizer
       }}
     />
   )
