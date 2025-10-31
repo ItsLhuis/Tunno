@@ -11,6 +11,8 @@ import { ScrollArea } from "@components/ui/ScrollArea"
 
 import { type SharedScrollContainerProps } from "./types"
 
+import { type Virtualizer } from "@tanstack/react-virtual"
+
 import {
   VirtualizedList,
   type VirtualizedListController,
@@ -31,6 +33,7 @@ export type VirtualizedListWithHeadersProps<TItem> = Omit<
     containerClassName?: string
     onScrollRef?: (ref: React.RefObject<HTMLDivElement>) => void
     onController?: (controller: VirtualizedListController<TItem>) => void
+    onVirtualizer?: (virtualizer: Virtualizer<HTMLElement, Element>) => void
   }
 
 const VirtualizedListWithHeaders = <TItem,>({
@@ -45,6 +48,7 @@ const VirtualizedListWithHeaders = <TItem,>({
   className,
   onScrollRef,
   onController,
+  onVirtualizer,
   ...props
 }: VirtualizedListWithHeadersProps<TItem>) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -117,6 +121,7 @@ const VirtualizedListWithHeaders = <TItem,>({
             ListEmptyComponent={ListEmptyComponent}
             ListFooterComponent={ListFooterComponent}
             onController={(controller) => setController(controller)}
+            onVirtualizer={onVirtualizer}
           />
         </div>
       </div>
