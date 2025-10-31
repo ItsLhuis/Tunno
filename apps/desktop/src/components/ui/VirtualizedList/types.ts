@@ -1,5 +1,7 @@
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react"
 
+import type { Virtualizer } from "@tanstack/react-virtual"
+
 export type VirtualizedListController<TItem> = {
   data: TItem[]
   selectedIds: string[]
@@ -39,6 +41,7 @@ export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
   ListFooterComponent?: React.ComponentType<{ list: VirtualizedListController<TItem> }>
   onSelectionChange?: (selectedIds: string[], selectedItems: TItem[]) => void
   onController?: (controller: VirtualizedListController<TItem>) => void
+  onVirtualizer?: (virtualizer: Virtualizer<HTMLElement, Element>) => void
   onEndReached?: () => void
   onEndReachedThreshold?: number
   scrollRef?: React.RefObject<HTMLDivElement>
