@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef } from "react"
 
-import { useAutoScroll } from "./hooks/useAutoScroll"
+import { useStickToIndex } from "@hooks/useStickToIndex"
 
 import { LyricLine } from "./LyricLine"
 
 import { NotFound, VirtualizedListWithHeaders } from "@components/ui"
+
+import { type Virtualizer } from "@tanstack/react-virtual"
 
 import { type LyricsReaderProps } from "./types"
 
@@ -36,11 +38,19 @@ const LyricsReader = ({ lyrics, currentTime, onSeek, ...props }: LyricsReaderPro
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
 
-  useAutoScroll({
-    activeIndex: filteredActiveIndex,
+  const virtualizerRef = useRef<Virtualizer<HTMLElement, Element> | null>(null)
+
+  useStickToIndex({
+    targetIndex: filteredActiveIndex,
     enabled: true,
     behavior: "smooth",
-    externalRef: scrollRef ?? undefined
+    selector: (index) => `[data-lyric-index="${index}"]`,
+    scrollRef: scrollRef,
+    resumeDelay: 2000,
+    resumeOnSignificantChange: true,
+    initialScroll: true,
+    initialBehavior: "instant",
+    virtualizer: virtualizerRef
   })
 
   useEffect(() => {
@@ -56,6 +66,9 @@ const LyricsReader = ({ lyrics, currentTime, onSeek, ...props }: LyricsReaderPro
       keyExtractor={(_, index) => String(index)}
       onScrollRef={(ref) => {
         scrollRef.current = ref.current
+      }}
+      onVirtualizer={(virtualizer) => {
+        virtualizerRef.current = virtualizer
       }}
       ListEmptyComponent={props.ListEmptyComponent ?? NotFound}
       renderItem={({ item, index }) => {
