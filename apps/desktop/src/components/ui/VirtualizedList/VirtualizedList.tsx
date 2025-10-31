@@ -37,6 +37,7 @@ function VirtualizedList<TItem>({
   ListFooterComponent,
   onSelectionChange,
   onController,
+  onVirtualizer,
   onEndReached,
   onEndReachedThreshold = 0.1,
   scrollRef: externalScrollRef,
@@ -61,14 +62,6 @@ function VirtualizedList<TItem>({
     onEndReached,
     onEndReachedThreshold
   )
-
-  useLayoutEffect(() => {
-    onController?.(controller)
-  }, [controller, onController])
-
-  useEffect(() => {
-    resetEndReached()
-  }, [data, resetEndReached])
 
   const rowCount = useMemo(
     () => Math.ceil(data.length / effectiveColumns),
@@ -104,6 +97,18 @@ function VirtualizedList<TItem>({
     }),
     [totalSizeWithGaps]
   )
+
+  useLayoutEffect(() => {
+    onController?.(controller)
+  }, [controller, onController])
+
+  useLayoutEffect(() => {
+    onVirtualizer?.(rowVirtualizer)
+  }, [rowVirtualizer, onVirtualizer])
+
+  useEffect(() => {
+    resetEndReached()
+  }, [data, resetEndReached])
 
   return (
     <div
