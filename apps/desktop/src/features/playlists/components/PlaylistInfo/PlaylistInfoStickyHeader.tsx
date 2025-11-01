@@ -54,8 +54,7 @@ const PlaylistInfoStickyHeader = ({ playlist, className }: PlaylistInfoStickyHea
           </Marquee>
           <Marquee>
             <Typography affects={["muted", "small"]}>
-              {playlist.songs?.length || 0}{" "}
-              {(playlist.songs?.length || 0) === 1 ? t("common.song") : t("songs.title")}
+              {t("common.songsPlayed", { count: playlist.songs?.length || 0 })}
               {playlist.totalDuration > 0 && ` • ${formatDuration(playlist.totalDuration, t)}`}
             </Typography>
           </Marquee>

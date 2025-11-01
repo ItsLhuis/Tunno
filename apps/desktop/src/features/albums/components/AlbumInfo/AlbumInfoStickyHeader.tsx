@@ -54,8 +54,7 @@ const AlbumInfoStickyHeader = ({ album, className }: AlbumInfoStickyHeaderProps)
           </Marquee>
           <Marquee>
             <Typography affects={["muted", "small"]}>
-              {album.songs?.length || 0}{" "}
-              {(album.songs?.length || 0) === 1 ? t("common.song") : t("songs.title")}
+              {t("common.songsPlayed", { count: album.songs?.length || 0 })}
               {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
             </Typography>
           </Marquee>

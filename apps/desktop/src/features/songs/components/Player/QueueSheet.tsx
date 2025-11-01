@@ -192,7 +192,7 @@ const QueueSheet = () => {
           <SheetTitle>{t("common.queue")}</SheetTitle>
           <Typography affects={["small", "muted"]}>
             {visibleCount === totalInQueue
-              ? `${totalInQueue} ${totalInQueue === 1 ? t("common.song") : "songs"}`
+              ? t("common.songsPlayed", { count: totalInQueue })
               : t("common.showingOfTotal", {
                   showing: formatNumber(visibleCount),
                   total: formatNumber(totalInQueue)

@@ -59,8 +59,7 @@ const ArtistInfoStickyHeader = ({ artist, className }: ArtistInfoStickyHeaderPro
           </Marquee>
           <Marquee>
             <Typography affects={["muted", "small"]}>
-              {artist.songs?.length || 0}{" "}
-              {(artist.songs?.length || 0) === 1 ? t("common.song") : t("songs.title")}
+              {t("common.songsPlayed", { count: artist.songs?.length || 0 })}
               {artist.totalDuration > 0 && ` • ${formatDuration(artist.totalDuration, t)}`}
             </Typography>
           </Marquee>
