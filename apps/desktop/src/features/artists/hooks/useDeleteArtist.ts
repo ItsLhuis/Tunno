@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
+import { useRouter } from "@tanstack/react-router"
+
 import { useTranslation } from "@repo/i18n"
 
 import { artistKeys, invalidateQueries, isCustomError } from "@repo/api"
@@ -15,6 +17,8 @@ import { toast } from "@components/ui"
 
 export function useDeleteArtist() {
   const queryClient = useQueryClient()
+
+  const router = useRouter()
 
   const { t } = useTranslation()
 
@@ -36,6 +40,13 @@ export function useDeleteArtist() {
         if (currentSong?.artists?.some((a) => a.artistId === artist.id)) {
           await updateTrackMetadata(currentSong)
         }
+      }
+
+      const currentPath = router.state.location.pathname
+      const artistDetailPath = `/artists/${artist.id}`
+
+      if (currentPath === artistDetailPath) {
+        await router.navigate({ to: "/artists", replace: true })
       }
 
       toast.success(t("artists.deletedTitle"), {

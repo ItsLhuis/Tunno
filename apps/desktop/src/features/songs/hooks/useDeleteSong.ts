@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
+import { useRouter } from "@tanstack/react-router"
+
 import { useTranslation } from "@repo/i18n"
 
 import { invalidateQueries, songKeys } from "@repo/api"
@@ -11,6 +13,8 @@ import { toast } from "@components/ui"
 
 export function useDeleteSong() {
   const queryClient = useQueryClient()
+
+  const router = useRouter()
 
   const { t } = useTranslation()
 
@@ -24,6 +28,13 @@ export function useDeleteSong() {
       await removeSongById(id)
     },
     onSuccess: async (song) => {
+      const currentPath = router.state.location.pathname
+      const songDetailPath = `/songs/${song.id}`
+
+      if (currentPath === songDetailPath) {
+        await router.navigate({ to: "/songs", replace: true })
+      }
+
       toast.success(t("songs.deletedTitle"), {
         description: t("songs.deletedDescription", { name: song.name })
       })
