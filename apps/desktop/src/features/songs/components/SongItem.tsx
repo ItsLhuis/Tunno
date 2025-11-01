@@ -14,6 +14,7 @@ import PlayingLottie from "@assets/lotties/Playing.json"
 import Lottie from "lottie-react"
 
 import {
+  Badge,
   Checkbox,
   Fade,
   IconButton,
@@ -44,6 +45,7 @@ type SongItemProps = {
   visibleColumns?: ColumnKey[]
   queueIndex?: number
   playlistId?: number
+  heroLabel?: string
 }
 
 const SongItem = memo(
@@ -57,7 +59,8 @@ const SongItem = memo(
     sourceContextId,
     visibleColumns,
     queueIndex,
-    playlistId
+    playlistId,
+    heroLabel
   }: SongItemProps) => {
     const { t, i18n } = useTranslation()
 
@@ -124,6 +127,11 @@ const SongItem = memo(
           </div>
           <div className="flex flex-1 flex-col gap-3">
             <div className="flex flex-1 flex-col gap-2">
+              {heroLabel && (
+                <Badge variant="muted" className="w-fit">
+                  {heroLabel}
+                </Badge>
+              )}
               <Typography
                 variant="h1"
                 className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"

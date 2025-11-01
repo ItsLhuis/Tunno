@@ -12,7 +12,15 @@ import { cn } from "@lib/utils"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
-import { Checkbox, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import {
+  Badge,
+  Checkbox,
+  IconButton,
+  Marquee,
+  SafeLink,
+  Thumbnail,
+  Typography
+} from "@components/ui"
 
 import { AlbumActions } from "./AlbumActions"
 
@@ -26,10 +34,18 @@ type AlbumItemProps = {
   selected?: boolean
   onToggle?: () => void
   visibleColumns?: ColumnKey[]
+  heroLabel?: string
 }
 
 const AlbumItem = memo(
-  ({ album, variant = "card", selected = false, onToggle, visibleColumns }: AlbumItemProps) => {
+  ({
+    album,
+    variant = "card",
+    selected = false,
+    onToggle,
+    visibleColumns,
+    heroLabel
+  }: AlbumItemProps) => {
     const { t, i18n } = useTranslation()
 
     const { loadTracks, play, isTrackLoading, shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -96,8 +112,7 @@ const AlbumItem = memo(
                 </Marquee>
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
-                    {album.totalTracks}{" "}
-                    {album.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {t("common.songsPlayed", { count: album.totalTracks })}
                     {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
                   </Typography>
                 </Marquee>
@@ -142,6 +157,11 @@ const AlbumItem = memo(
           </div>
           <div className="flex flex-1 flex-col gap-3">
             <div className="flex flex-1 flex-col gap-2">
+              {heroLabel && (
+                <Badge variant="muted" className="w-fit">
+                  {heroLabel}
+                </Badge>
+              )}
               <Typography
                 variant="h1"
                 className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
@@ -149,7 +169,7 @@ const AlbumItem = memo(
                 {album.name}
               </Typography>
               <Typography affects={["muted", "small"]}>
-                {album.totalTracks} {album.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                {t("common.songsPlayed", { count: album.totalTracks })}
                 {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
               </Typography>
             </div>
@@ -219,8 +239,7 @@ const AlbumItem = memo(
                 </Marquee>
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
-                    {album.totalTracks}{" "}
-                    {album.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {t("common.songsPlayed", { count: album.totalTracks })}
                     {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
                   </Typography>
                 </Marquee>

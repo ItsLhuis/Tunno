@@ -12,7 +12,15 @@ import { cn } from "@lib/utils"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
-import { Checkbox, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import {
+  Badge,
+  Checkbox,
+  IconButton,
+  Marquee,
+  SafeLink,
+  Thumbnail,
+  Typography
+} from "@components/ui"
 
 import { PlaylistActions } from "./PlaylistActions"
 
@@ -22,10 +30,11 @@ type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
 
 type PlaylistItemProps = {
   playlist: Playlist
-  variant?: "list" | "card" | "compact"
+  variant?: "list" | "card" | "compact" | "hero"
   selected?: boolean
   onToggle?: () => void
   visibleColumns?: ColumnKey[]
+  heroLabel?: string
 }
 
 const PlaylistItem = memo(
@@ -34,15 +43,18 @@ const PlaylistItem = memo(
     variant = "card",
     selected = false,
     onToggle,
-    visibleColumns
+    visibleColumns,
+    heroLabel
   }: PlaylistItemProps) => {
     const { t, i18n } = useTranslation()
 
-    const { loadTracks, play, isTrackLoading } = usePlayerStore(
+    const { loadTracks, play, isTrackLoading, shuffleAndPlay, isShuffling } = usePlayerStore(
       useShallow((state) => ({
         loadTracks: state.loadTracks,
         play: state.play,
-        isTrackLoading: state.isTrackLoading
+        isTrackLoading: state.isTrackLoading,
+        shuffleAndPlay: state.shuffleAndPlay,
+        isShuffling: state.isShuffling
       }))
     )
 
@@ -58,6 +70,11 @@ const PlaylistItem = memo(
 
       await loadTracks(songIds, 0, "playlist", playlist.id)
       await play()
+    }
+
+    const handleShuffleAndPlay = () => {
+      if (isShuffling || !songIds || songIds.length === 0) return
+      shuffleAndPlay(songIds, "playlist", playlist.id)
     }
 
     const canPlay = playlist.totalTracks > 0
@@ -95,8 +112,7 @@ const PlaylistItem = memo(
                 </Marquee>
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
-                    {playlist.totalTracks}{" "}
-                    {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {t("common.songsPlayed", { count: playlist.totalTracks })}
                     {playlist.totalDuration > 0 &&
                       ` • ${formatDuration(playlist.totalDuration, t)}`}
                   </Typography>
@@ -141,9 +157,19 @@ const PlaylistItem = memo(
                 className={cn("h-full w-full", !playlist.thumbnail && "p-[25%]")}
               />
             </div>
-            <div className="absolute bottom-2 right-2 flex items-center justify-center">
-              <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-                {canPlay && (
+            <div className="absolute inset-x-2 bottom-2 h-12 rounded-b-lg bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100" />
+            <div className="absolute bottom-2 left-4 right-2 z-10 flex items-center justify-between gap-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+              <div className="min-w-0 flex-1">
+                <Marquee>
+                  <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
+                    <Typography className="truncate text-white drop-shadow-lg">
+                      {playlist.name}
+                    </Typography>
+                  </SafeLink>
+                </Marquee>
+              </div>
+              {canPlay && (
+                <div className="flex-shrink-0">
                   <IconButton
                     name="Play"
                     tooltip={t("common.play")}
@@ -151,11 +177,57 @@ const PlaylistItem = memo(
                     isLoading={isTrackLoading || isLoading}
                     disabled={!canPlay}
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </PlaylistActions>
+      )
+    }
+
+    if (variant === "hero") {
+      return (
+        <div className="flex flex-1 items-end gap-6">
+          <div className="h-64 w-64">
+            <Thumbnail
+              placeholderIcon="ListMusic"
+              fileName={playlist.thumbnail}
+              alt={playlist.name}
+              className={playlist.thumbnail ? "h-full w-full" : "size-24"}
+              containerClassName="h-full w-full rounded-lg"
+            />
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="flex flex-1 flex-col gap-2">
+              {heroLabel && (
+                <Badge variant="muted" className="w-fit">
+                  {heroLabel}
+                </Badge>
+              )}
+              <Typography
+                variant="h1"
+                className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+              >
+                {playlist.name}
+              </Typography>
+              <Typography affects={["muted", "small"]}>
+                {t("common.songsPlayed", { count: playlist.totalTracks })}
+                {playlist.totalDuration > 0 && ` • ${formatDuration(playlist.totalDuration, t)}`}
+              </Typography>
+            </div>
+            <div className="flex items-center gap-3 pt-3">
+              <IconButton
+                name="Shuffle"
+                className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+                isLoading={isShuffling}
+                disabled={!songIds || songIds.length === 0}
+                tooltip={t("common.shuffleAndPlay")}
+                onClick={handleShuffleAndPlay}
+              />
+              <PlaylistActions playlistId={playlist.id} />
+            </div>
+          </div>
+        </div>
       )
     }
 
@@ -213,8 +285,7 @@ const PlaylistItem = memo(
                 </Marquee>
                 <Marquee>
                   <Typography affects={["muted", "small"]}>
-                    {playlist.totalTracks}{" "}
-                    {playlist.totalTracks === 1 ? t("common.song") : t("songs.title")}
+                    {t("common.songsPlayed", { count: playlist.totalTracks })}
                     {playlist.totalDuration > 0 &&
                       ` • ${formatDuration(playlist.totalDuration, t)}`}
                   </Typography>
