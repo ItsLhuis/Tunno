@@ -17,6 +17,8 @@ import {
 } from "@repo/api"
 
 export const getUserStats = async (): Promise<UserStats> => {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
   const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
 
@@ -141,7 +143,7 @@ export const getUserStats = async (): Promise<UserStats> => {
         timeListened: sql<number>`coalesce(sum(${schema.playHistory.timeListened}), 0)`
       })
       .from(schema.playHistory)
-      .where(sql`date(${schema.playHistory.playedAt}) = date('now')`)
+      .where(gte(schema.playHistory.playedAt, today))
       .then((result) => result[0]),
 
     database
@@ -366,7 +368,7 @@ export const getDiscover = async (limit: number = 12): Promise<Discover> => {
     .where(
       and(
         sql`${schema.songs.playCount} <= 5`,
-        sql`${schema.artists.playCount} > 10 OR ${schema.albums.playCount} > 5`
+        sql`${schema.artists.playCount} > 10 OR (${schema.albums.playCount} IS NOT NULL AND ${schema.albums.playCount} > 5)`
       )
     )
     .groupBy(schema.songs.id)
