@@ -13,6 +13,8 @@ export const dutch: Language = {
       lessThanAnHourAgo: "Minder dan een uur geleden",
       hoursAgo: "{count} uur geleden",
       today: "Vandaag",
+      thisWeek: "Deze Week",
+      thisMonth: "Deze Maand",
       yesterday: "Gisteren",
       years: "{count} jaar",
       weeks: "{count} week{count, plural, one {} other{en}}",
@@ -82,7 +84,8 @@ export const dutch: Language = {
       refresh: "Vernieuwen",
       showingOfTotal: "{showing} van {total} weergegeven",
       start: "Start",
-      completed: "Voltooid"
+      completed: "Voltooid",
+      songsPlayed: "{count} nummer{count, plural, one {} other{s}}"
     },
     form: {
       titles: {
@@ -270,7 +273,11 @@ export const dutch: Language = {
       },
       yourStats: {
         title: "Jouw Muziek",
-        description: "Jouw luisterstatistieken en inzichten"
+        description: "Jouw luisterstatistieken en inzichten",
+        topSong: "Top Nummer",
+        topAlbum: "Top Album",
+        topArtist: "Top Artiest",
+        topPlaylist: "Top Afspeellijst"
       }
     },
     songs: {

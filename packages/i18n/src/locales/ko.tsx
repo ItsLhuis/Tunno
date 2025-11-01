@@ -13,6 +13,8 @@ export const korean: Language = {
       lessThanAnHourAgo: "한 시간 이내",
       hoursAgo: "{count}시간 전",
       today: "오늘",
+      thisWeek: "이번 주",
+      thisMonth: "이번 달",
       yesterday: "어제",
       years: "{count}년",
       weeks: "{count}주",
@@ -82,7 +84,8 @@ export const korean: Language = {
       refresh: "새로고침",
       showingOfTotal: "{total}개 중 {showing}개 표시",
       start: "시작",
-      completed: "완료"
+      completed: "완료",
+      songsPlayed: "{count}곡"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const korean: Language = {
       },
       yourStats: {
         title: "당신의 음악",
-        description: "듣기 통계 및 인사이트"
+        description: "듣기 통계 및 인사이트",
+        topSong: "인기 곡",
+        topAlbum: "인기 앨범",
+        topArtist: "인기 아티스트",
+        topPlaylist: "인기 플레이리스트"
       }
     },
     songs: {

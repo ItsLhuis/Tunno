@@ -13,6 +13,8 @@ export const chinese: Language = {
       lessThanAnHourAgo: "不到一小时前",
       hoursAgo: "{count} 小时前",
       today: "今天",
+      thisWeek: "本周",
+      thisMonth: "本月",
       yesterday: "昨天",
       years: "{count}年",
       weeks: "{count}周",
@@ -82,7 +84,8 @@ export const chinese: Language = {
       refresh: "刷新",
       showingOfTotal: "显示 {showing}/{total}",
       start: "开始",
-      completed: "完成"
+      completed: "完成",
+      songsPlayed: "{count} 首歌曲"
     },
     form: {
       titles: {
@@ -267,7 +270,11 @@ export const chinese: Language = {
       },
       yourStats: {
         title: "你的音乐",
-        description: "你的收听统计和洞察"
+        description: "你的收听统计和洞察",
+        topSong: "热门歌曲",
+        topAlbum: "热门专辑",
+        topArtist: "热门艺术家",
+        topPlaylist: "热门播放列表"
       }
     },
     songs: {

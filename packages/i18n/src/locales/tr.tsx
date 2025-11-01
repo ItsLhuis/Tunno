@@ -13,6 +13,8 @@ export const turkish: Language = {
       lessThanAnHourAgo: "Bir saatten az önce",
       hoursAgo: "{count} saat önce",
       today: "Bugün",
+      thisWeek: "Bu Hafta",
+      thisMonth: "Bu Ay",
       yesterday: "Dün",
       years: "{count} yıl{count, plural, one {} other{}}",
       weeks: "{count} hafta{count, plural, one {} other{}}",
@@ -82,7 +84,8 @@ export const turkish: Language = {
       refresh: "Yenile",
       showingOfTotal: "{total} üzerinden {showing} gösteriliyor",
       start: "Başlat",
-      completed: "Tamamlandı"
+      completed: "Tamamlandı",
+      songsPlayed: "{count} şarkı{count, plural, one {} other{}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const turkish: Language = {
       },
       yourStats: {
         title: "Müziğin",
-        description: "Dinleme istatistiklerin ve içgörülerin"
+        description: "Dinleme istatistiklerin ve içgörülerin",
+        topSong: "En Çok Dinlenen Şarkı",
+        topAlbum: "En Çok Dinlenen Albüm",
+        topArtist: "En Çok Dinlenen Sanatçı",
+        topPlaylist: "En Çok Dinlenen Çalma Listesi"
       }
     },
     songs: {

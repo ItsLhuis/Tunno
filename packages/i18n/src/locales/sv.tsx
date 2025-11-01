@@ -13,6 +13,8 @@ export const swedish: Language = {
       lessThanAnHourAgo: "Mindre än en timme sedan",
       hoursAgo: "{count} timme{count, plural, one {} other{ar}} sedan",
       today: "Idag",
+      thisWeek: "Denna vecka",
+      thisMonth: "Denna månad",
       yesterday: "Igår",
       years: "{count} år",
       weeks: "{count} vecka{count, plural, one {} other{or}}",
@@ -82,7 +84,8 @@ export const swedish: Language = {
       refresh: "Uppdatera",
       showingOfTotal: "Visar {showing} av {total}",
       start: "Starta",
-      completed: "Slutförd"
+      completed: "Slutförd",
+      songsPlayed: "{count} låt{count, plural, one {} other{ar}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const swedish: Language = {
       },
       yourStats: {
         title: "Din Musik",
-        description: "Dina lyssningsstatistik och insikter"
+        description: "Dina lyssningsstatistik och insikter",
+        topSong: "Toppsång",
+        topAlbum: "Topalbum",
+        topArtist: "Toppartist",
+        topPlaylist: "Toppspellista"
       }
     },
     songs: {

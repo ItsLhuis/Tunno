@@ -13,6 +13,8 @@ export const polish: Language = {
       lessThanAnHourAgo: "Mniej niż godzinę temu",
       hoursAgo: "{count} godzina{count, plural, one {} other{y}} temu",
       today: "Dziś",
+      thisWeek: "W tym tygodniu",
+      thisMonth: "W tym miesiącu",
       yesterday: "Wczoraj",
       years: "{count} rok{count, plural, one {} other{ów}}",
       weeks: "{count} tydzień{count, plural, one {} other{ni}}",
@@ -82,7 +84,8 @@ export const polish: Language = {
       refresh: "Odśwież",
       showingOfTotal: "Wyświetlanie {showing} z {total}",
       start: "Rozpocznij",
-      completed: "Zakończono"
+      completed: "Zakończono",
+      songsPlayed: "{count} utwór{count, plural, one {} other{ów}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const polish: Language = {
       },
       yourStats: {
         title: "Twoja Muzyka",
-        description: "Twoje statystyki słuchania i spostrzeżenia"
+        description: "Twoje statystyki słuchania i spostrzeżenia",
+        topSong: "Top utwór",
+        topAlbum: "Top album",
+        topArtist: "Top artysta",
+        topPlaylist: "Top lista odtwarzania"
       }
     },
     songs: {

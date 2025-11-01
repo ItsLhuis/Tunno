@@ -13,6 +13,8 @@ export const portuguese: Language = {
       lessThanAnHourAgo: "Há menos de uma hora",
       hoursAgo: "há {count} hora{count, plural, one {} other{s}}",
       today: "Hoje",
+      thisWeek: "Esta Semana",
+      thisMonth: "Este Mês",
       yesterday: "Ontem",
       years: "{count} ano{count, plural, one {} other{s}}",
       weeks: "{count} semana{count, plural, one {} other{s}}",
@@ -82,7 +84,8 @@ export const portuguese: Language = {
       refresh: "Atualizar",
       showingOfTotal: "A mostrar {showing} de {total}",
       start: "Iniciar",
-      completed: "Concluído"
+      completed: "Concluído",
+      songsPlayed: "{count} música{count, plural, one {} other{s}}"
     },
     form: {
       titles: {
@@ -270,7 +273,11 @@ export const portuguese: Language = {
       },
       yourStats: {
         title: "A Tua Música",
-        description: "As tuas estatísticas e insights de audição"
+        description: "As tuas estatísticas e insights de audição",
+        topSong: "Música Top",
+        topAlbum: "Álbum Top",
+        topArtist: "Artista Top",
+        topPlaylist: "Playlist Top"
       }
     },
     songs: {

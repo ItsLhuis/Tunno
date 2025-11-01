@@ -13,10 +13,12 @@ export const danish: Language = {
       lessThanAnHourAgo: "Mindre end en time siden",
       hoursAgo: "{count} time{count, plural, one {} other{r}} siden",
       today: "I dag",
+      thisWeek: "Denne uge",
+      thisMonth: "Denne måned",
       yesterday: "I går",
       years: "{count} år",
       weeks: "{count} uge{count, plural, one {} other{r}}",
-      days: "{count} dag{count, plural  , one {} other{e}}",
+      days: "{count} dag{count, plural, one {} other{e}}",
       hours: "{count} time{count, plural, one {} other{r}}",
       minutes: "{count} minut{count, plural, one {} other{ter}}",
       seconds: "{count} sekund{count, plural, one {} other{er}}",
@@ -82,7 +84,8 @@ export const danish: Language = {
       refresh: "Opdater",
       showingOfTotal: "Viser {showing} af {total}",
       start: "Start",
-      completed: "Fuldført"
+      completed: "Fuldført",
+      songsPlayed: "{count} sang{count, plural, one {} other{e}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const danish: Language = {
       },
       yourStats: {
         title: "Din Musik",
-        description: "Dine lytte statistikker og indsigter"
+        description: "Dine lytte statistikker og indsigter",
+        topSong: "Top Sang",
+        topAlbum: "Top Album",
+        topArtist: "Top Kunstner",
+        topPlaylist: "Top Afspilningsliste"
       }
     },
     songs: {

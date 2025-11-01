@@ -13,6 +13,8 @@ export const finnish: Language = {
       lessThanAnHourAgo: "Alle tunti sitten",
       hoursAgo: "{count} tunti{count, plural, one {} other{a}} sitten",
       today: "Tänään",
+      thisWeek: "Tällä viikolla",
+      thisMonth: "Tässä kuussa",
       yesterday: "Eilen",
       years: "{count} vuosi{count, plural, one {} other{a}}",
       weeks: "{count} viikko{count, plural, one {} other{a}}",
@@ -82,7 +84,8 @@ export const finnish: Language = {
       refresh: "Päivitä",
       showingOfTotal: "Näytetään {showing}/{total}",
       start: "Aloita",
-      completed: "Valmis"
+      completed: "Valmis",
+      songsPlayed: "{count} kappale{count, plural, one {} other{tta}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const finnish: Language = {
       },
       yourStats: {
         title: "Sinun Musiikkisi",
-        description: "Kuuntelustatistiikkasi ja oivallukset"
+        description: "Kuuntelustatistiikkasi ja oivallukset",
+        topSong: "Top kappale",
+        topAlbum: "Top albumi",
+        topArtist: "Top artisti",
+        topPlaylist: "Top soittolista"
       }
     },
     songs: {

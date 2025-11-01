@@ -13,6 +13,8 @@ export const french: Language = {
       lessThanAnHourAgo: "Il y a moins d'une heure",
       hoursAgo: "il y a {count} heure{count, plural, one {} other{s}}",
       today: "Aujourd'hui",
+      thisWeek: "Cette Semaine",
+      thisMonth: "Ce Mois",
       yesterday: "Hier",
       years: "{count} an{count, plural, one {} other{s}}",
       weeks: "{count} semaine{count, plural, one {} other{s}}",
@@ -82,7 +84,8 @@ export const french: Language = {
       refresh: "Actualiser",
       showingOfTotal: "Affichage de {showing} sur {total}",
       start: "Démarrer",
-      completed: "Terminé"
+      completed: "Terminé",
+      songsPlayed: "{count} chanson{count, plural, one {} other{s}}"
     },
     form: {
       titles: {
@@ -270,7 +273,11 @@ export const french: Language = {
       },
       yourStats: {
         title: "Votre Musique",
-        description: "Vos statistiques et insights d'écoute"
+        description: "Vos statistiques et insights d'écoute",
+        topSong: "Chanson Top",
+        topAlbum: "Album Top",
+        topArtist: "Artiste Top",
+        topPlaylist: "Playlist Top"
       }
     },
     songs: {

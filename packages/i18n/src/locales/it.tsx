@@ -13,6 +13,8 @@ export const italian: Language = {
       lessThanAnHourAgo: "Meno di un'ora fa",
       hoursAgo: "{count} ora{count, plural, one {} other{s}} fa",
       today: "Oggi",
+      thisWeek: "Questa Settimana",
+      thisMonth: "Questo Mese",
       yesterday: "Ieri",
       years: "{count} anno{count, plural, one {} other{i}}",
       weeks: "{count} settimana{count, plural, one {} other{e}}",
@@ -82,7 +84,8 @@ export const italian: Language = {
       refresh: "Aggiorna",
       showingOfTotal: "Visualizzazione di {showing} su {total}",
       start: "Avvia",
-      completed: "Completato"
+      completed: "Completato",
+      songsPlayed: "{count} brano{count, plural, one {} other{i}}"
     },
     form: {
       titles: {
@@ -270,7 +273,11 @@ export const italian: Language = {
       },
       yourStats: {
         title: "La Tua Musica",
-        description: "Le tue statistiche e insights di ascolto"
+        description: "Le tue statistiche e insights di ascolto",
+        topSong: "Brano Top",
+        topAlbum: "Album Top",
+        topArtist: "Artista Top",
+        topPlaylist: "Playlist Top"
       }
     },
     songs: {

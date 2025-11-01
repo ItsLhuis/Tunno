@@ -13,6 +13,8 @@ export const hindi: Language = {
       lessThanAnHourAgo: "एक घंटे से कम पहले",
       hoursAgo: "{count} घंटे पहले",
       today: "आज",
+      thisWeek: "इस सप्ताह",
+      thisMonth: "इस महीने",
       yesterday: "कल",
       years: "{count} वर्ष{count, plural, one {} other{ों}}",
       weeks: "{count} सप्ताह{count, plural, one {} other{ों}}",
@@ -82,7 +84,8 @@ export const hindi: Language = {
       refresh: "रिफ्रेश करें",
       showingOfTotal: "{total} में से {showing} दिखाया जा रहा है",
       start: "शुरू करें",
-      completed: "पूरा हुआ"
+      completed: "पूरा हुआ",
+      songsPlayed: "{count} गाना{count, plural, one {} other{ों}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const hindi: Language = {
       },
       yourStats: {
         title: "आपका संगीत",
-        description: "आपके सुनने के आंकड़े और अंतर्दृष्टि"
+        description: "आपके सुनने के आंकड़े और अंतर्दृष्टि",
+        topSong: "टॉप गाना",
+        topAlbum: "टॉप एल्बम",
+        topArtist: "टॉप कलाकार",
+        topPlaylist: "टॉप प्लेलिस्ट"
       }
     },
     songs: {

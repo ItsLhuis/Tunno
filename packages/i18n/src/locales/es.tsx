@@ -13,6 +13,8 @@ export const spanish: Language = {
       lessThanAnHourAgo: "Hace menos de una hora",
       hoursAgo: "hace {count} hora{count, plural, one {} other{s}}",
       today: "Hoy",
+      thisWeek: "Esta Semana",
+      thisMonth: "Este Mes",
       yesterday: "Ayer",
       years: "{count} año{count, plural, one {} other{s}}",
       weeks: "{count} semana{count, plural, one {} other{s}}",
@@ -82,7 +84,8 @@ export const spanish: Language = {
       refresh: "Actualizar",
       showingOfTotal: "Mostrando {showing} de {total}",
       start: "Iniciar",
-      completed: "Completado"
+      completed: "Completado",
+      songsPlayed: "{count} canción{count, plural, one {} other{es}}"
     },
     form: {
       titles: {
@@ -270,7 +273,11 @@ export const spanish: Language = {
       },
       yourStats: {
         title: "Tu Música",
-        description: "Tus estadísticas e insights de escucha"
+        description: "Tus estadísticas e insights de escucha",
+        topSong: "Canción Top",
+        topAlbum: "Álbum Top",
+        topArtist: "Artista Top",
+        topPlaylist: "Playlist Top"
       }
     },
     songs: {

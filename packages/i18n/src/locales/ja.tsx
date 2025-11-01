@@ -13,6 +13,8 @@ export const japanese: Language = {
       lessThanAnHourAgo: "1時間未満前",
       hoursAgo: "{count}時間前",
       today: "今日",
+      thisWeek: "今週",
+      thisMonth: "今月",
       yesterday: "昨日",
       years: "{count}年",
       weeks: "{count}週間",
@@ -82,7 +84,8 @@ export const japanese: Language = {
       refresh: "更新",
       showingOfTotal: "{total}件中{showing}件を表示",
       start: "開始",
-      completed: "完了"
+      completed: "完了",
+      songsPlayed: "{count}曲"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const japanese: Language = {
       },
       yourStats: {
         title: "あなたの音楽",
-        description: "リスニング統計とインサイト"
+        description: "リスニング統計とインサイト",
+        topSong: "トップソング",
+        topAlbum: "トップアルバム",
+        topArtist: "トップアーティスト",
+        topPlaylist: "トッププレイリスト"
       }
     },
     songs: {

@@ -13,6 +13,8 @@ export const norwegian: Language = {
       lessThanAnHourAgo: "Mindre enn en time siden",
       hoursAgo: "{count} time{count, plural, one {} other{r}} siden",
       today: "I dag",
+      thisWeek: "Denne uken",
+      thisMonth: "Denne måneden",
       yesterday: "I går",
       years: "{count} år",
       weeks: "{count} uke{count, plural, one {} other{r}}",
@@ -82,7 +84,8 @@ export const norwegian: Language = {
       refresh: "Oppdater",
       showingOfTotal: "Viser {showing} av {total}",
       start: "Start",
-      completed: "Fullført"
+      completed: "Fullført",
+      songsPlayed: "{count} sang{count, plural, one {} other{er}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const norwegian: Language = {
       },
       yourStats: {
         title: "Din Musikk",
-        description: "Dine lyttestatistikker og innsikter"
+        description: "Dine lyttestatistikker og innsikter",
+        topSong: "Toppsang",
+        topAlbum: "Toppalbum",
+        topArtist: "Toppartist",
+        topPlaylist: "Toppspilleliste"
       }
     },
     songs: {

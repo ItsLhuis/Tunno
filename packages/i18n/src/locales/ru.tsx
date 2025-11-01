@@ -13,6 +13,8 @@ export const russian: Language = {
       lessThanAnHourAgo: "Меньше часа назад",
       hoursAgo: "{count} час{count, plural, one {} other{ов}} назад",
       today: "Сегодня",
+      thisWeek: "На этой неделе",
+      thisMonth: "В этом месяце",
       yesterday: "Вчера",
       years: "{count} год{count, plural, one {} other{а}}",
       weeks: "{count} недел{count, plural, one {я} other{ь}}",
@@ -82,7 +84,8 @@ export const russian: Language = {
       refresh: "Обновить",
       showingOfTotal: "Показано {showing} из {total}",
       start: "Начать",
-      completed: "Завершено"
+      completed: "Завершено",
+      songsPlayed: "{count} пес{count, plural, one {ня} other{ен}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const russian: Language = {
       },
       yourStats: {
         title: "Ваша Музыка",
-        description: "Ваша статистика прослушивания и инсайты"
+        description: "Ваша статистика прослушивания и инсайты",
+        topSong: "Топ песня",
+        topAlbum: "Топ альбом",
+        topArtist: "Топ исполнитель",
+        topPlaylist: "Топ плейлист"
       }
     },
     songs: {

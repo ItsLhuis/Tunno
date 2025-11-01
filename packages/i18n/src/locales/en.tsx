@@ -13,6 +13,8 @@ export const english: Language = {
       lessThanAnHourAgo: "Less than an hour ago",
       hoursAgo: "{count} hour{count, plural, one {} other{s}} ago",
       today: "Today",
+      thisWeek: "This Week",
+      thisMonth: "This Month",
       yesterday: "Yesterday",
       years: "{count} year{count, plural, one {} other{s}}",
       weeks: "{count} week{count, plural, one {} other{s}}",
@@ -82,7 +84,8 @@ export const english: Language = {
       refresh: "Refresh",
       showingOfTotal: "Showing {showing} of {total}",
       start: "Start",
-      completed: "Completed"
+      completed: "Completed",
+      songsPlayed: "{count} song{count, plural, one {} other{s}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const english: Language = {
       },
       yourStats: {
         title: "Your Music",
-        description: "Your listening statistics and insights"
+        description: "Your listening statistics and insights",
+        topSong: "Top Song",
+        topAlbum: "Top Album",
+        topArtist: "Top Artist",
+        topPlaylist: "Top Playlist"
       }
     },
     songs: {

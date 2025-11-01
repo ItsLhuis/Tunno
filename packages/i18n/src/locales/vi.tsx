@@ -13,6 +13,8 @@ export const vietnamese: Language = {
       lessThanAnHourAgo: "Dưới một giờ trước",
       hoursAgo: "{count} giờ trước",
       today: "Hôm nay",
+      thisWeek: "Tuần này",
+      thisMonth: "Tháng này",
       yesterday: "Hôm qua",
       years: "{count} năm",
       weeks: "{count} tuần",
@@ -82,7 +84,8 @@ export const vietnamese: Language = {
       refresh: "Làm mới",
       showingOfTotal: "Hiển thị {showing}/{total}",
       start: "Bắt đầu",
-      completed: "Hoàn thành"
+      completed: "Hoàn thành",
+      songsPlayed: "{count} bài hát"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const vietnamese: Language = {
       },
       yourStats: {
         title: "Âm Nhạc Của Bạn",
-        description: "Thống kê nghe nhạc và hiểu biết của bạn"
+        description: "Thống kê nghe nhạc và hiểu biết của bạn",
+        topSong: "Bài hát hàng đầu",
+        topAlbum: "Album hàng đầu",
+        topArtist: "Nghệ sĩ hàng đầu",
+        topPlaylist: "Playlist hàng đầu"
       }
     },
     songs: {

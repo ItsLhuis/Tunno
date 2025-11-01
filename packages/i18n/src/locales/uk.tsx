@@ -13,6 +13,8 @@ export const ukrainian: Language = {
       lessThanAnHourAgo: "Менше години тому",
       hoursAgo: "{count} година{count, plural, one {} other{и}} тому",
       today: "Сьогодні",
+      thisWeek: "Цього тижня",
+      thisMonth: "Цього місяця",
       yesterday: "Вчора",
       years: "{count} рік{count, plural, one {} other{и}}",
       weeks: "{count} тиждень{count, plural, one {} other{і}}",
@@ -82,7 +84,8 @@ export const ukrainian: Language = {
       refresh: "Оновити",
       showingOfTotal: "Показано {showing} з {total}",
       start: "Почати",
-      completed: "Завершено"
+      completed: "Завершено",
+      songsPlayed: "{count} пісень{count, plural, one {} other{}}"
     },
     form: {
       titles: {
@@ -269,7 +272,11 @@ export const ukrainian: Language = {
       },
       yourStats: {
         title: "Ваша Музика",
-        description: "Ваша статистика прослуховування та інсайти"
+        description: "Ваша статистика прослуховування та інсайти",
+        topSong: "Топ пісня",
+        topAlbum: "Топ альбом",
+        topArtist: "Топ виконавець",
+        topPlaylist: "Топ плейлист"
       }
     },
     songs: {
