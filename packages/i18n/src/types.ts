@@ -16,6 +16,8 @@ export type Translations = {
     lessThanAnHourAgo: string
     hoursAgo: string
     today: string
+    thisWeek: string
+    thisMonth: string
     yesterday: string
     years: string
     weeks: string
@@ -86,6 +88,7 @@ export type Translations = {
     showingOfTotal: string
     start: string
     completed: string
+    songsPlayed: string
   }
   form: {
     titles: {
@@ -271,6 +274,10 @@ export type Translations = {
     yourStats: {
       title: string
       description: string
+      topSong: string
+      topAlbum: string
+      topArtist: string
+      topPlaylist: string
     }
   }
   songs: {
