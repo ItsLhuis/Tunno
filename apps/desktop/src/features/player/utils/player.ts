@@ -8,7 +8,10 @@ import { songKeys } from "@repo/api"
 
 import { LRUCache } from "@repo/utils"
 
-import { getSongByIdWithMainRelations, getSongsByIdsWithMainRelations } from "../api/queries"
+import {
+  getSongByIdWithMainRelations,
+  getSongsByIdsWithMainRelations
+} from "@features/songs/api/queries"
 
 import { type Track } from "../types/player"
 

@@ -25,7 +25,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { SongItem } from "../SongItem"
+import { SongItem } from "@features/songs/components/SongItem"
 
 import { type SongWithMainRelations } from "@repo/api"
 

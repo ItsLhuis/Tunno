@@ -7,7 +7,7 @@ import { invalidateQueries, songKeys } from "@repo/api"
 import { toggleSongFavorite } from "../api/mutations"
 import { getSongByIdWithMainRelations } from "../api/queries"
 
-import { usePlayerStore } from "../stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 

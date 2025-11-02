@@ -2,7 +2,7 @@ import { useCallback } from "react"
 
 import { useShallow } from "zustand/shallow"
 
-import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { LyricsReader, NotFound } from "@components/ui"
 

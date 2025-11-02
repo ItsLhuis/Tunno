@@ -81,40 +81,40 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
       {
         queryKey: homeKeys.listOnRepeat({
           days: options.onRepeat?.days ?? 14,
-          limit: options.onRepeat?.limit ?? 5
+          limit: options.onRepeat?.limit ?? 8
         }),
-        queryFn: () => getOnRepeat(options.onRepeat?.limit ?? 5, options.onRepeat?.days ?? 14)
+        queryFn: () => getOnRepeat(options.onRepeat?.limit ?? 8, options.onRepeat?.days ?? 14)
       },
       {
         queryKey: homeKeys.listYourPlaylists({
-          limit: options.yourPlaylists?.limit ?? 48,
+          limit: options.yourPlaylists?.limit ?? 24,
           favorites: options.yourPlaylists?.favoritesOnly ?? false
         }),
         queryFn: () =>
           getYourPlaylists(
-            options.yourPlaylists?.limit ?? 48,
+            options.yourPlaylists?.limit ?? 24,
             options.yourPlaylists?.favoritesOnly ?? false
           )
       },
       {
         queryKey: homeKeys.listNewReleases({
-          limit: options.newReleases?.limit ?? 8,
+          limit: options.newReleases?.limit ?? 16,
           days: options.newReleases?.days ?? 30
         }),
         queryFn: () =>
-          getNewReleases(options.newReleases?.limit ?? 8, options.newReleases?.days ?? 30)
+          getNewReleases(options.newReleases?.limit ?? 16, options.newReleases?.days ?? 30)
       },
       {
         queryKey: homeKeys.listFavoriteArtists({
-          limit: options.favoriteArtists?.limit ?? 12
+          limit: options.favoriteArtists?.limit ?? 16
         }),
-        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 12)
+        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 16)
       },
       {
         queryKey: homeKeys.listTopAlbums({
-          limit: options.topAlbums?.limit ?? 10
+          limit: options.topAlbums?.limit ?? 16
         }),
-        queryFn: () => getTopAlbums(options.topAlbums?.limit ?? 10)
+        queryFn: () => getTopAlbums(options.topAlbums?.limit ?? 16)
       },
       {
         queryKey: homeKeys.listRecentlyAdded({

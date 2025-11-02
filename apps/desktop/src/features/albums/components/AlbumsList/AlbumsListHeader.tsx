@@ -4,7 +4,7 @@ import { useShallow } from "zustand/shallow"
 
 import { useAlbumsStore } from "@features/albums/stores/useAlbumsStore"
 
-import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchSongIdsByAlbumIds } from "@features/songs/hooks/useFetchSongIdsByAlbumIds"
 

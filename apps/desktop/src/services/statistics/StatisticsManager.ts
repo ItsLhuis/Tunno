@@ -3,7 +3,7 @@ import { eq, sql } from "drizzle-orm"
 import { database } from "@database/client"
 import { schema } from "@repo/database"
 
-import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 const {
   playHistory,
@@ -18,7 +18,7 @@ const {
   playlistStats
 } = schema
 
-import { type PlaySource } from "@features/songs/types/playSource"
+import { type PlaySource } from "@features/player/types/playSource"
 
 import { type PlaySession } from "./types"
 

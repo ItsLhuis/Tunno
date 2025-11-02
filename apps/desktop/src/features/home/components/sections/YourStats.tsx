@@ -55,15 +55,6 @@ const YourStats = ({ stats }: YourStatsProps) => {
         </div>
         <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Icon name="Users" />
-            <Typography className="truncate">{t("artists.title")}</Typography>
-          </div>
-          <Typography affects={["bold", "medium"]} className="truncate">
-            {formatNumber(stats.totalArtists)}
-          </Typography>
-        </div>
-        <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Disc" />
             <Typography className="truncate">{t("albums.title")}</Typography>
           </div>
@@ -82,6 +73,15 @@ const YourStats = ({ stats }: YourStatsProps) => {
         </div>
         <div className="min-w-0 truncate">
           <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="Users" />
+            <Typography className="truncate">{t("artists.title")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {formatNumber(stats.totalArtists)}
+          </Typography>
+        </div>
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
             <Icon name="Play" />
             <Typography className="truncate">{t("common.totalPlays")}</Typography>
           </div>
@@ -96,6 +96,44 @@ const YourStats = ({ stats }: YourStatsProps) => {
           </div>
           <Typography affects={["bold", "medium"]} className="truncate">
             {formatDuration(stats.totalPlayTime, t)}
+          </Typography>
+        </div>
+      </div>
+      <div className="grid w-full min-w-0 grid-cols-1 gap-3 md:grid-cols-3">
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="Calendar" />
+            <Typography className="truncate">{t("common.today")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedToday })} •{" "}
+          </Typography>
+          <Typography affects={["muted", "small"]} className="truncate">
+            {formatDuration(stats.recentActivity.timeListenedToday, t, { maxParts: 2 })}
+          </Typography>
+        </div>
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="CalendarRange" />
+            <Typography className="truncate">{t("common.thisWeek")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedThisWeek })} •{" "}
+          </Typography>
+          <Typography affects={["muted", "small"]} className="truncate">
+            {formatDuration(stats.recentActivity.timeListenedThisWeek, t, { maxParts: 2 })}
+          </Typography>
+        </div>
+        <div className="min-w-0 truncate">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon name="CalendarDays" />
+            <Typography className="truncate">{t("common.thisMonth")}</Typography>
+          </div>
+          <Typography affects={["bold", "medium"]} className="truncate">
+            {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedThisMonth })} •{" "}
+          </Typography>
+          <Typography affects={["muted", "small"]} className="truncate">
+            {formatDuration(stats.recentActivity.timeListenedThisMonth, t, { maxParts: 2 })}
           </Typography>
         </div>
       </div>
@@ -149,44 +187,6 @@ const YourStats = ({ stats }: YourStatsProps) => {
           <CarouselNext className="mr-20" />
         </Carousel>
       )}
-      <div className="grid w-full min-w-0 grid-cols-1 gap-3 md:grid-cols-3">
-        <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Icon name="Calendar" />
-            <Typography className="truncate">{t("common.today")}</Typography>
-          </div>
-          <Typography affects={["bold", "medium"]} className="truncate">
-            {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedToday })} •{" "}
-          </Typography>
-          <Typography affects={["muted", "small"]} className="truncate">
-            {formatDuration(stats.recentActivity.timeListenedToday, t, { maxParts: 2 })}
-          </Typography>
-        </div>
-        <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Icon name="CalendarRange" />
-            <Typography className="truncate">{t("common.thisWeek")}</Typography>
-          </div>
-          <Typography affects={["bold", "medium"]} className="truncate">
-            {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedThisWeek })} •{" "}
-          </Typography>
-          <Typography affects={["muted", "small"]} className="truncate">
-            {formatDuration(stats.recentActivity.timeListenedThisWeek, t, { maxParts: 2 })}
-          </Typography>
-        </div>
-        <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Icon name="CalendarDays" />
-            <Typography className="truncate">{t("common.thisMonth")}</Typography>
-          </div>
-          <Typography affects={["bold", "medium"]} className="truncate">
-            {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedThisMonth })} •{" "}
-          </Typography>
-          <Typography affects={["muted", "small"]} className="truncate">
-            {formatDuration(stats.recentActivity.timeListenedThisMonth, t, { maxParts: 2 })}
-          </Typography>
-        </div>
-      </div>
     </section>
   )
 }

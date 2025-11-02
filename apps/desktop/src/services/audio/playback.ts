@@ -1,4 +1,4 @@
-import { usePlayerStore } from "@features/songs/stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { Statistics } from "@services/statistics"
 

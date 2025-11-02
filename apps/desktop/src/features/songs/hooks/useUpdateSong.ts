@@ -14,7 +14,7 @@ import { getSongByIdWithMainRelations } from "../api/queries"
 
 import { useShallow } from "zustand/shallow"
 
-import { usePlayerStore } from "../stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 

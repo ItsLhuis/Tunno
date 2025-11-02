@@ -4,7 +4,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
-import { usePlayerStore } from "../stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchSongByIdWithMainRelations } from "../hooks/useFetchSongByIdWithMainRelations"
 

@@ -7,7 +7,7 @@ import { useTranslation } from "@repo/i18n"
 import { invalidateQueries, songKeys } from "@repo/api"
 
 import { deleteSong } from "../api/mutations"
-import { usePlayerStore } from "../stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 

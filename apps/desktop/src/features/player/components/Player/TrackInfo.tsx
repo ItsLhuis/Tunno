@@ -4,7 +4,7 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
+import { useToggleSongFavorite } from "@features/songs/hooks/useToggleSongFavorite"
 
 import { Fade, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 

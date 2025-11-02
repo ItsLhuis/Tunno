@@ -4,7 +4,7 @@ import { useShallow } from "zustand/shallow"
 
 import { useSongsStore } from "../../stores/useSongsStore"
 
-import { usePlayerStore } from "../../stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { SongForm } from "../../forms"
 

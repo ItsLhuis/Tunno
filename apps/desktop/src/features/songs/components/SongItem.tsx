@@ -4,7 +4,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
-import { usePlayerStore } from "../stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { cn } from "@lib/utils"
 
@@ -28,7 +28,7 @@ import { SongActions } from "./SongActions"
 
 import { State } from "react-track-player-web"
 
-import { type PlaySource } from "../types/playSource"
+import { type PlaySource } from "@features/player/types/playSource"
 
 import { type SongWithMainRelations } from "@repo/api"
 

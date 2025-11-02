@@ -1,4 +1,4 @@
-import { type PlaySource } from "@features/songs/types/playSource"
+import { type PlaySource } from "@features/player/types/playSource"
 
 export type PlaySession = {
   songId: number

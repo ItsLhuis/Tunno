@@ -9,7 +9,7 @@ import { updateAlbum } from "../api/mutations"
 
 import { useShallow } from "zustand/shallow"
 
-import { usePlayerStore } from "../../songs/stores/usePlayerStore"
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
