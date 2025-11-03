@@ -11,17 +11,19 @@ import {
 
 import TrackPlayer, { RepeatMode, State } from "react-track-player-web"
 
-import { clearTrackCaches, resolveTrack } from "../utils/player"
+import { clearTrackCaches, resolveTrack } from "../../utils/player"
 
 import { LRUCache, shuffleArray } from "@repo/utils"
 
-import { getSongFromCacheOrFetch, prefetchSongs } from "../utils/player"
+import { getSongFromCacheOrFetch, prefetchSongs } from "../../utils/player"
 
-import { type Track } from "../types/player"
+import { type Track } from "../../types/player"
 
-import { type PlaySource } from "../types/playSource"
+import { type PlaySource } from "../../types/playSource"
 
 import { type SongWithMainRelations } from "@repo/api"
+
+import { createRemoteAction, isMainWindow, setupMainWindowSync, setupMiniPlayerSync } from "./sync"
 
 const PLAYER_STORE_NAME = "player"
 
@@ -193,7 +195,7 @@ const clearCachedSongs = (
   set({ cachedSongs: new LRUCache(windowSize) })
 }
 
-export const usePlayerStore = create<PlayerStore>()(
+const _usePlayerStore = create<PlayerStore>()(
   persist(
     (set, get) => ({
       trackIds: [],
@@ -1355,6 +1357,14 @@ export const usePlayerStore = create<PlayerStore>()(
       }),
       onRehydrateStorage: () => {
         return async (state) => {
+          if (!isMainWindow()) {
+            usePlayerStore.setState({
+              isRehydrating: false,
+              hasHydrated: true
+            })
+            return
+          }
+
           usePlayerStore.setState({ isRehydrating: true })
 
           await setupAudioPlayer()
@@ -1508,3 +1518,52 @@ export const usePlayerStore = create<PlayerStore>()(
     }
   )
 )
+
+if (isMainWindow()) {
+  setupMainWindowSync(_usePlayerStore)
+} else {
+  setupMiniPlayerSync(_usePlayerStore)
+
+  const remoteActions = {
+    setVolume: createRemoteAction<[number]>("setVolume"),
+    setIsMuted: createRemoteAction<[boolean]>("setIsMuted"),
+    setRepeatMode: createRemoteAction<[RepeatMode]>("setRepeatMode"),
+    setShuffleEnabled: createRemoteAction<[boolean]>("setShuffleEnabled"),
+    toggleShuffle: createRemoteAction<[]>("toggleShuffle"),
+    loadTracks:
+      createRemoteAction<[number[], number?, PlaySource?, number?, boolean?]>("loadTracks"),
+    shuffleAndPlay: createRemoteAction<[number[], PlaySource?, number?]>("shuffleAndPlay"),
+    play: createRemoteAction<[]>("play"),
+    pause: createRemoteAction<[]>("pause"),
+    stop: createRemoteAction<[]>("stop"),
+    retry: createRemoteAction<[]>("retry"),
+    playNext: createRemoteAction<[]>("playNext"),
+    playPrevious: createRemoteAction<[]>("playPrevious"),
+    skipToTrack: createRemoteAction<[number]>("skipToTrack"),
+    seekTo: createRemoteAction<[number]>("seekTo"),
+    seekBy: createRemoteAction<[number]>("seekBy"),
+    addToQueue: createRemoteAction<[number | number[], ("next" | "end")?]>("addToQueue"),
+    addAfterCurrent: createRemoteAction<[number | number[]]>("addAfterCurrent"),
+    removeFromQueue: createRemoteAction<[number]>("removeFromQueue"),
+    removeSongById: createRemoteAction<[number]>("removeSongById"),
+    moveInQueue: createRemoteAction<[number, number]>("moveInQueue"),
+    ensureWindowForIndex: createRemoteAction<[number]>("ensureWindowForIndex"),
+    clearQueue: createRemoteAction<[]>("clearQueue"),
+    destroyPlayer: createRemoteAction<[]>("destroyPlayer"),
+    syncStateWithPlayer: createRemoteAction<[]>("syncStateWithPlayer"),
+    reconcileQueue: createRemoteAction<[number[], number]>("reconcileQueue"),
+    validateAndUpdateState: createRemoteAction<[]>("validateAndUpdateState"),
+    updateTrackMetadata: createRemoteAction<[SongWithMainRelations]>("updateTrackMetadata"),
+    updateNavigationStates: () => {},
+    setPlaySource: (source: PlaySource) => {
+      _usePlayerStore.setState({ playSource: source })
+    },
+    setHasHydrated: (hasHydrated: boolean) => {
+      _usePlayerStore.setState({ hasHydrated })
+    }
+  }
+
+  _usePlayerStore.setState(remoteActions, false)
+}
+
+export const usePlayerStore = _usePlayerStore
