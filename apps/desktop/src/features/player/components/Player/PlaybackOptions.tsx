@@ -1,5 +1,7 @@
 import { useTranslation } from "@repo/i18n"
 
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
+
 import { IconButton, SafeLink } from "@components/ui"
 
 import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
@@ -7,6 +9,16 @@ import { QueueSheet } from "./QueueSheet"
 
 const PlaybackOptions = () => {
   const { t } = useTranslation()
+
+  const handleOpenMiniPlayer = async () => {
+    const miniplayerWindow = await WebviewWindow.getByLabel("miniPlayer")
+
+    if (miniplayerWindow) {
+      await miniplayerWindow.unminimize()
+      await miniplayerWindow.show()
+      await miniplayerWindow.setFocus()
+    }
+  }
 
   return (
     <div className="flex items-center justify-end gap-2 truncate">
@@ -25,6 +37,7 @@ const PlaybackOptions = () => {
         tooltip={t("common.openMiniplayer")}
         variant="ghost"
         className="shrink-0"
+        onClick={handleOpenMiniPlayer}
       />
       <IconButton
         name="Maximize"

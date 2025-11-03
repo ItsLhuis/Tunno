@@ -24,6 +24,21 @@
         "resizable": true,
         "visible": false,
         "useHttpsScheme": true
+      },
+      {
+        "label": "miniPlayer",
+        "title": "Tunno",
+        "url": "miniPlayer.html",
+        "width": 320,
+        "height": 320,
+        "minWidth": 288,
+        "minHeight": 88,
+        "decorations": false,
+        "resizable": true,
+        "visible": false,
+        "useHttpsScheme": true,
+        "alwaysOnTop": true,
+        "skipTaskbar": true
       }
     ],
     "security": {
