@@ -8,10 +8,11 @@ export type ConotrolsProps = {
   platform: Platform
   isWindowMaximized: boolean
   isWindowFocused: boolean
-  onMinimize: () => void
-  onMaximize: () => void
-  onFullSceen: () => void
+  onMinimize?: () => void
+  onMaximize?: () => void
+  onFullSceen?: () => void
   onClose: () => void
+  orientation?: "horizontal" | "vertical"
 }
 
 const Controls = ({
@@ -21,7 +22,8 @@ const Controls = ({
   onMinimize,
   onMaximize,
   onFullSceen,
-  onClose
+  onClose,
+  orientation = "horizontal"
 }: ConotrolsProps) => {
   const ControlsComp = (() => {
     switch (platform) {
@@ -32,6 +34,7 @@ const Controls = ({
             onMinimize={onMinimize}
             onMaximize={onMaximize}
             onClose={onClose}
+            orientation={orientation}
           />
         )
       case "linux":
@@ -42,6 +45,7 @@ const Controls = ({
             onMinimize={onMinimize}
             onMaximize={onMaximize}
             onClose={onClose}
+            orientation={orientation}
           />
         )
       case "macos":
@@ -51,6 +55,7 @@ const Controls = ({
             onMinimize={onMinimize}
             onFullSceen={onFullSceen}
             onMaximize={onMaximize}
+            orientation={orientation}
           />
         )
       default:
@@ -60,6 +65,7 @@ const Controls = ({
             onMinimize={onMinimize}
             onMaximize={onMaximize}
             onClose={onClose}
+            orientation={orientation}
           />
         )
     }

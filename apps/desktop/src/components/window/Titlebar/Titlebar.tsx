@@ -1,4 +1,11 @@
-import { forwardRef, useEffect, useState, type HTMLAttributes, type ReactNode } from "react"
+import {
+  Fragment,
+  forwardRef,
+  useEffect,
+  useState,
+  type HTMLAttributes,
+  type ReactNode
+} from "react"
 
 import { cn } from "@lib/utils"
 
@@ -11,18 +18,40 @@ import { Controls } from "./Controls"
 
 export type TitlebarProps = HTMLAttributes<HTMLDivElement> & {
   children?: ReactNode
-  onMinimize: () => void
-  onMaximize: () => void
-  onFullSceen: () => void
+  onMinimize?: () => void
+  onMaximize?: () => void
+  onFullSceen?: () => void
   onClose: () => void
+  onFocusChange?: (isFocused: boolean) => void
+  orientation?: "horizontal" | "vertical"
 }
 
 const Titlebar = forwardRef<HTMLDivElement, TitlebarProps>(
-  ({ className, children, onMinimize, onMaximize, onFullSceen, onClose, ...props }, ref) => {
-    const isMacOs = platform() === "macos"
+  (
+    {
+      className,
+      children,
+      onMinimize,
+      onMaximize,
+      onFullSceen,
+      onClose,
+      onFocusChange,
+      orientation = "horizontal",
+      ...props
+    },
+    ref
+  ) => {
+    const currentPlatform = platform()
+
+    const isMacOs = currentPlatform === "macos"
+    const isVertical = orientation === "vertical"
 
     const [isWindowMaximized, setIsWindowMaximized] = useState(false)
     const [isWindowFocused, setIsWindowFocused] = useState(false)
+
+    useEffect(() => {
+      onFocusChange?.(isWindowFocused)
+    }, [isWindowFocused, onFocusChange])
 
     useEffect(() => {
       const initializeTitlebarState = async () => {
@@ -79,21 +108,43 @@ const Titlebar = forwardRef<HTMLDivElement, TitlebarProps>(
           "z-50 flex h-full min-h-9 flex-nowrap items-center",
           !isMacOs && !isWindowFocused && "text-muted-foreground",
           className,
-          isMacOs && "flex-row-reverse"
+          !isVertical && isMacOs && "flex-row-reverse",
+          isVertical && "h-full min-w-8 flex-col justify-start"
         )}
         ref={ref}
         {...props}
       >
-        <div className="m-3 flex-1 overflow-hidden">{children}</div>
-        <Controls
-          platform={platform()}
-          isWindowFocused={isWindowFocused}
-          isWindowMaximized={isWindowMaximized}
-          onMinimize={onMinimize}
-          onMaximize={onMaximize}
-          onFullSceen={onFullSceen}
-          onClose={onClose}
-        />
+        {isVertical ? (
+          <Fragment>
+            <div className="flex min-h-8 w-full items-stretch justify-center">
+              <Controls
+                platform={currentPlatform}
+                isWindowFocused={isWindowFocused}
+                isWindowMaximized={isWindowMaximized}
+                onMinimize={onMinimize}
+                onMaximize={onMaximize}
+                onFullSceen={onFullSceen}
+                onClose={onClose}
+                orientation="vertical"
+              />
+            </div>
+            <div className="m-3 flex-1 overflow-hidden">{children}</div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <div className="m-3 flex-1 overflow-hidden">{children}</div>
+            <Controls
+              platform={currentPlatform}
+              isWindowFocused={isWindowFocused}
+              isWindowMaximized={isWindowMaximized}
+              onMinimize={onMinimize}
+              onMaximize={onMaximize}
+              onFullSceen={onFullSceen}
+              onClose={onClose}
+              orientation="horizontal"
+            />
+          </Fragment>
+        )}
       </div>
     )
   }
