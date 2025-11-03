@@ -1,9 +1,11 @@
+import pkg from "../../../package.json"
+
 import { type ChangelogVersion } from "./types"
 
 export const CHANGELOG_VERSIONS = [
   {
-    version: "1.0.0",
-    releaseDate: new Date("2025-01-15"),
+    version: pkg.version,
+    releaseDate: new Date("2025-11-03"),
     type: "major" as const
   }
 ] as const satisfies readonly ChangelogVersion[]

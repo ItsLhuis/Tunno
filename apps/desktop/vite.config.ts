@@ -29,7 +29,8 @@ export default defineConfig(async () => ({
   build: {
     rollupOptions: {
       input: {
-        main: "index.html"
+        main: "index.html",
+        miniPlayer: "miniPlayer.html"
       }
     }
   },
