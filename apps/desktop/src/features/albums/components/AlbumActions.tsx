@@ -181,7 +181,7 @@ const AlbumActions = ({
     if (!hasSongs) return null
 
     return (
-      <>
+      <Fragment>
         <MenuItem onClick={handlePlayAlbum} disabled={isTrackLoading}>
           <Icon name="Play" />
           {t("common.play")}
@@ -190,7 +190,7 @@ const AlbumActions = ({
           <Icon name="Forward" />
           {t("common.playNext")}
         </MenuItem>
-      </>
+      </Fragment>
     )
   }
 
@@ -343,21 +343,21 @@ const AlbumActions = ({
           {t("common.noResultsFound")}
         </Typography>
       ) : (
-        <>
+        <Fragment>
           {playbackActions && (
-            <>
+            <Fragment>
               <MenuLabel>{t("common.playback")}</MenuLabel>
               {playbackActions}
               {actionItems && <MenuSeparator />}
-            </>
+            </Fragment>
           )}
           {actionItems && (
-            <>
+            <Fragment>
               <MenuLabel>{t("common.actions")}</MenuLabel>
               {actionItems}
-            </>
+            </Fragment>
           )}
-        </>
+        </Fragment>
       )}
     </MenuContent>
   )
@@ -466,7 +466,7 @@ const AlbumActions = ({
     <Fragment>
       {renderContent()}
       {finalTargetAlbum && !hasMultipleSelections && (
-        <>
+        <Fragment>
           <AlbumForm
             albumId={finalTargetAlbum.id}
             mode="update"
@@ -478,7 +478,7 @@ const AlbumActions = ({
             open={isDeleteOpen}
             onOpen={setIsDeleteOpen}
           />
-        </>
+        </Fragment>
       )}
       <AddToPlaylistForm
         songIds={

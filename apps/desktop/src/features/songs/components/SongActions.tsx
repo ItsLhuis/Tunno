@@ -236,7 +236,7 @@ const SongActions = memo(
     const renderPlaybackActions = () => {
       if (hasMultipleSelections) {
         return (
-          <>
+          <Fragment>
             <MenuItem onClick={handlePlaySong} disabled={isTrackLoading}>
               <Icon name="Play" />
               {t("common.play")}
@@ -245,12 +245,12 @@ const SongActions = memo(
               <Icon name="Forward" />
               {t("common.playNext")}
             </MenuItem>
-          </>
+          </Fragment>
         )
       }
 
       return (
-        <>
+        <Fragment>
           <MenuItem onClick={handlePlaySong} disabled={isTrackLoading}>
             <Icon name={isCurrentlyPlaying ? "Pause" : "Play"} />
             {isCurrentlyPlaying ? t("common.pause") : t("common.play")}
@@ -259,7 +259,7 @@ const SongActions = memo(
             <Icon name="Forward" />
             {t("common.playNext")}
           </MenuItem>
-        </>
+        </Fragment>
       )
     }
 
@@ -428,21 +428,21 @@ const SongActions = memo(
             {t("common.noResultsFound")}
           </Typography>
         ) : (
-          <>
+          <Fragment>
             {playbackActions && (
-              <>
+              <Fragment>
                 <MenuLabel>{t("common.playback")}</MenuLabel>
                 {playbackActions}
                 {actionItems && <MenuSeparator />}
-              </>
+              </Fragment>
             )}
             {actionItems && (
-              <>
+              <Fragment>
                 <MenuLabel>{t("common.actions")}</MenuLabel>
                 {actionItems}
-              </>
+              </Fragment>
             )}
-          </>
+          </Fragment>
         )}
       </MenuContent>
     )
@@ -551,7 +551,7 @@ const SongActions = memo(
       <Fragment>
         {renderContent()}
         {finalTargetSong && !hasMultipleSelections && (
-          <>
+          <Fragment>
             <SongForm
               songId={finalTargetSong.id}
               mode="update"
@@ -559,7 +559,7 @@ const SongActions = memo(
               onOpen={setIsEditOpen}
             />
             <DeleteSongDialog song={finalTargetSong} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
-          </>
+          </Fragment>
         )}
         <AddToPlaylistForm
           songIds={

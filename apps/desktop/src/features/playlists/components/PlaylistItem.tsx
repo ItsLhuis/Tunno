@@ -18,6 +18,7 @@ import {
   IconButton,
   Marquee,
   SafeLink,
+  ScopedTheme,
   Thumbnail,
   Typography
 } from "@components/ui"
@@ -157,17 +158,15 @@ const PlaylistItem = memo(
                 className={cn("h-full w-full", !playlist.thumbnail && "p-[25%]")}
               />
             </div>
-            <div className="absolute inset-x-2 bottom-2 h-12 rounded-b-lg bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100" />
-            <div className="absolute bottom-2 left-4 right-2 z-10 flex items-center justify-between gap-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-              <div className="min-w-0 flex-1">
+            <div className="absolute inset-x-2 bottom-2 h-14 rounded-b-lg bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100" />
+            <div className="absolute bottom-3 left-3 right-2 z-10 flex items-center justify-between gap-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+              <ScopedTheme theme="dark" className="min-w-0 flex-1">
                 <Marquee>
                   <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
-                    <Typography className="truncate text-white drop-shadow-lg">
-                      {playlist.name}
-                    </Typography>
+                    <Typography className="truncate drop-shadow-lg">{playlist.name}</Typography>
                   </SafeLink>
                 </Marquee>
-              </div>
+              </ScopedTheme>
               {canPlay && (
                 <div className="flex-shrink-0">
                   <IconButton

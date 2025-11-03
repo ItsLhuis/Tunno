@@ -189,7 +189,7 @@ const ArtistActions = ({
     if (!hasSongs) return null
 
     return (
-      <>
+      <Fragment>
         <MenuItem onClick={handlePlayArtist} disabled={isTrackLoading}>
           <Icon name="Play" />
           {t("common.play")}
@@ -198,7 +198,7 @@ const ArtistActions = ({
           <Icon name="Forward" />
           {t("common.playNext")}
         </MenuItem>
-      </>
+      </Fragment>
     )
   }
 
@@ -297,21 +297,21 @@ const ArtistActions = ({
           {t("common.noResultsFound")}
         </Typography>
       ) : (
-        <>
+        <Fragment>
           {playbackActions && (
-            <>
+            <Fragment>
               <MenuLabel>{t("common.playback")}</MenuLabel>
               {playbackActions}
               {actionItems && <MenuSeparator />}
-            </>
+            </Fragment>
           )}
           {actionItems && (
-            <>
+            <Fragment>
               <MenuLabel>{t("common.actions")}</MenuLabel>
               {actionItems}
-            </>
+            </Fragment>
           )}
-        </>
+        </Fragment>
       )}
     </MenuContent>
   )
@@ -420,7 +420,7 @@ const ArtistActions = ({
     <Fragment>
       {renderContent()}
       {finalTargetArtist && !hasMultipleSelections && (
-        <>
+        <Fragment>
           <ArtistForm
             artistId={finalTargetArtist.id}
             mode="update"
@@ -432,7 +432,7 @@ const ArtistActions = ({
             open={isDeleteOpen}
             onOpen={setIsDeleteOpen}
           />
-        </>
+        </Fragment>
       )}
       <AddToPlaylistForm
         songIds={

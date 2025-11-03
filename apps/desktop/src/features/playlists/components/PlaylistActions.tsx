@@ -174,7 +174,7 @@ const PlaylistActions = ({
     if (!hasSongs) return null
 
     return (
-      <>
+      <Fragment>
         <MenuItem onClick={handlePlayPlaylist} disabled={isTrackLoading}>
           <Icon name="Play" />
           {t("common.play")}
@@ -183,7 +183,7 @@ const PlaylistActions = ({
           <Icon name="Forward" />
           {t("common.playNext")}
         </MenuItem>
-      </>
+      </Fragment>
     )
   }
 
@@ -290,21 +290,21 @@ const PlaylistActions = ({
           {t("common.noResultsFound")}
         </Typography>
       ) : (
-        <>
+        <Fragment>
           {playbackActions && (
-            <>
+            <Fragment>
               <MenuLabel>{t("common.playback")}</MenuLabel>
               {playbackActions}
               {actionItems && <MenuSeparator />}
-            </>
+            </Fragment>
           )}
           {actionItems && (
-            <>
+            <Fragment>
               <MenuLabel>{t("common.actions")}</MenuLabel>
               {actionItems}
-            </>
+            </Fragment>
           )}
-        </>
+        </Fragment>
       )}
     </MenuContent>
   )
@@ -413,7 +413,7 @@ const PlaylistActions = ({
     <Fragment>
       {renderContent()}
       {finalTargetPlaylist && !hasMultipleSelections && (
-        <>
+        <Fragment>
           <PlaylistForm
             playlistId={finalTargetPlaylist.id}
             mode="update"
@@ -425,7 +425,7 @@ const PlaylistActions = ({
             open={isDeleteOpen}
             onOpen={setIsDeleteOpen}
           />
-        </>
+        </Fragment>
       )}
       <AddToPlaylistForm
         songIds={
