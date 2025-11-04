@@ -72,18 +72,18 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
       },
       {
         queryKey: homeKeys.listJumpBackIn({
-          limit: options.jumpBackIn?.limit ?? 16,
+          limit: options.jumpBackIn?.limit ?? 8,
           hours: options.jumpBackIn?.hours ?? 48
         }),
         queryFn: () =>
-          getJumpBackIn(options.jumpBackIn?.limit ?? 16, options.jumpBackIn?.hours ?? 48)
+          getJumpBackIn(options.jumpBackIn?.limit ?? 8, options.jumpBackIn?.hours ?? 48)
       },
       {
         queryKey: homeKeys.listOnRepeat({
           days: options.onRepeat?.days ?? 14,
-          limit: options.onRepeat?.limit ?? 8
+          limit: options.onRepeat?.limit ?? 5
         }),
-        queryFn: () => getOnRepeat(options.onRepeat?.limit ?? 8, options.onRepeat?.days ?? 14)
+        queryFn: () => getOnRepeat(options.onRepeat?.limit ?? 5, options.onRepeat?.days ?? 14)
       },
       {
         queryKey: homeKeys.listYourPlaylists({
@@ -98,47 +98,47 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
       },
       {
         queryKey: homeKeys.listNewReleases({
-          limit: options.newReleases?.limit ?? 16,
+          limit: options.newReleases?.limit ?? 12,
           days: options.newReleases?.days ?? 30
         }),
         queryFn: () =>
-          getNewReleases(options.newReleases?.limit ?? 16, options.newReleases?.days ?? 30)
+          getNewReleases(options.newReleases?.limit ?? 12, options.newReleases?.days ?? 30)
       },
       {
         queryKey: homeKeys.listFavoriteArtists({
-          limit: options.favoriteArtists?.limit ?? 16
+          limit: options.favoriteArtists?.limit ?? 12
         }),
-        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 16)
+        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 12)
       },
       {
         queryKey: homeKeys.listTopAlbums({
-          limit: options.topAlbums?.limit ?? 16
+          limit: options.topAlbums?.limit ?? 12
         }),
-        queryFn: () => getTopAlbums(options.topAlbums?.limit ?? 16)
+        queryFn: () => getTopAlbums(options.topAlbums?.limit ?? 12)
       },
       {
         queryKey: homeKeys.listRecentlyAdded({
-          limit: options.recentlyAdded?.limit ?? 12
+          limit: options.recentlyAdded?.limit ?? 8
         }),
-        queryFn: () => getRecentlyAdded(options.recentlyAdded?.limit ?? 12)
+        queryFn: () => getRecentlyAdded(options.recentlyAdded?.limit ?? 8)
       },
       {
         queryKey: homeKeys.listHiddenGems({
-          limit: options.hiddenGems?.limit ?? 12,
+          limit: options.hiddenGems?.limit ?? 8,
           minYearsOld: options.hiddenGems?.minYearsOld ?? 5,
           maxPlayCount: options.hiddenGems?.maxPlayCount ?? 3
         }),
         queryFn: () =>
-          getHiddenGems(options.hiddenGems?.limit ?? 12, {
+          getHiddenGems(options.hiddenGems?.limit ?? 8, {
             minYearsOld: options.hiddenGems?.minYearsOld ?? 5,
             maxPlayCount: options.hiddenGems?.maxPlayCount ?? 3
           })
       },
       {
         queryKey: homeKeys.listDiscover({
-          limit: options.discover?.limit ?? 12
+          limit: options.discover?.limit ?? 8
         }),
-        queryFn: () => getDiscover(options.discover?.limit ?? 12)
+        queryFn: () => getDiscover(options.discover?.limit ?? 8)
       }
     ],
     [

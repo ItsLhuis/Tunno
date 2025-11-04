@@ -1,12 +1,12 @@
 import { Fragment, useCallback } from "react"
 
-import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
-
 import { useFetchHome } from "../hooks/useFetchHome"
 
 import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
 import { cn } from "@lib/utils"
+
+import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
 import {
   Discover,
