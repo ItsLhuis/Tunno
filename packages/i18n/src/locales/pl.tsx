@@ -57,6 +57,7 @@ export const polish: Language = {
       removeFromQueue: "Usuń z kolejki",
       removeFromPlaylist: "Usuń z Listy Odtwarzania",
       nowPlaying: "Teraz odtwarzane",
+      noSongPlaying: "Nic nie odtwarzane",
       upNext: "Następne",
       actions: "Akcje",
       addTo: "Dodaj do",

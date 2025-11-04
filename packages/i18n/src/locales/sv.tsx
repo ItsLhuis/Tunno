@@ -57,6 +57,7 @@ export const swedish: Language = {
       removeFromQueue: "Ta bort från kö",
       removeFromPlaylist: "Ta bort från Spellista",
       nowPlaying: "Spelar nu",
+      noSongPlaying: "Inget spelar",
       upNext: "Nästa",
       actions: "Åtgärder",
       addTo: "Lägg till",

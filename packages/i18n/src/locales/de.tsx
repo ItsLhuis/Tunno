@@ -57,6 +57,7 @@ export const german: Language = {
       removeFromQueue: "Aus Warteschlange entfernen",
       removeFromPlaylist: "Aus Playlist Entfernen",
       nowPlaying: "Wird abgespielt",
+      noSongPlaying: "Nichts wird abgespielt",
       upNext: "Als nächstes",
       actions: "Aktionen",
       addTo: "Hinzufügen zu",

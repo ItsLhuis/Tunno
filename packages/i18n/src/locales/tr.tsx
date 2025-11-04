@@ -57,6 +57,7 @@ export const turkish: Language = {
       removeFromQueue: "Kuyruktan kaldır",
       removeFromPlaylist: "Çalma Listesinden Kaldır",
       nowPlaying: "Şimdi çalıyor",
+      noSongPlaying: "Hiçbir şey çalmıyor",
       upNext: "Sırada",
       actions: "Eylemler",
       addTo: "Ekle",

@@ -57,6 +57,7 @@ export const chinese: Language = {
       removeFromQueue: "从队列中移除",
       removeFromPlaylist: "从播放列表中删除",
       nowPlaying: "正在播放",
+      noSongPlaying: "未播放",
       upNext: "接下来",
       actions: "操作",
       addTo: "添加到",

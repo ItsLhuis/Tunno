@@ -57,6 +57,7 @@ export const korean: Language = {
       removeFromQueue: "대기열에서 제거",
       removeFromPlaylist: "재생목록에서 제거",
       nowPlaying: "재생 중",
+      noSongPlaying: "재생 중인 항목 없음",
       upNext: "다음 곡",
       actions: "작업",
       addTo: "추가",

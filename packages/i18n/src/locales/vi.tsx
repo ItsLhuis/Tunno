@@ -57,6 +57,7 @@ export const vietnamese: Language = {
       removeFromQueue: "Xóa khỏi hàng đợi",
       removeFromPlaylist: "Xóa khỏi Danh Sách Phát",
       nowPlaying: "Đang phát",
+      noSongPlaying: "Không có gì đang phát",
       upNext: "Tiếp theo",
       actions: "Hành động",
       addTo: "Thêm vào",

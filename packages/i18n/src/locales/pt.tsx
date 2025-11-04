@@ -57,6 +57,7 @@ export const portuguese: Language = {
       removeFromQueue: "Remover da fila",
       removeFromPlaylist: "Remover da Playlist",
       nowPlaying: "A tocar agora",
+      noSongPlaying: "Nada a tocar",
       upNext: "A seguir",
       actions: "Acções",
       addTo: "Adicionar a",

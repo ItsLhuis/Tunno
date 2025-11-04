@@ -60,6 +60,7 @@ export type Translations = {
     removeFromQueue: string
     removeFromPlaylist: string
     nowPlaying: string
+    noSongPlaying: string
     upNext: string
     actions: string
     addTo: string

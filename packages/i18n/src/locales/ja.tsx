@@ -57,6 +57,7 @@ export const japanese: Language = {
       removeFromQueue: "キューから削除",
       removeFromPlaylist: "プレイリストから削除",
       nowPlaying: "再生中",
+      noSongPlaying: "再生されていません",
       upNext: "次の曲",
       actions: "アクション",
       addTo: "追加",

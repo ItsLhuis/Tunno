@@ -57,6 +57,7 @@ export const russian: Language = {
       removeFromQueue: "Удалить из очереди",
       removeFromPlaylist: "Удалить из Плейлиста",
       nowPlaying: "Сейчас играет",
+      noSongPlaying: "Ничего не играет",
       upNext: "Далее",
       actions: "Действия",
       addTo: "Добавить в",

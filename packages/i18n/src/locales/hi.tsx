@@ -57,6 +57,7 @@ export const hindi: Language = {
       removeFromQueue: "कतार से हटाएं",
       removeFromPlaylist: "प्लेलिस्ट से हटाएं",
       nowPlaying: "अभी चल रहा है",
+      noSongPlaying: "कुछ नहीं चल रहा",
       upNext: "आगे क्या है",
       actions: "क्रियाएं",
       addTo: "जोड़ें",

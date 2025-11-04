@@ -57,6 +57,7 @@ export const ukrainian: Language = {
       removeFromQueue: "Видалити з черги",
       removeFromPlaylist: "Видалити з Плейлисту",
       nowPlaying: "Зараз відтворюється",
+      noSongPlaying: "Нічого не відтворюється",
       upNext: "Далі",
       actions: "Дії",
       addTo: "Додати до",

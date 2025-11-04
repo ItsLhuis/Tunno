@@ -57,6 +57,7 @@ export const finnish: Language = {
       removeFromQueue: "Poista jonosta",
       removeFromPlaylist: "Poista Soittolistasta",
       nowPlaying: "Nyt soi",
+      noSongPlaying: "Ei mitään soi",
       upNext: "Seuraavaksi",
       actions: "Toiminnot",
       addTo: "Lisää",

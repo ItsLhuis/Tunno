@@ -57,6 +57,7 @@ export const danish: Language = {
       removeFromQueue: "Fjern fra kø",
       removeFromPlaylist: "Fjern fra Spilleliste",
       nowPlaying: "Afspiller nu",
+      noSongPlaying: "Intet afspiller",
       upNext: "Næste",
       actions: "Handlinger",
       addTo: "Tilføj til",

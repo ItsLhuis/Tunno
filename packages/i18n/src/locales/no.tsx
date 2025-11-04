@@ -57,6 +57,7 @@ export const norwegian: Language = {
       removeFromQueue: "Fjern fra kø",
       removeFromPlaylist: "Fjern fra Spilleliste",
       nowPlaying: "Spiller nå",
+      noSongPlaying: "Ingen spiller",
       upNext: "Neste",
       actions: "Handlinger",
       addTo: "Legg til",

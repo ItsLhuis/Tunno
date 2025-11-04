@@ -57,6 +57,7 @@ export const italian: Language = {
       removeFromQueue: "Rimuovi dalla coda",
       removeFromPlaylist: "Rimuovi dalla Playlist",
       nowPlaying: "In riproduzione",
+      noSongPlaying: "Niente in riproduzione",
       upNext: "Prossimo",
       actions: "Azioni",
       addTo: "Aggiungi a",

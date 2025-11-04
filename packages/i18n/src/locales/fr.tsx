@@ -57,6 +57,7 @@ export const french: Language = {
       removeFromQueue: "Retirer de la file",
       removeFromPlaylist: "Retirer de la Playlist",
       nowPlaying: "En cours de lecture",
+      noSongPlaying: "Rien en lecture",
       upNext: "À suivre",
       actions: "Actions",
       addTo: "Ajouter à",

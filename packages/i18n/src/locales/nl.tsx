@@ -57,6 +57,7 @@ export const dutch: Language = {
       removeFromQueue: "Verwijder uit wachtrij",
       removeFromPlaylist: "Verwijderen uit Afspeellijst",
       nowPlaying: "Nu aan het spelen",
+      noSongPlaying: "Niets aan het spelen",
       upNext: "Hierna",
       actions: "Acties",
       addTo: "Toevoegen aan",
