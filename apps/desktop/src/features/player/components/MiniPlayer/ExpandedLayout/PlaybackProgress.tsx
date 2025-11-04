@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { useShallow } from "zustand/shallow"
 
@@ -9,52 +9,37 @@ import { formatTime } from "@repo/utils"
 import { Slider, Typography } from "@components/ui"
 
 const PlaybackProgress = () => {
-  const {
-    play,
-    pause,
-    playbackState,
-    position,
-    duration,
-    seekTo,
-    seekBy,
-    isTrackLoading,
-    currentTrack
-  } = usePlayerStore(
-    useShallow((state) => ({
-      play: state.play,
-      pause: state.pause,
-      playbackState: state.playbackState,
-      position: state.position,
-      duration: state.duration,
-      seekTo: state.seekTo,
-      seekBy: state.seekBy,
-      isTrackLoading: state.isTrackLoading,
-      currentTrack: state.currentTrack
-    }))
-  )
+  const { play, pause, playbackState, position, duration, seekTo, isTrackLoading, currentTrack } =
+    usePlayerStore(
+      useShallow((state) => ({
+        play: state.play,
+        pause: state.pause,
+        playbackState: state.playbackState,
+        position: state.position,
+        duration: state.duration,
+        seekTo: state.seekTo,
+        isTrackLoading: state.isTrackLoading,
+        currentTrack: state.currentTrack
+      }))
+    )
 
   const [wasPlaying, setWasPlaying] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
 
+  const [localPosition, setLocalPosition] = useState<number | null>(null)
+
   const canSeek = currentTrack !== null && !isTrackLoading && duration > 0
-  const value = duration > 0 ? [Math.min(position, duration)] : [0]
+  const displayPosition = localPosition !== null ? localPosition : position
+  const value = duration > 0 ? [Math.min(displayPosition, duration)] : [0]
 
-  const handleKeyboardSeek = async (seekAmount: number) => {
-    if (!canSeek) return
-
-    const currentlyPlaying = playbackState === "playing"
-    if (currentlyPlaying && !isDragging) {
-      setWasPlaying(true)
-      await pause()
+  useEffect(() => {
+    if (!isDragging && localPosition !== null) {
+      const diff = Math.abs(position - localPosition)
+      if (diff < 1) {
+        setLocalPosition(null)
+      }
     }
-
-    await seekBy(seekAmount)
-
-    if (currentlyPlaying && !isDragging) {
-      await play()
-      setWasPlaying(false)
-    }
-  }
+  }, [position, isDragging, localPosition])
 
   return (
     <div className="flex w-full flex-col gap-2 p-3">
@@ -65,15 +50,22 @@ const PlaybackProgress = () => {
         value={value}
         onValueChange={(vals) => {
           if (!canSeek) return
+          const target = vals[0]
+
           if (!isDragging) {
             setIsDragging(true)
             setWasPlaying(playbackState === "playing")
+            void pause()
           }
-          void pause()
+
+          setLocalPosition(target)
+        }}
+        onValueCommit={(vals) => {
+          if (!canSeek) return
+
           const target = vals[0]
           void seekTo(target)
-        }}
-        onValueCommit={() => {
+
           if (wasPlaying) {
             void play()
           }
@@ -81,20 +73,13 @@ const PlaybackProgress = () => {
           setIsDragging(false)
         }}
         onKeyDown={(e) => {
-          if (!canSeek) return
-          if (e.key === "ArrowLeft") {
-            e.preventDefault()
-            void handleKeyboardSeek(-5)
-          }
-          if (e.key === "ArrowRight") {
-            e.preventDefault()
-            void handleKeyboardSeek(5)
-          }
+          e.preventDefault()
+          e.stopPropagation()
         }}
         formatTooltip={(v) => formatTime(v)}
       />
       <div className="flex items-center justify-between">
-        <Typography affects={["small"]}>{formatTime(position)}</Typography>
+        <Typography affects={["small"]}>{formatTime(displayPosition)}</Typography>
         <Typography affects={["small"]}>{formatTime(duration)}</Typography>
       </div>
     </div>

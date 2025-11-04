@@ -103,7 +103,7 @@ const TrackArtwork = () => {
             placeholderIcon="Music"
             fileName={currentTrack?.thumbnail}
             alt={currentTrack?.title}
-            containerClassName={cn("h-full w-fit rounded-lg bg-transparent border-none")}
+            containerClassName={cn("h-full w-fit", currentTrack?.thumbnail && "border-none")}
             className={cn("h-full w-full object-contain", !currentTrack?.thumbnail && "p-[25%]")}
           />
         </div>

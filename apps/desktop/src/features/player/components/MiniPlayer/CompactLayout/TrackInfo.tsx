@@ -4,9 +4,17 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../../stores/usePlayerStore"
 
-import { Fade, Marquee, Thumbnail, Typography } from "@components/ui"
+import { cn } from "@lib/utils"
 
-const TrackInfo = () => {
+import { Marquee, Thumbnail, Typography } from "@components/ui"
+
+import { type Palette } from "@repo/utils"
+
+type TrackInfoProps = {
+  palette: Palette | null
+}
+
+const TrackInfo = ({ palette }: TrackInfoProps) => {
   const { t } = useTranslation()
 
   const { currentTrack } = usePlayerStore(
@@ -17,38 +25,64 @@ const TrackInfo = () => {
 
   return (
     <div className="flex h-full items-center gap-3 truncate">
+      <Thumbnail
+        placeholderIcon="Music"
+        fileName={currentTrack?.thumbnail}
+        alt={currentTrack?.title}
+        containerClassName={cn("size-14 shrink-0", currentTrack?.thumbnail && "border-none")}
+        className={currentTrack?.thumbnail ? "size-14" : "size-6"}
+      />
       {currentTrack ? (
-        <Fade>
-          <Thumbnail
-            placeholderIcon="Music"
-            fileName={currentTrack?.thumbnail}
-            alt={currentTrack?.title}
-            containerClassName="size-14 shrink-0 rounded-lg"
-            className={currentTrack?.thumbnail ? "size-14" : "size-6"}
-          />
-        </Fade>
+        <div className="w-full truncate">
+          <Marquee>
+            <Typography
+              variant="h5"
+              style={{
+                color: palette?.primary || undefined
+              }}
+            >
+              {currentTrack.title}
+            </Typography>
+          </Marquee>
+          <Marquee>
+            {currentTrack.artist ? (
+              currentTrack.artists.map((artist, index) => (
+                <span key={artist.artistId}>
+                  <Typography
+                    affects={["small"]}
+                    style={{
+                      color: palette?.mutedForeground || undefined
+                    }}
+                  >
+                    {artist.artist.name}
+                  </Typography>
+                  {index < currentTrack.artists.length - 1 && (
+                    <Typography
+                      affects={["small"]}
+                      style={{
+                        color: palette?.mutedForeground || undefined
+                      }}
+                    >
+                      ,{" "}
+                    </Typography>
+                  )}
+                </span>
+              ))
+            ) : (
+              <Typography
+                affects={["small"]}
+                style={{
+                  color: palette?.mutedForeground || undefined
+                }}
+              >
+                {t("common.unknownArtist")}
+              </Typography>
+            )}
+          </Marquee>
+        </div>
       ) : (
-        <div className="size-14 shrink-0" />
+        <Typography affects={["muted", "small"]}>{t("common.noSongPlaying")}</Typography>
       )}
-      <Fade show={!!currentTrack} className="w-full truncate">
-        <Marquee>
-          <Typography variant="h5">{currentTrack?.title}</Typography>
-        </Marquee>
-        <Marquee>
-          {currentTrack?.artist ? (
-            currentTrack.artists.map((artist, index) => (
-              <span key={artist.artistId}>
-                <Typography affects={["muted", "small"]}>{artist.artist.name}</Typography>
-                {index < currentTrack.artists.length - 1 && (
-                  <Typography affects={["muted", "small"]}>, </Typography>
-                )}
-              </span>
-            ))
-          ) : (
-            <Typography affects={["muted", "small"]}>{t("common.unknownArtist")}</Typography>
-          )}
-        </Marquee>
-      </Fade>
     </div>
   )
 }

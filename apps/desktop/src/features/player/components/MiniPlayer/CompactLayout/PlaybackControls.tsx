@@ -4,9 +4,17 @@ import { usePlayerStore } from "../../../stores/usePlayerStore"
 
 import { IconButton } from "@components/ui"
 
+import { readableColor } from "polished"
+
 import { State } from "react-track-player-web"
 
-const PlaybackControls = () => {
+import { type Palette } from "@repo/utils"
+
+type PlaybackControlsProps = {
+  palette: Palette | null
+}
+
+const PlaybackControls = ({ palette }: PlaybackControlsProps) => {
   const {
     play,
     pause,
@@ -46,12 +54,20 @@ const PlaybackControls = () => {
     await playNext()
   }
 
+  const buttonBgColor = palette?.primary
+  const buttonTextColor =
+    palette?.primaryForeground || (buttonBgColor ? readableColor(buttonBgColor) : undefined)
+
   return (
     <div className="flex shrink-0 items-center gap-1">
       <IconButton
         name={isPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
-        className="h-10 w-10 rounded-full bg-primary text-primary-foreground [&_svg]:size-5"
+        className="h-10 w-10 rounded-full [&_svg]:size-5"
+        style={{
+          backgroundColor: buttonBgColor || undefined,
+          color: buttonTextColor || undefined
+        }}
         onClick={handlePlayPause}
         disabled={!canPlay}
       />
@@ -60,7 +76,13 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handleNext}
         disabled={!canPlayNext}
-        className="h-9 w-9"
+        className="h-9 w-9 hover:bg-[var(--accent-bg)]"
+        style={
+          {
+            color: palette?.foreground || undefined,
+            "--accent-bg": palette?.accent
+          } as React.CSSProperties & { "--accent-bg"?: string }
+        }
       />
     </div>
   )

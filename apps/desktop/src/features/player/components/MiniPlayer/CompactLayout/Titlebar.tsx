@@ -2,11 +2,11 @@ import { useState } from "react"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import { motion } from "motion/react"
-
 import { cn } from "@lib/utils"
 
 import { Titlebar as WindowTitlebar } from "@components/window/Titlebar"
+
+import { motion } from "motion/react"
 
 const Titlebar = () => {
   const [isWindowFocused, setIsWindowFocused] = useState(false)

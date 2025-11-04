@@ -33,7 +33,7 @@ const TrackInfo = () => {
             placeholderIcon="Music"
             fileName={currentTrack?.thumbnail}
             alt={currentTrack?.title}
-            containerClassName="size-24 rounded-md"
+            containerClassName="size-24"
             className={currentTrack?.thumbnail ? "size-24" : "size-8"}
           />
         </Fade>

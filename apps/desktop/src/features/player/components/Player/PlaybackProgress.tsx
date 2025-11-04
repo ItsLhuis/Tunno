@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { useShallow } from "zustand/shallow"
 
@@ -36,8 +36,20 @@ const PlaybackProgress = () => {
   const [wasPlaying, setWasPlaying] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
 
+  const [localPosition, setLocalPosition] = useState<number | null>(null)
+
   const canSeek = currentTrack !== null && !isTrackLoading && duration > 0
-  const value = duration > 0 ? [Math.min(position, duration)] : [0]
+  const displayPosition = localPosition !== null ? localPosition : position
+  const value = duration > 0 ? [Math.min(displayPosition, duration)] : [0]
+
+  useEffect(() => {
+    if (!isDragging && localPosition !== null) {
+      const diff = Math.abs(position - localPosition)
+      if (diff < 1) {
+        setLocalPosition(null)
+      }
+    }
+  }, [position, isDragging, localPosition])
 
   const handleKeyboardSeek = async (seekAmount: number) => {
     if (!canSeek) return
@@ -58,7 +70,7 @@ const PlaybackProgress = () => {
 
   return (
     <div className="flex w-full items-center justify-center gap-3 p-3 pb-0">
-      <Typography affects={["small"]}>{formatTime(position)}</Typography>
+      <Typography affects={["small"]}>{formatTime(displayPosition)}</Typography>
       <Slider
         min={0}
         max={Math.max(duration, 0.1)}
@@ -66,15 +78,22 @@ const PlaybackProgress = () => {
         value={value}
         onValueChange={(vals) => {
           if (!canSeek) return
+          const target = vals[0]
+
           if (!isDragging) {
             setIsDragging(true)
             setWasPlaying(playbackState === "playing")
+            void pause()
           }
-          void pause()
+
+          setLocalPosition(target)
+        }}
+        onValueCommit={(vals) => {
+          if (!canSeek) return
+
           const target = vals[0]
           void seekTo(target)
-        }}
-        onValueCommit={() => {
+
           if (wasPlaying) {
             void play()
           }

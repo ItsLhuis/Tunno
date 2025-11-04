@@ -31,7 +31,7 @@ const TrackInfo = () => {
           </Marquee>
         </div>
       ) : (
-        <Typography affects={["muted", "small"]}>No track playing</Typography>
+        <Typography affects={["muted", "small"]}>{t("common.noSongPlaying")}</Typography>
       )}
     </div>
   )
