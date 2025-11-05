@@ -72,11 +72,11 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
       },
       {
         queryKey: homeKeys.listJumpBackIn({
-          limit: options.jumpBackIn?.limit ?? 8,
+          limit: options.jumpBackIn?.limit ?? 10,
           hours: options.jumpBackIn?.hours ?? 48
         }),
         queryFn: () =>
-          getJumpBackIn(options.jumpBackIn?.limit ?? 8, options.jumpBackIn?.hours ?? 48)
+          getJumpBackIn(options.jumpBackIn?.limit ?? 10, options.jumpBackIn?.hours ?? 48)
       },
       {
         queryKey: homeKeys.listOnRepeat({
@@ -98,47 +98,47 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
       },
       {
         queryKey: homeKeys.listNewReleases({
-          limit: options.newReleases?.limit ?? 12,
+          limit: options.newReleases?.limit ?? 14,
           days: options.newReleases?.days ?? 30
         }),
         queryFn: () =>
-          getNewReleases(options.newReleases?.limit ?? 12, options.newReleases?.days ?? 30)
+          getNewReleases(options.newReleases?.limit ?? 14, options.newReleases?.days ?? 30)
       },
       {
         queryKey: homeKeys.listFavoriteArtists({
-          limit: options.favoriteArtists?.limit ?? 12
+          limit: options.favoriteArtists?.limit ?? 14
         }),
-        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 12)
+        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 14)
       },
       {
         queryKey: homeKeys.listTopAlbums({
-          limit: options.topAlbums?.limit ?? 12
+          limit: options.topAlbums?.limit ?? 14
         }),
-        queryFn: () => getTopAlbums(options.topAlbums?.limit ?? 12)
+        queryFn: () => getTopAlbums(options.topAlbums?.limit ?? 14)
       },
       {
         queryKey: homeKeys.listRecentlyAdded({
-          limit: options.recentlyAdded?.limit ?? 8
+          limit: options.recentlyAdded?.limit ?? 10
         }),
-        queryFn: () => getRecentlyAdded(options.recentlyAdded?.limit ?? 8)
+        queryFn: () => getRecentlyAdded(options.recentlyAdded?.limit ?? 10)
       },
       {
         queryKey: homeKeys.listHiddenGems({
-          limit: options.hiddenGems?.limit ?? 8,
+          limit: options.hiddenGems?.limit ?? 10,
           minYearsOld: options.hiddenGems?.minYearsOld ?? 5,
           maxPlayCount: options.hiddenGems?.maxPlayCount ?? 3
         }),
         queryFn: () =>
-          getHiddenGems(options.hiddenGems?.limit ?? 8, {
+          getHiddenGems(options.hiddenGems?.limit ?? 10, {
             minYearsOld: options.hiddenGems?.minYearsOld ?? 5,
             maxPlayCount: options.hiddenGems?.maxPlayCount ?? 3
           })
       },
       {
         queryKey: homeKeys.listDiscover({
-          limit: options.discover?.limit ?? 8
+          limit: options.discover?.limit ?? 10
         }),
-        queryFn: () => getDiscover(options.discover?.limit ?? 8)
+        queryFn: () => getDiscover(options.discover?.limit ?? 10)
       }
     ],
     [
