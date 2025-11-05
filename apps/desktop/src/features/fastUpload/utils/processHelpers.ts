@@ -12,11 +12,48 @@ import { isTransientError, isUniqueConstraintError, retryWithBackoff } from "./r
 
 import { type EntityCache } from "./entityCache"
 
-import type { CLIArtist } from "../types"
+import type { CLIArtist, CLISong } from "../types"
 
 type LocalArtistCache = Map<string, number>
 
 export { type LocalArtistCache }
+
+type SongUpdateFields = {
+  lyrics?: { text: string; startTime: number }[]
+  duration?: number
+  releaseYear?: number | null
+}
+
+export const compareAndGetSongUpdates = (
+  existingSong: { lyrics: any; duration: number; releaseYear: number | null },
+  newMetadata: CLISong
+): { needsUpdate: boolean; updates: SongUpdateFields } => {
+  const updates: SongUpdateFields = {}
+  let needsUpdate = false
+
+  if (newMetadata.lyrics) {
+    const existingLyrics = JSON.stringify(existingSong.lyrics || [])
+    const newLyrics = JSON.stringify(newMetadata.lyrics)
+
+    if (existingLyrics !== newLyrics) {
+      updates.lyrics = newMetadata.lyrics
+      needsUpdate = true
+    }
+  }
+
+  if (Math.abs(existingSong.duration - newMetadata.duration) > 1) {
+    updates.duration = newMetadata.duration
+    needsUpdate = true
+  }
+
+  const newReleaseYear = newMetadata.album.releaseYear || null
+  if (existingSong.releaseYear !== newReleaseYear) {
+    updates.releaseYear = newReleaseYear
+    needsUpdate = true
+  }
+
+  return { needsUpdate, updates }
+}
 
 type ProcessArtistResult = {
   artistId: number
