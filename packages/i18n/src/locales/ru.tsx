@@ -548,11 +548,9 @@ export const russian: Language = {
         },
         whatsNew: {
           title: "Что нового",
+          description: "Ознакомьтесь с последними функциями и улучшениями",
           newRelease: "Новый релиз",
-          viewChangelog: "Посмотреть changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Посмотреть changelog"
         },
         storage: {
           title: "Хранилище и Данные",

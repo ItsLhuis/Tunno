@@ -548,11 +548,9 @@ export const danish: Language = {
         },
         whatsNew: {
           title: "Hvad er nyt",
+          description: "Tjek de seneste funktioner og forbedringer ud",
           newRelease: "Ny udgivelse",
-          viewChangelog: "Se changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Se changelog"
         },
         storage: {
           title: "Lager & Data",

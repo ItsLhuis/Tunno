@@ -548,11 +548,9 @@ export const finnish: Language = {
         },
         whatsNew: {
           title: "Mitä uutta",
+          description: "Tutustu uusimpiin ominaisuuksiin ja parannuksiin",
           newRelease: "Uusi julkaisu",
-          viewChangelog: "Näytä muutosloki",
-          dialog: {
-            title: "Muutosloki"
-          }
+          viewChangelog: "Näytä muutosloki"
         },
         storage: {
           title: "Tallennustila ja Tiedot",

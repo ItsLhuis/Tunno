@@ -548,11 +548,9 @@ export const polish: Language = {
         },
         whatsNew: {
           title: "Co Nowego",
+          description: "Sprawdź najnowsze funkcje i ulepszenia",
           newRelease: "Nowa wersja",
-          viewChangelog: "Zobacz changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Zobacz changelog"
         },
         storage: {
           title: "Pamięć i Dane",

@@ -548,11 +548,9 @@ export const korean: Language = {
         },
         whatsNew: {
           title: "새로운 기능",
+          description: "최신 기능과 개선 사항을 확인하세요",
           newRelease: "새 릴리스",
-          viewChangelog: "변경 로그 보기",
-          dialog: {
-            title: "변경 로그"
-          }
+          viewChangelog: "변경 로그 보기"
         },
         storage: {
           title: "저장소 및 데이터",

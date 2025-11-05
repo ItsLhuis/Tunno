@@ -548,11 +548,9 @@ export const english: Language = {
         },
         whatsNew: {
           title: "What's New",
+          description: "Check out the latest features and improvements",
           newRelease: "New release",
-          viewChangelog: "View changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "View changelog"
         },
         storage: {
           title: "Storage & Data",

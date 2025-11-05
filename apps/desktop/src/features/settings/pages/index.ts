@@ -1,4 +1,4 @@
-export * from "./about"
+export * from "./About"
 export * from "./Appearance"
 export * from "./Equalizer"
 export * from "./Language"

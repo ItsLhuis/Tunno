@@ -548,11 +548,9 @@ export const norwegian: Language = {
         },
         whatsNew: {
           title: "Hva er nytt",
+          description: "Sjekk ut de nyeste funksjonene og forbedringene",
           newRelease: "Ny versjon",
-          viewChangelog: "Se changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Se changelog"
         },
         storage: {
           title: "Lagring & Data",

@@ -546,11 +546,9 @@ export const chinese: Language = {
         },
         whatsNew: {
           title: "新功能",
+          description: "查看最新功能和改进",
           newRelease: "新版本",
-          viewChangelog: "查看更新日志",
-          dialog: {
-            title: "更新日志"
-          }
+          viewChangelog: "查看更新日志"
         },
         storage: {
           title: "存储和数据",

@@ -548,11 +548,9 @@ export const hindi: Language = {
         },
         whatsNew: {
           title: "क्या नया है",
+          description: "नवीनतम सुविधाओं और सुधारों की जांच करें",
           newRelease: "नया रिलीज़",
-          viewChangelog: "चेंजलॉग देखें",
-          dialog: {
-            title: "चेंजलॉग"
-          }
+          viewChangelog: "चेंजलॉग देखें"
         },
         storage: {
           title: "भंडारण और डेटा",

@@ -548,11 +548,9 @@ export const swedish: Language = {
         },
         whatsNew: {
           title: "Vad är nytt",
+          description: "Kolla in de senaste funktionerna och förbättringarna",
           newRelease: "Ny version",
-          viewChangelog: "Visa changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Visa changelog"
         },
         storage: {
           title: "Lagring & Data",

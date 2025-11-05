@@ -548,11 +548,9 @@ export const turkish: Language = {
         },
         whatsNew: {
           title: "Yenilikler",
+          description: "En son özellikleri ve iyileştirmeleri kontrol edin",
           newRelease: "Yeni sürüm",
-          viewChangelog: "Değişiklik listesini görüntüle",
-          dialog: {
-            title: "Değişiklik Listesi"
-          }
+          viewChangelog: "Değişiklik listesini görüntüle"
         },
         storage: {
           title: "Depolama ve Veri",

@@ -548,11 +548,9 @@ export const vietnamese: Language = {
         },
         whatsNew: {
           title: "Tính năng mới",
+          description: "Xem các tính năng và cải tiến mới nhất",
           newRelease: "Phiên bản mới",
-          viewChangelog: "Xem changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Xem changelog"
         },
         storage: {
           title: "Lưu trữ và Dữ liệu",

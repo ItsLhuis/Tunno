@@ -548,11 +548,9 @@ export const japanese: Language = {
         },
         whatsNew: {
           title: "新着情報",
+          description: "最新の機能と改善を確認してください",
           newRelease: "新リリース",
-          viewChangelog: "変更履歴を見る",
-          dialog: {
-            title: "変更履歴"
-          }
+          viewChangelog: "変更履歴を見る"
         },
         storage: {
           title: "ストレージとデータ",

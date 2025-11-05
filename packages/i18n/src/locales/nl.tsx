@@ -549,11 +549,9 @@ export const dutch: Language = {
         },
         whatsNew: {
           title: "Wat is er nieuw",
+          description: "Bekijk de nieuwste functies en verbeteringen",
           newRelease: "Nieuwe release",
-          viewChangelog: "Changelog bekijken",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Changelog bekijken"
         },
         storage: {
           title: "Opslag & Gegevens",

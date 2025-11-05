@@ -548,11 +548,9 @@ export const german: Language = {
         },
         whatsNew: {
           title: "Neues",
+          description: "Erkunden Sie die neuesten Funktionen und Verbesserungen",
           newRelease: "Neue Version",
-          viewChangelog: "Changelog ansehen",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Changelog ansehen"
         },
         storage: {
           title: "Speicher & Daten",

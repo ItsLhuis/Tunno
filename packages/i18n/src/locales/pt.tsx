@@ -44,7 +44,7 @@ export const portuguese: Language = {
       date: "Data",
       added: "Adicionado",
       duration: "Duração",
-      search: "Pesquisar",
+      search: "Procurar",
       selectAll: "Selecionar tudo",
       clear: "Limpar",
       cancel: "Cancelar",
@@ -549,11 +549,9 @@ export const portuguese: Language = {
         },
         whatsNew: {
           title: "Novidades",
+          description: "Consulte as últimas funcionalidades e melhorias",
           newRelease: "Nova versão",
-          viewChangelog: "Ver changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Ver changelog"
         },
         storage: {
           title: "Armazenamento e Dados",

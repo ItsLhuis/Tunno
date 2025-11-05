@@ -548,11 +548,9 @@ export const ukrainian: Language = {
         },
         whatsNew: {
           title: "Що нового",
+          description: "Ознайомтесь з останніми функціями та покращеннями",
           newRelease: "Новий реліз",
-          viewChangelog: "Переглянути changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Переглянути changelog"
         },
         storage: {
           title: "Сховище та Дані",

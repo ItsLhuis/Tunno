@@ -549,11 +549,9 @@ export type Translations = {
       }
       whatsNew: {
         title: string
+        description: string
         newRelease: string
         viewChangelog: string
-        dialog: {
-          title: string
-        }
       }
       storage: {
         title: string

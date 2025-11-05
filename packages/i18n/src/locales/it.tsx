@@ -549,11 +549,9 @@ export const italian: Language = {
         },
         whatsNew: {
           title: "Novità",
+          description: "Scopri le ultime funzionalità e miglioramenti",
           newRelease: "Nuova versione",
-          viewChangelog: "Visualizza changelog",
-          dialog: {
-            title: "Changelog"
-          }
+          viewChangelog: "Visualizza changelog"
         },
         storage: {
           title: "Archiviazione e Dati",

@@ -7,13 +7,7 @@ import { appDataDir } from "@tauri-apps/api/path"
 import { revealItemInDir } from "@tauri-apps/plugin-opener"
 import { open } from "@tauri-apps/plugin-shell"
 
-import {
-  getChangelogs,
-  getLatestVersion,
-  getLatestVersionString,
-  isNewVersion,
-  type LocaleCode
-} from "@data/changelogs"
+import pkg from "../../../../package.json"
 
 import Logo from "@assets/images/app/icons/primary.png"
 
@@ -30,15 +24,13 @@ import {
 
 import { SettingButton, type SettingButtonProps } from "@features/settings/components"
 
-import { ChangelogDialog } from "./components"
-
 const About = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
-  const latestVersion = getLatestVersion()
-  const latestVersionString = getLatestVersionString()
-  const changelogs = getChangelogs(i18n.language as LocaleCode)
-  const currentChangelog = changelogs[latestVersionString]
+  const currentVersion = pkg.version
+  const releaseDate = new Date(pkg.releaseDate)
+  const daysSinceRelease = Math.floor((Date.now() - releaseDate.getTime()) / (1000 * 60 * 60 * 24))
+  const isNewRelease = daysSinceRelease < 7
 
   const [appName, setAppName] = useState("")
 
@@ -61,6 +53,10 @@ const About = () => {
     open("https://github.com/ItsLhuis/Tunno/blob/main/LICENSE")
   }
 
+  const handleOpenChangelog = () => {
+    open("https://github.com/ItsLhuis/Tunno/blob/main/apps/desktop/CHANGELOG.md")
+  }
+
   const settings: (SettingButtonProps & { key: string })[] = [
     {
       key: "identity",
@@ -77,7 +73,7 @@ const About = () => {
           />
           <div className="flex flex-col gap-1">
             <Typography>{appName}&nbsp;</Typography>
-            <Typography affects={["small", "muted"]}>Version {latestVersion.version}</Typography>
+            <Typography affects={["small", "muted"]}>Version {currentVersion}</Typography>
           </div>
         </div>
       )
@@ -85,17 +81,20 @@ const About = () => {
     {
       key: "whatsNew",
       title: t("settings.about.whatsNew.title"),
-      description: currentChangelog.summary,
+      description: t("settings.about.whatsNew.description"),
       renderLeft: () => <Icon name="Sparkles" className="mt-1" />,
       children: (
         <div className="flex flex-col gap-3">
-          {!isNewVersion(latestVersion.version) && (
+          {isNewRelease && (
             <Badge className="w-fit gap-1.5">
               <Icon name="Sparkles" />
               {t("settings.about.whatsNew.newRelease")}
             </Badge>
           )}
-          <ChangelogDialog changelog={currentChangelog.changelog} />
+          <Button variant="outline" size="sm" className="w-fit" onClick={handleOpenChangelog}>
+            <Icon name="ExternalLink" />
+            {t("settings.about.whatsNew.viewChangelog")}
+          </Button>
         </div>
       )
     },
