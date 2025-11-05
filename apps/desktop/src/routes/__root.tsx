@@ -1,7 +1,8 @@
 "use client"
 
-import { createRootRoute } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
+
+import { createRootRoute } from "@tanstack/react-router"
 
 import { useShallow } from "zustand/shallow"
 
@@ -19,6 +20,8 @@ import { initializeStorage } from "@services/storage"
 import { Footer, Sidebar, Titlebar } from "@app/layout"
 import { AnimatedOutlet, Fade, Image, toast } from "@components/ui"
 
+import { useWindowVisibility } from "@hooks/useWindowVisibility"
+
 import Logo from "@assets/images/app/icons/primary.png"
 
 export const Route = createRootRoute({
@@ -27,6 +30,10 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const [isAppReady, setIsAppReady] = useState(false)
+
+  const [showSplashOnVisibility, setShowSplashOnVisibility] = useState(false)
+
+  const isWindowVisible = useWindowVisibility()
 
   const { language } = useSettingsStore(
     useShallow((state) => ({
@@ -87,10 +94,27 @@ function RootComponent() {
     startApp()
   }, [])
 
+  useEffect(() => {
+    if (!isWindowVisible) {
+      setShowSplashOnVisibility(true)
+      return
+    }
+
+    if (showSplashOnVisibility && isAppReady && isWindowVisible) {
+      const timer = setTimeout(() => {
+        setShowSplashOnVisibility(false)
+      }, 500)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isWindowVisible, showSplashOnVisibility, isAppReady])
+
+  const showSplash = !isAppReady || showSplashOnVisibility || !isWindowVisible
+
   return (
     <div className="relative flex h-dvh w-dvw flex-col bg-background">
       <Fade
-        show={!isAppReady}
+        show={showSplash}
         className="absolute inset-0 z-40 flex items-center justify-center bg-background"
       >
         <Image
@@ -101,15 +125,22 @@ function RootComponent() {
         />
       </Fade>
       <Fade className="z-50">
-        <Titlebar isSplashVisible={!isAppReady} />
+        <Titlebar isSplashVisible={showSplashOnVisibility} />
       </Fade>
-      <Fade show={isAppReady} className="flex flex-1 flex-col overflow-hidden">
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          <AnimatedOutlet />
-        </div>
-        <Footer />
-      </Fade>
+      {isWindowVisible ? (
+        <Fade
+          show={isAppReady && !showSplashOnVisibility}
+          className="flex flex-1 flex-col overflow-hidden"
+        >
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar />
+            <AnimatedOutlet />
+          </div>
+          <Footer />
+        </Fade>
+      ) : (
+        <div className="flex flex-1 flex-col overflow-hidden" aria-hidden="true" />
+      )}
     </div>
   )
 }
