@@ -46,7 +46,7 @@ const LyricsReader = ({ lyrics, currentTime, onSeek, ...props }: LyricsReaderPro
     behavior: "smooth",
     selector: (index) => `[data-lyric-index="${index}"]`,
     scrollRef: scrollRef,
-    resumeDelay: 2000,
+    resumeDelay: 1000,
     resumeOnSignificantChange: true,
     initialScroll: true,
     initialBehavior: "instant",

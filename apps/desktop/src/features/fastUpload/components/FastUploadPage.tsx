@@ -28,16 +28,15 @@ const FastUploadPage = () => {
   const virtualizerRef = useRef<Virtualizer<HTMLElement, Element> | null>(null)
 
   useStickToIndex({
-    targetIndex: currentTrackIndex,
+    targetIndex: Math.min(currentTrackIndex, Math.max(0, tracks.length - 1)),
     enabled: status === "processing",
     behavior: "smooth",
     selector: (index) => `[data-track-index="${index}"]`,
     scrollRef: scrollRef,
-    resumeDelay: 2000,
+    resumeDelay: 1000,
     resumeOnSignificantChange: true,
     initialScroll: false,
     virtualizer: virtualizerRef,
-    gap: 8,
     preventUserScroll: status === "processing"
   })
 
