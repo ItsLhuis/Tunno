@@ -22,16 +22,15 @@ const VirtualRow = memo(function VirtualRow<TItem>({
   const fromIndex = virtualRow.index * effectiveColumns
   const toIndex = Math.min(fromIndex + effectiveColumns, data.length)
 
-  const gapOffset = virtualRow.index * gap
-
   const transformStyle = useMemo(
     () => ({
-      transform: `translate3d(0, ${virtualRow.start + gapOffset}px, 0)`,
+      transform: `translate3d(0, ${virtualRow.start}px, 0)`,
+      paddingBottom: `${gap}px`,
       contain: "layout style paint" as const,
       backfaceVisibility: "hidden" as const,
       WebkitBackfaceVisibility: "hidden" as const
     }),
-    [virtualRow.start, gapOffset]
+    [virtualRow.start, gap]
   )
 
   const gridStyle = useMemo(

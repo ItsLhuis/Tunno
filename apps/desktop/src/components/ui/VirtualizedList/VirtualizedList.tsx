@@ -68,7 +68,7 @@ function VirtualizedList<TItem>({
     [data.length, effectiveColumns]
   )
 
-  const estimateSize = useCallback(() => estimateItemHeight, [estimateItemHeight])
+  const estimateSize = useCallback(() => estimateItemHeight + gap, [estimateItemHeight, gap])
 
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
@@ -85,17 +85,16 @@ function VirtualizedList<TItem>({
   const isListEmpty = data.length === 0
 
   const totalSize = rowVirtualizer.getTotalSize()
-  const totalSizeWithGaps = rowCount > 0 ? totalSize + (rowCount - 1) * gap : 0
 
   const containerStyle = useMemo(
     () => ({
-      height: `${totalSizeWithGaps}px`,
+      height: `${totalSize}px`,
       position: "relative" as const,
       contain: "layout style paint" as const,
       backfaceVisibility: "hidden" as const,
       WebkitBackfaceVisibility: "hidden" as const
     }),
-    [totalSizeWithGaps]
+    [totalSize]
   )
 
   useLayoutEffect(() => {
