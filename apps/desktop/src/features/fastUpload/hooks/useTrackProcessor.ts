@@ -16,6 +16,7 @@ import {
   retryWithBackoff,
   processArtist,
   updateAlbumThumbnailIfNeeded,
+  compareAndGetSongUpdates,
   type LocalArtistCache
 } from "../utils"
 
@@ -359,12 +360,21 @@ export const useTrackProcessor = () => {
             .limit(1)
 
           if (primaryArtistLink[0]?.artistId === primaryArtistId) {
-            if (thumbnailsUpdated) {
+            const { needsUpdate, updates } = compareAndGetSongUpdates(duplicateCheck, metadata)
+
+            if (needsUpdate) {
+              await database
+                .update(schema.songs)
+                .set(updates)
+                .where(eq(schema.songs.id, duplicateCheck.id))
+            }
+
+            if (thumbnailsUpdated || needsUpdate) {
               return {
                 success: true,
                 skipped: false,
                 songId: duplicateCheck.id,
-                thumbnailsUpdated: true
+                thumbnailsUpdated
               }
             }
 
