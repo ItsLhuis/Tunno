@@ -10,6 +10,10 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useWindowVisibility } from "@hooks/useWindowVisibility"
+
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
+
 import { relaunch } from "@tauri-apps/plugin-process"
 import { check } from "@tauri-apps/plugin-updater"
 
@@ -19,8 +23,6 @@ import { initializeStorage } from "@services/storage"
 
 import { Footer, Sidebar, Titlebar } from "@app/layout"
 import { AnimatedOutlet, Fade, Image, toast } from "@components/ui"
-
-import { useWindowVisibility } from "@hooks/useWindowVisibility"
 
 import Logo from "@assets/images/app/icons/primary.png"
 
@@ -108,6 +110,19 @@ function RootComponent() {
       return () => clearTimeout(timer)
     }
   }, [isWindowVisible, showSplashOnVisibility, isAppReady])
+
+  useEffect(() => {
+    if (!isWindowVisible) return
+
+    const hideFullscreenPlayer = async () => {
+      const fullscreenWindow = await WebviewWindow.getByLabel("fullscreenPlayer")
+      if (fullscreenWindow) {
+        await fullscreenWindow.hide()
+      }
+    }
+
+    hideFullscreenPlayer()
+  }, [isWindowVisible])
 
   const showSplash = !isAppReady || showSplashOnVisibility || !isWindowVisible
 
