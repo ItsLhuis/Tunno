@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+
 import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
@@ -20,19 +22,30 @@ const PlaybackVolumeControl = () => {
     }))
   )
 
+  const [isDragging, setIsDragging] = useState(false)
+
+  const [localVolume, setLocalVolume] = useState<number | null>(null)
+
+  const linearVolume = inverseVolumeCurve(volume)
+  const displayVolume = localVolume !== null ? localVolume : linearVolume
+
+  useEffect(() => {
+    if (!isDragging && localVolume !== null) {
+      const diff = Math.abs(linearVolume - localVolume)
+      if (diff < 0.01) {
+        setLocalVolume(null)
+      }
+    }
+  }, [linearVolume, isDragging, localVolume])
+
+  const iconName =
+    isMuted || displayVolume === 0 ? "VolumeOff" : displayVolume < 0.5 ? "Volume1" : "Volume2"
+
   return (
     <div className="flex flex-[0_1_125px] items-center gap-2">
       <IconButton
-        name={
-          isMuted
-            ? "VolumeOff"
-            : volume === 0
-              ? "VolumeX"
-              : inverseVolumeCurve(volume) < 0.5
-                ? "Volume1"
-                : "Volume2"
-        }
-        tooltip={isMuted || volume === 0 ? t("common.unmute") : t("common.mute")}
+        name={iconName}
+        tooltip={isMuted || displayVolume === 0 ? t("common.unmute") : t("common.mute")}
         variant="ghost"
         className="shrink-0"
         onClick={() => setIsMuted(!isMuted)}
@@ -42,12 +55,20 @@ const PlaybackVolumeControl = () => {
         min={0}
         max={1}
         step={0.01}
-        value={[inverseVolumeCurve(volume)]}
+        value={[displayVolume]}
         formatTooltip={(linearValue) => `${volumePercentage(linearValue)}%`}
-        onValueChange={([linearValue]) => setVolume(volumeCurve(linearValue))}
+        onValueChange={([linearValue]) => {
+          if (!isDragging) {
+            setIsDragging(true)
+          }
+          setLocalVolume(linearValue)
+        }}
         onValueCommit={([linearValue]) => {
           setVolume(volumeCurve(linearValue))
-          if (isMuted && linearValue > 0) setIsMuted(false)
+          if (isMuted && linearValue > 0) {
+            setIsMuted(false)
+          }
+          setIsDragging(false)
         }}
       />
     </div>
