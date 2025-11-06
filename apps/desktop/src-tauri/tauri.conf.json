@@ -39,6 +39,16 @@
         "useHttpsScheme": true,
         "alwaysOnTop": true,
         "skipTaskbar": true
+      },
+      {
+        "label": "fullscreenPlayer",
+        "title": "Tunno",
+        "url": "fullscreenPlayer.html",
+        "decorations": false,
+        "resizable": false,
+        "visible": false,
+        "useHttpsScheme": true,
+        "fullscreen": true
       }
     ],
     "security": {
