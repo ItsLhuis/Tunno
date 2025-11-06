@@ -23,7 +23,12 @@ import { type PlaySource } from "../../types/playSource"
 
 import { type SongWithMainRelations } from "@repo/api"
 
-import { createRemoteAction, isMainWindow, setupMainWindowSync, setupMiniPlayerSync } from "./sync"
+import {
+  createRemoteAction,
+  isMainWindow,
+  setupMainWindowSync,
+  setupSecondaryWindowSync
+} from "./sync"
 
 const PLAYER_STORE_NAME = "player"
 
@@ -169,19 +174,35 @@ const updateCachedSong = (
 const updateCachedSongs = (
   set: StoreApi<PlayerStore>["setState"],
   get: StoreApi<PlayerStore>["getState"],
-  songs: SongWithMainRelations[]
+  songs: SongWithMainRelations[],
+  priorityIds?: number[]
 ) => {
   const oldCache = get().cachedSongs
-  const maxSize = oldCache.getMaxSize()
+  let maxSize = oldCache.getMaxSize()
+  const prioritySet = priorityIds ? new Set(priorityIds) : null
+
+  if (prioritySet && prioritySet.size > maxSize) {
+    maxSize = prioritySet.size
+  }
 
   const newCache = new LRUCache<number, SongWithMainRelations>(maxSize)
 
-  for (const [key, value] of oldCache.entries()) {
-    newCache.set(key, value)
-  }
-
   for (const song of songs) {
     newCache.set(song.id, song)
+  }
+
+  if (prioritySet) {
+    for (const [key, value] of oldCache.entries()) {
+      if (!newCache.has(key) && prioritySet.has(key)) {
+        newCache.set(key, value)
+      }
+    }
+  }
+
+  for (const [key, value] of oldCache.entries()) {
+    if (!newCache.has(key) && newCache.size < maxSize) {
+      newCache.set(key, value)
+    }
   }
 
   set({ cachedSongs: newCache })
@@ -261,9 +282,9 @@ const _usePlayerStore = create<PlayerStore>()(
             }
           }
 
-          updateCachedSongs(set, get, fetchedSongs)
+          updateCachedSongs(set, get, fetchedSongs, newWindowIds)
 
-          const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
+          const stillMissing = newWindowIds.filter((id) => !get().cachedSongs.has(id))
           if (stillMissing.length > 0) {
             throw new Error("PlayerStore: Failed to load missing songs")
           }
@@ -367,18 +388,59 @@ const _usePlayerStore = create<PlayerStore>()(
           await prefetchSongs(missingSongs)
 
           const fetchedSongs: SongWithMainRelations[] = []
+          const failedIds: number[] = []
+
           for (const id of missingSongs) {
             const song = await getSongFromCacheOrFetch(id)
             if (song) {
               fetchedSongs.push(song)
+            } else {
+              failedIds.push(id)
             }
           }
 
-          updateCachedSongs(set, get, fetchedSongs)
+          if (failedIds.length > 0) {
+            throw new Error(
+              `PlayerStore: Failed to load ${failedIds.length} songs for shuffle: ${failedIds.join(", ")}`
+            )
+          }
 
-          const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
+          if (fetchedSongs.length !== missingSongs.length) {
+            throw new Error(
+              `PlayerStore: Expected ${missingSongs.length} songs but only fetched ${fetchedSongs.length}`
+            )
+          }
+
+          updateCachedSongs(set, get, fetchedSongs, newWindowIds)
+
+          const updatedCache = get().cachedSongs
+          const stillMissing = newWindowIds.filter((id) => !updatedCache.has(id))
+
           if (stillMissing.length > 0) {
-            throw new Error("PlayerStore: Failed to load missing songs for shuffle")
+            const missingDetails = stillMissing.map((id) => {
+              const song = updatedCache.get(id)
+              return {
+                id,
+                inCache: !!song,
+                cacheSize: updatedCache.size,
+                maxSize: updatedCache.getMaxSize()
+              }
+            })
+
+            console.error("PlayerStore: Cache state after update:", {
+              missingCount: stillMissing.length,
+              missingIds: stillMissing,
+              cacheSize: updatedCache.size,
+              maxSize: updatedCache.getMaxSize(),
+              fetchedCount: fetchedSongs.length,
+              missingDetails
+            })
+
+            throw new Error(
+              `PlayerStore: Songs still missing in cache after update: ${stillMissing.join(", ")}. ` +
+                `Cache has ${updatedCache.size}/${updatedCache.getMaxSize()} songs. ` +
+                `Fetched ${fetchedSongs.length} songs but ${stillMissing.length} are still missing.`
+            )
           }
         }
 
@@ -387,8 +449,23 @@ const _usePlayerStore = create<PlayerStore>()(
         const currentTrackNewIndex = newWindowIds.findIndex((id) => id === currentTrackId)
 
         if (currentTrackNewIndex < 0) {
+          const cachedSongs = get().cachedSongs
+          const missingInCache = newWindowIds.filter((id) => !cachedSongs.has(id))
+
+          if (missingInCache.length > 0) {
+            throw new Error(
+              `PlayerStore: Missing ${missingInCache.length} songs in cache after prefetch: ${missingInCache.join(", ")}`
+            )
+          }
+
           const tracks = await Promise.all(
-            newWindowIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
+            newWindowIds.map(async (id) => {
+              const song = get().cachedSongs.get(id)
+              if (!song) {
+                throw new Error(`PlayerStore: Song ${id} not found in cache`)
+              }
+              return resolveTrack(song)
+            })
           )
           if (currentPlayerQueue.length > 0) {
             const indicesToRemove: number[] = []
@@ -410,10 +487,21 @@ const _usePlayerStore = create<PlayerStore>()(
 
           await TrackPlayer.add(tracks)
 
+          const currentSong = get().cachedSongs.get(currentTrackId)
+
+          if (!currentSong) {
+            throw new Error(`PlayerStore: Current song ${currentTrackId} not found in cache`)
+          }
+
+          const currentTrack = await resolveTrack(currentSong)
+
           set({
             queueIds: newQueueIds,
             currentTrackIndex: newCurrentIndex,
+            currentTrackId,
+            currentTrack,
             windowStartIndex: newStart,
+            duration: currentTrack?.duration || 0,
             isQueueLoading: false
           })
 
@@ -438,11 +526,34 @@ const _usePlayerStore = create<PlayerStore>()(
 
         const beforeCurrentIds = newWindowIds.slice(0, currentTrackNewIndex)
         const afterCurrentIds = newWindowIds.slice(currentTrackNewIndex + 1)
+
+        const cachedSongs = get().cachedSongs
+        const missingBefore = beforeCurrentIds.filter((id) => !cachedSongs.has(id))
+        const missingAfter = afterCurrentIds.filter((id) => !cachedSongs.has(id))
+
+        if (missingBefore.length > 0 || missingAfter.length > 0) {
+          throw new Error(
+            `PlayerStore: Missing songs in cache: before=${missingBefore.join(", ")}, after=${missingAfter.join(", ")}`
+          )
+        }
+
         const tracksBeforeCurrent = await Promise.all(
-          beforeCurrentIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
+          beforeCurrentIds.map(async (id) => {
+            const song = get().cachedSongs.get(id)
+            if (!song) {
+              throw new Error(`PlayerStore: Song ${id} not found in cache`)
+            }
+            return resolveTrack(song)
+          })
         )
         const tracksAfterCurrent = await Promise.all(
-          afterCurrentIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
+          afterCurrentIds.map(async (id) => {
+            const song = get().cachedSongs.get(id)
+            if (!song) {
+              throw new Error(`PlayerStore: Song ${id} not found in cache`)
+            }
+            return resolveTrack(song)
+          })
         )
 
         if (tracksBeforeCurrent.length > 0) {
@@ -458,7 +569,11 @@ const _usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.skip(finalCurrentIndex)
         }
 
-        const newCurrentTrack = await resolveTrack(get().cachedSongs.get(currentTrackId)!)
+        const currentSong = get().cachedSongs.get(currentTrackId)
+        if (!currentSong) {
+          throw new Error(`PlayerStore: Current song ${currentTrackId} not found in cache`)
+        }
+        const newCurrentTrack = await resolveTrack(currentSong)
 
         set({
           queueIds: newQueueIds,
@@ -562,7 +677,7 @@ const _usePlayerStore = create<PlayerStore>()(
               throw new Error("PlayerStore: Some window songs could not be loaded")
             }
 
-            updateCachedSongs(set, get, windowSongs)
+            updateCachedSongs(set, get, windowSongs, windowIds)
 
             tracks = await Promise.all(windowSongs.map((song) => resolveTrack(song)))
 
@@ -1133,16 +1248,24 @@ const _usePlayerStore = create<PlayerStore>()(
               }
             }
 
-            updateCachedSongs(set, get, fetchedSongs)
+            updateCachedSongs(set, get, fetchedSongs, windowIds)
 
-            const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
+            const stillMissing = windowIds.filter((id) => !get().cachedSongs.has(id))
             if (stillMissing.length > 0) {
               throw new Error("PlayerStore: Failed to load missing songs for window")
             }
           }
 
           const tracks = await Promise.all(
-            windowIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
+            windowIds.map((id) => {
+              const song = get().cachedSongs.get(id)
+              if (!song) {
+                throw new Error(
+                  `PlayerStore: Song ${id} not found in cache after ensureWindowForIndex`
+                )
+              }
+              return resolveTrack(song)
+            })
           )
 
           await TrackPlayer.reset()
@@ -1179,7 +1302,9 @@ const _usePlayerStore = create<PlayerStore>()(
               }
             }
 
-            updateCachedSongs(set, get, fetchedSongs)
+            const currentWindowIds = queueIds.slice(start, end)
+            const priorityIds = [...currentWindowIds, ...toAddIds]
+            updateCachedSongs(set, get, fetchedSongs, priorityIds)
 
             const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
             if (stillMissing.length === missingSongs.length) {
@@ -1522,7 +1647,7 @@ const _usePlayerStore = create<PlayerStore>()(
 if (isMainWindow()) {
   setupMainWindowSync(_usePlayerStore)
 } else {
-  setupMiniPlayerSync(_usePlayerStore)
+  setupSecondaryWindowSync(_usePlayerStore)
 
   const remoteActions = {
     setVolume: createRemoteAction<[number]>("setVolume"),
