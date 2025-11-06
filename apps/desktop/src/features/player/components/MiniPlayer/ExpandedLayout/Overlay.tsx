@@ -1,5 +1,7 @@
 import { PlaybackControls } from "./PlaybackControls"
 import { PlaybackProgress } from "./PlaybackProgress"
+import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
+import { ToggleFavorite } from "./ToggleFavorite"
 
 import { motion } from "motion/react"
 
@@ -11,7 +13,15 @@ const Overlay = () => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <div className="flex flex-1 items-center justify-center">
-        <PlaybackControls />
+        <div className="flex items-center justify-center gap-2">
+          <div className="[@media(max-width:480px)]:hidden">
+            <ToggleFavorite />
+          </div>
+          <PlaybackControls />
+          <div className="[@media(max-width:480px)]:hidden">
+            <PlaybackVolumeControl />
+          </div>
+        </div>
       </div>
       <div className="absolute bottom-0 w-full">
         <PlaybackProgress />

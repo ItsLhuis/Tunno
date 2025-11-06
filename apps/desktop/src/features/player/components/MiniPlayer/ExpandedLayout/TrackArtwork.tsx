@@ -59,7 +59,7 @@ const TrackArtwork = () => {
 
     const handleImageLoad = () => {
       try {
-        const color = colorThief.getColor(image)
+        const color = colorThief.getColor(image) as [number, number, number]
         const rgbColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`
         setDominantColor(rgbColor)
       } catch {

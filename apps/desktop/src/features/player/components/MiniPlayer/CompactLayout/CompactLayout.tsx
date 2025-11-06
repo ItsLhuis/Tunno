@@ -7,6 +7,7 @@ import { usePlayerStore } from "../../../stores/usePlayerStore"
 import ColorThief from "colorthief"
 
 import { generateColorPalette, type Palette } from "@repo/utils"
+import { parseToHsl } from "polished"
 
 import { getRenderableFileSrc } from "@services/storage"
 
@@ -15,6 +16,15 @@ import { Titlebar } from "./Titlebar"
 import { TrackInfo } from "./TrackInfo"
 
 import { motion } from "motion/react"
+
+const rgbToHslString = (rgb: string): string | null => {
+  try {
+    const hsl = parseToHsl(rgb)
+    return `${Math.round(hsl.hue || 0)} ${Math.round(hsl.saturation * 100)}% ${Math.round(hsl.lightness * 100)}%`
+  } catch {
+    return null
+  }
+}
 
 const CompactLayout = () => {
   const { currentTrack } = usePlayerStore(
@@ -87,6 +97,27 @@ const CompactLayout = () => {
     }
   }, [imageSrc])
 
+  const cssVariables = palette
+    ? Object.fromEntries(
+        Object.entries({
+          "--background": palette.background ? rgbToHslString(palette.background) : null,
+          "--foreground": palette.foreground ? rgbToHslString(palette.foreground) : null,
+          "--muted": palette.muted ? rgbToHslString(palette.muted) : null,
+          "--muted-foreground": palette.mutedForeground
+            ? rgbToHslString(palette.mutedForeground)
+            : null,
+          "--primary": palette.primary ? rgbToHslString(palette.primary) : null,
+          "--primary-foreground": palette.primaryForeground
+            ? rgbToHslString(palette.primaryForeground)
+            : null,
+          "--accent": palette.accent ? rgbToHslString(palette.accent) : null,
+          "--accent-foreground": palette.accentForeground
+            ? rgbToHslString(palette.accentForeground)
+            : null
+        }).filter(([, value]) => value !== null)
+      )
+    : {}
+
   return (
     <>
       {imageSrc && (
@@ -107,13 +138,14 @@ const CompactLayout = () => {
           duration: 0.3,
           ease: "easeInOut"
         }}
+        style={cssVariables as React.CSSProperties}
       >
         <Titlebar />
         <div className="ml-3 min-w-0">
-          <TrackInfo palette={palette} />
+          <TrackInfo />
         </div>
         <div className="mx-3 flex shrink-0 items-center">
-          <PlaybackControls palette={palette} />
+          <PlaybackControls />
         </div>
       </motion.div>
     </>

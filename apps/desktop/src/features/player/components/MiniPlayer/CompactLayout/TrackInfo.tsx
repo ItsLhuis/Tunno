@@ -8,13 +8,7 @@ import { cn } from "@lib/utils"
 
 import { Marquee, Thumbnail, Typography } from "@components/ui"
 
-import { type Palette } from "@repo/utils"
-
-type TrackInfoProps = {
-  palette: Palette | null
-}
-
-const TrackInfo = ({ palette }: TrackInfoProps) => {
+const TrackInfo = () => {
   const { t } = useTranslation()
 
   const { currentTrack } = usePlayerStore(
@@ -35,12 +29,7 @@ const TrackInfo = ({ palette }: TrackInfoProps) => {
       {currentTrack ? (
         <div className="w-full truncate">
           <Marquee>
-            <Typography
-              variant="h5"
-              style={{
-                color: palette?.primary || undefined
-              }}
-            >
+            <Typography variant="h5" className="text-primary">
               {currentTrack.title}
             </Typography>
           </Marquee>
@@ -48,35 +37,14 @@ const TrackInfo = ({ palette }: TrackInfoProps) => {
             {currentTrack.artist ? (
               currentTrack.artists.map((artist, index) => (
                 <span key={artist.artistId}>
-                  <Typography
-                    affects={["small"]}
-                    style={{
-                      color: palette?.mutedForeground || undefined
-                    }}
-                  >
-                    {artist.artist.name}
-                  </Typography>
+                  <Typography affects={["small", "muted"]}>{artist.artist.name}</Typography>
                   {index < currentTrack.artists.length - 1 && (
-                    <Typography
-                      affects={["small"]}
-                      style={{
-                        color: palette?.mutedForeground || undefined
-                      }}
-                    >
-                      ,{" "}
-                    </Typography>
+                    <Typography affects={["small", "muted"]}>, </Typography>
                   )}
                 </span>
               ))
             ) : (
-              <Typography
-                affects={["small"]}
-                style={{
-                  color: palette?.mutedForeground || undefined
-                }}
-              >
-                {t("common.unknownArtist")}
-              </Typography>
+              <Typography affects={["small", "muted"]}>{t("common.unknownArtist")}</Typography>
             )}
           </Marquee>
         </div>
