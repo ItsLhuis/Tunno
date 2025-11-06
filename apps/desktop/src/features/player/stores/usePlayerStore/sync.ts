@@ -5,11 +5,17 @@ import { isEqual, throttle } from "lodash"
 
 import { type StoreApi } from "zustand"
 
-export type WindowLabel = "main" | "miniPlayer"
+import { LRUCache } from "@repo/utils"
+
+import { type SongWithMainRelations } from "@repo/api"
+
+export type WindowLabel = "main" | "miniPlayer" | "fullscreenPlayer"
 
 export const getWindowLabel = (): WindowLabel => {
   const label = getCurrentWindow().label
-  return label === "miniPlayer" ? "miniPlayer" : "main"
+  if (label === "miniPlayer") return "miniPlayer"
+  if (label === "fullscreenPlayer") return "fullscreenPlayer"
+  return "main"
 }
 
 export const isMainWindow = (): boolean => {
@@ -29,8 +35,6 @@ export const SYNC_CONFIG = {
   ACTION_TIMEOUT: 30000,
   MAX_RETRIES: 0
 } as const
-
-let isProcessingUpdate = false
 
 let hasHydratedFromMain = false
 
@@ -70,10 +74,6 @@ export const setupMainWindowSync = <T extends Record<string, unknown>>(
   )
 
   const unsubscribe = store.subscribe((currentState, previousState) => {
-    if (isProcessingUpdate) {
-      return
-    }
-
     const currentSerialized = partializeStateForSync(currentState)
     const previousSerialized = partializeStateForSync(previousState)
 
@@ -150,14 +150,46 @@ const detectActionKeys = <T extends Record<string, unknown>>(state: T): Set<stri
   return actionKeys
 }
 
-const NON_SERIALIZABLE_KEYS = new Set<string>(["cachedSongs"])
+const NON_SERIALIZABLE_KEYS = new Set<string>([])
+
+const serializeCachedSongs = (
+  cache: LRUCache<number, SongWithMainRelations>
+): Record<number, SongWithMainRelations> => {
+  const serialized: Record<number, SongWithMainRelations> = {}
+  for (const [id, song] of cache.entries()) {
+    serialized[id] = song
+  }
+  return serialized
+}
+
+const deserializeCachedSongs = (
+  data: Record<number, SongWithMainRelations> | undefined,
+  maxSize: number
+): LRUCache<number, SongWithMainRelations> => {
+  const cache = new LRUCache<number, SongWithMainRelations>(maxSize)
+  if (data) {
+    for (const [id, song] of Object.entries(data)) {
+      cache.set(Number(id), song)
+    }
+  }
+  return cache
+}
 
 const partializeStateForSync = <T extends Record<string, unknown>>(state: T): Partial<T> => {
   const actionKeys = detectActionKeys(state)
   const filtered: Record<string, unknown> = {}
 
   for (const key in state) {
-    if (!actionKeys.has(key) && !NON_SERIALIZABLE_KEYS.has(key)) {
+    if (actionKeys.has(key) || NON_SERIALIZABLE_KEYS.has(key)) {
+      continue
+    }
+
+    if (key === "cachedSongs") {
+      const cache = state[key] as LRUCache<number, SongWithMainRelations> | undefined
+      if (cache) {
+        filtered[key] = serializeCachedSongs(cache)
+      }
+    } else {
       filtered[key] = state[key]
     }
   }
@@ -165,28 +197,62 @@ const partializeStateForSync = <T extends Record<string, unknown>>(state: T): Pa
   return filtered as Partial<T>
 }
 
-export const setupMiniPlayerSync = <T extends Record<string, unknown>>(
+export const setupSecondaryWindowSync = <T extends Record<string, unknown>>(
   store: StoreApi<T>
 ): (() => void) => {
   const unlisteners: UnlistenFn[] = []
 
-  const stateUpdatePromise = listen<Partial<T>>(EVENTS.STATE_UPDATE, (event) => {
-    const newState = event.payload
+  let pendingUpdate: Partial<T> | null = null
+  let isProcessingUpdate = false
 
-    if (isProcessingUpdate) {
+  const processPendingUpdate = () => {
+    if (isProcessingUpdate || !pendingUpdate) {
       return
     }
+
+    const newState = pendingUpdate
+    pendingUpdate = null
 
     const currentSerializedState = partializeStateForSync(store.getState())
 
     if (!isEqual(currentSerializedState, newState)) {
       isProcessingUpdate = true
       try {
-        store.setState(newState as T, false)
+        const processedState = { ...newState } as Record<string, unknown>
+
+        if ("cachedSongs" in processedState && processedState.cachedSongs) {
+          const currentState = store.getState()
+          const windowSize =
+            (processedState.windowSize as number | undefined) ||
+            (currentState.windowSize as number | undefined) ||
+            100
+
+          processedState.cachedSongs = deserializeCachedSongs(
+            processedState.cachedSongs as Record<number, SongWithMainRelations> | undefined,
+            windowSize
+          )
+        }
+
+        store.setState(processedState as T, false)
       } finally {
         isProcessingUpdate = false
+        if (pendingUpdate) {
+          processPendingUpdate()
+        }
       }
     }
+  }
+
+  const stateUpdatePromise = listen<Partial<T>>(EVENTS.STATE_UPDATE, (event) => {
+    const newState = event.payload
+
+    if (isProcessingUpdate) {
+      pendingUpdate = newState
+      return
+    }
+
+    pendingUpdate = newState
+    processPendingUpdate()
   })
 
   stateUpdatePromise.then((unlisten) => unlisteners.push(unlisten))
@@ -197,12 +263,34 @@ export const setupMiniPlayerSync = <T extends Record<string, unknown>>(
       if (!hasHydratedFromMain) {
         const newState = event.payload.state
 
+        if (isProcessingUpdate) {
+          pendingUpdate = newState
+          return
+        }
+
         isProcessingUpdate = true
         try {
-          store.setState(newState as T, false)
+          const processedState = { ...newState } as Record<string, unknown>
+
+          if ("cachedSongs" in processedState && processedState.cachedSongs) {
+            const windowSize =
+              (processedState.windowSize as number | undefined) ||
+              (newState as { windowSize?: number }).windowSize ||
+              100
+
+            processedState.cachedSongs = deserializeCachedSongs(
+              processedState.cachedSongs as Record<number, SongWithMainRelations> | undefined,
+              windowSize
+            )
+          }
+
+          store.setState(processedState as T, false)
         } finally {
           isProcessingUpdate = false
           hasHydratedFromMain = true
+          if (pendingUpdate) {
+            processPendingUpdate()
+          }
         }
       }
     }
