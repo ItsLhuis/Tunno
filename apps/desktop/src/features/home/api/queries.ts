@@ -139,7 +139,7 @@ export const getUserStats = async (): Promise<UserStats> => {
   const [todayStats, weekStats, monthStats] = await Promise.all([
     database
       .select({
-        songsPlayed: sql<number>`count(distinct ${schema.playHistory.songId})`,
+        songsPlayed: sql<number>`count(${schema.playHistory.songId})`,
         timeListened: sql<number>`coalesce(sum(${schema.playHistory.timeListened}), 0)`
       })
       .from(schema.playHistory)
@@ -148,7 +148,7 @@ export const getUserStats = async (): Promise<UserStats> => {
 
     database
       .select({
-        songsPlayed: sql<number>`count(distinct ${schema.playHistory.songId})`,
+        songsPlayed: sql<number>`count(${schema.playHistory.songId})`,
         timeListened: sql<number>`coalesce(sum(${schema.playHistory.timeListened}), 0)`
       })
       .from(schema.playHistory)
@@ -157,7 +157,7 @@ export const getUserStats = async (): Promise<UserStats> => {
 
     database
       .select({
-        songsPlayed: sql<number>`count(distinct ${schema.playHistory.songId})`,
+        songsPlayed: sql<number>`count(${schema.playHistory.songId})`,
         timeListened: sql<number>`coalesce(sum(${schema.playHistory.timeListened}), 0)`
       })
       .from(schema.playHistory)

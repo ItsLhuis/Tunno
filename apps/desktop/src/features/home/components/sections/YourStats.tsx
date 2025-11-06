@@ -114,7 +114,9 @@ const YourStats = ({ stats }: YourStatsProps) => {
                       <Typography className="truncate">{t("common.today")}</Typography>
                     </div>
                     <Typography affects={["bold", "medium"]} className="truncate">
-                      {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedToday })}{" "}
+                      {t("common.songsPlayed", {
+                        count: stats.recentActivity.songsPlayedToday
+                      }).replace(/\d+/g, (match) => formatNumber(Number(match)))}{" "}
                       •{" "}
                     </Typography>
                     <Typography affects={["muted", "small"]} className="truncate">
@@ -127,7 +129,9 @@ const YourStats = ({ stats }: YourStatsProps) => {
                       <Typography className="truncate">{t("common.thisWeek")}</Typography>
                     </div>
                     <Typography affects={["bold", "medium"]} className="truncate">
-                      {t("common.songsPlayed", { count: stats.recentActivity.songsPlayedThisWeek })}{" "}
+                      {t("common.songsPlayed", {
+                        count: stats.recentActivity.songsPlayedThisWeek
+                      }).replace(/\d+/g, (match) => formatNumber(Number(match)))}{" "}
                       •{" "}
                     </Typography>
                     <Typography affects={["muted", "small"]} className="truncate">
@@ -144,7 +148,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
                     <Typography affects={["bold", "medium"]} className="truncate">
                       {t("common.songsPlayed", {
                         count: stats.recentActivity.songsPlayedThisMonth
-                      })}{" "}
+                      }).replace(/\d+/g, (match) => formatNumber(Number(match)))}{" "}
                       •{" "}
                     </Typography>
                     <Typography affects={["muted", "small"]} className="truncate">
