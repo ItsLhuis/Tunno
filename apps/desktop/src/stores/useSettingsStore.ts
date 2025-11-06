@@ -1,6 +1,8 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
+import { emit } from "@tauri-apps/api/event"
+
 import TrackPlayer, { type EqualizerPreset } from "react-track-player-web"
 
 import { setupAudioPlayer } from "@services/audio"
@@ -45,6 +47,7 @@ export const useSettingsStore = create<SettingsStore>()(
       setLanguage: (code) => {
         set({ language: code })
         i18n.changeLanguage(code)
+        emit("settings:language-changed", code)
       },
       setHasHydrated: (hasHydrated) => {
         set({ hasHydrated })
@@ -115,6 +118,10 @@ export const useSettingsStore = create<SettingsStore>()(
 
           if (state) {
             try {
+              if (state.language) {
+                await i18n.changeLanguage(state.language)
+              }
+
               if (state.equalizerEnabled !== undefined) {
                 await TrackPlayer.setEqualizerEnabled(state.equalizerEnabled)
               }
