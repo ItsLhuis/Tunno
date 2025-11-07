@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -12,6 +12,7 @@ import { useAddSongsToPlaylist } from "../hooks/useAddSongsToPlaylist"
 import { useFetchPlaylists } from "../hooks/useFetchPlaylists"
 
 import {
+  AsyncState,
   Button,
   Dialog,
   DialogClose,
@@ -24,12 +25,16 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
   ScrollArea,
-  VirtualizedSelect,
-  type VirtualizedSelectOption
+  Typography,
+  VirtualizedList,
+  type VirtualizedListController
 } from "@components/ui"
+
+import { PlaylistItem } from "./PlaylistItem"
+
+import { type Playlist } from "@repo/api"
 
 export type AddToPlaylistFormRenderProps = {
   isSubmitting: boolean
@@ -69,7 +74,11 @@ const AddToPlaylistForm = ({
 
   const addSongsToPlaylistMutation = useAddSongsToPlaylist()
 
-  const { data: playlists, isLoading: isPlaylistsLoading } = useFetchPlaylists({
+  const {
+    data: playlists,
+    isLoading: isPlaylistsLoading,
+    isError: isPlaylistsError
+  } = useFetchPlaylists({
     orderBy: { column: "name", direction: "asc" }
   })
 
@@ -81,18 +90,8 @@ const AddToPlaylistForm = ({
     }
   })
 
-  useEffect(() => {
-    if (form.formState.isSubmitted && form.formState.isValid) {
-      form.reset()
-    }
-  }, [form.formState.isSubmitted, form.formState.isValid])
-
-  const playlistOptions = useMemo((): VirtualizedSelectOption[] => {
-    return (playlists ?? []).map((playlist) => ({
-      label: playlist.name,
-      value: String(playlist.id)
-    }))
-  }, [playlists])
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+  const listControllerRef = useRef<VirtualizedListController<Playlist> | null>(null)
 
   const handleFormSubmit = async (values: AddToPlaylistType) => {
     if (onSubmit) {
@@ -109,6 +108,21 @@ const AddToPlaylistForm = ({
     }
   }
 
+  const handleSelectionChange = useCallback(
+    (selectedIds: string[]) => {
+      const playlistIds = selectedIds.map(Number)
+      form.setValue("playlistIds", playlistIds, { shouldValidate: true, shouldDirty: true })
+    },
+    [form]
+  )
+
+  useEffect(() => {
+    if (form.formState.isSubmitted && form.formState.isValid) {
+      form.reset()
+      listControllerRef.current?.clearSelection()
+    }
+  }, [form.formState.isSubmitted, form.formState.isValid, form])
+
   const renderProps = {
     isSubmitting: form.formState.isSubmitting || addSongsToPlaylistMutation.isPending,
     isDirty: form.formState.isDirty,
@@ -120,28 +134,53 @@ const AddToPlaylistForm = ({
   const FormContent = useMemo(() => {
     return (
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full space-y-6">
+        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
           <FormField
             control={form.control}
             name="playlistIds"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
-                <FormLabel>{t("playlists.title")}</FormLabel>
                 <FormControl>
-                  <VirtualizedSelect
-                    multiple
-                    modalPopover={asModal}
-                    placeholder={t("playlists.title")}
-                    options={playlistOptions}
-                    loading={isPlaylistsLoading}
-                    value={field.value.map(String) ?? []}
-                    onValueChange={(value) => {
-                      const playlistIds = value.map(Number)
-                      field.onChange(playlistIds)
-                    }}
-                    minWidth={300}
-                    maxHeight={200}
-                  />
+                  <AsyncState
+                    data={playlists}
+                    isLoading={isPlaylistsLoading}
+                    isError={isPlaylistsError}
+                    emptyComponent={
+                      <div className="flex h-full items-center justify-center py-8">
+                        <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
+                      </div>
+                    }
+                  >
+                    {(data) => (
+                      <VirtualizedList
+                        data={data}
+                        keyExtractor={(item) => item.id.toString()}
+                        estimateItemHeight={70}
+                        gap={8}
+                        onSelectionChange={handleSelectionChange}
+                        onController={(controller) => {
+                          listControllerRef.current = controller
+                        }}
+                        scrollRef={scrollRef}
+                        containerClassName="p-2"
+                        renderItem={({ item, selected, toggle }) => (
+                          <PlaylistItem
+                            playlist={item}
+                            variant="select"
+                            selected={selected}
+                            onToggle={toggle}
+                          />
+                        )}
+                        ListEmptyComponent={() => (
+                          <div className="flex h-full items-center justify-center py-8">
+                            <Typography affects={["muted"]}>
+                              {t("common.noResultsFound")}
+                            </Typography>
+                          </div>
+                        )}
+                      />
+                    )}
+                  </AsyncState>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -152,7 +191,16 @@ const AddToPlaylistForm = ({
         </form>
       </Form>
     )
-  }, [form, renderProps, playlistOptions, isPlaylistsLoading, asModal, t])
+  }, [
+    form,
+    renderProps,
+    playlists,
+    isPlaylistsLoading,
+    isPlaylistsError,
+    handleSelectionChange,
+    t,
+    scrollRef
+  ])
 
   if (!asModal) return FormContent
 
@@ -168,8 +216,8 @@ const AddToPlaylistForm = ({
         <DialogHeader className="shrink-0 border-b p-6">
           <DialogTitle>{title ?? t("form.titles.addToPlaylist")}</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="flex max-h-full flex-col">
-          <div className="p-6">{FormContent}</div>
+        <ScrollArea ref={scrollRef} className="flex max-h-full flex-col">
+          <div className="p-3">{FormContent}</div>
         </ScrollArea>
         <DialogFooter className="shrink-0 border-t p-6">
           <DialogClose asChild>
