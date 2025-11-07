@@ -36,13 +36,18 @@ export const insertSong = async (
     .returning()
 
   if (artists.length > 0) {
-    await database.insert(schema.songsToArtists).values(
-      artists.map((artistId, index) => ({
-        songId: createdSong.id,
-        artistId,
-        artistOrder: index
-      }))
-    )
+    await database
+      .insert(schema.songsToArtists)
+      .values(
+        artists.map((artistId, index) => ({
+          songId: createdSong.id,
+          artistId,
+          artistOrder: index
+        }))
+      )
+      .onConflictDoNothing({
+        target: [schema.songsToArtists.songId, schema.songsToArtists.artistId]
+      })
   }
 
   await updateArtistStatsForSong(artists)
