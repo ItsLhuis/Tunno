@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../../stores/usePlayerStore"
+
+import { throttle } from "lodash"
 
 import { inverseVolumeCurve, volumeCurve, volumePercentage } from "../../../utils/player"
 
@@ -29,6 +31,29 @@ const PlaybackVolumeControl = () => {
   const linearVolume = inverseVolumeCurve(volume)
   const displayVolume = localVolume !== null ? localVolume : linearVolume
 
+  const throttledSetVolume = useMemo(
+    () =>
+      throttle(
+        (curvedVolume: number) => {
+          setVolume(curvedVolume)
+        },
+        50,
+        { leading: true, trailing: false }
+      ),
+    [setVolume]
+  )
+
+  const cleanupRef = useRef<(() => void) | null>(null)
+
+  useEffect(() => {
+    cleanupRef.current = () => {
+      throttledSetVolume.cancel()
+    }
+    return () => {
+      cleanupRef.current?.()
+    }
+  }, [throttledSetVolume])
+
   useEffect(() => {
     if (!isDragging && localVolume !== null) {
       const diff = Math.abs(linearVolume - localVolume)
@@ -37,6 +62,29 @@ const PlaybackVolumeControl = () => {
       }
     }
   }, [linearVolume, isDragging, localVolume])
+
+  const handleValueChange = useCallback(
+    ([linearValue]: number[]) => {
+      if (!isDragging) {
+        setIsDragging(true)
+      }
+      setLocalVolume(linearValue)
+      throttledSetVolume(volumeCurve(linearValue))
+    },
+    [isDragging, throttledSetVolume]
+  )
+
+  const handleValueCommit = useCallback(
+    ([linearValue]: number[]) => {
+      throttledSetVolume.cancel()
+      setVolume(volumeCurve(linearValue))
+      if (isMuted && linearValue > 0) {
+        setIsMuted(false)
+      }
+      setIsDragging(false)
+    },
+    [setVolume, isMuted, setIsMuted, throttledSetVolume]
+  )
 
   const iconName =
     isMuted || displayVolume === 0 ? "VolumeOff" : displayVolume < 0.5 ? "Volume1" : "Volume2"
@@ -58,19 +106,8 @@ const PlaybackVolumeControl = () => {
           step={0.01}
           value={[displayVolume]}
           formatTooltip={(linearValue) => `${volumePercentage(linearValue)}%`}
-          onValueChange={([linearValue]) => {
-            if (!isDragging) {
-              setIsDragging(true)
-            }
-            setLocalVolume(linearValue)
-          }}
-          onValueCommit={([linearValue]) => {
-            setVolume(volumeCurve(linearValue))
-            if (isMuted && linearValue > 0) {
-              setIsMuted(false)
-            }
-            setIsDragging(false)
-          }}
+          onValueChange={handleValueChange}
+          onValueCommit={handleValueCommit}
         />
       </div>
     </div>
