@@ -14,6 +14,7 @@ export const createInsertSongSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(200, t("validation.name.max")),
     thumbnail: z
       .string()
+      .optional()
       .nullable()
       .refine(
         (value) => {
@@ -51,10 +52,12 @@ export const createInsertSongSchema = (t: TFunction) => {
       .int(t("validation.releaseYear.invalid"))
       .min(0, t("validation.releaseYear.min"))
       .max(new Date().getFullYear(), t("validation.releaseYear.max"))
+      .optional()
       .nullable(),
     albumId: z
       .number(t("validation.albumId.invalid"))
       .int(t("validation.albumId.invalid"))
+      .optional()
       .nullable()
   }).extend({
     artists: z.array(z.number().int().positive(t("validation.artists.invalid")))
@@ -68,6 +71,7 @@ export const createUpdateSongSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(200, t("validation.name.max")),
     thumbnail: z
       .string()
+      .optional()
       .nullable()
       .refine(
         (value) => {
@@ -87,10 +91,12 @@ export const createUpdateSongSchema = (t: TFunction) => {
       .int(t("validation.releaseYear.invalid"))
       .min(0, t("validation.releaseYear.min"))
       .max(new Date().getFullYear(), t("validation.releaseYear.max"))
+      .optional()
       .nullable(),
     albumId: z
       .number(t("validation.albumId.invalid"))
       .int(t("validation.albumId.invalid"))
+      .optional()
       .nullable()
   }).extend({
     artists: z.array(z.number().int().positive(t("validation.artists.invalid")))

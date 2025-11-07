@@ -14,6 +14,7 @@ export const createInsertPlaylistSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: z
       .string()
+      .optional()
       .nullable()
       .refine(
         (value) => {
@@ -38,6 +39,7 @@ export const createUpdatePlaylistSchema = (t: TFunction) => {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: z
       .string()
+      .optional()
       .nullable()
       .refine(
         (value) => {
