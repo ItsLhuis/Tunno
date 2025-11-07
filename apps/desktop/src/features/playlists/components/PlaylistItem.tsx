@@ -31,7 +31,7 @@ type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
 
 type PlaylistItemProps = {
   playlist: Playlist
-  variant?: "list" | "card" | "compact" | "hero"
+  variant?: "list" | "card" | "compact" | "hero" | "select"
   selected?: boolean
   onToggle?: () => void
   visibleColumns?: ColumnKey[]
@@ -90,6 +90,38 @@ const PlaylistItem = memo(
     const showPlayCountColumn = columnsToShow.includes("playCount")
     const showLastPlayedColumn = columnsToShow.includes("lastPlayed")
     const showDateColumn = columnsToShow.includes("date")
+
+    if (variant === "select") {
+      return (
+        <div
+          onClick={onToggle}
+          className={cn(
+            "group flex w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
+            selected && "bg-accent"
+          )}
+        >
+          <div className="flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select playlist" />
+          </div>
+          <Thumbnail
+            placeholderIcon="ListMusic"
+            fileName={playlist.thumbnail}
+            alt={playlist.name}
+          />
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <Marquee>
+              <Typography className="truncate font-medium">{playlist.name}</Typography>
+            </Marquee>
+            <Marquee>
+              <Typography affects={["muted", "small"]} className="truncate">
+                {t("common.songsPlayed", { count: playlist.totalTracks })}
+                {playlist.totalDuration > 0 && ` • ${formatDuration(playlist.totalDuration, t)}`}
+              </Typography>
+            </Marquee>
+          </div>
+        </div>
+      )
+    }
 
     if (variant === "card") {
       return (
