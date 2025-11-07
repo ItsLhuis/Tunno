@@ -18,7 +18,7 @@ import {
   ValidationErrorCode
 } from "@repo/api"
 
-import { isUniqueConstraintError, extractConstraintInfo } from "@repo/database"
+import { extractConstraintInfo, isUniqueConstraintError } from "@repo/database"
 
 import { type TFunction } from "@repo/i18n"
 
@@ -133,38 +133,27 @@ export const updateSongsToPlaylists = async (
   songIds: number[],
   playlistIds: number[]
 ): Promise<void> => {
-  const currentAssociations = await database
-    .select({
-      songId: schema.playlistsToSongs.songId,
-      playlistId: schema.playlistsToSongs.playlistId
-    })
-    .from(schema.playlistsToSongs)
-    .where(inArray(schema.playlistsToSongs.songId, songIds))
-
-  const affectedPlaylistIds = new Set<number>()
-
-  currentAssociations.forEach((assoc) => affectedPlaylistIds.add(assoc.playlistId))
-
-  playlistIds.forEach((id) => affectedPlaylistIds.add(id))
-
-  await database
-    .delete(schema.playlistsToSongs)
-    .where(inArray(schema.playlistsToSongs.songId, songIds))
-
-  if (playlistIds.length > 0) {
-    const newAssociations = songIds.flatMap((songId) =>
-      playlistIds.map((playlistId) => ({
-        songId,
-        playlistId
-      }))
-    )
-
-    await database.insert(schema.playlistsToSongs).values(newAssociations)
+  if (songIds.length === 0 || playlistIds.length === 0) {
+    return
   }
 
-  await Promise.all(
-    Array.from(affectedPlaylistIds).map((playlistId) => updatePlaylistStats(playlistId))
+  const associations = songIds.flatMap((songId) =>
+    playlistIds.map((playlistId) => ({
+      songId,
+      playlistId
+    }))
   )
+
+  if (associations.length > 0) {
+    await database
+      .insert(schema.playlistsToSongs)
+      .values(associations)
+      .onConflictDoNothing({
+        target: [schema.playlistsToSongs.playlistId, schema.playlistsToSongs.songId]
+      })
+  }
+
+  await Promise.all(playlistIds.map((playlistId) => updatePlaylistStats(playlistId)))
 }
 
 export const removeSongsFromPlaylist = async (

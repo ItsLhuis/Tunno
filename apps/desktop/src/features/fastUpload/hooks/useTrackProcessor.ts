@@ -87,11 +87,16 @@ export const useTrackProcessor = () => {
             const hasAssociation = cachedAlbum.artistIds.includes(result.artistId)
 
             if (!hasAssociation) {
-              await database.insert(schema.albumsToArtists).values({
-                albumId: cachedAlbum.id,
-                artistId: result.artistId,
-                artistOrder: index
-              })
+              await database
+                .insert(schema.albumsToArtists)
+                .values({
+                  albumId: cachedAlbum.id,
+                  artistId: result.artistId,
+                  artistOrder: index
+                })
+                .onConflictDoNothing({
+                  target: [schema.albumsToArtists.albumId, schema.albumsToArtists.artistId]
+                })
 
               if (entityCache) {
                 entityCache.updateAlbumArtists(cachedAlbum.id, [
@@ -171,11 +176,16 @@ export const useTrackProcessor = () => {
               const hasAssociation = existingArtistIds.includes(result.artistId)
 
               if (!hasAssociation) {
-                await database.insert(schema.albumsToArtists).values({
-                  albumId: existingAlbum.id,
-                  artistId: result.artistId,
-                  artistOrder: index
-                })
+                await database
+                  .insert(schema.albumsToArtists)
+                  .values({
+                    albumId: existingAlbum.id,
+                    artistId: result.artistId,
+                    artistOrder: index
+                  })
+                  .onConflictDoNothing({
+                    target: [schema.albumsToArtists.albumId, schema.albumsToArtists.artistId]
+                  })
 
                 if (entityCache) {
                   entityCache.updateAlbumArtists(existingAlbum.id, [
