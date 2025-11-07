@@ -28,12 +28,12 @@ const MacOs = ({
 
   const lastKeyPressedIcon = isAltKeyPressed ? <Maximize /> : <Full />
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.altKey) setIsAltKeyPressed(true)
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.altKey) setIsAltKeyPressed(true)
   }
 
-  const handleKeyUp = (e: KeyboardEvent) => {
-    if (!e.altKey) setIsAltKeyPressed(false)
+  const handleKeyUp = (event: KeyboardEvent) => {
+    if (!event.altKey) setIsAltKeyPressed(false)
   }
 
   useEffect(() => {

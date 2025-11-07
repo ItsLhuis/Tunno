@@ -64,8 +64,8 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       handleValueChange(newValue)
     }
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      const rawValue = e.target.value
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const rawValue = event.target.value
       if (rawValue === "") {
         handleValueChange(undefined)
         return

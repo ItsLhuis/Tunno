@@ -14,6 +14,7 @@ import { stat } from "@tauri-apps/plugin-fs"
 
 import { formatFileSize, getFileNameAndExtension, isImageExtension } from "@repo/utils"
 
+import { AsyncState } from "@components/ui/AsyncState"
 import { Badge } from "@components/ui/Badge"
 import { Button } from "@components/ui/Button"
 import { Card, CardContent } from "@components/ui/Card"
@@ -81,6 +82,7 @@ const UploadPicker = ({
   const { t } = useTranslation()
 
   const [item, setItem] = useState<FileItem | FolderItem | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const isControlled = value !== undefined
 
@@ -129,12 +131,19 @@ const UploadPicker = ({
   useEffect(() => {
     if (isControlled) {
       if (value) {
-        createItemFromPathOrName(value).then(setItem)
+        setIsLoading(true)
+        createItemFromPathOrName(value)
+          .then(setItem)
+          .finally(() => setIsLoading(false))
       } else {
         setItem(null)
+        setIsLoading(false)
       }
     } else if (defaultValue && !item) {
-      createItemFromPathOrName(defaultValue).then(setItem)
+      setIsLoading(true)
+      createItemFromPathOrName(defaultValue)
+        .then(setItem)
+        .finally(() => setIsLoading(false))
     }
   }, [value, mode, isControlled, defaultValue, storageDir, displayName])
 
@@ -178,6 +187,7 @@ const UploadPicker = ({
         }
       }
 
+      setIsLoading(true)
       const metadata = await stat(selected)
 
       if (mode === "folder") {
@@ -208,6 +218,8 @@ const UploadPicker = ({
       }
     } catch (error) {
       onError?.(String(error))
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -284,42 +296,48 @@ const UploadPicker = ({
           </Button>
         </Card>
       )}
-      {showPreview && item && (
-        <div className="space-y-3">
-          <Card className="w-full overflow-hidden p-3">
-            <div className="flex w-full items-center gap-3">
-              <div className="flex-shrink-0">{getItemIcon(item)}</div>
-              <div className="flex-1 overflow-hidden">
-                {item.name && (
-                  <Typography affects="bold" className="whitespace-break-spaces break-all">
-                    {item.name}
-                  </Typography>
-                )}
-                <div className="mt-1 flex items-center gap-2">
-                  {"extension" in item ? (
-                    <Fragment>
-                      {item.size > 0 && <Badge variant="muted">{formatFileSize(item.size)}</Badge>}
-                      {item.extension && <Badge variant="outline">.{item.extension}</Badge>}
-                    </Fragment>
-                  ) : (
-                    <Fragment>
-                      <Badge variant="muted">{item.path}</Badge>
-                      <Badge variant="outline">{t("form.labels.folder")}</Badge>
-                    </Fragment>
+      {showPreview && (item !== null || isLoading) && (
+        <AsyncState data={item} isLoading={isLoading} emptyComponent={null}>
+          {(loadedItem) => (
+            <Card className="w-full overflow-hidden p-3">
+              <div className="flex w-full items-center gap-3">
+                <div className="flex-shrink-0">{getItemIcon(loadedItem)}</div>
+                <div className="flex-1 overflow-hidden">
+                  {loadedItem.name && (
+                    <Typography affects="bold" className="whitespace-break-spaces break-all">
+                      {loadedItem.name}
+                    </Typography>
                   )}
+                  <div className="mt-1 flex items-center gap-2">
+                    {"extension" in loadedItem ? (
+                      <Fragment>
+                        {loadedItem.size > 0 && (
+                          <Badge variant="muted">{formatFileSize(loadedItem.size)}</Badge>
+                        )}
+                        {loadedItem.extension && (
+                          <Badge variant="outline">.{loadedItem.extension}</Badge>
+                        )}
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <Badge variant="muted">{loadedItem.path}</Badge>
+                        <Badge variant="outline">{t("form.labels.folder")}</Badge>
+                      </Fragment>
+                    )}
+                  </div>
                 </div>
+                <IconButton
+                  tooltip={t("common.clear")}
+                  variant="ghost"
+                  name="X"
+                  className="shrink-0"
+                  onClick={removeItem}
+                  disabled={disabled}
+                />
               </div>
-              <IconButton
-                tooltip={t("common.clear")}
-                variant="ghost"
-                name="X"
-                className="shrink-0"
-                onClick={removeItem}
-                disabled={disabled}
-              />
-            </div>
-          </Card>
-        </div>
+            </Card>
+          )}
+        </AsyncState>
       )}
     </div>
   )

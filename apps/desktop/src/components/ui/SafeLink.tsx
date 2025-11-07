@@ -17,20 +17,20 @@ const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(({ children, to, .
     const linkElement = linkRef.current
 
     if (linkElement) {
-      const handleAllClicks = (e: MouseEvent) => {
-        if (e.button === 1) {
-          e.preventDefault()
+      const handleAllClicks = (event: MouseEvent) => {
+        if (event.button === 1) {
+          event.preventDefault()
           return
         }
 
-        if (e.button === 0) {
-          if (e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) {
-            e.preventDefault()
+        if (event.button === 0) {
+          if (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey) {
+            event.preventDefault()
             return
           }
 
           if (isExternal) {
-            e.preventDefault()
+            event.preventDefault()
             open(to as string)
             return
           }

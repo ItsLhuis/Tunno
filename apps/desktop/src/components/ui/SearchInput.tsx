@@ -23,14 +23,14 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
     const [isFocused, setIsFocused] = useState(false)
 
-    const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+    const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
       setIsFocused(true)
-      if (onFocus) onFocus(e)
+      if (onFocus) onFocus(event)
     }
 
-    const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+    const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
       setIsFocused(false)
-      if (onBlur) onBlur(e)
+      if (onBlur) onBlur(event)
     }
 
     return (

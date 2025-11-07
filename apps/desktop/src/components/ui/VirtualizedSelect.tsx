@@ -300,8 +300,8 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
                   {IconComponent && <IconComponent className="mr-2" />}
                   {option?.label}
                   <span
-                    onClick={(e) => {
-                      e.stopPropagation()
+                    onClick={(event) => {
+                      event.stopPropagation()
                       toggleOption(value)
                     }}
                   >
@@ -319,8 +319,8 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
               >
                 {`+ ${extraCount} ${t("common.more")}`}
                 <span
-                  onClick={(e) => {
-                    e.stopPropagation()
+                  onClick={(event) => {
+                    event.stopPropagation()
                     clearExtraOptions()
                   }}
                 >
@@ -331,8 +331,8 @@ const VirtualizedSelect = forwardRef<HTMLButtonElement, VirtualizedSelectProps>(
           </div>
           <div className="flex items-center justify-between">
             <span
-              onClick={(e) => {
-                e.stopPropagation()
+              onClick={(event) => {
+                event.stopPropagation()
                 handleClear()
               }}
             >

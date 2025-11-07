@@ -72,7 +72,7 @@ const LyricLine = memo(
         <TextInput
           placeholder={placeholder}
           value={line.text}
-          onChange={(e) => onTextChange(index, e.target.value)}
+          onChange={(event) => onTextChange(index, event.target.value)}
           className="flex-1"
         />
         <IconButton
