@@ -100,7 +100,10 @@ const PlaylistItem = memo(
             selected && "bg-accent"
           )}
         >
-          <div className="flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="flex items-center justify-center"
+            onClick={(event) => event.stopPropagation()}
+          >
             <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select playlist" />
           </div>
           <Thumbnail

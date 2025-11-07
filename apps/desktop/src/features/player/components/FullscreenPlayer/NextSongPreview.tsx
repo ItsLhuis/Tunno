@@ -6,8 +6,8 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { useImageSrc } from "../../hooks/useImageSrc"
 import { useImagePalette } from "../../hooks/useImagePalette"
+import { useImageSrc } from "../../hooks/useImageSrc"
 import { usePaletteCssVariables } from "../../hooks/usePaletteCssVariables"
 
 import { cn } from "@lib/utils"
@@ -115,7 +115,7 @@ const NextSongPreview = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="absolute bottom-[2vh] right-[2vh] z-10 flex max-w-[25vw] items-center gap-[1vh] rounded-lg border border-accent bg-background p-[1.5vh] shadow-lg backdrop-blur-md"
+          className="absolute bottom-[2vh] right-[2vh] z-10 flex max-w-[25vw] items-center gap-[1vh] rounded-lg bg-background p-[1.5vh] shadow-lg backdrop-blur-md"
           style={cssVariables as React.CSSProperties}
         >
           {imageSrc && (

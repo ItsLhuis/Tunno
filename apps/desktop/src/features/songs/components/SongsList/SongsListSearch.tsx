@@ -22,8 +22,8 @@ const SongsListSearch = ({ renderRight, className }: SongsListSearchProps) => {
   )
 
   const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(e.target.value)
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value)
     },
     [setSearchTerm]
   )

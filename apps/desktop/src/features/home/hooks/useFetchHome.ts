@@ -87,12 +87,12 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
       },
       {
         queryKey: homeKeys.listYourPlaylists({
-          limit: options.yourPlaylists?.limit ?? 24,
+          limit: options.yourPlaylists?.limit ?? 32,
           favorites: options.yourPlaylists?.favoritesOnly ?? false
         }),
         queryFn: () =>
           getYourPlaylists(
-            options.yourPlaylists?.limit ?? 24,
+            options.yourPlaylists?.limit ?? 32,
             options.yourPlaylists?.favoritesOnly ?? false
           )
       },

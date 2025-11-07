@@ -365,10 +365,10 @@ export const useStickToIndex = ({
   }, [resumeDelay])
 
   const preventScroll = useCallback(
-    (e: Event) => {
+    (event: Event) => {
       if (!isStuck || !preventUserScroll) return
-      e.preventDefault()
-      e.stopPropagation()
+      event.preventDefault()
+      event.stopPropagation()
     },
     [isStuck, preventUserScroll]
   )
@@ -377,44 +377,44 @@ export const useStickToIndex = ({
     const container = scrollRef.current
     if (!container || !enabled) return
 
-    const handleWheel = (e: WheelEvent) => {
+    const handleWheel = (event: WheelEvent) => {
       if (preventUserScroll && isStuck) {
-        preventScroll(e)
+        preventScroll(event)
       } else {
         handleUserInteraction()
       }
     }
 
-    const handleTouchStart = (e: TouchEvent) => {
+    const handleTouchStart = (event: TouchEvent) => {
       if (preventUserScroll && isStuck) {
-        preventScroll(e)
+        preventScroll(event)
       } else {
         handleUserInteraction()
       }
     }
 
-    const handleTouchMove = (e: TouchEvent) => {
+    const handleTouchMove = (event: TouchEvent) => {
       if (preventUserScroll && isStuck) {
-        preventScroll(e)
+        preventScroll(event)
       } else {
         handleUserInteraction()
       }
     }
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       const navigationKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "]
-      if (navigationKeys.includes(e.key)) {
+      if (navigationKeys.includes(event.key)) {
         if (preventUserScroll && isStuck) {
-          preventScroll(e)
+          preventScroll(event)
         } else {
           handleUserInteraction()
         }
       }
     }
 
-    const handleScroll = (e: Event) => {
+    const handleScroll = (event: Event) => {
       if (preventUserScroll && isStuck && !isAutoScrollingRef.current) {
-        preventScroll(e)
+        preventScroll(event)
       } else if (!isAutoScrollingRef.current) {
         handleUserInteraction()
       }
