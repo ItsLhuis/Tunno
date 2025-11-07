@@ -30,7 +30,8 @@ export default defineConfig(async () => ({
     rollupOptions: {
       input: {
         main: "index.html",
-        miniPlayer: "miniPlayer.html"
+        miniPlayer: "miniPlayer.html",
+        fullscreenPlayer: "fullscreenPlayer.html"
       }
     }
   },
