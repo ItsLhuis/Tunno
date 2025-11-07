@@ -1,20 +1,19 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect } from "react"
 
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import ColorThief from "colorthief"
-
-import { generateColorPalette, type Palette } from "@repo/utils"
+import { useImageColorAndPalette } from "../../hooks/useImageColorAndPalette"
+import { useImageSrc } from "../../hooks/useImageSrc"
 
 import { cn } from "@lib/utils"
-
-import { getRenderableFileSrc } from "@services/storage"
 
 import { Thumbnail } from "@components/ui"
 
 import { motion } from "motion/react"
+
+import { type Palette } from "@repo/utils"
 
 type TrackArtworkProps = {
   onPaletteChange: (palette: Palette | null) => void
@@ -28,71 +27,17 @@ const TrackArtwork = ({ onPaletteChange, onDominantColorChange }: TrackArtworkPr
     }))
   )
 
-  const [dominantColor, setDominantColor] = useState<string | null>(null)
-  const [imageSrc, setImageSrc] = useState<string | null>(null)
+  const imageSrc = useImageSrc({ thumbnail: currentTrack?.thumbnail })
 
-  const imageRef = useRef<HTMLImageElement>(null)
-
-  useEffect(() => {
-    const loadImage = async () => {
-      if (!currentTrack?.thumbnail) {
-        setImageSrc(null)
-        setDominantColor(null)
-        onPaletteChange(null)
-        onDominantColorChange(null)
-        return
-      }
-
-      try {
-        const src = await getRenderableFileSrc(currentTrack.thumbnail, "thumbnails")
-        setImageSrc(src)
-      } catch {
-        setImageSrc(null)
-        setDominantColor(null)
-        onPaletteChange(null)
-        onDominantColorChange(null)
-      }
-    }
-
-    loadImage()
-  }, [currentTrack?.thumbnail, onPaletteChange, onDominantColorChange])
+  const { dominantColor, palette, imageRef } = useImageColorAndPalette({ imageSrc })
 
   useEffect(() => {
-    if (!imageSrc || !imageRef.current) {
-      setDominantColor(null)
-      onPaletteChange(null)
-      onDominantColorChange(null)
-      return
-    }
+    onPaletteChange(palette)
+  }, [palette, onPaletteChange])
 
-    const image = imageRef.current
-    const colorThief = new ColorThief()
-
-    const handleImageLoad = () => {
-      try {
-        const color = colorThief.getColor(image) as [number, number, number]
-        const rgbColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`
-        setDominantColor(rgbColor)
-        onDominantColorChange(rgbColor)
-
-        const generatedPalette = generateColorPalette(color)
-        onPaletteChange(generatedPalette)
-      } catch {
-        setDominantColor(null)
-        onPaletteChange(null)
-        onDominantColorChange(null)
-      }
-    }
-
-    if (image.complete && image.naturalWidth > 0) {
-      handleImageLoad()
-    } else {
-      image.addEventListener("load", handleImageLoad)
-      return () => {
-        image.removeEventListener("load", handleImageLoad)
-      }
-    }
-  }, [imageSrc, onPaletteChange, onDominantColorChange])
+  useEffect(() => {
+    onDominantColorChange(dominantColor)
+  }, [dominantColor, onDominantColorChange])
 
   return (
     <div className="group relative flex aspect-square h-[45vh] items-center justify-center overflow-hidden rounded">

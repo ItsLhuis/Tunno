@@ -2,12 +2,14 @@ import { useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { usePaletteCssVariables } from "../../hooks/usePaletteCssVariables"
+
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import { IconButton } from "@components/ui"
+import { createGradient } from "../../utils"
 
-import { adjustHue, darken, desaturate, lighten, parseToHsl, saturate } from "polished"
+import { IconButton } from "@components/ui"
 
 import { NextSongPreview } from "./NextSongPreview"
 import { PlaybackControls } from "./PlaybackControls"
@@ -20,41 +22,6 @@ import { motion } from "motion/react"
 
 import { type Palette } from "@repo/utils"
 
-const rgbToHslString = (rgb: string): string | null => {
-  try {
-    const hsl = parseToHsl(rgb)
-    return `${Math.round(hsl.hue || 0)} ${Math.round(hsl.saturation * 100)}% ${Math.round(hsl.lightness * 100)}%`
-  } catch {
-    return null
-  }
-}
-
-const createGradient = (color: string): string => {
-  try {
-    const bottom = saturate(0.08, adjustHue(8, lighten(0.12, color)))
-    const lowerMid = saturate(0.05, adjustHue(5, lighten(0.06, color)))
-
-    const midLower = saturate(0.02, adjustHue(2, darken(0.02, color)))
-    const center = adjustHue(1, darken(0.03, color))
-
-    const midUpper = desaturate(0.03, adjustHue(-3, darken(0.08, color)))
-    const upperMid = desaturate(0.06, adjustHue(-6, darken(0.16, color)))
-
-    const top = desaturate(0.09, adjustHue(-9, darken(0.28, color)))
-
-    return `linear-gradient(to top,
-      ${bottom} 0%,
-      ${lowerMid} 16%,
-      ${midLower} 30%,
-      ${center} 46%,
-      ${midUpper} 60%,
-      ${upperMid} 76%,
-      ${top} 100%)`
-  } catch {
-    return color
-  }
-}
-
 const FullscreenPlayer = () => {
   const { t } = useTranslation()
 
@@ -62,61 +29,25 @@ const FullscreenPlayer = () => {
 
   const [palette, setPalette] = useState<Palette | null>(null)
 
+  const cssVariables = usePaletteCssVariables(palette)
+
   useEffect(() => {
     const root = document.documentElement
 
     if (palette) {
-      const variables = {
-        "--background": palette.background ? rgbToHslString(palette.background) : null,
-        "--foreground": palette.foreground ? rgbToHslString(palette.foreground) : null,
-        "--muted": palette.muted ? rgbToHslString(palette.muted) : null,
-        "--muted-foreground": palette.mutedForeground
-          ? rgbToHslString(palette.mutedForeground)
-          : null,
-        "--primary": palette.primary ? rgbToHslString(palette.primary) : null,
-        "--primary-foreground": palette.primaryForeground
-          ? rgbToHslString(palette.primaryForeground)
-          : null,
-        "--accent": palette.accent ? rgbToHslString(palette.accent) : null,
-        "--accent-foreground": palette.accentForeground
-          ? rgbToHslString(palette.accentForeground)
-          : null
-      }
-
-      Object.entries(variables).forEach(([key, value]) => {
+      Object.entries(cssVariables).forEach(([key, value]) => {
         if (value) {
           root.style.setProperty(key, value)
         }
       })
 
       return () => {
-        Object.keys(variables).forEach((key) => {
+        Object.keys(cssVariables).forEach((key) => {
           root.style.removeProperty(key)
         })
       }
     }
-  }, [palette])
-
-  const cssVariables = palette
-    ? Object.fromEntries(
-        Object.entries({
-          "--background": palette.background ? rgbToHslString(palette.background) : null,
-          "--foreground": palette.foreground ? rgbToHslString(palette.foreground) : null,
-          "--muted": palette.muted ? rgbToHslString(palette.muted) : null,
-          "--muted-foreground": palette.mutedForeground
-            ? rgbToHslString(palette.mutedForeground)
-            : null,
-          "--primary": palette.primary ? rgbToHslString(palette.primary) : null,
-          "--primary-foreground": palette.primaryForeground
-            ? rgbToHslString(palette.primaryForeground)
-            : null,
-          "--accent": palette.accent ? rgbToHslString(palette.accent) : null,
-          "--accent-foreground": palette.accentForeground
-            ? rgbToHslString(palette.accentForeground)
-            : null
-        }).filter(([, value]) => value !== null)
-      )
-    : {}
+  }, [palette, cssVariables])
 
   const handleExitFullscreen = async () => {
     const fullscreenWindow = getCurrentWindow()

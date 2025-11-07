@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -6,30 +6,17 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
+import { useImageSrc } from "../../hooks/useImageSrc"
+import { useImagePalette } from "../../hooks/useImagePalette"
+import { usePaletteCssVariables } from "../../hooks/usePaletteCssVariables"
+
 import { cn } from "@lib/utils"
-
-import ColorThief from "colorthief"
-
-import { parseToHsl } from "polished"
-
-import { generateColorPalette, type Palette } from "@repo/utils"
-
-import { getRenderableFileSrc } from "@services/storage"
 
 import { IconButton, Marquee, Thumbnail, Typography } from "@components/ui"
 
 import { AnimatePresence, motion } from "motion/react"
 
 import { RepeatMode } from "react-track-player-web"
-
-const rgbToHslString = (rgb: string): string | null => {
-  try {
-    const hsl = parseToHsl(rgb)
-    return `${Math.round(hsl.hue || 0)} ${Math.round(hsl.saturation * 100)}% ${Math.round(hsl.lightness * 100)}%`
-  } catch {
-    return null
-  }
-}
 
 const NextSongPreview = () => {
   const { t } = useTranslation()
@@ -57,11 +44,6 @@ const NextSongPreview = () => {
       isTransitioning: state.isTransitioning
     }))
   )
-
-  const [palette, setPalette] = useState<Palette | null>(null)
-  const [imageSrc, setImageSrc] = useState<string | null>(null)
-
-  const imageRef = useRef<HTMLImageElement>(null)
 
   const { nextSong, shouldShow } = useMemo(() => {
     if (currentTrackIndex === null || queueIds.length === 0 || duration === 0) {
@@ -104,80 +86,14 @@ const NextSongPreview = () => {
     }
   }, [queueIds, currentTrackIndex, cachedSongs, duration, position, repeatMode])
 
-  useEffect(() => {
-    const loadImage = async () => {
-      if (!nextSong?.thumbnail) {
-        setImageSrc(null)
-        setPalette(null)
-        return
-      }
+  const imageSrc = useImageSrc({
+    thumbnail: nextSong?.thumbnail,
+    enabled: shouldShow && !!nextSong
+  })
 
-      try {
-        const src = await getRenderableFileSrc(nextSong.thumbnail, "thumbnails")
-        setImageSrc(src)
-      } catch {
-        setImageSrc(null)
-        setPalette(null)
-      }
-    }
+  const { palette, imageRef } = useImagePalette({ imageSrc, enabled: shouldShow && !!nextSong })
 
-    if (shouldShow && nextSong) {
-      loadImage()
-    } else {
-      setImageSrc(null)
-      setPalette(null)
-    }
-  }, [nextSong?.thumbnail, shouldShow, nextSong])
-
-  useEffect(() => {
-    if (!imageSrc || !imageRef.current) {
-      setPalette(null)
-      return
-    }
-
-    const image = imageRef.current
-    const colorThief = new ColorThief()
-
-    const handleImageLoad = () => {
-      try {
-        const color = colorThief.getColor(image) as [number, number, number]
-        const generatedPalette = generateColorPalette(color)
-        setPalette(generatedPalette)
-      } catch {
-        setPalette(null)
-      }
-    }
-
-    if (image.complete && image.naturalWidth > 0) {
-      handleImageLoad()
-    } else {
-      image.addEventListener("load", handleImageLoad)
-      return () => {
-        image.removeEventListener("load", handleImageLoad)
-      }
-    }
-  }, [imageSrc])
-
-  const cssVariables = palette
-    ? Object.fromEntries(
-        Object.entries({
-          "--background": palette.background ? rgbToHslString(palette.background) : null,
-          "--foreground": palette.foreground ? rgbToHslString(palette.foreground) : null,
-          "--muted": palette.muted ? rgbToHslString(palette.muted) : null,
-          "--muted-foreground": palette.mutedForeground
-            ? rgbToHslString(palette.mutedForeground)
-            : null,
-          "--primary": palette.primary ? rgbToHslString(palette.primary) : null,
-          "--primary-foreground": palette.primaryForeground
-            ? rgbToHslString(palette.primaryForeground)
-            : null,
-          "--accent": palette.accent ? rgbToHslString(palette.accent) : null,
-          "--accent-foreground": palette.accentForeground
-            ? rgbToHslString(palette.accentForeground)
-            : null
-        }).filter(([, value]) => value !== null)
-      )
-    : {}
+  const cssVariables = usePaletteCssVariables(palette)
 
   const handlePlayNext = async () => {
     if (!canPlayNext || isTransitioning) return
