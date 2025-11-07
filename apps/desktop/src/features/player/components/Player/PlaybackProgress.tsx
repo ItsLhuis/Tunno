@@ -100,14 +100,14 @@ const PlaybackProgress = () => {
           setWasPlaying(false)
           setIsDragging(false)
         }}
-        onKeyDown={(e) => {
+        onKeyDown={(event) => {
           if (!canSeek) return
-          if (e.key === "ArrowLeft") {
-            e.preventDefault()
+          if (event.key === "ArrowLeft") {
+            event.preventDefault()
             void handleKeyboardSeek(-5)
           }
-          if (e.key === "ArrowRight") {
-            e.preventDefault()
+          if (event.key === "ArrowRight") {
+            event.preventDefault()
             void handleKeyboardSeek(5)
           }
         }}

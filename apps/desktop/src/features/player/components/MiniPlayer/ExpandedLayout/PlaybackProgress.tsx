@@ -9,19 +9,29 @@ import { formatTime } from "@repo/utils"
 import { Slider, Typography } from "@components/ui"
 
 const PlaybackProgress = () => {
-  const { play, pause, playbackState, position, duration, seekTo, isTrackLoading, currentTrack } =
-    usePlayerStore(
-      useShallow((state) => ({
-        play: state.play,
-        pause: state.pause,
-        playbackState: state.playbackState,
-        position: state.position,
-        duration: state.duration,
-        seekTo: state.seekTo,
-        isTrackLoading: state.isTrackLoading,
-        currentTrack: state.currentTrack
-      }))
-    )
+  const {
+    play,
+    pause,
+    playbackState,
+    position,
+    duration,
+    seekTo,
+    seekBy,
+    isTrackLoading,
+    currentTrack
+  } = usePlayerStore(
+    useShallow((state) => ({
+      play: state.play,
+      pause: state.pause,
+      playbackState: state.playbackState,
+      position: state.position,
+      duration: state.duration,
+      seekTo: state.seekTo,
+      seekBy: state.seekBy,
+      isTrackLoading: state.isTrackLoading,
+      currentTrack: state.currentTrack
+    }))
+  )
 
   const [wasPlaying, setWasPlaying] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
@@ -40,6 +50,23 @@ const PlaybackProgress = () => {
       }
     }
   }, [position, isDragging, localPosition])
+
+  const handleKeyboardSeek = async (seekAmount: number) => {
+    if (!canSeek) return
+
+    const currentlyPlaying = playbackState === "playing"
+    if (currentlyPlaying && !isDragging) {
+      setWasPlaying(true)
+      await pause()
+    }
+
+    await seekBy(seekAmount)
+
+    if (currentlyPlaying && !isDragging) {
+      await play()
+      setWasPlaying(false)
+    }
+  }
 
   return (
     <div className="flex w-full flex-col gap-2 p-3">
@@ -72,9 +99,16 @@ const PlaybackProgress = () => {
           setWasPlaying(false)
           setIsDragging(false)
         }}
-        onKeyDown={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
+        onKeyDown={(event) => {
+          if (!canSeek) return
+          if (event.key === "ArrowLeft") {
+            event.preventDefault()
+            void handleKeyboardSeek(-5)
+          }
+          if (event.key === "ArrowRight") {
+            event.preventDefault()
+            void handleKeyboardSeek(5)
+          }
         }}
         formatTooltip={(v) => formatTime(v)}
       />
