@@ -2,7 +2,6 @@
   "name": "@tunno/desktop",
   "private": true,
   "version": "1.0.0",
-  "releaseDate": "2025-11-05",
   "type": "module",
   "scripts": {
     "shadcnui": "tsx ../../scripts/shadcnui.ts ./src",

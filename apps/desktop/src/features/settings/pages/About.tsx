@@ -12,7 +12,6 @@ import pkg from "../../../../package.json"
 import Logo from "@assets/images/app/icons/primary.png"
 
 import {
-  Badge,
   Button,
   Header,
   Icon,
@@ -28,9 +27,6 @@ const About = () => {
   const { t } = useTranslation()
 
   const currentVersion = pkg.version
-  const releaseDate = new Date(pkg.releaseDate)
-  const daysSinceRelease = Math.floor((Date.now() - releaseDate.getTime()) / (1000 * 60 * 60 * 24))
-  const isNewRelease = daysSinceRelease < 7
 
   const [appName, setAppName] = useState("")
 
@@ -84,18 +80,10 @@ const About = () => {
       description: t("settings.about.whatsNew.description"),
       renderLeft: () => <Icon name="Sparkles" className="mt-1" />,
       children: (
-        <div className="flex flex-col gap-3">
-          {isNewRelease && (
-            <Badge className="w-fit gap-1.5">
-              <Icon name="Sparkles" />
-              {t("settings.about.whatsNew.newRelease")}
-            </Badge>
-          )}
-          <Button variant="outline" size="sm" className="w-fit" onClick={handleOpenChangelog}>
-            <Icon name="ExternalLink" />
-            {t("settings.about.whatsNew.viewChangelog")}
-          </Button>
-        </div>
+        <Button variant="outline" size="sm" className="w-fit" onClick={handleOpenChangelog}>
+          <Icon name="ExternalLink" />
+          {t("settings.about.whatsNew.viewChangelog")}
+        </Button>
       )
     },
     {
