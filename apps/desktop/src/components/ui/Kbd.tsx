@@ -1,46 +1,28 @@
-import { type ComponentProps, Fragment, type ReactNode } from "react"
-
 import { cn } from "@lib/utils"
 
-import { type Key } from "ts-key-enum"
+const Kbd = ({ className, ...props }: React.ComponentProps<"kbd">) => {
+  return (
+    <kbd
+      data-slot="kbd"
+      className={cn(
+        "pointer-events-none inline-flex h-5 w-fit min-w-5 select-none items-center justify-center gap-1 rounded-sm bg-muted px-1 font-sans text-xs font-medium text-muted-foreground",
+        "[&_svg:not([class*='size-'])]:size-3",
+        "[[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-const DefaultKbdSeparator = ({ className, children = "+", ...props }: ComponentProps<"span">) => (
-  <span className={cn("text-muted-foreground/50", className)} {...props}>
-    {children}
-  </span>
-)
+const KbdGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
+  return (
+    <kbd
+      data-slot="kbd-group"
+      className={cn("inline-flex items-center gap-1", className)}
+      {...props}
+    />
+  )
+}
 
-const Kbd = ({
-  className,
-  separator = <DefaultKbdSeparator />,
-  children,
-  ...props
-}: ComponentProps<"span"> & {
-  separator?: ReactNode
-}) => (
-  <span
-    className={cn(
-      "inline-flex select-none items-center gap-1 rounded border bg-muted px-1.5 align-middle font-mono text-[10px] font-medium leading-loose text-muted-foreground transition-colors",
-      className
-    )}
-    {...props}
-  >
-    {Array.isArray(children)
-      ? children.map((child, index) => (
-          <Fragment key={index}>
-            {child}
-            {index < children.length - 1 && separator}
-          </Fragment>
-        ))
-      : children}
-  </span>
-)
-
-const KbdKey = ({
-  className,
-  ...props
-}: Omit<ComponentProps<"kbd">, "aria-label"> & {
-  "aria-label"?: keyof typeof Key | (string & {})
-}) => <kbd {...props} />
-
-export { Kbd, KbdKey }
+export { Kbd, KbdGroup }

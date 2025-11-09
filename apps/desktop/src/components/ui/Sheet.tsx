@@ -12,7 +12,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@lib/utils"
 
 import { IconButton } from "@components/ui/IconButton"
-import { Kbd, KbdKey } from "@components/ui/Kbd"
+import { Kbd } from "@components/ui/Kbd"
 
 import * as SheetPrimitive from "@radix-ui/react-dialog"
 
@@ -78,9 +78,7 @@ const SheetContent = forwardRef<ElementRef<typeof SheetPrimitive.Content>, Sheet
             className="absolute right-3 top-4 flex cursor-default items-center gap-2 rounded-sm ring-offset-background transition-colors focus:outline-none focus:ring-0 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
           >
             <div>
-              <Kbd>
-                <KbdKey>Esc</KbdKey>
-              </Kbd>
+              <Kbd>Esc</Kbd>
               <IconButton tabIndex={-1} tooltip={t("common.close")} variant="ghost" name="X" />
             </div>
           </SheetPrimitive.Close>
