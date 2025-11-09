@@ -2,7 +2,7 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
-## [1.5.0] - 2025-01-27
+## [1.5.0] - 2025-10-27
 
 ### Added
 
