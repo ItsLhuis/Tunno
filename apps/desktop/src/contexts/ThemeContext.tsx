@@ -107,7 +107,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>
 }
 
-const useTheme = () => {
+function useTheme() {
   const context = useContext(ThemeProviderContext)
 
   if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider")

@@ -7,7 +7,7 @@ type UseImageSrcOptions = {
   enabled?: boolean
 }
 
-export const useImageSrc = ({ thumbnail, enabled = true }: UseImageSrcOptions) => {
+export function useImageSrc({ thumbnail, enabled = true }: UseImageSrcOptions) {
   const [imageSrc, setImageSrc] = useState<string | null>(null)
 
   useEffect(() => {

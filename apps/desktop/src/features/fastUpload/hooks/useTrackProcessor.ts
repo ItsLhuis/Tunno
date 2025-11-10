@@ -26,7 +26,7 @@ import { type EntityCache } from "../utils"
 
 import type { CLISong, ProcessingTrack, ProcessResult } from "../types"
 
-export const useTrackProcessor = () => {
+export function useTrackProcessor() {
   const processTrack = useCallback(
     async (
       track: ProcessingTrack,

@@ -11,7 +11,7 @@ export type StickToIndexOptions = {
   selector: (index: number) => string
   resumeDelay?: number
   resumeOnSignificantChange?: boolean
-  scrollRef?: React.RefObject<HTMLElement>
+  scrollRef?: React.RefObject<HTMLElement | null>
   initialScroll?: boolean
   initialBehavior?: ScrollBehavior
   gap?: number
@@ -21,14 +21,14 @@ export type StickToIndexOptions = {
 }
 
 export type StickToIndexReturn = {
-  scrollRef: React.RefObject<HTMLElement>
+  scrollRef: React.RefObject<HTMLElement | null>
   isStuck: boolean
   isUserScrolling: boolean
   stick: () => void
   unstick: () => void
 }
 
-export const useStickToIndex = ({
+export function useStickToIndex({
   targetIndex,
   behavior = "smooth",
   enabled = true,
@@ -44,8 +44,8 @@ export const useStickToIndex = ({
   preventUserScroll = false,
   effectiveColumns = 1,
   virtualizer
-}: StickToIndexOptions): StickToIndexReturn => {
-  const internalScrollRef = useRef<HTMLElement>(null)
+}: StickToIndexOptions): StickToIndexReturn {
+  const internalScrollRef = useRef<HTMLElement | null>(null)
   const scrollRef = externalScrollRef ?? internalScrollRef
 
   const [isUserScrolling, setIsUserScrolling] = useState(false)
@@ -55,7 +55,7 @@ export const useStickToIndex = ({
 
   const lastTargetIndexRef = useRef(targetIndex)
 
-  const resumeTimeoutRef = useRef<NodeJS.Timeout>()
+  const resumeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   const lastUserInteractionRef = useRef<number>(0)
 
@@ -63,7 +63,7 @@ export const useStickToIndex = ({
 
   const itemHeightCacheRef = useRef<Map<number, number>>(new Map())
 
-  const scrollAnimationFrameRef = useRef<number>()
+  const scrollAnimationFrameRef = useRef<number | undefined>(undefined)
 
   const getVirtualizer = useCallback(() => {
     if (!virtualizer) return null
@@ -488,7 +488,7 @@ export const useStickToIndex = ({
   ])
 
   return {
-    scrollRef: scrollRef as React.RefObject<HTMLElement>,
+    scrollRef: scrollRef as React.RefObject<HTMLElement | null>,
     isStuck,
     isUserScrolling,
     stick,

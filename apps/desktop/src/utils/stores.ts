@@ -7,7 +7,7 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 import { useSongsStore } from "@features/songs/stores/useSongsStore"
 import { useSettingsStore } from "@stores/useSettingsStore"
 
-export const useAllStoresHydrated = () => {
+export function useAllStoresHydrated() {
   const { albumsHydrated } = useAlbumsStore(
     useShallow((state) => ({ albumsHydrated: state.hasHydrated }))
   )

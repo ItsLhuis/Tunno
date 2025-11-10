@@ -16,7 +16,7 @@ import { toast } from "@components/ui"
 
 import { EntityCache } from "../utils"
 
-export const useFastUploadProcessor = () => {
+export function useFastUploadProcessor() {
   const { t } = useTranslation()
 
   const queryClient = useQueryClient()

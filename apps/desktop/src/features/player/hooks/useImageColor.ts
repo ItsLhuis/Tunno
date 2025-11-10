@@ -7,8 +7,9 @@ type UseImageColorOptions = {
   enabled?: boolean
 }
 
-export const useImageColor = ({ imageSrc, enabled = true }: UseImageColorOptions) => {
+export function useImageColor({ imageSrc, enabled = true }: UseImageColorOptions) {
   const [dominantColor, setDominantColor] = useState<string | null>(null)
+
   const imageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {

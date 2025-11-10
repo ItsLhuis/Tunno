@@ -18,7 +18,7 @@ type ValidationResult = {
     | "unknown"
 }
 
-export const useBundleValidation = () => {
+export function useBundleValidation() {
   const validateBundle = async (bundlePath: string): Promise<ValidationResult> => {
     try {
       const cachePath = await copyBundleToCache(bundlePath)

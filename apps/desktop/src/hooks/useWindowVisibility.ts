@@ -4,7 +4,7 @@ import { listen } from "@tauri-apps/api/event"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-export const useWindowVisibility = () => {
+export function useWindowVisibility() {
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {

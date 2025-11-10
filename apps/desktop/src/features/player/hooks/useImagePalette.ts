@@ -9,7 +9,7 @@ type UseImagePaletteOptions = {
   enabled?: boolean
 }
 
-export const useImagePalette = ({ imageSrc, enabled = true }: UseImagePaletteOptions) => {
+export function useImagePalette({ imageSrc, enabled = true }: UseImagePaletteOptions) {
   const [palette, setPalette] = useState<Palette | null>(null)
 
   const imageRef = useRef<HTMLImageElement>(null)

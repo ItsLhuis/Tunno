@@ -9,10 +9,10 @@ type UseImageColorAndPaletteOptions = {
   enabled?: boolean
 }
 
-export const useImageColorAndPalette = ({
+export function useImageColorAndPalette({
   imageSrc,
   enabled = true
-}: UseImageColorAndPaletteOptions) => {
+}: UseImageColorAndPaletteOptions) {
   const [dominantColor, setDominantColor] = useState<string | null>(null)
   const [palette, setPalette] = useState<Palette | null>(null)
 
