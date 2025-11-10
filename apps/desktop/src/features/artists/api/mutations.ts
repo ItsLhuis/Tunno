@@ -22,11 +22,11 @@ import { type TFunction } from "@repo/i18n"
 
 import { checkArtistDeletionIntegrity } from "@features/songs/api/validations"
 
-export const insertArtist = async (
+export async function insertArtist(
   artist: Omit<InsertArtist, "thumbnail">,
   thumbnailPath?: string | null,
   t?: TFunction
-): Promise<Artist> => {
+): Promise<Artist> {
   try {
     const thumbnailName = thumbnailPath
       ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
@@ -52,13 +52,13 @@ export const insertArtist = async (
   }
 }
 
-export const updateArtist = async (
+export async function updateArtist(
   id: number,
   updates: Omit<UpdateArtist, "thumbnail">,
   thumbnailAction?: "keep" | "update" | "remove",
   thumbnailPath?: string,
   t?: TFunction
-): Promise<Artist> => {
+): Promise<Artist> {
   const [existingArtist] = await database
     .select()
     .from(schema.artists)
@@ -101,7 +101,7 @@ export const updateArtist = async (
   }
 }
 
-export const toggleArtistFavorite = async (id: number): Promise<Artist> => {
+export async function toggleArtistFavorite(id: number): Promise<Artist> {
   const [existingArtist] = await database
     .select()
     .from(schema.artists)
@@ -116,7 +116,7 @@ export const toggleArtistFavorite = async (id: number): Promise<Artist> => {
   return updatedArtist
 }
 
-export const deleteArtist = async (id: number, t?: TFunction): Promise<Artist> => {
+export async function deleteArtist(id: number, t?: TFunction): Promise<Artist> {
   const hasConflict = await checkArtistDeletionIntegrity(id)
   if (hasConflict) {
     const message = t

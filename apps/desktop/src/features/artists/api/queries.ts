@@ -15,12 +15,12 @@ import {
   type QueryArtistParams
 } from "@repo/api"
 
-export const getArtistsPaginated = async ({
+export async function getArtistsPaginated({
   limit = PAGE_SIZE,
   cursor,
   orderBy,
   filters
-}: QueryArtistParams): Promise<PaginatedResponse<Artist>> => {
+}: QueryArtistParams): Promise<PaginatedResponse<Artist>> {
   const whereConditions = buildWhereConditions(filters)
   const orderColumn = orderBy?.column || "createdAt"
   const orderDirection = orderBy?.direction || "desc"
@@ -74,9 +74,9 @@ export const getArtistsPaginated = async ({
   }
 }
 
-export const getAllArtists = async ({ limit, orderBy, filters }: QueryArtistParams = {}): Promise<
+export async function getAllArtists({ limit, orderBy, filters }: QueryArtistParams = {}): Promise<
   Artist[]
-> => {
+> {
   const whereConditions = buildWhereConditions(filters)
 
   const artists = await database.query.artists.findMany({
@@ -92,7 +92,7 @@ export const getAllArtists = async ({ limit, orderBy, filters }: QueryArtistPara
   return artists
 }
 
-export const getArtistById = async (id: number): Promise<Artist | null> => {
+export async function getArtistById(id: number): Promise<Artist | null> {
   const artist = await database.query.artists.findFirst({
     where: eq(schema.artists.id, id)
   })
@@ -100,9 +100,9 @@ export const getArtistById = async (id: number): Promise<Artist | null> => {
   return artist || null
 }
 
-export const getArtistByIdWithAllRelations = async (
+export async function getArtistByIdWithAllRelations(
   id: number
-): Promise<ArtistWithAllRelations | undefined> => {
+): Promise<ArtistWithAllRelations | undefined> {
   const artist = await database.query.artists.findFirst({
     where: eq(schema.artists.id, id),
     with: {
@@ -123,7 +123,7 @@ export const getArtistByIdWithAllRelations = async (
   return artist
 }
 
-export const getArtistByIdWithSongs = async (id: number): Promise<ArtistWithSongs | undefined> => {
+export async function getArtistByIdWithSongs(id: number): Promise<ArtistWithSongs | undefined> {
   const artist = await database.query.artists.findFirst({
     where: eq(schema.artists.id, id),
     with: {
@@ -138,7 +138,7 @@ export const getArtistByIdWithSongs = async (id: number): Promise<ArtistWithSong
   return artist
 }
 
-export const getArtistIdsOnly = async (params?: QueryArtistParams): Promise<number[]> => {
+export async function getArtistIdsOnly(params?: QueryArtistParams): Promise<number[]> {
   const whereConditions = buildWhereConditions(params?.filters)
 
   const baseQuery = database.select({ id: schema.artists.id }).from(schema.artists)
@@ -159,7 +159,7 @@ export const getArtistIdsOnly = async (params?: QueryArtistParams): Promise<numb
   return artists.map((row) => row.id)
 }
 
-export const getSongIdsByArtistId = async (id: number): Promise<number[]> => {
+export async function getSongIdsByArtistId(id: number): Promise<number[]> {
   const result = await database
     .select({ songId: schema.songsToArtists.songId })
     .from(schema.songsToArtists)

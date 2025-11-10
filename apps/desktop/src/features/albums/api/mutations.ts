@@ -22,12 +22,12 @@ import { checkAlbumArtistIntegrity } from "@features/songs/api/validations"
 
 import { type TFunction } from "@repo/i18n"
 
-export const insertAlbum = async (
+export async function insertAlbum(
   album: Omit<InsertAlbum, "thumbnail">,
   thumbnailPath?: string | null,
   artists?: number[],
   t?: TFunction
-): Promise<Album> => {
+): Promise<Album> {
   try {
     const thumbnailName = thumbnailPath
       ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
@@ -69,14 +69,14 @@ export const insertAlbum = async (
   }
 }
 
-export const updateAlbum = async (
+export async function updateAlbum(
   id: number,
   updates: Omit<UpdateAlbum, "thumbnail">,
   thumbnailAction?: "keep" | "update" | "remove",
   thumbnailPath?: string,
   artists?: number[],
   t?: TFunction
-): Promise<Album> => {
+): Promise<Album> {
   try {
     const [existingAlbum] = await database
       .select()
@@ -160,7 +160,7 @@ export const updateAlbum = async (
   }
 }
 
-export const toggleAlbumFavorite = async (id: number): Promise<Album> => {
+export async function toggleAlbumFavorite(id: number): Promise<Album> {
   const [existingAlbum] = await database
     .select()
     .from(schema.albums)
@@ -175,7 +175,7 @@ export const toggleAlbumFavorite = async (id: number): Promise<Album> => {
   return updatedAlbum
 }
 
-export const deleteAlbum = async (id: number): Promise<Album> => {
+export async function deleteAlbum(id: number): Promise<Album> {
   const [deletedAlbum] = await database
     .delete(schema.albums)
     .where(eq(schema.albums.id, id))

@@ -2,10 +2,10 @@ import { database, schema } from "@database/client"
 
 import { and, eq, exists, inArray, isNotNull } from "drizzle-orm"
 
-export const checkAlbumArtistIntegrity = async (
+export async function checkAlbumArtistIntegrity(
   albumId: number,
   artistIds: number[]
-): Promise<boolean> => {
+): Promise<boolean> {
   if (artistIds.length === 0) return false
 
   const conflictingSong = await database
@@ -33,7 +33,7 @@ export const checkAlbumArtistIntegrity = async (
   return conflictingSong.length > 0
 }
 
-export const checkArtistDeletionIntegrity = async (artistId: number): Promise<boolean> => {
+export async function checkArtistDeletionIntegrity(artistId: number): Promise<boolean> {
   const conflictingSong = await database
     .select({ id: schema.songs.id })
     .from(schema.songs)

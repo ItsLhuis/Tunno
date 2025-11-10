@@ -22,11 +22,11 @@ import { extractConstraintInfo, isUniqueConstraintError } from "@repo/database"
 
 import { type TFunction } from "@repo/i18n"
 
-export const insertPlaylist = async (
+export async function insertPlaylist(
   playlist: Omit<InsertPlaylist, "thumbnail">,
   thumbnailPath?: string | null,
   t?: TFunction
-): Promise<Playlist> => {
+): Promise<Playlist> {
   try {
     const thumbnailName = thumbnailPath
       ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
@@ -52,13 +52,13 @@ export const insertPlaylist = async (
   }
 }
 
-export const updatePlaylist = async (
+export async function updatePlaylist(
   id: number,
   updates: Omit<UpdatePlaylist, "thumbnail">,
   thumbnailAction?: "keep" | "update" | "remove",
   thumbnailPath?: string,
   t?: TFunction
-): Promise<Playlist> => {
+): Promise<Playlist> {
   const [existingPlaylist] = await database
     .select()
     .from(schema.playlists)
@@ -101,7 +101,7 @@ export const updatePlaylist = async (
   }
 }
 
-export const togglePlaylistFavorite = async (id: number): Promise<Playlist> => {
+export async function togglePlaylistFavorite(id: number): Promise<Playlist> {
   const [existingPlaylist] = await database
     .select()
     .from(schema.playlists)
@@ -116,7 +116,7 @@ export const togglePlaylistFavorite = async (id: number): Promise<Playlist> => {
   return updatedPlaylist
 }
 
-export const deletePlaylist = async (id: number): Promise<Playlist> => {
+export async function deletePlaylist(id: number): Promise<Playlist> {
   const [deletedPlaylist] = await database
     .delete(schema.playlists)
     .where(eq(schema.playlists.id, id))
@@ -129,10 +129,10 @@ export const deletePlaylist = async (id: number): Promise<Playlist> => {
   return deletedPlaylist
 }
 
-export const updateSongsToPlaylists = async (
+export async function updateSongsToPlaylists(
   songIds: number[],
   playlistIds: number[]
-): Promise<void> => {
+): Promise<void> {
   if (songIds.length === 0 || playlistIds.length === 0) {
     return
   }
@@ -156,10 +156,10 @@ export const updateSongsToPlaylists = async (
   await Promise.all(playlistIds.map((playlistId) => updatePlaylistStats(playlistId)))
 }
 
-export const removeSongsFromPlaylist = async (
+export async function removeSongsFromPlaylist(
   playlistId: number,
   songIds: number[]
-): Promise<void> => {
+): Promise<void> {
   await database
     .delete(schema.playlistsToSongs)
     .where(

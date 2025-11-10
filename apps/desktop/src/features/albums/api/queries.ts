@@ -17,10 +17,10 @@ import {
   type QueryAlbumParams
 } from "@repo/api"
 
-export const getAlbumsFilteredByArtistsWithMainRelations = async (
+export async function getAlbumsFilteredByArtistsWithMainRelations(
   artistIds: number[],
   params: QueryAlbumParams = {}
-): Promise<AlbumWithMainRelations[]> => {
+): Promise<AlbumWithMainRelations[]> {
   const { limit, orderBy, filters } = params
   return await database.query.albums.findMany({
     limit,
@@ -54,10 +54,10 @@ export const getAlbumsFilteredByArtistsWithMainRelations = async (
   })
 }
 
-export const getAlbumsFilteredByArtistsWithArtists = async (
+export async function getAlbumsFilteredByArtistsWithArtists(
   artistIds: number[],
   params: QueryAlbumParams = {}
-): Promise<AlbumWithArtists[]> => {
+): Promise<AlbumWithArtists[]> {
   const { limit, orderBy, filters } = params
   return await database.query.albums.findMany({
     limit,
@@ -90,12 +90,12 @@ export const getAlbumsFilteredByArtistsWithArtists = async (
   })
 }
 
-export const getAlbumsPaginated = async ({
+export async function getAlbumsPaginated({
   limit = PAGE_SIZE,
   cursor,
   orderBy,
   filters
-}: QueryAlbumParams): Promise<PaginatedResponse<Album>> => {
+}: QueryAlbumParams): Promise<PaginatedResponse<Album>> {
   const whereConditions = buildWhereConditions(filters)
   const orderColumn = orderBy?.column || "createdAt"
   const orderDirection = orderBy?.direction || "desc"
@@ -149,9 +149,9 @@ export const getAlbumsPaginated = async ({
   }
 }
 
-export const getAllAlbums = async ({ limit, orderBy, filters }: QueryAlbumParams = {}): Promise<
+export async function getAllAlbums({ limit, orderBy, filters }: QueryAlbumParams = {}): Promise<
   Album[]
-> => {
+> {
   const whereConditions = buildWhereConditions(filters)
 
   const albums = await database.query.albums.findMany({
@@ -167,7 +167,7 @@ export const getAllAlbums = async ({ limit, orderBy, filters }: QueryAlbumParams
   return albums
 }
 
-export const getAlbumById = async (id: number): Promise<Album | null> => {
+export async function getAlbumById(id: number): Promise<Album | null> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id)
   })
@@ -175,9 +175,9 @@ export const getAlbumById = async (id: number): Promise<Album | null> => {
   return album || null
 }
 
-export const getAlbumByIdWithAllRelations = async (
+export async function getAlbumByIdWithAllRelations(
   id: number
-): Promise<AlbumWithAllRelations | undefined> => {
+): Promise<AlbumWithAllRelations | undefined> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id),
     with: {
@@ -194,9 +194,7 @@ export const getAlbumByIdWithAllRelations = async (
   return album
 }
 
-export const getAlbumByIdWithArtists = async (
-  id: number
-): Promise<AlbumWithArtists | undefined> => {
+export async function getAlbumByIdWithArtists(id: number): Promise<AlbumWithArtists | undefined> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id),
     with: {
@@ -211,9 +209,9 @@ export const getAlbumByIdWithArtists = async (
   return album
 }
 
-export const getAlbumByIdWithSongsAndArtists = async (
+export async function getAlbumByIdWithSongsAndArtists(
   id: number
-): Promise<AlbumWithSongsAndArtists | undefined> => {
+): Promise<AlbumWithSongsAndArtists | undefined> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id),
     with: {
@@ -229,7 +227,7 @@ export const getAlbumByIdWithSongsAndArtists = async (
   return album
 }
 
-export const getAlbumIdsOnly = async (params?: QueryAlbumParams): Promise<number[]> => {
+export async function getAlbumIdsOnly(params?: QueryAlbumParams): Promise<number[]> {
   const whereConditions = buildWhereConditions(params?.filters)
 
   const baseQuery = database.select({ id: schema.albums.id }).from(schema.albums)
@@ -250,7 +248,7 @@ export const getAlbumIdsOnly = async (params?: QueryAlbumParams): Promise<number
   return albums.map((row) => row.id)
 }
 
-export const getSongIdsByAlbumId = async (id: number): Promise<number[]> => {
+export async function getSongIdsByAlbumId(id: number): Promise<number[]> {
   const result = await database
     .select({ songId: schema.songs.id })
     .from(schema.songs)

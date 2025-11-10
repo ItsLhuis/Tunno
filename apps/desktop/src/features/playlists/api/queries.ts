@@ -15,12 +15,12 @@ import {
   type QueryPlaylistParams
 } from "@repo/api"
 
-export const getPlaylistsPaginated = async ({
+export async function getPlaylistsPaginated({
   limit = PAGE_SIZE,
   cursor,
   orderBy,
   filters
-}: QueryPlaylistParams): Promise<PaginatedResponse<Playlist>> => {
+}: QueryPlaylistParams): Promise<PaginatedResponse<Playlist>> {
   const whereConditions = buildWhereConditions(filters)
   const orderColumn = orderBy?.column || "createdAt"
   const orderDirection = orderBy?.direction || "desc"
@@ -74,11 +74,11 @@ export const getPlaylistsPaginated = async ({
   }
 }
 
-export const getAllPlaylists = async ({
+export async function getAllPlaylists({
   limit,
   orderBy,
   filters
-}: QueryPlaylistParams = {}): Promise<Playlist[]> => {
+}: QueryPlaylistParams = {}): Promise<Playlist[]> {
   const whereConditions = buildWhereConditions(filters)
 
   const playlists = await database.query.playlists.findMany({
@@ -94,7 +94,7 @@ export const getAllPlaylists = async ({
   return playlists
 }
 
-export const getPlaylistById = async (id: number): Promise<Playlist | null> => {
+export async function getPlaylistById(id: number): Promise<Playlist | null> {
   const playlist = await database.query.playlists.findFirst({
     where: eq(schema.playlists.id, id)
   })
@@ -102,9 +102,9 @@ export const getPlaylistById = async (id: number): Promise<Playlist | null> => {
   return playlist || null
 }
 
-export const getPlaylistByIdWithAllRelations = async (
+export async function getPlaylistByIdWithAllRelations(
   id: number
-): Promise<PlaylistWithAllRelations | undefined> => {
+): Promise<PlaylistWithAllRelations | undefined> {
   const playlist = await database.query.playlists.findFirst({
     where: eq(schema.playlists.id, id),
     with: {
@@ -120,9 +120,7 @@ export const getPlaylistByIdWithAllRelations = async (
   return playlist
 }
 
-export const getPlaylistByIdWithSongs = async (
-  id: number
-): Promise<PlaylistWithSongs | undefined> => {
+export async function getPlaylistByIdWithSongs(id: number): Promise<PlaylistWithSongs | undefined> {
   const playlist = await database.query.playlists.findFirst({
     where: eq(schema.playlists.id, id),
     with: {
@@ -137,7 +135,7 @@ export const getPlaylistByIdWithSongs = async (
   return playlist
 }
 
-export const getPlaylistIdsOnly = async (params?: QueryPlaylistParams): Promise<number[]> => {
+export async function getPlaylistIdsOnly(params?: QueryPlaylistParams): Promise<number[]> {
   const whereConditions = buildWhereConditions(params?.filters)
 
   const baseQuery = database.select({ id: schema.playlists.id }).from(schema.playlists)
@@ -158,7 +156,7 @@ export const getPlaylistIdsOnly = async (params?: QueryPlaylistParams): Promise<
   return playlists.map((row) => row.id)
 }
 
-export const getSongIdsByPlaylistId = async (id: number): Promise<number[]> => {
+export async function getSongIdsByPlaylistId(id: number): Promise<number[]> {
   const result = await database
     .select({ songId: schema.playlistsToSongs.songId })
     .from(schema.playlistsToSongs)

@@ -2,7 +2,7 @@ import { database, schema } from "@database/client"
 
 import { eq, sql } from "drizzle-orm"
 
-export const updateArtistStats = async (artistId: number): Promise<void> => {
+export async function updateArtistStats(artistId: number): Promise<void> {
   const stats = await database
     .select({
       totalTracks: sql<number>`COUNT(DISTINCT ${schema.songsToArtists.songId})`,
@@ -24,10 +24,10 @@ export const updateArtistStats = async (artistId: number): Promise<void> => {
     .where(eq(schema.artists.id, artistId))
 }
 
-export const updateArtistStatsForSong = async (
+export async function updateArtistStatsForSong(
   newArtistIds: number[] = [],
   oldArtistIds: number[] = []
-): Promise<void> => {
+): Promise<void> {
   const allAffectedArtistIds = [...new Set([...oldArtistIds, ...newArtistIds])]
 
   await Promise.all(allAffectedArtistIds.map((artistId) => updateArtistStats(artistId)))

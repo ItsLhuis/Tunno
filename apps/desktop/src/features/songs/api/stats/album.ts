@@ -2,7 +2,7 @@ import { database, schema } from "@database/client"
 
 import { eq, sql } from "drizzle-orm"
 
-export const updateAlbumStats = async (albumId: number): Promise<void> => {
+export async function updateAlbumStats(albumId: number): Promise<void> {
   const stats = await database
     .select({
       totalTracks: sql<number>`COUNT(*)`,
@@ -23,10 +23,10 @@ export const updateAlbumStats = async (albumId: number): Promise<void> => {
     .where(eq(schema.albums.id, albumId))
 }
 
-export const updateAlbumStatsForSong = async (
+export async function updateAlbumStatsForSong(
   newAlbumId?: number | null,
   oldAlbumId?: number | null
-): Promise<void> => {
+): Promise<void> {
   const affectedAlbumIds = [
     ...(oldAlbumId ? [oldAlbumId] : []),
     ...(newAlbumId ? [newAlbumId] : [])

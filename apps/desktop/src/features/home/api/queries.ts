@@ -16,7 +16,7 @@ import {
   type YourPlaylists
 } from "@repo/api"
 
-export const getUserStats = async (): Promise<UserStats> => {
+export async function getUserStats(): Promise<UserStats> {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
@@ -188,7 +188,7 @@ export const getUserStats = async (): Promise<UserStats> => {
   }
 }
 
-export const getJumpBackIn = async (limit: number = 8, hours: number = 48): Promise<JumpBackIn> => {
+export async function getJumpBackIn(limit: number = 8, hours: number = 48): Promise<JumpBackIn> {
   const hoursAgo = new Date(Date.now() - hours * 60 * 60 * 1000)
 
   const recentHistory = await database.query.playHistory.findMany({
@@ -226,7 +226,7 @@ export const getJumpBackIn = async (limit: number = 8, hours: number = 48): Prom
   }
 }
 
-export const getOnRepeat = async (limit: number = 8, days: number = 14): Promise<OnRepeat> => {
+export async function getOnRepeat(limit: number = 8, days: number = 14): Promise<OnRepeat> {
   const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
 
   const topSongIds = await database
@@ -286,10 +286,10 @@ export const getOnRepeat = async (limit: number = 8, days: number = 14): Promise
   }
 }
 
-export const getYourPlaylists = async (
+export async function getYourPlaylists(
   limit: number = 6,
   favoritesOnly: boolean = false
-): Promise<YourPlaylists> => {
+): Promise<YourPlaylists> {
   const playlists = await database.query.playlists.findMany({
     limit,
     where: favoritesOnly ? eq(schema.playlists.isFavorite, true) : undefined,
@@ -309,10 +309,7 @@ export const getYourPlaylists = async (
   }
 }
 
-export const getNewReleases = async (
-  limit: number = 8,
-  days: number = 30
-): Promise<NewReleases> => {
+export async function getNewReleases(limit: number = 8, days: number = 30): Promise<NewReleases> {
   const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
 
   const albums = await database.query.albums.findMany({
@@ -348,7 +345,7 @@ export const getNewReleases = async (
   }
 }
 
-export const getDiscover = async (limit: number = 12): Promise<Discover> => {
+export async function getDiscover(limit: number = 12): Promise<Discover> {
   const discoverResults = await database
     .select({
       songId: schema.songs.id,
@@ -422,7 +419,7 @@ export const getDiscover = async (limit: number = 12): Promise<Discover> => {
   }
 }
 
-export const getFavoriteArtists = async (limit: number = 12): Promise<FavoriteArtists> => {
+export async function getFavoriteArtists(limit: number = 12): Promise<FavoriteArtists> {
   const artistsWithStats = await database
     .select({
       id: schema.artists.id,
@@ -486,7 +483,7 @@ export const getFavoriteArtists = async (limit: number = 12): Promise<FavoriteAr
   }
 }
 
-export const getTopAlbums = async (limit: number = 10): Promise<TopAlbums> => {
+export async function getTopAlbums(limit: number = 10): Promise<TopAlbums> {
   const albums = await database.query.albums.findMany({
     limit,
     where: sql`${schema.albums.playCount} > 0`,
@@ -534,10 +531,10 @@ export const getTopAlbums = async (limit: number = 10): Promise<TopAlbums> => {
   }
 }
 
-export const getHiddenGems = async (
+export async function getHiddenGems(
   limit: number = 12,
   options?: { minYearsOld?: number; maxPlayCount?: number }
-): Promise<HiddenGems> => {
+): Promise<HiddenGems> {
   const currentYear = new Date().getFullYear()
   const minYearsOld = options?.minYearsOld ?? 5
   const maxPlayCount = options?.maxPlayCount ?? 3
@@ -615,7 +612,7 @@ export const getHiddenGems = async (
   }
 }
 
-export const getRecentlyAdded = async (limit: number = 12): Promise<RecentlyAdded> => {
+export async function getRecentlyAdded(limit: number = 12): Promise<RecentlyAdded> {
   const [songs, albums, playlists, artists] = await Promise.all([
     database.query.songs.findMany({
       limit: limit * 2,

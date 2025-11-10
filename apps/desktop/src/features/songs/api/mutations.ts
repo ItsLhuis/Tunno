@@ -14,12 +14,12 @@ import { updatePlaylistStatsForSong } from "./stats/playlist"
 
 import { type InsertSong, type Song, type UpdateSong } from "@repo/api"
 
-export const insertSong = async (
+export async function insertSong(
   song: Omit<InsertSong, "file" | "thumbnail">,
   artists: number[],
   filePath: string,
   thumbnailPath?: string | null
-): Promise<Song> => {
+): Promise<Song> {
   const fileName = await saveFileWithUniqueNameFromPath("songs", filePath)
 
   const thumbnailName = thumbnailPath
@@ -58,13 +58,13 @@ export const insertSong = async (
   return createdSong
 }
 
-export const updateSong = async (
+export async function updateSong(
   id: number,
   updates: Omit<UpdateSong, "thumbnail">,
   thumbnailAction?: "keep" | "update" | "remove",
   thumbnailPath?: string,
   artists?: number[]
-): Promise<Song> => {
+): Promise<Song> {
   const [existingSong] = await database.select().from(schema.songs).where(eq(schema.songs.id, id))
 
   let thumbnailName = existingSong.thumbnail
@@ -118,7 +118,7 @@ export const updateSong = async (
   return updatedSong
 }
 
-export const toggleSongFavorite = async (id: number): Promise<Song> => {
+export async function toggleSongFavorite(id: number): Promise<Song> {
   const [existingSong] = await database.select().from(schema.songs).where(eq(schema.songs.id, id))
 
   const [updatedSong] = await database
@@ -130,7 +130,7 @@ export const toggleSongFavorite = async (id: number): Promise<Song> => {
   return updatedSong
 }
 
-export const deleteSong = async (id: number): Promise<Song> => {
+export async function deleteSong(id: number): Promise<Song> {
   const [songToDelete] = await database
     .select({
       albumId: schema.songs.albumId,
