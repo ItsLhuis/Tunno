@@ -13,7 +13,7 @@ import TrackPlayer, {
 
 let unsubscribeFns: Array<() => void> = []
 
-export const registerPlaybackListeners = () => {
+export function registerPlaybackListeners() {
   if (unsubscribeFns.length > 0) {
     unsubscribeFns.forEach((fn) => fn())
     unsubscribeFns = []
@@ -112,7 +112,7 @@ export const registerPlaybackListeners = () => {
   unsubscribeFns.push(() => TrackPlayer.removeEventListener(Event.PlaybackError, onError))
 }
 
-export const unregisterPlaybackListeners = () => {
+export function unregisterPlaybackListeners() {
   if (unsubscribeFns.length === 0) return
   unsubscribeFns.forEach((fn) => fn())
   unsubscribeFns = []

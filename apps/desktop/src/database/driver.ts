@@ -73,8 +73,9 @@ function extractWhereParams(sql: string, allParams: unknown[]): unknown[] {
   return allParams.slice(-whereParamCount)
 }
 
-export const getSQLiteDatabase = async (name: string): Promise<Database> =>
-  await Database.load(`sqlite:${name}`)
+export async function getSQLiteDatabase(name: string): Promise<Database> {
+  return await Database.load(`sqlite:${name}`)
+}
 
 function processResults(results: any[]): any[] {
   if (!results || results.length === 0) return []
