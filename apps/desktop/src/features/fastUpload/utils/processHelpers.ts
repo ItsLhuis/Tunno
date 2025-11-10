@@ -24,10 +24,10 @@ type SongUpdateFields = {
   releaseYear?: number | null
 }
 
-export const compareAndGetSongUpdates = (
+export function compareAndGetSongUpdates(
   existingSong: { lyrics: any; duration: number; releaseYear: number | null },
   newMetadata: CLISong
-): { needsUpdate: boolean; updates: SongUpdateFields } => {
+): { needsUpdate: boolean; updates: SongUpdateFields } {
   const updates: SongUpdateFields = {}
   let needsUpdate = false
 
@@ -60,13 +60,13 @@ type ProcessArtistResult = {
   thumbnailUpdated: boolean
 }
 
-export const processArtist = async (
+export async function processArtist(
   artistMeta: CLIArtist,
   cachePath: string,
   trackDirName: string,
   entityCache?: EntityCache,
   localCache?: LocalArtistCache
-): Promise<ProcessArtistResult> => {
+): Promise<ProcessArtistResult> {
   if (localCache?.has(artistMeta.name)) {
     return {
       artistId: localCache.get(artistMeta.name)!,
@@ -168,7 +168,7 @@ export const processArtist = async (
   }
 }
 
-export const updateAlbumThumbnailIfNeeded = async (
+export async function updateAlbumThumbnailIfNeeded(
   albumId: number,
   albumName: string,
   albumType: string,
@@ -176,7 +176,7 @@ export const updateAlbumThumbnailIfNeeded = async (
   cachePath: string,
   trackDirName: string,
   entityCache?: EntityCache
-): Promise<boolean> => {
+): Promise<boolean> {
   if (!albumMeta.thumbnail) {
     return false
   }

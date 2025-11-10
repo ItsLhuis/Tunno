@@ -14,10 +14,10 @@ const DEFAULT_RETRY_OPTIONS: Required<RetryOptions> = {
   shouldRetry: () => true
 }
 
-export const retryWithBackoff = async <T>(
+export async function retryWithBackoff<T>(
   operation: () => Promise<T>,
   options: RetryOptions = {}
-): Promise<T> => {
+): Promise<T> {
   const config = { ...DEFAULT_RETRY_OPTIONS, ...options }
   let lastError: unknown
 
@@ -47,7 +47,7 @@ export const retryWithBackoff = async <T>(
   throw lastError
 }
 
-export const isTransientError = (error: unknown): boolean => {
+export function isTransientError(error: unknown): boolean {
   if (error instanceof Error) {
     const msg = error.message.toLowerCase()
     return (
@@ -73,7 +73,7 @@ export const isTransientError = (error: unknown): boolean => {
   return false
 }
 
-export const isUniqueConstraintError = (error: unknown): boolean => {
+export function isUniqueConstraintError(error: unknown): boolean {
   if (error instanceof Error) {
     const msg = error.message.toLowerCase()
     return (

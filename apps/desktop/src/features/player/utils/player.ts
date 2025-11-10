@@ -22,7 +22,7 @@ const MAX_CACHE_SIZE = 150
 const audioUrlCache = new LRUCache<string, string>(MAX_CACHE_SIZE)
 const artworkUrlCache = new LRUCache<string, string>(MAX_CACHE_SIZE)
 
-export const resolveTrack = async (song: SongWithMainRelations): Promise<Track> => {
+export async function resolveTrack(song: SongWithMainRelations): Promise<Track> {
   let audioUrl = audioUrlCache.get(song.file)
   if (!audioUrl) {
     audioUrl = await getRenderableFileSrc(song.file, "songs")
@@ -53,9 +53,7 @@ export const resolveTrack = async (song: SongWithMainRelations): Promise<Track> 
   }
 }
 
-export const getSongFromCacheOrFetch = async (
-  id: number
-): Promise<SongWithMainRelations | null> => {
+export async function getSongFromCacheOrFetch(id: number): Promise<SongWithMainRelations | null> {
   const cacheKey = songKeys.detailsWithMainRelations(id)
   const cachedSong = queryClient.getQueryData(cacheKey)
 
@@ -72,7 +70,7 @@ export const getSongFromCacheOrFetch = async (
   return song || null
 }
 
-export const prefetchSongs = async (ids: number[]): Promise<void> => {
+export async function prefetchSongs(ids: number[]): Promise<void> {
   const uncachedIds = ids.filter(
     (id) => !queryClient.getQueryData(songKeys.detailsWithMainRelations(id))
   )
@@ -86,25 +84,25 @@ export const prefetchSongs = async (ids: number[]): Promise<void> => {
   })
 }
 
-export const volumeCurve = (linearValue: number): number => {
+export function volumeCurve(linearValue: number): number {
   if (linearValue <= 0) return 0
   if (linearValue >= 1) return 1
 
   return Math.pow(linearValue, 3)
 }
 
-export const inverseVolumeCurve = (gainValue: number): number => {
+export function inverseVolumeCurve(gainValue: number): number {
   if (gainValue <= 0) return 0
   if (gainValue >= 1) return 1
 
   return Math.pow(gainValue, 1 / 3)
 }
 
-export const volumePercentage = (linearValue: number): number => {
+export function volumePercentage(linearValue: number): number {
   return Math.round(linearValue * 100)
 }
 
-export const clearTrackCaches = (song: SongWithMainRelations) => {
+export function clearTrackCaches(song: SongWithMainRelations) {
   audioUrlCache.delete(song.file)
   if (song.thumbnail) {
     artworkUrlCache.delete(song.thumbnail as string)

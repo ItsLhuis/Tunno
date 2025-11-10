@@ -109,15 +109,15 @@ type PlayerActions = {
 
 type PlayerStore = PlayerState & PlayerActions
 
-const isValidIndex = (index: number, arrayLength: number): boolean => {
+function isValidIndex(index: number, arrayLength: number): boolean {
   return index >= 0 && index < arrayLength && Number.isInteger(index)
 }
 
-const calculateOptimalWindow = (
+function calculateOptimalWindow(
   currentIndex: number,
   queueLength: number,
   windowSize: number
-): { start: number; end: number } => {
+): { start: number; end: number } {
   if (queueLength === 0) return { start: 0, end: 0 }
 
   const clampedWindowSize = Math.min(windowSize, queueLength)
@@ -133,11 +133,11 @@ const calculateOptimalWindow = (
   return { start, end }
 }
 
-const validateQueueIntegrity = (
+function validateQueueIntegrity(
   trackIds: number[],
   queueIds: number[],
   currentIndex: number | null
-): boolean => {
+): boolean {
   if (trackIds.length === 0) return queueIds.length === 0 && currentIndex === null
   if (queueIds.length === 0) return currentIndex === null
 
@@ -151,12 +151,12 @@ const validateQueueIntegrity = (
   return true
 }
 
-const updateCachedSong = (
+function updateCachedSong(
   set: StoreApi<PlayerStore>["setState"],
   get: StoreApi<PlayerStore>["getState"],
   id: number,
   song: SongWithMainRelations
-) => {
+) {
   const oldCache = get().cachedSongs
   const maxSize = oldCache.getMaxSize()
 
@@ -171,12 +171,12 @@ const updateCachedSong = (
   set({ cachedSongs: newCache })
 }
 
-const updateCachedSongs = (
+function updateCachedSongs(
   set: StoreApi<PlayerStore>["setState"],
   get: StoreApi<PlayerStore>["getState"],
   songs: SongWithMainRelations[],
   priorityIds?: number[]
-) => {
+) {
   const oldCache = get().cachedSongs
   let maxSize = oldCache.getMaxSize()
   const prioritySet = priorityIds ? new Set(priorityIds) : null
@@ -208,10 +208,10 @@ const updateCachedSongs = (
   set({ cachedSongs: newCache })
 }
 
-const clearCachedSongs = (
+function clearCachedSongs(
   set: StoreApi<PlayerStore>["setState"],
   get: StoreApi<PlayerStore>["getState"]
-) => {
+) {
   const windowSize = get().windowSize || DEFAULT_WINDOW_SIZE
   set({ cachedSongs: new LRUCache(windowSize) })
 }

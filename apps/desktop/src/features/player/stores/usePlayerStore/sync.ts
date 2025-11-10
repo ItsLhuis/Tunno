@@ -11,14 +11,14 @@ import { type SongWithMainRelations } from "@repo/api"
 
 export type WindowLabel = "main" | "miniPlayer" | "fullscreenPlayer"
 
-export const getWindowLabel = (): WindowLabel => {
+export function getWindowLabel(): WindowLabel {
   const label = getCurrentWindow().label
   if (label === "miniPlayer") return "miniPlayer"
   if (label === "fullscreenPlayer") return "fullscreenPlayer"
   return "main"
 }
 
-export const isMainWindow = (): boolean => {
+export function isMainWindow(): boolean {
   return getWindowLabel() === "main"
 }
 
@@ -38,7 +38,7 @@ export const SYNC_CONFIG = {
 
 let hasHydratedFromMain = false
 
-export const resetSyncCache = (): void => {
+export function resetSyncCache(): void {
   cachedActionKeys = null
   hasHydratedFromMain = false
 }
@@ -59,9 +59,9 @@ type StateResponsePayload<T> = {
   state: T
 }
 
-export const setupMainWindowSync = <T extends Record<string, unknown>>(
+export function setupMainWindowSync<T extends Record<string, unknown>>(
   store: StoreApi<T>
-): (() => void) => {
+): () => void {
   const unlisteners: UnlistenFn[] = []
 
   const throttledEmit = throttle(
@@ -152,9 +152,9 @@ const detectActionKeys = <T extends Record<string, unknown>>(state: T): Set<stri
 
 const NON_SERIALIZABLE_KEYS = new Set<string>([])
 
-const serializeCachedSongs = (
+function serializeCachedSongs(
   cache: LRUCache<number, SongWithMainRelations>
-): Record<number, SongWithMainRelations> => {
+): Record<number, SongWithMainRelations> {
   const serialized: Record<number, SongWithMainRelations> = {}
   for (const [id, song] of cache.entries()) {
     serialized[id] = song
@@ -162,10 +162,10 @@ const serializeCachedSongs = (
   return serialized
 }
 
-const deserializeCachedSongs = (
+function deserializeCachedSongs(
   data: Record<number, SongWithMainRelations> | undefined,
   maxSize: number
-): LRUCache<number, SongWithMainRelations> => {
+): LRUCache<number, SongWithMainRelations> {
   const cache = new LRUCache<number, SongWithMainRelations>(maxSize)
   if (data) {
     for (const [id, song] of Object.entries(data)) {
@@ -197,9 +197,9 @@ const partializeStateForSync = <T extends Record<string, unknown>>(state: T): Pa
   return filtered as Partial<T>
 }
 
-export const setupSecondaryWindowSync = <T extends Record<string, unknown>>(
+export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
   store: StoreApi<T>
-): (() => void) => {
+): () => void {
   const unlisteners: UnlistenFn[] = []
 
   let pendingUpdate: Partial<T> | null = null
@@ -305,9 +305,9 @@ export const setupSecondaryWindowSync = <T extends Record<string, unknown>>(
   }
 }
 
-export const createRemoteAction = <TArgs extends unknown[], TReturn = void>(
+export function createRemoteAction<TArgs extends unknown[], TReturn = void>(
   actionName: string
-): ((...args: TArgs) => Promise<TReturn>) => {
+): (...args: TArgs) => Promise<TReturn> {
   return async (...args: TArgs): Promise<TReturn> => {
     const id = `${actionName}-${Date.now()}-${Math.random()}`
 

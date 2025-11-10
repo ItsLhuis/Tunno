@@ -4,7 +4,7 @@ import { adjustHue, darken, desaturate, lighten, parseToHsl, saturate } from "po
 
 import { generateColorPalette, type Palette } from "@repo/utils"
 
-export const rgbToHslString = (rgb: string): string | null => {
+export function rgbToHslString(rgb: string): string | null {
   try {
     const hsl = parseToHsl(rgb)
     return `${Math.round(hsl.hue || 0)} ${Math.round(hsl.saturation * 100)}% ${Math.round(hsl.lightness * 100)}%`
@@ -13,7 +13,7 @@ export const rgbToHslString = (rgb: string): string | null => {
   }
 }
 
-export const createGradient = (color: string): string => {
+export function createGradient(color: string): string {
   try {
     const bottom = saturate(0.08, adjustHue(8, lighten(0.12, color)))
     const lowerMid = saturate(0.05, adjustHue(5, lighten(0.06, color)))
@@ -39,7 +39,7 @@ export const createGradient = (color: string): string => {
   }
 }
 
-export const paletteToCssVariables = (palette: Palette | null): Record<string, string> => {
+export function paletteToCssVariables(palette: Palette | null): Record<string, string> {
   if (!palette) return {}
 
   const entries = Object.entries({
@@ -60,7 +60,7 @@ export const paletteToCssVariables = (palette: Palette | null): Record<string, s
   return Object.fromEntries(entries)
 }
 
-export const extractColorFromImage = (image: HTMLImageElement): string | null => {
+export function extractColorFromImage(image: HTMLImageElement): string | null {
   try {
     const colorThief = new ColorThief()
     const color = colorThief.getColor(image) as [number, number, number]
@@ -70,7 +70,7 @@ export const extractColorFromImage = (image: HTMLImageElement): string | null =>
   }
 }
 
-export const extractPaletteFromImage = (image: HTMLImageElement): Palette | null => {
+export function extractPaletteFromImage(image: HTMLImageElement): Palette | null {
   try {
     const colorThief = new ColorThief()
     const color = colorThief.getColor(image) as [number, number, number]
