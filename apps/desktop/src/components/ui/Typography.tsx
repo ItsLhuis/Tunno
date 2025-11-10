@@ -1,4 +1,4 @@
-import { forwardRef, type ElementType, type HTMLAttributes } from "react"
+import { type ComponentProps, type ElementType } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -54,27 +54,31 @@ type TypographyVariants = VariantProps<typeof typographyVariants>
 
 type AffectType = NonNullable<TypographyVariants["affects"]>
 
-export type TypographyProps = HTMLAttributes<HTMLElement> &
+export type TypographyProps = ComponentProps<"span"> &
   Omit<TypographyVariants, "affects"> & {
     variant?: NonNullable<TypographyVariants["variant"]>
     affects?: AffectType | AffectType[]
   }
 
-const Typography = forwardRef<HTMLElement, TypographyProps>(
-  ({ className, variant = "span", affects = "default", ...props }, ref) => {
-    const affectsArray = Array.isArray(affects) ? affects : [affects]
-    const affectsClasses = affectsArray.map((affect) => typographyVariants({ affects: affect }))
+const Typography = ({
+  className,
+  variant = "span",
+  affects = "default",
+  ref,
+  ...props
+}: TypographyProps) => {
+  const affectsArray = Array.isArray(affects) ? affects : [affects]
+  const affectsClasses = affectsArray.map((affect) => typographyVariants({ affects: affect }))
 
-    const Comp = variantToElementMap[variant] || "span"
+  const Comp = variantToElementMap[variant] || "span"
 
-    return (
-      <Comp
-        className={cn(typographyVariants({ variant }), ...affectsClasses, className)}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
+  return (
+    <Comp
+      className={cn(typographyVariants({ variant }), ...affectsClasses, className)}
+      ref={ref}
+      {...props}
+    />
+  )
+}
 
 export { Typography }

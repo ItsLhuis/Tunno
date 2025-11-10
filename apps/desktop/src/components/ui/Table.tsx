@@ -1,42 +1,31 @@
-import {
-  forwardRef,
-  type HTMLAttributes,
-  type TdHTMLAttributes,
-  type ThHTMLAttributes
-} from "react"
+import { type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
-const Table = forwardRef<HTMLTableElement, HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => (
-    <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props} />
-  )
-)
+const Table = ({ className, ref, ...props }: ComponentProps<"table">) => {
+  return <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props} />
+}
 
-const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
-  ({ className, ...props }, ref) => (
-    <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
-  )
-)
+const TableHeader = ({ className, ref, ...props }: ComponentProps<"thead">) => {
+  return <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+}
 
-const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
-  ({ className, ...props }, ref) => (
-    <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
-  )
-)
+const TableBody = ({ className, ref, ...props }: ComponentProps<"tbody">) => {
+  return <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
+}
 
-const TableFooter = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
-  ({ className, ...props }, ref) => (
+const TableFooter = ({ className, ref, ...props }: ComponentProps<"tfoot">) => {
+  return (
     <tfoot
       ref={ref}
       className={cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)}
       {...props}
     />
   )
-)
+}
 
-const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
-  ({ className, ...props }, ref) => (
+const TableRow = ({ className, ref, ...props }: ComponentProps<"tr">) => {
+  return (
     <tr
       ref={ref}
       className={cn(
@@ -46,28 +35,26 @@ const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElem
       {...props}
     />
   )
-)
+}
 
-const TableHead = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLTableCellElement>>(
-  ({ className, ...props }, ref) => (
+const TableHead = ({ className, ref, ...props }: ComponentProps<"th">) => {
+  return (
     <th
       ref={ref}
       className={cn("flex items-center p-3 font-medium text-muted-foreground", className)}
       {...props}
     />
   )
-)
+}
 
-const TableCell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLTableCellElement>>(
-  ({ className, ...props }, ref) => (
-    <td ref={ref} className={cn("flex items-center p-3 py-2", className)} {...props} />
-  )
-)
+const TableCell = ({ className, ref, ...props }: ComponentProps<"td">) => {
+  return <td ref={ref} className={cn("flex items-center p-3 py-2", className)} {...props} />
+}
 
-const TableCaption = forwardRef<HTMLTableCaptionElement, HTMLAttributes<HTMLTableCaptionElement>>(
-  ({ className, ...props }, ref) => (
+const TableCaption = ({ className, ref, ...props }: ComponentProps<"caption">) => {
+  return (
     <caption ref={ref} className={cn("mt-4 text-sm text-muted-foreground", className)} {...props} />
   )
-)
+}
 
 export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow }

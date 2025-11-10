@@ -1,8 +1,10 @@
+import { type ComponentProps } from "react"
+
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@lib/utils"
 
-type BadgeProps = React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof badgeVariants>
+type BadgeProps = ComponentProps<"div"> & VariantProps<typeof badgeVariants>
 
 const badgeVariants = cva(
   "inline-flex items-center rounded border px-1 py-1 text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",

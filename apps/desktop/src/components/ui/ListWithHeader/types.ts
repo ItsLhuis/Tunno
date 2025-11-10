@@ -1,12 +1,12 @@
-import { type HTMLAttributes, type ReactNode } from "react"
+import { type ComponentProps, type ReactNode } from "react"
 
-export type HeaderProps = HTMLAttributes<HTMLDivElement> & {
+export type HeaderProps = ComponentProps<"div"> & {
   containerClassName?: string
   children?: ReactNode
   SurfaceComponent?: () => ReactNode
 }
 
-export type StickyHeaderProps = HTMLAttributes<HTMLDivElement> & {
+export type StickyHeaderProps = ComponentProps<"div"> & {
   children?: ReactNode
 }
 

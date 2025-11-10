@@ -1,13 +1,20 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type ReactNode
+} from "react"
 
 import { cn } from "@lib/utils"
 
-import { motion, useAnimation } from "motion/react"
+import { useAnimate } from "motion/react"
 
-export type MarqueeProps = React.HTMLAttributes<HTMLDivElement> & {
-  children: React.ReactNode
+export type MarqueeProps = ComponentProps<"div"> & {
+  children: ReactNode
   speed?: number
   shadow?: boolean
 }
@@ -17,22 +24,23 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
   const contentRef = useRef<HTMLDivElement>(null)
 
   const [shouldAnimate, setShouldAnimate] = useState(false)
-
-  const controls = useAnimation()
+  const [scope, animate] = useAnimate()
 
   const startAnimation = useCallback(() => {
     if (!contentRef.current) return
 
     const contentWidth = contentRef.current.scrollWidth
-    controls.start({
-      x: "-100%",
-      transition: {
+
+    animate(
+      scope.current,
+      { x: [0, -contentWidth] },
+      {
         repeat: Infinity,
         duration: contentWidth / speed,
         ease: "linear"
       }
-    })
-  }, [controls, speed])
+    )
+  }, [animate, scope, speed])
 
   const checkOverflow = useCallback(() => {
     if (!containerRef.current || !contentRef.current) return
@@ -62,10 +70,9 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
     if (shouldAnimate) {
       startAnimation()
     } else {
-      controls.stop()
-      controls.set({ x: "0%" })
+      animate(scope.current, { x: 0 }, { duration: 0 })
     }
-  }, [shouldAnimate, startAnimation, controls])
+  }, [shouldAnimate, startAnimation, animate, scope])
 
   useEffect(() => {
     checkOverflow()
@@ -81,7 +88,7 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
   return (
     <div
       ref={containerRef}
-      className={cn("relative flex flex-row truncate", className)}
+      className={cn("relative flex flex-row overflow-hidden", className)}
       style={{
         maskImage:
           shadow && shouldAnimate
@@ -90,14 +97,12 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
       }}
       {...props}
     >
-      <motion.div ref={contentRef} className="inline-block pr-8 leading-none" animate={controls}>
-        {children}
-      </motion.div>
-      {shouldAnimate && (
-        <motion.div className="inline-block pr-8 leading-none" animate={controls}>
+      <div ref={scope} className="flex shrink-0">
+        <div ref={contentRef} className="inline-block shrink-0 pr-8 leading-none">
           {children}
-        </motion.div>
-      )}
+        </div>
+        {shouldAnimate && <div className="inline-block shrink-0 pr-8 leading-none">{children}</div>}
+      </div>
     </div>
   )
 }

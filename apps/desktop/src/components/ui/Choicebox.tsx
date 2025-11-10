@@ -1,6 +1,6 @@
 "use client"
 
-import { type ComponentProps, type HTMLAttributes } from "react"
+import { type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -46,7 +46,7 @@ const ChoiceboxItemTitle = ({ className, ...props }: ComponentProps<typeof CardT
   <CardTitle className={cn("flex items-center gap-2 text-sm", className)} {...props} />
 )
 
-const ChoiceboxItemSubtitle = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => (
+const ChoiceboxItemSubtitle = ({ className, ...props }: ComponentProps<"span">) => (
   <span className={cn("text-xs font-normal text-muted-foreground", className)} {...props} />
 )
 

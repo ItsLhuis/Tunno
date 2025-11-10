@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes, type ComponentProps } from "react"
+import { type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -41,78 +41,74 @@ const buttonVariants = cva(
   }
 )
 
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+export type ButtonProps = ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
     tooltip?: string | ComponentProps<typeof TooltipContent>
     isLoading?: boolean
   }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      type = "button",
-      variant,
-      size,
-      asChild = false,
-      tooltip,
-      isLoading = false,
-      disabled,
-      children,
-      ...props
-    },
-    ref
-  ) => {
-    const Comp = asChild ? Slot : "button"
+const Button = ({
+  className,
+  type = "button",
+  variant,
+  size,
+  asChild = false,
+  tooltip,
+  isLoading = false,
+  disabled,
+  children,
+  ref,
+  ...props
+}: ButtonProps) => {
+  const Comp = asChild ? Slot : "button"
 
-    const buttonContent = (
-      <div className="relative flex items-center justify-center">
-        <Fade show={isLoading} className="absolute" initial={false} unmountOnExit={false}>
-          <Spinner className="text-inherit" />
-        </Fade>
-        <Fade
-          show={!isLoading}
-          initial={false}
-          unmountOnExit={false}
-          className="flex items-center justify-center gap-2"
-        >
-          {children}
-        </Fade>
-      </div>
-    )
-
-    const button = (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        type={type}
-        ref={ref}
-        disabled={disabled || isLoading}
-        {...props}
+  const buttonContent = (
+    <div className="relative flex items-center justify-center">
+      <Fade show={isLoading} className="absolute" initial={false} unmountOnExit={false}>
+        <Spinner className="text-inherit" />
+      </Fade>
+      <Fade
+        show={!isLoading}
+        initial={false}
+        unmountOnExit={false}
+        className="flex items-center justify-center gap-2"
       >
-        {asChild ? children : buttonContent}
-      </Comp>
-    )
+        {children}
+      </Fade>
+    </div>
+  )
 
-    if (!tooltip) {
-      return button
-    }
+  const button = (
+    <Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      type={type}
+      ref={ref}
+      disabled={disabled || isLoading}
+      {...props}
+    >
+      {asChild ? children : buttonContent}
+    </Comp>
+  )
 
-    if (typeof tooltip === "string") {
-      tooltip = {
-        children: tooltip
-      }
-    }
-
-    return (
-      <TooltipProvider delayDuration={0}>
-        <Tooltip>
-          <TooltipTrigger asChild>{button}</TooltipTrigger>
-          <TooltipContent {...tooltip} />
-        </Tooltip>
-      </TooltipProvider>
-    )
+  if (!tooltip) {
+    return button
   }
-)
+
+  if (typeof tooltip === "string") {
+    tooltip = {
+      children: tooltip
+    }
+  }
+
+  return (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip>
+        <TooltipTrigger asChild>{button}</TooltipTrigger>
+        <TooltipContent {...tooltip} />
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
 
 export { Button, buttonVariants }

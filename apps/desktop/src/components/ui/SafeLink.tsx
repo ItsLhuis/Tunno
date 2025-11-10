@@ -1,14 +1,13 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, type ReactNode } from "react"
+import { useEffect, useRef, type ReactNode, type Ref } from "react"
 
 import { Link, type LinkProps } from "@tanstack/react-router"
 
 import { open } from "@tauri-apps/plugin-shell"
 
-export type SafeLinkProps = { children: ReactNode } & LinkProps
+export type SafeLinkProps = { children: ReactNode; ref?: Ref<HTMLAnchorElement> } & LinkProps
 
-const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(({ children, to, ...props }, ref) => {
+const SafeLink = ({ children, to, ref, ...props }: SafeLinkProps) => {
   const linkRef = useRef<HTMLAnchorElement>(null)
-  useImperativeHandle(ref, () => linkRef.current!)
 
   const isExternal =
     typeof to === "string" && (to.startsWith("http://") || to.startsWith("https://"))
@@ -49,7 +48,14 @@ const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(({ children, to, .
 
   return (
     <Link
-      ref={linkRef}
+      ref={(node) => {
+        linkRef.current = node
+        if (typeof ref === "function") {
+          ref(node)
+        } else if (ref) {
+          ref.current = node
+        }
+      }}
       to={to}
       className="inline cursor-default leading-none transition-colors hover:text-primary focus:outline-none focus-visible:text-primary [&>*]:hover:text-primary [&>*]:focus-visible:text-primary"
       {...props}
@@ -57,6 +63,6 @@ const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(({ children, to, .
       {children}
     </Link>
   )
-})
+}
 
 export { SafeLink }

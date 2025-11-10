@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from "react"
+import { type Ref, useEffect, useRef, useState } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -10,42 +10,29 @@ export type ImageProps = {
   className?: string
   containerClassName?: string
   onLoad?: () => void
+  ref?: Ref<HTMLImageElement>
 }
 
-const Image = forwardRef<HTMLImageElement, ImageProps>(
-  ({ src, className, containerClassName, onLoad, ...props }, ref) => {
-    const [displaySrc, setDisplaySrc] = useState<string | null>(src ?? null)
+const Image = ({ src, className, containerClassName, onLoad, ref, ...props }: ImageProps) => {
+  const [displaySrc, setDisplaySrc] = useState<string | null>(src ?? null)
 
-    const preloadRef = useRef<HTMLImageElement | null>(null)
+  const preloadRef = useRef<HTMLImageElement | null>(null)
 
-    useEffect(() => {
-      if (src && src !== displaySrc) {
-        const preloadImage = new window.Image()
-        preloadRef.current = preloadImage
-        preloadImage.src = src
+  useEffect(() => {
+    if (src && src !== displaySrc) {
+      const preloadImage = new window.Image()
+      preloadRef.current = preloadImage
+      preloadImage.src = src
 
-        preloadImage.onload = () => {
-          setDisplaySrc(src)
-          preloadRef.current = null
-        }
-
-        preloadImage.onerror = () => {
-          preloadRef.current = null
-        }
-
-        return () => {
-          if (preloadRef.current) {
-            preloadRef.current.onload = null
-            preloadRef.current.onerror = null
-            preloadRef.current = null
-          }
-        }
-      } else if (!src && displaySrc !== null) {
-        setDisplaySrc(null)
+      preloadImage.onload = () => {
+        setDisplaySrc(src)
+        preloadRef.current = null
       }
-    }, [src, displaySrc])
 
-    useEffect(() => {
+      preloadImage.onerror = () => {
+        preloadRef.current = null
+      }
+
       return () => {
         if (preloadRef.current) {
           preloadRef.current.onload = null
@@ -53,35 +40,47 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
           preloadRef.current = null
         }
       }
-    }, [])
+    } else if (!src && displaySrc !== null) {
+      setDisplaySrc(null)
+    }
+  }, [src, displaySrc])
 
-    return (
-      <div
-        className={cn(
-          "overflow-hidden rounded-md border border-border bg-muted",
-          containerClassName,
-          "relative shrink-0"
+  useEffect(() => {
+    return () => {
+      if (preloadRef.current) {
+        preloadRef.current.onload = null
+        preloadRef.current.onerror = null
+        preloadRef.current = null
+      }
+    }
+  }, [])
+
+  return (
+    <div
+      className={cn(
+        "overflow-hidden rounded-md border border-border bg-muted",
+        containerClassName,
+        "relative shrink-0"
+      )}
+    >
+      <AnimatePresence mode="popLayout">
+        {displaySrc && (
+          <motion.img
+            ref={ref}
+            key={displaySrc}
+            src={displaySrc}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            onLoad={onLoad}
+            className={cn("aspect-auto w-12", className, "transition-opacity")}
+            {...props}
+          />
         )}
-      >
-        <AnimatePresence mode="popLayout">
-          {displaySrc && (
-            <motion.img
-              ref={ref}
-              key={displaySrc}
-              src={displaySrc}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              onLoad={onLoad}
-              className={cn("aspect-auto w-12", className, "transition-opacity")}
-              {...props}
-            />
-          )}
-        </AnimatePresence>
-      </div>
-    )
-  }
-)
+      </AnimatePresence>
+    </div>
+  )
+}
 
 export { Image }

@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react"
+import { type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -10,17 +10,15 @@ import {
 
 import { Icon } from "@components/ui/Icon"
 
-const RadioGroup = forwardRef<
-  ElementRef<typeof RadioGroupRoot>,
-  ComponentPropsWithoutRef<typeof RadioGroupRoot>
->(({ className, ...props }, ref) => {
+const RadioGroup = ({ className, ref, ...props }: ComponentProps<typeof RadioGroupRoot>) => {
   return <RadioGroupRoot className={cn("grid gap-2", className)} {...props} ref={ref} />
-})
+}
 
-const RadioGroupItem = forwardRef<
-  ElementRef<typeof RadioGroupItemPrimitive>,
-  ComponentPropsWithoutRef<typeof RadioGroupItemPrimitive>
->(({ className, ...props }, ref) => {
+const RadioGroupItem = ({
+  className,
+  ref,
+  ...props
+}: ComponentProps<typeof RadioGroupItemPrimitive>) => {
   return (
     <RadioGroupItemPrimitive
       ref={ref}
@@ -35,6 +33,6 @@ const RadioGroupItem = forwardRef<
       </RadioGroupIndicator>
     </RadioGroupItemPrimitive>
   )
-})
+}
 
 export { RadioGroup, RadioGroupItem }

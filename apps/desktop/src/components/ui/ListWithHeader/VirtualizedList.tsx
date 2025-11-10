@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState, type ComponentType } from "react"
+import { useCallback, useEffect, useRef, useState, type ComponentType, type RefObject } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -31,7 +31,7 @@ export type VirtualizedListWithHeadersProps<TItem> = Omit<
     ListEmptyComponent?: ComponentType
     stickyHeaderContainerClassName?: string
     containerClassName?: string
-    onScrollRef?: (ref: React.RefObject<HTMLDivElement>) => void
+    onScrollRef?: (ref: RefObject<HTMLDivElement | null>) => void
     onController?: (controller: VirtualizedListController<TItem>) => void
     onVirtualizer?: (virtualizer: Virtualizer<HTMLElement, Element>) => void
   }

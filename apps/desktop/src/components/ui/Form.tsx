@@ -1,12 +1,4 @@
-import {
-  createContext,
-  forwardRef,
-  useContext,
-  useId,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  type HTMLAttributes
-} from "react"
+import { createContext, useContext, useId, type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -48,7 +40,7 @@ const FormField = <
   )
 }
 
-const useFormField = () => {
+function useFormField() {
   const fieldContext = useContext(FormFieldContext)
   const itemContext = useContext(FormItemContext)
   const { getFieldState, formState } = useFormContext()
@@ -77,22 +69,17 @@ type FormItemContextValue = {
 
 const FormItemContext = createContext<FormItemContextValue>({} as FormItemContextValue)
 
-const FormItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
-    const id = useId()
+const FormItem = ({ className, ref, ...props }: ComponentProps<"div">) => {
+  const id = useId()
 
-    return (
-      <FormItemContext.Provider value={{ id }}>
-        <div ref={ref} className={cn("space-y-2", className)} {...props} />
-      </FormItemContext.Provider>
-    )
-  }
-)
+  return (
+    <FormItemContext.Provider value={{ id }}>
+      <div ref={ref} className={cn("space-y-2", className)} {...props} />
+    </FormItemContext.Provider>
+  )
+}
 
-const FormLabel = forwardRef<
-  ElementRef<typeof LabelPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+const FormLabel = ({ className, ref, ...props }: ComponentProps<typeof LabelPrimitive.Root>) => {
   const { error, formItemId } = useFormField()
 
   return (
@@ -103,60 +90,54 @@ const FormLabel = forwardRef<
       {...props}
     />
   )
-})
+}
 
-const FormControl = forwardRef<ElementRef<typeof Slot>, ComponentPropsWithoutRef<typeof Slot>>(
-  ({ ...props }, ref) => {
-    const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+const FormControl = ({ ref, ...props }: ComponentProps<typeof Slot>) => {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
-    return (
-      <Slot
-        ref={ref}
-        id={formItemId}
-        aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
-        aria-invalid={!!error}
-        {...props}
-      />
-    )
+  return (
+    <Slot
+      ref={ref}
+      id={formItemId}
+      aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
+      aria-invalid={!!error}
+      {...props}
+    />
+  )
+}
+
+const FormDescription = ({ className, ref, ...props }: ComponentProps<"p">) => {
+  const { formDescriptionId } = useFormField()
+
+  return (
+    <p
+      ref={ref}
+      id={formDescriptionId}
+      className={cn("text-[0.8rem] text-muted-foreground", className)}
+      {...props}
+    />
+  )
+}
+
+const FormMessage = ({ className, children, ref, ...props }: ComponentProps<"p">) => {
+  const { error, formMessageId } = useFormField()
+  const body = error ? String(error?.message ?? "") : children
+
+  if (!body) {
+    return null
   }
-)
 
-const FormDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, ...props }, ref) => {
-    const { formDescriptionId } = useFormField()
-
-    return (
-      <p
-        ref={ref}
-        id={formDescriptionId}
-        className={cn("text-[0.8rem] text-muted-foreground", className)}
-        {...props}
-      />
-    )
-  }
-)
-
-const FormMessage = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, children, ...props }, ref) => {
-    const { error, formMessageId } = useFormField()
-    const body = error ? String(error?.message ?? "") : children
-
-    if (!body) {
-      return null
-    }
-
-    return (
-      <p
-        ref={ref}
-        id={formMessageId}
-        className={cn("text-[0.8rem] font-medium text-destructive", className)}
-        {...props}
-      >
-        {body}
-      </p>
-    )
-  }
-)
+  return (
+    <p
+      ref={ref}
+      id={formMessageId}
+      className={cn("text-[0.8rem] font-medium text-destructive", className)}
+      {...props}
+    >
+      {body}
+    </p>
+  )
+}
 
 export {
   Form,

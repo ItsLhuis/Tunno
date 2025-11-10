@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
 
 export function useEndReached(
-  scrollRef: React.RefObject<HTMLDivElement>,
+  scrollRef: RefObject<HTMLDivElement | null>,
   onEndReached?: () => void,
   onEndReachedThreshold = 0.1
 ) {

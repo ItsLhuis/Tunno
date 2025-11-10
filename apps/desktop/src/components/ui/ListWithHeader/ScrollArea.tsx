@@ -3,7 +3,7 @@ import {
   useEffect,
   useRef,
   useState,
-  type HTMLAttributes,
+  type ComponentProps,
   type RefObject
 } from "react"
 
@@ -16,7 +16,7 @@ import { ScrollArea } from "@components/ui/ScrollArea"
 
 import { SharedScrollContainerProps } from "./types"
 
-type ScrollAreaWithHeadersProps = HTMLAttributes<HTMLDivElement> &
+type ScrollAreaWithHeadersProps = ComponentProps<"div"> &
   SharedScrollContainerProps & {
     HeaderComponent: () => React.ReactNode
     StickyHeaderComponent?: () => React.ReactNode
@@ -25,9 +25,7 @@ type ScrollAreaWithHeadersProps = HTMLAttributes<HTMLDivElement> &
     stickHeaderThreshold?: number
     containerClassName?: string
     children: React.ReactNode
-    className?: string
-    style?: React.CSSProperties
-    scrollRef?: RefObject<HTMLDivElement>
+    scrollRef?: RefObject<HTMLDivElement | null>
   }
 
 const ScrollAreaWithHeaders = ({

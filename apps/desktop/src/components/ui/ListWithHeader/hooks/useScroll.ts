@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, type RefObject } from "react"
 
 type UseScrollProps = {
-  scrollRef: React.RefObject<HTMLDivElement>
+  scrollRef: RefObject<HTMLDivElement | null>
   headerHeight: number
   threshold?: number
 }
 
-export const useScroll = ({ scrollRef, headerHeight, threshold = 0 }: UseScrollProps) => {
+export function useScroll({ scrollRef, headerHeight, threshold = 0 }: UseScrollProps) {
   const [isScrolled, setIsScrolled] = useState(false)
 
   const handleScroll = useCallback(() => {

@@ -9,7 +9,9 @@ import Lottie from "lottie-react"
 
 import { Typography } from "@components/ui/Typography"
 
-export type NotFoundProps = React.HTMLAttributes<HTMLDivElement>
+import { type ComponentProps } from "react"
+
+export type NotFoundProps = ComponentProps<"div">
 
 const NotFound = ({ className, ...props }: NotFoundProps) => {
   const { t } = useTranslation()

@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  forwardRef,
-  type HTMLAttributes
-} from "react"
+import { type ComponentProps } from "react"
 
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 
@@ -24,24 +19,29 @@ const DialogPortal = DialogPrimitive.Portal
 
 const DialogClose = DialogPrimitive.Close
 
-const DialogOverlay = forwardRef<
-  ElementRef<typeof DialogPrimitive.Overlay>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    className={cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      className
-    )}
-    {...props}
-  />
-))
+const DialogOverlay = ({
+  className,
+  ref,
+  ...props
+}: ComponentProps<typeof DialogPrimitive.Overlay>) => {
+  return (
+    <DialogPrimitive.Overlay
+      ref={ref}
+      className={cn(
+        "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-const DialogContent = forwardRef<
-  ElementRef<typeof DialogPrimitive.Content>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => {
+const DialogContent = ({
+  className,
+  children,
+  ref,
+  ...props
+}: ComponentProps<typeof DialogPrimitive.Content>) => {
   const { t } = useTranslation()
 
   return (
@@ -68,16 +68,16 @@ const DialogContent = forwardRef<
       </DialogPrimitive.Content>
     </DialogPortal>
   )
-})
+}
 
-const DialogHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const DialogHeader = ({ className, ...props }: ComponentProps<"div">) => (
   <div
     className={cn("flex flex-col gap-2 text-center transition-colors sm:text-left", className)}
     {...props}
   />
 )
 
-const DialogFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const DialogFooter = ({ className, ...props }: ComponentProps<"div">) => (
   <div
     className={cn(
       "flex flex-col-reverse transition-colors sm:flex-row sm:justify-end sm:space-x-2",
@@ -87,27 +87,33 @@ const DialogFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) =
   />
 )
 
-const DialogTitle = forwardRef<
-  ElementRef<typeof DialogPrimitive.Title>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn("text-lg font-semibold leading-none tracking-tight", className)}
-    {...props}
-  />
-))
+const DialogTitle = ({
+  className,
+  ref,
+  ...props
+}: ComponentProps<typeof DialogPrimitive.Title>) => {
+  return (
+    <DialogPrimitive.Title
+      ref={ref}
+      className={cn("text-lg font-semibold leading-none tracking-tight", className)}
+      {...props}
+    />
+  )
+}
 
-const DialogDescription = forwardRef<
-  ElementRef<typeof DialogPrimitive.Description>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
+const DialogDescription = ({
+  className,
+  ref,
+  ...props
+}: ComponentProps<typeof DialogPrimitive.Description>) => {
+  return (
+    <DialogPrimitive.Description
+      ref={ref}
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+}
 
 export {
   Dialog,

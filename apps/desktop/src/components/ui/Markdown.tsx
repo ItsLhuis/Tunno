@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useMemo, type ComponentPropsWithoutRef } from "react"
+import { memo, useMemo, type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -22,14 +22,10 @@ type MarkdownComponentProps = {
   align?: "left" | "center" | "right" | "justify" | "char"
 }
 
-function MarkdownComponent({ content, className }: MarkdownProps) {
+const MarkdownComponent = ({ content, className }: MarkdownProps) => {
   const components = useMemo(
     () => ({
-      code({
-        className,
-        children,
-        ...props
-      }: MarkdownComponentProps & ComponentPropsWithoutRef<"code">) {
+      code({ className, children, ...props }: MarkdownComponentProps & ComponentProps<"code">) {
         const inline = !className?.includes("language-")
         const match = /language-(\w+)/.exec(className || "")
         const language = match ? match[1] : ""

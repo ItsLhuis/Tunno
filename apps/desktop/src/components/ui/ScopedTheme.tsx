@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from "react"
+import { createContext, useContext, type ComponentType, type ReactNode } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -26,13 +26,13 @@ const ScopedTheme = ({ children, theme, className }: ScopedThemeProps) => {
   )
 }
 
-const useScopedTheme = (): ThemeMode | null => {
+function useScopedTheme(): ThemeMode | null {
   const context = useContext(ScopedThemeContext)
   return context?.theme || null
 }
 
 const withScopedTheme = <P extends object>(
-  Component: React.ComponentType<P>,
+  Component: ComponentType<P>,
   getThemedProps: (props: P, theme: ThemeMode | null) => P
 ) => {
   const ThemedComponent = (props: P) => {

@@ -14,7 +14,7 @@ import { VirtualRow } from "./components"
 
 import type { VirtualizedListProps } from "./types"
 
-function VirtualizedList<TItem>({
+const VirtualizedList = <TItem,>({
   data,
   keyExtractor,
   renderItem,
@@ -43,7 +43,7 @@ function VirtualizedList<TItem>({
   scrollRef: externalScrollRef,
   className,
   ...props
-}: VirtualizedListProps<TItem>) {
+}: VirtualizedListProps<TItem>) => {
   const internalScrollRef = useRef<HTMLDivElement | null>(null)
   const scrollRef = externalScrollRef || internalScrollRef
 

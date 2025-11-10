@@ -1,4 +1,4 @@
-import type { CSSProperties, HTMLAttributes, ReactNode } from "react"
+import type { ComponentProps, ComponentType, CSSProperties, ReactNode, RefObject } from "react"
 
 import type { Virtualizer } from "@tanstack/react-virtual"
 
@@ -13,7 +13,7 @@ export type VirtualizedListController<TItem> = {
   clearSelection: () => void
 }
 
-export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
+export type VirtualizedListProps<TItem> = ComponentProps<"div"> & {
   data: TItem[]
   keyExtractor: (item: TItem, index: number) => string
   renderItem: (args: {
@@ -37,14 +37,14 @@ export type VirtualizedListProps<TItem> = HTMLAttributes<HTMLDivElement> & {
   containerClassName?: string
   rowClassName?: string
   rowStyle?: CSSProperties
-  ListEmptyComponent?: React.ComponentType
-  ListFooterComponent?: React.ComponentType<{ list: VirtualizedListController<TItem> }>
+  ListEmptyComponent?: ComponentType
+  ListFooterComponent?: ComponentType<{ list: VirtualizedListController<TItem> }>
   onSelectionChange?: (selectedIds: string[], selectedItems: TItem[]) => void
   onController?: (controller: VirtualizedListController<TItem>) => void
   onVirtualizer?: (virtualizer: Virtualizer<HTMLElement, Element>) => void
   onEndReached?: () => void
   onEndReachedThreshold?: number
-  scrollRef?: React.RefObject<HTMLDivElement>
+  scrollRef?: RefObject<HTMLDivElement | null>
 }
 
 export type VirtualizedItemProps<TItem> = {

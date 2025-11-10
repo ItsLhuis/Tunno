@@ -1,4 +1,4 @@
-import { forwardRef, useState, type ComponentProps, type FocusEvent, type ReactNode } from "react"
+import { useState, type ComponentProps, type FocusEvent, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -14,59 +14,64 @@ type SearchInputProps = ComponentProps<"input"> & {
   renderRight?: ReactNode
 }
 
-const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  (
-    { placeholder, containerClassName, renderRight, type, className, onFocus, onBlur, ...props },
-    ref
-  ) => {
-    const { t } = useTranslation()
+const SearchInput = ({
+  placeholder,
+  containerClassName,
+  renderRight,
+  type,
+  className,
+  onFocus,
+  onBlur,
+  ref,
+  ...props
+}: SearchInputProps) => {
+  const { t } = useTranslation()
 
-    const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
-    const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true)
-      if (onFocus) onFocus(event)
-    }
-
-    const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false)
-      if (onBlur) onBlur(event)
-    }
-
-    return (
-      <div className={cn("flex w-full items-center overflow-hidden", containerClassName)}>
-        <div
-          className={cn(
-            "flex w-full shrink-0 items-center gap-3 rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-colors placeholder:text-muted-foreground",
-            isFocused &&
-              "focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background",
-            className
-          )}
-        >
-          <Icon name="Search" className="ml-2 transition-colors" />
-          <input
-            type={type}
-            ref={ref}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder={placeholder ?? t("common.search")}
-            {...props}
-            className="h-9 w-full border-none bg-transparent outline-none transition-opacity selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-            autoComplete="off"
-          />
-          <div className="shrink-0">{renderRight}</div>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, width: 0 }}
-          animate={{ opacity: isFocused ? 1 : 0, width: isFocused ? "auto" : 0 }}
-        >
-          <Button tabIndex={-1} variant="text" className="ml-2">
-            {t("common.cancel")}
-          </Button>
-        </motion.div>
-      </div>
-    )
+  const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
+    setIsFocused(true)
+    if (onFocus) onFocus(event)
   }
-)
+
+  const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
+    setIsFocused(false)
+    if (onBlur) onBlur(event)
+  }
+
+  return (
+    <div className={cn("flex w-full items-center overflow-hidden", containerClassName)}>
+      <div
+        className={cn(
+          "flex w-full shrink-0 items-center gap-3 rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-colors placeholder:text-muted-foreground",
+          isFocused &&
+            "focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background",
+          className
+        )}
+      >
+        <Icon name="Search" className="ml-2 transition-colors" />
+        <input
+          type={type}
+          ref={ref}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          placeholder={placeholder ?? t("common.search")}
+          {...props}
+          className="h-9 w-full border-none bg-transparent outline-none transition-opacity selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          autoComplete="off"
+        />
+        <div className="shrink-0">{renderRight}</div>
+      </div>
+      <motion.div
+        initial={{ opacity: 0, width: 0 }}
+        animate={{ opacity: isFocused ? 1 : 0, width: isFocused ? "auto" : 0 }}
+      >
+        <Button tabIndex={-1} variant="text" className="ml-2">
+          {t("common.cancel")}
+        </Button>
+      </motion.div>
+    </div>
+  )
+}
 
 export { SearchInput }
