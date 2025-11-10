@@ -28,7 +28,7 @@ const ToggleFavorite = () => {
       name="Heart"
       isFilled={currentTrack?.isFavorite}
       tooltip={currentTrack?.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-      variant="ghost"
+      variant="text"
       className="shrink-0"
       disabled={!currentTrack}
       onClick={handleToggleFavorite}

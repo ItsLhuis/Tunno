@@ -2,10 +2,6 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
-## [1.0.1] - 2025-11-09
-
-Test
-
 ## [1.0.0] - 2025-11-09
 
 ### Added

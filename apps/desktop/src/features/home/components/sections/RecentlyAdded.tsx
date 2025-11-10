@@ -20,7 +20,7 @@ type RecentlyAddedProps = {
   recentlyAdded: RecentlyAdded
 }
 
-const renderRecentlyAddedItem = (item: RecentlyAddedItem) => {
+function renderRecentlyAddedItem(item: RecentlyAddedItem) {
   switch (item.type) {
     case "song":
       return <SongItem song={item.data} variant="card" />
