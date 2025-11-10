@@ -8,7 +8,7 @@ import path from "path"
 const root = path.resolve(__dirname, "src")
 const host = process.env.TAURI_DEV_HOST
 
-export default defineConfig(async () => ({
+export default defineConfig({
   plugins: [tanstackRouter(), react()],
   clearScreen: false,
   server: {
@@ -51,6 +51,10 @@ export default defineConfig(async () => ({
       "@services": path.resolve(root, "services/"),
       "@stores": path.resolve(root, "stores/"),
       "@utils": path.resolve(root, "utils/")
-    }
+    },
+    dedupe: ["react", "react-dom"]
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"]
   }
-}))
+})
