@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, type ComponentProps, type FocusEvent, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
@@ -22,7 +24,6 @@ const SearchInput = ({
   className,
   onFocus,
   onBlur,
-  ref,
   ...props
 }: SearchInputProps) => {
   const { t } = useTranslation()
@@ -43,21 +44,19 @@ const SearchInput = ({
     <div className={cn("flex w-full items-center overflow-hidden", containerClassName)}>
       <div
         className={cn(
-          "flex w-full shrink-0 items-center gap-3 rounded-md border border-input bg-transparent px-1 py-1 text-sm transition-colors placeholder:text-muted-foreground",
-          isFocused &&
-            "focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background",
+          "border-input placeholder:text-muted-foreground bg-sidebar flex w-full shrink-0 items-center gap-3 rounded-md border px-1 py-1 text-sm transition-colors",
+          isFocused && "focus-within:border-primary",
           className
         )}
       >
         <Icon name="Search" className="ml-2 transition-colors" />
         <input
           type={type}
-          ref={ref}
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={placeholder ?? t("common.search")}
           {...props}
-          className="h-9 w-full border-none bg-transparent outline-none transition-opacity selection:bg-primary selection:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          className="selection:bg-primary selection:text-primary-foreground h-9 w-full min-w-0 border-none bg-transparent text-base transition-opacity outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
           autoComplete="off"
         />
         <div className="shrink-0">{renderRight}</div>

@@ -70,7 +70,7 @@ const ScrollAreaWithHeaders = ({
     <ScrollArea
       ref={scrollRef}
       className={cn(
-        "h-full w-full flex-1 bg-background [&>div>div]:!flex",
+        "bg-background h-full w-full flex-1 [&>div>div]:flex!",
         containerClassName,
         "relative"
       )}
@@ -81,7 +81,7 @@ const ScrollAreaWithHeaders = ({
           show={isScrolled && Boolean(StickyHeaderComponent)}
           mode="popLayout"
           className={cn(
-            "absolute left-0 right-0 top-0 z-50 flex w-full flex-1 flex-col border-b border-border bg-background/50 px-9 backdrop-blur transition-[background-color,border-color,padding]",
+            "border-border bg-background/50 absolute top-0 right-0 left-0 z-50 flex w-full flex-1 flex-col border-b px-9 backdrop-blur-sm transition-[background-color,border-color,padding]",
             stickyHeaderContainerClassName
           )}
         >

@@ -4,33 +4,42 @@ import { type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
 
+import { type VariantProps } from "class-variance-authority"
+
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 
+import { buttonVariants } from "@components/ui/Button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/Card"
 import { Icon } from "@components/ui/Icon"
 import { RadioGroup } from "@components/ui/RadioGroup"
 
 const Choicebox = ({ className, ...props }: ComponentProps<typeof RadioGroup>) => (
-  <RadioGroup className={cn("w-full", className)} {...props} />
+  <RadioGroup className={cn("w-full", className)} data-slot="choicebox" {...props} />
 )
+
+export type ChoiceboxItemProps = ComponentProps<typeof RadioGroupPrimitive.Item> &
+  VariantProps<typeof buttonVariants>
 
 const ChoiceboxItem = ({
   className,
+  variant = "outline",
+  size,
   children,
   ...props
-}: ComponentProps<typeof RadioGroupPrimitive.Item>) => (
+}: ChoiceboxItemProps) => (
   <RadioGroupPrimitive.Item
     className={cn(
-      "text-left transition-colors focus:outline-none focus:ring-0",
-      '[&[data-state="checked"]]:border-primary'
+      "text-left transition-colors focus:ring-0 focus:outline-hidden",
+      'data-[state="checked"]:border-primary!'
     )}
     asChild
     {...props}
   >
     <Card
+      data-slot="choicebox-item"
       className={cn(
-        "flex flex-row items-center justify-between rounded-md p-4 outline-none transition-all",
-        className
+        buttonVariants({ variant, size, className }),
+        "flex h-auto flex-row items-center justify-between rounded-md p-3 outline-hidden transition-all"
       )}
     >
       {children}
@@ -39,28 +48,45 @@ const ChoiceboxItem = ({
 )
 
 const ChoiceboxItemHeader = ({ className, ...props }: ComponentProps<typeof CardHeader>) => (
-  <CardHeader className={cn("flex-1 p-0", className)} {...props} />
+  <CardHeader
+    data-slot="choicebox-item-header"
+    className={cn("flex-1 gap-0 p-0", className)}
+    {...props}
+  />
 )
 
 const ChoiceboxItemTitle = ({ className, ...props }: ComponentProps<typeof CardTitle>) => (
-  <CardTitle className={cn("flex items-center gap-2 text-sm", className)} {...props} />
+  <CardTitle
+    data-slot="choicebox-item-title"
+    className={cn("flex items-center gap-2 text-sm", className)}
+    {...props}
+  />
 )
 
 const ChoiceboxItemSubtitle = ({ className, ...props }: ComponentProps<"span">) => (
-  <span className={cn("text-xs font-normal text-muted-foreground", className)} {...props} />
+  <span
+    data-slot="choicebox-item-subtitle"
+    className={cn("text-muted-foreground text-xs font-normal", className)}
+    {...props}
+  />
 )
 
 const ChoiceboxItemDescription = ({
   className,
   ...props
 }: ComponentProps<typeof CardDescription>) => (
-  <CardDescription className={cn("text-sm", className)} {...props} />
+  <CardDescription
+    data-slot="choicebox-item-description"
+    className={cn("text-sm", className)}
+    {...props}
+  />
 )
 
 const ChoiceboxItemContent = ({ className, ...props }: ComponentProps<typeof CardContent>) => (
   <CardContent
+    data-slot="choicebox-item-content"
     className={cn(
-      "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border border-input p-0 text-primary outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50",
+      "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border p-0 outline-hidden transition-colors focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
       className
     )}
     {...props}
@@ -71,8 +97,8 @@ const ChoiceboxItemIndicator = ({
   className,
   ...props
 }: ComponentProps<typeof RadioGroupPrimitive.Indicator>) => (
-  <RadioGroupPrimitive.Indicator {...props}>
-    <Icon name="Circle" className={cn("size-2 fill-primary", className)} />
+  <RadioGroupPrimitive.Indicator data-slot="choicebox-item-indicator" {...props}>
+    <Icon name="Circle" className={cn("fill-primary size-2", className)} />
   </RadioGroupPrimitive.Indicator>
 )
 

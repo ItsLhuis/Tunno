@@ -57,7 +57,6 @@ const Carousel = ({
   plugins,
   className,
   children,
-  ref,
   ...props
 }: ComponentProps<"div"> & CarouselProps) => {
   const [carouselRef, api] = useEmblaCarousel(
@@ -136,11 +135,11 @@ const Carousel = ({
       }}
     >
       <div
-        ref={ref}
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
         role="region"
         aria-roledescription="carousel"
+        data-slot="carousel"
         {...props}
       >
         {children}
@@ -152,7 +151,6 @@ const Carousel = ({
 const CarouselContent = ({
   className,
   containerClassName,
-  ref,
   ...props
 }: ComponentProps<"div"> & { containerClassName?: string }) => {
   const { carouselRef, orientation } = useCarousel()
@@ -160,25 +158,25 @@ const CarouselContent = ({
   return (
     <div ref={carouselRef} className={cn(containerClassName, "overflow-hidden")}>
       <div
-        ref={ref}
         className={cn("flex", orientation === "horizontal" ? "-ml-3" : "-mt-3 flex-col", className)}
+        data-slot="carousel-content"
         {...props}
       />
     </div>
   )
 }
 
-const CarouselItem = ({ className, ref, ...props }: ComponentProps<"div">) => {
+const CarouselItem = ({ className, ...props }: ComponentProps<"div">) => {
   const { orientation } = useCarousel()
 
   return (
     <div
-      ref={ref}
       role="group"
       aria-roledescription="slide"
+      data-slot="carousel-item"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-1" : "pt-1",
+        orientation === "horizontal" ? "pl-3" : "pt-3",
         className
       )}
       {...props}
@@ -190,7 +188,6 @@ const CarouselPrevious = ({
   className,
   variant = "outline",
   size = "icon",
-  ref,
   ...props
 }: ComponentProps<typeof Button>) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
@@ -201,26 +198,27 @@ const CarouselPrevious = ({
       className={cn(
         "absolute",
         orientation === "horizontal"
-          ? "-left-12 top-1/2 -translate-y-1/2"
+          ? "top-1/2 -left-12 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2"
       )}
     >
       <ScopedTheme theme="dark">
         <Button
-          ref={ref}
+          data-slot="carousel-previous"
           variant={variant}
           size={size}
           className={cn(
-            "h-8 w-8 rounded-full",
+            "size-8 rounded-full",
             orientation === "vertical" && "rotate-90",
             className,
-            "bg-background/75 backdrop-blur"
+            "bg-background/75 backdrop-blur-sm"
           )}
           disabled={!canScrollPrev}
           onClick={scrollPrev}
           {...props}
         >
           <Icon name="ArrowLeft" />
+          <span className="sr-only">Previous slide</span>
         </Button>
       </ScopedTheme>
     </Fade>
@@ -231,7 +229,6 @@ const CarouselNext = ({
   className,
   variant = "outline",
   size = "icon",
-  ref,
   ...props
 }: ComponentProps<typeof Button>) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
@@ -242,26 +239,27 @@ const CarouselNext = ({
       className={cn(
         "absolute",
         orientation === "horizontal"
-          ? "-right-12 top-1/2 -translate-y-1/2"
+          ? "top-1/2 -right-12 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2"
       )}
     >
       <ScopedTheme theme="dark">
         <Button
-          ref={ref}
+          data-slot="carousel-next"
           variant={variant}
           size={size}
           className={cn(
-            "h-8 w-8 rounded-full",
+            "size-8 rounded-full",
             orientation === "vertical" && "rotate-90",
             className,
-            "bg-background/75 backdrop-blur"
+            "bg-background/75 backdrop-blur-sm"
           )}
           disabled={!canScrollNext}
           onClick={scrollNext}
           {...props}
         >
           <Icon name="ArrowRight" />
+          <span className="sr-only">Next slide</span>
         </Button>
       </ScopedTheme>
     </Fade>

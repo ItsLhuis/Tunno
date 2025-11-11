@@ -6,6 +6,7 @@ export function useEndReached(
   onEndReachedThreshold = 0.1
 ) {
   const [hasReachedEnd, setHasReachedEnd] = useState(false)
+
   const scrollElement = useRef<HTMLElement | null>(null)
 
   const getScrollElement = useCallback(() => {
@@ -13,8 +14,7 @@ export function useEndReached(
 
     if (!scrollRef.current) return null
 
-    const viewport = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]")
-    const element = (viewport as HTMLElement) || scrollRef.current
+    const element = scrollRef.current
 
     scrollElement.current = element
     return element

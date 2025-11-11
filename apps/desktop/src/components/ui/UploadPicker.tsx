@@ -268,10 +268,10 @@ const UploadPicker = ({
         </div>
       )}
       {!hideDefaultTrigger && (
-        <Card className={cn("rounded-md border", className)}>
+        <Card className={cn("rounded-md border-none p-0", className)}>
           <Button
-            variant="ghost"
-            className="h-auto hover:text-current"
+            variant="outline"
+            className="h-full hover:text-current"
             onClick={handleSelectItem}
             asChild
             disabled={disabled}
@@ -284,7 +284,7 @@ const UploadPicker = ({
             >
               <Icon
                 name={mode === "folder" ? "FolderOpen" : "Upload"}
-                className="!size-10 text-muted-foreground"
+                className="text-muted-foreground size-10!"
               />
               <div className="space-y-2">
                 <Typography variant="h4">{getDisplayText()}</Typography>
@@ -301,10 +301,10 @@ const UploadPicker = ({
           {(loadedItem) => (
             <Card className="w-full overflow-hidden p-3">
               <div className="flex w-full items-center gap-3">
-                <div className="flex-shrink-0">{getItemIcon(loadedItem)}</div>
+                <div className="shrink-0">{getItemIcon(loadedItem)}</div>
                 <div className="flex-1 overflow-hidden">
                   {loadedItem.name && (
-                    <Typography affects="bold" className="whitespace-break-spaces break-all">
+                    <Typography affects="bold" className="break-all whitespace-break-spaces">
                       {loadedItem.name}
                     </Typography>
                   )}

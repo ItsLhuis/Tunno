@@ -1,26 +1,25 @@
 import { type ComponentProps, type ReactNode } from "react"
 
-import { cn } from "@lib/utils"
-
 import { Slot } from "@radix-ui/react-slot"
+
+import { cn } from "@lib/utils"
 
 import { Icon } from "@components/ui/Icon"
 
 const Breadcrumb = ({
-  ref,
   ...props
 }: ComponentProps<"nav"> & {
   separator?: ReactNode
 }) => {
-  return <nav ref={ref} aria-label="breadcrumb" {...props} />
+  return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
 }
 
-const BreadcrumbList = ({ className, ref, ...props }: ComponentProps<"ol">) => {
+const BreadcrumbList = ({ className, ...props }: ComponentProps<"ol">) => {
   return (
     <ol
-      ref={ref}
+      data-slot="breadcrumb-list"
       className={cn(
-        "flex w-full items-center gap-1.5 truncate break-words text-sm text-muted-foreground sm:gap-2.5",
+        "text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm wrap-break-word sm:gap-2.5",
         className
       )}
       {...props}
@@ -28,14 +27,19 @@ const BreadcrumbList = ({ className, ref, ...props }: ComponentProps<"ol">) => {
   )
 }
 
-const BreadcrumbItem = ({ className, ref, ...props }: ComponentProps<"li">) => {
-  return <li ref={ref} className={cn("inline-flex items-center gap-1.5", className)} {...props} />
+const BreadcrumbItem = ({ className, ...props }: ComponentProps<"li">) => {
+  return (
+    <li
+      data-slot="breadcrumb-item"
+      className={cn("inline-flex items-center gap-1.5", className)}
+      {...props}
+    />
+  )
 }
 
 const BreadcrumbLink = ({
   asChild,
   className,
-  ref,
   ...props
 }: ComponentProps<"a"> & {
   asChild?: boolean
@@ -44,50 +48,54 @@ const BreadcrumbLink = ({
 
   return (
     <Comp
-      ref={ref}
-      className={cn(
-        "inline cursor-default leading-none transition-colors hover:text-primary focus:outline-none focus-visible:text-primary [&>*]:hover:text-primary [&>*]:focus-visible:text-primary",
-        className
-      )}
+      data-slot="breadcrumb-link"
+      className={cn("hover:text-foreground transition-colors", className)}
       {...props}
     />
   )
 }
 
-const BreadcrumbPage = ({ className, ref, ...props }: ComponentProps<"span">) => {
+const BreadcrumbPage = ({ className, ...props }: ComponentProps<"span">) => {
   return (
     <span
-      ref={ref}
+      data-slot="breadcrumb-page"
       role="link"
       aria-disabled="true"
       aria-current="page"
-      className={cn("font-normal text-foreground transition-colors", className)}
+      className={cn("text-foreground font-normal", className)}
       {...props}
     />
   )
 }
 
-const BreadcrumbSeparator = ({ children, className, ...props }: ComponentProps<"li">) => (
-  <li
-    role="presentation"
-    aria-hidden="true"
-    className={cn("transition-colors [&>svg]:h-3.5 [&>svg]:w-3.5", className)}
-    {...props}
-  >
-    {children ?? <Icon name="ChevronRight" />}
-  </li>
-)
+const BreadcrumbSeparator = ({ children, className, ...props }: ComponentProps<"li">) => {
+  return (
+    <li
+      data-slot="breadcrumb-separator"
+      role="presentation"
+      aria-hidden="true"
+      className={cn("[&>svg]:size-3.5", className)}
+      {...props}
+    >
+      {children ?? <Icon name="ChevronRight" />}
+    </li>
+  )
+}
 
-const BreadcrumbEllipsis = ({ className, ...props }: ComponentProps<"span">) => (
-  <span
-    role="presentation"
-    aria-hidden="true"
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
-    {...props}
-  >
-    <Icon name="MoreHorizontal" />
-  </span>
-)
+const BreadcrumbEllipsis = ({ className, ...props }: ComponentProps<"span">) => {
+  return (
+    <span
+      data-slot="breadcrumb-ellipsis"
+      role="presentation"
+      aria-hidden="true"
+      className={cn("flex size-9 items-center justify-center", className)}
+      {...props}
+    >
+      <Icon name="MoreHorizontal" />
+      <span className="sr-only">More</span>
+    </span>
+  )
+}
 
 export {
   Breadcrumb,

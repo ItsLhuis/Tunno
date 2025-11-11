@@ -109,6 +109,18 @@ const VirtualizedList = <TItem,>({
     resetEndReached()
   }, [data, resetEndReached])
 
+  useEffect(() => {
+    if (data.length > 0) {
+      const id = setTimeout(() => {
+        const scrollEl = getScrollElement()
+        if (scrollEl) {
+          rowVirtualizer.measure()
+        }
+      }, 0)
+      return () => clearTimeout(id)
+    }
+  }, [data.length, getScrollElement, rowVirtualizer])
+
   return (
     <div
       ref={externalScrollRef ? undefined : internalScrollRef}

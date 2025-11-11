@@ -17,11 +17,18 @@ import { useVirtualizer } from "@tanstack/react-virtual"
 import { useTranslation } from "@repo/i18n"
 
 import { Badge, badgeVariants } from "@components/ui/Badge"
-import { Button, buttonVariants } from "@components/ui/Button"
+import { Button } from "@components/ui/Button"
 import { Checkbox } from "@components/ui/Checkbox"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@components/ui/DropdownMenu"
 import { Fade } from "@components/ui/Fade"
 import { Icon } from "@components/ui/Icon"
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/Popover"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { Separator } from "@components/ui/Separator"
 import { Spinner } from "@components/ui/Spinner"
@@ -95,7 +102,6 @@ const VirtualizedSelect = ({
   maxHeight = 300,
   minWidth = 200,
   overscan = 5,
-  ref,
   ...props
 }: VirtualizedSelectProps) => {
   const { t } = useTranslation()
@@ -233,11 +239,11 @@ const VirtualizedSelect = ({
 
     if (item.type === "group") {
       return (
-        <div className="flex items-center self-center px-3">
+        <DropdownMenuLabel inset={false} className="w-full data-inset:pl-2">
           <Typography affects={["small", "muted"]} className="tracking-wide">
             {item.group}
           </Typography>
-        </div>
+        </DropdownMenuLabel>
       )
     }
 
@@ -247,21 +253,35 @@ const VirtualizedSelect = ({
 
       const IconComponent = option.icon
 
+      if (multiple) {
+        return (
+          <DropdownMenuItem
+            key={option.value}
+            disabled={option.disabled}
+            className="w-full"
+            onSelect={(e) => {
+              e.preventDefault()
+              toggleOption(option.value)
+            }}
+          >
+            <Checkbox checked={isSelected} />
+            {IconComponent && <IconComponent />}
+            {option.label}
+          </DropdownMenuItem>
+        )
+      }
+
       return (
-        <button
+        <DropdownMenuItem
           key={option.value}
-          className={cn(
-            buttonVariants({ variant: "ghost" }),
-            "flex w-full items-center justify-start gap-2 rounded-sm px-3 py-2 text-left"
-          )}
           disabled={option.disabled}
-          onClick={() => toggleOption(option.value)}
+          className="w-full"
+          onSelect={() => toggleOption(option.value)}
         >
-          {multiple && <Checkbox checked={isSelected} />}
-          {!multiple && isSelected && <Icon name="Check" />}
-          {IconComponent && <IconComponent className="text-muted-foreground" />}
-          <Typography className="truncate">{option.label}</Typography>
-        </button>
+          {isSelected && <Icon name="Check" />}
+          {IconComponent && <IconComponent />}
+          {option.label}
+        </DropdownMenuItem>
       )
     }
 
@@ -274,8 +294,8 @@ const VirtualizedSelect = ({
     if (!hasSelection) {
       return (
         <div className="mx-auto flex w-full items-center justify-between">
-          <Typography className="mx-2 text-sm text-muted-foreground">{placeholder}</Typography>
-          <Icon name="ChevronDown" className="mx-2 h-4 text-muted-foreground opacity-50" />
+          <Typography className="text-muted-foreground mx-2 text-sm">{placeholder}</Typography>
+          <Icon name="ChevronDown" className="text-muted-foreground mx-2 h-4 opacity-50" />
         </div>
       )
     }
@@ -301,7 +321,7 @@ const VirtualizedSelect = ({
                     toggleOption(value)
                   }}
                 >
-                  <Icon name="XCircle" className="ml-1 text-muted-foreground opacity-50" />
+                  <Icon name="XCircle" className="text-muted-foreground ml-1 opacity-50" />
                 </span>
               </Badge>
             )
@@ -309,7 +329,7 @@ const VirtualizedSelect = ({
           {extraCount > 0 && (
             <Badge
               className={cn(
-                "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
+                "border-foreground/1 text-foreground bg-transparent hover:bg-transparent",
                 virtualizedSelectVariants({ variant })
               )}
             >
@@ -320,7 +340,7 @@ const VirtualizedSelect = ({
                   clearExtraOptions()
                 }}
               >
-                <Icon name="XCircle" className="ml-1 text-muted-foreground opacity-50" />
+                <Icon name="XCircle" className="text-muted-foreground ml-1 opacity-50" />
               </span>
             </Badge>
           )}
@@ -332,10 +352,10 @@ const VirtualizedSelect = ({
               handleClear()
             }}
           >
-            <Icon name="X" className="mx-2 h-4 text-muted-foreground opacity-50" />
+            <Icon name="X" className="text-muted-foreground mx-2 h-4 opacity-50" />
           </span>
           <Separator orientation="vertical" className="flex h-full min-h-6" />
-          <Icon name="ChevronDown" className="mx-2 h-4 text-muted-foreground opacity-50" />
+          <Icon name="ChevronDown" className="text-muted-foreground mx-2 h-4 opacity-50" />
         </div>
       </div>
     )
@@ -350,28 +370,27 @@ const VirtualizedSelect = ({
       : "auto"
 
   return (
-    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} modal={modalPopover}>
-      <PopoverTrigger asChild>
+    <DropdownMenu open={isPopoverOpen} onOpenChange={setIsPopoverOpen} modal={modalPopover}>
+      <DropdownMenuTrigger asChild>
         <Button
-          ref={ref}
           {...props}
           variant="outline"
-          onClick={() => setIsPopoverOpen((prev) => !prev)}
           asChild
-          style={{ backgroundColor: "transparent" }}
           className={cn(
-            "flex h-auto min-h-9 w-full items-center justify-between rounded-md border p-1 transition-colors focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background focus-visible:outline-none [&_svg]:pointer-events-auto",
+            "border-input focus-within:border-primary bg-sidebar hover:bg-input/80 flex h-auto min-h-9 w-full items-center justify-between rounded-md border p-1 transition-colors focus-visible:outline-hidden [&_svg]:pointer-events-auto",
             className
           )}
         >
           <button>{renderTriggerContent()}</button>
         </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        className={cn("w-[--radix-popover-trigger-width] p-1", contentClassName)}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className={contentClassName}
         align="start"
-        style={{ minWidth: `${minWidth}px` }}
-        onEscapeKeyDown={() => setIsPopoverOpen(false)}
+        style={{
+          minWidth: `${minWidth}px`,
+          width: "var(--radix-dropdown-menu-trigger-width, auto)"
+        }}
       >
         <Fade key={String(loading)} className="w-full">
           {loading ? (
@@ -382,19 +401,19 @@ const VirtualizedSelect = ({
             <div className={cn("flex flex-col", popoverClassName)}>
               {multiple && (
                 <Fragment>
-                  <button
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "flex w-full items-center justify-start gap-2 rounded-sm px-3 py-2 text-left"
-                    )}
-                    onClick={handleSelectAll}
+                  <DropdownMenuItem
+                    className="w-full"
+                    onSelect={(e) => {
+                      e.preventDefault()
+                      handleSelectAll()
+                    }}
                   >
                     <Checkbox
                       checked={isAllSelected ? true : isIndeterminate ? "indeterminate" : false}
                     />
-                    <Typography className="truncate">{t("common.selectAll")}</Typography>
-                  </button>
-                  <Separator className="my-1" />
+                    {t("common.selectAll")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                 </Fragment>
               )}
               <ScrollArea
@@ -414,7 +433,7 @@ const VirtualizedSelect = ({
                   {rowVirtualizer.getVirtualItems().map((virtualRow) => (
                     <div
                       key={virtualRow.key}
-                      className="absolute left-0 right-0 flex items-center justify-start"
+                      className="absolute right-0 left-0 w-full"
                       style={{
                         transform: `translateY(${virtualRow.start}px)`,
                         height: virtualRow.size
@@ -424,38 +443,43 @@ const VirtualizedSelect = ({
                     </div>
                   ))}
                   {options.length === 0 && (
-                    <Typography
-                      affects={["muted"]}
-                      className="flex h-full items-center justify-center py-6"
-                    >
-                      {t("common.noResultsFound")}
-                    </Typography>
+                    <div className="flex h-full items-center justify-center py-6">
+                      <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
+                    </div>
                   )}
                 </div>
               </ScrollArea>
-              <Separator className="my-1" />
-              <div className="flex items-center justify-between">
-                <Button
-                  variant="ghost"
-                  className="max-w-full flex-1 rounded-sm"
-                  onClick={() => setIsPopoverOpen(false)}
+              <DropdownMenuSeparator />
+              <div className="flex items-center justify-between px-1">
+                <DropdownMenuItem
+                  onSelect={(e) => {
+                    e.preventDefault()
+                    setIsPopoverOpen(false)
+                  }}
+                  className="max-w-full flex-1 justify-center"
                 >
                   {t("common.cancel")}
-                </Button>
+                </DropdownMenuItem>
                 {hasSelection && (
-                  <Separator orientation="vertical" className="mx-1 flex h-full min-h-6" />
-                )}
-                {hasSelection && (
-                  <Button variant="ghost" className="flex-1 rounded-sm" onClick={handleClear}>
-                    {t("common.clear")}
-                  </Button>
+                  <Fragment>
+                    <Separator orientation="vertical" className="mx-1 flex h-full min-h-6" />
+                    <DropdownMenuItem
+                      onSelect={(e) => {
+                        e.preventDefault()
+                        handleClear()
+                      }}
+                      className="flex-1 justify-center"
+                    >
+                      {t("common.clear")}
+                    </DropdownMenuItem>
+                  </Fragment>
                 )}
               </div>
             </div>
           )}
         </Fade>
-      </PopoverContent>
-    </Popover>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 

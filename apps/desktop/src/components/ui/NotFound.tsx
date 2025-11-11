@@ -18,12 +18,12 @@ const NotFound = ({ className, ...props }: NotFoundProps) => {
 
   return (
     <div
-      className={cn("flex h-full w-full flex-col items-center justify-center", className)}
+      className={cn("flex size-full flex-col items-center justify-center", className)}
       {...props}
     >
       <Lottie
         animationData={NotFoundLottie}
-        className="h-[240px] w-[240px]"
+        className="size-[240px]"
         style={{
           marginTop: "-70px",
           marginBottom: "-70px"

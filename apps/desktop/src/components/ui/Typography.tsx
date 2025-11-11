@@ -13,7 +13,7 @@ export const typographyVariants = cva("transition-colors", {
       h4: "scroll-m-20 text-xl font-semibold tracking-tight",
       h5: "scroll-m-20 text-lg font-semibold tracking-tight",
       h6: "scroll-m-20 text-base font-semibold tracking-tight",
-      p: "leading-7 [&:not(:first-child)]:mt-6",
+      p: "leading-7 not-first:mt-6",
       blockquote: "border-l-4 pl-4 text-xs italic text-muted-foreground",
       code: "font-mono text-sm bg-muted rounded p-1",
       pre: "font-mono text-sm bg-muted rounded p-2 overflow-x-auto",
@@ -28,7 +28,7 @@ export const typographyVariants = cva("transition-colors", {
       muted: "text-muted-foreground",
       bold: "font-bold",
       italic: "italic",
-      removePMargin: "[&:not(:first-child)]:mt-0"
+      removePMargin: "not-first:mt-0"
     }
   },
   defaultVariants: {

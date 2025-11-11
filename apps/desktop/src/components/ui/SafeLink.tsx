@@ -57,7 +57,7 @@ const SafeLink = ({ children, to, ref, ...props }: SafeLinkProps) => {
         }
       }}
       to={to}
-      className="inline cursor-default leading-none transition-colors hover:text-primary focus:outline-none focus-visible:text-primary [&>*]:hover:text-primary [&>*]:focus-visible:text-primary"
+      className="hover:text-primary focus-visible:text-primary hover:*:text-primary focus-visible:*:text-primary inline cursor-default leading-none transition-colors focus:outline-hidden"
       {...props}
     >
       {children}

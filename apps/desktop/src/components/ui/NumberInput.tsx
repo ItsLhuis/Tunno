@@ -5,6 +5,7 @@ import { useState, type ChangeEvent, type ComponentProps } from "react"
 import { cn } from "@lib/utils"
 
 import { IconButton } from "@components/ui/IconButton"
+import { Separator } from "@components/ui/Separator"
 import { TextInput } from "@components/ui/TextInput"
 
 export type NumberInputProps = Omit<ComponentProps<"input">, "type" | "onChange"> & {
@@ -83,33 +84,35 @@ const NumberInput = ({
   return (
     <div
       className={cn(
-        "flex h-9 w-full overflow-hidden rounded-md border border-input bg-background text-sm ring-offset-background transition focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background",
+        "border-input bg-background ring-offset-background focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background flex h-9 w-full overflow-hidden rounded-md border text-sm transition",
         disabled && "cursor-not-allowed opacity-50",
         className
       )}
     >
       <IconButton
-        variant="ghost"
+        variant="outline"
         name="Minus"
         onClick={handleDecrement}
         disabled={!canDecrement}
-        className="h-full rounded-none border-r"
+        className="h-full rounded-none border-none"
       />
+      <Separator orientation="vertical" />
       <TextInput
         ref={ref}
         type="text"
         value={displayValue}
         onChange={handleInputChange}
-        className="flex-1 border-none text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="flex-1 [appearance:textfield] rounded-none border-none text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         disabled={disabled}
         {...props}
       />
+      <Separator orientation="vertical" />
       <IconButton
-        variant="ghost"
+        variant="outline"
         name="Plus"
         onClick={handleIncrement}
         disabled={!canIncrement}
-        className="h-full rounded-none border-l"
+        className="h-full rounded-none border-none"
       />
     </div>
   )

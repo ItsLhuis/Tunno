@@ -220,7 +220,7 @@ export type SpinnerProps = LucideProps & {
     | "pinwheel"
     | "circle-filled"
     | "ellipsis"
-    | "ring"
+    | "ring-3"
     | "bars"
     | "infinite"
 }
@@ -239,7 +239,7 @@ const Spinner = ({ variant, className, ...props }: SpinnerProps) => {
       return <CircleFilled {...commonProps} />
     case "ellipsis":
       return <Ellipsis {...commonProps} />
-    case "ring":
+    case "ring-3":
       return <Ring {...commonProps} />
     case "bars":
       return <Bars {...commonProps} />

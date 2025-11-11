@@ -30,8 +30,8 @@ const CodeBlock = ({ language, children, className }: CodeBlockProps) => {
   const isDark = resolvedTheme === "dark"
 
   return (
-    <div className={cn("group relative mt-6 rounded border border-border", className)}>
-      <div className="flex items-center justify-between bg-muted/50 p-2 text-muted-foreground">
+    <div className={cn("group border-border relative mt-6 rounded border", className)}>
+      <div className="bg-muted/50 text-muted-foreground flex items-center justify-between p-2">
         <Typography className="font-mono" affects={["small"]}>
           {language}
         </Typography>
@@ -39,21 +39,21 @@ const CodeBlock = ({ language, children, className }: CodeBlockProps) => {
           variant="ghost"
           size="sm"
           onClick={handleCopy}
-          className="relative h-6 w-6 p-0 opacity-0 transition-opacity group-hover:opacity-100"
+          className="relative size-6 p-0 opacity-0 transition-opacity group-hover:opacity-100"
         >
           <div
             className={cn(
               "transition-all",
-              !copied ? "rotate-0 scale-100 opacity-100" : "rotate-90 scale-0 opacity-0"
+              !copied ? "scale-100 rotate-0 opacity-100" : "scale-0 rotate-90 opacity-0"
             )}
           >
-            <Icon name="Copy" className="h-3 w-3" />
+            <Icon name="Copy" className="size-3" />
           </div>
           <Icon
             name="Check"
             className={cn(
               "absolute transition-all",
-              copied ? "rotate-0 scale-100 text-success opacity-100" : "rotate-90 scale-0 opacity-0"
+              copied ? "text-success scale-100 rotate-0 opacity-100" : "scale-0 rotate-90 opacity-0"
             )}
           />
         </Button>

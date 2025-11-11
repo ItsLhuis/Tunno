@@ -1,3 +1,5 @@
+"use client"
+
 import { createContext, useContext, useId, type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
@@ -9,6 +11,7 @@ import {
   Controller,
   FormProvider,
   useFormContext,
+  useFormState,
   type ControllerProps,
   type FieldPath,
   type FieldValues
@@ -43,13 +46,16 @@ const FormField = <
 function useFormField() {
   const fieldContext = useContext(FormFieldContext)
   const itemContext = useContext(FormItemContext)
-  const { getFieldState, formState } = useFormContext()
+
+  const { getFieldState } = useFormContext()
+
+  const formState = useFormState({ name: fieldContext.name })
+
+  const fieldState = getFieldState(fieldContext.name, formState)
 
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>")
   }
-
-  const fieldState = getFieldState(fieldContext.name, formState)
 
   const { id } = itemContext
 
@@ -69,35 +75,36 @@ type FormItemContextValue = {
 
 const FormItemContext = createContext<FormItemContextValue>({} as FormItemContextValue)
 
-const FormItem = ({ className, ref, ...props }: ComponentProps<"div">) => {
+const FormItem = ({ className, ...props }: ComponentProps<"div">) => {
   const id = useId()
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
+      <div data-slot="form-item" className={cn("grid gap-2", className)} {...props} />
     </FormItemContext.Provider>
   )
 }
 
-const FormLabel = ({ className, ref, ...props }: ComponentProps<typeof LabelPrimitive.Root>) => {
+const FormLabel = ({ className, ...props }: ComponentProps<typeof LabelPrimitive.Root>) => {
   const { error, formItemId } = useFormField()
 
   return (
     <Label
-      ref={ref}
-      className={cn(error && "text-destructive", className)}
+      data-slot="form-label"
+      data-error={!!error}
+      className={cn("data-[error=true]:text-destructive", error && "text-destructive", className)}
       htmlFor={formItemId}
       {...props}
     />
   )
 }
 
-const FormControl = ({ ref, ...props }: ComponentProps<typeof Slot>) => {
+const FormControl = ({ ...props }: ComponentProps<typeof Slot>) => {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
   return (
     <Slot
-      ref={ref}
+      data-slot="form-control"
       id={formItemId}
       aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
       aria-invalid={!!error}
@@ -106,20 +113,20 @@ const FormControl = ({ ref, ...props }: ComponentProps<typeof Slot>) => {
   )
 }
 
-const FormDescription = ({ className, ref, ...props }: ComponentProps<"p">) => {
+const FormDescription = ({ className, ...props }: ComponentProps<"p">) => {
   const { formDescriptionId } = useFormField()
 
   return (
     <p
-      ref={ref}
+      data-slot="form-description"
       id={formDescriptionId}
-      className={cn("text-[0.8rem] text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-[0.8rem]", className)}
       {...props}
     />
   )
 }
 
-const FormMessage = ({ className, children, ref, ...props }: ComponentProps<"p">) => {
+const FormMessage = ({ className, children, ...props }: ComponentProps<"p">) => {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message ?? "") : children
 
@@ -129,9 +136,9 @@ const FormMessage = ({ className, children, ref, ...props }: ComponentProps<"p">
 
   return (
     <p
-      ref={ref}
+      data-slot="form-message"
       id={formMessageId}
-      className={cn("text-[0.8rem] font-medium text-destructive", className)}
+      className={cn("text-destructive text-[0.8rem] font-medium", className)}
       {...props}
     >
       {body}

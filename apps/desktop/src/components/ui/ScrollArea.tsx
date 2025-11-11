@@ -1,3 +1,5 @@
+"use client"
+
 import { type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
@@ -13,14 +15,16 @@ const ScrollArea = ({
 }: ComponentProps<typeof ScrollAreaPrimitive.Root>) => {
   return (
     <ScrollAreaPrimitive.Root
+      data-slot="scroll-area"
       className={cn("relative overflow-hidden scroll-smooth", className)}
       scrollHideDelay={scrollHideDelay}
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
         ref={ref}
+        data-slot="scroll-area-viewport"
         className={cn(
-          "h-full w-full rounded-[inherit] [&>div]:h-full",
+          "size-full rounded-[inherit] [&>div]:h-full",
           "[&::-webkit-scrollbar]:hidden",
           "[-ms-overflow-style:none]",
           "[scrollbar-width:none]"
@@ -43,17 +47,21 @@ const ScrollBar = ({
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
       ref={ref}
+      data-slot="scroll-area-scrollbar"
       orientation={orientation}
       className={cn(
-        "z-50 flex touch-none select-none transition-colors",
-        "data-[state=hidden]:animate-fade-out data-[state=visible]:animate-fade-in",
+        "z-50 flex touch-none transition-colors select-none",
+        "data-[state=hidden]:animate-out data-[state=visible]:animate-in data-[state=hidden]:fade-out-0 data-[state=visible]:fade-in-0",
         orientation === "vertical" && "h-full w-3.5 border-l border-l-transparent p-1",
         orientation === "horizontal" && "h-3.5 flex-col border-t border-t-transparent p-1",
         className
       )}
       {...props}
     >
-      <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-foreground/20 transition-colors hover:bg-foreground/40" />
+      <ScrollAreaPrimitive.ScrollAreaThumb
+        data-slot="scroll-area-thumb"
+        className="bg-foreground/20 hover:bg-foreground/40 relative flex-1 rounded-full transition-colors"
+      />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
   )
 }

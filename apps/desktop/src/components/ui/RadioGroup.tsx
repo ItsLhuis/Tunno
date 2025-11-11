@@ -1,3 +1,5 @@
+"use client"
+
 import { type ComponentProps } from "react"
 
 import { cn } from "@lib/utils"
@@ -10,26 +12,30 @@ import {
 
 import { Icon } from "@components/ui/Icon"
 
-const RadioGroup = ({ className, ref, ...props }: ComponentProps<typeof RadioGroupRoot>) => {
-  return <RadioGroupRoot className={cn("grid gap-2", className)} {...props} ref={ref} />
+const RadioGroup = ({ className, ...props }: ComponentProps<typeof RadioGroupRoot>) => {
+  return (
+    <RadioGroupRoot data-slot="radio-group" className={cn("grid gap-2", className)} {...props} />
+  )
 }
 
 const RadioGroupItem = ({
   className,
-  ref,
   ...props
 }: ComponentProps<typeof RadioGroupItemPrimitive>) => {
   return (
     <RadioGroupItemPrimitive
-      ref={ref}
+      data-slot="radio-group-item"
       className={cn(
-        "aspect-square h-4 w-4 cursor-default rounded-full border border-primary text-primary transition-opacity focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        "text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-sidebar border-primary aspect-square h-4 w-4 shrink-0 cursor-default rounded-full border transition-[color,box-shadow,opacity] outline-none focus:outline-hidden focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
     >
-      <RadioGroupIndicator className="flex items-center justify-center">
-        <Icon name="Circle" className="h-2 w-2 fill-primary" />
+      <RadioGroupIndicator
+        data-slot="radio-group-indicator"
+        className="relative flex items-center justify-center"
+      >
+        <Icon name="Circle" className="fill-primary size-2" />
       </RadioGroupIndicator>
     </RadioGroupItemPrimitive>
   )
