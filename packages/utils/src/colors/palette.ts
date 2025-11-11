@@ -1,8 +1,8 @@
-import { parseToRgb, rgb } from "polished"
+import { clampChroma, converter, formatCss, wcagContrast } from "culori"
 
 type RGBTuple = [number, number, number]
 
-type LCH = { l: number; c: number; h: number }
+type Oklch = { l: number; c: number; h?: number }
 
 export type Palette = {
   background: string
@@ -15,6 +15,9 @@ export type Palette = {
   accentForeground: string
 }
 
+const toOklch = converter("oklch")
+const toRgb = converter("rgb")
+
 function getRelativeLuminance(r: number, g: number, b: number): number {
   const [rLinear, gLinear, bLinear] = [r, g, b].map((val) => {
     const v = val / 255
@@ -24,78 +27,30 @@ function getRelativeLuminance(r: number, g: number, b: number): number {
 }
 
 export function getContrastRatio(colorA: string, colorB: string): number {
-  const rgbA = parseToRgb(colorA)
-  const rgbB = parseToRgb(colorB)
-
-  const l1 = getRelativeLuminance(rgbA.red, rgbA.green, rgbA.blue)
-  const l2 = getRelativeLuminance(rgbB.red, rgbB.green, rgbB.blue)
-
-  const [lighter, darker] = l1 >= l2 ? [l1, l2] : [l2, l1]
-
-  return (lighter + 0.05) / (darker + 0.05)
+  return wcagContrast(colorA, colorB)
 }
 
-function rgbToLch(r: number, g: number, b: number): LCH {
-  const [rLinear, gLinear, bLinear] = [r, g, b].map((val) => {
-    const v = val / 255
-    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
-  })
-
-  const x = rLinear * 0.4124564 + gLinear * 0.3575761 + bLinear * 0.1804375
-  const y = rLinear * 0.2126729 + gLinear * 0.7151522 + bLinear * 0.072175
-  const z = rLinear * 0.0193339 + gLinear * 0.119192 + bLinear * 0.9503041
-
-  const xn = x / 0.95047
-  const yn = y / 1.0
-  const zn = z / 1.08883
-
-  const fx = xn > 0.008856 ? Math.pow(xn, 1 / 3) : 7.787 * xn + 16 / 116
-  const fy = yn > 0.008856 ? Math.pow(yn, 1 / 3) : 7.787 * yn + 16 / 116
-  const fz = zn > 0.008856 ? Math.pow(zn, 1 / 3) : 7.787 * zn + 16 / 116
-
-  const l = 116 * fy - 16
-  const a = 500 * (fx - fy)
-  const b_ = 200 * (fy - fz)
-
-  const c = Math.sqrt(a * a + b_ * b_)
-  const h = (Math.atan2(b_, a) * 180) / Math.PI
-
+function rgbToOklch(r: number, g: number, b: number): Oklch {
+  const oklch = toOklch({ mode: "rgb", r: r / 255, g: g / 255, b: b / 255 })
+  if (!oklch || oklch.mode !== "oklch") {
+    return { l: 0.5, c: 0 }
+  }
   return {
-    l: Math.max(0, Math.min(100, l)),
-    c: Math.max(0, c),
-    h: h < 0 ? h + 360 : h
+    l: oklch.l ?? 0.5,
+    c: oklch.c ?? 0,
+    h: oklch.h
   }
 }
 
-function lchToRgb(l: number, c: number, h: number): RGBTuple {
-  const hRad = (h * Math.PI) / 180
-  const a = c * Math.cos(hRad)
-  const b = c * Math.sin(hRad)
-
-  const fy = (l + 16) / 116
-  const fx = a / 500 + fy
-  const fz = fy - b / 200
-
-  const xn = fx * fx * fx > 0.008856 ? fx * fx * fx : (fx - 16 / 116) / 7.787
-  const yn = l > 7.9996 ? Math.pow(fy, 3) : l / 903.3
-  const zn = fz * fz * fz > 0.008856 ? fz * fz * fz : (fz - 16 / 116) / 7.787
-
-  const x = xn * 0.95047
-  const y = yn * 1.0
-  const z = zn * 1.08883
-
-  let r = x * 3.2404542 - y * 1.5371385 - z * 0.4985314
-  let g = -x * 0.969266 + y * 1.8760108 + z * 0.041556
-  let b_ = x * 0.0556434 - y * 0.2040259 + z * 1.0572252
-
-  r = r <= 0.0031308 ? 12.92 * r : 1.055 * Math.pow(r, 1 / 2.4) - 0.055
-  g = g <= 0.0031308 ? 12.92 * g : 1.055 * Math.pow(g, 1 / 2.4) - 0.055
-  b_ = b_ <= 0.0031308 ? 12.92 * b_ : 1.055 * Math.pow(b_, 1 / 2.4) - 0.055
-
+function oklchToRgb(oklch: Oklch): RGBTuple {
+  const rgb = toRgb({ mode: "oklch", l: oklch.l, c: oklch.c, h: oklch.h ?? 0 })
+  if (!rgb || rgb.mode !== "rgb") {
+    return [128, 128, 128]
+  }
   return [
-    Math.max(0, Math.min(255, Math.round(r * 255))),
-    Math.max(0, Math.min(255, Math.round(g * 255))),
-    Math.max(0, Math.min(255, Math.round(b_ * 255)))
+    Math.max(0, Math.min(255, Math.round((rgb.r ?? 0.5) * 255))),
+    Math.max(0, Math.min(255, Math.round((rgb.g ?? 0.5) * 255))),
+    Math.max(0, Math.min(255, Math.round((rgb.b ?? 0.5) * 255)))
   ]
 }
 
@@ -108,34 +63,36 @@ function getContrastRatioFromRgb(rgb1: RGBTuple, rgb2: RGBTuple): number {
 
 function generateContrastColor(
   baseRgb: RGBTuple,
-  targetRgb: RGBTuple,
+  targetOklch: Oklch,
   minContrast: number,
   preferDarker: boolean = false
-): RGBTuple {
-  let result = [...targetRgb] as RGBTuple
+): Oklch {
+  let result = { ...targetOklch }
+  let resultRgb = oklchToRgb(result)
 
-  if (getContrastRatioFromRgb(baseRgb, result) >= minContrast) {
+  if (getContrastRatioFromRgb(baseRgb, resultRgb) >= minContrast) {
     return result
   }
 
   const baseLum = getRelativeLuminance(...baseRgb)
   const isBackgroundLight = baseLum > 0.5
-  const lch = rgbToLch(...targetRgb)
-
   const shouldDarken = preferDarker || isBackgroundLight
 
   for (let i = 0; i < 50; i++) {
-    const adjustment = (i + 1) * 2
-    const newL = shouldDarken ? Math.max(0, lch.l - adjustment) : Math.min(100, lch.l + adjustment)
+    const adjustment = (i + 1) * 0.02
+    const newL = shouldDarken
+      ? Math.max(0, result.l - adjustment)
+      : Math.min(1, result.l + adjustment)
 
-    result = lchToRgb(newL, lch.c, lch.h)
+    result = { l: newL, c: result.c, h: result.h }
+    resultRgb = oklchToRgb(result)
 
-    if (getContrastRatioFromRgb(baseRgb, result) >= minContrast) {
+    if (getContrastRatioFromRgb(baseRgb, resultRgb) >= minContrast) {
       return result
     }
   }
 
-  return baseLum > 0.5 ? [0, 0, 0] : [255, 255, 255]
+  return baseLum > 0.5 ? { l: 0.1, c: 0 } : { l: 0.95, c: 0 }
 }
 
 export function ensureReadableOnBackground(
@@ -143,163 +100,196 @@ export function ensureReadableOnBackground(
   background: string,
   minRatio: number
 ): string {
-  const bgRgb = parseToRgb(background)
-  const fgRgb = parseToRgb(foreground)
-  const bgTuple: RGBTuple = [bgRgb.red, bgRgb.green, bgRgb.blue]
-  const fgTuple: RGBTuple = [fgRgb.red, fgRgb.green, fgRgb.blue]
+  const fgOklch = toOklch(foreground)
+  if (!fgOklch || fgOklch.mode !== "oklch") {
+    return foreground
+  }
 
-  const result = generateContrastColor(bgTuple, fgTuple, minRatio)
-  return rgb(...result)
+  const bgRgb = toRgb(background)
+  if (!bgRgb || bgRgb.mode !== "rgb") {
+    return foreground
+  }
+
+  const bgTuple: RGBTuple = [
+    Math.round((bgRgb.r ?? 0) * 255),
+    Math.round((bgRgb.g ?? 0) * 255),
+    Math.round((bgRgb.b ?? 0) * 255)
+  ]
+
+  const fgOklchObj: Oklch = {
+    l: fgOklch.l ?? 0.5,
+    c: fgOklch.c ?? 0,
+    h: fgOklch.h
+  }
+
+  const result = generateContrastColor(bgTuple, fgOklchObj, minRatio)
+  const resultRgb = oklchToRgb(result)
+  const clamped = clampChroma({ mode: "oklch", ...result }, "oklch")
+  return (
+    formatCss(clamped) ??
+    formatCss({ mode: "rgb", r: resultRgb[0] / 255, g: resultRgb[1] / 255, b: resultRgb[2] / 255 })
+  )
 }
 
-function analyzeColor(lch: LCH): {
+function analyzeColor(oklch: Oklch): {
   saturationLevel: "desaturated" | "moderate" | "vibrant"
   needsBoost: boolean
 } {
   let saturationLevel: "desaturated" | "moderate" | "vibrant"
-  if (lch.c < 15) saturationLevel = "desaturated"
-  else if (lch.c < 45) saturationLevel = "moderate"
+  if (oklch.c < 0.05) saturationLevel = "desaturated"
+  else if (oklch.c < 0.15) saturationLevel = "moderate"
   else saturationLevel = "vibrant"
 
-  const needsBoost = lch.c < 30
+  const needsBoost = oklch.c < 0.1
 
   return { saturationLevel, needsBoost }
 }
 
-function clampIntoGamut(l: number, c: number, h: number, maxIterations: number = 20): RGBTuple {
-  let currentC = c
-  let step = c * 0.1
-
-  for (let i = 0; i < maxIterations; i++) {
-    const rgb = lchToRgb(l, currentC, h)
-    const isInGamut = rgb.every((val) => val >= 0 && val <= 255)
-
-    if (isInGamut) {
-      const lchCheck = rgbToLch(...rgb)
-      if (Math.abs(lchCheck.l - l) < 5 && Math.abs(lchCheck.h - h) < 10) {
-        return rgb
-      }
-    }
-
-    currentC -= step
-    if (currentC < 0) {
-      currentC = 0
-      break
-    }
+function clampIntoGamut(oklch: Oklch): Oklch {
+  const clamped = clampChroma({ mode: "oklch", ...oklch }, "oklch")
+  if (!clamped || clamped.mode !== "oklch") {
+    return oklch
   }
-
-  return lchToRgb(l, currentC, h)
+  return {
+    l: clamped.l ?? oklch.l,
+    c: clamped.c ?? oklch.c,
+    h: clamped.h
+  }
 }
 
 export function generateColorPalette(rgbColor: RGBTuple): Palette {
-  const backgroundColor = rgb(rgbColor[0], rgbColor[1], rgbColor[2])
+  const bgOklch = rgbToOklch(...rgbColor)
   const bgLum = getRelativeLuminance(...rgbColor)
-
   const isLight = bgLum > 0.5
 
-  const bgLch = rgbToLch(...rgbColor)
-  const { saturationLevel, needsBoost } = analyzeColor(bgLch)
+  const { saturationLevel, needsBoost } = analyzeColor(bgOklch)
 
-  const targetForegroundL = isLight ? 12 : 98
-  const foregroundC = Math.min(bgLch.c * 0.1, 5)
+  const backgroundColor =
+    formatCss({ mode: "oklch", l: bgOklch.l, c: bgOklch.c, h: bgOklch.h }) ??
+    `rgb(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]})`
 
-  let foregroundRgb = clampIntoGamut(targetForegroundL, foregroundC, bgLch.h)
-  foregroundRgb = generateContrastColor(rgbColor, foregroundRgb, 8, isLight)
+  const targetForegroundL = isLight ? 0.12 : 0.98
+  const foregroundC = Math.min(bgOklch.c * 0.1, 0.02)
 
-  const foreground = rgb(...foregroundRgb)
+  let foregroundOklch = clampIntoGamut({ l: targetForegroundL, c: foregroundC, h: bgOklch.h })
+  foregroundOklch = generateContrastColor(rgbColor, foregroundOklch, 8, isLight)
+  const foreground =
+    formatCss({ mode: "oklch", ...foregroundOklch }) ??
+    `oklch(${foregroundOklch.l} ${foregroundOklch.c}${foregroundOklch.h !== undefined ? ` ${foregroundOklch.h}` : ""})`
 
   const primaryHueShift = isLight ? (needsBoost ? -8 : -5) : needsBoost ? 8 : 5
-  const primaryHue = (bgLch.h + primaryHueShift + 360) % 360
+  const primaryHue = bgOklch.h !== undefined ? (bgOklch.h + primaryHueShift + 360) % 360 : undefined
 
   let primaryChroma: number
 
   if (saturationLevel === "desaturated") {
-    primaryChroma = 50
+    primaryChroma = 0.2
   } else if (saturationLevel === "moderate") {
-    primaryChroma = Math.max(bgLch.c * 1.4, 55)
+    primaryChroma = Math.max(bgOklch.c * 1.4, 0.22)
   } else {
-    primaryChroma = Math.max(bgLch.c * 1.1, 60)
+    primaryChroma = Math.max(bgOklch.c * 1.1, 0.24)
   }
-  primaryChroma = Math.min(primaryChroma, 90)
+  primaryChroma = Math.min(primaryChroma, 0.36)
 
   const primaryL = isLight
-    ? Math.max(20, Math.min(40, bgLch.l - 40))
-    : Math.max(65, Math.min(85, bgLch.l + 40))
+    ? Math.max(0.2, Math.min(0.4, bgOklch.l - 0.4))
+    : Math.max(0.65, Math.min(0.85, bgOklch.l + 0.4))
 
-  let primaryRgb = clampIntoGamut(primaryL, primaryChroma, primaryHue)
+  let primaryOklch = clampIntoGamut({ l: primaryL, c: primaryChroma, h: primaryHue })
+  let primaryRgb = oklchToRgb(primaryOklch)
 
   const primaryContrast = getContrastRatioFromRgb(rgbColor, primaryRgb)
   if (primaryContrast < 3.5) {
-    primaryRgb = generateContrastColor(rgbColor, primaryRgb, 3.5, isLight)
+    primaryOklch = generateContrastColor(rgbColor, primaryOklch, 3.5, isLight)
+    primaryRgb = oklchToRgb(primaryOklch)
   }
-  const primary = rgb(...primaryRgb)
+  const primary =
+    formatCss({ mode: "oklch", ...primaryOklch }) ??
+    `oklch(${primaryOklch.l} ${primaryOklch.c}${primaryOklch.h !== undefined ? ` ${primaryOklch.h}` : ""})`
 
-  const primaryLch = rgbToLch(...primaryRgb)
-  const primaryFgTarget: RGBTuple = primaryLch.l > 55 ? [0, 0, 0] : [255, 255, 255]
-  const primaryForegroundRgb = generateContrastColor(
+  const primaryFgTarget: RGBTuple = primaryOklch.l > 0.55 ? [0, 0, 0] : [255, 255, 255]
+  const primaryForegroundOklch = generateContrastColor(
     primaryRgb,
-    primaryFgTarget,
+    rgbToOklch(...primaryFgTarget),
     4.5,
-    primaryLch.l > 55
+    primaryOklch.l > 0.55
   )
-  const primaryForeground = rgb(...primaryForegroundRgb)
+  const primaryForeground =
+    formatCss({ mode: "oklch", ...primaryForegroundOklch }) ??
+    `oklch(${primaryForegroundOklch.l} ${primaryForegroundOklch.c}${primaryForegroundOklch.h !== undefined ? ` ${primaryForegroundOklch.h}` : ""})`
 
-  const mutedL = isLight ? Math.max(bgLch.l - 6, 90) : Math.min(bgLch.l + 6, 18)
-  const mutedC = Math.max(bgLch.c * 0.25, 2)
+  const mutedL = isLight ? Math.max(bgOklch.l - 0.06, 0.9) : Math.min(bgOklch.l + 0.06, 0.18)
+  const mutedC = Math.max(bgOklch.c * 0.25, 0.008)
 
-  let mutedRgb = clampIntoGamut(mutedL, mutedC, bgLch.h)
+  let mutedOklch = clampIntoGamut({ l: mutedL, c: mutedC, h: bgOklch.h })
+  let mutedRgb = oklchToRgb(mutedOklch)
 
   const mutedContrast = getContrastRatioFromRgb(rgbColor, mutedRgb)
   if (mutedContrast < 1.15) {
-    const adjustedL = isLight ? bgLch.l - 12 : bgLch.l + 12
-    mutedRgb = clampIntoGamut(adjustedL, mutedC, bgLch.h)
+    const adjustedL = isLight ? bgOklch.l - 0.12 : bgOklch.l + 0.12
+    mutedOklch = clampIntoGamut({ l: adjustedL, c: mutedC, h: bgOklch.h })
+    mutedRgb = oklchToRgb(mutedOklch)
   }
-  const muted = rgb(...mutedRgb)
+  const muted =
+    formatCss({ mode: "oklch", ...mutedOklch }) ??
+    `oklch(${mutedOklch.l} ${mutedOklch.c}${mutedOklch.h !== undefined ? ` ${mutedOklch.h}` : ""})`
 
   const mutedForegroundL = isLight
-    ? Math.max(35, Math.min(55, bgLch.l - 35))
-    : Math.min(65, Math.max(50, bgLch.l + 35))
-  const mutedFgC = Math.max(bgLch.c * 0.4, 10)
+    ? Math.max(0.35, Math.min(0.55, bgOklch.l - 0.35))
+    : Math.min(0.65, Math.max(0.5, bgOklch.l + 0.35))
+  const mutedFgC = Math.max(bgOklch.c * 0.4, 0.04)
 
-  let mutedForegroundRgb = clampIntoGamut(mutedForegroundL, mutedFgC, bgLch.h)
-  mutedForegroundRgb = generateContrastColor(mutedRgb, mutedForegroundRgb, 4.5, isLight)
+  let mutedForegroundOklch = clampIntoGamut({ l: mutedForegroundL, c: mutedFgC, h: bgOklch.h })
+  mutedForegroundOklch = generateContrastColor(mutedRgb, mutedForegroundOklch, 4.5, isLight)
+  let mutedForegroundRgb = oklchToRgb(mutedForegroundOklch)
 
   if (getContrastRatioFromRgb(rgbColor, mutedForegroundRgb) < 2.8) {
-    mutedForegroundRgb = generateContrastColor(rgbColor, mutedForegroundRgb, 2.8, isLight)
+    mutedForegroundOklch = generateContrastColor(rgbColor, mutedForegroundOklch, 2.8, isLight)
+    mutedForegroundRgb = oklchToRgb(mutedForegroundOklch)
   }
-  const mutedForeground = rgb(...mutedForegroundRgb)
+  const mutedForeground =
+    formatCss({ mode: "oklch", ...mutedForegroundOklch }) ??
+    `oklch(${mutedForegroundOklch.l} ${mutedForegroundOklch.c}${mutedForegroundOklch.h !== undefined ? ` ${mutedForegroundOklch.h}` : ""})`
 
   const accentHueShift = isLight ? -18 : 18
-  const accentHue = (bgLch.h + accentHueShift + 360) % 360
+  const accentHue = bgOklch.h !== undefined ? (bgOklch.h + accentHueShift + 360) % 360 : undefined
 
-  const accentChroma = needsBoost ? Math.max(bgLch.c * 1.3, 25) : Math.max(bgLch.c * 0.85, 20)
+  const accentChroma = needsBoost
+    ? Math.max(bgOklch.c * 1.3, 0.1)
+    : Math.max(bgOklch.c * 0.85, 0.08)
 
-  const accentL = isLight ? Math.max(bgLch.l - 10, 78) : Math.min(bgLch.l + 10, 28)
+  const accentL = isLight ? Math.max(bgOklch.l - 0.1, 0.78) : Math.min(bgOklch.l + 0.1, 0.28)
 
-  let accentRgb = clampIntoGamut(accentL, accentChroma, accentHue)
+  let accentOklch = clampIntoGamut({ l: accentL, c: accentChroma, h: accentHue })
+  let accentRgb = oklchToRgb(accentOklch)
 
   const accentContrast = getContrastRatioFromRgb(rgbColor, accentRgb)
   if (accentContrast < 1.3) {
-    const targetL = isLight ? accentL - 6 : accentL + 6
-    accentRgb = clampIntoGamut(targetL, accentChroma, accentHue)
+    const targetL = isLight ? accentL - 0.06 : accentL + 0.06
+    accentOklch = clampIntoGamut({ l: targetL, c: accentChroma, h: accentHue })
+    accentRgb = oklchToRgb(accentOklch)
   }
 
   if (getContrastRatioFromRgb(mutedRgb, accentRgb) < 1.2) {
-    const targetL = isLight ? accentL - 4 : accentL + 4
-    accentRgb = clampIntoGamut(targetL, accentChroma, accentHue)
+    const targetL = isLight ? accentL - 0.04 : accentL + 0.04
+    accentOklch = clampIntoGamut({ l: targetL, c: accentChroma, h: accentHue })
+    accentRgb = oklchToRgb(accentOklch)
   }
 
-  const accent = rgb(...accentRgb)
+  const accent =
+    formatCss({ mode: "oklch", ...accentOklch }) ??
+    `oklch(${accentOklch.l} ${accentOklch.c}${accentOklch.h !== undefined ? ` ${accentOklch.h}` : ""})`
 
-  const accentLch = rgbToLch(...accentRgb)
-  const accentFgTarget: RGBTuple = accentLch.l > 55 ? [0, 0, 0] : [255, 255, 255]
-  const accentForegroundRgb = generateContrastColor(
+  const accentFgTarget: RGBTuple = accentOklch.l > 0.55 ? [0, 0, 0] : [255, 255, 255]
+  const accentForegroundOklch = generateContrastColor(
     accentRgb,
-    accentFgTarget,
+    rgbToOklch(...accentFgTarget),
     4.5,
-    accentLch.l > 55
+    accentOklch.l > 0.55
   )
-  const accentForeground = rgb(...accentForegroundRgb)
+  const accentForeground =
+    formatCss({ mode: "oklch", ...accentForegroundOklch }) ??
+    `oklch(${accentForegroundOklch.l} ${accentForegroundOklch.c}${accentForegroundOklch.h !== undefined ? ` ${accentForegroundOklch.h}` : ""})`
 
   return {
     background: backgroundColor,
