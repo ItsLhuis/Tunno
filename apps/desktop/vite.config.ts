@@ -1,6 +1,8 @@
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
 
+import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
+
 import { defineConfig } from "vite"
 
 import path from "path"
@@ -9,7 +11,7 @@ const root = path.resolve(__dirname, "src")
 const host = process.env.TAURI_DEV_HOST
 
 export default defineConfig({
-  plugins: [tanstackRouter(), react()],
+  plugins: [tanstackRouter(), react(), tailwindcss()],
   clearScreen: false,
   server: {
     port: 4535,
