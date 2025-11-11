@@ -115,7 +115,7 @@ const NextSongPreview = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="absolute bottom-[2vh] right-[2vh] z-10 flex max-w-[25vw] items-center gap-[1vh] rounded-lg bg-background p-[1.5vh] shadow-lg backdrop-blur-md"
+          className="bg-background absolute right-[2vh] bottom-[2vh] z-10 flex max-w-[25vw] items-center gap-[1vh] rounded-lg p-[1.5vh] shadow-lg backdrop-blur-md"
           style={cssVariables as React.CSSProperties}
         >
           {imageSrc && (
@@ -140,12 +140,12 @@ const NextSongPreview = () => {
             <div className="flex w-full min-w-0 flex-col gap-[0.25vh] truncate">
               <Typography
                 affects={["small", "muted"]}
-                className="mb-[0.75vh] text-[clamp(0.5rem,1.225vh,1.225rem)] uppercase tracking-wide"
+                className="mb-[0.75vh] text-[clamp(0.5rem,1.225vh,1.225rem)] tracking-wide uppercase"
               >
                 {t("common.upNext")}
               </Typography>
               <Marquee className="w-full">
-                <Typography variant="h4" className="text-[clamp(1rem,2vh,1.5rem)] text-primary">
+                <Typography variant="h4" className="text-primary text-[clamp(1rem,2vh,1.5rem)]">
                   {nextSong.name}
                 </Typography>
               </Marquee>
@@ -166,7 +166,7 @@ const NextSongPreview = () => {
               }}
               onClick={handlePlayNext}
               disabled={!canPlayNext || isTransitioning}
-              className="h-[4vh] min-h-[2.5rem] w-[4vh] min-w-[2.5rem] shrink-0 rounded-full [&_svg]:size-[clamp(1.25rem,2vh,1.25rem)]"
+              className="size-[4vh] min-h-10 min-w-10 shrink-0 rounded-full [&_svg]:size-[clamp(1.25rem,2vh,1.25rem)]"
             />
           </div>
         </motion.div>

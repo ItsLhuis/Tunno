@@ -279,7 +279,7 @@ const AlbumForm = ({
                             variant="text"
                             isFilled={field.value}
                             tooltip={field.value ? t("common.unfavorite") : t("common.favorite")}
-                            className={cn(field.value && "!text-primary")}
+                            className={cn(field.value && "text-primary!")}
                             onClick={() => field.onChange(!field.value)}
                           />
                         </FormControl>

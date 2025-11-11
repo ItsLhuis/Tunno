@@ -264,7 +264,7 @@ const ArtistActions = ({
           <Icon
             name="Heart"
             isFilled={finalTargetArtist.isFavorite}
-            className={cn(finalTargetArtist.isFavorite && "!text-primary")}
+            className={cn(finalTargetArtist.isFavorite && "text-primary!")}
           />
           {finalTargetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
         </MenuItem>

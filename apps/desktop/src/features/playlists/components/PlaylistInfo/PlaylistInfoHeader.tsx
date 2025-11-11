@@ -43,13 +43,13 @@ const PlaylistInfoHeader = ({ playlist }: PlaylistInfoHeaderProps) => {
   return (
     <Header className="flex flex-col gap-6">
       <div className="flex flex-1 items-end gap-6">
-        <div className="h-64 w-64">
+        <div className="size-64">
           <Thumbnail
             placeholderIcon="ListMusic"
             fileName={playlist.thumbnail}
             alt={playlist.name}
-            className={playlist.thumbnail ? "h-full w-full" : "size-24"}
-            containerClassName="h-full w-full rounded-lg"
+            className={playlist.thumbnail ? "size-full" : "size-24"}
+            containerClassName="size-full rounded-lg"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2">
@@ -58,7 +58,7 @@ const PlaylistInfoHeader = ({ playlist }: PlaylistInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {playlist.name}
           </Typography>
@@ -72,7 +72,7 @@ const PlaylistInfoHeader = ({ playlist }: PlaylistInfoHeaderProps) => {
       <div className="flex items-center gap-3 pt-3">
         <IconButton
           name="Shuffle"
-          className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+          className="size-14 shrink-0 rounded-full [&_svg]:size-7"
           isLoading={isShuffling}
           disabled={!playlist.songs || playlist.songs.length === 0}
           tooltip={t("common.shuffleAndPlay")}

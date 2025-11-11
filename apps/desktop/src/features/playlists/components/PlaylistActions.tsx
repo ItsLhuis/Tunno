@@ -257,7 +257,7 @@ const PlaylistActions = ({
           <Icon
             name="Heart"
             isFilled={finalTargetPlaylist.isFavorite}
-            className={cn(finalTargetPlaylist.isFavorite && "!text-primary")}
+            className={cn(finalTargetPlaylist.isFavorite && "text-primary!")}
           />
           {finalTargetPlaylist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
         </MenuItem>

@@ -63,13 +63,13 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   return (
     <Header className="flex flex-col gap-6">
       <div className="flex flex-1 items-end gap-6">
-        <div className="h-64 w-64">
+        <div className="size-64">
           <Thumbnail
             placeholderIcon="Music"
             fileName={song.thumbnail}
             alt={song.name}
-            className={song.thumbnail ? "h-full w-full" : "size-24"}
-            containerClassName="h-full w-full"
+            className={song.thumbnail ? "size-full" : "size-24"}
+            containerClassName="size-full"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2">
@@ -78,7 +78,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {song.name}
           </Typography>
@@ -113,7 +113,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
         <IconButton
           name={isCurrentlyPlaying ? "Pause" : "Play"}
           isLoading={isTrackLoading}
-          className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+          className="size-14 shrink-0 rounded-full [&_svg]:size-7"
           tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
           onClick={handlePlayPause}
           disabled={!canPlay}

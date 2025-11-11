@@ -96,7 +96,7 @@ const PlaylistItem = memo(
         <div
           onClick={onToggle}
           className={cn(
-            "group flex w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
+            "group focus-within:bg-accent hover:bg-accent flex w-full items-center gap-3 rounded-lg p-2 transition-colors",
             selected && "bg-accent"
           )}
         >
@@ -129,14 +129,14 @@ const PlaylistItem = memo(
     if (variant === "card") {
       return (
         <PlaylistActions variant="context" playlistId={playlist.id}>
-          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
-            <div className="mb-2 h-full w-full">
+          <div className="group focus-within:bg-accent hover:bg-accent relative flex size-full flex-col items-start rounded-lg p-2 transition-colors">
+            <div className="mb-2 size-full">
               <Thumbnail
                 placeholderIcon="ListMusic"
                 fileName={playlist.thumbnail}
                 alt={playlist.name}
-                containerClassName="h-full w-full rounded-lg"
-                className={cn("h-full w-full", !playlist.thumbnail && "p-[25%]")}
+                containerClassName="size-full rounded-lg"
+                className={cn("size-full", !playlist.thumbnail && "p-[25%]")}
               />
             </div>
             <div className="flex w-full items-start justify-between gap-2">
@@ -154,7 +154,7 @@ const PlaylistItem = memo(
                   </Typography>
                 </Marquee>
               </div>
-              <div className="flex-shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+              <div className="shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
                 <PlaylistActions playlistId={playlist.id}>
                   <IconButton
                     name="MoreHorizontal"
@@ -164,7 +164,7 @@ const PlaylistItem = memo(
                 </PlaylistActions>
               </div>
             </div>
-            <div className="absolute bottom-[3.225rem] right-2 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute right-2 bottom-[3.225rem] z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"
@@ -183,18 +183,18 @@ const PlaylistItem = memo(
     if (variant === "compact") {
       return (
         <PlaylistActions variant="context" playlistId={playlist.id}>
-          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
-            <div className="h-full w-full">
+          <div className="group focus-within:bg-accent hover:bg-accent relative flex size-full flex-col items-start rounded-lg p-2 transition-colors">
+            <div className="size-full">
               <Thumbnail
                 placeholderIcon="ListMusic"
                 fileName={playlist.thumbnail}
                 alt={playlist.name}
-                containerClassName="h-full w-full rounded-lg"
-                className={cn("h-full w-full", !playlist.thumbnail && "p-[25%]")}
+                containerClassName="size-full rounded-lg"
+                className={cn("size-full", !playlist.thumbnail && "p-[25%]")}
               />
             </div>
-            <div className="absolute inset-x-2 bottom-2 h-14 rounded-b-lg bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100" />
-            <div className="absolute bottom-3 left-3 right-2 z-10 flex items-end justify-between gap-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute inset-x-2 bottom-2 h-14 rounded-b-lg bg-linear-to-t from-black/50 to-transparent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100" />
+            <div className="absolute right-2 bottom-3 left-3 z-10 flex items-end justify-between gap-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <ScopedTheme theme="dark" className="min-w-0 flex-1">
                 <Marquee>
                   <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
@@ -203,7 +203,7 @@ const PlaylistItem = memo(
                 </Marquee>
               </ScopedTheme>
               {canPlay && (
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <IconButton
                     name="Play"
                     tooltip={t("common.play")}
@@ -222,13 +222,13 @@ const PlaylistItem = memo(
     if (variant === "hero") {
       return (
         <div className="flex flex-1 items-end gap-6">
-          <div className="h-64 w-64">
+          <div className="size-64">
             <Thumbnail
               placeholderIcon="ListMusic"
               fileName={playlist.thumbnail}
               alt={playlist.name}
-              className={playlist.thumbnail ? "h-full w-full" : "size-24"}
-              containerClassName="h-full w-full rounded-lg"
+              className={playlist.thumbnail ? "size-full" : "size-24"}
+              containerClassName="size-full rounded-lg"
             />
           </div>
           <div className="flex flex-1 flex-col gap-3">
@@ -240,7 +240,7 @@ const PlaylistItem = memo(
               )}
               <Typography
                 variant="h1"
-                className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+                className="line-clamp-1 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
               >
                 {playlist.name}
               </Typography>
@@ -252,7 +252,7 @@ const PlaylistItem = memo(
             <div className="flex items-center gap-3 pt-3">
               <IconButton
                 name="Shuffle"
-                className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+                className="size-14 shrink-0 rounded-full [&_svg]:size-7"
                 isLoading={isShuffling}
                 disabled={!songIds || songIds.length === 0}
                 tooltip={t("common.shuffleAndPlay")}
@@ -283,7 +283,7 @@ const PlaylistItem = memo(
       <PlaylistActions variant="context" playlistId={playlist.id}>
         <div
           className={cn(
-            "group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
+            "group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded-lg p-2 transition-colors",
             selected && "bg-accent"
           )}
           style={{ gridTemplateColumns: getGridTemplateColumns() }}

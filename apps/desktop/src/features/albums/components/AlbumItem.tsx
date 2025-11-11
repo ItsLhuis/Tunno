@@ -93,7 +93,7 @@ const AlbumItem = memo(
     if (variant === "card") {
       return (
         <AlbumActions variant="context" albumId={album.id}>
-          <div className="group relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent">
+          <div className="group focus-within:bg-accent hover:bg-accent relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors">
             <div className="mb-2 h-full w-full">
               <Thumbnail
                 placeholderIcon="Disc"
@@ -117,7 +117,7 @@ const AlbumItem = memo(
                   </Typography>
                 </Marquee>
               </div>
-              <div className="flex-shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+              <div className="shrink-0 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
                 <AlbumActions albumId={album.id}>
                   <IconButton
                     name="MoreHorizontal"
@@ -127,7 +127,7 @@ const AlbumItem = memo(
                 </AlbumActions>
               </div>
             </div>
-            <div className="absolute bottom-[3.225rem] right-2 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute right-2 bottom-[3.225rem] z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               {canPlay && (
                 <IconButton
                   name="Play"
@@ -164,7 +164,7 @@ const AlbumItem = memo(
               )}
               <Typography
                 variant="h1"
-                className="line-clamp-1 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+                className="line-clamp-1 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
               >
                 {album.name}
               </Typography>
@@ -207,7 +207,7 @@ const AlbumItem = memo(
       <AlbumActions variant="context" albumId={album.id}>
         <div
           className={cn(
-            "group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent",
+            "group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded-lg p-2 transition-colors",
             selected && "bg-accent"
           )}
           style={{ gridTemplateColumns: getGridTemplateColumns() }}

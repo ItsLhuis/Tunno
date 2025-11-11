@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { getCurrentWindow } from "@tauri-apps/api/window"
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
+import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import { IconButton, SafeLink } from "@components/ui"
+import { Button, Icon, IconButton, SafeLink } from "@components/ui"
 
 import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
 import { QueueSheet } from "./QueueSheet"
@@ -63,14 +63,11 @@ const PlaybackOptions = () => {
 
   return (
     <div className="flex items-center justify-end gap-2 truncate">
-      <SafeLink to="/lyrics">
-        <IconButton
-          name="MicVocal"
-          tooltip={t("common.lyrics")}
-          variant="ghost"
-          className="shrink-0"
-        />
-      </SafeLink>
+      <Button tooltip={t("common.lyrics")} size="icon" variant="ghost" className="shrink-0" asChild>
+        <SafeLink to="/lyrics">
+          <Icon name="MicVocal" />
+        </SafeLink>
+      </Button>
       <PlaybackVolumeControl />
       <QueueSheet />
       <IconButton

@@ -140,7 +140,7 @@ const Equalizer = () => {
           onValueChange={(value) => setEqualizerPreset(value as EqualizerPreset)}
           disabled={!equalizerEnabled}
         >
-          <SelectTrigger className="h-auto w-fit gap-2">
+          <SelectTrigger className="h-auto! w-fit gap-2">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

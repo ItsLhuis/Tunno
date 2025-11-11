@@ -51,7 +51,7 @@ const PlaybackControls = () => {
       <IconButton
         name={isPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
-        className="h-10 w-10 rounded-full [&_svg]:size-5"
+        className="size-10 rounded-full [&_svg]:size-5"
         onClick={handlePlayPause}
         disabled={!canPlay}
       />
@@ -60,7 +60,7 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handleNext}
         disabled={!canPlayNext}
-        className="h-9 w-9 text-foreground"
+        className="text-foreground size-9"
       />
     </div>
   )

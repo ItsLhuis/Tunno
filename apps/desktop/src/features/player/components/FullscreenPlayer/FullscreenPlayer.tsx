@@ -64,7 +64,7 @@ const FullscreenPlayer = () => {
 
   return (
     <motion.div
-      className="flex h-screen w-screen flex-col items-center justify-center overflow-hidden p-[6vh] text-foreground"
+      className="text-foreground flex h-screen w-screen flex-col items-center justify-center overflow-hidden p-[6vh]"
       animate={{
         backgroundImage: gradientBackground
       }}
@@ -74,7 +74,7 @@ const FullscreenPlayer = () => {
       }}
       style={cssVariables as React.CSSProperties}
     >
-      <div className="absolute right-[2vh] top-[2vh] z-10">
+      <div className="absolute top-[2vh] right-[2vh] z-10">
         <IconButton
           name="Minimize2"
           tooltip={t("common.exitFullScreen")}
@@ -83,7 +83,7 @@ const FullscreenPlayer = () => {
           onClick={handleExitFullscreen}
         />
       </div>
-      <div className="flex h-full w-full flex-col items-center justify-end gap-[3vh]">
+      <div className="flex size-full flex-col items-center justify-end gap-[3vh]">
         <div className="flex w-full flex-col items-center justify-center gap-[6vh]">
           <TrackInfo onPaletteChange={setPalette} onDominantColorChange={setDominantColor} />
           <PlaybackProgress />

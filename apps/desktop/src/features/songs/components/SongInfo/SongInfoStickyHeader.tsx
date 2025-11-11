@@ -56,7 +56,7 @@ const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
         name={isCurrentlyPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
         variant="text"
-        className="h-11 w-11 [&_svg]:size-5"
+        className="size-11 [&_svg]:size-5"
         tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
         onClick={handlePlayPause}
         disabled={!canPlay}

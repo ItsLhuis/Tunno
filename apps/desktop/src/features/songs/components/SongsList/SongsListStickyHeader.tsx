@@ -56,7 +56,7 @@ const SongsListStickyHeader = ({ list, allSongIds, className }: SongsListStickyH
       <IconButton
         name="Shuffle"
         variant="text"
-        className="h-11 w-11 [&_svg]:size-5"
+        className="size-11 [&_svg]:size-5"
         isLoading={isShuffling}
         disabled={hasSelectedRows || allSongIds.length === 0}
         tooltip={t("common.shuffleAndPlay")}

@@ -6,7 +6,7 @@ const ControlButton = ({ className, children, ...props }: ComponentProps<"button
   return (
     <button
       className={cn(
-        "inline-flex cursor-default items-center justify-center transition-colors focus:outline-none focus:ring-0",
+        "inline-flex cursor-default items-center justify-center transition-colors focus:ring-0 focus:outline-hidden",
         className
       )}
       {...props}

@@ -47,14 +47,14 @@ const MacOs = ({
   }, [])
 
   const macOsButtonClassName =
-    "h-3 w-3 flex content-center items-center justify-center self-center rounded-full border border-black/[.12] text-center text-black/60 dark:border-none [&_svg]:size-auto"
+    "h-3 w-3 flex content-center items-center justify-center self-center rounded-full border border-black/12 text-center text-black/60 dark:border-none [&_svg]:size-auto"
 
   const hasFullscreenOrMaximize = onFullSceen || onMaximize
 
   return (
     <div
       className={cn(
-        "ml-3 mr-1 flex h-full items-center text-black active:text-black dark:text-black",
+        "mr-1 ml-3 flex h-full items-center text-black active:text-black dark:text-black",
         isVertical ? "m-0 mt-3 flex-col space-y-2" : "space-x-2"
       )}
       onMouseEnter={() => setIsHovered(true)}

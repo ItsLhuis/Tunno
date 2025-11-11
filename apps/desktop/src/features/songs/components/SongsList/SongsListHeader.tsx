@@ -65,7 +65,7 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
       />
       <IconButton
         name="Shuffle"
-        className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+        className="size-14 shrink-0 rounded-full [&_svg]:size-7"
         isLoading={isShuffling}
         disabled={hasSelectedRows || allSongIds.length === 0}
         tooltip={t("common.shuffleAndPlay")}

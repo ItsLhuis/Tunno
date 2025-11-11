@@ -367,7 +367,7 @@ const SongActions = memo(
             <Icon
               name="Heart"
               isFilled={finalTargetSong.isFavorite}
-              className={cn(finalTargetSong.isFavorite && "!text-primary")}
+              className={cn(finalTargetSong.isFavorite && "text-primary!")}
             />
             {finalTargetSong.isFavorite ? t("common.unfavorite") : t("common.favorite")}
           </MenuItem>

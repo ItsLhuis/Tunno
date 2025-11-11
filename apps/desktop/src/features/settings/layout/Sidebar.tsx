@@ -85,7 +85,7 @@ const Sidebar = () => {
             <Button
               key={item.label}
               variant="ghost"
-              className={cn("justify-start", currentPath === item.href && "bg-muted !text-primary")}
+              className={cn("justify-start", currentPath === item.href && "bg-muted text-primary!")}
               asChild
             >
               <SafeLink to={item.href}>

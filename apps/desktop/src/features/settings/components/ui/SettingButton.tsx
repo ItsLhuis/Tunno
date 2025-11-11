@@ -32,14 +32,14 @@ const SettingButton = ({
         {renderLeft && <div>{renderLeft()}</div>}
         <div className="min-w-0 text-left">
           {typeof title === "string" ? (
-            <Typography variant="h6" className="break-words">
+            <Typography variant="h6" className="wrap-break-word">
               {title}
             </Typography>
           ) : (
-            <div className="break-words">{title}</div>
+            <div className="wrap-break-word">{title}</div>
           )}
           {description && (
-            <div className="break-words">
+            <div className="wrap-break-word">
               {typeof description === "string" ? (
                 <Typography affects={["muted"]}>{description}</Typography>
               ) : (

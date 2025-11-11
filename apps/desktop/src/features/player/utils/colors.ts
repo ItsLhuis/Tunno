@@ -1,30 +1,38 @@
 import ColorThief from "colorthief"
 
-import { adjustHue, darken, desaturate, lighten, parseToHsl, saturate } from "polished"
+import { clampChroma, converter, formatCss } from "culori"
 
 import { generateColorPalette, type Palette } from "@repo/utils"
 
-export function rgbToHslString(rgb: string): string | null {
-  try {
-    const hsl = parseToHsl(rgb)
-    return `${Math.round(hsl.hue || 0)} ${Math.round(hsl.saturation * 100)}% ${Math.round(hsl.lightness * 100)}%`
-  } catch {
-    return null
-  }
-}
+const toOklch = converter("oklch")
 
 export function createGradient(color: string): string {
   try {
-    const bottom = saturate(0.08, adjustHue(8, lighten(0.12, color)))
-    const lowerMid = saturate(0.05, adjustHue(5, lighten(0.06, color)))
+    const oklch = toOklch(color)
+    if (!oklch || oklch.mode !== "oklch") {
+      return color
+    }
 
-    const midLower = saturate(0.02, adjustHue(2, darken(0.02, color)))
-    const center = adjustHue(1, darken(0.03, color))
+    const { l, c, h } = oklch
+    const baseH = h ?? 0
 
-    const midUpper = desaturate(0.03, adjustHue(-3, darken(0.08, color)))
-    const upperMid = desaturate(0.06, adjustHue(-6, darken(0.16, color)))
+    const adjustColor = (lightnessDelta: number, chromaDelta: number, hueDelta: number) => {
+      const newL = Math.max(0, Math.min(1, (l ?? 0.5) + lightnessDelta))
+      const newC = Math.max(0, Math.min(0.4, (c ?? 0) + chromaDelta))
+      const newH = h !== undefined ? (baseH + hueDelta + 360) % 360 : undefined
 
-    const top = desaturate(0.09, adjustHue(-9, darken(0.28, color)))
+      const adjusted = clampChroma({ mode: "oklch", l: newL, c: newC, h: newH }, "oklch")
+
+      return formatCss(adjusted) ?? color
+    }
+
+    const bottom = adjustColor(0.12, 0.08, 8)
+    const lowerMid = adjustColor(0.06, 0.05, 5)
+    const midLower = adjustColor(-0.02, 0.02, 2)
+    const center = adjustColor(-0.03, 0, 1)
+    const midUpper = adjustColor(-0.08, -0.03, -3)
+    const upperMid = adjustColor(-0.16, -0.06, -6)
+    const top = adjustColor(-0.28, -0.09, -9)
 
     return `linear-gradient(to top,
       ${bottom} 0%,
@@ -43,19 +51,15 @@ export function paletteToCssVariables(palette: Palette | null): Record<string, s
   if (!palette) return {}
 
   const entries = Object.entries({
-    "--background": palette.background ? rgbToHslString(palette.background) : null,
-    "--foreground": palette.foreground ? rgbToHslString(palette.foreground) : null,
-    "--muted": palette.muted ? rgbToHslString(palette.muted) : null,
-    "--muted-foreground": palette.mutedForeground ? rgbToHslString(palette.mutedForeground) : null,
-    "--primary": palette.primary ? rgbToHslString(palette.primary) : null,
-    "--primary-foreground": palette.primaryForeground
-      ? rgbToHslString(palette.primaryForeground)
-      : null,
-    "--accent": palette.accent ? rgbToHslString(palette.accent) : null,
+    "--background": palette.background,
+    "--foreground": palette.foreground,
+    "--muted": palette.muted,
+    "--muted-foreground": palette.mutedForeground,
+    "--primary": palette.primary,
+    "--primary-foreground": palette.primaryForeground,
+    "--accent": palette.accent,
     "--accent-foreground": palette.accentForeground
-      ? rgbToHslString(palette.accentForeground)
-      : null
-  }).filter((entry): entry is [string, string] => entry[1] !== null)
+  }).filter((entry): entry is [string, string] => entry[1] !== null && entry[1] !== undefined)
 
   return Object.fromEntries(entries)
 }

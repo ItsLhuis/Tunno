@@ -310,7 +310,7 @@ const AlbumActions = ({
           <Icon
             name="Heart"
             isFilled={finalTargetAlbum.isFavorite}
-            className={cn(finalTargetAlbum.isFavorite && "!text-primary")}
+            className={cn(finalTargetAlbum.isFavorite && "text-primary!")}
           />
           {finalTargetAlbum.isFavorite ? t("common.unfavorite") : t("common.favorite")}
         </MenuItem>

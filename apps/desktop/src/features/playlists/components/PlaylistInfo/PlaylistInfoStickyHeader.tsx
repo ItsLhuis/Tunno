@@ -41,7 +41,7 @@ const PlaylistInfoStickyHeader = ({ playlist, className }: PlaylistInfoStickyHea
         name="Shuffle"
         isLoading={isShuffling}
         variant="text"
-        className="h-11 w-11 [&_svg]:size-5"
+        className="size-11 [&_svg]:size-5"
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
         disabled={!playlist.songs || playlist.songs.length === 0}

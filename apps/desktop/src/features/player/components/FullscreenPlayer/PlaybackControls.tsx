@@ -122,7 +122,7 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handleShuffle}
         className={cn(
-          "h-[4vh] min-h-[2.25rem] w-[4vh] min-w-[2.25rem] [&_svg]:size-[clamp(1rem,2vh,1.25rem)]",
+          "h-[4vh] min-h-9 w-[4vh] min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]",
           isShuffleEnabled && "text-primary"
         )}
       />
@@ -132,12 +132,12 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handlePrevious}
         disabled={!canPlayPrevious}
-        className="h-[4vh] min-h-[2.25rem] w-[4vh] min-w-[2.25rem] [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
+        className="size-[4vh] min-h-9 min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
       />
       <IconButton
         name={isPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
-        className="h-[6vh] min-h-[3rem] w-[6vh] min-w-[3rem] rounded-full [&_svg]:size-[clamp(1.25rem,3vh,1.75rem)]"
+        className="size-[6vh] min-h-12 min-w-12 rounded-full [&_svg]:size-[clamp(1.25rem,3vh,1.75rem)]"
         tooltip={isPlaying ? t("common.pause") : t("common.play")}
         onClick={handlePlayPause}
         disabled={!canPlay}
@@ -148,7 +148,7 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handleNext}
         disabled={!canPlayNext}
-        className="h-[4vh] min-h-[2.25rem] w-[4vh] min-w-[2.25rem] [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
+        className="size-[4vh] min-h-9 min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
       />
       <IconButton
         name={getRepeatIcon()}
@@ -156,7 +156,7 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handleRepeat}
         className={cn(
-          "h-[4vh] min-h-[2.25rem] w-[4vh] min-w-[2.25rem] [&_svg]:size-[clamp(1rem,2vh,1.25rem)]",
+          "h-[4vh] min-h-9 w-[4vh] min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]",
           repeatMode !== RepeatMode.Off && "text-primary"
         )}
       />

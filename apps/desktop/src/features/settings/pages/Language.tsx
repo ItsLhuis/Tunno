@@ -45,8 +45,8 @@ const Language = () => {
           {Object.values(locales).map((locale) => (
             <ChoiceboxItem value={locale.code} key={locale.code} className="gap-3">
               <Image
-                className="h-4 w-auto flex-shrink-0"
-                containerClassName="rounded"
+                className="h-4 w-auto shrink-0"
+                containerClassName="rounded-sm"
                 src={locale.flag}
                 alt={locale.name}
               />
