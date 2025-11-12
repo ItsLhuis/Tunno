@@ -20,7 +20,8 @@ import {
   SafeLink,
   ScopedTheme,
   Thumbnail,
-  Typography
+  Typography,
+  buttonVariants
 } from "@components/ui"
 
 import { PlaylistActions } from "./PlaylistActions"
@@ -93,36 +94,44 @@ const PlaylistItem = memo(
 
     if (variant === "select") {
       return (
-        <div
+        <button
+          type="button"
           onClick={onToggle}
           className={cn(
-            "group focus-within:bg-accent hover:bg-accent flex w-full items-center gap-3 rounded-lg p-2 transition-colors",
-            selected && "bg-accent"
+            buttonVariants({ variant: "outline", size: "default" }),
+            "flex h-auto w-full flex-row items-center justify-between gap-3 rounded-md p-3 text-left transition-colors focus:ring-0 focus:outline-hidden"
           )}
         >
-          <div
-            className="flex items-center justify-center"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <Checkbox checked={selected} onCheckedChange={onToggle} aria-label="Select playlist" />
+          <div className="flex w-full items-center gap-3">
+            <div
+              className="flex items-center justify-center"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <Checkbox
+                tabIndex={-1}
+                checked={selected}
+                onCheckedChange={onToggle}
+                aria-label="Select playlist"
+              />
+            </div>
+            <Thumbnail
+              placeholderIcon="ListMusic"
+              fileName={playlist.thumbnail}
+              alt={playlist.name}
+            />
+            <div className="flex min-w-0 flex-1 flex-col gap-1">
+              <Marquee>
+                <Typography className="truncate font-medium">{playlist.name}</Typography>
+              </Marquee>
+              <Marquee>
+                <Typography affects={["muted", "small"]} className="truncate">
+                  {t("common.songsPlayed", { count: playlist.totalTracks })}
+                  {playlist.totalDuration > 0 && ` • ${formatDuration(playlist.totalDuration, t)}`}
+                </Typography>
+              </Marquee>
+            </div>
           </div>
-          <Thumbnail
-            placeholderIcon="ListMusic"
-            fileName={playlist.thumbnail}
-            alt={playlist.name}
-          />
-          <div className="flex min-w-0 flex-1 flex-col gap-1">
-            <Marquee>
-              <Typography className="truncate font-medium">{playlist.name}</Typography>
-            </Marquee>
-            <Marquee>
-              <Typography affects={["muted", "small"]} className="truncate">
-                {t("common.songsPlayed", { count: playlist.totalTracks })}
-                {playlist.totalDuration > 0 && ` • ${formatDuration(playlist.totalDuration, t)}`}
-              </Typography>
-            </Marquee>
-          </div>
-        </div>
+        </button>
       )
     }
 
