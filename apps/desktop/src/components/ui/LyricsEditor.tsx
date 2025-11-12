@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useCallback, useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -15,12 +15,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@components/ui/Dialog"
-import { Fade } from "@components/ui/Fade"
 import { IconButton } from "@components/ui/IconButton"
 import { NumberInput } from "@components/ui/NumberInput"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { TextInput } from "@components/ui/TextInput"
 import { Typography } from "@components/ui/Typography"
+import { VirtualizedList } from "@components/ui/VirtualizedList"
 
 import { type Lyric } from "@components/ui/LyricsReader/types"
 
@@ -91,6 +91,9 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
   const { t } = useTranslation()
 
   const [syncedLines, setSyncedLines] = useState<Lyric[]>(() => (Array.isArray(value) ? value : []))
+
+  const previewScrollRef = useRef<HTMLDivElement | null>(null)
+  const editorScrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (Array.isArray(value) && JSON.stringify(value) !== JSON.stringify(syncedLines)) {
@@ -171,31 +174,38 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                 <DialogTrigger asChild>
                   <IconButton tooltip={t("common.preview")} variant="ghost" name="Eye" />
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl">
+                <DialogContent className="sm:max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>{t("form.titles.lyricsPreview")}</DialogTitle>
                     <DialogDescription>{t("form.descriptions.lyricsPreview")}</DialogDescription>
                   </DialogHeader>
-                  <ScrollArea className="h-[240px] rounded-md border">
-                    <div className="w-full p-3">
-                      {syncedLines.length === 0 ? (
-                        <Typography affects={["muted", "italic"]}>
-                          {t("form.messages.noLyrics")}
-                        </Typography>
-                      ) : (
-                        syncedLines.map((line, index) => (
-                          <div key={index} className="mb-2 flex w-full gap-2">
-                            <Typography affects="muted" className="shrink-0">
-                              [{formatTime(line.startTime)}]
-                            </Typography>
-                            <Typography className="shrink-0">-</Typography>
-                            <Typography className="overflow-wrap-anywhere min-w-0 flex-1 break-all">
-                              {line.text || "..."}
-                            </Typography>
-                          </div>
-                        ))
+                  <ScrollArea ref={previewScrollRef} className="h-[240px] rounded-md border">
+                    <VirtualizedList
+                      data={syncedLines}
+                      keyExtractor={(_, index) => index.toString()}
+                      estimateItemHeight={20}
+                      gap={8}
+                      scrollRef={previewScrollRef}
+                      containerClassName="p-3"
+                      ListEmptyComponent={() => (
+                        <div className="flex h-full items-center justify-center py-8">
+                          <Typography affects={["muted", "italic"]}>
+                            {t("form.messages.noLyrics")}
+                          </Typography>
+                        </div>
                       )}
-                    </div>
+                      renderItem={({ item: line }) => (
+                        <div className="mb-2 flex w-full gap-2">
+                          <Typography affects="muted" className="shrink-0">
+                            [{formatTime(line.startTime)}]
+                          </Typography>
+                          <Typography className="shrink-0">-</Typography>
+                          <Typography className="overflow-wrap-anywhere min-w-0 flex-1 break-all">
+                            {line.text || "..."}
+                          </Typography>
+                        </div>
+                      )}
+                    />
                   </ScrollArea>
                 </DialogContent>
               </Dialog>
@@ -207,31 +217,37 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
               />
             </div>
           </div>
-          <ScrollArea className="h-[300px]">
-            <Fade key={String(syncedLines.length === 0)} className="space-y-2 p-3">
-              {syncedLines.length === 0 ? (
-                <Typography affects={["muted", "italic"]}>{t("form.messages.noLyrics")}</Typography>
-              ) : (
-                syncedLines.map((line, index) => (
-                  <LyricLine
-                    key={index}
-                    line={line}
-                    index={index}
-                    minTime={Math.max(0, index > 0 ? syncedLines[index - 1].startTime + 1 : 0)}
-                    maxTime={
-                      index < syncedLines.length - 1
-                        ? syncedLines[index + 1].startTime - 1
-                        : Infinity
-                    }
-                    placeholder={placeholder}
-                    onTextChange={handleTextChange}
-                    onTimeChange={handleTimeChange}
-                    onRemove={removeSyncedLine}
-                    canRemove={true}
-                  />
-                ))
+          <ScrollArea ref={editorScrollRef} className="h-[300px]">
+            <VirtualizedList
+              data={syncedLines}
+              keyExtractor={(_, index) => index.toString()}
+              estimateItemHeight={60}
+              gap={8}
+              scrollRef={editorScrollRef}
+              containerClassName="p-3"
+              ListEmptyComponent={() => (
+                <div className="flex h-full items-center justify-center py-8">
+                  <Typography affects={["muted", "italic"]}>
+                    {t("form.messages.noLyrics")}
+                  </Typography>
+                </div>
               )}
-            </Fade>
+              renderItem={({ item: line, index }) => (
+                <LyricLine
+                  line={line}
+                  index={index}
+                  minTime={Math.max(0, index > 0 ? syncedLines[index - 1].startTime + 1 : 0)}
+                  maxTime={
+                    index < syncedLines.length - 1 ? syncedLines[index + 1].startTime - 1 : Infinity
+                  }
+                  placeholder={placeholder}
+                  onTextChange={handleTextChange}
+                  onTimeChange={handleTimeChange}
+                  onRemove={removeSyncedLine}
+                  canRemove={true}
+                />
+              )}
+            />
           </ScrollArea>
         </div>
       </div>
