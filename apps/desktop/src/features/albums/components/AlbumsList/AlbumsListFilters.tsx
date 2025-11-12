@@ -195,11 +195,11 @@ const AlbumsListFilters = () => {
                   step={1}
                 />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label className="text-sm font-medium">{t("albums.filters.playCount")}</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("albums.filters.playCountMin")}
                     </Label>
                     <NumberInput
@@ -210,8 +210,8 @@ const AlbumsListFilters = () => {
                       step={1}
                     />
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("albums.filters.playCountMax")}
                     </Label>
                     <NumberInput
@@ -224,11 +224,11 @@ const AlbumsListFilters = () => {
                   </div>
                 </div>
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label className="text-sm font-medium">{t("albums.filters.totalTracks")}</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("albums.filters.totalTracksMin")}
                     </Label>
                     <NumberInput
@@ -239,8 +239,8 @@ const AlbumsListFilters = () => {
                       step={1}
                     />
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("albums.filters.totalTracksMax")}
                     </Label>
                     <NumberInput
@@ -253,11 +253,11 @@ const AlbumsListFilters = () => {
                   </div>
                 </div>
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label className="text-sm font-medium">{t("albums.filters.totalDuration")}</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("albums.filters.totalDurationMin")}
                     </Label>
                     <NumberInput
@@ -268,8 +268,8 @@ const AlbumsListFilters = () => {
                       step={1}
                     />
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("albums.filters.totalDurationMax")}
                     </Label>
                     <NumberInput

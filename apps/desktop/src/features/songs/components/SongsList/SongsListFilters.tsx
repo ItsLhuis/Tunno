@@ -194,11 +194,11 @@ const SongsListFilters = () => {
                   step={1}
                 />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label className="text-sm font-medium">{t("songs.filters.duration")}</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("songs.filters.durationMin")}
                     </Label>
                     <NumberInput
@@ -211,8 +211,8 @@ const SongsListFilters = () => {
                       parse={parseTime}
                     />
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("songs.filters.durationMax")}
                     </Label>
                     <NumberInput
@@ -227,11 +227,11 @@ const SongsListFilters = () => {
                   </div>
                 </div>
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label className="text-sm font-medium">{t("songs.filters.playCount")}</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("songs.filters.playCountMin")}
                     </Label>
                     <NumberInput
@@ -242,8 +242,8 @@ const SongsListFilters = () => {
                       step={1}
                     />
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("songs.filters.playCountMax")}
                     </Label>
                     <NumberInput
@@ -256,11 +256,11 @@ const SongsListFilters = () => {
                   </div>
                 </div>
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label className="text-sm font-medium">{t("songs.filters.lastPlayed")}</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("songs.filters.lastPlayedAfter")}
                     </Label>
                     <Popover>
@@ -282,8 +282,8 @@ const SongsListFilters = () => {
                       </PopoverContent>
                     </Popover>
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-xs">
                       {t("songs.filters.lastPlayedBefore")}
                     </Label>
                     <Popover>
