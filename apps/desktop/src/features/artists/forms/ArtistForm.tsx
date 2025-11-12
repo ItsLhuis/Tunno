@@ -222,69 +222,71 @@ const ArtistForm = ({
         }
       >
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full space-y-8">
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="flex-1">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("form.labels.name")}</FormLabel>
-                        <FormControl>
-                          <TextInput placeholder={t("form.labels.name")} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                {mode === "insert" && (
-                  <FormField
-                    control={form.control}
-                    name="isFavorite"
-                    render={({ field }) => (
-                      <FormItem className="pt-8">
-                        <FormControl>
-                          <IconButton
-                            name="Heart"
-                            variant="text"
-                            isFilled={field.value}
-                            tooltip={field.value ? t("common.unfavorite") : t("common.favorite")}
-                            className={cn(field.value && "text-primary!")}
-                            onClick={() => field.onChange(!field.value)}
+          <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+            <div className="w-full space-y-8">
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.labels.name")}</FormLabel>
+                      <FormControl>
+                        <div className="flex items-center gap-2">
+                          <TextInput
+                            className="flex-1"
+                            placeholder={t("form.labels.name")}
+                            {...field}
                           />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                )}
+                          {mode === "insert" && (
+                            <IconButton
+                              name="Heart"
+                              variant="text"
+                              isFilled={form.watch("isFavorite")}
+                              tooltip={
+                                form.watch("isFavorite")
+                                  ? t("common.unfavorite")
+                                  : t("common.favorite")
+                              }
+                              className={cn(form.watch("isFavorite") && "text-primary!")}
+                              onClick={() =>
+                                form.setValue("isFavorite", !form.watch("isFavorite"), {
+                                  shouldDirty: true
+                                })
+                              }
+                            />
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="thumbnail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
+                      <UploadPicker
+                        mode="file"
+                        value={field.value ?? undefined}
+                        onChange={field.onChange}
+                        onError={(msg) => form.setError(field.name, { message: msg })}
+                        accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
+                        storageDir="thumbnails"
+                        displayName={
+                          mode === "update" && artist?.name
+                            ? `${artist.name} - ${t("form.labels.thumbnail")}`
+                            : undefined
+                        }
+                      />
+                      <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-              <FormField
-                control={form.control}
-                name="thumbnail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
-                    <UploadPicker
-                      mode="file"
-                      value={field.value ?? undefined}
-                      onChange={field.onChange}
-                      onError={(msg) => form.setError(field.name, { message: msg })}
-                      accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
-                      storageDir="thumbnails"
-                      displayName={
-                        mode === "update" && artist?.name
-                          ? `${artist.name} - ${t("form.labels.thumbnail")}`
-                          : undefined
-                      }
-                    />
-                    <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
             <button type="submit" className="hidden" />
             {children?.(renderProps)}

@@ -249,139 +249,141 @@ const AlbumForm = ({
         }
       >
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full space-y-8">
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="flex-1">
+          <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+            <div className="w-full space-y-8">
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.labels.name")}</FormLabel>
+                      <FormControl>
+                        <div className="flex items-center gap-2">
+                          <TextInput
+                            className="flex-1"
+                            placeholder={t("form.labels.name")}
+                            {...field}
+                          />
+                          {mode === "insert" && (
+                            <IconButton
+                              name="Heart"
+                              variant="text"
+                              isFilled={form.watch("isFavorite")}
+                              tooltip={
+                                form.watch("isFavorite")
+                                  ? t("common.unfavorite")
+                                  : t("common.favorite")
+                              }
+                              className={cn(form.watch("isFavorite") && "text-primary!")}
+                              onClick={() =>
+                                form.setValue("isFavorite", !form.watch("isFavorite"), {
+                                  shouldDirty: true
+                                })
+                              }
+                            />
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="albumType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t("form.labels.name")}</FormLabel>
+                        <FormLabel>{t("albums.filters.albumType")}</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={t("albums.filters.albumType")} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="single">{t("albums.filters.single")}</SelectItem>
+                            <SelectItem value="album">{t("albums.filters.album")}</SelectItem>
+                            <SelectItem value="compilation">
+                              {t("albums.filters.compilation")}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="releaseYear"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("form.labels.releaseYear")}</FormLabel>
                         <FormControl>
-                          <TextInput placeholder={t("form.labels.name")} {...field} />
+                          <NumberInput
+                            placeholder={new Date().getFullYear().toString()}
+                            value={(field.value as number) || undefined}
+                            onChange={field.onChange}
+                            min={1900}
+                            max={new Date().getFullYear()}
+                            step={1}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                {mode === "insert" && (
-                  <FormField
-                    control={form.control}
-                    name="isFavorite"
-                    render={({ field }) => (
-                      <FormItem className="pt-8">
-                        <FormControl>
-                          <IconButton
-                            name="Heart"
-                            variant="text"
-                            isFilled={field.value}
-                            tooltip={field.value ? t("common.unfavorite") : t("common.favorite")}
-                            className={cn(field.value && "text-primary!")}
-                            onClick={() => field.onChange(!field.value)}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                )}
-              </div>
-              <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="albumType"
+                  name="artists"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("albums.filters.albumType")}</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder={t("albums.filters.albumType")} />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="single">{t("albums.filters.single")}</SelectItem>
-                          <SelectItem value="album">{t("albums.filters.album")}</SelectItem>
-                          <SelectItem value="compilation">
-                            {t("albums.filters.compilation")}
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="releaseYear"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("form.labels.releaseYear")}</FormLabel>
+                      <FormLabel>{t("form.labels.artists")}</FormLabel>
                       <FormControl>
-                        <NumberInput
-                          placeholder={new Date().getFullYear().toString()}
-                          value={(field.value as number) || undefined}
-                          onChange={field.onChange}
-                          min={1900}
-                          max={new Date().getFullYear()}
-                          step={1}
+                        <VirtualizedSelect
+                          multiple
+                          modalPopover={asModal}
+                          placeholder={t("form.labels.artists")}
+                          options={artistOptions}
+                          loading={isArtistsLoading}
+                          value={field.value?.map(String) ?? []}
+                          onValueChange={(value) => {
+                            const newArtistIds = value.map(Number)
+                            field.onChange(newArtistIds)
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
-              <FormField
-                control={form.control}
-                name="artists"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.artists")}</FormLabel>
-                    <FormControl>
-                      <VirtualizedSelect
-                        multiple
-                        modalPopover={asModal}
-                        placeholder={t("form.labels.artists")}
-                        options={artistOptions}
-                        loading={isArtistsLoading}
-                        value={field.value?.map(String) ?? []}
-                        onValueChange={(value) => {
-                          const newArtistIds = value.map(Number)
-                          field.onChange(newArtistIds)
-                        }}
+                <FormField
+                  control={form.control}
+                  name="thumbnail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
+                      <UploadPicker
+                        mode="file"
+                        value={field.value ?? undefined}
+                        onChange={field.onChange}
+                        onError={(msg) => form.setError(field.name, { message: msg })}
+                        accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
+                        storageDir="thumbnails"
+                        displayName={
+                          mode === "update" && album?.name
+                            ? `${album.name} - ${t("form.labels.thumbnail")}`
+                            : undefined
+                        }
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="thumbnail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
-                    <UploadPicker
-                      mode="file"
-                      value={field.value ?? undefined}
-                      onChange={field.onChange}
-                      onError={(msg) => form.setError(field.name, { message: msg })}
-                      accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
-                      storageDir="thumbnails"
-                      displayName={
-                        mode === "update" && album?.name
-                          ? `${album.name} - ${t("form.labels.thumbnail")}`
-                          : undefined
-                      }
-                    />
-                    <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
             <button type="submit" className="hidden" />
             {children?.(renderProps)}
