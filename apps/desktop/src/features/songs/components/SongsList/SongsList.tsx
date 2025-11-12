@@ -97,7 +97,7 @@ const SongsList = () => {
           className={cn(viewMode === "grid" && "pb-6")}
         />
         {viewMode === "list" && (
-          <div className="px-9 pb-3 pt-6">
+          <div className="px-9 pt-6 pb-3">
             <SongsListSubHeader list={list} className="border-b" />
           </div>
         )}

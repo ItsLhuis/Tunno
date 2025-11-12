@@ -243,7 +243,7 @@ const AlbumActions = ({
                     </SafeLink>
                   </MenuItem>
                 )}
-                estimateItemHeight={32}
+                estimateItemHeight={30}
                 containerClassName="max-h-52"
               />
             </ScrollArea>
