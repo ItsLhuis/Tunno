@@ -28,10 +28,7 @@ const ChoiceboxItem = ({
   ...props
 }: ChoiceboxItemProps) => (
   <RadioGroupPrimitive.Item
-    className={cn(
-      "text-left transition-colors focus:ring-0 focus:outline-hidden",
-      'data-[state="checked"]:border-primary!'
-    )}
+    className="text-left transition-colors focus:ring-0 focus:outline-hidden"
     asChild
     {...props}
   >

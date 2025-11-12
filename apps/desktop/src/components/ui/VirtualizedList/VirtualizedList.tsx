@@ -46,6 +46,8 @@ const VirtualizedList = <TItem,>({
 }: VirtualizedListProps<TItem>) => {
   const internalScrollRef = useRef<HTMLDivElement | null>(null)
   const scrollRef = externalScrollRef || internalScrollRef
+  const previousScrollRefRef = useRef(externalScrollRef)
+  const hasMeasuredRef = useRef(false)
 
   const isGridLayout = layout === "grid"
 
@@ -110,16 +112,65 @@ const VirtualizedList = <TItem,>({
   }, [data, resetEndReached])
 
   useEffect(() => {
-    if (data.length > 0) {
-      const id = setTimeout(() => {
-        const scrollEl = getScrollElement()
-        if (scrollEl) {
-          rowVirtualizer.measure()
-        }
-      }, 0)
-      return () => clearTimeout(id)
+    if (!externalScrollRef) return
+
+    if (previousScrollRefRef.current !== externalScrollRef) {
+      hasMeasuredRef.current = false
+      previousScrollRefRef.current = externalScrollRef
     }
-  }, [data.length, getScrollElement, rowVirtualizer])
+
+    let mounted = true
+    let retryCount = 0
+    const maxRetries = 5
+    let timeoutId: NodeJS.Timeout | null = null
+
+    const checkAndMeasure = () => {
+      if (!mounted) return
+
+      const scrollElement = getScrollElement()
+
+      if (scrollElement?.isConnected) {
+        if (!hasMeasuredRef.current) {
+          const checkRows = () => {
+            if (!mounted) return
+
+            const currentRows = rowVirtualizer.getVirtualItems()
+
+            if (currentRows.length === 0 && data.length > 0) {
+              rowVirtualizer.measure()
+              hasMeasuredRef.current = true
+            } else if (currentRows.length > 0) {
+              hasMeasuredRef.current = true
+            }
+          }
+
+          requestAnimationFrame(checkRows)
+        }
+        retryCount = 0
+        return
+      }
+
+      if (retryCount < maxRetries) {
+        retryCount++
+        const delay = Math.min(50 * retryCount, 200)
+        timeoutId = setTimeout(checkAndMeasure, delay)
+      }
+    }
+
+    const rafId = requestAnimationFrame(() => {
+      if (mounted) {
+        checkAndMeasure()
+      }
+    })
+
+    return () => {
+      mounted = false
+      cancelAnimationFrame(rafId)
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [getScrollElement, rowVirtualizer, externalScrollRef, data.length])
 
   return (
     <div
