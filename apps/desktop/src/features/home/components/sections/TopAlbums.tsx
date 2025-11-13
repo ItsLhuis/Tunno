@@ -39,7 +39,7 @@ const TopAlbums = ({ topAlbums }: TopAlbumsProps) => {
           dragFree: true,
           skipSnaps: true
         }}
-        className="-mx-9"
+        className="-mx-11"
       >
         <CarouselContent containerClassName="px-9">
           {topAlbums.albums.slice(1).map((album, index) => (

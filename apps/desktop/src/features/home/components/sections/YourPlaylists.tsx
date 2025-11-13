@@ -44,7 +44,7 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
           dragFree: true,
           skipSnaps: true
         }}
-        className="-mx-9"
+        className="-mx-8"
       >
         <CarouselContent containerClassName="px-9">
           {organizedPlaylists.map((pair, columnIndex) => (

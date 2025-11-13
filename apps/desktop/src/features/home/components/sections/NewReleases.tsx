@@ -39,7 +39,7 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
           dragFree: true,
           skipSnaps: true
         }}
-        className="-mx-9"
+        className="-mx-11"
       >
         <CarouselContent containerClassName="px-9">
           {newReleases.albums.slice(1).map((album, index) => (

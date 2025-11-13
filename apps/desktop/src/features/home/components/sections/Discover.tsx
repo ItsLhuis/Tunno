@@ -36,7 +36,7 @@ const Discover = ({ discover }: DiscoverProps) => {
           dragFree: true,
           skipSnaps: true
         }}
-        className="-mx-9"
+        className="-mx-11"
       >
         <CarouselContent containerClassName="px-9">
           {discover.songs.map((song, index) => (

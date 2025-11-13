@@ -49,7 +49,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
       </div>
       <div className="grid w-full min-w-0 grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-6">
         <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2">
             <Icon name="Music" />
             <Typography className="truncate">{t("songs.title")}</Typography>
           </div>
@@ -58,7 +58,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
           </Typography>
         </div>
         <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2">
             <Icon name="Disc" />
             <Typography className="truncate">{t("albums.title")}</Typography>
           </div>
@@ -67,7 +67,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
           </Typography>
         </div>
         <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2">
             <Icon name="List" />
             <Typography className="truncate">{t("playlists.title")}</Typography>
           </div>
@@ -76,7 +76,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
           </Typography>
         </div>
         <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2">
             <Icon name="Users" />
             <Typography className="truncate">{t("artists.title")}</Typography>
           </div>
@@ -85,7 +85,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
           </Typography>
         </div>
         <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2">
             <Icon name="Play" />
             <Typography className="truncate">{t("common.totalPlays")}</Typography>
           </div>
@@ -94,7 +94,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
           </Typography>
         </div>
         <div className="min-w-0 truncate">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2">
             <Icon name="Clock" />
             <Typography className="truncate">{t("common.listenTime")}</Typography>
           </div>
@@ -109,7 +109,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
               <PopoverContent className="w-auto">
                 <div className="flex flex-col gap-3">
                   <div className="min-w-0 truncate">
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                    <div className="text-muted-foreground flex items-center gap-2">
                       <Icon name="Calendar" />
                       <Typography className="truncate">{t("common.today")}</Typography>
                     </div>
@@ -124,7 +124,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
                     </Typography>
                   </div>
                   <div className="min-w-0 truncate">
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                    <div className="text-muted-foreground flex items-center gap-2">
                       <Icon name="CalendarRange" />
                       <Typography className="truncate">{t("common.thisWeek")}</Typography>
                     </div>
@@ -141,7 +141,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
                     </Typography>
                   </div>
                   <div className="min-w-0 truncate">
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                    <div className="text-muted-foreground flex items-center gap-2">
                       <Icon name="CalendarDays" />
                       <Typography className="truncate">{t("common.thisMonth")}</Typography>
                     </div>
@@ -169,7 +169,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
             loop: true,
             align: "start"
           }}
-          className="-mx-9"
+          className="-mx-11"
         >
           <CarouselContent containerClassName="px-11">
             {topItems.map((item, index) => {

@@ -60,7 +60,7 @@ const SongInfo = () => {
 
   const ListHeader = useCallback(
     () => (
-      <div className="px-9 pb-0 pt-6">
+      <div className="px-9 pt-6 pb-0">
         <SongInfoSubHeader className="border-b" />
       </div>
     ),
@@ -104,7 +104,7 @@ const SongInfo = () => {
                   dragFree: true,
                   skipSnaps: true
                 }}
-                className="-mx-9"
+                className="-mx-11"
               >
                 <CarouselContent containerClassName="px-9">
                   {data.artists.map((artist, index) => (
@@ -127,7 +127,7 @@ const SongInfo = () => {
                   dragFree: true,
                   skipSnaps: true
                 }}
-                className="-mx-9"
+                className="-mx-11"
               >
                 <CarouselContent containerClassName="px-9">
                   {data.playlists.map((playlist, index) => (

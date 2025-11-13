@@ -43,7 +43,7 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
           dragFree: true,
           skipSnaps: true
         }}
-        className="-mx-9"
+        className="-mx-11"
       >
         <CarouselContent containerClassName="px-9">
           {favoriteArtists.artists.slice(1).map((artist, index) => (
