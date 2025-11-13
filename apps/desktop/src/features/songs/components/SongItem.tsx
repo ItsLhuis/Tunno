@@ -64,25 +64,26 @@ const SongItem = memo(
   }: SongItemProps) => {
     const { t, i18n } = useTranslation()
 
-    const { loadTracks, play, pause, currentTrack, playbackState, isTrackLoading } = usePlayerStore(
-      useShallow((state) => ({
-        loadTracks: state.loadTracks,
-        play: state.play,
-        pause: state.pause,
-        currentTrack: state.currentTrack,
-        playbackState: state.playbackState,
-        isTrackLoading: state.isTrackLoading
-      }))
-    )
+    const { loadTracks, play, pause, currentTrackId, playbackState, isTrackLoading } =
+      usePlayerStore(
+        useShallow((state) => ({
+          loadTracks: state.loadTracks,
+          play: state.play,
+          pause: state.pause,
+          currentTrackId: state.currentTrackId,
+          playbackState: state.playbackState,
+          isTrackLoading: state.isTrackLoading
+        }))
+      )
 
     const handlePlaySong = async () => {
-      if (currentTrack) {
-        if (currentTrack.id === song.id && playbackState === State.Playing) {
+      if (currentTrackId !== null) {
+        if (currentTrackId === song.id && playbackState === State.Playing) {
           await pause()
           return
         }
 
-        if (currentTrack.id === song.id && playbackState === State.Paused) {
+        if (currentTrackId === song.id && playbackState === State.Paused) {
           await play()
           return
         }
@@ -100,7 +101,7 @@ const SongItem = memo(
       }
     }
 
-    const isCurrentlyPlaying = currentTrack?.id === song.id && playbackState === State.Playing
+    const isCurrentlyPlaying = currentTrackId === song.id && playbackState === State.Playing
 
     const showCheckbox = !!onToggle
 
