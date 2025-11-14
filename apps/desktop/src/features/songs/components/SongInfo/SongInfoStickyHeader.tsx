@@ -6,8 +6,6 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { IconButton, Marquee, SafeLink, StickyHeader, Thumbnail, Typography } from "@components/ui"
 
-import { SongActions } from "../SongActions"
-
 import { State } from "react-track-player-web"
 
 import { type SongWithAllRelations } from "@repo/api"
@@ -51,7 +49,7 @@ const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
   }
 
   return (
-    <StickyHeader className="flex items-center justify-between gap-3 pb-9">
+    <StickyHeader className="flex items-center gap-3 pb-9">
       <IconButton
         name={isCurrentlyPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
@@ -84,9 +82,6 @@ const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
             )}
           </Marquee>
         </div>
-      </div>
-      <div className="shrink-0">
-        <SongActions songId={song.id} />
       </div>
     </StickyHeader>
   )

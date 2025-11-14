@@ -8,18 +8,24 @@ import { cn } from "@lib/utils"
 
 import { formatDuration } from "@repo/utils"
 
-import { IconButton, Marquee, StickyHeader, Thumbnail, Typography } from "@components/ui"
+import {
+  IconButton,
+  Marquee,
+  StickyHeader,
+  Thumbnail,
+  Typography,
+  type VirtualizedListController
+} from "@components/ui"
 
-import { PlaylistActions } from "../PlaylistActions"
-
-import { type PlaylistWithAllRelations } from "@repo/api"
+import type { PlaylistWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type PlaylistInfoStickyHeaderProps = {
   playlist: PlaylistWithAllRelations
+  list: VirtualizedListController<SongWithMainRelations>
   className?: string
 }
 
-const PlaylistInfoStickyHeader = ({ playlist, className }: PlaylistInfoStickyHeaderProps) => {
+const PlaylistInfoStickyHeader = ({ playlist, list, className }: PlaylistInfoStickyHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -35,8 +41,10 @@ const PlaylistInfoStickyHeader = ({ playlist, className }: PlaylistInfoStickyHea
     shuffleAndPlay(songIds, "playlist", playlist.id)
   }
 
+  const hasSelectedRows = list.hasSelection
+
   return (
-    <StickyHeader className={cn("flex items-center justify-between gap-3 pb-9", className)}>
+    <StickyHeader className={cn("flex items-center gap-3 pb-9", className)}>
       <IconButton
         name="Shuffle"
         isLoading={isShuffling}
@@ -44,7 +52,7 @@ const PlaylistInfoStickyHeader = ({ playlist, className }: PlaylistInfoStickyHea
         className="size-11 [&_svg]:size-5"
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
-        disabled={!playlist.songs || playlist.songs.length === 0}
+        disabled={hasSelectedRows || !playlist.songs || playlist.songs.length === 0}
       />
       <div className="flex flex-1 items-center gap-3 truncate">
         <Thumbnail placeholderIcon="ListMusic" fileName={playlist.thumbnail} alt={playlist.name} />
@@ -59,9 +67,6 @@ const PlaylistInfoStickyHeader = ({ playlist, className }: PlaylistInfoStickyHea
             </Typography>
           </Marquee>
         </div>
-      </div>
-      <div className="shrink-0">
-        <PlaylistActions playlistId={playlist.id} />
       </div>
     </StickyHeader>
   )

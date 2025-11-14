@@ -8,18 +8,24 @@ import { cn } from "@lib/utils"
 
 import { formatDuration } from "@repo/utils"
 
-import { IconButton, Marquee, StickyHeader, Thumbnail, Typography } from "@components/ui"
+import {
+  IconButton,
+  Marquee,
+  StickyHeader,
+  Thumbnail,
+  Typography,
+  type VirtualizedListController
+} from "@components/ui"
 
-import { AlbumActions } from "../AlbumActions"
-
-import { type AlbumWithAllRelations } from "@repo/api"
+import type { AlbumWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type AlbumInfoStickyHeaderProps = {
   album: AlbumWithAllRelations
+  list: VirtualizedListController<SongWithMainRelations>
   className?: string
 }
 
-const AlbumInfoStickyHeader = ({ album, className }: AlbumInfoStickyHeaderProps) => {
+const AlbumInfoStickyHeader = ({ album, list, className }: AlbumInfoStickyHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -35,8 +41,10 @@ const AlbumInfoStickyHeader = ({ album, className }: AlbumInfoStickyHeaderProps)
     shuffleAndPlay(songIds, "album", album.id)
   }
 
+  const hasSelectedRows = list.hasSelection
+
   return (
-    <StickyHeader className={cn("flex items-center justify-between gap-3 pb-9", className)}>
+    <StickyHeader className={cn("flex items-center gap-3 pb-9", className)}>
       <IconButton
         name="Shuffle"
         isLoading={isShuffling}
@@ -44,7 +52,7 @@ const AlbumInfoStickyHeader = ({ album, className }: AlbumInfoStickyHeaderProps)
         className="h-11 w-11 [&_svg]:size-5"
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
-        disabled={!album.songs || album.songs.length === 0}
+        disabled={hasSelectedRows || !album.songs || album.songs.length === 0}
       />
       <div className="flex flex-1 items-center gap-3 truncate">
         <Thumbnail placeholderIcon="Disc" fileName={album.thumbnail} alt={album.name} />
@@ -59,9 +67,6 @@ const AlbumInfoStickyHeader = ({ album, className }: AlbumInfoStickyHeaderProps)
             </Typography>
           </Marquee>
         </div>
-      </div>
-      <div className="shrink-0">
-        <AlbumActions albumId={album.id} />
       </div>
     </StickyHeader>
   )

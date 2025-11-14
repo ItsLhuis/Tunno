@@ -58,7 +58,13 @@ const RecentlyAdded = ({ recentlyAdded }: RecentlyAddedProps) => {
       >
         <CarouselContent containerClassName="px-9">
           {recentlyAdded.items.map((item, index) => (
-            <CarouselItem key={`${item.type}-${item.data.id}-${index}`} className="w-56 basis-auto">
+            <CarouselItem
+              key={`${item.type}-${item.data.id}-${index}`}
+              className="basis-auto"
+              style={{
+                width: "max(11rem, 11vw)"
+              }}
+            >
               {renderRecentlyAddedItem(item)}
             </CarouselItem>
           ))}

@@ -47,7 +47,13 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
       >
         <CarouselContent containerClassName="px-9">
           {favoriteArtists.artists.slice(1).map((artist, index) => (
-            <CarouselItem key={`${artist.id}-${index}`} className="w-40 basis-auto">
+            <CarouselItem
+              key={`${artist.id}-${index}`}
+              className="basis-auto"
+              style={{
+                width: "clamp(11rem, 11vw, 18rem)"
+              }}
+            >
               <ArtistItem artist={artist} />
             </CarouselItem>
           ))}

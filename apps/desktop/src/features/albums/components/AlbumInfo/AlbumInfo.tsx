@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useMemo, useRef } from "react"
+import { Fragment, useCallback, useMemo, useRef, useState } from "react"
 
 import { useParams } from "@tanstack/react-router"
 
@@ -10,7 +10,12 @@ import { usePageRefresh } from "@app/layout/Titlebar/hooks/usePageRefresh"
 
 import { cn } from "@lib/utils"
 
-import { AsyncState, ScrollAreaWithHeaders, VirtualizedList } from "@components/ui"
+import {
+  AsyncState,
+  ScrollAreaWithHeaders,
+  VirtualizedList,
+  type VirtualizedListController
+} from "@components/ui"
 
 import { SongItem } from "@features/songs/components"
 
@@ -18,6 +23,8 @@ import { AlbumInfoHeader } from "./AlbumInfoHeader"
 import { AlbumInfoStats } from "./AlbumInfoStats"
 import { AlbumInfoStickyHeader } from "./AlbumInfoStickyHeader"
 import { AlbumInfoSubHeader } from "./AlbumInfoSubHeader"
+
+import { type SongWithMainRelations } from "@repo/api"
 
 const AlbumInfo = () => {
   const { id } = useParams({ from: "/albums/$id" })
@@ -49,33 +56,37 @@ const AlbumInfo = () => {
 
   const allSongIds = useMemo(() => songs.map((song) => song.id), [songs])
 
+  const [listController, setListController] =
+    useState<VirtualizedListController<SongWithMainRelations> | null>(null)
+
   const Header = useCallback(() => {
-    if (!album) return null
+    if (!album || !listController) return null
     return (
       <div>
-        <AlbumInfoHeader album={album} />
+        <AlbumInfoHeader album={album} list={listController} />
         <AlbumInfoStats album={album} />
       </div>
     )
-  }, [album])
+  }, [album, listController])
 
   const StickyHeader = useCallback(() => {
-    if (!album) return null
+    if (!album || !listController) return null
     return (
       <Fragment>
-        <AlbumInfoStickyHeader className="pb-6" album={album} />
-        <AlbumInfoSubHeader />
+        <AlbumInfoStickyHeader className="pb-6" album={album} list={listController} />
+        <AlbumInfoSubHeader list={listController} />
       </Fragment>
     )
-  }, [album])
+  }, [album, listController])
 
   const ListHeader = useCallback(
-    () => (
-      <div className="px-9 pb-0 pt-6">
-        <AlbumInfoSubHeader className="border-b" />
-      </div>
-    ),
-    []
+    () =>
+      listController ? (
+        <div className="px-9 pt-6 pb-0">
+          <AlbumInfoSubHeader list={listController} className="border-b" />
+        </div>
+      ) : null,
+    [listController]
   )
 
   const handleRefresh = useCallback(async () => {
@@ -108,7 +119,15 @@ const AlbumInfo = () => {
               estimateItemHeight={70}
               gap={8}
               scrollRef={scrollRef}
-              renderItem={({ item }) => <SongItem song={item} allSongIds={allSongIds} />}
+              onController={setListController}
+              renderItem={({ item, selected, toggle }) => (
+                <SongItem
+                  song={item}
+                  allSongIds={allSongIds}
+                  selected={selected}
+                  onToggle={toggle}
+                />
+              )}
             />
           )}
         </AsyncState>

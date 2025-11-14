@@ -8,18 +8,24 @@ import { cn } from "@lib/utils"
 
 import { formatDuration } from "@repo/utils"
 
-import { IconButton, Marquee, StickyHeader, Thumbnail, Typography } from "@components/ui"
+import {
+  IconButton,
+  Marquee,
+  StickyHeader,
+  Thumbnail,
+  Typography,
+  type VirtualizedListController
+} from "@components/ui"
 
-import { ArtistActions } from "../ArtistActions"
-
-import { type ArtistWithAllRelations } from "@repo/api"
+import type { ArtistWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type ArtistInfoStickyHeaderProps = {
   artist: ArtistWithAllRelations
+  list: VirtualizedListController<SongWithMainRelations>
   className?: string
 }
 
-const ArtistInfoStickyHeader = ({ artist, className }: ArtistInfoStickyHeaderProps) => {
+const ArtistInfoStickyHeader = ({ artist, list, className }: ArtistInfoStickyHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -35,8 +41,10 @@ const ArtistInfoStickyHeader = ({ artist, className }: ArtistInfoStickyHeaderPro
     shuffleAndPlay(songIds, "artist", artist.id)
   }
 
+  const hasSelectedRows = list.hasSelection
+
   return (
-    <StickyHeader className={cn("flex items-center justify-between gap-3 pb-9", className)}>
+    <StickyHeader className={cn("flex items-center gap-3 pb-9", className)}>
       <IconButton
         name="Shuffle"
         isLoading={isShuffling}
@@ -44,7 +52,7 @@ const ArtistInfoStickyHeader = ({ artist, className }: ArtistInfoStickyHeaderPro
         className="h-11 w-11 [&_svg]:size-5"
         tooltip={t("common.shuffleAndPlay")}
         onClick={handleShuffleAndPlay}
-        disabled={!artist.songs || artist.songs.length === 0}
+        disabled={hasSelectedRows || !artist.songs || artist.songs.length === 0}
       />
       <div className="flex flex-1 items-center gap-3 truncate">
         <Thumbnail
@@ -64,9 +72,6 @@ const ArtistInfoStickyHeader = ({ artist, className }: ArtistInfoStickyHeaderPro
             </Typography>
           </Marquee>
         </div>
-      </div>
-      <div className="shrink-0">
-        <ArtistActions artistId={artist.id} />
       </div>
     </StickyHeader>
   )

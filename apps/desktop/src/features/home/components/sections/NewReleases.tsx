@@ -43,7 +43,13 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
       >
         <CarouselContent containerClassName="px-9">
           {newReleases.albums.slice(1).map((album, index) => (
-            <CarouselItem key={`${album.id}-${index}`} className="w-40 basis-auto">
+            <CarouselItem
+              key={`${album.id}-${index}`}
+              className="basis-auto"
+              style={{
+                width: "clamp(11rem, 11vw, 18rem)"
+              }}
+            >
               <AlbumItem album={album} variant="card" />
             </CarouselItem>
           ))}

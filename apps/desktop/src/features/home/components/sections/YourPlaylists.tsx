@@ -49,7 +49,12 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
         <CarouselContent containerClassName="px-9">
           {organizedPlaylists.map((pair, columnIndex) => (
             <CarouselItem key={`column-${columnIndex}`} className="basis-auto pl-0">
-              <div className="flex w-32 flex-col">
+              <div
+                className="flex flex-col"
+                style={{
+                  width: "clamp(7rem, 7vw, 14rem)"
+                }}
+              >
                 <PlaylistItem playlist={pair[0]} variant="compact" />
                 {pair[1] && <PlaylistItem playlist={pair[1]} variant="compact" />}
               </div>

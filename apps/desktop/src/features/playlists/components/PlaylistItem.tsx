@@ -231,7 +231,13 @@ const PlaylistItem = memo(
     if (variant === "hero") {
       return (
         <div className="flex flex-1 items-end gap-6">
-          <div className="size-64">
+          <div
+            className="shrink-0"
+            style={{
+              width: "clamp(16rem, 16vw, 28rem)",
+              height: "clamp(16rem, 16vw, 28rem)"
+            }}
+          >
             <Thumbnail
               placeholderIcon="ListMusic"
               fileName={playlist.thumbnail}

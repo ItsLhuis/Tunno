@@ -40,7 +40,13 @@ const Discover = ({ discover }: DiscoverProps) => {
       >
         <CarouselContent containerClassName="px-9">
           {discover.songs.map((song, index) => (
-            <CarouselItem key={`${song.id}-${index}`} className="w-56 basis-auto">
+            <CarouselItem
+              key={`${song.id}-${index}`}
+              className="basis-auto"
+              style={{
+                width: "clamp(11rem, 11vw, 18rem)"
+              }}
+            >
               <SongItem song={song} variant="card" />
             </CarouselItem>
           ))}

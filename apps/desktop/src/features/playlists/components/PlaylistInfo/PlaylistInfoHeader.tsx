@@ -8,17 +8,25 @@ import { useTogglePlaylistFavorite } from "../../hooks/useTogglePlaylistFavorite
 
 import { formatDuration } from "@repo/utils"
 
-import { Badge, Header, IconButton, Thumbnail, Typography } from "@components/ui"
+import {
+  Badge,
+  Header,
+  IconButton,
+  Thumbnail,
+  Typography,
+  type VirtualizedListController
+} from "@components/ui"
 
 import { PlaylistActions } from "../PlaylistActions"
 
-import { type PlaylistWithAllRelations } from "@repo/api"
+import type { PlaylistWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type PlaylistInfoHeaderProps = {
   playlist: PlaylistWithAllRelations
+  list: VirtualizedListController<SongWithMainRelations>
 }
 
-const PlaylistInfoHeader = ({ playlist }: PlaylistInfoHeaderProps) => {
+const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -40,10 +48,18 @@ const PlaylistInfoHeader = ({ playlist }: PlaylistInfoHeaderProps) => {
     toggleFavoriteMutation.mutate(playlist.id)
   }
 
+  const hasSelectedRows = list.hasSelection
+
   return (
     <Header className="flex flex-col gap-6">
       <div className="flex flex-1 items-end gap-6">
-        <div className="size-64">
+        <div
+          className="shrink-0"
+          style={{
+            width: "clamp(16rem, 16vw, 28rem)",
+            height: "clamp(16rem, 16vw, 28rem)"
+          }}
+        >
           <Thumbnail
             placeholderIcon="ListMusic"
             fileName={playlist.thumbnail}
@@ -74,7 +90,7 @@ const PlaylistInfoHeader = ({ playlist }: PlaylistInfoHeaderProps) => {
           name="Shuffle"
           className="size-14 shrink-0 rounded-full [&_svg]:size-7"
           isLoading={isShuffling}
-          disabled={!playlist.songs || playlist.songs.length === 0}
+          disabled={hasSelectedRows || !playlist.songs || playlist.songs.length === 0}
           tooltip={t("common.shuffleAndPlay")}
           onClick={handleShuffleAndPlay}
         />

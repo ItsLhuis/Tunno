@@ -40,7 +40,13 @@ const JumpBackIn = ({ jumpBackIn }: JumpBackInProps) => {
       >
         <CarouselContent containerClassName="px-9">
           {jumpBackIn.items.map((item, index) => (
-            <CarouselItem key={`${item.song.id}-${index}`} className="w-56 basis-auto">
+            <CarouselItem
+              key={`${item.song.id}-${index}`}
+              className="basis-auto"
+              style={{
+                width: "clamp(11rem, 11vw, 18rem)"
+              }}
+            >
               <SongItem song={item.song} variant="card" />
             </CarouselItem>
           ))}

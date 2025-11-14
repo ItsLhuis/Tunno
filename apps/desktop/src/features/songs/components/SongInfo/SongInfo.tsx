@@ -90,7 +90,11 @@ const SongInfo = () => {
               <Typography variant="h3" className="mx-2">
                 {t("common.album")}
               </Typography>
-              <div className="w-56">
+              <div
+                style={{
+                  width: "clamp(11rem, 11vw, 18rem)"
+                }}
+              >
                 <AlbumItem album={data.album} variant="card" />
               </div>
             </section>
@@ -108,7 +112,13 @@ const SongInfo = () => {
               >
                 <CarouselContent containerClassName="px-9">
                   {data.artists.map((artist, index) => (
-                    <CarouselItem key={artist.artist.id || index} className="w-56 basis-auto">
+                    <CarouselItem
+                      key={artist.artist.id || index}
+                      className="basis-auto"
+                      style={{
+                        width: "clamp(11rem, 11vw, 18rem)"
+                      }}
+                    >
                       <ArtistItem artist={artist.artist} variant="card" />
                     </CarouselItem>
                   ))}
@@ -120,7 +130,7 @@ const SongInfo = () => {
           )}
           {data.playlists.length > 0 && (
             <section className="flex w-full flex-col gap-3 pt-3">
-              <Typography variant="h3">{t("playlists.title")}</Typography>
+              <Typography variant="h3">{t("common.appearsIn")}</Typography>
               <Carousel
                 opts={{
                   align: "start",
@@ -131,7 +141,13 @@ const SongInfo = () => {
               >
                 <CarouselContent containerClassName="px-9">
                   {data.playlists.map((playlist, index) => (
-                    <CarouselItem key={playlist.playlist.id || index} className="w-56 basis-auto">
+                    <CarouselItem
+                      key={playlist.playlist.id || index}
+                      className="basis-auto"
+                      style={{
+                        width: "clamp(11rem, 11vw, 18rem)"
+                      }}
+                    >
                       <PlaylistItem playlist={playlist.playlist} variant="card" />
                     </CarouselItem>
                   ))}

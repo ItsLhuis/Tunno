@@ -8,17 +8,25 @@ import { useToggleArtistFavorite } from "../../hooks/useToggleArtistFavorite"
 
 import { formatDuration } from "@repo/utils"
 
-import { Badge, Header, IconButton, Thumbnail, Typography } from "@components/ui"
+import {
+  Badge,
+  Header,
+  IconButton,
+  Thumbnail,
+  Typography,
+  type VirtualizedListController
+} from "@components/ui"
 
 import { ArtistActions } from "../ArtistActions"
 
-import { type ArtistWithAllRelations } from "@repo/api"
+import type { ArtistWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type ArtistInfoHeaderProps = {
   artist: ArtistWithAllRelations
+  list: VirtualizedListController<SongWithMainRelations>
 }
 
-const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
+const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -40,10 +48,18 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
     toggleFavoriteMutation.mutate({ id: artist.id })
   }
 
+  const hasSelectedRows = list.hasSelection
+
   return (
     <Header className="flex flex-col gap-6">
       <div className="flex flex-1 items-end gap-6">
-        <div className="h-64 w-64">
+        <div
+          className="shrink-0"
+          style={{
+            width: "clamp(16rem, 16vw, 28rem)",
+            height: "clamp(16rem, 16vw, 28rem)"
+          }}
+        >
           <Thumbnail
             placeholderIcon="User"
             fileName={artist.thumbnail}
@@ -58,7 +74,7 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {artist.name}
           </Typography>
@@ -74,7 +90,7 @@ const ArtistInfoHeader = ({ artist }: ArtistInfoHeaderProps) => {
           name="Shuffle"
           className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
           isLoading={isShuffling}
-          disabled={!artist.songs || artist.songs.length === 0}
+          disabled={hasSelectedRows || !artist.songs || artist.songs.length === 0}
           tooltip={t("common.shuffleAndPlay")}
           onClick={handleShuffleAndPlay}
         />

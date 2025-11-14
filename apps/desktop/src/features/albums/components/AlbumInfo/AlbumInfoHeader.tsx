@@ -10,15 +10,24 @@ import { formatDuration } from "@repo/utils"
 
 import { AlbumActions } from "../AlbumActions"
 
-import { Badge, Header, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
+import {
+  Badge,
+  Header,
+  IconButton,
+  SafeLink,
+  Thumbnail,
+  Typography,
+  type VirtualizedListController
+} from "@components/ui"
 
-import { type AlbumWithAllRelations } from "@repo/api"
+import type { AlbumWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type AlbumInfoHeaderProps = {
   album: AlbumWithAllRelations
+  list: VirtualizedListController<SongWithMainRelations>
 }
 
-const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
+const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
   const { t } = useTranslation()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
@@ -40,10 +49,18 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
     toggleFavoriteMutation.mutate({ id: album.id })
   }
 
+  const hasSelectedRows = list.hasSelection
+
   return (
     <Header className="flex flex-col gap-6">
       <div className="flex flex-1 items-end gap-6">
-        <div className="h-64 w-64">
+        <div
+          className="shrink-0"
+          style={{
+            width: "clamp(16rem, 16vw, 28rem)",
+            height: "clamp(16rem, 16vw, 28rem)"
+          }}
+        >
           <Thumbnail
             placeholderIcon="Disc"
             fileName={album.thumbnail}
@@ -58,7 +75,7 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 break-all text-4xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {album.name}
           </Typography>
@@ -90,7 +107,7 @@ const AlbumInfoHeader = ({ album }: AlbumInfoHeaderProps) => {
           name="Shuffle"
           className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
           isLoading={isShuffling}
-          disabled={!album.songs || album.songs.length === 0}
+          disabled={hasSelectedRows || !album.songs || album.songs.length === 0}
           tooltip={t("common.shuffleAndPlay")}
           onClick={handleShuffleAndPlay}
         />
