@@ -86,7 +86,8 @@ export const italian: Language = {
       showingOfTotal: "Visualizzazione di {showing} su {total}",
       start: "Avvia",
       completed: "Completato",
-      songsPlayed: "{count} brano{count, plural, one {} other{i}}"
+      songsPlayed: "{count} brano{count, plural, one {} other{i}}",
+      appearsIn: "Appare in"
     },
     form: {
       titles: {

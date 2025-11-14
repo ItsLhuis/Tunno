@@ -86,7 +86,8 @@ export const english: Language = {
       showingOfTotal: "Showing {showing} of {total}",
       start: "Start",
       completed: "Completed",
-      songsPlayed: "{count} song{count, plural, one {} other{s}}"
+      songsPlayed: "{count} song{count, plural, one {} other{s}}",
+      appearsIn: "Appears in"
     },
     form: {
       titles: {

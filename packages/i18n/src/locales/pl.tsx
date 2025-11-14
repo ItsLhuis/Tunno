@@ -86,7 +86,8 @@ export const polish: Language = {
       showingOfTotal: "Wyświetlanie {showing} z {total}",
       start: "Rozpocznij",
       completed: "Zakończono",
-      songsPlayed: "{count} utwór{count, plural, one {} other{ów}}"
+      songsPlayed: "{count} utwór{count, plural, one {} other{ów}}",
+      appearsIn: "Występuje w"
     },
     form: {
       titles: {

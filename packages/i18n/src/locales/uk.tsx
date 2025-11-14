@@ -86,7 +86,8 @@ export const ukrainian: Language = {
       showingOfTotal: "Показано {showing} з {total}",
       start: "Почати",
       completed: "Завершено",
-      songsPlayed: "{count} пісень{count, plural, one {} other{}}"
+      songsPlayed: "{count} пісень{count, plural, one {} other{}}",
+      appearsIn: "Присутня в"
     },
     form: {
       titles: {

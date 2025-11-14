@@ -86,7 +86,8 @@ export const portuguese: Language = {
       showingOfTotal: "A mostrar {showing} de {total}",
       start: "Iniciar",
       completed: "Concluído",
-      songsPlayed: "{count} música{count, plural, one {} other{s}}"
+      songsPlayed: "{count} música{count, plural, one {} other{s}}",
+      appearsIn: "Aparece em"
     },
     form: {
       titles: {

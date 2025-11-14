@@ -86,7 +86,8 @@ export const turkish: Language = {
       showingOfTotal: "{total} üzerinden {showing} gösteriliyor",
       start: "Başlat",
       completed: "Tamamlandı",
-      songsPlayed: "{count} şarkı{count, plural, one {} other{}}"
+      songsPlayed: "{count} şarkı{count, plural, one {} other{}}",
+      appearsIn: "Yer aldığı"
     },
     form: {
       titles: {

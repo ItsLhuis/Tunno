@@ -86,7 +86,8 @@ export const spanish: Language = {
       showingOfTotal: "Mostrando {showing} de {total}",
       start: "Iniciar",
       completed: "Completado",
-      songsPlayed: "{count} canción{count, plural, one {} other{es}}"
+      songsPlayed: "{count} canción{count, plural, one {} other{es}}",
+      appearsIn: "Aparece en"
     },
     form: {
       titles: {

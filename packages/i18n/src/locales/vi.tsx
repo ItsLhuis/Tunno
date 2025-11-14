@@ -86,7 +86,8 @@ export const vietnamese: Language = {
       showingOfTotal: "Hiển thị {showing}/{total}",
       start: "Bắt đầu",
       completed: "Hoàn thành",
-      songsPlayed: "{count} bài hát"
+      songsPlayed: "{count} bài hát",
+      appearsIn: "Xuất hiện trong"
     },
     form: {
       titles: {

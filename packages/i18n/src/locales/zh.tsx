@@ -86,7 +86,8 @@ export const chinese: Language = {
       showingOfTotal: "显示 {showing}/{total}",
       start: "开始",
       completed: "完成",
-      songsPlayed: "{count} 首歌曲"
+      songsPlayed: "{count} 首歌曲",
+      appearsIn: "出现在"
     },
     form: {
       titles: {

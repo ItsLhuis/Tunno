@@ -86,7 +86,8 @@ export const korean: Language = {
       showingOfTotal: "{total}개 중 {showing}개 표시",
       start: "시작",
       completed: "완료",
-      songsPlayed: "{count}곡"
+      songsPlayed: "{count}곡",
+      appearsIn: "에 포함됨"
     },
     form: {
       titles: {

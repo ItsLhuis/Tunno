@@ -86,7 +86,8 @@ export const dutch: Language = {
       showingOfTotal: "{showing} van {total} weergegeven",
       start: "Start",
       completed: "Voltooid",
-      songsPlayed: "{count} nummer{count, plural, one {} other{s}}"
+      songsPlayed: "{count} nummer{count, plural, one {} other{s}}",
+      appearsIn: "Komt voor in"
     },
     form: {
       titles: {

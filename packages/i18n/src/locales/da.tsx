@@ -86,7 +86,8 @@ export const danish: Language = {
       showingOfTotal: "Viser {showing} af {total}",
       start: "Start",
       completed: "Fuldført",
-      songsPlayed: "{count} sang{count, plural, one {} other{e}}"
+      songsPlayed: "{count} sang{count, plural, one {} other{e}}",
+      appearsIn: "Forekommer i"
     },
     form: {
       titles: {

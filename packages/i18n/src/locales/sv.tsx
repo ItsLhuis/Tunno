@@ -86,7 +86,8 @@ export const swedish: Language = {
       showingOfTotal: "Visar {showing} av {total}",
       start: "Starta",
       completed: "Slutförd",
-      songsPlayed: "{count} låt{count, plural, one {} other{ar}}"
+      songsPlayed: "{count} låt{count, plural, one {} other{ar}}",
+      appearsIn: "Förekommer i"
     },
     form: {
       titles: {

@@ -86,7 +86,8 @@ export const finnish: Language = {
       showingOfTotal: "Näytetään {showing}/{total}",
       start: "Aloita",
       completed: "Valmis",
-      songsPlayed: "{count} kappale{count, plural, one {} other{tta}}"
+      songsPlayed: "{count} kappale{count, plural, one {} other{tta}}",
+      appearsIn: "Esiintyy"
     },
     form: {
       titles: {

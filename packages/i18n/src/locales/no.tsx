@@ -86,7 +86,8 @@ export const norwegian: Language = {
       showingOfTotal: "Viser {showing} av {total}",
       start: "Start",
       completed: "Fullført",
-      songsPlayed: "{count} sang{count, plural, one {} other{er}}"
+      songsPlayed: "{count} sang{count, plural, one {} other{er}}",
+      appearsIn: "Forekommer i"
     },
     form: {
       titles: {

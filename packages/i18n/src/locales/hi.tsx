@@ -86,7 +86,8 @@ export const hindi: Language = {
       showingOfTotal: "{total} में से {showing} दिखाया जा रहा है",
       start: "शुरू करें",
       completed: "पूरा हुआ",
-      songsPlayed: "{count} गाना{count, plural, one {} other{ों}}"
+      songsPlayed: "{count} गाना{count, plural, one {} other{ों}}",
+      appearsIn: "में दिखाई देता है"
     },
     form: {
       titles: {

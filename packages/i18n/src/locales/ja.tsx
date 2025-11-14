@@ -86,7 +86,8 @@ export const japanese: Language = {
       showingOfTotal: "{total}件中{showing}件を表示",
       start: "開始",
       completed: "完了",
-      songsPlayed: "{count}曲"
+      songsPlayed: "{count}曲",
+      appearsIn: "に含まれる"
     },
     form: {
       titles: {

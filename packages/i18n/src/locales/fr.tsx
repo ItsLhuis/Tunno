@@ -86,7 +86,8 @@ export const french: Language = {
       showingOfTotal: "Affichage de {showing} sur {total}",
       start: "Démarrer",
       completed: "Terminé",
-      songsPlayed: "{count} chanson{count, plural, one {} other{s}}"
+      songsPlayed: "{count} chanson{count, plural, one {} other{s}}",
+      appearsIn: "Apparaît dans"
     },
     form: {
       titles: {
