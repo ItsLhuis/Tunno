@@ -90,6 +90,7 @@ export type Translations = {
     start: string
     completed: string
     songsPlayed: string
+    appearsIn: string
   }
   form: {
     titles: {
