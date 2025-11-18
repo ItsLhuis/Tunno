@@ -2,6 +2,14 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.5.1] - 2025-11-18
+
+### Enhanced
+
+- ⏱️ Added 60-second timeout for Spotify track confirmation prompts to prevent hanging
+- 🛡️ Improved error handling in track matching flow with proper timeout cleanup
+- 🔄 Changed default confirmation answer to `false` for better user experience
+
 ## [1.5.0] - 2025-10-27
 
 ### Added
