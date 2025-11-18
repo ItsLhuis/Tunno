@@ -240,18 +240,35 @@ export async function getTrack(
         return null
       }
 
-      const { isCorrect } = await inquirer.prompt([
-        {
-          type: "confirm",
-          name: "isCorrect",
-          message: `[spotify] ${chalk.red("Track not found.")} The best match found is ${chalk.blue(
-            bestTrackMatch.name
-          )} by ${chalk.blue(
-            bestTrackMatch.artists.map((artist: any) => artist.name).join(", ")
-          )}. ${chalk.yellow("Does this match what you were looking for?")}`,
-          default: true
-        }
-      ])
+      let isCorrect = false
+
+      const timeoutId = setTimeout(() => {
+        console.log(
+          `\n[spotify] No response received after 60 seconds. ${chalk.yellow("Skipping track...")}`
+        )
+        process.stdin.emit("data", "\n")
+      }, 60000)
+
+      try {
+        const answer = await inquirer.prompt<{ isCorrect: boolean }>([
+          {
+            type: "confirm",
+            name: "isCorrect",
+            message: `[spotify] ${chalk.red("Track not found.")} The best match found is ${chalk.blue(
+              bestTrackMatch.name
+            )} by ${chalk.blue(
+              bestTrackMatch.artists.map((artist: any) => artist.name).join(", ")
+            )}. ${chalk.yellow("Does this match what you were looking for?")}`,
+            default: false
+          }
+        ])
+
+        isCorrect = answer.isCorrect
+      } catch (error) {
+        isCorrect = false
+      } finally {
+        clearTimeout(timeoutId)
+      }
 
       if (isCorrect) return await buildTrackResult(bestTrackMatch)
 
