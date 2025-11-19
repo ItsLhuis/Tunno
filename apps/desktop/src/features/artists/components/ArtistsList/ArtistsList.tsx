@@ -44,6 +44,8 @@ const ArtistsList = () => {
     filters: Object.keys(debouncedFilters).length > 0 ? debouncedFilters : undefined
   }
 
+  const keyExtractor = useCallback((item: Artist) => item.id.toString(), [])
+
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } =
     useFetchArtistsInfinite(queryParams)
 
@@ -87,7 +89,7 @@ const ArtistsList = () => {
           className={cn(viewMode === "grid" && "pb-6")}
         />
         {viewMode === "list" && (
-          <div className="px-9 pb-3 pt-6">
+          <div className="px-9 pt-6 pb-3">
             <ArtistsListSubHeader list={list} className="border-b" />
           </div>
         )}
@@ -128,7 +130,7 @@ const ArtistsList = () => {
       ListEmptyComponent={ListEmpty}
       ListFooterComponent={ListFooter}
       data={artists}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={keyExtractor}
       estimateItemHeight={70}
       gap={8}
       onEndReached={handleEndReached}
