@@ -135,6 +135,8 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
     [handleSyncedLineChange]
   )
 
+  const keyExtractor = useCallback((_: Lyric, index: number) => index.toString(), [])
+
   const addSyncedLine = useCallback(() => {
     setSyncedLines((prevLines) => {
       const lastTime = prevLines.length > 0 ? prevLines[prevLines.length - 1].startTime : 0
@@ -182,7 +184,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                   <ScrollArea ref={previewScrollRef} className="h-[240px] rounded-md border">
                     <VirtualizedList
                       data={syncedLines}
-                      keyExtractor={(_, index) => index.toString()}
+                      keyExtractor={keyExtractor}
                       estimateItemHeight={20}
                       gap={8}
                       scrollRef={previewScrollRef}
@@ -220,7 +222,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
           <ScrollArea ref={editorScrollRef} className="h-[300px]">
             <VirtualizedList
               data={syncedLines}
-              keyExtractor={(_, index) => index.toString()}
+              keyExtractor={keyExtractor}
               estimateItemHeight={60}
               gap={8}
               scrollRef={editorScrollRef}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 
 import { useStickToIndex } from "@hooks/useStickToIndex"
 
@@ -53,6 +53,8 @@ const LyricsReader = ({ lyrics, currentTime, onSeek, ...props }: LyricsReaderPro
     virtualizer: virtualizerRef
   })
 
+  const keyExtractor = useCallback((_: unknown, index: number) => String(index), [])
+
   useEffect(() => {
     if (scrollRef.current && lyrics.length > 0) {
       scrollRef.current.scrollTo({ top: 0, behavior: "instant" })
@@ -63,7 +65,7 @@ const LyricsReader = ({ lyrics, currentTime, onSeek, ...props }: LyricsReaderPro
     <VirtualizedListWithHeaders
       {...props}
       data={filteredLyrics}
-      keyExtractor={(_, index) => String(index)}
+      keyExtractor={keyExtractor}
       onScrollRef={(ref) => {
         scrollRef.current = ref.current
       }}
