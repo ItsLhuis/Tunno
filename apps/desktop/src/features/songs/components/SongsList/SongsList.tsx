@@ -48,6 +48,8 @@ const SongsList = () => {
     filters: Object.keys(debouncedFilters).length > 0 ? debouncedFilters : undefined
   }
 
+  const keyExtractor = useCallback((item: SongWithMainRelations) => item.id.toString(), [])
+
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } =
     useFetchSongsWithMainRelationsInfinite(queryParams)
 
@@ -138,7 +140,7 @@ const SongsList = () => {
       ListEmptyComponent={ListEmpty}
       ListFooterComponent={ListFooter}
       data={songs}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={keyExtractor}
       estimateItemHeight={70}
       gap={8}
       onEndReached={handleEndReached}

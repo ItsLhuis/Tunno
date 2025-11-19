@@ -204,7 +204,7 @@ const SongItem = memo(
                 placeholderIcon="Music"
                 fileName={song.thumbnail}
                 alt={song.name}
-                containerClassName="size-full rounded-lg"
+                containerClassName="size-full"
                 className={cn("size-full", !song.thumbnail && "p-[25%]")}
               />
             </div>

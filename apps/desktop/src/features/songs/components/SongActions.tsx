@@ -1,4 +1,4 @@
-import { Fragment, memo, type ReactNode, useRef, useState } from "react"
+import { Fragment, memo, type ReactNode, useCallback, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -83,6 +83,11 @@ const SongActions = memo(
     const [isAddToPlaylistOpen, setIsAddToPlaylistOpen] = useState(false)
 
     const artistsScrollRef = useRef<HTMLDivElement | null>(null)
+
+    const keyExtractor = useCallback(
+      (artist: { artistId: number }) => artist.artistId.toString(),
+      []
+    )
 
     const {
       loadTracks,
@@ -312,7 +317,7 @@ const SongActions = memo(
                 <VirtualizedList
                   scrollRef={artistsScrollRef}
                   data={finalTargetSong.artists || []}
-                  keyExtractor={(artist) => artist.artistId.toString()}
+                  keyExtractor={keyExtractor}
                   renderItem={({ item: artist }) => (
                     <MenuItem asChild>
                       <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
