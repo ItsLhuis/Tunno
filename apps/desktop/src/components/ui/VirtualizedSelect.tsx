@@ -1,5 +1,6 @@
 import {
   Fragment,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -15,6 +16,8 @@ import { type VariantProps } from "class-variance-authority"
 import { useVirtualizer } from "@tanstack/react-virtual"
 
 import { useTranslation } from "@repo/i18n"
+
+import { createSelectionManager, useSelection } from "@repo/utils"
 
 import { Badge, badgeVariants } from "@components/ui/Badge"
 import { Button } from "@components/ui/Button"
@@ -108,12 +111,70 @@ const VirtualizedSelect = ({
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
-  const normalizedValue = useMemo((): string[] => {
-    if (multiple) {
-      return Array.isArray(value) ? value : []
+  const keyExtractor = useCallback((option: VirtualizedSelectOption) => option.value, [])
+
+  const keyExtractorRef = useRef(keyExtractor)
+
+  keyExtractorRef.current = keyExtractor
+
+  const selectionManager = useMemo(
+    () => createSelectionManager(keyExtractorRef.current, options),
+    []
+  )
+
+  useEffect(() => {
+    selectionManager.setData(options)
+  }, [selectionManager, options])
+
+  const handleSelectionChange = useCallback(
+    (selectedIds: readonly string[]) => {
+      if (multiple) {
+        ;(onValueChange as (value: string[]) => void)([...selectedIds])
+      } else {
+        const singleValue = selectedIds.length > 0 ? selectedIds[0] : ""
+        ;(onValueChange as (value: string) => void)(singleValue)
+      }
+    },
+    [multiple, onValueChange]
+  )
+
+  const { controller, handleToggleItem } = useSelection(selectionManager, handleSelectionChange)
+
+  const previousValueRef = useRef<string | string[] | undefined>(undefined)
+
+  useEffect(() => {
+    const normalizedValue: string[] = multiple
+      ? Array.isArray(value)
+        ? value
+        : []
+      : value !== undefined && value !== null && value !== ""
+        ? [String(value)]
+        : []
+
+    const prevValue = previousValueRef.current
+    const prevNormalized: string[] = multiple
+      ? Array.isArray(prevValue)
+        ? prevValue
+        : []
+      : prevValue !== undefined && prevValue !== null && prevValue !== ""
+        ? [String(prevValue)]
+        : []
+
+    const valueChanged =
+      normalizedValue.length !== prevNormalized.length ||
+      normalizedValue.some((v, i) => v !== prevNormalized[i])
+
+    if (valueChanged) {
+      previousValueRef.current = value
+
+      selectionManager.clearSelection()
+      normalizedValue.forEach((id) => {
+        if (options.some((opt) => opt.value === id && !opt.disabled)) {
+          selectionManager.toggleSelect(id, true)
+        }
+      })
     }
-    return value !== undefined && value !== null && value !== "" ? [String(value)] : []
-  }, [value, multiple])
+  }, [value, multiple, options, selectionManager])
 
   const groupedOptions = useMemo(() => {
     const groups: Record<string, VirtualizedSelectOption[]> = {}
@@ -152,15 +213,6 @@ const VirtualizedSelect = ({
     return items
   }, [groupedOptions])
 
-  const emitValue = (values: string[]) => {
-    if (multiple) {
-      ;(onValueChange as (value: string[]) => void)(values)
-    } else {
-      const singleValue = values.length > 0 ? values[0] : ""
-      ;(onValueChange as (value: string) => void)(singleValue)
-    }
-  }
-
   const scrollRef = useRef<HTMLDivElement | null>(null)
 
   const enabledValues = useMemo(
@@ -171,43 +223,48 @@ const VirtualizedSelect = ({
   const isAllSelected =
     multiple &&
     enabledValues.length > 0 &&
-    enabledValues.every((val) => normalizedValue.includes(val))
+    enabledValues.every((val) => controller.selectedIds.includes(val))
 
   const isIndeterminate =
     multiple &&
-    normalizedValue.length > 0 &&
-    normalizedValue.length < enabledValues.length &&
+    controller.selectedCount > 0 &&
+    controller.selectedCount < enabledValues.length &&
     !isAllSelected
 
   const handleClear = () => {
-    emitValue([])
+    controller.clearSelection()
     setIsPopoverOpen(false)
   }
 
   const handleSelectAll = () => {
     if (!multiple) return
-    emitValue(isAllSelected ? [] : enabledValues)
+    if (isAllSelected) {
+      controller.clearSelection()
+    } else {
+      controller.clearSelection()
+      enabledValues.forEach((id) => {
+        selectionManager.toggleSelect(id, true)
+      })
+    }
   }
 
   const clearExtraOptions = () => {
     if (!multiple) return
-    emitValue(normalizedValue.slice(0, maxCount))
+    const selectedIds = controller.selectedIds.slice(0, maxCount)
+    controller.clearSelection()
+    selectedIds.forEach((id) => {
+      selectionManager.toggleSelect(id, true)
+    })
     setIsPopoverOpen(false)
   }
 
-  const isOptionSelected = (optionValue: string) => normalizedValue.includes(optionValue)
+  const isOptionSelected = (optionValue: string) => controller.selectedIds.includes(optionValue)
 
   const toggleOption = (optionValue: string) => {
     if (multiple) {
-      const newValues = normalizedValue.includes(optionValue)
-        ? normalizedValue.filter((v) => v !== optionValue)
-        : [...normalizedValue, optionValue]
-      emitValue(newValues)
+      handleToggleItem(optionValue, true)
     } else {
-      const isCurrentlySelected = normalizedValue.includes(optionValue)
-      const newValues = isCurrentlySelected ? [] : [optionValue]
-      emitValue(newValues)
-
+      handleToggleItem(optionValue, false)
       setIsPopoverOpen(false)
     }
   }
@@ -289,7 +346,7 @@ const VirtualizedSelect = ({
   }
 
   const renderTriggerContent = () => {
-    const hasSelection = normalizedValue.length > 0
+    const hasSelection = controller.selectedCount > 0
 
     if (!hasSelection) {
       return (
@@ -300,8 +357,8 @@ const VirtualizedSelect = ({
       )
     }
 
-    const visibleValues = normalizedValue.slice(0, maxCount)
-    const extraCount = normalizedValue.length - maxCount
+    const visibleValues = controller.selectedIds.slice(0, maxCount)
+    const extraCount = controller.selectedCount - maxCount
 
     return (
       <div className="flex w-full items-center justify-between">
@@ -361,7 +418,7 @@ const VirtualizedSelect = ({
     )
   }
 
-  const hasSelection = normalizedValue.length > 0
+  const hasSelection = controller.selectedCount > 0
 
   const contentHeight = loading
     ? "auto"
@@ -377,7 +434,7 @@ const VirtualizedSelect = ({
           variant="outline"
           asChild
           className={cn(
-            "border-input focus-within:border-primary bg-sidebar hover:bg-input/80 flex h-auto min-h-9 w-full items-center justify-between rounded-md border p-1 transition-colors focus-visible:outline-hidden [&_svg]:pointer-events-auto",
+            "border-input focus-within:border-primary bg-sidebar/75 hover:bg-input/75 flex h-auto min-h-9 w-full items-center justify-between rounded-md border p-1 transition-colors focus-visible:outline-hidden [&_svg]:pointer-events-auto",
             className
           )}
         >
