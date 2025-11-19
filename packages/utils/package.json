@@ -18,8 +18,17 @@
     "culori": "^4.0.2",
     "date-fns": "^4.1.0"
   },
+  "peerDependencies": {
+    "react": "^19.1.1"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/culori": "^4.0.1",
+    "@types/react": "^18.0.0",
     "typescript": "~5.9.3"
   }
 }
