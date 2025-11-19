@@ -27,6 +27,8 @@ const FastUploadPage = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const virtualizerRef = useRef<Virtualizer<HTMLElement, Element> | null>(null)
 
+  const keyExtractor = useCallback((item: { id: string }) => item.id, [])
+
   useStickToIndex({
     targetIndex: Math.min(currentTrackIndex, Math.max(0, tracks.length - 1)),
     enabled: status === "processing",
@@ -58,7 +60,7 @@ const FastUploadPage = () => {
       StickyHeaderComponent={StickyHeader}
       ListEmptyComponent={ListEmpty}
       data={tracks}
-      keyExtractor={(item) => item.id}
+      keyExtractor={keyExtractor}
       estimateItemHeight={70}
       gap={8}
       renderItem={({ item, index }) => (

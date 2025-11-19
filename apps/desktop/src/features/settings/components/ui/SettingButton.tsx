@@ -9,7 +9,6 @@ export type SettingButtonProps = {
   description?: string | ReactNode
   renderLeft?: () => ReactNode
   renderRight?: () => ReactNode
-  onClick?: () => void
   className?: string
   children?: ReactNode
 }
@@ -19,15 +18,11 @@ const SettingButton = ({
   description,
   renderLeft,
   renderRight,
-  onClick,
   className,
   children
 }: SettingButtonProps) => {
   return (
-    <div
-      className={cn("flex w-full flex-col gap-3 transition-colors", className)}
-      onClick={onClick}
-    >
+    <div className={cn("flex w-full flex-col gap-3 transition-colors", className)}>
       <div className="grid grid-cols-[auto_1fr_auto] items-start gap-3">
         {renderLeft && <div>{renderLeft()}</div>}
         <div className="min-w-0 text-left">
