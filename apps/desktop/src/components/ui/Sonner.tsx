@@ -41,9 +41,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
           title: "font-bold! text-sm!",
           description: "text-muted-foreground! text-xs! ",
           cancelButton:
-            "cursor-default! h-9! px-4! py-2! mt-3! col-start-2! row-start-3! rounded-md! bg-accent! text-accent-foreground! hover:bg-accent/80! focus-visible:bg-accent/80! focus:outline-hidden! ",
+            "cursor-default! h-9! px-4! py-2! mt-3! col-start-2! row-start-3! rounded! bg-accent! text-accent-foreground! hover:bg-accent/80! focus-visible:bg-accent/80! focus:outline-hidden! ",
           actionButton:
-            "cursor-default! h-9! px-4! py-2! mt-3! col-start-3 row-start-3 rounded-md! bg-primary! text-primary-foreground! hover:text-primary-foreground/90! hover:bg-primary/80! focus-visible:bg-primary/80! focus:outline-hidden! ",
+            "cursor-default! h-9! px-4! py-2! mt-3! col-start-3 row-start-3 rounded! bg-primary! text-primary-foreground! hover:text-primary-foreground/90! hover:bg-primary/80! focus-visible:bg-primary/80! focus:outline-hidden! ",
           closeButton:
             "cursor-default! border-border! bg-background! text-accent-foreground! hover:bg-accent/80! focus-visible:bg-accent/80! focus:outline-hidden! "
         }

@@ -79,7 +79,7 @@ const TrackItem = memo(({ track, processId }: TrackItemProps) => {
 
   return (
     <div
-      className="group grid w-full items-center gap-3 rounded-lg p-2 transition-colors focus-within:bg-accent hover:bg-accent"
+      className="group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded p-2 transition-colors"
       style={{ gridTemplateColumns: "auto 1fr 1fr minmax(140px, auto)" }}
     >
       <div className="relative flex items-center justify-center">

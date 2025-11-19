@@ -11,7 +11,7 @@ import { Spinner } from "@components/ui/Spinner"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/Tooltip"
 
 const buttonVariants = cva(
-  "cursor-default inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border border-transparent transition-colors focus-visible:border-primary! disabled:pointer-events-none disabled:opacity-50 focus:outline-none focus:ring-0 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
+  "cursor-default inline-flex items-center justify-center gap-2 whitespace-nowrap rounded text-sm font-medium border border-transparent transition-colors focus-visible:border-primary! disabled:pointer-events-none disabled:opacity-50 focus:outline-none focus:ring-0 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
   {
     variants: {
       variant: {

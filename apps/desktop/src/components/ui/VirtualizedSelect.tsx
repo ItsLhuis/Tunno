@@ -434,7 +434,7 @@ const VirtualizedSelect = ({
           variant="outline"
           asChild
           className={cn(
-            "border-input focus-within:border-primary bg-sidebar/75 hover:bg-input/75 flex h-auto min-h-9 w-full items-center justify-between rounded-md border p-1 transition-colors focus-visible:outline-hidden [&_svg]:pointer-events-auto",
+            "border-input focus-within:border-primary bg-sidebar/75 hover:bg-input/75 flex h-auto min-h-9 w-full items-center justify-between rounded border p-1 transition-colors focus-visible:outline-hidden [&_svg]:pointer-events-auto",
             className
           )}
         >

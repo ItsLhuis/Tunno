@@ -37,7 +37,7 @@ const MarkdownComponent = ({ content, className }: MarkdownProps) => {
         return (
           <code
             className={cn(
-              "relative rounded bg-muted/50 px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+              "bg-muted/50 relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
               className
             )}
             {...props}
@@ -47,22 +47,22 @@ const MarkdownComponent = ({ content, className }: MarkdownProps) => {
         )
       },
       h1: ({ children }: MarkdownComponentProps) => (
-        <Typography variant="h1" className="mb-3 mt-8 first:mt-0">
+        <Typography variant="h1" className="mt-8 mb-3 first:mt-0">
           {children}
         </Typography>
       ),
       h2: ({ children }: MarkdownComponentProps) => (
-        <Typography variant="h2" className="mb-3 mt-8 first:mt-0">
+        <Typography variant="h2" className="mt-8 mb-3 first:mt-0">
           {children}
         </Typography>
       ),
       h3: ({ children }: MarkdownComponentProps) => (
-        <Typography variant="h3" className="mb-3 mt-6 first:mt-0">
+        <Typography variant="h3" className="mt-6 mb-3 first:mt-0">
           {children}
         </Typography>
       ),
       h4: ({ children }: MarkdownComponentProps) => (
-        <Typography variant="h4" className="mb-3 mt-6 first:mt-0">
+        <Typography variant="h4" className="mt-6 mb-3 first:mt-0">
           {children}
         </Typography>
       ),
@@ -84,7 +84,7 @@ const MarkdownComponent = ({ content, className }: MarkdownProps) => {
         </Typography>
       ),
       table: ({ children }: MarkdownComponentProps) => (
-        <div className="my-6 w-full overflow-y-auto rounded-md border">
+        <div className="my-6 w-full overflow-y-auto rounded border">
           <table className="w-full caption-bottom text-sm">{children}</table>
         </div>
       ),
@@ -95,14 +95,14 @@ const MarkdownComponent = ({ content, className }: MarkdownProps) => {
         <tbody className="[&_tr:last-child]:border-0">{children}</tbody>
       ),
       tr: ({ children }: MarkdownComponentProps) => (
-        <tr className="m-0 border-b p-0 transition-colors focus-within:bg-muted/50 hover:bg-muted/50 data-[state=selected]:bg-muted/50">
+        <tr className="focus-within:bg-muted/50 hover:bg-muted/50 data-[state=selected]:bg-muted/50 m-0 border-b p-0 transition-colors">
           {children}
         </tr>
       ),
       th: ({ children, align }: MarkdownComponentProps) => (
         <th
           className={cn(
-            "p-3 font-medium text-muted-foreground",
+            "text-muted-foreground p-3 font-medium",
             align === "center" && "text-center",
             align === "right" && "text-right",
             !align && "text-left"
@@ -126,14 +126,14 @@ const MarkdownComponent = ({ content, className }: MarkdownProps) => {
       a: ({ children, href }: MarkdownComponentProps) => (
         <a
           href={href}
-          className="underline-offset-3 font-medium text-primary underline transition-colors hover:text-primary/80"
+          className="text-primary hover:text-primary/80 font-medium underline underline-offset-3 transition-colors"
           target="_blank"
           rel="noopener noreferrer"
         >
           {children}
         </a>
       ),
-      hr: () => <hr className="my-8 border-border" />,
+      hr: () => <hr className="border-border my-8" />,
       strong: ({ children }: MarkdownComponentProps) => (
         <Typography variant="span" affects={["bold"]}>
           {children}

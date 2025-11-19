@@ -66,7 +66,7 @@ const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
             fileName={album.thumbnail}
             alt={album.name}
             className={album.thumbnail ? "h-full w-full" : "size-24"}
-            containerClassName="h-full w-full rounded-lg"
+            containerClassName="h-full w-full rounded"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2">

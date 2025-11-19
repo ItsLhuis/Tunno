@@ -99,7 +99,7 @@ const PlaylistItem = memo(
           onClick={onToggle}
           className={cn(
             buttonVariants({ variant: "outline", size: "default" }),
-            "flex h-auto w-full flex-row items-center justify-between gap-3 rounded-md p-3 text-left transition-colors focus:ring-0 focus:outline-hidden"
+            "flex h-auto w-full flex-row items-center justify-between gap-3 rounded p-3 text-left transition-colors focus:ring-0 focus:outline-hidden"
           )}
         >
           <div className="flex w-full items-center gap-3">
@@ -133,7 +133,7 @@ const PlaylistItem = memo(
     if (variant === "card") {
       return (
         <PlaylistActions variant="context" playlistId={playlist.id}>
-          <div className="group focus-within:bg-accent hover:bg-accent relative flex size-full flex-col items-start rounded-lg p-2 transition-colors">
+          <div className="group focus-within:bg-accent hover:bg-accent relative flex size-full flex-col items-start rounded p-2 transition-colors">
             <div className="mb-2 size-full">
               <Thumbnail
                 placeholderIcon="ListMusic"
@@ -187,7 +187,7 @@ const PlaylistItem = memo(
     if (variant === "compact") {
       return (
         <PlaylistActions variant="context" playlistId={playlist.id}>
-          <div className="group focus-within:bg-accent hover:bg-accent relative flex size-full flex-col items-start rounded-lg p-2 transition-colors">
+          <div className="group focus-within:bg-accent hover:bg-accent relative flex size-full flex-col items-start rounded p-2 transition-colors">
             <div className="size-full">
               <Thumbnail
                 placeholderIcon="ListMusic"
@@ -293,7 +293,7 @@ const PlaylistItem = memo(
       <PlaylistActions variant="context" playlistId={playlist.id}>
         <div
           className={cn(
-            "group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded-lg p-2 transition-colors",
+            "group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded p-2 transition-colors",
             selected && "bg-accent"
           )}
           style={{ gridTemplateColumns: getGridTemplateColumns() }}

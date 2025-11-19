@@ -64,7 +64,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   }
 
   return (
-    <div className="h-full border-b bg-sidebar">
+    <div className="bg-sidebar h-full border-b">
       <WindowTitlebar
         onMinimize={() => getCurrentWindow().minimize()}
         onMaximize={() => getCurrentWindow().toggleMaximize()}
@@ -95,7 +95,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
               containerClassName="bg-transparent border-none rounded-none"
               className="mr-3 aspect-auto w-4"
             />
-            <Fade show={!isSplashVisible} className="flex w-full items-center rounded-md bg-muted">
+            <Fade show={!isSplashVisible} className="bg-muted flex w-full items-center rounded">
               <OverflowMenu data-tauri-drag-region className="flex-1 px-3" triggerClassName="-ml-3">
                 {breadcrumbs.map((breadcrumb, index) => {
                   const isLast = index === breadcrumbs.length - 1
@@ -111,7 +111,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                             <Typography
                               data-tauri-drag-region
                               affects="small"
-                              className="line-clamp-1 break-all leading-4"
+                              className="line-clamp-1 leading-4 break-all"
                             >
                               {t("common.noResultsFound")}
                             </Typography>
@@ -120,7 +120,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                             <Typography
                               data-tauri-drag-region
                               affects="small"
-                              className="line-clamp-1 break-all leading-4"
+                              className="line-clamp-1 leading-4 break-all"
                             >
                               {t("common.noResultsFound")}
                             </Typography>
@@ -131,7 +131,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                             <Typography
                               data-tauri-drag-region
                               affects="small"
-                              className="line-clamp-1 break-all leading-4"
+                              className="line-clamp-1 leading-4 break-all"
                             >
                               {label}
                             </Typography>
@@ -141,14 +141,14 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                         <Button
                           variant="link"
                           size="sm"
-                          className="p-0 leading-4 text-muted-foreground"
+                          className="text-muted-foreground p-0 leading-4"
                           onClick={() => router.navigate({ to: breadcrumb.path })}
                         >
                           {breadcrumb.label}
                         </Button>
                       )}
                       {index < breadcrumbs.length - 1 && (
-                        <Icon name="ChevronRight" className="mx-1 text-muted-foreground" />
+                        <Icon name="ChevronRight" className="text-muted-foreground mx-1" />
                       )}
                     </div>
                   )
@@ -166,8 +166,8 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                   className={cn(
                     "transition-all",
                     !showSuccess && !showError
-                      ? "rotate-0 scale-100 opacity-100"
-                      : "rotate-90 scale-0 opacity-0"
+                      ? "scale-100 rotate-0 opacity-100"
+                      : "scale-0 rotate-90 opacity-0"
                   )}
                 >
                   <Icon name="RefreshCw" className={cn(isLoading && "animate-spin")} />
@@ -177,8 +177,8 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                   className={cn(
                     "absolute transition-all",
                     showSuccess
-                      ? "rotate-0 scale-100 text-success opacity-100"
-                      : "rotate-90 scale-0 opacity-0"
+                      ? "text-success scale-100 rotate-0 opacity-100"
+                      : "scale-0 rotate-90 opacity-0"
                   )}
                 />
                 <Icon
@@ -186,8 +186,8 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                   className={cn(
                     "absolute transition-all",
                     showError
-                      ? "rotate-0 scale-100 text-error opacity-100"
-                      : "rotate-90 scale-0 opacity-0"
+                      ? "text-error scale-100 rotate-0 opacity-100"
+                      : "scale-0 rotate-90 opacity-0"
                   )}
                 />
               </Button>

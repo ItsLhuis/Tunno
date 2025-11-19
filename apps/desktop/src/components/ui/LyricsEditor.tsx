@@ -58,7 +58,7 @@ const LyricLine = memo(
     const { t } = useTranslation()
 
     return (
-      <div className="flex items-center gap-3 rounded-lg border p-3 transition-colors">
+      <div className="flex items-center gap-3 rounded border p-3 transition-colors">
         <NumberInput
           min={Math.max(0, minTime)}
           max={maxTime}
@@ -152,7 +152,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
   return (
     <div className={className}>
       <div className="space-y-4">
-        <div className="rounded-md border">
+        <div className="rounded border">
           <div className="flex items-center justify-between gap-2 border-b p-3">
             <div className="flex items-center gap-2">
               <Badge variant="muted">
@@ -181,7 +181,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                     <DialogTitle>{t("form.titles.lyricsPreview")}</DialogTitle>
                     <DialogDescription>{t("form.descriptions.lyricsPreview")}</DialogDescription>
                   </DialogHeader>
-                  <ScrollArea ref={previewScrollRef} className="h-[240px] rounded-md border">
+                  <ScrollArea ref={previewScrollRef} className="h-[240px] rounded border">
                     <VirtualizedList
                       data={syncedLines}
                       keyExtractor={keyExtractor}

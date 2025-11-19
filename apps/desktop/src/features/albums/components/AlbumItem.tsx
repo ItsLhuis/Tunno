@@ -93,13 +93,13 @@ const AlbumItem = memo(
     if (variant === "card") {
       return (
         <AlbumActions variant="context" albumId={album.id}>
-          <div className="group focus-within:bg-accent hover:bg-accent relative flex h-full w-full flex-col items-start rounded-lg p-2 transition-colors">
+          <div className="group focus-within:bg-accent hover:bg-accent relative flex h-full w-full flex-col items-start rounded p-2 transition-colors">
             <div className="mb-2 h-full w-full">
               <Thumbnail
                 placeholderIcon="Disc"
                 fileName={album.thumbnail}
                 alt={album.name}
-                containerClassName="h-full w-full rounded-lg"
+                containerClassName="h-full w-full rounded"
                 className={cn("h-full w-full", !album.thumbnail && "p-[25%]")}
               />
             </div>
@@ -158,7 +158,7 @@ const AlbumItem = memo(
               fileName={album.thumbnail}
               alt={album.name}
               className={album.thumbnail ? "h-full w-full" : "size-24"}
-              containerClassName="h-full w-full rounded-lg"
+              containerClassName="h-full w-full rounded"
             />
           </div>
           <div className="flex flex-1 flex-col gap-3">
@@ -213,7 +213,7 @@ const AlbumItem = memo(
       <AlbumActions variant="context" albumId={album.id}>
         <div
           className={cn(
-            "group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded-lg p-2 transition-colors",
+            "group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded p-2 transition-colors",
             selected && "bg-accent"
           )}
           style={{ gridTemplateColumns: getGridTemplateColumns() }}

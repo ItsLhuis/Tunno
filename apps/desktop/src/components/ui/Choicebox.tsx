@@ -36,7 +36,7 @@ const ChoiceboxItem = ({
       data-slot="choicebox-item"
       className={cn(
         buttonVariants({ variant, size, className }),
-        "flex h-auto flex-row items-center justify-between rounded-md p-3 outline-hidden transition-all"
+        "flex h-auto flex-row items-center justify-between rounded p-3 outline-hidden transition-all"
       )}
     >
       {children}

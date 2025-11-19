@@ -58,7 +58,7 @@ const Image = ({ src, className, containerClassName, onLoad, ref, ...props }: Im
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-md border border-border bg-muted",
+        "border-border bg-muted overflow-hidden rounded border",
         containerClassName,
         "relative shrink-0"
       )}

@@ -19,7 +19,7 @@ const TabsList = ({ className, ...props }: ComponentProps<typeof TabsPrimitive.L
     <TabsPrimitive.List
       data-slot="tabs-list"
       className={cn(
-        "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
+        "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded p-[3px]",
         className
       )}
       {...props}
@@ -32,7 +32,7 @@ const TabsTrigger = ({ className, ...props }: ComponentProps<typeof TabsPrimitiv
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "focus-visible:border-primary data-[state=active]:bg-background data-[state=active]:text-foreground inline-flex cursor-default items-center justify-center rounded-md border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        "focus-visible:border-primary data-[state=active]:bg-background data-[state=active]:text-foreground inline-flex cursor-default items-center justify-center rounded border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
         className
       )}
       {...props}

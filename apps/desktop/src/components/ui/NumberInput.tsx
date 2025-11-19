@@ -84,7 +84,7 @@ const NumberInput = ({
   return (
     <div
       className={cn(
-        "border-input bg-background ring-offset-background focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background flex h-9 w-full overflow-hidden rounded-md border text-sm transition",
+        "border-input bg-background ring-offset-background focus-within:border-primary focus-within:ring-primary focus-within:ring-offset-background flex h-9 w-full overflow-hidden rounded border text-sm transition",
         disabled && "cursor-not-allowed opacity-50",
         className
       )}

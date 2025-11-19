@@ -44,7 +44,7 @@ const SearchInput = ({
     <div className={cn("flex w-full items-center overflow-hidden", containerClassName)}>
       <div
         className={cn(
-          "border-input placeholder:text-muted-foreground bg-sidebar/75 flex w-full shrink-0 items-center gap-3 rounded-md border px-1 py-1 text-sm transition-colors",
+          "border-input placeholder:text-muted-foreground bg-sidebar/75 flex w-full shrink-0 items-center gap-3 rounded border px-1 py-1 text-sm transition-colors",
           isFocused && "focus-within:border-primary",
           className
         )}
