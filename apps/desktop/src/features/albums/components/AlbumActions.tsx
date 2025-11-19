@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode, useRef, useState } from "react"
+import { Fragment, type ReactNode, useCallback, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -77,6 +77,8 @@ const AlbumActions = ({
   const [isAddToPlaylistOpen, setIsAddToPlaylistOpen] = useState(false)
 
   const artistsScrollRef = useRef<HTMLDivElement | null>(null)
+
+  const keyExtractor = useCallback((artist: { artistId: number }) => artist.artistId.toString(), [])
 
   const { loadTracks, play, isTrackLoading, addToQueue } = usePlayerStore(
     useShallow((state) => ({
@@ -232,7 +234,7 @@ const AlbumActions = ({
               <VirtualizedList
                 scrollRef={artistsScrollRef}
                 data={finalTargetAlbum.artists || []}
-                keyExtractor={(artist) => artist.artistId.toString()}
+                keyExtractor={keyExtractor}
                 renderItem={({ item: artist }) => (
                   <MenuItem asChild>
                     <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>

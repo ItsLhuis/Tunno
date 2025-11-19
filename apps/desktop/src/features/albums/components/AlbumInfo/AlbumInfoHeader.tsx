@@ -24,7 +24,7 @@ import type { AlbumWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type AlbumInfoHeaderProps = {
   album: AlbumWithAllRelations
-  list: VirtualizedListController<SongWithMainRelations>
+  list: VirtualizedListController<SongWithMainRelations> | null
 }
 
 const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
@@ -49,7 +49,7 @@ const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
     toggleFavoriteMutation.mutate({ id: album.id })
   }
 
-  const hasSelectedRows = list.hasSelection
+  const hasSelectedRows = list?.hasSelection ?? false
 
   return (
     <Header className="flex flex-col gap-6">
