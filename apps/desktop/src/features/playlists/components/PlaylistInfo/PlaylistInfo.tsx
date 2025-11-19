@@ -59,8 +59,10 @@ const PlaylistInfo = () => {
   const [listController, setListController] =
     useState<VirtualizedListController<SongWithMainRelations> | null>(null)
 
+  const keyExtractor = useCallback((song: SongWithMainRelations) => song.id.toString(), [])
+
   const Header = useCallback(() => {
-    if (!playlist || !listController) return null
+    if (!playlist) return null
     return (
       <div>
         <PlaylistInfoHeader playlist={playlist} list={listController} />
@@ -70,7 +72,7 @@ const PlaylistInfo = () => {
   }, [playlist, listController])
 
   const StickyHeader = useCallback(() => {
-    if (!playlist || !listController) return null
+    if (!playlist) return null
     return (
       <Fragment>
         <PlaylistInfoStickyHeader className="pb-6" playlist={playlist} list={listController} />
@@ -81,12 +83,12 @@ const PlaylistInfo = () => {
 
   const ListHeader = useCallback(
     () =>
-      listController ? (
+      playlist ? (
         <div className="px-9 pt-6 pb-0">
           <PlaylistInfoSubHeader list={listController} className="border-b" />
         </div>
       ) : null,
-    [listController]
+    [playlist, listController]
   )
 
   const handleRefresh = useCallback(async () => {
@@ -115,7 +117,7 @@ const PlaylistInfo = () => {
           {(data) => (
             <VirtualizedList
               data={data}
-              keyExtractor={(song) => song.id.toString()}
+              keyExtractor={keyExtractor}
               estimateItemHeight={70}
               gap={8}
               scrollRef={scrollRef}

@@ -107,12 +107,7 @@ const PlaylistItem = memo(
               className="flex items-center justify-center"
               onClick={(event) => event.stopPropagation()}
             >
-              <Checkbox
-                tabIndex={-1}
-                checked={selected}
-                onCheckedChange={onToggle}
-                aria-label="Select playlist"
-              />
+              <Checkbox tabIndex={-1} checked={selected} onCheckedChange={onToggle} />
             </div>
             <Thumbnail
               placeholderIcon="ListMusic"
@@ -144,7 +139,7 @@ const PlaylistItem = memo(
                 placeholderIcon="ListMusic"
                 fileName={playlist.thumbnail}
                 alt={playlist.name}
-                containerClassName="size-full rounded-lg"
+                containerClassName="size-full"
                 className={cn("size-full", !playlist.thumbnail && "p-[25%]")}
               />
             </div>
@@ -198,7 +193,7 @@ const PlaylistItem = memo(
                 placeholderIcon="ListMusic"
                 fileName={playlist.thumbnail}
                 alt={playlist.name}
-                containerClassName="size-full rounded-lg"
+                containerClassName="size-full"
                 className={cn("size-full", !playlist.thumbnail && "p-[25%]")}
               />
             </div>
@@ -243,7 +238,7 @@ const PlaylistItem = memo(
               fileName={playlist.thumbnail}
               alt={playlist.name}
               className={playlist.thumbnail ? "size-full" : "size-24"}
-              containerClassName="size-full rounded-lg"
+              containerClassName="size-full"
             />
           </div>
           <div className="flex flex-1 flex-col gap-3">

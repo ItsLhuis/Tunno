@@ -108,8 +108,10 @@ const AddToPlaylistForm = ({
     }
   }
 
+  const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
+
   const handleSelectionChange = useCallback(
-    (selectedIds: string[]) => {
+    (selectedIds: readonly string[]) => {
       const playlistIds = selectedIds.map(Number)
       form.setValue("playlistIds", playlistIds, { shouldValidate: true, shouldDirty: true })
     },
@@ -154,7 +156,7 @@ const AddToPlaylistForm = ({
                     {(data) => (
                       <VirtualizedList
                         data={data}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={keyExtractor}
                         estimateItemHeight={70}
                         gap={8}
                         onSelectionChange={handleSelectionChange}

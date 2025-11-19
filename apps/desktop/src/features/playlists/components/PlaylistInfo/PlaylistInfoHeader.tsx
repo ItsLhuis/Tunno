@@ -23,7 +23,7 @@ import type { PlaylistWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type PlaylistInfoHeaderProps = {
   playlist: PlaylistWithAllRelations
-  list: VirtualizedListController<SongWithMainRelations>
+  list: VirtualizedListController<SongWithMainRelations> | null
 }
 
 const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
@@ -48,7 +48,7 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
     toggleFavoriteMutation.mutate(playlist.id)
   }
 
-  const hasSelectedRows = list.hasSelection
+  const hasSelectedRows = list?.hasSelection ?? false
 
   return (
     <Header className="flex flex-col gap-6">
@@ -65,7 +65,7 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
             fileName={playlist.thumbnail}
             alt={playlist.name}
             className={playlist.thumbnail ? "size-full" : "size-24"}
-            containerClassName="size-full rounded-lg"
+            containerClassName="size-full"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2">

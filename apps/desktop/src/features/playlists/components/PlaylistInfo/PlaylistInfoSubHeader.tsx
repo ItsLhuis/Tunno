@@ -16,14 +16,15 @@ import {
 import type { SongWithMainRelations } from "@repo/api"
 
 type PlaylistInfoSubHeaderProps = {
-  list: VirtualizedListController<SongWithMainRelations>
+  list: VirtualizedListController<SongWithMainRelations> | null
   className?: string
 }
 
 const PlaylistInfoSubHeader = ({ list, className }: PlaylistInfoSubHeaderProps) => {
   const { t } = useTranslation()
 
-  const hasSelectedRows = list.hasSelection
+  const hasSelectedRows = list?.hasSelection ?? false
+  const isAllSelected = list?.isAllSelected ?? false
 
   return (
     <div
@@ -34,8 +35,11 @@ const PlaylistInfoSubHeader = ({ list, className }: PlaylistInfoSubHeaderProps) 
     >
       <Checkbox
         className="ml-1"
-        checked={list.isAllSelected ? true : list.hasSelection ? "indeterminate" : false}
-        onCheckedChange={(value) => (value ? list.selectAll() : list.clearSelection())}
+        checked={isAllSelected ? true : hasSelectedRows ? "indeterminate" : false}
+        onCheckedChange={(value) => {
+          if (!list) return
+          value ? list.selectAll() : list.clearSelection()
+        }}
       />
       <div className="flex items-center justify-center">
         <IconButton name="Play" className="invisible" />
@@ -53,9 +57,11 @@ const PlaylistInfoSubHeader = ({ list, className }: PlaylistInfoSubHeaderProps) 
         <Icon name="Timer" className="text-muted-foreground" />
       </div>
       <div className="flex items-center justify-center">
-        <Fade show={hasSelectedRows}>
-          <SongActions list={list} />
-        </Fade>
+        {list && (
+          <Fade show={hasSelectedRows}>
+            <SongActions list={list} />
+          </Fade>
+        )}
       </div>
     </div>
   )

@@ -44,6 +44,8 @@ const PlaylistsList = () => {
     filters: Object.keys(debouncedFilters).length > 0 ? debouncedFilters : undefined
   }
 
+  const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
+
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } =
     useFetchPlaylistsInfinite(queryParams)
 
@@ -89,7 +91,7 @@ const PlaylistsList = () => {
           className={cn(viewMode === "grid" && "pb-6")}
         />
         {viewMode === "list" && (
-          <div className="px-9 pb-3 pt-6">
+          <div className="px-9 pt-6 pb-3">
             <PlaylistsListSubHeader list={list} className="border-b" />
           </div>
         )}
@@ -132,7 +134,7 @@ const PlaylistsList = () => {
       ListEmptyComponent={ListEmpty}
       ListFooterComponent={ListFooter}
       data={playlists}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={keyExtractor}
       estimateItemHeight={70}
       gap={8}
       onEndReached={handleEndReached}

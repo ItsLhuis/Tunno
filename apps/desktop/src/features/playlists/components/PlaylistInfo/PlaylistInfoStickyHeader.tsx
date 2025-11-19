@@ -21,7 +21,7 @@ import type { PlaylistWithAllRelations, SongWithMainRelations } from "@repo/api"
 
 type PlaylistInfoStickyHeaderProps = {
   playlist: PlaylistWithAllRelations
-  list: VirtualizedListController<SongWithMainRelations>
+  list: VirtualizedListController<SongWithMainRelations> | null
   className?: string
 }
 
@@ -41,7 +41,7 @@ const PlaylistInfoStickyHeader = ({ playlist, list, className }: PlaylistInfoSti
     shuffleAndPlay(songIds, "playlist", playlist.id)
   }
 
-  const hasSelectedRows = list.hasSelection
+  const hasSelectedRows = list?.hasSelection ?? false
 
   return (
     <StickyHeader className={cn("flex items-center gap-3 pb-9", className)}>
