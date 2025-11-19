@@ -4,7 +4,9 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
-import { useEndReached, useResponsiveColumns, useSelection } from "./hooks"
+import { useSelection, createSelectionManager } from "@repo/utils"
+
+import { useEndReached, useResponsiveColumns } from "./hooks"
 
 import { cn } from "@lib/utils"
 
@@ -51,9 +53,21 @@ const VirtualizedList = <TItem,>({
 
   const isGridLayout = layout === "grid"
 
+  const keyExtractorRef = useRef(keyExtractor)
+
+  keyExtractorRef.current = keyExtractor
+
+  const selectionManager = useMemo(
+    () => createSelectionManager((item, index) => keyExtractorRef.current(item, index ?? 0), data),
+    []
+  )
+
+  useEffect(() => {
+    selectionManager.setData(data)
+  }, [selectionManager, data])
+
   const { selectedIds, controller, handleToggleItem } = useSelection(
-    data,
-    keyExtractor,
+    selectionManager,
     onSelectionChange
   )
 

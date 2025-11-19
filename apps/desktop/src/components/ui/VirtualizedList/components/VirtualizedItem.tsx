@@ -14,7 +14,7 @@ const VirtualizedItem = memo(function VirtualizedItem<T>({
   itemId,
   ref
 }: VirtualizedItemProps<T> & { ref?: Ref<HTMLDivElement> }) {
-  const handleToggle = useMemo(() => () => onToggle(itemId), [onToggle, itemId])
+  const handleToggle = useMemo(() => () => onToggle(itemId, true), [onToggle, itemId])
 
   return (
     <div

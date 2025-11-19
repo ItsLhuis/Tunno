@@ -1,17 +1,9 @@
 import type { ComponentProps, ComponentType, CSSProperties, ReactNode, RefObject } from "react"
 
 import type { Virtualizer } from "@tanstack/react-virtual"
+import type { SelectionController } from "@repo/utils"
 
-export type VirtualizedListController<TItem> = {
-  data: TItem[]
-  selectedIds: string[]
-  isAllSelected: boolean
-  hasSelection: boolean
-  selectedCount: number
-  toggleSelect: (id: string, additive?: boolean) => void
-  selectAll: () => void
-  clearSelection: () => void
-}
+export type VirtualizedListController<TItem> = SelectionController<TItem>
 
 export type VirtualizedListProps<TItem> = ComponentProps<"div"> & {
   data: TItem[]
@@ -39,7 +31,7 @@ export type VirtualizedListProps<TItem> = ComponentProps<"div"> & {
   rowStyle?: CSSProperties
   ListEmptyComponent?: ComponentType
   ListFooterComponent?: ComponentType<{ list: VirtualizedListController<TItem> }>
-  onSelectionChange?: (selectedIds: string[], selectedItems: TItem[]) => void
+  onSelectionChange?: (selectedIds: readonly string[], selectedItems: readonly TItem[]) => void
   onController?: (controller: VirtualizedListController<TItem>) => void
   onVirtualizer?: (virtualizer: Virtualizer<HTMLElement, Element>) => void
   onEndReached?: () => void
@@ -58,7 +50,7 @@ export type VirtualizedItemProps<TItem> = {
     toggle: () => void
   }) => ReactNode
   isSelected: boolean
-  onToggle: (id: string) => void
+  onToggle: (id: string, additive?: boolean) => void
   itemId: string
 }
 
@@ -76,7 +68,7 @@ export type VirtualRowProps<TItem> = {
   gap: number
   rowClassName: string
   rowStyle: CSSProperties
-  selectedIds: Set<string>
-  onToggleItem: (id: string) => void
+  selectedIds: ReadonlySet<string>
+  onToggleItem: (id: string, additive?: boolean) => void
   measureRef: (element: HTMLElement | null) => void
 }
