@@ -2,6 +2,36 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.1.0] - 2025-11-19
+
+### Fixed
+
+- 🐛 **Fixed empty entity pages**: Fixed issue where navigating to Albums, Playlists, or Artists
+  without songs would show "not found" and hide the entity title and header information. Now the
+  page correctly displays the entity details even when empty
+- 🔧 Fixed selection state not updating correctly in dropdown selects when values changed externally
+- ✅ Improved handling of single vs multiple selection modes in lists and dropdowns
+- 🛡️ Added safety checks to prevent errors when list data is empty or unavailable
+
+### Changed
+
+- ⚡ **Performance improvements**:
+  - Optimized list selection performance, making it faster to select multiple items
+  - Reduced unnecessary recalculations when working with selections through intelligent caching
+  - Improved memory usage when working with selections
+- 🎨 **UI consistency**:
+  - Updated background opacity across all components for better visual consistency
+  - Improved hover states and visual feedback throughout the interface
+  - Enhanced styling consistency in buttons, inputs, and other UI elements
+- 📐 **Design updates**:
+  - Unified border radius styling throughout the application for a more cohesive look
+  - Standardized visual appearance across all components
+- 🔄 **Selection system improvements**:
+  - Refactored selection management to be more reliable and consistent
+  - Improved selection behavior in Songs, Albums, Artists, and Playlists lists
+  - Better synchronization between selection state and UI components
+  - Enhanced selection functionality in dropdown selects and multi-select components
+
 ## [1.0.0] - 2025-11-14
 
 ### Added
