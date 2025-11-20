@@ -7,7 +7,10 @@
     "dev": "next dev --turbopack",
     "build": "exit 0",
     "start": "next start",
-    "typecheck": "exit 0"
+    "typecheck": "exit 0",
+    "version:patch": "tsx ../../scripts/bump-version.ts patch",
+    "version:minor": "tsx ../../scripts/bump-version.ts minor",
+    "version:major": "tsx ../../scripts/bump-version.ts major"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",

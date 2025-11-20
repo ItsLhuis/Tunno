@@ -14,7 +14,10 @@
     "build": "tauri build",
     "tauri": "tauri",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "version:patch": "tsx ../../scripts/bump-version.ts patch",
+    "version:minor": "tsx ../../scripts/bump-version.ts minor",
+    "version:major": "tsx ../../scripts/bump-version.ts major"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

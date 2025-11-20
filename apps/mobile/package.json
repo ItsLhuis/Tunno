@@ -12,7 +12,10 @@
     "check-deps": "expo install --check",
     "fix-deps": "expo install --fix",
     "eas-build-post-install": "turbo run build --filter='@repo/*'",
-    "typecheck": "exit 0"
+    "typecheck": "exit 0",
+    "version:patch": "tsx ../../scripts/bump-version.ts patch",
+    "version:minor": "tsx ../../scripts/bump-version.ts minor",
+    "version:major": "tsx ../../scripts/bump-version.ts major"
   },
   "expo": {
     "doctor": {
