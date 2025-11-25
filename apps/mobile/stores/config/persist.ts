@@ -1,10 +1,10 @@
-import { MMKV } from "react-native-mmkv"
+import { createMMKV, type MMKV } from "react-native-mmkv"
 
 const storageInstances: { [key: string]: MMKV } = {}
 
 async function getOrCreateMMKVStore(name: string): Promise<MMKV> {
   if (!storageInstances[name])
-    storageInstances[name] = new MMKV({
+    storageInstances[name] = createMMKV({
       id: name
     })
 
@@ -23,7 +23,7 @@ export const persistStorage = (name: string) => ({
   },
   removeItem: async (key: string): Promise<void> => {
     const store = await getOrCreateMMKVStore(name)
-    store.delete(key)
+    store.remove(key)
   },
   clearAll: async (): Promise<void> => {
     const store = await getOrCreateMMKVStore(name)

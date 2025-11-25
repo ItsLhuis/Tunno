@@ -1,35 +1,21 @@
-import * as FileSystem from "expo-file-system"
+import { Paths } from "expo-file-system"
 
 export type AppPaths = {
-  songsDir: string
-  thumbnailsDir: string
-  backupsDir: string
+  songs: string
+  thumbnails: string
 }
 
-let appPaths: AppPaths | null = null
+let cachedPaths: AppPaths | null = null
 
 export async function getAppPaths(): Promise<AppPaths> {
-  if (appPaths) return appPaths
+  if (cachedPaths) return cachedPaths
 
-  appPaths = {
-    songsDir: FileSystem.documentDirectory + "songs",
-    thumbnailsDir: FileSystem.documentDirectory + "thumbnails",
-    backupsDir: FileSystem.documentDirectory + "backups"
+  const appDir = Paths.document
+
+  cachedPaths = {
+    songs: `${appDir.uri}/songs`,
+    thumbnails: `${appDir.uri}/thumbnails`
   }
 
-  return appPaths
-}
-
-export async function initializeAppStorage(): Promise<void> {
-  const paths = await getAppPaths()
-
-  for (const dir of Object.values(paths)) {
-    const info = await FileSystem.getInfoAsync(dir)
-    if (!info.exists) await FileSystem.makeDirectoryAsync(dir, { intermediates: true })
-  }
-}
-
-export async function getFilePath(directory: keyof AppPaths, fileName: string): Promise<string> {
-  const paths = await getAppPaths()
-  return paths[directory] + "/" + fileName
+  return cachedPaths
 }
