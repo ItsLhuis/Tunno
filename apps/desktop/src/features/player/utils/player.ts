@@ -1,7 +1,5 @@
 import { getRenderableFileSrc } from "@services/storage"
 
-import { type SongWithMainRelations } from "@repo/api"
-
 import { queryClient } from "@lib/queryClient"
 
 import { songKeys } from "@repo/api"
@@ -13,9 +11,11 @@ import {
   getSongsByIdsWithMainRelations
 } from "@features/songs/api/queries"
 
-import { type Track } from "../types/player"
-
 import defaultArtwork from "@assets/images/app/icon.png"
+
+import { type SongWithMainRelations } from "@repo/api"
+
+import { type Track } from "../types/player"
 
 const MAX_CACHE_SIZE = 150
 
