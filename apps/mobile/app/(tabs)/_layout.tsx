@@ -1,59 +1,43 @@
-import { useEffect } from "react"
-
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-
-import { useColorTheme } from "@hooks/useColorTheme"
-
 import { useTranslation } from "@repo/i18n"
 
-import { theme } from "@styles/theme"
+import { createStyleSheet, useStyles, useTheme } from "@styles"
 
 import { Tabs } from "expo-router"
 
 import { View } from "react-native"
 
-import { FadingView, Icon, Pressable, Text } from "@components/ui"
-import { BottomPlayer, Player } from "@features/songs/components"
+import { Fade, Icon, Pressable, Text, type IconProps } from "@components/ui"
 
-import { useSharedValue, withTiming } from "react-native-reanimated"
+type RouteIconMap = Record<string, IconProps["name"]>
+
+const routeIcons: RouteIconMap = {
+  index: "House",
+  songs: "Music",
+  albums: "DiscAlbum",
+  playlists: "ListMusic",
+  artists: "Users"
+}
 
 export default function TabLayout() {
-  const insets = useSafeAreaInsets()
+  const styles = useStyles(tabLayoutStyles)
 
-  const { colors } = useColorTheme()
+  const { theme } = useTheme()
 
   const { t } = useTranslation()
 
-  const opacity = useSharedValue<number>(0)
-
-  useEffect(() => {
-    opacity.value = withTiming(1, { duration: 300 })
-  }, [])
-
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Tabs
         tabBar={(props) => (
-          <FadingView opacity={opacity} style={{ backgroundColor: colors.secondary }}>
-            {props.state.routes && props.state.routes.length > 0 && <BottomPlayer />}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around"
-              }}
-            >
+          <Fade style={styles.tabBar}>
+            {/* {props.state.routes && props.state.routes.length > 0 && <BottomPlayer />} */}
+            <View style={styles.tabBarContent}>
               {props.state.routes.map((route, index) => {
                 const { options } = props.descriptors[route.key]
 
                 const isFocused = props.state.index === index
-
-                const icon = options.tabBarIcon
-                  ? options.tabBarIcon({
-                      color: isFocused ? colors.primary : colors.mutedForeground,
-                      focused: isFocused,
-                      size: 24
-                    })
-                  : null
+                const iconColor = isFocused ? "primary" : "mutedForeground"
+                const iconName = routeIcons[route.name]
 
                 const onPress = () => {
                   const event = props.navigation.emit({
@@ -79,82 +63,59 @@ export default function TabLayout() {
                     onPress={onPress}
                     onLongPress={onLongPress}
                     key={route.key}
-                    containerStyle={{
-                      flex: 1
-                    }}
-                    style={{
-                      paddingTop: theme.styles.spacing.small,
-                      paddingBottom: theme.styles.spacing.xSmall + insets.bottom,
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: theme.styles.spacing.xxSmall
-                    }}
+                    containerStyle={styles.tabItemContainer}
+                    style={styles.tabItem}
                   >
-                    {icon}
-                    <Text
-                      variant="bold"
-                      size="xxSmall"
-                      style={{
-                        color:
-                          props.state.index === index ? colors.primary : colors.mutedForeground,
-                        paddingHorizontal: theme.styles.spacing.small
-                      }}
-                      numberOfLines={1}
-                    >
+                    {iconName && <Icon name={iconName} color={iconColor} size="lg" />}
+                    <Text size="xs" weight="bold" color={iconColor} numberOfLines={1}>
                       {options.title}
                     </Text>
                   </Pressable>
                 )
               })}
             </View>
-          </FadingView>
+          </Fade>
         )}
         screenOptions={{
           headerShown: false,
           sceneStyle: {
-            backgroundColor: colors.background
+            backgroundColor: theme.colors.background
           }
         }}
         backBehavior="history"
       >
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: t("songs.title"),
-            tabBarIcon: ({ color }) => <Icon name="Music" color={color} />
-          }}
-        />
-        <Tabs.Screen
-          name="favorites"
-          options={{
-            title: t("favorites.title"),
-            tabBarIcon: ({ color }) => <Icon name="Heart" color={color} />
-          }}
-        />
-        <Tabs.Screen
-          name="playlists"
-          options={{
-            title: t("playlists.title"),
-            tabBarIcon: ({ color }) => <Icon name="List" color={color} />
-          }}
-        />
-        <Tabs.Screen
-          name="artists"
-          options={{
-            title: t("artists.title"),
-            tabBarIcon: ({ color }) => <Icon name="Users" color={color} />
-          }}
-        />
-        <Tabs.Screen
-          name="settings"
-          options={{
-            title: t("settings.title"),
-            tabBarIcon: ({ color }) => <Icon name="Settings" color={color} />
-          }}
-        />
+        <Tabs.Screen name="index" options={{ title: t("home.title") }} />
+        <Tabs.Screen name="songs" options={{ title: t("songs.title") }} />
+        <Tabs.Screen name="albums" options={{ title: t("albums.title") }} />
+        <Tabs.Screen name="playlists" options={{ title: t("playlists.title") }} />
+        <Tabs.Screen name="artists" options={{ title: t("artists.title") }} />
       </Tabs>
-      <Player />
+      {/* <Player /> */}
     </View>
   )
 }
+
+const tabLayoutStyles = createStyleSheet(({ theme, runtime }) => ({
+  container: {
+    flex: 1
+  },
+  tabBar: {
+    backgroundColor: theme.colors.tabbar,
+    borderTopWidth: theme.borderWidth(),
+    borderTopColor: theme.colors.muted
+  },
+  tabBarContent: {
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
+  tabItemContainer: {
+    flex: 1
+  },
+  tabItem: {
+    paddingTop: theme.space(),
+    paddingBottom: theme.space() + runtime.insets.bottom,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+}))

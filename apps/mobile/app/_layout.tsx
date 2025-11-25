@@ -2,11 +2,13 @@ import "expo-dev-client"
 
 import { useCallback, useEffect, useState } from "react"
 
-import { Linking, useColorScheme, View } from "react-native"
-
-import { useColorTheme } from "@hooks/useColorTheme"
+import { Linking, View } from "react-native"
 
 import { useFonts } from "expo-font"
+
+import { useAllStoresHydrated } from "@utils/stores"
+
+import { useShallow } from "zustand/shallow"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
@@ -15,7 +17,7 @@ import { useTranslation } from "@repo/i18n"
 
 import * as Updates from "expo-updates"
 
-import { initializeAppStorage } from "@lib/appStorage"
+import { initializeStorage } from "@services/storage"
 
 import { databaseName } from "@database/client"
 import migrations from "@migrations/migrations"
@@ -23,28 +25,16 @@ import { drizzle } from "drizzle-orm/expo-sqlite"
 import { migrate } from "drizzle-orm/expo-sqlite/migrator"
 import { openDatabaseSync } from "expo-sqlite"
 
-import TrackPlayer from "react-native-track-player"
-
-import { registerPlaybackListeners, setupAudioPlayer } from "@services/audio"
-
 import { SystemBars } from "react-native-edge-to-edge"
 
 import * as SystemUI from "expo-system-ui"
 
 import * as SplashScreen from "expo-splash-screen"
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      retry: 1
-    }
-  }
-})
+import { queryClient } from "@lib/queryClient"
+import { QueryClientProvider } from "@tanstack/react-query"
 
-import { DarkTheme, DefaultTheme, ThemeProvider, type Theme } from "@react-navigation/native"
+import { ThemeProvider, useTheme } from "@styles"
 
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
@@ -63,18 +53,20 @@ enableFreeze()
 
 SplashScreen.preventAutoHideAsync()
 
-TrackPlayer.registerPlaybackService(() => registerPlaybackListeners)
-
-export default function RootLayout() {
-  const { colors, isAppThemeChanging } = useColorTheme()
-
-  SystemUI.setBackgroundColorAsync(colors.background)
+function Main() {
+  const { theme } = useTheme()
 
   const [isAppReady, setIsAppReady] = useState(false)
 
-  const { hasHydrated, language } = useSettingsStore()
+  const allStoresHydrated = useAllStoresHydrated()
 
   const { i18n } = useTranslation()
+
+  const { language } = useSettingsStore(
+    useShallow((state) => ({
+      language: state.language
+    }))
+  )
 
   const { isUpdatePending, isUpdateAvailable } = Updates.useUpdates()
 
@@ -85,10 +77,13 @@ export default function RootLayout() {
     "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf")
   })
 
+  useEffect(() => {
+    SystemUI.setBackgroundColorAsync(theme.colors.background)
+  }, [theme.colors.background])
+
   const prepareApp = async (): Promise<void> => {
-    await initializeAppStorage()
+    await initializeStorage()
     await migrate(drizzle(openDatabaseSync(databaseName)), migrations)
-    await setupAudioPlayer()
     i18n.changeLanguage(language)
   }
 
@@ -101,7 +96,7 @@ export default function RootLayout() {
   }, [isUpdateAvailable])
 
   useEffect(() => {
-    if (isAppReady || isUpdatePending || !hasHydrated || !fontsLoaded) return
+    if (isAppReady || isUpdatePending || !allStoresHydrated || !fontsLoaded) return
 
     const startApp = async () => {
       await prepareApp()
@@ -109,7 +104,7 @@ export default function RootLayout() {
     }
 
     startApp()
-  }, [isUpdatePending, hasHydrated, fontsLoaded])
+  }, [isUpdatePending, allStoresHydrated, fontsLoaded])
 
   const onChildrenLayout = useCallback(() => {
     if (isAppReady) SplashScreen.hide()
@@ -127,37 +122,30 @@ export default function RootLayout() {
     return () => subscription.remove()
   }, [])
 
-  const themeScheme = useColorScheme() === "dark" ? DarkTheme : DefaultTheme
-
-  const theme: Theme = {
-    ...themeScheme,
-    colors: {
-      ...themeScheme.colors,
-      primary: colors.primary,
-      background: colors.background,
-      text: colors.foreground
-    }
-  }
-
-  if (isAppThemeChanging || !isAppReady) return null
+  if (!allStoresHydrated || !isAppReady) return null
 
   return (
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <KeyboardProvider>
+        <BottomSheetModalProvider>
+          <SystemBars style="auto" />
+          <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+          </View>
+          <Toaster />
+        </BottomSheetModalProvider>
+      </KeyboardProvider>
+    </GestureHandlerRootView>
+  )
+}
+
+export default function RootLayout() {
+  return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={theme}>
-        <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
-          <KeyboardProvider>
-            <BottomSheetModalProvider>
-              <SystemBars style="auto" />
-              <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
-                <Stack>
-                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                  <Stack.Screen name="database" options={{ headerShown: false }} />
-                </Stack>
-              </View>
-              <Toaster />
-            </BottomSheetModalProvider>
-          </KeyboardProvider>
-        </GestureHandlerRootView>
+      <ThemeProvider>
+        <Main />
       </ThemeProvider>
     </QueryClientProvider>
   )

@@ -7,8 +7,8 @@ import { Text } from "@components/ui"
 
 import { View } from "react-native"
 
-export default function Artists() {
-  const styles = useStyles(artistsStyles)
+export default function Albums() {
+  const styles = useStyles(albumsStyles)
 
   const { t } = useTranslation()
 
@@ -16,14 +16,14 @@ export default function Artists() {
     <FadingScreen style={styles.container}>
       <View style={styles.content}>
         <Text variant="h1" color="foreground">
-          {t("artists.title")}
+          {t("albums.title")}
         </Text>
       </View>
     </FadingScreen>
   )
 }
 
-const artistsStyles = createStyleSheet(({ theme }) => ({
+const albumsStyles = createStyleSheet(({ theme }) => ({
   container: {
     flex: 1
   },
