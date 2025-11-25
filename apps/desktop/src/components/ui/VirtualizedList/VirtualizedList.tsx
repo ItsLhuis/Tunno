@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 
-import { useSelection, createSelectionManager } from "@repo/utils"
+import { createSelectionManager, useSelection } from "@repo/utils"
 
 import { useEndReached, useResponsiveColumns } from "./hooks"
 

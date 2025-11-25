@@ -1,12 +1,14 @@
-import { schema, type InferQueryModel } from "@repo/database"
+import {
+  type Album as BaseAlbum,
+  type InsertAlbum as BaseInsertAlbum,
+  type InferQueryModel
+} from "@repo/database"
 
 import { type QueryParams } from "../types"
 
-const { albums } = schema
+export type AlbumColumns = keyof BaseAlbum
 
-export type AlbumColumns = keyof typeof albums.$inferSelect
-
-export type Album = typeof albums.$inferSelect
+export type Album = BaseAlbum
 
 export type OrderableAlbumColumns =
   | "name"
@@ -89,7 +91,7 @@ export type AlbumWithAllRelations = InferQueryModel<
 
 export type AlbumWithCustomRelations<T extends Record<string, any>> = InferQueryModel<"albums", T>
 
-export type InsertAlbum = typeof albums.$inferInsert
+export type InsertAlbum = BaseInsertAlbum
 export type UpdateAlbum = Partial<InsertAlbum>
 
 export type QueryAlbumParams = QueryParams<OrderableAlbumColumns, AlbumFilters>

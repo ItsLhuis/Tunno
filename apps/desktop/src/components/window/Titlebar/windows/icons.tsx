@@ -1,6 +1,6 @@
 import { type SVGProps } from "react"
 
-export const Minimize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+export const Minimize = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="11"
     height="1"
@@ -16,7 +16,7 @@ export const Minimize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement
   </svg>
 )
 
-export const Maximize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+export const Maximize = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="11"
     height="11"
@@ -32,7 +32,7 @@ export const Maximize = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement
   </svg>
 )
 
-export const Restore = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+export const Restore = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="11"
     height="11"
@@ -48,7 +48,7 @@ export const Restore = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
   </svg>
 )
 
-export const Close = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+export const Close = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="11"
     height="11"

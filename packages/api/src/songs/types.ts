@@ -1,14 +1,17 @@
-import { schema, type InferQueryModel } from "@repo/database"
+import {
+  type Song as BaseSong,
+  type InsertSong as BaseInsertSong,
+  type InferQueryModel,
+  schema
+} from "@repo/database"
 
 import { type QueryParams } from "../types"
 
-const { songs } = schema
+export type SongColumns = keyof BaseSong
 
-export type SongColumns = keyof typeof songs.$inferSelect
+export type Song = BaseSong
 
-export type Song = typeof songs.$inferSelect
-
-export type SongReleaseYear = (typeof songs.$inferSelect)["releaseYear"]
+export type SongReleaseYear = BaseSong["releaseYear"]
 
 export type OrderableSongColumns =
   | "name"
@@ -159,7 +162,7 @@ export type PlayHistory = typeof schema.playHistory.$inferSelect
 
 export type SongWithCustomRelations<T extends Record<string, any>> = InferQueryModel<"songs", T>
 
-export type InsertSong = typeof songs.$inferInsert
+export type InsertSong = BaseInsertSong
 export type UpdateSong = Partial<InsertSong>
 
 export type QuerySongsParams = QueryParams<OrderableSongColumns, SongFilters>
