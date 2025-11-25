@@ -1,47 +1,53 @@
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
+
+import { type StyleProp, type ViewStyle } from "react-native"
 
 import { useFocusEffect } from "expo-router"
 
-import { FadingView, type FadingViewProps } from "@components/ui/FadingView"
+import { Fade, type FadeDirection } from "@components/ui/Fade"
 
-import { Easing, useSharedValue, withTiming } from "react-native-reanimated"
+import { Easing } from "react-native-reanimated"
 
-export type FadingScreenProps = Omit<FadingViewProps, "opacity"> & {
+export type FadingScreenProps = {
+  children: React.ReactNode
   duration?: number
+  direction?: FadeDirection
+  offset?: number
+  style?: StyleProp<ViewStyle>
 }
 
-function FadingScreen({
+const FadingScreen = ({
   duration = 300,
-  opacityThresholdToEnablePointerEvents = 0,
+  direction = "none",
+  offset,
   children,
-  ...props
-}: FadingScreenProps) {
-  const opacity = useSharedValue<number>(0)
+  style
+}: FadingScreenProps) => {
+  const [show, setShow] = useState(false)
+
+  const bezier = Easing.bezier(0.33, 1, 0.68, 1).factory()
+  const easing = Easing.out(bezier)
 
   useFocusEffect(
     useCallback(() => {
-      const bezier = Easing.bezier(0.33, 1, 0.68, 1).factory()
-      opacity.value = withTiming(1, {
-        duration,
-        easing: Easing.out(bezier)
-      })
+      setShow(true)
       return () => {
-        opacity.value = withTiming(0, {
-          duration,
-          easing: Easing.in(bezier)
-        })
+        setShow(false)
       }
     }, [])
   )
 
   return (
-    <FadingView
-      opacity={opacity}
-      opacityThresholdToEnablePointerEvents={opacityThresholdToEnablePointerEvents}
-      {...props}
+    <Fade
+      show={show}
+      duration={duration}
+      direction={direction}
+      offset={offset}
+      easing={easing}
+      style={style}
     >
       {children}
-    </FadingView>
+    </Fade>
   )
 }
 
