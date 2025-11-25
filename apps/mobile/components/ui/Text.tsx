@@ -1,62 +1,38 @@
-import { useColorTheme } from "@hooks/useColorTheme"
-
-import { theme } from "@styles/theme"
+import { Text as RNText, type TextProps as RNTextProps } from "react-native"
 
 import {
-  Text as RNText,
-  StyleSheet,
-  type TextProps as RNTextProps,
-  type StyleProp,
-  type TextStyle
-} from "react-native"
+  createColorVariants,
+  createStyleSheet,
+  createVariant,
+  useStyles,
+  type StyleVariants
+} from "@styles"
 
-const Affects = ["muted", "uppercase", "underline", "strikethrough", "capitalize"] as const
+export type TextProps = RNTextProps & StyleVariants<typeof textStyles, "text">
 
-type AffectType = (typeof Affects)[number]
-
-type AffectStylesMap = {
-  [K in AffectType]: StyleProp<TextStyle>
-}
-
-export type TextProps = Omit<RNTextProps, "style"> & {
-  variant?: keyof typeof theme.font.family
-  size?: keyof typeof theme.font.size
-  affects?: AffectType | AffectType[]
-  style?: StyleProp<TextStyle>
-}
-
-const Text = ({
+export const Text = ({
+  variant,
+  size,
+  weight,
+  color,
+  fontStyle,
+  margin,
   style,
-  variant = "regular",
-  size = "medium",
-  affects = [],
   ...props
 }: TextProps) => {
-  const { colors } = useColorTheme()
-
-  const getAffectStyles = () => {
-    const affectStyles: AffectStylesMap = {
-      muted: { color: colors.mutedForeground },
-      uppercase: { textTransform: "uppercase" },
-      underline: { textDecorationLine: "underline" },
-      strikethrough: { textDecorationLine: "line-through" },
-      capitalize: { textTransform: "capitalize" }
-    }
-
-    const affectsArray = Array.isArray(affects) ? affects : [affects]
-    return StyleSheet.flatten(affectsArray.map((affect) => affectStyles[affect] || {}))
-  }
+  const styles = useStyles(textStyles)
 
   return (
     <RNText
-      maxFontSizeMultiplier={1}
       style={[
-        {
-          color: colors.foreground,
-          fontSize: theme.font.size[size],
-          fontFamily: theme.font.family[variant]
-        },
-        getAffectStyles(),
+        styles.text({
+          variant: variant ?? "p",
+          size: size ?? "base",
+          weight: weight ?? "normal",
+          color: color ?? "foreground",
+          fontStyle: fontStyle ?? "normal",
+          margin: margin ?? "default"
+        }),
         style
       ]}
       {...props}
@@ -64,4 +40,145 @@ const Text = ({
   )
 }
 
-export { Text }
+const textStyles = createStyleSheet(({ theme }) => ({
+  text: createVariant({
+    base: {},
+    variants: {
+      variant: {
+        h1: {
+          fontSize: theme.fontSize("4xl"),
+          fontWeight: theme.fontWeight("extrabold"),
+          letterSpacing: theme.letterSpacing("tight")
+        },
+        h2: {
+          fontSize: theme.fontSize("3xl"),
+          fontWeight: theme.fontWeight("semibold"),
+          letterSpacing: theme.letterSpacing("tight"),
+          paddingBottom: theme.space("sm")
+        },
+        h3: {
+          fontSize: theme.fontSize("2xl"),
+          fontWeight: theme.fontWeight("semibold"),
+          letterSpacing: theme.letterSpacing("tight")
+        },
+        h4: {
+          fontSize: theme.fontSize("xl"),
+          fontWeight: theme.fontWeight("semibold"),
+          letterSpacing: theme.letterSpacing("tight")
+        },
+        h5: {
+          fontSize: theme.fontSize("lg"),
+          fontWeight: theme.fontWeight("semibold"),
+          letterSpacing: theme.letterSpacing("tight")
+        },
+        h6: {
+          fontSize: theme.fontSize("base"),
+          fontWeight: theme.fontWeight("semibold"),
+          letterSpacing: theme.letterSpacing("tight")
+        },
+        p: {
+          lineHeight: theme.lineHeight(7)
+        },
+        blockquote: {
+          borderLeftWidth: theme.borderWidth(2),
+          borderColor: theme.colors.border,
+          paddingLeft: theme.space(4),
+          fontSize: theme.fontSize("xs"),
+          fontStyle: "italic",
+          color: theme.colors.mutedForeground
+        },
+        code: {
+          fontFamily: "monospace",
+          fontSize: theme.fontSize("sm"),
+          backgroundColor: theme.colors.muted,
+          borderRadius: theme.radius("sm"),
+          padding: theme.space(1)
+        },
+        pre: {
+          fontFamily: "monospace",
+          fontSize: theme.fontSize("sm"),
+          backgroundColor: theme.colors.muted,
+          borderRadius: theme.radius("sm"),
+          padding: theme.space(2)
+        },
+        span: {
+          fontSize: theme.fontSize("sm")
+        }
+      },
+      size: {
+        xs: {
+          fontSize: theme.fontSize("xs"),
+          lineHeight: theme.lineHeight("none")
+        },
+        sm: {
+          fontSize: theme.fontSize("sm")
+        },
+        base: {
+          fontSize: theme.fontSize()
+        },
+        lg: {
+          fontSize: theme.fontSize("lg")
+        },
+        xl: {
+          fontSize: theme.fontSize("xl")
+        },
+        "2xl": {
+          fontSize: theme.fontSize("2xl")
+        },
+        "3xl": {
+          fontSize: theme.fontSize("3xl")
+        },
+        "4xl": {
+          fontSize: theme.fontSize("4xl")
+        }
+      },
+      weight: {
+        normal: {
+          fontWeight: theme.fontWeight()
+        },
+        medium: {
+          fontWeight: theme.fontWeight("medium")
+        },
+        semibold: {
+          fontWeight: theme.fontWeight("semibold")
+        },
+        bold: {
+          fontWeight: theme.fontWeight("bold")
+        },
+        extrabold: {
+          fontWeight: theme.fontWeight("extrabold")
+        }
+      },
+      color: createColorVariants(theme, "color"),
+      fontStyle: {
+        normal: {},
+        italic: {
+          fontStyle: "italic"
+        },
+        underline: {
+          textDecorationLine: "underline"
+        },
+        strikethrough: {
+          textDecorationLine: "line-through"
+        },
+        underlineStrikethrough: {
+          textDecorationLine: "underline line-through"
+        }
+      },
+      margin: {
+        default: {},
+        none: {
+          marginTop: 0
+        }
+      }
+    },
+    defaultVariants: {
+      variant: "p",
+      size: "base",
+      weight: "normal",
+      color: "foreground",
+      fontStyle: "normal",
+      margin: "default"
+    }
+  })
+}))

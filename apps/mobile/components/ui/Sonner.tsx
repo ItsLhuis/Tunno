@@ -1,104 +1,101 @@
 import { type ComponentProps } from "react"
 
-import { useColorTheme } from "@hooks/useColorTheme"
+import { createStyleSheet, useStyles, useTheme, zIndexTokens } from "@styles"
 
-import { theme } from "@styles/theme"
+import { Toaster as SonnerToaster, toast } from "sonner-native"
 
-import { useKeyboardAnimation } from "react-native-keyboard-controller"
-
-import { Animated } from "react-native"
-
-import { ActivityIndicator } from "@components/ui/ActivityIndicator"
 import { Icon } from "@components/ui/Icon"
+import { Spinner } from "@components/ui/Spinner"
 
-import { Toaster as Sonner, toast } from "sonner-native"
-
-type ToasterProps = ComponentProps<typeof Sonner>
+type ToasterProps = ComponentProps<typeof SonnerToaster>
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { appTheme, colors } = useColorTheme()
+  const styles = useStyles(sonnerStyles)
 
-  const { height } = useKeyboardAnimation()
+  const { theme, runtime } = useTheme()
+
+  const currentTheme = runtime.colorScheme === "dark" ? "dark" : "light"
 
   return (
-    <Sonner
-      theme={appTheme as ToasterProps["theme"]}
+    <SonnerToaster
+      theme={currentTheme as ToasterProps["theme"]}
       icons={{
-        loading: (
-          <ActivityIndicator
-            size={theme.styles.icon.size.large}
-            style={{ alignSelf: "flex-start" }}
-          />
-        ),
-        info: <Icon name="Info" color={colors.info} size={theme.styles.icon.size.large} />,
-        success: (
-          <Icon name="CircleCheck" color={colors.success} size={theme.styles.icon.size.large} />
-        ),
-        warning: (
-          <Icon name="TriangleAlert" color={colors.warning} size={theme.styles.icon.size.large} />
-        ),
-        error: <Icon name="CircleAlert" color={colors.error} size={theme.styles.icon.size.large} />
+        loading: <Spinner size="lg" color="primary" />,
+        info: <Icon name="Info" color="info" size="lg" />,
+        success: <Icon name="CircleCheck" color="success" size="lg" />,
+        warning: <Icon name="TriangleAlert" color="warning" size="lg" />,
+        error: <Icon name="CircleAlert" color="error" size="lg" />
       }}
-      ToasterOverlayWrapper={({ children }) => (
-        <Animated.View style={{ transform: [{ translateY: height }] }}>{children}</Animated.View>
-      )}
-      gap={theme.styles.spacing.small}
+      gap={theme.space(2)}
       toastOptions={{
-        toastContainerStyle: {
-          zIndex: theme.styles.zIndex.high
-        },
-        style: {
-          backgroundColor: colors.background,
-          borderWidth: theme.styles.border.thin,
-          borderColor: colors.muted,
-          borderRadius: theme.styles.borderRadius.xSmall,
-          marginHorizontal: theme.styles.spacing.small,
-          shadowOpacity: 0,
-          shadowRadius: 0,
-          shadowOffset: {
-            height: 0,
-            width: 0
-          },
-          elevation: 0
-        },
-        titleStyle: {
-          fontFamily: theme.font.family["bold"],
-          fontSize: theme.font.size.large,
-          marginTop: 2
-        },
-        descriptionStyle: {
-          fontFamily: theme.font.family["regular"],
-          fontSize: theme.font.size.small
-        },
-        buttonsStyle: {
-          flexDirection: "row-reverse",
-          gap: theme.styles.spacing.xSmall
-        },
-        actionButtonStyle: {
-          borderRadius: theme.styles.borderRadius.xSmall,
-          backgroundColor: colors.primary,
-          paddingVertical: theme.styles.spacing.small,
-          paddingHorizontal: theme.styles.spacing.large
-        },
-        actionButtonTextStyle: {
-          fontFamily: theme.font.family["bold"],
-          fontSize: theme.font.size.medium
-        },
-        cancelButtonStyle: {
-          borderRadius: theme.styles.borderRadius.xSmall,
-          backgroundColor: colors.muted,
-          paddingVertical: theme.styles.spacing.small,
-          paddingHorizontal: theme.styles.spacing.large
-        },
-        cancelButtonTextStyle: {
-          fontFamily: theme.font.family["bold"],
-          fontSize: theme.font.size.medium
-        }
+        toastContainerStyle: styles.toastContainer,
+        style: styles.toast,
+        titleStyle: styles.title,
+        descriptionStyle: styles.description,
+        buttonsStyle: styles.buttons,
+        actionButtonStyle: styles.actionButton,
+        actionButtonTextStyle: styles.actionButtonText,
+        cancelButtonStyle: styles.cancelButton,
+        cancelButtonTextStyle: styles.cancelButtonText
       }}
       position="bottom-center"
+      closeButton
       {...props}
     />
   )
 }
+
+const sonnerStyles = createStyleSheet(({ theme }) => ({
+  toastContainer: {
+    zIndex: zIndexTokens[50]
+  },
+  toast: {
+    backgroundColor: theme.colors.background,
+    borderWidth: theme.borderWidth(),
+    borderColor: theme.colors.muted,
+    borderRadius: theme.radius(),
+    marginHorizontal: theme.space(2),
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    shadowOffset: {
+      height: 0,
+      width: 0
+    },
+    elevation: 0
+  },
+  title: {
+    fontWeight: theme.fontWeight("bold"),
+    fontSize: theme.fontSize(),
+    marginTop: 2
+  },
+  description: {
+    fontWeight: theme.fontWeight(),
+    fontSize: theme.fontSize("xs")
+  },
+  buttons: {
+    flexDirection: "row-reverse" as const,
+    gap: theme.space(1)
+  },
+  actionButton: {
+    borderRadius: theme.radius(),
+    backgroundColor: theme.colors.primary,
+    paddingVertical: theme.space(2),
+    paddingHorizontal: theme.space(4)
+  },
+  actionButtonText: {
+    fontWeight: theme.fontWeight("bold"),
+    fontSize: theme.fontSize("base")
+  },
+  cancelButton: {
+    borderRadius: theme.radius(),
+    backgroundColor: theme.colors.muted,
+    paddingVertical: theme.space(2),
+    paddingHorizontal: theme.space(4)
+  },
+  cancelButtonText: {
+    fontWeight: theme.fontWeight("bold"),
+    fontSize: theme.fontSize("base")
+  }
+}))
 
 export { toast, Toaster }

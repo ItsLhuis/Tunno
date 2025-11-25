@@ -1,26 +1,16 @@
-import {
-  forwardRef,
-  isValidElement,
-  useImperativeHandle,
-  useState,
-  type ComponentClass,
-  type ComponentProps,
-  type ReactElement,
-  type Ref,
-  type RefObject
-} from "react"
+import { useImperativeHandle, type ComponentClass, type ComponentProps } from "react"
 
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { View } from "react-native"
 
-import { useScroll } from "./hooks"
+import { createStyleSheet, useStyles } from "@styles"
 
-import { Dimensions, StyleSheet, View } from "react-native"
+import { FlashList, type FlashListProps, type FlashListRef } from "@shopify/flash-list"
 
-import { FlashList, type FlashListProps } from "@shopify/flash-list"
-
-import { FadingView } from "@components/ui/FadingView"
+import { FadingView } from "./components"
 
 import Animated, { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
+
+import { useScroll } from "./hooks"
 
 import { type SharedScrollContainerProps } from "./types"
 
@@ -29,60 +19,54 @@ type AnimatedFlashListType<ItemT> = ComponentProps<
 > &
   SharedScrollContainerProps
 
-const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as ComponentClass<
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as unknown as ComponentClass<
   AnimatedProps<FlashListProps<any>>,
   unknown
 >
 
-export type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, "onScroll">
+export type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, "onScroll"> & {
+  ref?: React.Ref<FlashListRef<ItemT>>
+}
 
-const FlashListWithHeadersComp = <ItemT extends any = any>(
-  {
-    largeHeaderShown,
-    containerStyle,
-    LargeHeaderSubtitleComponent,
-    LargeHeaderComponent,
-    largeHeaderContainerStyle,
-    HeaderComponent,
-    onLargeHeaderLayout,
-    onScrollBeginDrag,
-    onScrollEndDrag,
-    onScrollWorklet,
-    onMomentumScrollBegin,
-    onMomentumScrollEnd,
-    ignoreLeftSafeArea,
-    ignoreRightSafeArea,
-    disableAutoFixScroll = false,
-    // @ts-ignore
-    onScroll: _unusedOnScroll,
-    absoluteHeader = false,
-    initialAbsoluteHeaderHeight = 0,
-    contentContainerStyle = {},
-    automaticallyAdjustsScrollIndicatorInsets,
-    headerFadeInThreshold = 1,
-    disableLargeHeaderFadeAnim = false,
-    scrollIndicatorInsets = {},
-    inverted,
-    data,
-    ListEmptyComponent,
-    ListFooterComponent,
-    ...props
-  }: FlashListWithHeadersProps<ItemT>,
-  ref: Ref<FlashList<ItemT>>
-) => {
+const FlashListWithHeaders = <ItemT extends any = any>({
+  largeHeaderShown,
+  containerStyle,
+  LargeHeaderSubtitleComponent,
+  LargeHeaderComponent,
+  largeHeaderContainerStyle,
+  HeaderComponent,
+  onLargeHeaderLayout,
+  onScrollBeginDrag,
+  onScrollEndDrag,
+  onScrollWorklet,
+  onMomentumScrollBegin,
+  onMomentumScrollEnd,
+  ignoreLeftSafeArea,
+  ignoreRightSafeArea,
+  disableAutoFixScroll = false,
+  // @ts-ignore
+  onScroll: _unusedOnScroll,
+  absoluteHeader = false,
+  initialAbsoluteHeaderHeight = 0,
+  contentContainerStyle = {},
+  automaticallyAdjustsScrollIndicatorInsets,
+  headerFadeInThreshold = 1,
+  disableLargeHeaderFadeAnim = false,
+  scrollIndicatorInsets = {},
+  data,
+  ref,
+  ...props
+}: FlashListWithHeadersProps<ItemT>) => {
   if (_unusedOnScroll) {
     throw new Error(
       "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
     )
   }
 
-  const insets = useSafeAreaInsets()
-
-  const [listHeight, setListHeight] = useState<number>(0)
-  const [headerListHeight, setHeaderListHeight] = useState<number>(0)
+  const styles = useStyles(flashListStyles)
 
   const scrollRef = useAnimatedRef<any>()
-  useImperativeHandle(ref, () => scrollRef.current)
+  useImperativeHandle(ref, () => scrollRef.current as FlashListRef<ItemT>)
 
   const {
     scrollY,
@@ -101,36 +85,25 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
     absoluteHeader,
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
-    inverted: !!inverted,
     onScrollWorklet
   })
 
-  const combinedContentContainerStyle = StyleSheet.flatten([
+  const combinedContentContainerStyle = [
     scrollViewAdjustments.contentContainerStyle,
     contentContainerStyle
-  ])
+  ]
 
   return (
     <View
       style={[
-        { flex: 1 },
-        containerStyle,
-        !ignoreLeftSafeArea && { paddingLeft: insets.left },
-        !ignoreRightSafeArea && { paddingRight: insets.right }
+        styles.container(ignoreLeftSafeArea ?? false, ignoreRightSafeArea ?? false),
+        containerStyle
       ]}
     >
       {!absoluteHeader && HeaderComponent({ showHeader, scrollY })}
       <AnimatedFlashList
         ref={scrollRef}
-        onLayout={(event) => setListHeight(event.nativeEvent.layout.height)}
         data={data}
-        scrollEnabled={
-          listHeight !== 0 && Array.isArray(data)
-            ? data.length > 0
-            : data && "value" in data && Array.isArray(data.value) && data.value.length > 0
-              ? true
-              : false
-        }
         scrollEventThrottle={16}
         overScrollMode="never"
         showsVerticalScrollIndicator={false}
@@ -166,7 +139,7 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
           ...scrollIndicatorInsets
         }}
         ListHeaderComponent={
-          <View onLayout={(event) => setHeaderListHeight(event.nativeEvent.layout.height)}>
+          <View>
             {LargeHeaderComponent && (
               <View
                 onLayout={(event) => {
@@ -189,47 +162,10 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
             {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showHeader, scrollY })}
           </View>
         }
-        ListEmptyComponent={
-          listHeight !== 0 ? (
-            <View style={{ height: listHeight - headerListHeight - insets.top }}>
-              {ListEmptyComponent ? (
-                typeof ListEmptyComponent === "function" ? (
-                  <ListEmptyComponent />
-                ) : isValidElement(ListEmptyComponent) ? (
-                  ListEmptyComponent
-                ) : null
-              ) : null}
-            </View>
-          ) : null
-        }
-        ListFooterComponent={
-          <View onLayout={(event) => setListHeight(listHeight - event.nativeEvent.layout.height)}>
-            {ListFooterComponent ? (
-              typeof ListFooterComponent === "function" ? (
-                <ListFooterComponent />
-              ) : isValidElement(ListFooterComponent) ? (
-                ListFooterComponent
-              ) : null
-            ) : null}
-          </View>
-        }
-        inverted={inverted}
-        estimatedListSize={{
-          height: Dimensions.get("screen").height,
-          width: Dimensions.get("screen").width
-        }}
         {...props}
       />
       {absoluteHeader && (
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            left: 0
-          }}
-          onLayout={onAbsoluteHeaderLayout}
-        >
+        <View style={styles.absoluteHeader} onLayout={onAbsoluteHeaderLayout}>
           {HeaderComponent({ showHeader, scrollY })}
         </View>
       )}
@@ -237,10 +173,18 @@ const FlashListWithHeadersComp = <ItemT extends any = any>(
   )
 }
 
-const FlashListWithHeaders = forwardRef(FlashListWithHeadersComp) as <ItemT = any>(
-  props: FlashListWithHeadersProps<ItemT> & {
-    ref?: RefObject<FlashList<ItemT>>
+const flashListStyles = createStyleSheet(({ runtime }) => ({
+  container: (ignoreLeftSafeArea: boolean, ignoreRightSafeArea: boolean) => ({
+    flex: 1,
+    paddingLeft: ignoreLeftSafeArea ? 0 : runtime.insets.left,
+    paddingRight: ignoreRightSafeArea ? 0 : runtime.insets.right
+  }),
+  absoluteHeader: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    left: 0
   }
-) => ReactElement | null
+}))
 
 export { FlashListWithHeaders }

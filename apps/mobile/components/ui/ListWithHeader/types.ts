@@ -1,7 +1,6 @@
 import { type ReactNode } from "react"
 
 import {
-  ColorValue,
   type LayoutRectangle,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
@@ -10,6 +9,8 @@ import {
 } from "react-native"
 
 import { DerivedValue, SharedValue } from "react-native-reanimated"
+
+import { type BorderWidthAlias, type ColorKey } from "@styles"
 
 export type SurfaceHeaderProps = {
   showHeader: DerivedValue<0 | 1>
@@ -31,8 +32,8 @@ export type HeaderProps = {
   scrollY?: SharedValue<number>
   showHeader: DerivedValue<0 | 1>
   bottomBorder?: boolean
-  borderColor?: ColorValue
-  borderWidth?: number
+  borderColor?: ColorKey
+  borderWidth?: BorderWidthAlias
   SurfaceComponent?: (props: SurfaceHeaderProps) => ReactNode
 }
 

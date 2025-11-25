@@ -1,60 +1,77 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 import {
+  type GestureResponderEvent,
   Pressable as RNPressable,
   type PressableProps as RNPressableProps,
   StyleProp,
   ViewStyle
 } from "react-native"
 
+import { durationTokens, opacityTokens } from "@styles"
+
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 
-export type PressableProps = RNPressableProps & {
+export type PressableProps = Omit<RNPressableProps, "style"> & {
   containerStyle?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
   disableScaleEffect?: boolean
   disableOpacityEffect?: boolean
   children?: ReactNode
 }
+
+const pressScale = 0.96
+const pressOpacity = opacityTokens[60]
+const pressDuration = durationTokens[100]
+const defaultOpacity = opacityTokens[100]
 
 const Pressable = ({
   containerStyle,
   disableScaleEffect = false,
   disableOpacityEffect = false,
   children,
+  style,
+  onPressIn,
+  onPressOut,
   ...props
 }: PressableProps) => {
-  const scale = useSharedValue<number>(1)
-  const opacity = useSharedValue<number>(1)
+  const scale = useSharedValue(1)
+  const opacity = useSharedValue(1)
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
     opacity: opacity.value
   }))
 
-  const handlePressIn = () => {
+  const handlePressIn = (event: GestureResponderEvent) => {
     if (!disableScaleEffect) {
-      scale.value = withTiming(0.96, { duration: 100 })
+      scale.value = withTiming(pressScale, { duration: pressDuration })
     }
     if (!disableOpacityEffect) {
-      opacity.value = withTiming(0.6, { duration: 100 })
+      opacity.value = withTiming(pressOpacity, { duration: pressDuration })
     }
+    onPressIn?.(event)
   }
 
-  const handlePressOut = () => {
+  const handlePressOut = (event: GestureResponderEvent) => {
     if (!disableScaleEffect) {
-      scale.value = withTiming(1, { duration: 100 })
+      scale.value = withTiming(1, { duration: pressDuration })
     }
     if (!disableOpacityEffect) {
-      opacity.value = withTiming(1, { duration: 100 })
+      opacity.value = withTiming(defaultOpacity, { duration: pressDuration })
     }
+    onPressOut?.(event)
   }
 
   return (
-    <Animated.View style={[animatedStyle, containerStyle]}>
-      <RNPressable onPressIn={handlePressIn} onPressOut={handlePressOut} {...props}>
-        {children}
-      </RNPressable>
-    </Animated.View>
+    <RNPressable
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      style={containerStyle}
+      {...props}
+    >
+      <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>
+    </RNPressable>
   )
 }
 

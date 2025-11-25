@@ -1,10 +1,6 @@
-import { useColorTheme } from "@hooks/useColorTheme"
+import { type StyleProp, type ViewStyle } from "react-native"
 
-import { rgba } from "polished"
-
-import { theme } from "@styles/theme"
-
-import { StyleSheet } from "react-native"
+import { type ColorKey, createStyleSheet, resolveColor, useStyles, useTheme } from "@styles"
 
 import {
   Slider as ReactNativeSlider,
@@ -13,11 +9,23 @@ import {
 
 export type SliderProps = Omit<
   ReactNativeSliderProps,
-  "animationType" | "minimumValue" | "maximumValue"
+  | "animationType"
+  | "minimumValue"
+  | "maximumValue"
+  | "thumbTintColor"
+  | "minimumTrackTintColor"
+  | "maximumTrackTintColor"
+  | "trackStyle"
+  | "thumbStyle"
 > & {
   animationType?: "timing" | "spring"
   minimumValue?: number
   maximumValue?: number
+  thumbTintColor?: ColorKey
+  minimumTrackTintColor?: ColorKey
+  maximumTrackTintColor?: ColorKey
+  trackStyle?: StyleProp<ViewStyle>
+  thumbStyle?: StyleProp<ViewStyle>
 }
 
 const Slider = ({
@@ -31,24 +39,49 @@ const Slider = ({
   thumbStyle,
   ...props
 }: SliderProps) => {
-  const { colors } = useColorTheme()
+  const { theme } = useTheme()
+
+  const styles = useStyles(sliderStyles)
+
+  const getColor = (color?: ColorKey): string => {
+    if (!color) return theme.colors.primary
+
+    const resolvedColor = resolveColor(theme, color)
+
+    return resolvedColor || theme.colors.primary
+  }
+
+  const primaryColor = getColor(thumbTintColor || minimumTrackTintColor)
+
+  const thumbColor = thumbTintColor ? getColor(thumbTintColor) : primaryColor
+  const minTrackColor = minimumTrackTintColor ? getColor(minimumTrackTintColor) : primaryColor
+  const maxTrackColor = maximumTrackTintColor
+    ? getColor(maximumTrackTintColor)
+    : theme.withOpacity(primaryColor, theme.opacity(20))
 
   return (
     <ReactNativeSlider
       animationType={animationType}
       minimumValue={minimumValue}
       maximumValue={maximumValue}
-      thumbTintColor={thumbTintColor || colors.primary}
-      minimumTrackTintColor={minimumTrackTintColor || colors.primary}
-      maximumTrackTintColor={maximumTrackTintColor || rgba(colors.primary, 0.2)}
-      trackStyle={StyleSheet.flatten([{ height: theme.styles.border.medium }, trackStyle])}
-      thumbStyle={StyleSheet.flatten([
-        { height: theme.styles.icon.size.small, width: theme.styles.icon.size.small },
-        thumbStyle
-      ])}
+      thumbTintColor={thumbColor}
+      minimumTrackTintColor={minTrackColor}
+      maximumTrackTintColor={maxTrackColor}
+      trackStyle={trackStyle ? [styles.track, trackStyle] : styles.track}
+      thumbStyle={thumbStyle ? [styles.thumb, thumbStyle] : styles.thumb}
       {...props}
     />
   )
 }
+
+const sliderStyles = createStyleSheet(({ theme }) => ({
+  track: {
+    height: theme.borderWidth(4)
+  },
+  thumb: {
+    height: theme.fontSize("sm"),
+    width: theme.fontSize("sm")
+  }
+}))
 
 export { Slider }

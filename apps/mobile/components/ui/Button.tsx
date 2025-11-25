@@ -1,140 +1,222 @@
-import { ReactNode, useEffect } from "react"
-
-import { useColorTheme } from "@hooks/useColorTheme"
-
-import { theme } from "@styles/theme"
-
-import { readableColor } from "polished"
+import { type ReactNode } from "react"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
-import { ActivityIndicator } from "@components/ui/ActivityIndicator"
+import { createStyleSheet, createVariant, useStyles, type StyleVariants } from "@styles"
+
+import { Fade } from "@components/ui/Fade"
 import { Pressable, type PressableProps } from "@components/ui/Pressable"
+import { Spinner } from "@components/ui/Spinner"
 import { Text, type TextProps } from "@components/ui/Text"
 
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
+import { getButtonForegroundColor } from "@lib/utils"
 
-export type ButtonProps = PressableProps & {
-  title?: string | null | undefined
-  isLoading?: boolean
-  disabled?: boolean
-  containerStyle?: StyleProp<ViewStyle>
-  style?: StyleProp<ViewStyle>
-  variant?: "contained" | "text"
-  color?: "primary" | "secondary" | "transparent" | (string & {})
-  titleProps?: TextProps
-  children?: ReactNode
-}
+export type ButtonProps = Omit<PressableProps, "style" | "children"> &
+  StyleVariants<typeof buttonStyles, "button"> & {
+    children?: ReactNode
+    title?: string | null
+    isLoading?: boolean
+    disabled?: boolean
+    containerStyle?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
+    titleProps?: TextProps
+  }
 
 const Button = ({
+  variant = "default",
+  size = "default",
+  children,
   title,
   isLoading = false,
   disabled = false,
   containerStyle,
   style,
-  variant = "contained",
-  color = "primary",
   titleProps,
-  children,
+  disableOpacityEffect = false,
   ...props
 }: ButtonProps) => {
-  const { colors } = useColorTheme()
+  const styles = useStyles(buttonStyles)
 
-  const backgroundColor =
-    variant === "contained"
-      ? color === "primary"
-        ? colors.primary
-        : color === "secondary"
-          ? colors.muted
-          : color
-      : "transparent"
+  const spinnerColor = getButtonForegroundColor(variant)
 
-  const textColor =
-    variant === "contained"
-      ? color === "primary"
-        ? colors.primaryForeground
-        : color === "secondary"
-          ? colors.mutedForeground
-          : color === "transparent"
-            ? colors.foreground
-            : readableColor(color as string)
-      : color === "primary"
-        ? colors.primary
-        : color === "secondary"
-          ? colors.mutedForeground
-          : color === "transparent"
-            ? colors.foreground
-            : color
-
-  const indicatorColor = textColor
-
-  const opacity = useSharedValue<number>(isLoading ? 0 : 1)
-
-  useEffect(() => {
-    opacity.value = withTiming(isLoading ? 0 : 1, { duration: 300 })
-  }, [isLoading])
-
-  const textStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value
-  }))
-
-  const indicatorStyle = useAnimatedStyle(() => ({
-    opacity: 1 - opacity.value
-  }))
+  const isDisabled = disabled || isLoading
 
   return (
     <View style={[{ alignSelf: "flex-start" }, containerStyle]}>
       <Pressable
         style={[
-          {
-            position: "relative",
-            backgroundColor,
-            opacity: disabled ? 0.5 : 1,
-            alignItems: "center",
-            justifyContent: "center",
-            paddingVertical: theme.styles.spacing.small,
-            paddingHorizontal: theme.styles.spacing.large,
-            borderRadius: theme.styles.borderRadius.xSmall,
-            alignSelf: "flex-start",
-            flexDirection: "row"
-          },
+          styles.button({
+            variant,
+            size,
+            isDisabled: isDisabled
+          }),
           style
         ]}
-        disabled={disabled || isLoading}
+        disabled={isDisabled}
+        disableOpacityEffect={disableOpacityEffect || isLoading}
         {...props}
       >
-        <Animated.View style={textStyle}>
+        <Fade show={!isLoading} initial={false} unmountOnExit={false} style={styles.content}>
           {children ? (
             children
-          ) : (
-            <Text
-              variant={titleProps?.variant ?? "bold"}
-              style={[titleProps?.style, { color: textColor }]}
-              {...titleProps}
-            >
+          ) : title ? (
+            <Text style={[styles.buttonText({ variant, size }), titleProps?.style]} {...titleProps}>
               {title}
             </Text>
-          )}
-        </Animated.View>
-        <Animated.View
-          style={[
-            indicatorStyle,
-            {
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              alignItems: "center",
-              justifyContent: "center"
-            }
-          ]}
-        >
-          <ActivityIndicator size={theme.styles.icon.size.large} color={indicatorColor} />
-        </Animated.View>
+          ) : null}
+        </Fade>
+        <Fade show={isLoading} unmountOnExit={false} style={styles.spinnerContainer}>
+          <Spinner size="sm" color={spinnerColor} />
+        </Fade>
       </Pressable>
     </View>
   )
 }
+
+const buttonStyles = createStyleSheet(({ theme }) => ({
+  button: createVariant({
+    base: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: theme.space(2),
+      borderRadius: theme.radius()
+    },
+    variants: {
+      isDisabled: {
+        true: {
+          opacity: theme.opacity(50)
+        },
+        false: {
+          opacity: theme.opacity()
+        }
+      },
+      variant: {
+        default: {
+          backgroundColor: theme.colors.primary
+        },
+        text: {
+          backgroundColor: "transparent"
+        },
+        destructive: {
+          backgroundColor: theme.colors.destructive
+        },
+        outline: {
+          backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
+          borderWidth: theme.borderWidth(),
+          borderColor: theme.colors.input
+        },
+        secondary: {
+          backgroundColor: theme.colors.secondary
+        },
+        ghost: {
+          backgroundColor: "transparent"
+        },
+        link: {
+          backgroundColor: "transparent",
+          borderRadius: theme.radius("none"),
+          paddingVertical: 0,
+          paddingHorizontal: 0,
+          minHeight: "auto"
+        }
+      },
+      size: {
+        default: {
+          paddingVertical: theme.space(2),
+          paddingHorizontal: theme.space(4),
+          minHeight: theme.space(9)
+        },
+        sm: {
+          paddingVertical: theme.space(1.5),
+          paddingHorizontal: theme.space(3),
+          minHeight: theme.space(8)
+        },
+        lg: {
+          paddingVertical: theme.space(2.5),
+          paddingHorizontal: theme.space(8),
+          minHeight: theme.space(10)
+        },
+        icon: {
+          padding: theme.space(2),
+          minWidth: theme.space(9),
+          minHeight: theme.space(9),
+          width: theme.space(9),
+          height: theme.space(9)
+        }
+      }
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+      isDisabled: false
+    }
+  }),
+  buttonText: createVariant({
+    base: {
+      fontWeight: theme.fontWeight("medium")
+    },
+    variants: {
+      variant: {
+        default: {
+          color: theme.colors.primaryForeground
+        },
+        text: {
+          color: theme.colors.primary,
+          fontWeight: theme.fontWeight("bold")
+        },
+        destructive: {
+          color: theme.colors.destructiveForeground
+        },
+        outline: {
+          color: theme.colors.accentForeground
+        },
+        secondary: {
+          color: theme.colors.secondaryForeground
+        },
+        ghost: {
+          color: theme.colors.accentForeground
+        },
+        link: {
+          color: theme.colors.primary,
+          fontWeight: theme.fontWeight(),
+          textDecorationLine: "underline"
+        }
+      },
+      size: {
+        default: {
+          fontSize: theme.fontSize("sm")
+        },
+        sm: {
+          fontSize: theme.fontSize("xs")
+        },
+        lg: {
+          fontSize: theme.fontSize()
+        },
+        icon: {
+          fontSize: theme.fontSize("sm")
+        }
+      }
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default"
+    }
+  }),
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.space(2)
+  },
+  spinnerContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center"
+  }
+}))
 
 export { Button }

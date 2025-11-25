@@ -1,177 +1,201 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react"
+import { type ReactNode, useRef } from "react"
 
-import { useColorTheme } from "@hooks/useColorTheme"
+import { type BlurEvent, type FocusEvent, TextInput as RNTextInput, View } from "react-native"
 
-import { theme } from "@styles/theme"
+import { createStyleSheet, useAnimatedTheme, useStyles, durationTokens } from "@styles"
 
-import {
-  Animated,
+import Animated, {
   Easing,
-  Pressable,
-  TextInput as RNTextInput,
-  View,
-  type NativeSyntheticEvent,
-  type StyleProp,
-  type TextInputFocusEventData,
-  type ViewStyle
-} from "react-native"
+  interpolate,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from "react-native-reanimated"
 
-import { Button } from "@components/ui/Button"
-import { Icon } from "@components/ui/Icon"
-import { IconButton } from "@components/ui/IconButton"
-import { TextInput, type TextInputProps } from "@components/ui/TextInput"
+import { Button } from "./Button"
+import { Icon } from "./Icon"
+import { TextInput, type TextInputProps } from "./TextInput"
 
 export type SearchInputProps = TextInputProps & {
-  containerStyle?: StyleProp<ViewStyle>
+  cancelLabel?: string
+  onCancel?: () => void
+  renderRight?: ReactNode
 }
 
-const SearchInput = forwardRef<RNTextInput, SearchInputProps>(
-  (
-    {
-      style,
-      value,
-      placeholderTextColor,
-      containerStyle,
-      onChangeText,
-      onFocus,
-      onBlur,
-      ...props
-    }: SearchInputProps,
-    ref
-  ) => {
-    const { colors } = useColorTheme()
+const SearchInput = ({
+  cancelLabel = "Cancel",
+  onCancel,
+  renderRight,
+  ...textInputProps
+}: SearchInputProps) => {
+  const styles = useStyles(searchInputStyles)
 
-    const inputRef = useRef<RNTextInput>(null)
-    useImperativeHandle(ref, () => inputRef.current || ({} as RNTextInput))
+  const animatedTheme = useAnimatedTheme()
 
-    const [cancelWidth, setCancelWidth] = useState<number>(0)
+  const inputRef = useRef<RNTextInput>(null)
 
-    const isFocused = useRef(new Animated.Value(0)).current
+  const measureRef = useRef<View>(null)
 
-    const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      Animated.timing(isFocused, {
-        toValue: 1,
-        duration: 300,
-        easing: Easing.inOut(Easing.ease),
-        useNativeDriver: false
-      }).start()
-      if (onFocus) onFocus(e)
+  const isFocused = useSharedValue(0)
+  const cancelButtonWidth = useSharedValue(0)
+
+  const handleFocus = (event: FocusEvent) => {
+    isFocused.value = withTiming(1, {
+      duration: durationTokens[150],
+      easing: Easing.out(Easing.ease)
+    })
+    textInputProps.onFocus?.(event)
+  }
+
+  const handleBlur = (event: BlurEvent) => {
+    isFocused.value = withTiming(0, {
+      duration: durationTokens[150],
+      easing: Easing.out(Easing.ease)
+    })
+    textInputProps.onBlur?.(event)
+  }
+
+  const handleCancel = () => {
+    if (inputRef.current) {
+      inputRef.current.blur()
+      inputRef.current.clear()
     }
+    onCancel?.()
+  }
 
-    const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      inputRef.current?.blur()
-      Animated.timing(isFocused, {
-        toValue: 0,
-        duration: 300,
-        easing: Easing.inOut(Easing.ease),
-        useNativeDriver: false
-      }).start()
-      if (onBlur) onBlur(e)
+  const borderStyle = useAnimatedStyle(() => {
+    return {
+      borderColor: interpolateColor(
+        isFocused.value,
+        [0, 1],
+        [String(animatedTheme.value.colors.input), String(animatedTheme.value.colors.primary)]
+      )
     }
+  })
 
-    const handlePress = () => {
-      inputRef.current?.focus()
-    }
+  // Animates the cancel button with iOS-like behavior:
+  // - Fades in/out with opacity
+  // - Expands/collapses horizontally with maxWidth
+  // - Both animations are synchronized using the same duration
+  const cancelContainerStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(isFocused.value, [0, 1], [0, 1])
+    const maxWidth = interpolate(isFocused.value, [0, 1], [0, cancelButtonWidth.value])
 
-    const clearStyle = {
-      opacity: isFocused
-    }
-
-    const cancelStyle = {
-      opacity: isFocused,
-      marginRight: isFocused.interpolate({
-        inputRange: [0, 1],
-        outputRange: [-cancelWidth, 0]
+    return {
+      opacity: withTiming(opacity, {
+        duration: durationTokens[150],
+        easing: Easing.out(Easing.ease)
       }),
-      marginLeft: isFocused.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, theme.styles.spacing.small]
+      maxWidth: withTiming(maxWidth, {
+        duration: durationTokens[150],
+        easing: Easing.out(Easing.ease)
       })
     }
+  })
 
-    const borderStyle = {
-      borderColor: isFocused.interpolate({
-        inputRange: [0, 1],
-        outputRange: [colors.muted, colors.primary]
-      })
+  const cancelButtonInnerStyle = useAnimatedStyle(() => {
+    return {
+      width: cancelButtonWidth.value > 0 ? cancelButtonWidth.value : undefined
     }
+  })
 
-    return (
+  return (
+    <View style={styles.wrapper}>
+      <Animated.View style={[styles.inputContainer, borderStyle]}>
+        <Icon name="Search" color="foreground" style={styles.searchIcon} />
+        <TextInput
+          ref={inputRef}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          disableBorderAnimation
+          style={styles.input}
+          {...textInputProps}
+        />
+        {renderRight && <View style={styles.rightContent}>{renderRight}</View>}
+      </Animated.View>
+      {/* 
+        Hidden view to measure the actual width of the cancel button.
+        This allows smooth width-based animation when the button appears/disappears.
+        The measured width is stored in cancelButtonWidth shared value.
+      */}
       <View
-        style={{
-          width: "100%",
-          flexDirection: "row",
-          alignItems: "center"
+        ref={measureRef}
+        style={styles.hiddenMeasurer}
+        onLayout={(event) => {
+          const { width } = event.nativeEvent.layout
+          if (width > 0) {
+            cancelButtonWidth.value = width
+          }
         }}
       >
-        <Animated.View
-          style={[
-            {
-              flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
-              paddingHorizontal: theme.styles.spacing.small,
-              borderRadius: theme.styles.borderRadius.xSmall,
-              borderColor: colors.muted,
-              borderWidth: theme.styles.border.thin
-            },
-            borderStyle,
-            containerStyle
-          ]}
-        >
-          <Pressable onPress={handlePress} style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon name="Search" size={theme.styles.icon.size.medium} color={colors.foreground} />
-            <TextInput
-              ref={inputRef}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              value={value}
-              onChangeText={onChangeText}
-              placeholderTextColor={placeholderTextColor || colors.mutedForeground}
-              style={[
-                style,
-                {
-                  flex: 1,
-                  paddingHorizontal: theme.styles.spacing.xSmall,
-                  borderWidth: theme.styles.border.none
-                }
-              ]}
-              disableBorderAnimation
-              {...props}
-            />
-            <Animated.View style={clearStyle}>
-              <IconButton
-                name="X"
-                size={theme.styles.icon.size.medium}
-                color={colors.foreground}
-                onPress={() => {
-                  if (Number(JSON.stringify(isFocused)) === 0) {
-                    handlePress()
-                    return
-                  }
-                  onChangeText ? onChangeText("") : inputRef.current?.clear()
-                }}
-              />
-            </Animated.View>
-          </Pressable>
-        </Animated.View>
-        <Animated.View
-          onLayout={(event) => setCancelWidth(event.nativeEvent.layout.width)}
-          style={cancelStyle}
-        >
+        <Button
+          variant="text"
+          size="sm"
+          title={cancelLabel}
+          onPress={() => {}}
+          titleProps={{ numberOfLines: 1 }}
+        />
+      </View>
+      <Animated.View style={[styles.cancelContainer, cancelContainerStyle]}>
+        <Animated.View style={[styles.cancelButtonInner, cancelButtonInnerStyle]}>
           <Button
             variant="text"
-            title="Cancel"
-            onPress={() => handleBlur({} as NativeSyntheticEvent<TextInputFocusEventData>)}
-            style={{
-              paddingRight: theme.styles.spacing.none,
-              paddingLeft: theme.styles.spacing.xSmall
-            }}
+            size="sm"
+            title={cancelLabel}
+            onPress={handleCancel}
+            titleProps={{ numberOfLines: 1, ellipsizeMode: "clip" }}
           />
         </Animated.View>
-      </View>
-    )
+      </Animated.View>
+    </View>
+  )
+}
+
+const searchInputStyles = createStyleSheet(({ theme }) => ({
+  wrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%"
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
+    borderRadius: theme.radius(),
+    borderWidth: theme.borderWidth(),
+    borderColor: theme.colors.input,
+    padding: theme.space("xs"),
+    gap: theme.space(3)
+  },
+  searchIcon: {
+    marginLeft: theme.space("sm")
+  },
+  input: {
+    flex: 1,
+    borderWidth: theme.borderWidth("none"),
+    paddingHorizontal: theme.space("0")
+  },
+  rightContent: {
+    flexShrink: 0
+  },
+  hiddenMeasurer: {
+    position: "absolute",
+    opacity: 0,
+    pointerEvents: "none"
+  },
+  cancelContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden"
+  },
+  cancelButtonInner: {
+    width: "100%",
+    flexShrink: 0,
+    alignItems: "center",
+    justifyContent: "center"
   }
-)
+}))
 
 export { SearchInput }

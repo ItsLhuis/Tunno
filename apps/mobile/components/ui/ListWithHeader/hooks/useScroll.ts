@@ -5,7 +5,6 @@ import { type LayoutChangeEvent, type NativeScrollEvent } from "react-native"
 import Animated, {
   AnimatedRef,
   interpolate,
-  runOnUI,
   scrollTo,
   useAnimatedScrollHandler,
   useDerivedValue,
@@ -13,9 +12,11 @@ import Animated, {
   withTiming
 } from "react-native-reanimated"
 
+import { scheduleOnUI } from "react-native-worklets"
+
 import { debounce } from "lodash"
 
-import { SharedScrollContainerProps } from "./types"
+import { SharedScrollContainerProps } from "../types"
 
 type UseScrollProps = {
   scrollRef: AnimatedRef<Animated.ScrollView>
@@ -90,24 +91,24 @@ export const useScroll = ({
           scrollY.value >= largeHeaderHeight.value / 2 &&
           scrollY.value < largeHeaderHeight.value
         ) {
-          runOnUI(() => {
+          scheduleOnUI(() => {
             "worklet"
             scrollTo(scrollRef, 0, largeHeaderHeight.value, true)
-          })()
+          })
         } else if (scrollY.value >= 0 && scrollY.value < largeHeaderHeight.value / 2) {
-          runOnUI(() => {
+          scheduleOnUI(() => {
             "worklet"
             scrollTo(scrollRef, 0, 0, true)
-          })()
+          })
         }
       }
     }, 50)
   }, [disableAutoFixScroll, largeHeaderHeight, scrollY, scrollRef])
 
   const onAbsoluteHeaderLayout = useCallback(
-    (e: LayoutChangeEvent) => {
+    (event: LayoutChangeEvent) => {
       if (absoluteHeader) {
-        setAbsoluteHeaderHeight(e.nativeEvent.layout.height)
+        setAbsoluteHeaderHeight(event.nativeEvent.layout.height)
       }
     },
     [absoluteHeader]

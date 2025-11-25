@@ -1,73 +1,50 @@
-import { theme } from "@styles/theme"
-import { readableColor } from "polished"
-
-import { useColorTheme } from "@hooks/useColorTheme"
-
-import { Platform, View } from "react-native"
+import { createStyleSheet, useStyles } from "@styles"
 
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Icon, type IconProps } from "@components/ui/Icon"
 
-export type IconButtonProps = Omit<ButtonProps, "title" | "titleProps" | "children"> & {
-  name: IconProps["name"] | "More"
+import { getButtonForegroundColor } from "@lib/utils"
+
+export type IconButtonProps = Omit<ButtonProps, "size" | "children"> & {
+  name: IconProps["name"]
   isFilled?: boolean
-  size?: number
-  noMargin?: boolean
+  iconColor?: IconProps["color"]
+  iconSize?: IconProps["size"]
+  margin?: boolean
 }
 
 const IconButton = ({
   name,
-  isFilled = false,
-  color = "transparent",
-  size,
-  noMargin = false,
-  containerStyle,
+  isFilled,
+  iconColor,
+  iconSize,
+  variant,
   style,
-  variant = "text",
+  margin = false,
   ...props
 }: IconButtonProps) => {
-  const { colors } = useColorTheme()
+  const styles = useStyles(iconButtonStyles)
 
-  const iconName: IconProps["name"] =
-    name === "More" ? (Platform.OS === "android" ? "EllipsisVertical" : "Ellipsis") : name
+  const defaultIconColor = getButtonForegroundColor(variant)
 
-  const iconColor =
-    variant === "contained"
-      ? color === "primary"
-        ? colors.primaryForeground
-        : color === "secondary"
-          ? colors.mutedForeground
-          : color === "transparent"
-            ? colors.foreground
-            : readableColor(color as string)
-      : color === "primary"
-        ? colors.primary
-        : color === "secondary"
-          ? colors.mutedForeground
-          : color === "transparent"
-            ? colors.foreground
-            : color
+  const iconColorToUse = iconColor ?? defaultIconColor
 
   return (
-    <View>
-      <Button
-        variant={variant}
-        color={color}
-        containerStyle={[{ margin: noMargin ? 0 : -theme.styles.spacing.small }, containerStyle]}
-        style={[
-          {
-            paddingVertical: theme.styles.spacing.small,
-            paddingHorizontal: theme.styles.spacing.small,
-            borderRadius: theme.styles.borderRadius.round
-          },
-          style
-        ]}
-        {...props}
-      >
-        <Icon name={iconName} size={size} color={iconColor} isFilled={isFilled} />
-      </Button>
-    </View>
+    <Button
+      size="icon"
+      variant={variant}
+      style={[style, margin ? styles.buttonMargin : undefined]}
+      {...props}
+    >
+      <Icon name={name} isFilled={isFilled} color={iconColorToUse} size={iconSize} />
+    </Button>
   )
 }
+
+const iconButtonStyles = createStyleSheet(({ theme }) => ({
+  buttonMargin: {
+    margin: -theme.space(3)
+  }
+}))
 
 export { IconButton }

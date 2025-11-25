@@ -1,16 +1,22 @@
-import { forwardRef, useImperativeHandle, useRef } from "react"
-
-import { useColorTheme } from "@hooks/useColorTheme"
-
-import { theme } from "@styles/theme"
+import {
+  type BlurEvent,
+  ColorValue,
+  type FocusEvent,
+  TextInput as RNTextInput,
+  type TextInputProps as RNTextInputProps
+} from "react-native"
 
 import {
-  Platform,
-  TextInput as RNTextInput,
-  type NativeSyntheticEvent,
-  type TextInputProps as RNTextInputProps,
-  type TextInputFocusEventData
-} from "react-native"
+  type ColorKey,
+  createStyleSheet,
+  createVariant,
+  durationTokens,
+  resolveColor,
+  type StyleVariants,
+  useAnimatedTheme,
+  useStyles,
+  useTheme
+} from "@styles"
 
 import Animated, {
   interpolateColor,
@@ -21,59 +27,112 @@ import Animated, {
 
 const AnimatedTextInput = Animated.createAnimatedComponent(RNTextInput)
 
-export type TextInputProps = RNTextInputProps & {
-  disableBorderAnimation?: boolean
+export type TextInputProps = Omit<
+  RNTextInputProps,
+  "placeholderTextColor" | "selectionColor" | "editable"
+> &
+  StyleVariants<typeof textInputStyles, "input"> & {
+    disableBorderAnimation?: boolean
+    placeholderTextColor?: ColorKey | undefined
+    selectionColor?: ColorKey | undefined
+    ref?: React.Ref<RNTextInput>
+  }
+
+const TextInput = ({
+  disableBorderAnimation = false,
+  disabled = false,
+  style,
+  onFocus,
+  onBlur,
+  placeholderTextColor,
+  selectionColor,
+  ref,
+  ...props
+}: TextInputProps) => {
+  const styles = useStyles(textInputStyles)
+
+  const { theme } = useTheme()
+
+  const animatedTheme = useAnimatedTheme()
+
+  const isFocused = useSharedValue(0)
+
+  const resolvedPlaceholderColor = placeholderTextColor
+    ? resolveColor(theme, placeholderTextColor)
+    : undefined
+  const finalPlaceholderColor: ColorValue = resolvedPlaceholderColor ?? theme.colors.mutedForeground
+
+  const resolvedSelectionColor = selectionColor ? resolveColor(theme, selectionColor) : undefined
+  const finalSelectionColor: ColorValue = resolvedSelectionColor ?? theme.colors.primary
+
+  const borderStyle = useAnimatedStyle(() => {
+    if (disableBorderAnimation) {
+      return {}
+    }
+
+    return {
+      borderColor: interpolateColor(
+        isFocused.value,
+        [0, 1],
+        [String(animatedTheme.value.colors.input), String(animatedTheme.value.colors.primary)]
+      )
+    }
+  })
+
+  const handleFocus = (event: FocusEvent) => {
+    if (!disableBorderAnimation) {
+      isFocused.value = withTiming(1, { duration: durationTokens[300] })
+    }
+    onFocus?.(event)
+  }
+
+  const handleBlur = (event: BlurEvent) => {
+    if (!disableBorderAnimation) {
+      isFocused.value = withTiming(0, { duration: durationTokens[300] })
+    }
+    onBlur?.(event)
+  }
+
+  return (
+    <AnimatedTextInput
+      ref={ref}
+      editable={!disabled}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      maxFontSizeMultiplier={1}
+      selectionColor={finalSelectionColor}
+      placeholderTextColor={finalPlaceholderColor}
+      style={[styles.input({ disabled }), borderStyle, style]}
+      {...props}
+    />
+  )
 }
 
-const TextInput = forwardRef<RNTextInput, TextInputProps>(
-  ({ disableBorderAnimation = false, style, onFocus, onBlur, ...props }, ref) => {
-    const { colors } = useColorTheme()
-
-    const inputRef = useRef<RNTextInput>(null)
-    useImperativeHandle(ref, () => inputRef.current || ({} as RNTextInput))
-
-    const isFocused = useSharedValue<number>(0)
-
-    const borderStyle = useAnimatedStyle(() => ({
-      borderColor: interpolateColor(isFocused.value, [0, 1], [colors.muted, colors.primary])
-    }))
-
-    const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      if (!disableBorderAnimation) isFocused.value = withTiming(1, { duration: 300 })
-      if (onFocus) onFocus(e)
+const textInputStyles = createStyleSheet(({ theme }) => ({
+  input: createVariant({
+    base: {
+      backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
+      fontSize: theme.fontSize("sm"),
+      color: theme.colors.foreground,
+      padding: theme.space("sm"),
+      borderRadius: theme.radius(),
+      borderWidth: theme.borderWidth(),
+      borderColor: theme.colors.input
+    },
+    variants: {
+      disabled: {
+        true: {
+          opacity: theme.opacity(50)
+        },
+        false: {
+          opacity: theme.opacity()
+        }
+      }
+    },
+    defaultVariants: {
+      disabled: false
     }
-
-    const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      if (!disableBorderAnimation) isFocused.value = withTiming(0, { duration: 300 })
-      if (onBlur) onBlur(e)
-    }
-
-    return (
-      <AnimatedTextInput
-        ref={inputRef}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        maxFontSizeMultiplier={1}
-        selectionColor={colors.primary}
-        style={[
-          {
-            fontFamily: theme.font.family.regular,
-            fontSize: theme.font.size.medium,
-            color: colors.foreground,
-            paddingHorizontal: theme.styles.spacing.small,
-            paddingVertical:
-              Platform.OS === "android" ? theme.styles.spacing.xSmall : theme.styles.spacing.small,
-            borderRadius: theme.styles.borderRadius.xSmall,
-            borderColor: colors.muted,
-            borderWidth: theme.styles.border.thin
-          },
-          borderStyle,
-          style
-        ]}
-        {...props}
-      />
-    )
-  }
-)
+  })
+}))
 
 export { TextInput }
