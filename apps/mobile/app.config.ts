@@ -1,13 +1,11 @@
-import { ExpoConfig, ConfigContext } from "@expo/config"
-
-require("ts-node/register")
+import { ConfigContext, ExpoConfig } from "@expo/config"
 
 module.exports = ({ config }: ConfigContext): Partial<ExpoConfig> => {
   const plugins = config.plugins ?? []
 
   return {
     ...config,
-    plugins: [...plugins, require("./plugins/withSplashScreen").withSplashScreen],
+    plugins: [...plugins],
     extra: {
       ...config.extra,
       env: {}

@@ -1,6 +1,7 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@api/*": ["./api/*"],
@@ -10,12 +11,12 @@
       "@contexts/*": ["./contexts/*"],
       "@database/*": ["./database/*"],
       "@features/*": ["./features/*"],
-      "@hooks/*": ["./hooks/*"],
       "@lib/*": ["./lib/*"],
       "@migrations/*": ["./migrations/*"],
       "@plugins/*": ["./plugins/*"],
       "@services/*": ["./services/*"],
       "@stores/*": ["./stores/*"],
+      "@styles": ["./styles"],
       "@styles/*": ["./styles/*"],
       "@utils/*": ["./utils/*"]
     },

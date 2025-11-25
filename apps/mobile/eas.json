@@ -1,11 +1,11 @@
 {
   "cli": {
-    "version": ">= 16.0.1",
+    "version": ">= 16.27.0",
     "appVersionSource": "remote"
   },
   "build": {
     "monorepo": {
-      "pnpm": "10.22.0",
+      "pnpm": "10.23.0",
       "env": {
         "EXPO_USE_FAST_RESOLVER": "true"
       }

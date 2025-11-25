@@ -7,13 +7,15 @@
     "icon": "./assets/images/app/icon.png",
     "scheme": "tunno",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
+    "jsEngine": "hermes",
     "ios": {
       "icon": {
         "light": "./assets/images/ios/icons/default.png",
         "dark": "./assets/images/ios/icons/default.png",
         "tinted": "./assets/images/ios/icons/tinted.png"
       },
+      "jsEngine": "jsc",
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": ["audio", "audio"]
@@ -27,6 +29,8 @@
         "backgroundColor": "#FC3C44"
       },
       "softwareKeyboardLayoutMode": "pan",
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
       "package": "com.itslhuis.tunno"
     },
     "plugins": [
@@ -67,7 +71,8 @@
       "expo-router"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "reactCompiler": true
     },
     "extra": {
       "eas": {
