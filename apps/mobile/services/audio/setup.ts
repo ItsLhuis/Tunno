@@ -13,7 +13,7 @@ export const setupAudioPlayer = async () => {
     autoHandleInterruptions: true
   })
   await TrackPlayer.updateOptions({
-    icon: require("@assets/images/app/icon.png"),
+    /* icon: require("@assets/images/app/icon.png"), */
     android: {
       appKilledPlaybackBehavior: DefaultAudioServiceBehaviour
     },
@@ -23,14 +23,20 @@ export const setupAudioPlayer = async () => {
       Capability.Skip,
       Capability.SkipToNext,
       Capability.SkipToPrevious,
+      Capability.JumpForward,
+      Capability.JumpBackward,
       Capability.SeekTo
     ],
-    compactCapabilities: [
+    /* compactCapabilities: [
       Capability.Play,
       Capability.Pause,
+      Capability.Skip,
       Capability.SkipToNext,
-      Capability.SkipToPrevious
-    ],
+      Capability.SkipToPrevious,
+      Capability.JumpForward,
+      Capability.JumpBackward,
+      Capability.SeekTo
+    ], */
     progressUpdateEventInterval: 1
   })
   await TrackPlayer.setRepeatMode(DefaultRepeatMode)
