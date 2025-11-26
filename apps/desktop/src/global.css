@@ -154,15 +154,8 @@
 @layer utilities {
   @font-face {
     font-family: "Space Grotesk";
-    src: url("./assets/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
+    src: url("./assets/fonts/SpaceGrotesk.ttf") format("truetype");
     font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "Space Grotesk";
-    src: url("./assets/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
-    font-weight: bold;
     font-style: normal;
   }
 }
