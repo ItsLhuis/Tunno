@@ -17,6 +17,7 @@ import { opacityTokens, type OpacityAlias } from "../tokens/opacity"
 import { shadowTokens, type ShadowAlias } from "../tokens/shadows"
 import {
   sizeTokens,
+  SIZE_BASE_UNIT,
   SPACING_BASE_UNIT,
   spacingAliases,
   type SizeAlias,
@@ -86,7 +87,7 @@ export function createSizeFunction() {
       return sizeTokens[value]
     }
 
-    return value * SPACING_BASE_UNIT
+    return value * SIZE_BASE_UNIT
   }
 }
 
