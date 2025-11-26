@@ -2,7 +2,7 @@ import { type ReactNode, useRef } from "react"
 
 import { type BlurEvent, type FocusEvent, TextInput as RNTextInput, View } from "react-native"
 
-import { createStyleSheet, useAnimatedTheme, useStyles, durationTokens } from "@styles"
+import { createStyleSheet, durationTokens, useAnimatedTheme, useStyles } from "@styles"
 
 import Animated, {
   Easing,
@@ -74,10 +74,6 @@ const SearchInput = ({
     }
   })
 
-  // Animates the cancel button with iOS-like behavior:
-  // - Fades in/out with opacity
-  // - Expands/collapses horizontally with maxWidth
-  // - Both animations are synchronized using the same duration
   const cancelContainerStyle = useAnimatedStyle(() => {
     const opacity = interpolate(isFocused.value, [0, 1], [0, 1])
     const maxWidth = interpolate(isFocused.value, [0, 1], [0, cancelButtonWidth.value])
@@ -114,11 +110,6 @@ const SearchInput = ({
         />
         {renderRight && <View style={styles.rightContent}>{renderRight}</View>}
       </Animated.View>
-      {/* 
-        Hidden view to measure the actual width of the cancel button.
-        This allows smooth width-based animation when the button appears/disappears.
-        The measured width is stored in cancelButtonWidth shared value.
-      */}
       <View
         ref={measureRef}
         style={styles.hiddenMeasurer}
@@ -145,6 +136,7 @@ const SearchInput = ({
             title={cancelLabel}
             onPress={handleCancel}
             titleProps={{ numberOfLines: 1, ellipsizeMode: "clip" }}
+            style={{ paddingRight: 0 }}
           />
         </Animated.View>
       </Animated.View>

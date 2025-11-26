@@ -47,33 +47,33 @@ const textStyles = createStyleSheet(({ theme }) => ({
       variant: {
         h1: {
           fontSize: theme.fontSize("4xl"),
-          fontWeight: theme.fontWeight("extrabold"),
+          fontFamily: "SpaceGrotesk-Bold",
           letterSpacing: theme.letterSpacing("tight")
         },
         h2: {
           fontSize: theme.fontSize("3xl"),
-          fontWeight: theme.fontWeight("semibold"),
+          fontFamily: "SpaceGrotesk-Bold",
           letterSpacing: theme.letterSpacing("tight"),
           paddingBottom: theme.space("sm")
         },
         h3: {
           fontSize: theme.fontSize("2xl"),
-          fontWeight: theme.fontWeight("semibold"),
+          fontFamily: "SpaceGrotesk-Bold",
           letterSpacing: theme.letterSpacing("tight")
         },
         h4: {
           fontSize: theme.fontSize("xl"),
-          fontWeight: theme.fontWeight("semibold"),
+          fontFamily: "SpaceGrotesk-Bold",
           letterSpacing: theme.letterSpacing("tight")
         },
         h5: {
           fontSize: theme.fontSize("lg"),
-          fontWeight: theme.fontWeight("semibold"),
+          fontFamily: "SpaceGrotesk-Bold",
           letterSpacing: theme.letterSpacing("tight")
         },
         h6: {
           fontSize: theme.fontSize("base"),
-          fontWeight: theme.fontWeight("semibold"),
+          fontFamily: "SpaceGrotesk-Bold",
           letterSpacing: theme.letterSpacing("tight")
         },
         p: {
@@ -133,20 +133,23 @@ const textStyles = createStyleSheet(({ theme }) => ({
         }
       },
       weight: {
+        light: {
+          fontFamily: "SpaceGrotesk-Light"
+        },
         normal: {
-          fontWeight: theme.fontWeight()
+          fontFamily: "SpaceGrotesk-Regular"
         },
         medium: {
-          fontWeight: theme.fontWeight("medium")
+          fontFamily: "SpaceGrotesk-Medium"
         },
         semibold: {
-          fontWeight: theme.fontWeight("semibold")
+          fontFamily: "SpaceGrotesk-Bold"
         },
         bold: {
-          fontWeight: theme.fontWeight("bold")
+          fontFamily: "SpaceGrotesk-Bold"
         },
         extrabold: {
-          fontWeight: theme.fontWeight("extrabold")
+          fontFamily: "SpaceGrotesk-Bold"
         }
       },
       color: createColorVariants(theme, "color"),

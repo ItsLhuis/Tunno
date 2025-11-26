@@ -42,7 +42,7 @@ const Button = ({
   const isDisabled = disabled || isLoading
 
   return (
-    <View style={[{ alignSelf: "flex-start" }, containerStyle]}>
+    <View style={[{ alignSelf: "center" }, containerStyle]}>
       <Pressable
         style={[
           styles.button({
@@ -153,7 +153,7 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
   }),
   buttonText: createVariant({
     base: {
-      fontWeight: theme.fontWeight("medium")
+      fontFamily: "SpaceGrotesk-Medium"
     },
     variants: {
       variant: {
@@ -162,7 +162,7 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
         },
         text: {
           color: theme.colors.primary,
-          fontWeight: theme.fontWeight("bold")
+          fontFamily: "SpaceGrotesk-Bold"
         },
         destructive: {
           color: theme.colors.destructiveForeground
@@ -178,7 +178,7 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
         },
         link: {
           color: theme.colors.primary,
-          fontWeight: theme.fontWeight(),
+          fontFamily: "SpaceGrotesk-Regular",
           textDecorationLine: "underline"
         }
       },

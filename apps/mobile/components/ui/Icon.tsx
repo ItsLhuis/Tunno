@@ -13,7 +13,7 @@ export type IconProps = Omit<LucideProps, "size" | "color"> & {
   color?: ColorKey
 }
 
-const Icon = ({ name, isFilled, size = "base", color, style, ...props }: IconProps) => {
+const Icon = ({ name, isFilled, size = "lg", color, style, ...props }: IconProps) => {
   const { theme } = useTheme()
 
   const LucideIcon = icons[name] ?? icons["Info"]

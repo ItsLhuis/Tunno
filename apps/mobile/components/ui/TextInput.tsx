@@ -113,6 +113,7 @@ const textInputStyles = createStyleSheet(({ theme }) => ({
     base: {
       backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
       fontSize: theme.fontSize("sm"),
+      fontFamily: "SpaceGrotesk-Regular",
       color: theme.colors.foreground,
       padding: theme.space("sm"),
       borderRadius: theme.radius(),

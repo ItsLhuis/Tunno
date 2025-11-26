@@ -39,6 +39,7 @@ const FadingScreen = ({
 
   return (
     <Fade
+      key={String(show)}
       show={show}
       duration={duration}
       direction={direction}
