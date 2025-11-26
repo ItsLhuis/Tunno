@@ -1,0 +1,36 @@
+import { useTranslation } from "@repo/i18n"
+
+import { createStyleSheet, useStyles } from "@styles"
+
+import { FadingScreen } from "@components/navigation"
+import { Text } from "@components/ui"
+
+import { View } from "react-native"
+
+const Home = () => {
+  const styles = useStyles(homeStyles)
+
+  const { t } = useTranslation()
+
+  return (
+    <FadingScreen style={styles.container}>
+      <View style={styles.content}>
+        <Text variant="h1">{t("home.title")}</Text>
+      </View>
+    </FadingScreen>
+  )
+}
+
+const homeStyles = createStyleSheet(({ theme }) => ({
+  container: {
+    flex: 1
+  },
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.space(4)
+  }
+}))
+
+export { Home }

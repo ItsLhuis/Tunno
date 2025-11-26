@@ -66,8 +66,13 @@ export default function TabLayout() {
                     containerStyle={styles.tabItemContainer}
                     style={styles.tabItem}
                   >
-                    {iconName && <Icon name={iconName} color={iconColor} size="lg" />}
-                    <Text size="xs" weight="bold" color={iconColor} numberOfLines={1}>
+                    {iconName && <Icon name={iconName} color={iconColor} />}
+                    <Text
+                      size="xs"
+                      weight={isFocused ? "bold" : "normal"}
+                      color={iconColor}
+                      numberOfLines={1}
+                    >
                       {options.title}
                     </Text>
                   </Pressable>
