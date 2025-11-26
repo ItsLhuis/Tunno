@@ -60,10 +60,10 @@
         "expo-font",
         {
           "fonts": [
+            "assets/fonts/SpaceGrotesk-Light.ttf",
             "assets/fonts/SpaceGrotesk-Regular.ttf",
             "assets/fonts/SpaceGrotesk-Medium.ttf",
-            "assets/fonts/SpaceGrotesk-Bold.ttf",
-            "assets/fonts/SpaceGrotesk-Light.ttf"
+            "assets/fonts/SpaceGrotesk-Bold.ttf"
           ]
         }
       ],

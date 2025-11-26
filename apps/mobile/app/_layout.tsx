@@ -1,6 +1,6 @@
 import "expo-dev-client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useLayoutEffect, useState } from "react"
 
 import { Linking, View } from "react-native"
 
@@ -71,13 +71,13 @@ function Main() {
   const { isUpdatePending, isUpdateAvailable } = Updates.useUpdates()
 
   const [fontsLoaded] = useFonts({
-    "SpaceGrotesk-Bold": require("@assets/fonts/SpaceGrotesk-Bold.ttf"),
-    "SpaceGrotesk-Medium": require("@assets/fonts/SpaceGrotesk-Medium.ttf"),
+    "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf"),
     "SpaceGrotesk-Regular": require("@assets/fonts/SpaceGrotesk-Regular.ttf"),
-    "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf")
+    "SpaceGrotesk-Medium": require("@assets/fonts/SpaceGrotesk-Medium.ttf"),
+    "SpaceGrotesk-Bold": require("@assets/fonts/SpaceGrotesk-Bold.ttf")
   })
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     SystemUI.setBackgroundColorAsync(theme.colors.background)
   }, [theme.colors.background])
 
