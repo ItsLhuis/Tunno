@@ -2,6 +2,21 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.1.2] - 2025-11-28
+
+### Added
+
+- 🎬 **Fullscreen player auto-hide controls**: Controls now automatically hide when the mouse is
+  inactive in fullscreen mode for a cleaner, more immersive viewing experience. Move the mouse to
+  reveal controls with smooth fade animations
+
+### Changed
+
+- 🎨 **UI improvements**:
+  - Enhanced Choicebox component description styling with improved text color and weight for better
+    readability
+  - Refined volume control slider dimensions in fullscreen player for better responsiveness
+
 ## [1.1.1] - 2025-11-28
 
 ### Changed
