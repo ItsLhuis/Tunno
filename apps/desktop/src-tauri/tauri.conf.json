@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../node_modules/@tauri-apps/cli/config.schema.json",
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Tunno",
   "mainBinaryName": "Tunno",
   "version": "1.1.0",
@@ -63,7 +63,6 @@
     "publisher": "ItsLhuis",
     "category": "Music",
     "active": true,
-    "targets": "all",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -72,21 +71,64 @@
       "icons/icon.ico"
     ],
     "resources": ["migrations/*"],
+    "copyright": "Copyright © 2025 ItsLhuis. All rights reserved.",
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "shortDescription": "Modern music streaming application",
+    "longDescription": "Tunno is a sophisticated music streaming application with advanced features like multi-window architecture, audio visualization, and intelligent playback.",
+    "homepage": "https://github.com/ItsLhuis/Tunno",
     "windows": {
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",
-      "timestampUrl": ""
+      "timestampUrl": "",
+      "allowDowngrades": false,
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": true
+      },
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "installMode": "perMachine",
+        "compression": "lzma"
+      },
+      "wix": {
+        "upgradeCode": "8e947a33-8464-5cee-9c85-96fc003131da"
+      }
     },
     "macOS": {
       "frameworks": [],
-      "minimumSystemVersion": "",
+      "minimumSystemVersion": "10.13",
       "exceptionDomain": "",
       "signingIdentity": null,
-      "entitlements": null
+      "entitlements": null,
+      "hardenedRuntime": true,
+      "dmg": {
+        "background": null,
+        "windowSize": {
+          "width": 660,
+          "height": 400
+        },
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        }
+      }
     },
     "linux": {
       "deb": {
-        "depends": []
+        "depends": ["libwebkit2gtk-4.1-0", "libgtk-3-0", "libayatana-appindicator3-1"]
+      },
+      "rpm": {
+        "depends": ["webkit2gtk4.1", "gtk3", "libappindicator-gtk3"],
+        "release": "1",
+        "epoch": 0
+      },
+      "appimage": {
+        "bundleMediaFramework": false
       }
     },
     "createUpdaterArtifacts": true
@@ -94,7 +136,10 @@
   "plugins": {
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K",
-      "endpoints": ["https://raw.githubusercontent.com/ItsLhuis/Tunno/updates/desktop/latest.json"]
+      "endpoints": ["https://raw.githubusercontent.com/ItsLhuis/Tunno/updates/desktop/latest.json"],
+      "windows": {
+        "installMode": "passive"
+      }
     }
   }
 }
