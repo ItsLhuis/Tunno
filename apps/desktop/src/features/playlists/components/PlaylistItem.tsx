@@ -198,8 +198,8 @@ const PlaylistItem = memo(
               />
             </div>
             <div className="absolute inset-x-2 bottom-2 h-14 rounded-b-lg bg-linear-to-t from-black/50 to-transparent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100" />
-            <div className="absolute right-2 bottom-3 left-3 z-10 flex items-end justify-between gap-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-              <ScopedTheme theme="dark" className="min-w-0 flex-1">
+            <div className="absolute right-2 bottom-2 left-4 z-10 flex items-center justify-between gap-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+              <ScopedTheme theme="dark" className={cn("min-w-0 flex-1", !canPlay && "mb-2")}>
                 <Marquee>
                   <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
                     <Typography className="truncate drop-shadow-lg">{playlist.name}</Typography>
