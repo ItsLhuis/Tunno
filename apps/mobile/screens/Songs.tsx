@@ -1,6 +1,6 @@
-import { useTranslation } from "@repo/i18n"
-
 import { createStyleSheet, useStyles, viewStyle } from "@styles"
+
+import { useTranslation } from "@repo/i18n"
 
 import { View } from "react-native"
 
@@ -16,6 +16,7 @@ import {
   SearchInput,
   Text
 } from "@components/ui"
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller"
 
 const MOCK_SONGS = Array.from({ length: 50 }, (_, i) => ({
   id: String(i),
@@ -32,20 +33,15 @@ const Songs = () => {
   const { t } = useTranslation()
 
   const renderItem = ({ item, index }: { item: Song; index: number }) => (
-    <Pressable style={styles.songItem(index === MOCK_SONGS.length - 1)}>
+    <Pressable style={styles.songItem(index)}>
       <View style={styles.songIconContainer}>
         <Icon name="Music" size="xl" color="mutedForeground" />
       </View>
       <View style={styles.songInfo}>
-        <Text weight="medium" numberOfLines={1}>
+        <Text numberOfLines={1} weight="medium">
           {item.title}
         </Text>
-        <Text
-          size="xs"
-          color="mutedForeground"
-          numberOfLines={1}
-          style={styles.songInfoDescription}
-        >
+        <Text size="xs" color="mutedForeground" numberOfLines={1}>
           {item.artist}
         </Text>
       </View>
@@ -59,6 +55,7 @@ const Songs = () => {
 
   return (
     <FlashListWithHeaders
+      renderScrollComponent={(props) => <KeyboardAwareScrollView {...props} bottomOffset={62} />}
       data={MOCK_SONGS}
       renderItem={renderItem}
       HeaderComponent={({ scrollY, showHeader }) => (
@@ -66,7 +63,7 @@ const Songs = () => {
           scrollY={scrollY}
           showHeader={showHeader}
           headerCenter={
-            <Text weight="semibold" size="lg" numberOfLines={1}>
+            <Text weight="semibold" numberOfLines={1}>
               {t("songs.title")}
             </Text>
           }
@@ -93,10 +90,10 @@ const Songs = () => {
         />
       )}
       LargeHeaderComponent={() => (
-        <LargeHeader>
+        <LargeHeader style={styles.largeHeader}>
           <View style={styles.largeHeaderLeft}>
-            <IconButton name="Shuffle" style={styles.largeHeaderIcon} iconSize="2xl" />
-            <Text variant="h1" weight="bold" numberOfLines={1} style={styles.largeHeaderTitle}>
+            <IconButton name="Shuffle" style={styles.largeHeaderIcon} iconSize="3xl" />
+            <Text variant="h1" numberOfLines={1} style={styles.largeHeaderTitle}>
               {t("songs.title")}
             </Text>
           </View>
@@ -112,7 +109,7 @@ const Songs = () => {
         </LargeHeader>
       )}
       LargeHeaderSubtitleComponent={() => (
-        <LargeHeaderSubtitle>
+        <LargeHeaderSubtitle style={styles.largeHeaderSubtitle}>
           <SearchInput
             placeholder="Search"
             renderRight={<IconButton name="Funnel" variant="ghost" />}
@@ -126,7 +123,8 @@ const Songs = () => {
 
 const songsStyles = createStyleSheet(({ theme }) => ({
   contentContainerStyle: {
-    paddingHorizontal: theme.space("lg")
+    paddingLeft: theme.space("lg"),
+    paddingBottom: theme.space("lg")
   },
   headerLeft: {
     flexDirection: "row",
@@ -145,6 +143,12 @@ const songsStyles = createStyleSheet(({ theme }) => ({
     backgroundColor: theme.colors.background,
     borderRadius: theme.radius()
   },
+  largeHeader: {
+    paddingRight: theme.space("lg")
+  },
+  largeHeaderSubtitle: {
+    paddingRight: theme.space("lg")
+  },
   largeHeaderLeft: {
     flex: 1,
     flexDirection: "row",
@@ -159,13 +163,16 @@ const songsStyles = createStyleSheet(({ theme }) => ({
     height: theme.size(14),
     borderRadius: theme.radius("full")
   },
-  songItem: (isLast: boolean) =>
-    viewStyle({
+  songItem: (index: number) => {
+    const itemSpacing = theme.space("lg")
+    return viewStyle({
       flexDirection: "row",
       alignItems: "center",
       gap: theme.space("md"),
-      paddingBottom: isLast ? 0 : theme.space()
-    }),
+      marginRight: itemSpacing,
+      marginTop: index > 0 ? itemSpacing : 0
+    })
+  },
   songIconContainer: {
     width: theme.size(14),
     height: theme.size(14),
@@ -178,9 +185,6 @@ const songsStyles = createStyleSheet(({ theme }) => ({
   },
   songInfo: {
     flex: 1
-  },
-  songInfoDescription: {
-    lineHeight: theme.lineHeight("none")
   }
 }))
 
