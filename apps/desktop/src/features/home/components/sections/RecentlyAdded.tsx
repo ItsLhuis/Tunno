@@ -45,7 +45,7 @@ const RecentlyAdded = ({ recentlyAdded }: RecentlyAddedProps) => {
   return (
     <section className="flex w-full flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <Typography variant="h3">{t("home.recentlyAdded.title", "Recently Added")}</Typography>
+        <Typography variant="h1">{t("home.recentlyAdded.title", "Recently Added")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.recentlyAdded.description")}</Typography>
       </div>
       <Carousel

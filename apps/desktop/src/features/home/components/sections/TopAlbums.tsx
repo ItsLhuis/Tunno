@@ -27,7 +27,7 @@ const TopAlbums = ({ topAlbums }: TopAlbumsProps) => {
   return (
     <section className="flex w-full flex-col gap-3">
       <div className="mb-2 flex flex-col gap-1">
-        <Typography variant="h3">{t("home.topAlbums.title", "Top Albums")}</Typography>
+        <Typography variant="h1">{t("home.topAlbums.title", "Top Albums")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.topAlbums.description")}</Typography>
       </div>
       {topAlbums.albums.slice(0, 1).map((album, index) => (

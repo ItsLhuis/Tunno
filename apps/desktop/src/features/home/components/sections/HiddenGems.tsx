@@ -27,7 +27,7 @@ const HiddenGems = ({ hiddenGems }: HiddenGemsProps) => {
   return (
     <section className="flex w-full flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <Typography variant="h3">{t("home.hiddenGems.title", "Hidden Gems")}</Typography>
+        <Typography variant="h1">{t("home.hiddenGems.title", "Hidden Gems")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.hiddenGems.description")}</Typography>
       </div>
       <Carousel

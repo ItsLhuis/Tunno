@@ -7,7 +7,7 @@ const Card = ({ className, ...props }: ComponentProps<"div">) => {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded border py-6",
+        "bg-card text-card-foreground border-border flex flex-col items-start gap-3 rounded border p-3",
         className
       )}
       {...props}
@@ -32,20 +32,14 @@ const CardTitle = ({ className, ...props }: ComponentProps<"div">) => {
   return (
     <div
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn("flex flex-row items-center gap-2 leading-none font-semibold", className)}
       {...props}
     />
   )
 }
 
 const CardDescription = ({ className, ...props }: ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
-      {...props}
-    />
-  )
+  return <div data-slot="card-description" className={cn("text-sm", className)} {...props} />
 }
 
 const CardAction = ({ className, ...props }: ComponentProps<"div">) => {

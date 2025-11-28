@@ -20,7 +20,7 @@ const OnRepeat = ({ onRepeat }: OnRepeatProps) => {
   return (
     <section className="flex w-full flex-col gap-3">
       <div className="mb-2 flex flex-col gap-1">
-        <Typography variant="h3">{t("home.onRepeat.title", "On Repeat")}</Typography>
+        <Typography variant="h1">{t("home.onRepeat.title", "On Repeat")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.onRepeat.description")}</Typography>
       </div>
       {onRepeat.songs.length > 0 && (

@@ -27,7 +27,7 @@ const Discover = ({ discover }: DiscoverProps) => {
   return (
     <section className="flex w-full flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <Typography variant="h3">{t("home.discover.title", "Discover")}</Typography>
+        <Typography variant="h1">{t("home.discover.title", "Discover")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.discover.description")}</Typography>
       </div>
       <Carousel

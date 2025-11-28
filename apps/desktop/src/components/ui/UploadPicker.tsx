@@ -268,7 +268,7 @@ const UploadPicker = ({
         </div>
       )}
       {!hideDefaultTrigger && (
-        <Card className={cn("rounded border-none p-0", className)}>
+        <Card className={cn("block rounded border-none p-0", className)}>
           <Button
             variant="outline"
             className="h-full hover:text-current"

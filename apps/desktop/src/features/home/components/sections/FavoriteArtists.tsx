@@ -27,7 +27,7 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
   return (
     <section className="flex w-full flex-col gap-3">
       <div className="mb-2 flex flex-col gap-1">
-        <Typography variant="h3">
+        <Typography variant="h1">
           {t("home.favoriteArtists.title", "Your Favorite Artists")}
         </Typography>
         <Typography affects={["muted", "small"]}>
