@@ -74,7 +74,7 @@ const ChoiceboxItemDescription = ({
 }: ComponentProps<typeof CardDescription>) => (
   <CardDescription
     data-slot="choicebox-item-description"
-    className={cn("text-sm", className)}
+    className={cn("text-muted-foreground text-sm font-normal", className)}
     {...props}
   />
 )
