@@ -8,6 +8,8 @@ import { Marquee, Typography } from "@components/ui"
 
 import { type Palette } from "@repo/utils"
 
+import { motion } from "motion/react"
+
 import { TrackArtwork } from "./TrackArtwork"
 
 type TrackInfoProps = {
@@ -25,7 +27,7 @@ const TrackInfo = ({ onPaletteChange, onDominantColorChange }: TrackInfoProps) =
   )
 
   return (
-    <div className="flex w-full items-end gap-[2.5vh]">
+    <motion.div layout className="flex w-full items-end gap-[2.5vh]">
       <div className="shrink-0">
         <TrackArtwork
           onPaletteChange={onPaletteChange}
@@ -35,7 +37,7 @@ const TrackInfo = ({ onPaletteChange, onDominantColorChange }: TrackInfoProps) =
       {currentTrack ? (
         <div className="flex w-full flex-col gap-[0.75vh] truncate">
           <Marquee className="w-full">
-            <Typography variant="h1" className="text-[clamp(3rem,8vh,10rem)] text-primary">
+            <Typography variant="h1" className="text-primary text-[clamp(3rem,8vh,10rem)]">
               {currentTrack.title}
             </Typography>
           </Marquee>
@@ -52,7 +54,7 @@ const TrackInfo = ({ onPaletteChange, onDominantColorChange }: TrackInfoProps) =
           {t("common.noSongPlaying")}
         </Typography>
       )}
-    </div>
+    </motion.div>
   )
 }
 

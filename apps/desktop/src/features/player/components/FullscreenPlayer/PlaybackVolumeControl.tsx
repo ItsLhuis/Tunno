@@ -98,7 +98,7 @@ const PlaybackVolumeControl = () => {
         className="size-[4vh] min-h-9 min-w-9 shrink-0 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
         onClick={() => setIsMuted(!isMuted)}
       />
-      <div className="absolute left-full -my-2 flex w-0 items-center overflow-visible px-[1vh] py-[1vh] opacity-0 transition-all group-hover/volume:w-20 group-hover/volume:opacity-100">
+      <div className="absolute left-full -my-2 flex w-0 items-center overflow-visible px-[1vh] py-[1vh] opacity-0 transition-all group-hover/volume:w-[10vh] group-hover/volume:opacity-100">
         <Slider
           className="w-full"
           min={0}

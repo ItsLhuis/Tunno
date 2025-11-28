@@ -9,7 +9,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window"
 
 import { createGradient } from "../../utils"
 
-import { IconButton } from "@components/ui"
+import { Fade, IconButton } from "@components/ui"
 
 import { NextSongPreview } from "./NextSongPreview"
 import { PlaybackControls } from "./PlaybackControls"
@@ -18,7 +18,7 @@ import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
 import { ToggleFavorite } from "./ToggleFavorite"
 import { TrackInfo } from "./TrackInfo"
 
-import { motion } from "motion/react"
+import { AnimatePresence, LayoutGroup, motion } from "motion/react"
 
 import { type Palette } from "@repo/utils"
 
@@ -28,6 +28,8 @@ const FullscreenPlayer = () => {
   const [dominantColor, setDominantColor] = useState<string | null>(null)
 
   const [palette, setPalette] = useState<Palette | null>(null)
+
+  const [showControls, setShowControls] = useState(true)
 
   const cssVariables = usePaletteCssVariables(palette)
 
@@ -73,8 +75,10 @@ const FullscreenPlayer = () => {
         ease: "easeInOut"
       }}
       style={cssVariables as React.CSSProperties}
+      onMouseEnter={() => setShowControls(true)}
+      onMouseLeave={() => setShowControls(false)}
     >
-      <div className="absolute top-[2vh] right-[2vh] z-10">
+      <Fade show={showControls} className="absolute top-[2vh] right-[2vh] z-10">
         <IconButton
           name="Minimize2"
           tooltip={t("common.exitFullScreen")}
@@ -82,18 +86,32 @@ const FullscreenPlayer = () => {
           className="shrink-0"
           onClick={handleExitFullscreen}
         />
-      </div>
-      <div className="flex size-full flex-col items-center justify-end gap-[3vh]">
-        <div className="flex w-full flex-col items-center justify-center gap-[6vh]">
+      </Fade>
+      <LayoutGroup>
+        <div className="flex size-full flex-col items-center justify-end gap-[3vh]">
           <TrackInfo onPaletteChange={setPalette} onDominantColorChange={setDominantColor} />
-          <PlaybackProgress />
+          <AnimatePresence mode="popLayout">
+            {showControls && (
+              <motion.div
+                key="controls"
+                layout
+                className="flex w-full flex-col items-center justify-center gap-[3vh]"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 30 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                <PlaybackProgress />
+                <div className="flex items-center justify-center gap-[1vh]">
+                  <ToggleFavorite />
+                  <PlaybackControls />
+                  <PlaybackVolumeControl />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-        <div className="flex items-center justify-center gap-[1vh]">
-          <ToggleFavorite />
-          <PlaybackControls />
-          <PlaybackVolumeControl />
-        </div>
-      </div>
+      </LayoutGroup>
       <NextSongPreview />
     </motion.div>
   )
