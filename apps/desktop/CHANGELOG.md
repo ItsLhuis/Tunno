@@ -2,6 +2,20 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.1.1] - 2025-11-28
+
+### Changed
+
+- 🎨 **UI consistency**:
+  - Standardized stats cards across all components to use Card, CardTitle, and CardDescription
+    components for improved visual consistency
+  - Updated YourStats, AlbumInfoStats, ArtistInfoStats, and PlaylistInfoStats components
+  - Unified typography sizing for section titles and headings throughout the Home page for better
+    visual hierarchy
+  - Improved consistency in title sizes and spacing across all sections
+  - Aligned card background color with secondary color for cohesive visual appearance across light
+    and dark themes
+
 ## [1.1.0] - 2025-11-19
 
 ### Fixed
