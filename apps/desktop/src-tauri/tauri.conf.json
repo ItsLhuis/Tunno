@@ -73,9 +73,8 @@
     "resources": ["migrations/*"],
     "copyright": "Copyright © 2025 ItsLhuis. All rights reserved.",
     "license": "MIT",
-    "licenseFile": "LICENSE",
-    "shortDescription": "Modern music streaming application",
-    "longDescription": "Tunno is a sophisticated music streaming application with advanced features like multi-window architecture, audio visualization, and intelligent playback.",
+    "shortDescription": "Personal music library manager and player",
+    "longDescription": "Tunno Desktop helps you organize, manage, and play your personal music collection. Import music from the CLI, create playlists, sync with mobile devices, and enjoy full control over your library—all data stored locally under your ownership.",
     "homepage": "https://github.com/ItsLhuis/Tunno",
     "windows": {
       "certificateThumbprint": null,
@@ -88,8 +87,7 @@
       },
       "nsis": {
         "installerIcon": "icons/icon.ico",
-        "installMode": "perMachine",
-        "compression": "lzma"
+        "installMode": "perMachine"
       },
       "wix": {
         "upgradeCode": "8e947a33-8464-5cee-9c85-96fc003131da"
