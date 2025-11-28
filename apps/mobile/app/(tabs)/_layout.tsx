@@ -1,6 +1,6 @@
-import { useTranslation } from "@repo/i18n"
-
 import { createStyleSheet, useStyles, useTheme } from "@styles"
+
+import { useTranslation } from "@repo/i18n"
 
 import { Tabs } from "expo-router"
 
@@ -67,12 +67,7 @@ export default function TabLayout() {
                     style={styles.tabItem}
                   >
                     {iconName && <Icon name={iconName} color={iconColor} />}
-                    <Text
-                      size="xs"
-                      weight={isFocused ? "bold" : "normal"}
-                      color={iconColor}
-                      numberOfLines={1}
-                    >
+                    <Text size="xs" weight="bold" color={iconColor} numberOfLines={1}>
                       {options.title}
                     </Text>
                   </Pressable>
@@ -102,7 +97,8 @@ export default function TabLayout() {
 
 const tabLayoutStyles = createStyleSheet(({ theme, runtime }) => ({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: theme.colors.background
   },
   tabBar: {
     backgroundColor: theme.colors.tabbar,
@@ -121,6 +117,7 @@ const tabLayoutStyles = createStyleSheet(({ theme, runtime }) => ({
     paddingBottom: theme.space() + runtime.insets.bottom,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    gap: theme.space("xs")
   }
 }))

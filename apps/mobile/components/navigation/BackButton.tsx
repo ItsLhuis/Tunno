@@ -4,12 +4,12 @@ import { router } from "expo-router"
 
 import { IconButton, type IconButtonProps } from "@components/ui/IconButton"
 
-export type BackButtonProps = Omit<IconButtonProps, "name" | "onPress">
+export type BackButtonProps = Omit<IconButtonProps, "name" | "onPress" | "variant">
 
 const BackButton = (props: BackButtonProps) => {
   const iconName: IconButtonProps["name"] = Platform.OS === "ios" ? "ChevronLeft" : "ArrowLeft"
 
-  return <IconButton name={iconName} onPress={() => router.back()} {...props} />
+  return <IconButton name={iconName} variant="ghost" onPress={() => router.back()} {...props} />
 }
 
 export { BackButton }

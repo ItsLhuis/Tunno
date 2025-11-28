@@ -11,6 +11,7 @@
       "@contexts/*": ["./contexts/*"],
       "@database/*": ["./database/*"],
       "@features/*": ["./features/*"],
+      "@hooks/*": ["./hooks/*"],
       "@lib/*": ["./lib/*"],
       "@migrations/*": ["./migrations/*"],
       "@plugins/*": ["./plugins/*"],

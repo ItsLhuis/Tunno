@@ -132,6 +132,7 @@ function Main() {
           <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="settings" options={{ headerShown: false }} />
             </Stack>
           </View>
           <Toaster />
