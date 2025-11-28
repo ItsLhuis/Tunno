@@ -9,8 +9,8 @@ import { type TFunction } from "@repo/i18n"
 
 const { albums } = schema
 
-const albumThumbnailSchema = (t: TFunction) =>
-  z
+function albumThumbnailSchema(t: TFunction) {
+  return z
     .string()
     .optional()
     .nullable()
@@ -26,18 +26,21 @@ const albumThumbnailSchema = (t: TFunction) =>
         })
       }
     )
+}
 
-const albumReleaseYearSchema = (t: TFunction) =>
-  z
+function albumReleaseYearSchema(t: TFunction) {
+  return z
     .number(t("validation.releaseYear.invalid"))
     .int(t("validation.releaseYear.invalid"))
     .min(0, t("validation.releaseYear.min"))
     .max(new Date().getFullYear(), t("validation.releaseYear.max"))
     .optional()
     .nullable()
+}
 
-const albumArtistsSchema = (t: TFunction) =>
-  z.array(z.number().int().positive(t("validation.artists.invalid")))
+function albumArtistsSchema(t: TFunction) {
+  return z.array(z.number().int().positive(t("validation.artists.invalid")))
+}
 
 const baseAlbumPick = {
   name: true,
@@ -47,7 +50,7 @@ const baseAlbumPick = {
   releaseYear: true
 } as const
 
-export const createInsertAlbumSchema = (t: TFunction) => {
+export function createInsertAlbumSchema(t: TFunction) {
   const baseSchema = createInsertSchema(albums, {
     name: z.string().min(1, t("validation.name.required")).max(150, t("validation.name.max")),
     thumbnail: albumThumbnailSchema(t),
@@ -65,7 +68,7 @@ export const createInsertAlbumSchema = (t: TFunction) => {
 
 export type InsertAlbumType = z.infer<ReturnType<typeof createInsertAlbumSchema>>
 
-export const createUpdateAlbumSchema = (t: TFunction) => {
+export function createUpdateAlbumSchema(t: TFunction) {
   const baseSchema = createUpdateSchema(albums, {
     name: z.string().min(1, t("validation.name.required")).max(150, t("validation.name.max")),
     thumbnail: albumThumbnailSchema(t),

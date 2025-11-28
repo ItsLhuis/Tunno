@@ -9,8 +9,8 @@ import { type TFunction } from "@repo/i18n"
 
 const { playlists } = schema
 
-const playlistThumbnailSchema = (t: TFunction) =>
-  z
+function playlistThumbnailSchema(t: TFunction) {
+  return z
     .string()
     .optional()
     .nullable()
@@ -26,6 +26,7 @@ const playlistThumbnailSchema = (t: TFunction) =>
         })
       }
     )
+}
 
 const basePlaylistPick = {
   name: true,
@@ -33,7 +34,7 @@ const basePlaylistPick = {
   isFavorite: true
 } as const
 
-export const createInsertPlaylistSchema = (t: TFunction) => {
+export function createInsertPlaylistSchema(t: TFunction) {
   const baseSchema = createInsertSchema(playlists, {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: playlistThumbnailSchema(t),
@@ -45,7 +46,7 @@ export const createInsertPlaylistSchema = (t: TFunction) => {
 
 export type InsertPlaylistType = z.infer<ReturnType<typeof createInsertPlaylistSchema>>
 
-export const createUpdatePlaylistSchema = (t: TFunction) => {
+export function createUpdatePlaylistSchema(t: TFunction) {
   const baseSchema = createUpdateSchema(playlists, {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: playlistThumbnailSchema(t),
@@ -57,7 +58,7 @@ export const createUpdatePlaylistSchema = (t: TFunction) => {
 
 export type UpdatePlaylistType = z.infer<ReturnType<typeof createUpdatePlaylistSchema>>
 
-export const createAddToPlaylistSchema = (t: TFunction) => {
+export function createAddToPlaylistSchema(t: TFunction) {
   return z.object({
     playlistIds: z.array(z.number().int().positive(t("validation.playlistIds.invalid")))
   })

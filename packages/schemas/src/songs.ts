@@ -9,8 +9,8 @@ import { type TFunction } from "@repo/i18n"
 
 const { songs } = schema
 
-const thumbnailSchema = (t: TFunction) =>
-  z
+function thumbnailSchema(t: TFunction) {
+  return z
     .string()
     .optional()
     .nullable()
@@ -26,9 +26,10 @@ const thumbnailSchema = (t: TFunction) =>
         })
       }
     )
+}
 
-const songFileSchema = (t: TFunction) =>
-  z
+function songFileSchema(t: TFunction) {
+  return z
     .string(t("validation.file.required"))
     .min(1, { message: t("validation.file.required") })
     .refine(
@@ -42,28 +43,32 @@ const songFileSchema = (t: TFunction) =>
         })
       }
     )
+}
 
-const durationSchema = (t: TFunction) =>
-  z.number(t("validation.duration.required")).int().min(0, t("validation.duration.min"))
+function durationSchema(t: TFunction) {
+  return z.number(t("validation.duration.required")).int().min(0, t("validation.duration.min"))
+}
 
-const releaseYearSchema = (t: TFunction) =>
-  z
+function releaseYearSchema(t: TFunction) {
+  return z
     .number(t("validation.releaseYear.invalid"))
     .int(t("validation.releaseYear.invalid"))
     .min(0, t("validation.releaseYear.min"))
     .max(new Date().getFullYear(), t("validation.releaseYear.max"))
     .optional()
     .nullable()
+}
 
-const albumIdSchema = (t: TFunction) =>
-  z
+function albumIdSchema(t: TFunction) {
+  return z
     .number(t("validation.albumId.invalid"))
     .int(t("validation.albumId.invalid"))
     .optional()
     .nullable()
+}
 
-const lyricsSchema = () =>
-  z
+function lyricsSchema() {
+  return z
     .array(
       z.object({
         text: z.string(),
@@ -72,11 +77,13 @@ const lyricsSchema = () =>
     )
     .optional()
     .nullable()
+}
 
-const baseArtistSchema = (t: TFunction) =>
-  z.array(z.number().int().positive(t("validation.artists.invalid")))
+function baseArtistSchema(t: TFunction) {
+  return z.array(z.number().int().positive(t("validation.artists.invalid")))
+}
 
-export const createInsertSongSchema = (t: TFunction) => {
+export function createInsertSongSchema(t: TFunction) {
   const baseSchema = createInsertSchema(songs, {
     name: z.string().min(1, t("validation.name.required")).max(200, t("validation.name.max")),
     thumbnail: thumbnailSchema(t),
@@ -106,7 +113,7 @@ export const createInsertSongSchema = (t: TFunction) => {
 
 export type InsertSongType = z.infer<ReturnType<typeof createInsertSongSchema>>
 
-export const createUpdateSongSchema = (t: TFunction) => {
+export function createUpdateSongSchema(t: TFunction) {
   const baseSchema = createUpdateSchema(songs, {
     name: z.string().min(1, t("validation.name.required")).max(200, t("validation.name.max")),
     thumbnail: thumbnailSchema(t),

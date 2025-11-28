@@ -11,7 +11,7 @@ export type UseTranslationState = {
   locales: typeof locales
 }
 
-export const useTranslation = (): UseTranslationState => {
+export function useTranslation(): UseTranslationState {
   const { t, i18n, ready } = useI18nTranslation()
 
   return {

@@ -9,8 +9,8 @@ import { type TFunction } from "@repo/i18n"
 
 const { artists } = schema
 
-const artistThumbnailSchema = (t: TFunction) =>
-  z
+function artistThumbnailSchema(t: TFunction) {
+  return z
     .string()
     .optional()
     .nullable()
@@ -26,6 +26,7 @@ const artistThumbnailSchema = (t: TFunction) =>
         })
       }
     )
+}
 
 const baseArtistPick = {
   name: true,
@@ -33,7 +34,7 @@ const baseArtistPick = {
   isFavorite: true
 } as const
 
-export const createInsertArtistSchema = (t: TFunction) => {
+export function createInsertArtistSchema(t: TFunction) {
   const baseSchema = createInsertSchema(artists, {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: artistThumbnailSchema(t),
@@ -45,7 +46,7 @@ export const createInsertArtistSchema = (t: TFunction) => {
 
 export type InsertArtistType = z.infer<ReturnType<typeof createInsertArtistSchema>>
 
-export const createUpdateArtistSchema = (t: TFunction) => {
+export function createUpdateArtistSchema(t: TFunction) {
   const baseSchema = createUpdateSchema(artists, {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
     thumbnail: artistThumbnailSchema(t),
