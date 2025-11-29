@@ -60,7 +60,10 @@ const Button = ({
           {children ? (
             children
           ) : title ? (
-            <Text style={[styles.buttonText({ variant, size }), titleProps?.style]} {...titleProps}>
+            <Text
+              style={[styles.buttonText({ variant, size, isDisabled }), titleProps?.style]}
+              {...titleProps}
+            >
               {title}
             </Text>
           ) : null}
@@ -84,12 +87,8 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
     },
     variants: {
       isDisabled: {
-        true: {
-          opacity: theme.opacity(50)
-        },
-        false: {
-          opacity: theme.opacity()
-        }
+        true: {},
+        false: {}
       },
       variant: {
         default: {
@@ -145,6 +144,37 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
         }
       }
     },
+    compoundVariants: [
+      {
+        isDisabled: true,
+        variant: "default",
+        style: {
+          backgroundColor: theme.withOpacity(theme.colors.primary, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "secondary",
+        style: {
+          backgroundColor: theme.withOpacity(theme.colors.secondary, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "destructive",
+        style: {
+          backgroundColor: theme.withOpacity(theme.colors.destructive, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "outline",
+        style: {
+          backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(50)),
+          borderColor: theme.withOpacity(theme.colors.input, theme.opacity(50))
+        }
+      }
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",
@@ -156,6 +186,10 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
       fontFamily: "SpaceGrotesk-Medium"
     },
     variants: {
+      isDisabled: {
+        true: {},
+        false: {}
+      },
       variant: {
         default: {
           color: theme.colors.primaryForeground
@@ -197,9 +231,61 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
         }
       }
     },
+    compoundVariants: [
+      {
+        isDisabled: true,
+        variant: "default",
+        style: {
+          color: theme.withOpacity(theme.colors.primaryForeground, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "secondary",
+        style: {
+          color: theme.withOpacity(theme.colors.secondaryForeground, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "destructive",
+        style: {
+          color: theme.withOpacity(theme.colors.destructiveForeground, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "outline",
+        style: {
+          color: theme.withOpacity(theme.colors.accentForeground, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "text",
+        style: {
+          color: theme.withOpacity(theme.colors.primary, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "ghost",
+        style: {
+          color: theme.withOpacity(theme.colors.accentForeground, theme.opacity(50))
+        }
+      },
+      {
+        isDisabled: true,
+        variant: "link",
+        style: {
+          color: theme.withOpacity(theme.colors.primary, theme.opacity(50))
+        }
+      }
+    ],
     defaultVariants: {
       variant: "default",
-      size: "default"
+      size: "default",
+      isDisabled: false
     }
   }),
   content: {

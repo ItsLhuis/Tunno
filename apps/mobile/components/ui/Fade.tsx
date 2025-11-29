@@ -59,6 +59,18 @@ const Fade = ({
   const finalDuration = duration ?? defaultDuration
   const scaleOffset = defaultScaleOffset
 
+  const getInitialTranslateX = () => {
+    if (direction === "left") return finalOffset
+    if (direction === "right") return -finalOffset
+    return 0
+  }
+
+  const getInitialTranslateY = () => {
+    if (direction === "up") return finalOffset
+    if (direction === "down") return -finalOffset
+    return 0
+  }
+
   const opacity = useSharedValue(initial ? 0 : show ? 1 : 0)
 
   const translateX = useSharedValue(initial ? getInitialTranslateX() : 0)
@@ -67,18 +79,6 @@ const Fade = ({
   const scaleValue = useSharedValue(initial && scale !== 1 ? scale * scaleOffset : scale)
 
   const rotateValue = useSharedValue(initial && rotate !== 0 ? rotate + 5 : rotate)
-
-  function getInitialTranslateX() {
-    if (direction === "left") return finalOffset
-    if (direction === "right") return -finalOffset
-    return 0
-  }
-
-  function getInitialTranslateY() {
-    if (direction === "up") return finalOffset
-    if (direction === "down") return -finalOffset
-    return 0
-  }
 
   useEffect(() => {
     const animationConfig: WithTimingConfig = {

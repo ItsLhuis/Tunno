@@ -123,11 +123,11 @@ const textInputStyles = createStyleSheet(({ theme }) => ({
     variants: {
       disabled: {
         true: {
-          opacity: theme.opacity(50)
+          backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(40)),
+          color: theme.withOpacity(theme.colors.foreground, theme.opacity(50)),
+          borderColor: theme.withOpacity(theme.colors.input, theme.opacity(50))
         },
-        false: {
-          opacity: theme.opacity()
-        }
+        false: {}
       }
     },
     defaultVariants: {

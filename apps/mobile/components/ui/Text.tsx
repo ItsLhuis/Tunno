@@ -27,8 +27,8 @@ export const Text = ({
       style={[
         styles.text({
           variant: variant ?? "p",
-          size: size ?? "base",
-          weight: weight ?? "normal",
+          ...(size !== undefined && { size }),
+          ...(weight !== undefined && { weight }),
           color: color ?? "foreground",
           fontStyle: fontStyle ?? "normal",
           margin: margin ?? "default"
@@ -83,6 +83,8 @@ const textStyles = createStyleSheet(({ theme }) => ({
           lineHeight: theme.fontSize("base") * 1.25
         },
         p: {
+          fontFamily: "SpaceGrotesk-Regular",
+          fontSize: theme.fontSize(),
           lineHeight: theme.fontSize() * 1.25
         },
         blockquote: {
@@ -210,8 +212,6 @@ const textStyles = createStyleSheet(({ theme }) => ({
     },
     defaultVariants: {
       variant: "p",
-      size: "base",
-      weight: "normal",
       color: "foreground",
       fontStyle: "normal",
       margin: "default"

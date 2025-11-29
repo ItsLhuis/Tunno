@@ -82,7 +82,7 @@ const BottomSheet = ({
       animationConfigs={timingConfig}
       handleIndicatorStyle={[styles.handleIndicator, handleIndicatorStyle]}
       enableOverDrag={false}
-      enablePanDownToClose={true}
+      enablePanDownToClose
       {...props}
       onChange={(index, position, type) => {
         setIsBottomSheetOpen(index >= 0)
@@ -92,29 +92,22 @@ const BottomSheet = ({
         }
       }}
     >
-      <BottomSheetView
-        style={[
-          { flex: 1, paddingBottom: runtime.insets.bottom },
-          styles.container,
-          containerViewStyle
-        ]}
-      >
-        {children}
-      </BottomSheetView>
+      <BottomSheetView style={[styles.container, containerViewStyle]}>{children}</BottomSheetView>
     </BottomSheetModal>
   )
 }
 
-const bottomSheetStyles = createStyleSheet(({ theme }) => ({
+const bottomSheetStyles = createStyleSheet(({ theme, runtime }) => ({
   background: {
     backgroundColor: theme.colors.background,
-    borderRadius: theme.radius()
+    borderRadius: theme.radius("2xl")
   },
   handleIndicator: {
     backgroundColor: theme.colors.mutedForeground
   },
   container: {
-    flex: 1
+    flex: 1,
+    paddingBottom: runtime.insets.bottom
   }
 }))
 
