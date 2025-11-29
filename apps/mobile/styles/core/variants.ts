@@ -75,7 +75,11 @@ export function createVariant<
 
     for (const variantKey in variants) {
       const variantOptions = variants[variantKey]
-      let selectedOption = propsTyped[variantKey] ?? defaultsTyped[variantKey as keyof V]
+
+      // Use 'in' operator to check if prop was explicitly passed (even if undefined)
+      // This allows components to skip defaults by passing undefined
+      const hasProp = variantKey in propsTyped
+      let selectedOption = hasProp ? propsTyped[variantKey] : defaultsTyped[variantKey as keyof V]
 
       // Convert boolean props to strings to match variant keys (e.g., true -> "true", false -> "false")
       // This allows boolean variants like { disabled: { true: {...}, false: {...} } }
@@ -103,7 +107,8 @@ export function createVariant<
       const { style: compoundStyle, ...conditions } = compoundVariant
 
       const allConditionsMet = Object.entries(conditions).every(([key, value]) => {
-        const propValue = propsTyped[key] ?? defaultsTyped[key as keyof V]
+        const hasProp = key in propsTyped
+        const propValue = hasProp ? propsTyped[key] : defaultsTyped[key as keyof V]
 
         if (typeof propValue === "boolean" && typeof value === "string") {
           return String(propValue) === value
@@ -121,8 +126,9 @@ export function createVariant<
       }
     }
 
-    // Merge styles in reverse order so that earlier variants (like 'variant') have precedence over later variants
-    const mergedStyle = Object.assign({}, ...stylesToMerge.reverse())
+    // Merge styles in order: base → variants → compoundVariants
+    // Later styles have higher precedence and will override earlier ones
+    const mergedStyle = Object.assign({}, ...stylesToMerge)
 
     return StyleSheet.create({ style: mergedStyle }).style as any as CompatibleStyle
   }

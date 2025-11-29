@@ -223,8 +223,9 @@ export type DefaultVariants<V extends VariantsConfig> = {
 /**
  * Compound variant that applies styles when multiple conditions match
  */
-export type CompoundVariant = {
-  [key: string]: unknown
+export type CompoundVariant<V extends VariantsConfig = VariantsConfig> = Partial<{
+  [K in keyof V]: keyof V[K] | boolean
+}> & {
   style: Style
 }
 
@@ -238,7 +239,7 @@ export type VariantConfig<V extends VariantsConfig = VariantsConfig> = {
   base?: Style
   variants?: V
   defaultVariants?: DefaultVariants<V>
-  compoundVariants?: CompoundVariant[]
+  compoundVariants?: CompoundVariant<V>[]
 }
 
 /**
