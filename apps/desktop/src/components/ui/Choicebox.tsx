@@ -9,11 +9,21 @@ import { type VariantProps } from "class-variance-authority"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 
 import { buttonVariants } from "@components/ui/Button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/Card"
+import {
+  Card,
+  CardContent,
+  type CardContentProps,
+  CardDescription,
+  type CardDescriptionProps,
+  CardHeader,
+  type CardHeaderProps,
+  CardTitle,
+  type CardTitleProps
+} from "@components/ui/Card"
 import { Icon } from "@components/ui/Icon"
-import { RadioGroup } from "@components/ui/RadioGroup"
+import { RadioGroup, type RadioGroupProps } from "@components/ui/RadioGroup"
 
-const Choicebox = ({ className, ...props }: ComponentProps<typeof RadioGroup>) => (
+const Choicebox = ({ className, ...props }: RadioGroupProps) => (
   <RadioGroup className={cn("w-full", className)} data-slot="choicebox" {...props} />
 )
 
@@ -44,7 +54,7 @@ const ChoiceboxItem = ({
   </RadioGroupPrimitive.Item>
 )
 
-const ChoiceboxItemHeader = ({ className, ...props }: ComponentProps<typeof CardHeader>) => (
+const ChoiceboxItemHeader = ({ className, ...props }: CardHeaderProps) => (
   <CardHeader
     data-slot="choicebox-item-header"
     className={cn("flex-1 gap-0 p-0", className)}
@@ -52,7 +62,7 @@ const ChoiceboxItemHeader = ({ className, ...props }: ComponentProps<typeof Card
   />
 )
 
-const ChoiceboxItemTitle = ({ className, ...props }: ComponentProps<typeof CardTitle>) => (
+const ChoiceboxItemTitle = ({ className, ...props }: CardTitleProps) => (
   <CardTitle
     data-slot="choicebox-item-title"
     className={cn("flex items-center gap-2 text-sm", className)}
@@ -68,10 +78,7 @@ const ChoiceboxItemSubtitle = ({ className, ...props }: ComponentProps<"span">) 
   />
 )
 
-const ChoiceboxItemDescription = ({
-  className,
-  ...props
-}: ComponentProps<typeof CardDescription>) => (
+const ChoiceboxItemDescription = ({ className, ...props }: CardDescriptionProps) => (
   <CardDescription
     data-slot="choicebox-item-description"
     className={cn("text-muted-foreground text-sm font-normal", className)}
@@ -79,7 +86,7 @@ const ChoiceboxItemDescription = ({
   />
 )
 
-const ChoiceboxItemContent = ({ className, ...props }: ComponentProps<typeof CardContent>) => (
+const ChoiceboxItemContent = ({ className, ...props }: CardContentProps) => (
   <CardContent
     data-slot="choicebox-item-content"
     className={cn(

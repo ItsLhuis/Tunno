@@ -12,7 +12,9 @@ import {
 
 import { Icon } from "@components/ui/Icon"
 
-const RadioGroup = ({ className, ...props }: ComponentProps<typeof RadioGroupRoot>) => {
+export type RadioGroupProps = ComponentProps<typeof RadioGroupRoot>
+
+const RadioGroup = ({ className, ...props }: RadioGroupProps) => {
   return (
     <RadioGroupRoot data-slot="radio-group" className={cn("grid gap-2", className)} {...props} />
   )

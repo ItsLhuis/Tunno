@@ -12,7 +12,7 @@ import { cn } from "@lib/utils"
 
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 
-import { Button } from "@components/ui/Button"
+import { Button, type ButtonProps } from "@components/ui/Button"
 import { Fade } from "@components/ui/Fade"
 import { Icon } from "@components/ui/Icon"
 import { ScopedTheme } from "./ScopedTheme"
@@ -189,7 +189,7 @@ const CarouselPrevious = ({
   variant = "outline",
   size = "icon",
   ...props
-}: ComponentProps<typeof Button>) => {
+}: ButtonProps) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
   return (
@@ -225,12 +225,7 @@ const CarouselPrevious = ({
   )
 }
 
-const CarouselNext = ({
-  className,
-  variant = "outline",
-  size = "icon",
-  ...props
-}: ComponentProps<typeof Button>) => {
+const CarouselNext = ({ className, variant = "outline", size = "icon", ...props }: ButtonProps) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
   return (

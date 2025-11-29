@@ -12,12 +12,9 @@ const Tooltip = TooltipPrimitive.Root
 
 const TooltipTrigger = TooltipPrimitive.Trigger
 
-const TooltipContent = ({
-  className,
-  sideOffset = 4,
-  children,
-  ...props
-}: ComponentProps<typeof TooltipPrimitive.Content>) => {
+export type TooltipContentProps = ComponentProps<typeof TooltipPrimitive.Content>
+
+const TooltipContent = ({ className, sideOffset = 4, children, ...props }: TooltipContentProps) => {
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
