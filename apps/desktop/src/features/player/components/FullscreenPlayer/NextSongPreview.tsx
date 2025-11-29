@@ -100,13 +100,6 @@ const NextSongPreview = () => {
     await playNext()
   }
 
-  const tooltipStyle = palette
-    ? {
-        backgroundColor: palette.primary || undefined,
-        color: palette.primaryForeground || undefined
-      }
-    : undefined
-
   return (
     <AnimatePresence>
       {shouldShow && nextSong && (
@@ -159,11 +152,6 @@ const NextSongPreview = () => {
             </div>
             <IconButton
               name="Play"
-              tooltip={{
-                children: t("common.play"),
-                className: tooltipStyle ? "" : undefined,
-                style: tooltipStyle
-              }}
               onClick={handlePlayNext}
               disabled={!canPlayNext || isTransitioning}
               className="size-[4vh] min-h-10 min-w-10 shrink-0 rounded-full [&_svg]:size-[clamp(1.25rem,2vh,1.25rem)]"
