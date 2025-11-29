@@ -34,7 +34,7 @@ import * as SplashScreen from "expo-splash-screen"
 import { queryClient } from "@lib/queryClient"
 import { QueryClientProvider } from "@tanstack/react-query"
 
-import { ThemeProvider, useTheme } from "@styles"
+import { createStyleSheet, ThemeProvider, useStyles, useTheme } from "@styles"
 
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
@@ -54,6 +54,8 @@ enableFreeze()
 SplashScreen.preventAutoHideAsync()
 
 function Main() {
+  const styles = useStyles(mainStyles)
+
   const { theme } = useTheme()
 
   const [isAppReady, setIsAppReady] = useState(false)
@@ -125,11 +127,11 @@ function Main() {
   if (!allStoresHydrated || !isAppReady) return null
 
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <GestureHandlerRootView style={styles.container}>
       <KeyboardProvider>
         <BottomSheetModalProvider>
           <SystemBars style="auto" />
-          <View onLayout={onChildrenLayout} style={{ flex: 1 }}>
+          <View onLayout={onChildrenLayout} style={styles.container}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="settings" options={{ headerShown: false }} />
@@ -141,6 +143,13 @@ function Main() {
     </GestureHandlerRootView>
   )
 }
+
+const mainStyles = createStyleSheet(({ theme }) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background
+  }
+}))
 
 export default function RootLayout() {
   return (

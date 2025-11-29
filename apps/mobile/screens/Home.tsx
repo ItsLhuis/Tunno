@@ -8,6 +8,7 @@ import { View } from "react-native"
 
 import { FlashList } from "@shopify/flash-list"
 
+import { FadingScreen } from "@components/navigation"
 import {
   Header,
   Icon,
@@ -263,90 +264,99 @@ const Home = () => {
   )
 
   return (
-    <ScrollViewWithHeaders
-      HeaderComponent={({ scrollY, showHeader }) => (
-        <Header
-          scrollY={scrollY}
-          showHeader={showHeader}
-          headerCenter={
-            <Text weight="semibold" numberOfLines={1}>
+    <FadingScreen style={styles.container}>
+      <ScrollViewWithHeaders
+        HeaderComponent={({ scrollY, showHeader }) => (
+          <Header
+            scrollY={scrollY}
+            showHeader={showHeader}
+            headerCenter={
+              <Text weight="semibold" numberOfLines={1}>
+                {t("home.title")}
+              </Text>
+            }
+            headerRight={
+              <IconButton
+                name="Settings"
+                variant="ghost"
+                onPress={() => router.push("/settings")}
+              />
+            }
+          />
+        )}
+        LargeHeaderComponent={() => (
+          <LargeHeader style={styles.largeHeader}>
+            <Text size="8xl" weight="bold" style={styles.largeHeaderTitle}>
               {t("home.title")}
             </Text>
-          }
-          headerRight={
-            <IconButton name="Settings" variant="ghost" onPress={() => router.push("/settings")} />
-          }
-        />
-      )}
-      LargeHeaderComponent={() => (
-        <LargeHeader style={styles.largeHeader}>
-          <Text size="8xl" weight="bold" style={styles.largeHeaderTitle}>
-            {t("home.title")}
-          </Text>
-        </LargeHeader>
-      )}
-      contentContainerStyle={styles.contentContainer}
-    >
-      {renderStatsSection()}
-      {renderHorizontalSection(
-        t("home.jumpBackIn.title"),
-        t("home.jumpBackIn.description"),
-        MOCK_SONGS,
-        renderSongItem
-      )}
-      {renderHorizontalSection(
-        t("home.onRepeat.title"),
-        t("home.onRepeat.description"),
-        MOCK_SONGS.slice(0, 5),
-        renderSongItem
-      )}
-      {renderHorizontalSection(
-        t("home.yourPlaylists.title"),
-        t("home.yourPlaylists.description"),
-        MOCK_PLAYLISTS,
-        renderPlaylistItem
-      )}
-      {renderHorizontalSection(
-        t("home.newReleases.title"),
-        t("home.newReleases.description"),
-        MOCK_ALBUMS,
-        renderAlbumItem
-      )}
-      {renderHorizontalSection(
-        t("home.favoriteArtists.title"),
-        t("home.favoriteArtists.description"),
-        MOCK_ARTISTS,
-        renderArtistItem
-      )}
-      {renderHorizontalSection(
-        t("home.topAlbums.title"),
-        t("home.topAlbums.description"),
-        MOCK_ALBUMS,
-        renderAlbumItem
-      )}
-      {renderHorizontalSection(
-        t("home.hiddenGems.title"),
-        t("home.hiddenGems.description"),
-        MOCK_SONGS.slice(0, 10),
-        renderSongItem
-      )}
-      {renderHorizontalSection(
-        t("home.recentlyAdded.title"),
-        t("home.recentlyAdded.description"),
-        MOCK_SONGS.slice(0, 10),
-        renderSongItem
-      )}
-      {renderHorizontalSection(
-        t("home.discover.title"),
-        t("home.discover.description"),
-        MOCK_SONGS.slice(0, 10),
-        renderSongItem
-      )}
-    </ScrollViewWithHeaders>
+          </LargeHeader>
+        )}
+        contentContainerStyle={styles.contentContainer}
+      >
+        {renderStatsSection()}
+        {renderHorizontalSection(
+          t("home.jumpBackIn.title"),
+          t("home.jumpBackIn.description"),
+          MOCK_SONGS,
+          renderSongItem
+        )}
+        {renderHorizontalSection(
+          t("home.onRepeat.title"),
+          t("home.onRepeat.description"),
+          MOCK_SONGS.slice(0, 5),
+          renderSongItem
+        )}
+        {renderHorizontalSection(
+          t("home.yourPlaylists.title"),
+          t("home.yourPlaylists.description"),
+          MOCK_PLAYLISTS,
+          renderPlaylistItem
+        )}
+        {renderHorizontalSection(
+          t("home.newReleases.title"),
+          t("home.newReleases.description"),
+          MOCK_ALBUMS,
+          renderAlbumItem
+        )}
+        {renderHorizontalSection(
+          t("home.favoriteArtists.title"),
+          t("home.favoriteArtists.description"),
+          MOCK_ARTISTS,
+          renderArtistItem
+        )}
+        {renderHorizontalSection(
+          t("home.topAlbums.title"),
+          t("home.topAlbums.description"),
+          MOCK_ALBUMS,
+          renderAlbumItem
+        )}
+        {renderHorizontalSection(
+          t("home.hiddenGems.title"),
+          t("home.hiddenGems.description"),
+          MOCK_SONGS.slice(0, 10),
+          renderSongItem
+        )}
+        {renderHorizontalSection(
+          t("home.recentlyAdded.title"),
+          t("home.recentlyAdded.description"),
+          MOCK_SONGS.slice(0, 10),
+          renderSongItem
+        )}
+        {renderHorizontalSection(
+          t("home.discover.title"),
+          t("home.discover.description"),
+          MOCK_SONGS.slice(0, 10),
+          renderSongItem
+        )}
+      </ScrollViewWithHeaders>
+    </FadingScreen>
   )
 }
 
 const homeStyles = createStyleSheet(({ theme }) => ({
+  container: {
+    flex: 1
+  },
   contentContainer: {
     paddingBottom: theme.space("lg")
   },
@@ -410,7 +420,8 @@ const homeStyles = createStyleSheet(({ theme }) => ({
     gap: theme.space("sm")
   },
   cardInfo: {
-    flex: 1
+    flex: 1,
+    gap: theme.space("xs")
   },
   artistItem: (index: number) => {
     const itemSpacing = theme.space()

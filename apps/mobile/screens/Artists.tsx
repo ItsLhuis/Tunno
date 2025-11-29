@@ -4,6 +4,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { View } from "react-native"
 
+import { FadingScreen } from "@components/navigation"
 import {
   FadingView,
   FlashListWithHeaders,
@@ -66,29 +67,55 @@ const Artists = () => {
   )
 
   return (
-    <FlashListWithHeaders
-      data={MOCK_ARTISTS}
-      renderItem={renderItem}
-      numColumns={numColumns}
-      key={numColumns}
-      HeaderComponent={({ scrollY, showHeader }) => (
-        <Header
-          scrollY={scrollY}
-          showHeader={showHeader}
-          headerCenter={
-            <Text weight="semibold" numberOfLines={1}>
-              {t("artists.title")}
-            </Text>
-          }
-          headerLeft={
-            <View style={styles.headerLeft}>
-              <IconButton name="Plus" variant="ghost" onPress={() => console.log("Add artist")} />
-              <FadingView opacity={showHeader}>
-                <IconButton name="Shuffle" variant="text" onPress={() => console.log("Shuffle")} />
-              </FadingView>
+    <FadingScreen style={styles.container}>
+      <FlashListWithHeaders
+        data={MOCK_ARTISTS}
+        renderItem={renderItem}
+        numColumns={numColumns}
+        key={numColumns}
+        HeaderComponent={({ scrollY, showHeader }) => (
+          <Header
+            scrollY={scrollY}
+            showHeader={showHeader}
+            headerCenter={
+              <Text weight="semibold" numberOfLines={1}>
+                {t("artists.title")}
+              </Text>
+            }
+            headerLeft={
+              <View style={styles.headerLeft}>
+                <IconButton name="Plus" variant="ghost" onPress={() => console.log("Add artist")} />
+                <FadingView opacity={showHeader}>
+                  <IconButton
+                    name="Shuffle"
+                    variant="text"
+                    onPress={() => console.log("Shuffle")}
+                  />
+                </FadingView>
+              </View>
+            }
+            headerRight={
+              <View style={styles.viewModeContainer}>
+                <IconButton
+                  name="Grid3x3"
+                  variant="ghost"
+                  containerStyle={styles.viewModeActive}
+                  onPress={() => console.log("Grid view")}
+                />
+                <IconButton name="List" variant="ghost" onPress={() => console.log("List view")} />
+              </View>
+            }
+            headerRightFadesIn
+          />
+        )}
+        LargeHeaderComponent={() => (
+          <LargeHeader style={styles.largeHeader}>
+            <View style={styles.largeHeaderLeft}>
+              <IconButton name="Shuffle" style={styles.largeHeaderIcon} iconSize="3xl" />
+              <Text variant="h1" numberOfLines={1} style={styles.largeHeaderTitle}>
+                {t("artists.title")}
+              </Text>
             </View>
-          }
-          headerRight={
             <View style={styles.viewModeContainer}>
               <IconButton
                 name="Grid3x3"
@@ -98,43 +125,26 @@ const Artists = () => {
               />
               <IconButton name="List" variant="ghost" onPress={() => console.log("List view")} />
             </View>
-          }
-          headerRightFadesIn
-        />
-      )}
-      LargeHeaderComponent={() => (
-        <LargeHeader style={styles.largeHeader}>
-          <View style={styles.largeHeaderLeft}>
-            <IconButton name="Shuffle" style={styles.largeHeaderIcon} iconSize="3xl" />
-            <Text variant="h1" numberOfLines={1} style={styles.largeHeaderTitle}>
-              {t("artists.title")}
-            </Text>
-          </View>
-          <View style={styles.viewModeContainer}>
-            <IconButton
-              name="Grid3x3"
-              variant="ghost"
-              containerStyle={styles.viewModeActive}
-              onPress={() => console.log("Grid view")}
+          </LargeHeader>
+        )}
+        LargeHeaderSubtitleComponent={() => (
+          <LargeHeaderSubtitle style={styles.largeHeaderSubtitle}>
+            <SearchInput
+              placeholder="Search"
+              renderRight={<IconButton name="Funnel" variant="ghost" />}
             />
-            <IconButton name="List" variant="ghost" onPress={() => console.log("List view")} />
-          </View>
-        </LargeHeader>
-      )}
-      LargeHeaderSubtitleComponent={() => (
-        <LargeHeaderSubtitle style={styles.largeHeaderSubtitle}>
-          <SearchInput
-            placeholder="Search"
-            renderRight={<IconButton name="Funnel" variant="ghost" />}
-          />
-        </LargeHeaderSubtitle>
-      )}
-      contentContainerStyle={styles.contentContainerStyle}
-    />
+          </LargeHeaderSubtitle>
+        )}
+        contentContainerStyle={styles.contentContainerStyle}
+      />
+    </FadingScreen>
   )
 }
 
 const artistsStyles = createStyleSheet(({ theme }) => ({
+  container: {
+    flex: 1
+  },
   contentContainerStyle: {
     paddingLeft: theme.space("lg"),
     paddingBottom: theme.space("lg")
@@ -200,7 +210,8 @@ const artistsStyles = createStyleSheet(({ theme }) => ({
     gap: theme.space("sm")
   },
   artistInfo: {
-    flex: 1
+    flex: 1,
+    gap: theme.space("xs")
   }
 }))
 
