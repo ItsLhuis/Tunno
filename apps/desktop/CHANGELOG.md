@@ -2,6 +2,18 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.1.3] - 2025-12-03
+
+### Fixed
+
+- 🐛 **Duplicate Songs Issue**: Resolved a bug where songs were duplicated in the project's data
+  folder during the fast upload process.
+
+### Changed
+
+- 🔧 **Internal Refactoring**: Streamlined the track processing logic by decoupling file-saving
+  operations.
+
 ## [1.1.2] - 2025-11-28
 
 ### Added
