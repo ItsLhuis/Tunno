@@ -1,51 +1,51 @@
 {
-  "version": "1.1.2",
-  "notes": "### Added\n\n- 🎬 **Fullscreen player auto-hide controls**: Controls now automatically hide when the mouse is\n  inactive in fullscreen mode for a cleaner, more immersive viewing experience. Move the mouse to\n  reveal controls with smooth fade animations\n\n### Changed\n\n- 🎨 **UI improvements**:\n  - Enhanced Choicebox component description styling with improved text color and weight for better\n    readability\n  - Refined volume control slider dimensions in fullscreen player for better responsiveness",
-  "pub_date": "2025-11-28T15:22:54.001Z",
+  "version": "1.1.3",
+  "notes": "### Fixed\n\n- 🐛 **Duplicate Songs Issue**: Resolved a bug where songs were duplicated in the project's data\n  folder during the fast upload process.\n\n### Changed\n\n- 🔧 **Internal Refactoring**: Streamlined the track processing logic by decoupling file-saving\n  operations.",
+  "pub_date": "2025-12-03T10:42:10.168Z",
   "platforms": {
-    "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTR1MHYzbXROeHhhRnA3U1RwQXJVT2p3ZnpqVkd2V0hENzFEa0g0Ukg4TkFsbG9RVXd4aFNUUVV1MG0rS2U4LzlVSE9NVklrck9iS3RJdHN0aG5ON1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMDAxCWZpbGU6VHVubm8uYXBwLnRhci5negpLSEt4Znd0blhHOW9kRXBKVmU3cnV0VFNKZlI2WG1RSUMwV0NXaC95NUJXdUUwRW52Qk1vd3JsbVhOSmVwcmpMK282NWQ2VWNtVXRVMTg2VGgzVW1DUT09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_aarch64.app.tar.gz"
-    },
-    "darwin-aarch64-app": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTR1MHYzbXROeHhhRnA3U1RwQXJVT2p3ZnpqVkd2V0hENzFEa0g0Ukg4TkFsbG9RVXd4aFNUUVV1MG0rS2U4LzlVSE9NVklrck9iS3RJdHN0aG5ON1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMDAxCWZpbGU6VHVubm8uYXBwLnRhci5negpLSEt4Znd0blhHOW9kRXBKVmU3cnV0VFNKZlI2WG1RSUMwV0NXaC95NUJXdUUwRW52Qk1vd3JsbVhOSmVwcmpMK282NWQ2VWNtVXRVMTg2VGgzVW1DUT09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_aarch64.app.tar.gz"
-    },
-    "darwin-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNThSOUNsUGZOTk1MSkVMU3M1YXBXSzdtdzk5TWxnVkNLSmZ6TlUwRmlxMXdwSUgvVFZsSFpjUzdqeHppQ0R3M2Q0VDhaWExPd3FCdTkzN3luRmZQaVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMTU3CWZpbGU6VHVubm8uYXBwLnRhci5negpGejhqL3JKUzVrSWN5RW5WbHpuZjUxVno5YlZkUzVoN0thY3EwbS9uUVVCc3JFRmFCY2FaMXdmd2VuMWx2TEx3K3JnWlVrRmlqSUZ1dWpDN0toT0lDQT09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_x64.app.tar.gz"
-    },
-    "darwin-x86_64-app": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNThSOUNsUGZOTk1MSkVMU3M1YXBXSzdtdzk5TWxnVkNLSmZ6TlUwRmlxMXdwSUgvVFZsSFpjUzdqeHppQ0R3M2Q0VDhaWExPd3FCdTkzN3luRmZQaVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMTU3CWZpbGU6VHVubm8uYXBwLnRhci5negpGejhqL3JKUzVrSWN5RW5WbHpuZjUxVno5YlZkUzVoN0thY3EwbS9uUVVCc3JFRmFCY2FaMXdmd2VuMWx2TEx3K3JnWlVrRmlqSUZ1dWpDN0toT0lDQT09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_x64.app.tar.gz"
-    },
     "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS9heEV3SmZzd2NNeVVRY0RvQUQyZTduN0pxZzZJZXhnK1R1c2J4b2RqNk8vVDN5VTBDL1B1R3BPVkpYUHkyYTdxOEJ2UUZFeC9YUHdqNjJUVVZIS3c4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMjE1CWZpbGU6VHVubm9fMS4xLjJfYW1kNjQuQXBwSW1hZ2UKdXgzaVRxeDJJR2dLenUwQklKN3J2Nyt1dU9XWnd4Qmd2MkxTTUtieW5WK3paMDMveUFmaUJDcERQay9la0ZJVDFRNnR3SFk2di8zbXphMUNJNW1nQlE9PQo=",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_1.1.2_amd64.AppImage"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTJUZFNEQ3BkZy9PNk5Na1l4aE5CeExPYjMzSEQ5UGx4VjNkYTQ2THoyZHpJMk01OU9VVzdDRnFSYnB5VHJXZGo1ZE0yV1o2NzFvdGFpVUZBbzV0UndrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MjM5CWZpbGU6VHVubm9fMS4xLjNfYW1kNjQuQXBwSW1hZ2UKcElGY0Z3REZVQ0R5NC9TN2RiV2R6VUFKZkpkUG5kWTJRZ1haOHh6dHBqd3BFN3dGYnNwOWNHbk1lbG9WNjgyRlQweWtxR0ZZblhEdnRkRGw2UzBnQkE9PQo=",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_1.1.3_amd64.AppImage"
     },
     "linux-x86_64-appimage": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS9heEV3SmZzd2NNeVVRY0RvQUQyZTduN0pxZzZJZXhnK1R1c2J4b2RqNk8vVDN5VTBDL1B1R3BPVkpYUHkyYTdxOEJ2UUZFeC9YUHdqNjJUVVZIS3c4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMjE1CWZpbGU6VHVubm9fMS4xLjJfYW1kNjQuQXBwSW1hZ2UKdXgzaVRxeDJJR2dLenUwQklKN3J2Nyt1dU9XWnd4Qmd2MkxTTUtieW5WK3paMDMveUFmaUJDcERQay9la0ZJVDFRNnR3SFk2di8zbXphMUNJNW1nQlE9PQo=",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_1.1.2_amd64.AppImage"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTJUZFNEQ3BkZy9PNk5Na1l4aE5CeExPYjMzSEQ5UGx4VjNkYTQ2THoyZHpJMk01OU9VVzdDRnFSYnB5VHJXZGo1ZE0yV1o2NzFvdGFpVUZBbzV0UndrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MjM5CWZpbGU6VHVubm9fMS4xLjNfYW1kNjQuQXBwSW1hZ2UKcElGY0Z3REZVQ0R5NC9TN2RiV2R6VUFKZkpkUG5kWTJRZ1haOHh6dHBqd3BFN3dGYnNwOWNHbk1lbG9WNjgyRlQweWtxR0ZZblhEdnRkRGw2UzBnQkE9PQo=",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_1.1.3_amd64.AppImage"
     },
     "linux-x86_64-deb": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTV5R1dFWHp5THpCTGtvR1BCd3ZxajdTTUUvQm5vdEZmckRxZEYyKzA5ekxVMW5uamJjQnlHSkpkMS9NTWllRlp5YjlzWW1tNlpRQURFbjRnZzJuV3c0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMjE1CWZpbGU6VHVubm9fMS4xLjJfYW1kNjQuZGViClM0S2hIaHRTMW9UQ3RrYTBDZE9ZZy9IdW9seE5xVDhIWml3ME1vMk9jYUlvNVZua3JOakF6T2I4VDhLS1dOYjlxWlk2cTFkQStSVk1JVmVUR3QzMEJnPT0K",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_1.1.2_amd64.deb"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTVDbzRJcTNJS1lia2FRVXFkSE9raURFWE9DVTMyREFDN25RZ1F6WXZCOWhFMkJiMnMzd2syUFlaSjNBa1NYZUJhVnZwb3NWU2lncldUQXBoc1F1SndzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MjM5CWZpbGU6VHVubm9fMS4xLjNfYW1kNjQuZGViClgvY2VlUVJaMjBYOUZqTjE5Qi9tdHM1dDgzMFNQd0E3YUorYzhGbmVUby9lZWVIUXpWbDZFZUlqTDRRd0dzeWVVSkZFY1k1Q1FDVnFjM3kvZloxdkJnPT0K",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_1.1.3_amd64.deb"
     },
     "linux-x86_64-rpm": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTVSWlZMOGZyaDdMdjZacXlEeTdjWHVTU2pxdE5heDJqd0JBRmF2UUhUOTQ2MGF0dUNRNWRObVhCRHMzWHY4cnVYTmUySGFIbXFFMm9KODdOcGlUYlFJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMjE1CWZpbGU6VHVubm8tMS4xLjItMS54ODZfNjQucnBtCmFtVTd3YUt2Tlgrbndwc2IrdEJqSEEyY24xU01WQStLU2xRTXA1bDVhdWs2MWhmN1M2eTdneWM3RlY3ciszNHdYMlFpSFFIQUE1TCthODlvL09IeEJBPT0K",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno-1.1.2-1.x86_64.rpm"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTlOdU91c2U3Mk9rb3F0LzFjVWkyT1R4NU5Xdk55VUtmOGRPWUZTVGR5ZGtaMzdWSmkxZms2MURNcmJLWHN1YnNkTHM2cFNjcVh1MUxOMFFBWTUwU1FvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MjM5CWZpbGU6VHVubm8tMS4xLjMtMS54ODZfNjQucnBtCitqUTBZK2p5UXVxVlRYdTkrc2w2WHplVG5oZ2xMOHREWm16cDNuYUNqbk9ZbjhUcHhaOCtJQUFPaWFuR0dVblF0ejJRRkpJN1RlQlNSY3RqMzdPZkFRPT0K",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno-1.1.3-1.x86_64.rpm"
+    },
+    "darwin-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXgvaE55MkVLWHVFNlpmdTI4VUdFUnJ1S3FPTU92dlJKdWNCZEFzaEhGdGc5R3l3TWRpYzRoNURHU0Y0dC92ODY2YzVGamxGb3N3STB0REZPU0FXZWd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MzA1CWZpbGU6VHVubm8uYXBwLnRhci5negpuenpmN3hmRWtwUUk3dkpSdU9QbjBYRzYxS3BhekVXMFN2cjVaOHJuRldwT3lWaTNmc2JzWHlOdytIb3pnNGZwWUUyVEgycGl0NGxTQ292NUZILzlEQT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_x64.app.tar.gz"
+    },
+    "darwin-x86_64-app": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXgvaE55MkVLWHVFNlpmdTI4VUdFUnJ1S3FPTU92dlJKdWNCZEFzaEhGdGc5R3l3TWRpYzRoNURHU0Y0dC92ODY2YzVGamxGb3N3STB0REZPU0FXZWd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MzA1CWZpbGU6VHVubm8uYXBwLnRhci5negpuenpmN3hmRWtwUUk3dkpSdU9QbjBYRzYxS3BhekVXMFN2cjVaOHJuRldwT3lWaTNmc2JzWHlOdytIb3pnNGZwWUUyVEgycGl0NGxTQ292NUZILzlEQT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_x64.app.tar.gz"
+    },
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXlzQjNmMHFnNG5kbmRjMXQvWWVTQzQycXJnZ1crQkFBOGQ1bWxDb0VSU0VHem96NitoSDFQQkl5WGJ0WU0wYm8yazBhN3BkYm1nWDVleHNwNjlVUGdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MzI1CWZpbGU6VHVubm8uYXBwLnRhci5negp4RXVoeEZVTGxVRC9sa2tWbW1TRHJsQmNjVFh2T2QyM0pPdFg4WXVOVFB0bHJjRkRhdXdwMHNaTG14NnZNQ092cHh4b3dYL2c5M01saTNEMDh2SElEUT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_aarch64.app.tar.gz"
+    },
+    "darwin-aarch64-app": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXlzQjNmMHFnNG5kbmRjMXQvWWVTQzQycXJnZ1crQkFBOGQ1bWxDb0VSU0VHem96NitoSDFQQkl5WGJ0WU0wYm8yazBhN3BkYm1nWDVleHNwNjlVUGdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4MzI1CWZpbGU6VHVubm8uYXBwLnRhci5negp4RXVoeEZVTGxVRC9sa2tWbW1TRHJsQmNjVFh2T2QyM0pPdFg4WXVOVFB0bHJjRkRhdXdwMHNaTG14NnZNQ092cHh4b3dYL2c5M01saTNEMDh2SElEUT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_aarch64.app.tar.gz"
     },
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS81VnNycmo3VHBHU1dkNkc4bnhldE5GV1R6OHFaNktvQUpLeU95alI3cXJqejUzOWRCcFMzVDJxa2RmVFN3WkJDL2lOQncxSk5NYlhiTmlpWXZrN1FzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMzcxCWZpbGU6VHVubm9fMS4xLjJfeDY0X2VuLVVTLm1zaQo0aExCTUJGNkU5VU1yOEEvNWlGZjB6YmoyR1g1V2h6Q1I4N0EzK2NzU3ZYNzdiV245dFhYVHh5bEs1RE1sa3A4cHhpMFpWS3ZRZVVjeCsxTWRDcWZCdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_1.1.2_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXlaYjFLcHQ4NFRhSlJ1TzBzMTZUZ3JrS3htRk5YeUZDMVlZL2czaVBtTS9FN3lyOStjVVY5NGp5bGI0MTdKWHJKRVBUU0pMRUN4emtOOUczcXc1UndjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4NTI2CWZpbGU6VHVubm9fMS4xLjNfeDY0X2VuLVVTLm1zaQpSUFdBOWpsb2dRL1o5dndxc29NejZQcXV0RTQvdzlqcU9ya0tybHVuemRpbUtCODVzZWlsT0E3cm0rV3ZsZUk4R0Y0Q0Q0S2ZZYXBDVldRb2xPMERCZz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_1.1.3_x64_en-US.msi"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS81VnNycmo3VHBHU1dkNkc4bnhldE5GV1R6OHFaNktvQUpLeU95alI3cXJqejUzOWRCcFMzVDJxa2RmVFN3WkJDL2lOQncxSk5NYlhiTmlpWXZrN1FzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMzcxCWZpbGU6VHVubm9fMS4xLjJfeDY0X2VuLVVTLm1zaQo0aExCTUJGNkU5VU1yOEEvNWlGZjB6YmoyR1g1V2h6Q1I4N0EzK2NzU3ZYNzdiV245dFhYVHh5bEs1RE1sa3A4cHhpMFpWS3ZRZVVjeCsxTWRDcWZCdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_1.1.2_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXlaYjFLcHQ4NFRhSlJ1TzBzMTZUZ3JrS3htRk5YeUZDMVlZL2czaVBtTS9FN3lyOStjVVY5NGp5bGI0MTdKWHJKRVBUU0pMRUN4emtOOUczcXc1UndjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4NTI2CWZpbGU6VHVubm9fMS4xLjNfeDY0X2VuLVVTLm1zaQpSUFdBOWpsb2dRL1o5dndxc29NejZQcXV0RTQvdzlqcU9ya0tybHVuemRpbUtCODVzZWlsT0E3cm0rV3ZsZUk4R0Y0Q0Q0S2ZZYXBDVldRb2xPMERCZz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_1.1.3_x64_en-US.msi"
     },
     "windows-x86_64-nsis": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXh0alBET3BUalArZ1dZNEVPN3gyQmZ4ampEbDlCSzBySVI3YWRyK2ZBRm9BdE1tSjJCNFh0ZHpIQi8vQ0MyNlB4SkE0TVVLY240d3VsWGNJa2dxYndNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0MzQzMzcxCWZpbGU6VHVubm9fMS4xLjJfeDY0LXNldHVwLmV4ZQpFY2s3T3dneXgrcm9UUi9hVUxZU0FLK0JXZVh1L1ExaDFOVUQxWWJpZlFUWk55Z2Z6NHhPbEJXYVU2M0xpbFJ2TVhPZlgydnE1elRyMXd3dzBzUHpDdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.2/Tunno_1.1.2_x64-setup.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXpacXJwYzhKeDkyTk5GK2ZieWtCVEVXWDB2N2ErRXJGSTY3aXBHMXlNNDZ6STVKdGpwZGFWVDRrL1k5UXZKY0tPaDBpSGNwejVUSEZNaStwQVVmWXdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0NzU4NTI2CWZpbGU6VHVubm9fMS4xLjNfeDY0LXNldHVwLmV4ZQpvODVtTS9rWTlnd2xEWk8wdGZwemRrMVpPZXYyUVorYXdvTEdBWGg2aWNKcXRTUmovNzFWblQvR3I5K1ozbDBuUUFTTlpaVDhEQ0ZrQ1BlVVllaTNCUT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.1.3/Tunno_1.1.3_x64-setup.exe"
     }
   }
 }
