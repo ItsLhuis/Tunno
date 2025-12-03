@@ -11,16 +11,14 @@ import { insertAlbum } from "@features/albums/api/mutations"
 import { insertSong } from "@features/songs/api/mutations"
 
 import {
+  compareAndGetSongUpdates,
   isTransientError,
   isUniqueConstraintError,
-  retryWithBackoff,
   processArtist,
+  retryWithBackoff,
   updateAlbumThumbnailIfNeeded,
-  compareAndGetSongUpdates,
   type LocalArtistCache
 } from "../utils"
-
-import { saveFileWithUniqueNameFromPath } from "@services/storage"
 
 import { type EntityCache } from "../utils"
 
@@ -402,8 +400,6 @@ export function useTrackProcessor() {
         if (!(await exists(audioSourcePath))) {
           throw new Error(`Missing audio file: ${audioFileName}`)
         }
-
-        await saveFileWithUniqueNameFromPath("songs", audioSourcePath)
 
         let thumbnailFinalPath: string | null = null
 
