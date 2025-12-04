@@ -196,6 +196,23 @@
       "Segoe UI Symbol", "Noto Color Emoji";
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  div,
+  a,
+  button,
+  input,
+  textarea,
+  label {
+    line-height: 1.25 !important;
+  }
+
   img {
     pointer-events: none;
   }

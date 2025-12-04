@@ -132,8 +132,8 @@ const YourStats = ({ stats }: YourStatsProps) => {
                 <IconButton name="ChevronDown" variant="link" className="ml-auto shrink-0" />
               </PopoverTrigger>
               <PopoverContent className="w-auto">
-                <div className="flex flex-col gap-3">
-                  <div className="min-w-0 truncate">
+                <div className="flex flex-col gap-4">
+                  <div className="min-w-0 space-y-1 truncate">
                     <div className="text-muted-foreground flex items-center gap-2">
                       <Icon name="Calendar" />
                       <Typography className="truncate">{t("common.today")}</Typography>
@@ -148,7 +148,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
                       {formatDuration(stats.recentActivity.timeListenedToday, t, { maxParts: 2 })}
                     </Typography>
                   </div>
-                  <div className="min-w-0 truncate">
+                  <div className="min-w-0 space-y-1 truncate">
                     <div className="text-muted-foreground flex items-center gap-2">
                       <Icon name="CalendarRange" />
                       <Typography className="truncate">{t("common.thisWeek")}</Typography>
@@ -165,7 +165,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
                       })}
                     </Typography>
                   </div>
-                  <div className="min-w-0 truncate">
+                  <div className="min-w-0 space-y-1 truncate">
                     <div className="text-muted-foreground flex items-center gap-2">
                       <Icon name="CalendarDays" />
                       <Typography className="truncate">{t("common.thisMonth")}</Typography>

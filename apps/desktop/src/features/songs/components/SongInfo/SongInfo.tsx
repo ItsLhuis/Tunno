@@ -160,7 +160,7 @@ const SongInfo = () => {
           {data.lyrics && Array.isArray(data.lyrics) && data.lyrics.length > 0 && (
             <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("form.labels.lyrics")}</Typography>
-              <div className="w-full space-y-2">
+              <div className="w-full space-y-3">
                 {data.lyrics.map((line, index) => (
                   <div key={index} className="flex w-full gap-2">
                     <Typography affects="muted" className="shrink-0">
