@@ -1,3 +1,5 @@
+import { Fragment } from "react"
+
 import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
@@ -78,11 +80,12 @@ const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
           >
             {artist.name}
           </Typography>
-          {artist.totalDuration > 0 && (
-            <Typography affects={["small", "muted"]}>
-              {formatDuration(artist.totalDuration, t)}
-            </Typography>
-          )}
+          <Typography affects={["muted", "small"]}>
+            {t("common.songsPlayed", { count: artist.totalTracks })}
+            {artist.totalDuration > 0 && (
+              <Fragment> • {formatDuration(artist.totalDuration, t)}</Fragment>
+            )}
+          </Typography>
         </div>
       </div>
       <div className="flex items-center gap-3 pt-3">

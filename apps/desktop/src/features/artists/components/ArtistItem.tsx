@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react"
+import { Fragment, memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -175,8 +175,10 @@ const ArtistItem = memo(
                 {artist.name}
               </Typography>
               <Typography affects={["muted", "small"]}>
-                {t("common.songsPlayed", { count: artist.totalTracks })} •{" "}
-                {formatDuration(artist.totalDuration, t)}
+                {t("common.songsPlayed", { count: artist.totalTracks })}
+                {artist.totalDuration > 0 && (
+                  <Fragment> • {formatDuration(artist.totalDuration, t)}</Fragment>
+                )}
               </Typography>
             </div>
             <div className="flex items-center gap-3 pt-3">
