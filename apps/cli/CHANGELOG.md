@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.6.0] - 2025-12-05
+
+### Added
+
+- 🎯 Added `--spotify-id` flag to the `youtube` command for precise metadata fetching using a
+  Spotify Track ID, overriding the default search logic.
+
 ## [1.5.1] - 2025-11-18
 
 ### Enhanced

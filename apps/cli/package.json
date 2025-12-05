@@ -1,6 +1,6 @@
 {
   "name": "@tunno/cli",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Command-line tool for managing your personal music library",
   "main": "dist/bin/tunno.js",
   "bin": {
@@ -52,6 +52,7 @@
   "devDependencies": {
     "@types/archiver": "^6.0.3",
     "@types/node": "^22.10.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.7.2"
   },
   "files": [
