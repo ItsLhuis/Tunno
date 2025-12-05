@@ -16,6 +16,7 @@ export default function youtube(program: Command) {
     .description("Download audio from a YouTube video")
     .option("--id <videoId>", "YouTube video ID")
     .option("--playlist-id <playlistId>", "YouTube playlist ID")
+    .option("--spotify-id <spotifyId>", "Spotify track ID to override metadata search")
     .option("--title <title>", "Override track title for Spotify search")
     .option("--artist <artist>", "Override artist for Spotify search")
     .option("--year <year>", "Override release year for Spotify search")
@@ -29,10 +30,25 @@ export default function youtube(program: Command) {
       `Specify the output audio file extension (${[...VALID_EXTENSIONS].join(", ")})`
     )
     .action(async (options) => {
-      const { id: videoId, playlistId, title, artist, year, basic, ext, addMetadata } = options
+      const {
+        id: videoId,
+        playlistId,
+        spotifyId,
+        title,
+        artist,
+        year,
+        basic,
+        ext,
+        addMetadata
+      } = options
 
       if (!videoId && !playlistId) {
         console.error("error: either '--id' or '--playlist-id' must be provided")
+        return
+      }
+
+      if (playlistId && spotifyId) {
+        console.error("error: '--spotify-id' cannot be used with '--playlist-id'")
         return
       }
 
@@ -94,7 +110,8 @@ export default function youtube(program: Command) {
         releaseYear: year,
         basicDownload: basic,
         extension: ext,
-        addMetadata: addMetadata
+        addMetadata: addMetadata,
+        spotifyId
       })
     })
 }

@@ -124,6 +124,26 @@ async function buildTrackResult(track: SpotifySDKTrack): Promise<SpotifyTrack | 
   return result
 }
 
+export async function getTrackById(trackId: string): Promise<SpotifyTrack | null> {
+  const sdk = await getSdk()
+
+  try {
+    await rateLimiter.rateLimitRequest()
+
+    const track = await sdk.tracks.get(trackId)
+
+    if (track) {
+      console.log("[spotify]", chalk.green("Track found by ID"))
+      return await buildTrackResult(track)
+    }
+
+    return null
+  } catch (error) {
+    console.log("[spotify]", chalk.red("Could not find track by ID"))
+    return null
+  }
+}
+
 export async function getTrack(
   name: string,
   duration: number,

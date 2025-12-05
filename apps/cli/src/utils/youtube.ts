@@ -17,7 +17,7 @@ import {
   runCommand
 } from "./utils"
 
-import { getTrack } from "./spotify"
+import { getTrack, getTrackById } from "./spotify"
 
 import { getLyrics } from "./lrclib"
 
@@ -44,6 +44,7 @@ export const download = async (
     basicDownload?: boolean
     extension?: string
     addMetadata?: boolean
+    spotifyId?: string
   }
 ): Promise<void> => {
   try {
@@ -67,73 +68,85 @@ export const download = async (
       : songUUID
 
     if (!options?.basicDownload) {
-      const searchTitle = options?.title || videoInfo.title
-      const searchArtist = options?.artist || videoInfo.uploader
-      const searchYear =
-        options?.releaseYear || (videoInfo.release_date ? videoInfo.release_date.slice(0, 4) : null)
+      let track
 
-      let cleanedTrackName = options?.title ? searchTitle : cleanTrackName(searchTitle)
-      const cleanedArtistName = options?.artist ? searchArtist : cleanArtistName(searchArtist)
+      if (options?.spotifyId) {
+        console.log(`[spotify] Searching for track with ID ${chalk.blue(options.spotifyId)}`)
+        track = await getTrackById(options.spotifyId)
+      } else {
+        const searchTitle = options?.title || videoInfo.title
+        const searchArtist = options?.artist || videoInfo.uploader
+        const searchYear =
+          options?.releaseYear ||
+          (videoInfo.release_date ? videoInfo.release_date.slice(0, 4) : null)
 
-      if (!options?.title) {
-        cleanedTrackName = cleanedTrackName
-          .replace(new RegExp(cleanedArtistName, "gi"), "")
-          .replace(/\s+/g, " ")
-          .trim()
-      }
+        let cleanedTrackName = options?.title ? searchTitle : cleanTrackName(searchTitle)
+        const cleanedArtistName = options?.artist ? searchArtist : cleanArtistName(searchArtist)
 
-      const videoDuration = Number(videoInfo.duration)
+        if (!options?.title) {
+          cleanedTrackName = cleanedTrackName
+            .replace(new RegExp(cleanedArtistName, "gi"), "")
+            .replace(/\s+/g, " ")
+            .trim()
+        }
 
-      console.log(
-        `[spotify] Searching for ${chalk.blue(searchTitle)} by ${chalk.blue(searchArtist)}`
-      )
-      let track = await getTrack(cleanedTrackName, videoDuration, cleanedArtistName, searchYear)
+        const videoDuration = Number(videoInfo.duration)
 
-      if (!track) {
-        if (videoInfo.artists && Array.isArray(videoInfo.artists)) {
-          console.log("[spotify]", chalk.yellow("Trying other artists"))
+        console.log(
+          `[spotify] Searching for ${chalk.blue(searchTitle)} by ${chalk.blue(searchArtist)}`
+        )
+        track = await getTrack(cleanedTrackName, videoDuration, cleanedArtistName, searchYear)
 
-          for (let i = 0; i < videoInfo.artists.length; i++) {
-            const currentArtist = videoInfo.artists[i]
+        if (!track) {
+          if (videoInfo.artists && Array.isArray(videoInfo.artists)) {
+            console.log("[spotify]", chalk.yellow("Trying other artists"))
 
-            if (currentArtist === searchArtist) {
-              continue
+            for (let i = 0; i < videoInfo.artists.length; i++) {
+              const currentArtist = videoInfo.artists[i]
+
+              if (currentArtist === searchArtist) {
+                continue
+              }
+
+              console.log(
+                `[spotify] Trying to search for ${chalk.blue(searchTitle)} by ${chalk.blue(
+                  currentArtist
+                )}`
+              )
+              track = await getTrack(
+                cleanedTrackName,
+                videoDuration,
+                cleanArtistName(currentArtist),
+                searchYear
+              )
+
+              if (track) break
             }
-
-            console.log(
-              `[spotify] Trying to search for ${chalk.blue(searchTitle)} by ${chalk.blue(
-                currentArtist
-              )}`
-            )
-            track = await getTrack(
-              cleanedTrackName,
-              videoDuration,
-              cleanArtistName(currentArtist),
-              searchYear
-            )
-
-            if (track) break
           }
+        }
+
+        if (!track) {
+          console.log(
+            `[spotify] Trying to search using only the track title. ${chalk.yellow(
+              "This approach refines the search process to enhance accuracy"
+            )}`
+          )
+          track = await getTrack(cleanedTrackName, videoDuration, cleanedArtistName, searchYear, {
+            onlySearchTrackTitle: true
+          })
         }
       }
 
       if (!track) {
-        console.log(
-          `[spotify] Trying to search using only the track title. ${chalk.yellow(
-            "This approach refines the search process to enhance accuracy"
-          )}`
-        )
-        track = await getTrack(cleanedTrackName, videoDuration, cleanedArtistName, searchYear, {
-          onlySearchTrackTitle: true
-        })
-      }
-
-      if (!track) {
-        console.log(
-          "[spotify]",
-          chalk.yellow("Suggestion:"),
-          "You can either download just the track and manually update the metadata later, or provide additional fields related to the Spotify search to improve metadata accuracy. Mismatching the YouTube video ID with unrelated metadata fields may result in incorrect metadata"
-        )
+        if (options?.spotifyId) {
+          console.log("[spotify]", chalk.red("Failed to find track with the provided Spotify ID."))
+        } else {
+          console.log(
+            "[spotify]",
+            chalk.yellow("Suggestion:"),
+            "You can either download just the track and manually update the metadata later, or provide additional fields related to the Spotify search to improve metadata accuracy. Mismatching the YouTube video ID with unrelated metadata fields may result in incorrect metadata"
+          )
+        }
         return
       }
 
