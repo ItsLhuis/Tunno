@@ -12,7 +12,7 @@ const LyricsHeader = ({ song }: LyricsHeaderProps) => {
   const { t } = useTranslation()
 
   return (
-    <Header className="flex flex-col gap-3 pb-6">
+    <Header className="flex flex-col gap-6 pb-6">
       <Typography variant="h1" className="truncate">
         {t("lyrics.title")}
       </Typography>

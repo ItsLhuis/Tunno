@@ -12,7 +12,7 @@ const LyricsStickyHeader = ({ song }: LyricsStickyHeaderProps) => {
   const { t } = useTranslation()
 
   return (
-    <StickyHeader className="flex flex-col gap-3 pb-9">
+    <StickyHeader className="flex flex-col gap-6 pb-9">
       <Typography variant="h4" className="truncate">
         {t("lyrics.title")}
       </Typography>

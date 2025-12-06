@@ -249,7 +249,7 @@ const SongItem = memo(
                 </Fade>
               </div>
             </div>
-            <div className="absolute right-2 bottom-[3.225rem] z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+            <div className="absolute right-2 bottom-14 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
               <div className="relative">
                 <IconButton
                   name={isCurrentlyPlaying ? "Pause" : "Play"}
