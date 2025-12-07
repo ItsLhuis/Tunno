@@ -55,7 +55,6 @@ const textStyles = createStyleSheet(({ theme }) => ({
           fontSize: theme.fontSize("3xl"),
           fontFamily: "SpaceGrotesk-Bold",
           letterSpacing: theme.letterSpacing("tight"),
-          paddingBottom: theme.space("sm"),
           lineHeight: theme.fontSize("3xl") * 1.25
         },
         h3: {
