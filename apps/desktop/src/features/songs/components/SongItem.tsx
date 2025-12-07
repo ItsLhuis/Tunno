@@ -120,8 +120,8 @@ const SongItem = memo(
           <div
             className="shrink-0"
             style={{
-              width: "clamp(16rem, 16vw, 28rem)",
-              height: "clamp(16rem, 16vw, 28rem)"
+              width: "clamp(20rem, 20vw, 35rem)",
+              height: "clamp(20rem, 20vw, 35rem)"
             }}
           >
             <Thumbnail
@@ -139,12 +139,14 @@ const SongItem = memo(
                   {heroLabel}
                 </Badge>
               )}
-              <Typography
-                variant="h1"
-                className="line-clamp-1 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
-              >
-                {song.name}
-              </Typography>
+              <SafeLink to="/songs/$id" params={{ id: song.id.toString() }}>
+                <Typography
+                  variant="h1"
+                  className="line-clamp-1 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
+                >
+                  {song.name}
+                </Typography>
+              </SafeLink>
               <div className="flex items-end gap-1">
                 {song.artists.length > 0 ? (
                   <SafeLink to="/artists/$id" params={{ id: song.artists[0].artistId.toString() }}>

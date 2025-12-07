@@ -58,8 +58,8 @@ const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
         <div
           className="shrink-0"
           style={{
-            width: "clamp(16rem, 16vw, 28rem)",
-            height: "clamp(16rem, 16vw, 28rem)"
+            width: "clamp(20rem, 20vw, 35rem)",
+            height: "clamp(20rem, 20vw, 35rem)"
           }}
         >
           <Thumbnail

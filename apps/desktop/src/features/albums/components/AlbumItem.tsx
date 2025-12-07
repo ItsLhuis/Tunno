@@ -149,8 +149,8 @@ const AlbumItem = memo(
           <div
             className="shrink-0"
             style={{
-              width: "clamp(16rem, 16vw, 28rem)",
-              height: "clamp(16rem, 16vw, 28rem)"
+              width: "clamp(20rem, 20vw, 35rem)",
+              height: "clamp(20rem, 20vw, 35rem)"
             }}
           >
             <Thumbnail
@@ -168,12 +168,14 @@ const AlbumItem = memo(
                   {heroLabel}
                 </Badge>
               )}
-              <Typography
-                variant="h1"
-                className="line-clamp-1 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
-              >
-                {album.name}
-              </Typography>
+              <SafeLink to="/albums/$id" params={{ id: album.id.toString() }}>
+                <Typography
+                  variant="h1"
+                  className="line-clamp-1 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
+                >
+                  {album.name}
+                </Typography>
+              </SafeLink>
               <Typography affects={["muted", "small"]}>
                 {t("common.songsPlayed", { count: album.totalTracks })}
                 {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
