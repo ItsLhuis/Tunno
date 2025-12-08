@@ -2,6 +2,15 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.1.4] - 2025-12-08
+
+### Fixed
+
+- 🎨 **Fullscreen Player Transition**: Resolved a visual "rainbow" artifact during background
+  transitions in the fullscreen player. This fix implements a cross-fade animation, ensuring smooth
+  and natural color shifts between different album art palettes without inconsistent intermediate
+  states. ([#1](https://github.com/ItsLhuis/Tunno/issues/1))
+
 ## [1.1.3] - 2025-12-03
 
 ### Fixed
