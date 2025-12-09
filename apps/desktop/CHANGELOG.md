@@ -2,6 +2,15 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.1.5] - 2025-12-09
+
+### Fixed
+
+- 🐛 **Badge Text Overflow**: Resolved an issue where badge components did not properly handle text
+  overflow, especially in the "Update Song" dialog, leading to text extending beyond badge
+  boundaries. The UI now gracefully truncates long text with an ellipsis.
+  ([#3](https://github.com/ItsLhuis/Tunno/issues/3))
+
 ## [1.1.4] - 2025-12-08
 
 ### Fixed
