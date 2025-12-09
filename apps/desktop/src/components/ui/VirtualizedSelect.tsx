@@ -248,16 +248,6 @@ const VirtualizedSelect = ({
     }
   }
 
-  const clearExtraOptions = () => {
-    if (!multiple) return
-    const selectedIds = controller.selectedIds.slice(0, maxCount)
-    controller.clearSelection()
-    selectedIds.forEach((id) => {
-      selectionManager.toggleSelect(id, true)
-    })
-    setIsPopoverOpen(false)
-  }
-
   const isOptionSelected = (optionValue: string) => controller.selectedIds.includes(optionValue)
 
   const toggleOption = (optionValue: string) => {
@@ -362,56 +352,26 @@ const VirtualizedSelect = ({
 
     return (
       <div className="flex w-full items-center justify-between">
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
           {visibleValues.map((value) => {
             const option = options.find((option) => option.value === value)
 
             const IconComponent = option?.icon
 
             return (
-              <Badge key={value} className={cn(virtualizedSelectVariants({ variant }))}>
+              <Badge key={value} className={cn("max-w-40", virtualizedSelectVariants({ variant }))}>
                 {IconComponent && <IconComponent className="mr-2" />}
-                {option?.label}
-                <span
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    toggleOption(value)
-                  }}
-                >
-                  <Icon name="XCircle" className="text-muted-foreground ml-1 opacity-50" />
-                </span>
+                <span className="truncate">{option?.label}</span>
               </Badge>
             )
           })}
           {extraCount > 0 && (
-            <Badge
-              className={cn(
-                "border-foreground/1 text-foreground bg-transparent hover:bg-transparent",
-                virtualizedSelectVariants({ variant })
-              )}
-            >
+            <Badge className={virtualizedSelectVariants({ variant })}>
               {`+ ${extraCount} ${t("common.more")}`}
-              <span
-                onClick={(event) => {
-                  event.stopPropagation()
-                  clearExtraOptions()
-                }}
-              >
-                <Icon name="XCircle" className="text-muted-foreground ml-1 opacity-50" />
-              </span>
             </Badge>
           )}
         </div>
         <div className="flex items-center justify-between">
-          <span
-            onClick={(event) => {
-              event.stopPropagation()
-              handleClear()
-            }}
-          >
-            <Icon name="X" className="text-muted-foreground mx-2 h-4 opacity-50" />
-          </span>
-          <Separator orientation="vertical" className="flex h-full min-h-6" />
           <Icon name="ChevronDown" className="text-muted-foreground mx-2 h-4 opacity-50" />
         </div>
       </div>
