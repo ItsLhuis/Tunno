@@ -5,8 +5,6 @@ import { emit } from "@tauri-apps/api/event"
 
 import TrackPlayer, { type EqualizerPreset } from "react-track-player-web"
 
-import { setupAudioPlayer } from "@services/audio"
-
 import { persistStorage } from "./config/persist"
 
 import { i18n, type LocaleKeys } from "@repo/i18n"
@@ -114,8 +112,6 @@ export const useSettingsStore = create<SettingsStore>()(
       }),
       onRehydrateStorage: () => {
         return async (state) => {
-          await setupAudioPlayer()
-
           if (state) {
             try {
               if (state.language) {
@@ -123,16 +119,16 @@ export const useSettingsStore = create<SettingsStore>()(
               }
 
               if (state.equalizerEnabled !== undefined) {
-                await TrackPlayer.setEqualizerEnabled(state.equalizerEnabled)
+                TrackPlayer.setEqualizerEnabled(state.equalizerEnabled)
               }
 
               if (state.equalizerPreset && state.equalizerPreset !== "flat") {
-                await TrackPlayer.setEqualizerPreset(state.equalizerPreset)
+                TrackPlayer.setEqualizerPreset(state.equalizerPreset)
               }
 
               if (state.equalizerBandGains && state.equalizerBandGains.length === 10) {
                 for (let i = 0; i < 10; i++) {
-                  await TrackPlayer.setEqualizerBandGain(i, state.equalizerBandGains[i])
+                  TrackPlayer.setEqualizerBandGain(i, state.equalizerBandGains[i])
                 }
               }
             } catch (error) {

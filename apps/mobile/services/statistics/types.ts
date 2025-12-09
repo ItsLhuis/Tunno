@@ -9,5 +9,5 @@ export type PlaySession = {
   totalTimeListened: number
   isPaused: boolean
   playCountRecorded: boolean
-  playCountTimer?: NodeJS.Timeout
+  playCountTimer?: ReturnType<typeof setTimeout>
 }

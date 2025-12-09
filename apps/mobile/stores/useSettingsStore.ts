@@ -8,33 +8,56 @@ import { i18n, type LocaleKeys } from "@repo/i18n"
 const SETTINGS_STORE_NAME = "settings"
 
 type SettingsState = {
+  theme: "dark" | "light" | "system"
   language: LocaleKeys
-  setLanguage: (code: LocaleKeys) => void
   hasHydrated: boolean
+}
+
+type SettingsActions = {
+  setTheme: (theme: "dark" | "light" | "system") => void
+  setLanguage: (code: LocaleKeys) => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
-export const useSettingsStore = create<SettingsState>()(
+type SettingsStore = SettingsState & SettingsActions
+
+export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set) => ({
+      theme: "system",
       language: "en" as LocaleKeys,
+      hasHydrated: false,
+      setTheme: (theme) => set({ theme }),
       setLanguage: (code) => {
         set({ language: code })
         i18n.changeLanguage(code)
       },
-      hasHydrated: false,
-      setHasHydrated: (state) => {
-        set({
-          hasHydrated: state
-        })
+      setHasHydrated: (hasHydrated) => {
+        set({ hasHydrated })
       }
     }),
     {
       name: SETTINGS_STORE_NAME,
       version: 1,
       storage: persistStorage(`.${SETTINGS_STORE_NAME}.json`),
-      onRehydrateStorage: (state) => {
-        return () => state.setHasHydrated(true)
+      partialize: (state) => ({
+        theme: state.theme,
+        language: state.language
+      }),
+      onRehydrateStorage: () => {
+        return async (state) => {
+          if (state) {
+            try {
+              if (state.language) {
+                await i18n.changeLanguage(state.language)
+              }
+            } catch (error) {
+              console.error("SettingsStore: Error in onRehydrateStorage:", error)
+            } finally {
+              state.setHasHydrated(true)
+            }
+          }
+        }
       }
     }
   )
