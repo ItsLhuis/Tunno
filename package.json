@@ -16,6 +16,8 @@
     "dev:mobile": "turbo run dev --filter=@tunno/mobile",
     "dev:web": "turbo run dev --filter=@tunno/web",
     "start": "turbo run start",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "typecheck": "turbo run typecheck",
     "clean": "git clean -fdX"
   },
@@ -33,6 +35,8 @@
     }
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "chalk": "^5.6.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
@@ -41,7 +45,7 @@
     "turbo": "^2.6.1"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,md}": [
+    "*.{ts,tsx,js,jsx,mjs,cjs,json,css,md,yaml,yml}": [
       "prettier --write"
     ]
   }
