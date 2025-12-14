@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { usePaletteCssVariables } from "../../hooks/usePaletteCssVariables"
+import { usePaletteCssVariables } from "@hooks/usePaletteCssVariables"
 
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import { createGradient } from "../../utils"
+import { createGradient } from "@utils/colors"
 
 import { Fade, IconButton } from "@components/ui"
 

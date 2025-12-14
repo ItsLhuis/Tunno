@@ -4,8 +4,8 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { useImageColorAndPalette } from "../../hooks/useImageColorAndPalette"
-import { useImageSrc } from "../../hooks/useImageSrc"
+import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
+import { useImageSrc } from "@hooks/useImageSrc"
 
 import { cn } from "@lib/utils"
 

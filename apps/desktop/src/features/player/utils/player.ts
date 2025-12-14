@@ -24,12 +24,14 @@ const artworkUrlCache = new LRUCache<string, string>(MAX_CACHE_SIZE)
 
 export async function resolveTrack(song: SongWithMainRelations): Promise<Track> {
   let audioUrl = audioUrlCache.get(song.file)
+
   if (!audioUrl) {
     audioUrl = await getRenderableFileSrc(song.file, "songs")
     audioUrlCache.set(song.file, audioUrl)
   }
 
   let artworkUrl: string | undefined
+
   if (song.thumbnail) {
     artworkUrl = artworkUrlCache.get(song.thumbnail as string)
     if (!artworkUrl) {
@@ -104,6 +106,7 @@ export function volumePercentage(linearValue: number): number {
 
 export function clearTrackCaches(song: SongWithMainRelations) {
   audioUrlCache.delete(song.file)
+
   if (song.thumbnail) {
     artworkUrlCache.delete(song.thumbnail as string)
   }

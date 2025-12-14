@@ -4,9 +4,9 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../../stores/usePlayerStore"
 
-import { useImageColorAndPalette } from "../../../hooks/useImageColorAndPalette"
-import { useImageSrc } from "../../../hooks/useImageSrc"
-import { usePaletteCssVariables } from "../../../hooks/usePaletteCssVariables"
+import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
+import { useImageSrc } from "@hooks/useImageSrc"
+import { usePaletteCssVariables } from "@hooks/usePaletteCssVariables"
 
 import { PlaybackControls } from "./PlaybackControls"
 import { Titlebar } from "./Titlebar"

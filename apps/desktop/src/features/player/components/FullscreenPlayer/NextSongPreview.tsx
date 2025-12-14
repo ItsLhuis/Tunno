@@ -6,9 +6,9 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { useImagePalette } from "../../hooks/useImagePalette"
-import { useImageSrc } from "../../hooks/useImageSrc"
-import { usePaletteCssVariables } from "../../hooks/usePaletteCssVariables"
+import { useImagePalette } from "@hooks/useImagePalette"
+import { useImageSrc } from "@hooks/useImageSrc"
+import { usePaletteCssVariables } from "@hooks/usePaletteCssVariables"
 
 import { cn } from "@lib/utils"
 
