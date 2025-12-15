@@ -6,6 +6,7 @@ import { cn } from "@lib/utils"
 
 import { useScroll } from "./hooks"
 
+import { Container } from "@components/ui/Container"
 import { Fade } from "@components/ui/Fade"
 import { ScrollArea } from "@components/ui/ScrollArea"
 
@@ -54,7 +55,7 @@ const VirtualizedListWithHeaders = <TItem,>({
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
 
-  const [headerHeight, setHeaderHeight] = useState<number>(0)
+  const [headerHeight, setHeaderHeight] = useState(0)
   const [controller, setController] = useState<VirtualizedListController<TItem> | null>(null)
 
   const { isScrolled } = useScroll({
@@ -63,21 +64,20 @@ const VirtualizedListWithHeaders = <TItem,>({
   })
 
   const calculateHeaderHeight = useCallback(() => {
-    let totalHeight = 0
-    if (headerRef.current) {
-      totalHeight += headerRef.current.getBoundingClientRect().height
-    }
-    setHeaderHeight(totalHeight + stickHeaderThreshold)
+    if (!headerRef.current) return
+    setHeaderHeight(headerRef.current.getBoundingClientRect().height + stickHeaderThreshold)
   }, [stickHeaderThreshold])
 
   useEffect(() => {
     calculateHeaderHeight()
+  }, [])
 
+  useEffect(() => {
     if (controller) {
       const timer = setTimeout(calculateHeaderHeight, 100)
       return () => clearTimeout(timer)
     }
-  }, [calculateHeaderHeight, controller])
+  }, [controller, calculateHeaderHeight])
 
   useEffect(() => {
     if (onScrollRef && scrollRef.current) {
@@ -96,33 +96,43 @@ const VirtualizedListWithHeaders = <TItem,>({
   return (
     <ScrollArea
       ref={scrollRef}
-      className={cn("bg-background h-full w-full flex-1", containerClassName, "relative")}
+      className={cn("bg-background relative h-full w-full flex-1", containerClassName)}
     >
       <div className={cn("flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
         <Fade
           show={isScrolled && Boolean(StickyHeaderComponent)}
           mode="popLayout"
           className={cn(
-            "border-border bg-background/50 absolute top-0 right-0 left-0 z-50 flex w-full flex-1 flex-col border-b px-9 backdrop-blur-sm",
+            "border-border bg-background/50 absolute inset-x-0 top-0 z-50 border-b backdrop-blur-sm",
             stickyHeaderContainerClassName
           )}
         >
-          {StickyHeaderComponent && controller && <StickyHeaderComponent list={controller} />}
+          {StickyHeaderComponent && controller && (
+            <Container className="px-9">
+              <StickyHeaderComponent list={controller} />
+            </Container>
+          )}
         </Fade>
-        <div ref={headerRef}>
-          {controller && <HeaderComponent list={controller} />}
-          {controller && ListHeaderComponent && <ListHeaderComponent list={controller} />}
+        <div ref={headerRef} className="relative">
+          {controller && (
+            <Container>
+              <HeaderComponent list={controller} />
+              {ListHeaderComponent && <ListHeaderComponent list={controller} />}
+            </Container>
+          )}
         </div>
         <div className={cn("relative flex-1", className)}>
-          <VirtualizedList
-            {...(props as VirtualizedListProps<TItem>)}
-            scrollRef={scrollRef}
-            containerClassName={cn(isListEmpty && "h-full")}
-            ListEmptyComponent={ListEmptyComponent}
-            ListFooterComponent={ListFooterComponent}
-            onController={(controller) => setController(controller)}
-            onVirtualizer={onVirtualizer}
-          />
+          <Container className="h-full p-9 pt-0">
+            <VirtualizedList
+              {...(props as VirtualizedListProps<TItem>)}
+              scrollRef={scrollRef}
+              containerClassName={cn(isListEmpty && "h-full")}
+              ListEmptyComponent={ListEmptyComponent}
+              ListFooterComponent={ListFooterComponent}
+              onController={setController}
+              onVirtualizer={onVirtualizer}
+            />
+          </Container>
         </div>
       </div>
     </ScrollArea>

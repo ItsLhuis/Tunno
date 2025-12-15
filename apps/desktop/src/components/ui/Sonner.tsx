@@ -1,5 +1,7 @@
 "use client"
 
+import { type CSSProperties } from "react"
+
 import { useTheme } from "@contexts/ThemeContext"
 
 import { Icon } from "@components/ui/Icon"
@@ -21,7 +23,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-text": "var(--popover-foreground)",
           "--normal-border": "var(--border)",
           "--border-radius": "var(--radius)"
-        } as React.CSSProperties
+        } as CSSProperties
       }
       className="toaster group"
       offset={"0.75rem"}

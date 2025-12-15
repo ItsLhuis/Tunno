@@ -28,7 +28,8 @@ export const typographyVariants = cva("transition-colors", {
       muted: "text-muted-foreground",
       bold: "font-bold",
       italic: "italic",
-      removePMargin: "not-first:mt-0"
+      removePMargin: "not-first:mt-0",
+      uppercase: "uppercase"
     }
   },
   defaultVariants: {

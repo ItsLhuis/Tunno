@@ -4,6 +4,7 @@ import {
   useRef,
   useState,
   type ComponentProps,
+  type ReactNode,
   type RefObject
 } from "react"
 
@@ -11,6 +12,7 @@ import { cn } from "@lib/utils"
 
 import { useScroll } from "./hooks"
 
+import { Container } from "@components/ui/Container"
 import { Fade } from "@components/ui/Fade"
 import { ScrollArea } from "@components/ui/ScrollArea"
 
@@ -18,13 +20,13 @@ import { SharedScrollContainerProps } from "./types"
 
 type ScrollAreaWithHeadersProps = ComponentProps<"div"> &
   SharedScrollContainerProps & {
-    HeaderComponent: () => React.ReactNode
-    StickyHeaderComponent?: () => React.ReactNode
-    ListHeaderComponent?: () => React.ReactNode
+    HeaderComponent: () => ReactNode
+    StickyHeaderComponent?: () => ReactNode
+    ListHeaderComponent?: () => ReactNode
     stickyHeaderContainerClassName?: string
     stickHeaderThreshold?: number
     containerClassName?: string
-    children: React.ReactNode
+    children: ReactNode
     scrollRef?: RefObject<HTMLDivElement | null>
   }
 
@@ -42,12 +44,10 @@ const ScrollAreaWithHeaders = ({
   ...props
 }: ScrollAreaWithHeadersProps) => {
   const internalScrollRef = useRef<HTMLDivElement | null>(null)
-
   const scrollRef = externalScrollRef || internalScrollRef
 
   const headerRef = useRef<HTMLDivElement | null>(null)
-
-  const [headerHeight, setHeaderHeight] = useState<number>(0)
+  const [headerHeight, setHeaderHeight] = useState(0)
 
   const { isScrolled } = useScroll({
     scrollRef,
@@ -55,12 +55,9 @@ const ScrollAreaWithHeaders = ({
   })
 
   const calculateHeaderHeight = useCallback(() => {
-    let totalHeight = 0
-    if (headerRef.current) {
-      totalHeight += headerRef.current.getBoundingClientRect().height
-    }
-    setHeaderHeight(totalHeight + stickHeaderThreshold)
-  }, [headerRef, stickHeaderThreshold])
+    if (!headerRef.current) return
+    setHeaderHeight(headerRef.current.getBoundingClientRect().height + stickHeaderThreshold)
+  }, [stickHeaderThreshold])
 
   useEffect(() => {
     calculateHeaderHeight()
@@ -70,9 +67,8 @@ const ScrollAreaWithHeaders = ({
     <ScrollArea
       ref={scrollRef}
       className={cn(
-        "bg-background h-full w-full flex-1 [&>div>div]:flex!",
-        containerClassName,
-        "relative"
+        "bg-background relative h-full w-full flex-1 [&>div>div]:flex!",
+        containerClassName
       )}
       style={style}
     >
@@ -81,20 +77,24 @@ const ScrollAreaWithHeaders = ({
           show={isScrolled && Boolean(StickyHeaderComponent)}
           mode="popLayout"
           className={cn(
-            "border-border bg-background/50 absolute top-0 right-0 left-0 z-50 flex w-full flex-1 flex-col border-b px-9 backdrop-blur-sm transition-[background-color,border-color,padding]",
+            "border-border bg-background/50 absolute inset-x-0 top-0 z-50 border-b backdrop-blur-sm",
             stickyHeaderContainerClassName
           )}
         >
-          {StickyHeaderComponent && StickyHeaderComponent()}
+          {StickyHeaderComponent && (
+            <Container className="px-9">{StickyHeaderComponent()}</Container>
+          )}
         </Fade>
-        <div ref={headerRef}>
-          {HeaderComponent()}
-          {ListHeaderComponent && ListHeaderComponent()}
+        <div ref={headerRef} className="relative">
+          <Container>
+            {HeaderComponent()}
+            {ListHeaderComponent && ListHeaderComponent()}
+          </Container>
         </div>
         <div className="flex h-full flex-1 flex-col">
-          <div className={cn("flex flex-col p-9 pt-3", className)} {...props}>
+          <Container className={cn("p-9 pt-3", className)} {...props}>
             {children}
-          </div>
+          </Container>
         </div>
       </div>
     </ScrollArea>

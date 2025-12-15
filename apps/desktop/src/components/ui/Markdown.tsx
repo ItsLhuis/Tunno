@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useMemo, type ComponentProps } from "react"
+import { memo, useMemo, type ComponentProps, type ReactNode } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -16,7 +16,7 @@ type MarkdownProps = {
 }
 
 type MarkdownComponentProps = {
-  children?: React.ReactNode
+  children?: ReactNode
   className?: string
   href?: string
   align?: "left" | "center" | "right" | "justify" | "char"
