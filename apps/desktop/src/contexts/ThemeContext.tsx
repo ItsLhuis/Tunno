@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react"
+import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from "react"
 
 import { flushSync } from "react-dom"
 
@@ -16,7 +16,7 @@ type ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined)
 
-const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const { theme, setTheme } = useSettingsStore(
     useShallow((state) => ({
       theme: state.theme,

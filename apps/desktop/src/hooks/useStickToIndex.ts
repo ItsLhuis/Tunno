@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { type RefObject, useCallback, useEffect, useRef, useState } from "react"
 
 import { type Virtualizer } from "@tanstack/react-virtual"
 
@@ -11,17 +11,17 @@ export type StickToIndexOptions = {
   selector: (index: number) => string
   resumeDelay?: number
   resumeOnSignificantChange?: boolean
-  scrollRef?: React.RefObject<HTMLElement | null>
+  scrollRef?: RefObject<HTMLElement | null>
   initialScroll?: boolean
   initialBehavior?: ScrollBehavior
   gap?: number
   preventUserScroll?: boolean
   effectiveColumns?: number
-  virtualizer?: Virtualizer<any, any> | React.RefObject<Virtualizer<any, any> | null>
+  virtualizer?: Virtualizer<any, any> | RefObject<Virtualizer<any, any> | null>
 }
 
 export type StickToIndexReturn = {
-  scrollRef: React.RefObject<HTMLElement | null>
+  scrollRef: RefObject<HTMLElement | null>
   isStuck: boolean
   isUserScrolling: boolean
   stick: () => void
@@ -488,7 +488,7 @@ export function useStickToIndex({
   ])
 
   return {
-    scrollRef: scrollRef as React.RefObject<HTMLElement | null>,
+    scrollRef: scrollRef as RefObject<HTMLElement | null>,
     isStuck,
     isUserScrolling,
     stick,

@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useMemo, type ReactNode } from "react"
 
 import { useRouterState } from "@tanstack/react-router"
 
@@ -7,7 +7,7 @@ import { useTranslation } from "@repo/i18n"
 import { useResourceById, type ResourceType } from "./useResourceById"
 
 export type BreadcrumbItem = {
-  label: string | React.ReactNode
+  label: string | ReactNode
   path: string
   isNotClickable?: boolean
   isLoading?: boolean

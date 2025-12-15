@@ -1,7 +1,7 @@
 import { scan } from "react-scan"
 scan({ enabled: import.meta.env.DEV })
 
-import React, { useEffect } from "react"
+import { useEffect, StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 
 import { listen } from "@tauri-apps/api/event"
@@ -98,7 +98,7 @@ const Main = () => {
 }
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <StrictMode>
     <Main />
-  </React.StrictMode>
+  </StrictMode>
 )
