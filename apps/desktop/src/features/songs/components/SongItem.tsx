@@ -36,6 +36,7 @@ type ColumnKey = "checkbox" | "title" | "album" | "date" | "duration"
 
 type SongItemProps = {
   song: SongWithMainRelations
+  index?: number
   variant?: "list" | "card" | "hero"
   selected?: boolean
   allSongIds?: number[]
@@ -51,6 +52,7 @@ type SongItemProps = {
 const SongItem = memo(
   ({
     song,
+    index = 0,
     allSongIds,
     variant = "list",
     selected = false,
@@ -270,7 +272,7 @@ const SongItem = memo(
       const cols: string[] = []
 
       if (showCheckboxColumn) cols.push("24px")
-      cols.push("40px")
+      cols.push("60px")
       if (showTitleColumn) cols.push("1fr")
       if (showAlbumColumn) cols.push("1fr")
       if (showDateColumn) cols.push("0.5fr")
@@ -300,6 +302,15 @@ const SongItem = memo(
             </div>
           )}
           <div className="relative flex items-center justify-center">
+            <Typography
+              className={cn(
+                "absolute z-10 max-w-16 truncate transition-opacity group-focus-within:opacity-0 group-hover:opacity-0",
+                isCurrentlyPlaying && "opacity-0"
+              )}
+              affects={["small", "muted"]}
+            >
+              {index + 1}
+            </Typography>
             <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <IconButton
                 name={isCurrentlyPlaying ? "Pause" : "Play"}

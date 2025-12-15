@@ -205,6 +205,7 @@ const YourStats = ({ stats }: YourStatsProps) => {
                   {item.type === "song" && (
                     <SongItem
                       song={item.data}
+                      index={index}
                       variant="hero"
                       heroLabel={t("home.yourStats.topSong")}
                     />

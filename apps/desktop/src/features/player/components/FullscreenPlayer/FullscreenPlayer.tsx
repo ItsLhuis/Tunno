@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { type CSSProperties, useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -7,7 +7,7 @@ import { usePaletteCssVariables } from "@hooks/usePaletteCssVariables"
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
-import { createGradient } from "@utils/colors"
+import { createGradient } from "../../utils/colors"
 
 import { Fade, IconButton } from "@components/ui"
 
@@ -67,7 +67,7 @@ const FullscreenPlayer = () => {
   return (
     <div
       className="relative h-screen w-screen overflow-hidden"
-      style={cssVariables as React.CSSProperties}
+      style={cssVariables as CSSProperties}
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}
     >

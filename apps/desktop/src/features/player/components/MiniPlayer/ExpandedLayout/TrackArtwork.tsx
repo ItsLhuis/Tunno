@@ -37,13 +37,7 @@ const TrackArtwork = () => {
         }}
       >
         {imageSrc && (
-          <img
-            ref={imageRef}
-            src={imageSrc}
-            alt=""
-            style={{ display: "none" }}
-            crossOrigin="anonymous"
-          />
+          <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
         )}
         <div className="aspect-square h-full w-fit p-6">
           <Thumbnail

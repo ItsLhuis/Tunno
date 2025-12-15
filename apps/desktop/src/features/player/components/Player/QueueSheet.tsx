@@ -204,7 +204,7 @@ const QueueSheet = () => {
           <AsyncState data={queueListItems} isLoading={isLoading} className="h-full">
             {(items) => (
               <div className="flex flex-col gap-2 p-6">
-                {items.map((item) => {
+                {items.map((item, index) => {
                   if (item.type === "section") {
                     return (
                       <Typography key={item.id} affects={["small", "muted"]} className="mt-2">
@@ -216,6 +216,7 @@ const QueueSheet = () => {
                     <SongItem
                       key={`${item.song.id}-${item.originalIndex}`}
                       song={item.song}
+                      index={index}
                       variant="list"
                       allSongIds={queueIds}
                       visibleColumns={["title"]}

@@ -1,4 +1,4 @@
-import { type ReactNode, useCallback } from "react"
+import { type ChangeEvent, type ReactNode, useCallback } from "react"
 
 import { useShallow } from "zustand/shallow"
 
@@ -22,7 +22,7 @@ const AlbumsListSearch = ({ renderRight, className }: AlbumsListSearchProps) => 
   )
 
   const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value)
     },
     [setSearchTerm]

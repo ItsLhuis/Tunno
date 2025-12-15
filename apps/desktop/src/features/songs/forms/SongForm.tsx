@@ -281,6 +281,7 @@ const SongForm = ({
                             className="flex-1"
                             placeholder={t("form.labels.name")}
                             {...field}
+                            disabled={renderProps.isSubmitting}
                           />
                           {mode === "insert" && (
                             <IconButton
@@ -334,6 +335,7 @@ const SongForm = ({
                           onError={(msg) => form.setError(field.name, { message: msg })}
                           accept={VALID_SONG_FILE_EXTENSIONS}
                           storageDir="songs"
+                          disabled={renderProps.isSubmitting}
                         />
                         <FormMessage />
                       </FormItem>
@@ -358,6 +360,7 @@ const SongForm = ({
                             ? `${song.name} - ${t("form.labels.thumbnail")}`
                             : undefined
                         }
+                        disabled={renderProps.isSubmitting}
                       />
                       <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
                       <FormMessage />
@@ -379,6 +382,7 @@ const SongForm = ({
                         min={1900}
                         max={new Date().getFullYear()}
                         step={1}
+                        disabled={renderProps.isSubmitting}
                       />
                     </FormControl>
                     <FormMessage />
@@ -433,6 +437,7 @@ const SongForm = ({
                             })
                           }
                         }}
+                        disabled={renderProps.isSubmitting}
                       />
                     </FormControl>
                     <FormMessage />
@@ -457,6 +462,7 @@ const SongForm = ({
                             onValueChange={(value) => field.onChange(value ? Number(value) : null)}
                             minWidth={300}
                             maxHeight={200}
+                            disabled={renderProps.isSubmitting}
                           />
                         </FormControl>
                         <FormMessage />
@@ -478,6 +484,7 @@ const SongForm = ({
                           onChange={field.onChange}
                           placeholder={t("form.labels.lyrics")}
                           className="min-h-[200px]"
+                          disabled={renderProps.isSubmitting}
                         />
                       </FormControl>
                       <FormMessage />

@@ -122,9 +122,10 @@ const PlaylistInfo = () => {
               gap={8}
               scrollRef={scrollRef}
               onController={setListController}
-              renderItem={({ item, selected, toggle }) => (
+              renderItem={({ item, index, selected, toggle }) => (
                 <SongItem
                   song={item}
+                  index={index}
                   allSongIds={allSongIds}
                   playlistId={playlist?.id}
                   selected={selected}

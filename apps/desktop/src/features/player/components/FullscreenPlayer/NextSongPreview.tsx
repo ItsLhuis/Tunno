@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { type CSSProperties, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -109,13 +109,12 @@ const NextSongPreview = () => {
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="bg-background absolute right-[2vh] bottom-[2vh] z-10 flex max-w-[25vw] items-center gap-[1vh] rounded p-[1.5vh] shadow-lg backdrop-blur-md"
-          style={cssVariables as React.CSSProperties}
+          style={cssVariables as CSSProperties}
         >
           {imageSrc && (
             <img
               ref={imageRef}
               src={imageSrc}
-              alt=""
               style={{ display: "none" }}
               crossOrigin="anonymous"
             />

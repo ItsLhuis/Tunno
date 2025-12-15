@@ -84,7 +84,7 @@ const SongInfo = () => {
           ListHeaderComponent={ListHeader}
           className="space-y-6"
         >
-          <SongItem song={data} allSongIds={[data.id]} />
+          <SongItem song={data} index={0} allSongIds={[data.id]} />
           {data.album && (
             <section className="-mx-2 flex w-full flex-col gap-3">
               <Typography variant="h3" className="mx-2">

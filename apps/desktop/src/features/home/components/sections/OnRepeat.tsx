@@ -25,11 +25,16 @@ const OnRepeat = ({ onRepeat }: OnRepeatProps) => {
       </div>
       {onRepeat.songs.length > 0 && (
         <div className="flex flex-col gap-3">
-          <SongItem song={onRepeat.songs[0]} variant="hero" />
+          <SongItem song={onRepeat.songs[0]} index={0} variant="hero" />
           {onRepeat.songs.length > 1 && (
             <div className="flex flex-col gap-1">
               {onRepeat.songs.slice(1).map((song, index) => (
-                <SongItem key={`${song.id}-${index}`} song={song} visibleColumns={["title"]} />
+                <SongItem
+                  key={`${song.id}-${index}`}
+                  song={song}
+                  index={index}
+                  visibleColumns={["title"]}
+                />
               ))}
             </div>
           )}

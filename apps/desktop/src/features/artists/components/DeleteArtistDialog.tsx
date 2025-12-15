@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -20,7 +20,7 @@ import { type Artist } from "@repo/api"
 
 type DeleteArtistDialogProps = {
   artist: Artist
-  trigger?: React.ReactNode
+  trigger?: ReactNode
   open?: boolean
   onOpen?: (open: boolean) => void
 }

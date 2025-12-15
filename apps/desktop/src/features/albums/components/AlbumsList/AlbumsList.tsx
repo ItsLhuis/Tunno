@@ -127,7 +127,7 @@ const AlbumsList = () => {
 
   return (
     <VirtualizedListWithHeaders
-      className={cn("p-9 pt-0", viewMode === "grid" && "-m-2")}
+      className={cn(viewMode === "grid" && "-m-2")}
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
       ListHeaderComponent={ListHeader}
@@ -139,9 +139,10 @@ const AlbumsList = () => {
       gap={8}
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}
-      renderItem={({ item, selected, toggle }) => (
+      renderItem={({ item, index, selected, toggle }) => (
         <AlbumItem
           album={item}
+          index={index}
           variant={viewMode === "grid" ? "card" : "list"}
           selected={viewMode === "list" ? selected : false}
           onToggle={viewMode === "list" ? toggle : undefined}

@@ -6,6 +6,11 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useToggleAlbumFavorite } from "../../hooks/useToggleAlbumFavorite"
 
+import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
+import { useImageSrc } from "@hooks/useImageSrc"
+
+import { cn } from "@lib/utils"
+
 import { formatDuration } from "@repo/utils"
 
 import { AlbumActions } from "../AlbumActions"
@@ -19,6 +24,8 @@ import {
   Typography,
   type VirtualizedListController
 } from "@components/ui"
+
+import { AnimatePresence, motion } from "motion/react"
 
 import type { AlbumWithAllRelations, SongWithMainRelations } from "@repo/api"
 
@@ -51,31 +58,65 @@ const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
 
   const hasSelectedRows = list?.hasSelection ?? false
 
+  const imageSrc = useImageSrc({ thumbnail: album?.thumbnail })
+
+  const { dominantColor, imageRef } = useImageColorAndPalette({ imageSrc })
+
   return (
     <Header className="flex flex-col gap-6">
+      <AnimatePresence>
+        <motion.div
+          key={dominantColor}
+          className="absolute inset-0 h-60"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          style={
+            dominantColor
+              ? {
+                  background: `
+                    linear-gradient(
+                      to bottom,
+                      ${dominantColor.replace("rgb", "rgba").replace(")", ", 1)")} 0%,
+                      ${dominantColor.replace("rgb", "rgba").replace(")", ", 0.85)")} 18%,
+                      ${dominantColor.replace("rgb", "rgba").replace(")", ", 0.6)")} 36%,
+                      ${dominantColor.replace("rgb", "rgba").replace(")", ", 0.35)")} 54%,
+                      ${dominantColor.replace("rgb", "rgba").replace(")", ", 0.18)")} 70%,
+                      ${dominantColor.replace("rgb", "rgba").replace(")", ", 0.08)")} 84%,
+                      transparent 100%
+                    )
+                  `
+                }
+              : undefined
+          }
+        />
+      </AnimatePresence>
       <div className="flex flex-1 items-end gap-6">
-        <div
-          className="shrink-0"
-          style={{
-            width: "clamp(20rem, 20vw, 35rem)",
-            height: "clamp(20rem, 20vw, 35rem)"
-          }}
-        >
+        <div className="aspect-square w-80 shrink-0">
+          {imageSrc && (
+            <img
+              ref={imageRef}
+              src={imageSrc}
+              style={{ display: "none" }}
+              crossOrigin="anonymous"
+            />
+          )}
           <Thumbnail
             placeholderIcon="Disc"
             fileName={album.thumbnail}
             alt={album.name}
-            className={album.thumbnail ? "h-full w-full" : "size-24"}
+            className={cn("h-full w-full object-contain", !album.thumbnail && "p-[25%]")}
             containerClassName="h-full w-full rounded"
           />
         </div>
-        <div className="flex flex-1 flex-col gap-2">
+        <div className="flex flex-1 flex-col gap-2 truncate">
           <Badge variant="muted" className="w-fit">
             {t(`albums.filters.${album.albumType}`)}
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-2 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {album.name}
           </Typography>

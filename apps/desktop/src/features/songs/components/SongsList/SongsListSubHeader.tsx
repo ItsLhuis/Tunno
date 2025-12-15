@@ -4,14 +4,7 @@ import { cn } from "@lib/utils"
 
 import { SongActions } from "../SongActions"
 
-import {
-  Checkbox,
-  Fade,
-  Icon,
-  IconButton,
-  Typography,
-  type VirtualizedListController
-} from "@components/ui"
+import { Checkbox, Fade, Icon, Typography, type VirtualizedListController } from "@components/ui"
 
 import { type SongWithMainRelations } from "@repo/api"
 
@@ -29,7 +22,7 @@ const SongsListSubHeader = ({ list, className }: SongsListSubHeaderProps) => {
     <div
       className={cn(
         className,
-        "grid w-full grid-cols-[24px_40px_1fr_1fr_0.5fr_80px_40px] items-center gap-3 px-2 pb-2 text-sm font-medium"
+        "grid w-full grid-cols-[24px_60px_1fr_1fr_0.5fr_80px_40px] items-center gap-3 px-2 pb-2 text-sm font-medium"
       )}
     >
       <Checkbox
@@ -38,22 +31,16 @@ const SongsListSubHeader = ({ list, className }: SongsListSubHeaderProps) => {
         onCheckedChange={(value) => (value ? list.selectAll() : list.clearSelection())}
       />
       <div className="flex items-center justify-center">
-        <IconButton name="Play" className="invisible" />
+        <Typography affects={["small", "muted", "uppercase"]}>#</Typography>
       </div>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.title")}
-      </Typography>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.album")}
-      </Typography>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.added")}
-      </Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.title")}</Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.album")}</Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.added")}</Typography>
       <div className="flex items-center justify-center">
         <Icon name="Timer" className="text-muted-foreground" />
       </div>
       <div className="flex items-center justify-center">
-        <Fade show={hasSelectedRows}>
+        <Fade show={hasSelectedRows} unmountOnExit={false}>
           <SongActions list={list} />
         </Fade>
       </div>

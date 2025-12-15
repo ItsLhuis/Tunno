@@ -4,13 +4,7 @@ import { cn } from "@lib/utils"
 
 import { PlaylistActions } from "../PlaylistActions"
 
-import {
-  Checkbox,
-  Fade,
-  IconButton,
-  Typography,
-  type VirtualizedListController
-} from "@components/ui"
+import { Checkbox, Fade, Typography, type VirtualizedListController } from "@components/ui"
 
 import { type Playlist } from "@repo/api"
 
@@ -28,7 +22,7 @@ const PlaylistsListSubHeader = ({ list, className }: PlaylistsListSubHeaderProps
     <div
       className={cn(
         className,
-        "grid w-full grid-cols-[24px_40px_1fr_0.5fr_0.5fr_0.5fr_40px] items-center gap-3 px-2 pb-2 text-sm font-medium"
+        "grid w-full grid-cols-[24px_60px_1fr_0.5fr_0.5fr_0.5fr_40px] items-center gap-3 px-2 pb-2 text-sm font-medium"
       )}
     >
       <Checkbox
@@ -37,22 +31,14 @@ const PlaylistsListSubHeader = ({ list, className }: PlaylistsListSubHeaderProps
         onCheckedChange={(value) => (value ? list.selectAll() : list.clearSelection())}
       />
       <div className="flex items-center justify-center">
-        <IconButton name="Play" className="invisible" />
+        <Typography affects={["small", "muted", "uppercase"]}>#</Typography>
       </div>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.title")}
-      </Typography>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.totalPlays")}
-      </Typography>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.lastPlayed")}
-      </Typography>
-      <Typography className="text-sm font-medium text-muted-foreground">
-        {t("common.added")}
-      </Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.title")}</Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.totalPlays")}</Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.lastPlayed")}</Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.added")}</Typography>
       <div className="flex items-center justify-center">
-        <Fade show={hasSelectedRows}>
+        <Fade show={hasSelectedRows} unmountOnExit={false}>
           <PlaylistActions list={list} />
         </Fade>
       </div>

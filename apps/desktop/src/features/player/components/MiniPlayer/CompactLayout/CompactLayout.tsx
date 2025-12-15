@@ -1,4 +1,4 @@
-import { Fragment } from "react"
+import { Fragment, type CSSProperties } from "react"
 
 import { useShallow } from "zustand/shallow"
 
@@ -30,13 +30,7 @@ const CompactLayout = () => {
   return (
     <Fragment>
       {imageSrc && (
-        <img
-          ref={imageRef}
-          src={imageSrc}
-          alt=""
-          style={{ display: "none" }}
-          crossOrigin="anonymous"
-        />
+        <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
       )}
       <motion.div
         className="grid h-full w-full grid-cols-[auto_1fr_auto]"
@@ -47,7 +41,7 @@ const CompactLayout = () => {
           duration: 0.3,
           ease: "easeInOut"
         }}
-        style={cssVariables as React.CSSProperties}
+        style={cssVariables as CSSProperties}
       >
         <Titlebar />
         <div className="ml-3 min-w-0">

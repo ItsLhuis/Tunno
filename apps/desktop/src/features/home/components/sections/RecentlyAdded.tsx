@@ -23,7 +23,7 @@ type RecentlyAddedProps = {
 function renderRecentlyAddedItem(item: RecentlyAddedItem) {
   switch (item.type) {
     case "song":
-      return <SongItem song={item.data} variant="card" />
+      return <SongItem song={item.data} index={0} variant="card" />
     case "album":
       return <AlbumItem album={item.data} variant="card" />
     case "playlist":

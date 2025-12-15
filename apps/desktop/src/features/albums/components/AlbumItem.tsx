@@ -30,6 +30,7 @@ type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
 
 type AlbumItemProps = {
   album: Album
+  index?: number
   variant?: "list" | "card" | "hero"
   selected?: boolean
   onToggle?: () => void
@@ -40,6 +41,7 @@ type AlbumItemProps = {
 const AlbumItem = memo(
   ({
     album,
+    index = 0,
     variant = "card",
     selected = false,
     onToggle,
@@ -201,7 +203,7 @@ const AlbumItem = memo(
       const cols: string[] = []
 
       if (showCheckboxColumn) cols.push("24px")
-      cols.push("40px")
+      cols.push("60px")
       if (showTitleColumn) cols.push("1fr")
       if (showPlayCountColumn) cols.push("0.5fr")
       if (showLastPlayedColumn) cols.push("0.5fr")
@@ -226,6 +228,14 @@ const AlbumItem = memo(
             </div>
           )}
           <div className="relative flex items-center justify-center">
+            <Typography
+              className={cn(
+                "absolute z-10 max-w-16 truncate transition-opacity group-focus-within:opacity-0 group-hover:opacity-0"
+              )}
+              affects={["small", "muted"]}
+            >
+              {index + 1}
+            </Typography>
             <div className="z-10 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
               <IconButton
                 name="Play"
