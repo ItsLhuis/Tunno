@@ -1,5 +1,7 @@
 "use client"
 
+import { type ElementType, type ReactNode, useRef, useState } from "react"
+
 import {
   motion,
   Transition,
@@ -8,7 +10,6 @@ import {
   type Variant,
   type Variants
 } from "motion/react"
-import { type ReactNode, useRef, useState } from "react"
 
 export type InViewProps = {
   children: ReactNode
@@ -18,7 +19,7 @@ export type InViewProps = {
   }
   transition?: Transition
   viewOptions?: UseInViewOptions
-  as?: React.ElementType
+  as?: ElementType
   once?: boolean
   direction?: "up" | "down" | "left" | "right"
   offset?: number
@@ -41,6 +42,7 @@ function InView({
   className
 }: InViewProps) {
   const ref = useRef(null)
+
   const isInView = useInView(ref, viewOptions)
 
   const [isViewed, setIsViewed] = useState(false)

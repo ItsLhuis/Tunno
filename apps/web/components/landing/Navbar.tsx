@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, type ElementType } from "react"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -17,7 +17,7 @@ import {
 const navbarConfig: {
   logo: { src: string; alt: string; width: number; height: number }
   links: { href: string; label: string }[]
-  cta: { href: string; label: string; icon: React.ElementType }
+  cta: { href: string; label: string; icon: ElementType }
 } = {
   logo: {
     src: "/tunno/assets/images/app/icon.png",

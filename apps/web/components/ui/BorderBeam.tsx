@@ -1,5 +1,7 @@
 "use client"
 
+import { type CSSProperties } from "react"
+
 import { cn } from "@lib/utils"
 
 import { motion, type MotionStyle, type Transition } from "motion/react"
@@ -12,7 +14,7 @@ type BorderBeamProps = {
   colorTo?: string
   transition?: Transition
   className?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
   reverse?: boolean
   initialOffset?: number
 }
