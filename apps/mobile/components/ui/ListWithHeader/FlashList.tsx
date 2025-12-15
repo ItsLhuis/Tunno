@@ -1,4 +1,4 @@
-import { useImperativeHandle, type ComponentClass, type ComponentProps } from "react"
+import { useImperativeHandle, type ComponentClass, type ComponentProps, type Ref } from "react"
 
 import { View } from "react-native"
 
@@ -25,7 +25,7 @@ const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as unknown
 >
 
 export type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, "onScroll"> & {
-  ref?: React.Ref<FlashListRef<ItemT>>
+  ref?: Ref<FlashListRef<ItemT>>
 }
 
 const FlashListWithHeaders = <ItemT extends any = any>({

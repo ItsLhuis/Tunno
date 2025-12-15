@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode } from "react"
+import { type ComponentProps, type ReactNode, type Ref } from "react"
 
 import { type StyleProp, type ViewStyle } from "react-native"
 
@@ -15,7 +15,7 @@ export type FadingViewProps = {
   opacity: DerivedValue<0 | 1> | DerivedValue<number> | SharedValue<number>
   opacityThresholdToEnablePointerEvents?: number
   children?: ReactNode
-  ref?: React.Ref<Animated.View>
+  ref?: Ref<Animated.View>
 } & ComponentProps<typeof Animated.View>
 
 const FadingView = ({

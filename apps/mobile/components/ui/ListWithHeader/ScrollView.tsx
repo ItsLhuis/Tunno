@@ -1,4 +1,4 @@
-import { useImperativeHandle, type ComponentProps, type ReactNode } from "react"
+import { useImperativeHandle, type ComponentProps, type ReactNode, type Ref } from "react"
 
 import { createStyleSheet, useStyles } from "@styles"
 
@@ -22,7 +22,7 @@ type ScrollViewWithHeadersProps = Omit<
   AnimatedScrollViewProps & SharedScrollContainerProps,
   "onScroll"
 > & {
-  ref?: React.Ref<Animated.ScrollView>
+  ref?: Ref<Animated.ScrollView>
 }
 
 const ScrollViewWithHeaders = ({

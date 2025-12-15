@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useState, type ReactNode } from "react"
 
 import { type StyleProp, type ViewStyle } from "react-native"
 
@@ -9,7 +9,7 @@ import { Fade, type FadeDirection } from "@components/ui/Fade"
 import { Easing } from "react-native-reanimated"
 
 export type FadingScreenProps = {
-  children: React.ReactNode
+  children: ReactNode
   duration?: number
   direction?: FadeDirection
   offset?: number

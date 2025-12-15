@@ -6,7 +6,8 @@ import {
   useMemo,
   useRef,
   useState,
-  type ReactNode
+  type ReactNode,
+  type RefObject
 } from "react"
 
 import { createStyleSheet, useStyles } from "@styles"
@@ -22,7 +23,7 @@ import { Text, type TextProps } from "@components/ui/Text"
 type DialogContextValue = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  sheetRef: React.RefObject<BottomSheetModal | null>
+  sheetRef: RefObject<BottomSheetModal | null>
 }
 
 const DialogContext = createContext<DialogContextValue | undefined>(undefined)

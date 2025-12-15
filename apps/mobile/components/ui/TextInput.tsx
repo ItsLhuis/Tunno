@@ -1,3 +1,5 @@
+import { type Ref } from "react"
+
 import {
   type BlurEvent,
   ColorValue,
@@ -35,7 +37,7 @@ export type TextInputProps = Omit<
     disableBorderAnimation?: boolean
     placeholderTextColor?: ColorKey | undefined
     selectionColor?: ColorKey | undefined
-    ref?: React.Ref<RNTextInput>
+    ref?: Ref<RNTextInput>
   }
 
 const TextInput = ({
