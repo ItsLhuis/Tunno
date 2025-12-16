@@ -56,7 +56,7 @@ const SearchInput = ({
           onBlur={handleBlur}
           placeholder={placeholder ?? t("common.search")}
           {...props}
-          className="selection:bg-primary selection:text-primary-foreground h-9 w-full min-w-0 border-none bg-transparent text-base transition-opacity outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+          className="selection:bg-primary selection:text-primary-foreground h-9 w-full min-w-0 border-none bg-transparent text-base transition-opacity outline-none disabled:pointer-events-none disabled:opacity-50 md:text-sm"
           autoComplete="off"
         />
         <div className="shrink-0">{renderRight}</div>

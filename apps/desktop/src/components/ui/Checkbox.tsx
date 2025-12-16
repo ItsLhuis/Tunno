@@ -13,7 +13,7 @@ const Checkbox = ({ className, ...props }: ComponentProps<typeof CheckboxPrimiti
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer border-foreground/30 focus-visible:bg-accent data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground bg-sidebar/75 data-[state=checked]:border-primary focus-visible:border-primary aria-invalid:border-destructive flex h-4 w-4 shrink-0 cursor-default items-center justify-center rounded-sm border transition-colors outline-none focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+        "peer border-foreground/30 focus-visible:bg-accent data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground bg-sidebar/75 data-[state=checked]:border-primary focus-visible:border-primary aria-invalid:border-destructive flex h-4 w-4 shrink-0 cursor-default items-center justify-center rounded-sm border transition-colors outline-none focus-visible:outline-hidden disabled:opacity-50",
         className
       )}
       {...props}

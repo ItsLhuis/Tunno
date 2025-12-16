@@ -90,7 +90,7 @@ const ChoiceboxItemContent = ({ className, ...props }: CardContentProps) => (
   <CardContent
     data-slot="choicebox-item-content"
     className={cn(
-      "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border p-0 outline-hidden transition-colors focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+      "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border p-0 outline-hidden transition-colors focus-visible:ring-[3px] disabled:opacity-50",
       className
     )}
     {...props}
