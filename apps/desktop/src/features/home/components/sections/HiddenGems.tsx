@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { SongItem } from "@features/songs/components"
+import { SongItemCard } from "@features/songs/components"
 
 import { type HiddenGems } from "@repo/api"
 
@@ -30,15 +30,8 @@ const HiddenGems = ({ hiddenGems }: HiddenGemsProps) => {
         <Typography variant="h1">{t("home.hiddenGems.title", "Hidden Gems")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.hiddenGems.description")}</Typography>
       </div>
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-11"
-      >
-        <CarouselContent containerClassName="px-9">
+      <Carousel className="-mx-2">
+        <CarouselContent>
           {hiddenGems.songs.map((song, index) => (
             <CarouselItem
               key={`${song.id}-${index}`}
@@ -47,7 +40,7 @@ const HiddenGems = ({ hiddenGems }: HiddenGemsProps) => {
                 width: "clamp(11rem, 11vw, 18rem)"
               }}
             >
-              <SongItem song={song} variant="card" />
+              <SongItemCard song={song} />
             </CarouselItem>
           ))}
         </CarouselContent>

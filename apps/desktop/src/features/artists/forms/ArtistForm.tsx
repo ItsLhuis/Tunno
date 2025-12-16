@@ -237,6 +237,7 @@ const ArtistForm = ({
                             className="flex-1"
                             placeholder={t("form.labels.name")}
                             {...field}
+                            disabled={renderProps.isSubmitting}
                           />
                           {mode === "insert" && (
                             <IconButton
@@ -280,6 +281,7 @@ const ArtistForm = ({
                             ? `${artist.name} - ${t("form.labels.thumbnail")}`
                             : undefined
                         }
+                        disabled={renderProps.isSubmitting}
                       />
                       <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
                       <FormMessage />

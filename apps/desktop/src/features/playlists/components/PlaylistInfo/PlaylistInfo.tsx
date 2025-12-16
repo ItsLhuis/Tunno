@@ -17,7 +17,7 @@ import {
   type VirtualizedListController
 } from "@components/ui"
 
-import { SongItem } from "@features/songs/components"
+import { SongItemList } from "@features/songs/components"
 
 import { PlaylistInfoHeader } from "./PlaylistInfoHeader"
 import { PlaylistInfoStats } from "./PlaylistInfoStats"
@@ -123,7 +123,7 @@ const PlaylistInfo = () => {
               scrollRef={scrollRef}
               onController={setListController}
               renderItem={({ item, index, selected, toggle }) => (
-                <SongItem
+                <SongItemList
                   song={item}
                   index={index}
                   allSongIds={allSongIds}

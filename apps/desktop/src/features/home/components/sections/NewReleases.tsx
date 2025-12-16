@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { AlbumItem } from "@features/albums/components"
+import { AlbumItemCard, AlbumItemHero } from "@features/albums/components"
 
 import { type NewReleases } from "@repo/api"
 
@@ -31,17 +31,10 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
         <Typography affects={["muted", "small"]}>{t("home.newReleases.description")}</Typography>
       </div>
       {newReleases.albums.slice(0, 1).map((album, index) => (
-        <AlbumItem key={`${album.id}-${index}`} album={album} variant="hero" />
+        <AlbumItemHero key={`${album.id}-${index}`} album={album} />
       ))}
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-11"
-      >
-        <CarouselContent containerClassName="px-9">
+      <Carousel className="-mx-2">
+        <CarouselContent>
           {newReleases.albums.slice(1).map((album, index) => (
             <CarouselItem
               key={`${album.id}-${index}`}
@@ -50,7 +43,7 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
                 width: "clamp(11rem, 11vw, 18rem)"
               }}
             >
-              <AlbumItem album={album} variant="card" />
+              <AlbumItemCard album={album} />
             </CarouselItem>
           ))}
         </CarouselContent>

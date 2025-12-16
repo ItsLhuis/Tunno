@@ -19,10 +19,10 @@ import {
   Typography
 } from "@components/ui"
 
-import { AlbumItem } from "@features/albums/components/AlbumItem"
-import { ArtistItem } from "@features/artists/components/ArtistItem"
-import { PlaylistItem } from "@features/playlists/components/PlaylistItem"
-import { SongItem } from "@features/songs/components/SongItem"
+import { AlbumItemHero } from "@features/albums/components/AlbumItem"
+import { ArtistItemHero } from "@features/artists/components/ArtistItem"
+import { PlaylistItemHero } from "@features/playlists/components/PlaylistItem"
+import { SongItemHero } from "@features/songs/components/SongItem"
 
 import { type UserStats } from "@repo/api"
 
@@ -189,45 +189,25 @@ const YourStats = ({ stats }: YourStatsProps) => {
         </Card>
       </div>
       {hasTopItems && (
-        <Carousel
-          opts={{
-            loop: true,
-            align: "start"
-          }}
-          className="-mx-11"
-        >
-          <CarouselContent containerClassName="px-11">
+        <Carousel>
+          <CarouselContent>
             {topItems.map((item, index) => {
               if (!item) return null
 
               return (
                 <CarouselItem key={index} className="basis-full">
                   {item.type === "song" && (
-                    <SongItem
-                      song={item.data}
-                      index={index}
-                      variant="hero"
-                      heroLabel={t("home.yourStats.topSong")}
-                    />
+                    <SongItemHero song={item.data} heroLabel={t("home.yourStats.topSong")} />
                   )}
                   {item.type === "album" && (
-                    <AlbumItem
-                      album={item.data}
-                      variant="hero"
-                      heroLabel={t("home.yourStats.topAlbum")}
-                    />
+                    <AlbumItemHero album={item.data} heroLabel={t("home.yourStats.topAlbum")} />
                   )}
                   {item.type === "artist" && (
-                    <ArtistItem
-                      artist={item.data}
-                      variant="hero"
-                      heroLabel={t("home.yourStats.topArtist")}
-                    />
+                    <ArtistItemHero artist={item.data} heroLabel={t("home.yourStats.topArtist")} />
                   )}
                   {item.type === "playlist" && (
-                    <PlaylistItem
+                    <PlaylistItemHero
                       playlist={item.data}
-                      variant="hero"
                       heroLabel={t("home.yourStats.topPlaylist")}
                     />
                   )}

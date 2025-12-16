@@ -21,7 +21,7 @@ import {
   VirtualizedListWithHeaders
 } from "@components/ui"
 
-import { AlbumItem } from "../AlbumItem"
+import { AlbumItemCard, AlbumItemList } from "../AlbumItem"
 import { AlbumsListFilters } from "./AlbumsListFilters"
 import { AlbumsListHeader } from "./AlbumsListHeader"
 import { AlbumsListSearch } from "./AlbumsListSearch"
@@ -139,15 +139,13 @@ const AlbumsList = () => {
       gap={8}
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}
-      renderItem={({ item, index, selected, toggle }) => (
-        <AlbumItem
-          album={item}
-          index={index}
-          variant={viewMode === "grid" ? "card" : "list"}
-          selected={viewMode === "list" ? selected : false}
-          onToggle={viewMode === "list" ? toggle : undefined}
-        />
-      )}
+      renderItem={({ item, index, selected, toggle }) =>
+        viewMode === "grid" ? (
+          <AlbumItemCard album={item} />
+        ) : (
+          <AlbumItemList album={item} index={index} selected={selected} onToggle={toggle} />
+        )
+      }
       layout={viewMode}
       gridBreakpoints={{
         xs: 3,

@@ -21,11 +21,11 @@ import {
   Typography
 } from "@components/ui"
 
-import { AlbumItem } from "@features/albums/components/AlbumItem"
-import { ArtistItem } from "@features/artists/components/ArtistItem"
-import { PlaylistItem } from "@features/playlists/components/PlaylistItem"
+import { AlbumItemCard } from "@features/albums/components/AlbumItem"
+import { ArtistItemCard } from "@features/artists/components/ArtistItem"
+import { PlaylistItemCard } from "@features/playlists/components/PlaylistItem"
 
-import { SongItem } from "../SongItem"
+import { SongItemList } from "../SongItem"
 import { SongInfoHeader } from "./SongInfoHeader"
 import { SongInfoStats } from "./SongInfoStats"
 import { SongInfoStickyHeader } from "./SongInfoStickyHeader"
@@ -84,7 +84,7 @@ const SongInfo = () => {
           ListHeaderComponent={ListHeader}
           className="space-y-6"
         >
-          <SongItem song={data} index={0} allSongIds={[data.id]} />
+          <SongItemList song={data} index={0} allSongIds={[data.id]} />
           {data.album && (
             <section className="-mx-2 flex w-full flex-col gap-3">
               <Typography variant="h3" className="mx-2">
@@ -95,21 +95,14 @@ const SongInfo = () => {
                   width: "clamp(11rem, 11vw, 18rem)"
                 }}
               >
-                <AlbumItem album={data.album} variant="card" />
+                <AlbumItemCard album={data.album} />
               </div>
             </section>
           )}
           {data.artists.length > 0 && (
             <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("artists.title")}</Typography>
-              <Carousel
-                opts={{
-                  align: "start",
-                  dragFree: true,
-                  skipSnaps: true
-                }}
-                className="-mx-11"
-              >
+              <Carousel className="-mx-11">
                 <CarouselContent containerClassName="px-9">
                   {data.artists.map((artist, index) => (
                     <CarouselItem
@@ -119,7 +112,7 @@ const SongInfo = () => {
                         width: "clamp(11rem, 11vw, 18rem)"
                       }}
                     >
-                      <ArtistItem artist={artist.artist} variant="card" />
+                      <ArtistItemCard artist={artist.artist} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -131,14 +124,7 @@ const SongInfo = () => {
           {data.playlists.length > 0 && (
             <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("common.appearsIn")}</Typography>
-              <Carousel
-                opts={{
-                  align: "start",
-                  dragFree: true,
-                  skipSnaps: true
-                }}
-                className="-mx-11"
-              >
+              <Carousel className="-mx-11">
                 <CarouselContent containerClassName="px-9">
                   {data.playlists.map((playlist, index) => (
                     <CarouselItem
@@ -148,7 +134,7 @@ const SongInfo = () => {
                         width: "clamp(11rem, 11vw, 18rem)"
                       }}
                     >
-                      <PlaylistItem playlist={playlist.playlist} variant="card" />
+                      <PlaylistItemCard playlist={playlist.playlist} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>

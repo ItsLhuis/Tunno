@@ -4,38 +4,39 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
+  useRef,
   useState,
-  type KeyboardEvent
+  type KeyboardEvent,
+  type RefObject
 } from "react"
 
 import { cn } from "@lib/utils"
-
-import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Fade } from "@components/ui/Fade"
 import { Icon } from "@components/ui/Icon"
 import { ScopedTheme } from "./ScopedTheme"
 
-type CarouselApi = UseEmblaCarouselType[1]
-type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
-type CarouselOptions = UseCarouselParameters[0]
-type CarouselPlugin = UseCarouselParameters[1]
+type CarouselApi = {
+  scrollTo: (index: number, smooth?: boolean) => void
+  canScrollPrev: () => boolean
+  canScrollNext: () => boolean
+}
 
 type CarouselProps = {
-  opts?: CarouselOptions
-  plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
 }
 
 type CarouselContextProps = {
-  carouselRef: ReturnType<typeof useEmblaCarousel>[0]
-  api: ReturnType<typeof useEmblaCarousel>[1]
+  scrollContainerRef: RefObject<HTMLDivElement | null>
   scrollPrev: () => void
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
+  registerItem: (id: string, element: HTMLDivElement) => void
+  unregisterItem: (id: string) => void
 } & CarouselProps
 
 const CarouselContext = createContext<CarouselContextProps | null>(null)
@@ -52,86 +53,162 @@ function useCarousel() {
 
 const Carousel = ({
   orientation = "horizontal",
-  opts,
   setApi,
-  plugins,
   className,
   children,
   ...props
 }: ComponentProps<"div"> & CarouselProps) => {
-  const [carouselRef, api] = useEmblaCarousel(
-    {
-      ...opts,
-      axis: orientation === "horizontal" ? "x" : "y"
-    },
-    plugins
-  )
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(false)
 
-  const onSelect = useCallback((api: CarouselApi) => {
-    if (!api) {
-      return
-    }
+  const itemsRef = useRef<Map<string, HTMLDivElement>>(new Map())
 
-    setCanScrollPrev(api.canScrollPrev())
-    setCanScrollNext(api.canScrollNext())
-  }, [])
+  const updateScrollState = useCallback(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    if (orientation === "horizontal") {
+      const { scrollLeft, scrollWidth, clientWidth } = container
+      setCanScrollPrev(scrollLeft > 1)
+      setCanScrollNext(scrollLeft < scrollWidth - clientWidth - 1)
+    } else {
+      const { scrollTop, scrollHeight, clientHeight } = container
+      setCanScrollPrev(scrollTop > 1)
+      setCanScrollNext(scrollTop < scrollHeight - clientHeight - 1)
+    }
+  }, [orientation])
+
+  const getItemPositions = useCallback(() => {
+    const container = scrollContainerRef.current
+    if (!container) return []
+
+    const items = Array.from(itemsRef.current.values())
+    return items
+      .map((item) => ({
+        element: item,
+        offset: orientation === "horizontal" ? item.offsetLeft : item.offsetTop,
+        size: orientation === "horizontal" ? item.offsetWidth : item.offsetHeight
+      }))
+      .sort((a, b) => a.offset - b.offset)
+  }, [orientation])
 
   const scrollPrev = useCallback(() => {
-    api?.scrollPrev()
-  }, [api])
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const positions = getItemPositions()
+    if (positions.length === 0) return
+
+    const currentScroll = orientation === "horizontal" ? container.scrollLeft : container.scrollTop
+    const targetItem = [...positions].reverse().find((item) => item.offset < currentScroll - 5)
+
+    if (targetItem) {
+      container.scrollTo({
+        [orientation === "horizontal" ? "left" : "top"]: targetItem.offset,
+        behavior: "smooth"
+      })
+    }
+  }, [getItemPositions, orientation])
 
   const scrollNext = useCallback(() => {
-    api?.scrollNext()
-  }, [api])
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const positions = getItemPositions()
+    if (positions.length === 0) return
+
+    const currentScroll = orientation === "horizontal" ? container.scrollLeft : container.scrollTop
+    const targetItem = positions.find((item) => item.offset > currentScroll + 5)
+
+    if (targetItem) {
+      container.scrollTo({
+        [orientation === "horizontal" ? "left" : "top"]: targetItem.offset,
+        behavior: "smooth"
+      })
+    }
+  }, [getItemPositions, orientation])
+
+  const registerItem = useCallback(
+    (id: string, element: HTMLDivElement) => {
+      itemsRef.current.set(id, element)
+      updateScrollState()
+    },
+    [updateScrollState]
+  )
+
+  const unregisterItem = useCallback(
+    (id: string) => {
+      itemsRef.current.delete(id)
+      updateScrollState()
+    },
+    [updateScrollState]
+  )
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === "ArrowLeft") {
+      if (event.key === "ArrowLeft" || (orientation === "vertical" && event.key === "ArrowUp")) {
         event.preventDefault()
         scrollPrev()
-      } else if (event.key === "ArrowRight") {
+      } else if (
+        event.key === "ArrowRight" ||
+        (orientation === "vertical" && event.key === "ArrowDown")
+      ) {
         event.preventDefault()
         scrollNext()
       }
     },
-    [scrollPrev, scrollNext]
+    [scrollPrev, scrollNext, orientation]
   )
 
   useEffect(() => {
-    if (!api || !setApi) {
-      return
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    updateScrollState()
+    const resizeObserver = new ResizeObserver(updateScrollState)
+    resizeObserver.observe(container)
+
+    container.addEventListener("scroll", updateScrollState)
+
+    return () => {
+      resizeObserver.disconnect()
+      container.removeEventListener("scroll", updateScrollState)
+    }
+  }, [updateScrollState])
+
+  useEffect(() => {
+    if (!setApi) return
+
+    const api: CarouselApi = {
+      scrollTo: (index: number, smooth = true) => {
+        const positions = getItemPositions()
+        if (positions[index]) {
+          scrollContainerRef.current?.scrollTo({
+            [orientation === "horizontal" ? "left" : "top"]: positions[index].offset,
+            behavior: smooth ? "smooth" : "auto"
+          })
+        }
+      },
+      canScrollPrev: () => canScrollPrev,
+      canScrollNext: () => canScrollNext
     }
 
     setApi(api)
-  }, [api, setApi])
-
-  useEffect(() => {
-    if (!api) {
-      return
-    }
-
-    onSelect(api)
-    api.on("reInit", onSelect)
-    api.on("select", onSelect)
-
-    return () => {
-      api?.off("select", onSelect)
-    }
-  }, [api, onSelect])
+  }, [setApi, getItemPositions, orientation, canScrollPrev, canScrollNext])
 
   return (
     <CarouselContext.Provider
       value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+        scrollContainerRef,
+        orientation,
         scrollPrev,
         scrollNext,
         canScrollPrev,
-        canScrollNext
+        canScrollNext,
+        registerItem,
+        unregisterItem
       }}
     >
       <div
@@ -148,17 +225,58 @@ const Carousel = ({
   )
 }
 
+type CarouselContentProps = ComponentProps<"div"> & {
+  containerClassName?: string
+  fadeSize?: string
+  showFade?: boolean
+}
+
 const CarouselContent = ({
   className,
   containerClassName,
+  fadeSize = "3rem",
+  showFade = true,
   ...props
-}: ComponentProps<"div"> & { containerClassName?: string }) => {
-  const { carouselRef, orientation } = useCarousel()
+}: CarouselContentProps) => {
+  const { scrollContainerRef, orientation, canScrollPrev, canScrollNext } = useCarousel()
+
+  const getMaskImage = () => {
+    if (!showFade) return "none"
+
+    const isHorizontal = orientation === "horizontal"
+    const direction = isHorizontal ? "to right" : "to bottom"
+
+    if (canScrollPrev && canScrollNext) {
+      return `linear-gradient(${direction}, transparent 0, #000 ${fadeSize}, #000 calc(100% - ${fadeSize}), transparent 100%)`
+    } else if (canScrollPrev) {
+      return `linear-gradient(${direction}, transparent 0, #000 ${fadeSize}, #000 100%)`
+    } else if (canScrollNext) {
+      return `linear-gradient(${direction}, #000 0, #000 calc(100% - ${fadeSize}), transparent 100%)`
+    }
+
+    return "none"
+  }
+
+  const maskImage = getMaskImage()
 
   return (
-    <div ref={carouselRef} className={cn(containerClassName, "overflow-hidden")}>
+    <div
+      ref={scrollContainerRef}
+      className={cn(
+        "scrollbar-hide",
+        orientation === "horizontal"
+          ? "overflow-x-auto overflow-y-hidden"
+          : "flex-col overflow-x-hidden overflow-y-auto",
+        containerClassName
+      )}
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+        maskImage
+      }}
+    >
       <div
-        className={cn("flex", orientation === "horizontal" ? "-ml-3" : "-mt-3 flex-col", className)}
+        className={cn("flex", orientation === "horizontal" ? "gap-3" : "flex-col gap-3", className)}
         data-slot="carousel-content"
         {...props}
       />
@@ -167,18 +285,31 @@ const CarouselContent = ({
 }
 
 const CarouselItem = ({ className, ...props }: ComponentProps<"div">) => {
-  const { orientation } = useCarousel()
+  const { registerItem, unregisterItem } = useCarousel()
+
+  const itemRef = useRef<HTMLDivElement>(null)
+
+  const id = useId()
+
+  useEffect(() => {
+    const element = itemRef.current
+
+    if (element) {
+      registerItem(id, element)
+    }
+
+    return () => {
+      unregisterItem(id)
+    }
+  }, [id, registerItem, unregisterItem])
 
   return (
     <div
+      ref={itemRef}
       role="group"
       aria-roledescription="slide"
       data-slot="carousel-item"
-      className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-3" : "pt-3",
-        className
-      )}
+      className={cn("min-w-0 shrink-0 grow-0", className)}
       {...props}
     />
   )
@@ -218,7 +349,6 @@ const CarouselPrevious = ({
           {...props}
         >
           <Icon name="ArrowLeft" />
-          <span className="sr-only">Previous slide</span>
         </Button>
       </ScopedTheme>
     </Fade>
@@ -254,7 +384,6 @@ const CarouselNext = ({ className, variant = "outline", size = "icon", ...props 
           {...props}
         >
           <Icon name="ArrowRight" />
-          <span className="sr-only">Next slide</span>
         </Button>
       </ScopedTheme>
     </Fade>

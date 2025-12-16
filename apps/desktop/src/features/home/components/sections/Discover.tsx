@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { SongItem } from "@features/songs/components"
+import { SongItemCard } from "@features/songs/components"
 
 import { type Discover } from "@repo/api"
 
@@ -30,15 +30,8 @@ const Discover = ({ discover }: DiscoverProps) => {
         <Typography variant="h1">{t("home.discover.title", "Discover")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.discover.description")}</Typography>
       </div>
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-11"
-      >
-        <CarouselContent containerClassName="px-9">
+      <Carousel className="-mx-2">
+        <CarouselContent>
           {discover.songs.map((song, index) => (
             <CarouselItem
               key={`${song.id}-${index}`}
@@ -47,7 +40,7 @@ const Discover = ({ discover }: DiscoverProps) => {
                 width: "clamp(11rem, 11vw, 18rem)"
               }}
             >
-              <SongItem song={song} variant="card" />
+              <SongItemCard song={song} />
             </CarouselItem>
           ))}
         </CarouselContent>

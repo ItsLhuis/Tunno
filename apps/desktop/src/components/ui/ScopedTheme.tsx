@@ -42,8 +42,6 @@ const withScopedTheme = <P extends object>(
     return <Component {...themedProps} />
   }
 
-  ThemedComponent.displayName = `withScopedTheme(${Component.displayName || Component.name})`
-
   return ThemedComponent
 }
 

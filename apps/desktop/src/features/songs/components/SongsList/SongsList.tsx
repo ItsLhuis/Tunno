@@ -23,7 +23,7 @@ import {
   VirtualizedListWithHeaders
 } from "@components/ui"
 
-import { SongItem } from "../SongItem"
+import { SongItemCard, SongItemList } from "../SongItem"
 import { SongsListFilters } from "./SongsListFilters"
 import { SongsListHeader } from "./SongsListHeader"
 import { SongsListSearch } from "./SongsListSearch"
@@ -145,16 +145,19 @@ const SongsList = () => {
       gap={8}
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}
-      renderItem={({ item, index, selected, toggle }) => (
-        <SongItem
-          song={item}
-          index={index}
-          variant={viewMode === "grid" ? "card" : "list"}
-          selected={viewMode === "list" ? selected : false}
-          onToggle={viewMode === "list" ? toggle : undefined}
-          allSongIds={songIds}
-        />
-      )}
+      renderItem={({ item, index, selected, toggle }) =>
+        viewMode === "grid" ? (
+          <SongItemCard song={item} />
+        ) : (
+          <SongItemList
+            song={item}
+            index={index}
+            selected={selected}
+            onToggle={toggle}
+            allSongIds={songIds}
+          />
+        )
+      }
       layout={viewMode}
       gridBreakpoints={{
         xs: 3,

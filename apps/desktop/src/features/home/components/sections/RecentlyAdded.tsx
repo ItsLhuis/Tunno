@@ -9,10 +9,10 @@ import {
   Typography
 } from "@components/ui"
 
-import { AlbumItem } from "@features/albums/components"
-import { ArtistItem } from "@features/artists/components"
-import { PlaylistItem } from "@features/playlists/components"
-import { SongItem } from "@features/songs/components"
+import { AlbumItemCard } from "@features/albums/components"
+import { ArtistItemCard } from "@features/artists/components"
+import { PlaylistItemCard } from "@features/playlists/components"
+import { SongItemCard } from "@features/songs/components"
 
 import { type RecentlyAdded, type RecentlyAddedItem } from "@repo/api"
 
@@ -23,13 +23,13 @@ type RecentlyAddedProps = {
 function renderRecentlyAddedItem(item: RecentlyAddedItem) {
   switch (item.type) {
     case "song":
-      return <SongItem song={item.data} index={0} variant="card" />
+      return <SongItemCard song={item.data} />
     case "album":
-      return <AlbumItem album={item.data} variant="card" />
+      return <AlbumItemCard album={item.data} />
     case "playlist":
-      return <PlaylistItem playlist={item.data} variant="card" />
+      return <PlaylistItemCard playlist={item.data} />
     case "artist":
-      return <ArtistItem artist={item.data} variant="card" />
+      return <ArtistItemCard artist={item.data} />
     default:
       return null
   }
@@ -48,15 +48,8 @@ const RecentlyAdded = ({ recentlyAdded }: RecentlyAddedProps) => {
         <Typography variant="h1">{t("home.recentlyAdded.title", "Recently Added")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.recentlyAdded.description")}</Typography>
       </div>
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-11"
-      >
-        <CarouselContent containerClassName="px-9">
+      <Carousel className="-mx-2">
+        <CarouselContent>
           {recentlyAdded.items.map((item, index) => (
             <CarouselItem
               key={`${item.type}-${item.data.id}-${index}`}

@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { ArtistItem } from "@features/artists/components"
+import { ArtistItemCard, ArtistItemHero } from "@features/artists/components"
 
 import { type FavoriteArtists } from "@repo/api"
 
@@ -35,17 +35,10 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
         </Typography>
       </div>
       {favoriteArtists.artists.slice(0, 1).map((artist, index) => (
-        <ArtistItem key={`${artist.id}-${index}`} artist={artist} variant="hero" />
+        <ArtistItemHero key={`${artist.id}-${index}`} artist={artist} />
       ))}
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-11"
-      >
-        <CarouselContent containerClassName="px-9">
+      <Carousel className="-mx-2">
+        <CarouselContent>
           {favoriteArtists.artists.slice(1).map((artist, index) => (
             <CarouselItem
               key={`${artist.id}-${index}`}
@@ -54,7 +47,7 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
                 width: "clamp(11rem, 11vw, 18rem)"
               }}
             >
-              <ArtistItem artist={artist} />
+              <ArtistItemCard artist={artist} />
             </CarouselItem>
           ))}
         </CarouselContent>

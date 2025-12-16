@@ -32,7 +32,7 @@ import {
   type VirtualizedListController
 } from "@components/ui"
 
-import { PlaylistItem } from "./PlaylistItem"
+import { PlaylistItemSelect } from "./PlaylistItem"
 
 import { type Playlist } from "@repo/api"
 
@@ -166,9 +166,8 @@ const AddToPlaylistForm = ({
                         scrollRef={scrollRef}
                         containerClassName="p-2"
                         renderItem={({ item, selected, toggle }) => (
-                          <PlaylistItem
+                          <PlaylistItemSelect
                             playlist={item}
-                            variant="select"
                             selected={selected}
                             onToggle={toggle}
                           />

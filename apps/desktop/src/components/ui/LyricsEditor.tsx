@@ -29,6 +29,7 @@ export type LyricsEditorProps = {
   onChange?: (data: Lyric[]) => void
   placeholder?: string
   className?: string
+  disabled?: boolean
 }
 
 type LyricLineProps = {
@@ -41,6 +42,7 @@ type LyricLineProps = {
   onTimeChange: (index: number, time: number) => void
   onRemove: (index: number) => void
   canRemove: boolean
+  disabled?: boolean
 }
 
 const LyricLine = memo(
@@ -53,7 +55,8 @@ const LyricLine = memo(
     onTextChange,
     onTimeChange,
     onRemove,
-    canRemove
+    canRemove,
+    disabled
   }: LyricLineProps) => {
     const { t } = useTranslation()
 
@@ -68,26 +71,28 @@ const LyricLine = memo(
           format={formatTime}
           parse={parseTime}
           className="w-auto max-w-[40%]"
+          disabled={disabled}
         />
         <TextInput
           placeholder={placeholder}
           value={line.text}
           onChange={(event) => onTextChange(index, event.target.value)}
           className="flex-1"
+          disabled={disabled}
         />
         <IconButton
           tooltip={t("common.clear")}
           name="X"
           variant="ghost"
           onClick={() => onRemove(index)}
-          disabled={!canRemove}
+          disabled={!canRemove || disabled}
         />
       </div>
     )
   }
 )
 
-const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorProps) => {
+const LyricsEditor = ({ value, onChange, placeholder, className, disabled }: LyricsEditorProps) => {
   const { t } = useTranslation()
 
   const [syncedLines, setSyncedLines] = useState<Lyric[]>(() => (Array.isArray(value) ? value : []))
@@ -181,14 +186,14 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                     <DialogTitle>{t("form.titles.lyricsPreview")}</DialogTitle>
                     <DialogDescription>{t("form.descriptions.lyricsPreview")}</DialogDescription>
                   </DialogHeader>
-                  <ScrollArea ref={previewScrollRef} className="h-[240px] rounded border">
+                  <ScrollArea ref={previewScrollRef} className="h-60 rounded border">
                     <VirtualizedList
                       data={syncedLines}
                       keyExtractor={keyExtractor}
                       estimateItemHeight={20}
                       gap={8}
                       scrollRef={previewScrollRef}
-                      containerClassName="p-3"
+                      containerClassName="p-3 h-full"
                       ListEmptyComponent={() => (
                         <div className="flex h-full items-center justify-center py-8">
                           <Typography affects={["muted", "italic"]}>
@@ -216,6 +221,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                 variant="ghost"
                 name="Plus"
                 onClick={addSyncedLine}
+                disabled={disabled}
               />
             </div>
           </div>
@@ -226,7 +232,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
               estimateItemHeight={60}
               gap={8}
               scrollRef={editorScrollRef}
-              containerClassName="p-3"
+              containerClassName="p-3 h-full"
               ListEmptyComponent={() => (
                 <div className="flex h-full items-center justify-center py-8">
                   <Typography affects={["muted", "italic"]}>
@@ -247,6 +253,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className }: LyricsEditorP
                   onTimeChange={handleTimeChange}
                   onRemove={removeSyncedLine}
                   canRemove={true}
+                  disabled={disabled}
                 />
               )}
             />

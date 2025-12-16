@@ -25,7 +25,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { SongItem } from "@features/songs/components/SongItem"
+import { SongItemList } from "@features/songs/components/SongItem"
 
 import { type SongWithMainRelations } from "@repo/api"
 
@@ -213,11 +213,10 @@ const QueueSheet = () => {
                     )
                   }
                   return (
-                    <SongItem
+                    <SongItemList
                       key={`${item.song.id}-${item.originalIndex}`}
                       song={item.song}
                       index={index}
-                      variant="list"
                       allSongIds={queueIds}
                       visibleColumns={["title"]}
                       queueIndex={item.originalIndex}

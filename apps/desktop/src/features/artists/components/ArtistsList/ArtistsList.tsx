@@ -19,7 +19,7 @@ import {
   VirtualizedListWithHeaders
 } from "@components/ui"
 
-import { ArtistItem } from "../ArtistItem"
+import { ArtistItemCard, ArtistItemList } from "../ArtistItem"
 import { ArtistsListFilters } from "./ArtistsListFilters"
 import { ArtistsListHeader } from "./ArtistsListHeader"
 import { ArtistsListSearch } from "./ArtistsListSearch"
@@ -135,15 +135,13 @@ const ArtistsList = () => {
       gap={8}
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}
-      renderItem={({ item, index, selected, toggle }) => (
-        <ArtistItem
-          artist={item}
-          index={index}
-          variant={viewMode === "grid" ? "card" : "list"}
-          selected={viewMode === "list" ? selected : false}
-          onToggle={viewMode === "list" ? toggle : undefined}
-        />
-      )}
+      renderItem={({ item, index, selected, toggle }) =>
+        viewMode === "grid" ? (
+          <ArtistItemCard artist={item} />
+        ) : (
+          <ArtistItemList artist={item} index={index} selected={selected} onToggle={toggle} />
+        )
+      }
       layout={viewMode}
       gridBreakpoints={{
         xs: 3,

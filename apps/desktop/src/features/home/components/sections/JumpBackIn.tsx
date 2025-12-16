@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { SongItem } from "@features/songs/components"
+import { SongItemCard } from "@features/songs/components"
 
 import { type JumpBackIn } from "@repo/api"
 
@@ -30,15 +30,8 @@ const JumpBackIn = ({ jumpBackIn }: JumpBackInProps) => {
         <Typography variant="h1">{t("home.jumpBackIn.title")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.jumpBackIn.description")}</Typography>
       </div>
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-11"
-      >
-        <CarouselContent containerClassName="px-9">
+      <Carousel className="-mx-2">
+        <CarouselContent>
           {jumpBackIn.items.map((item, index) => (
             <CarouselItem
               key={`${item.song.id}-${index}`}
@@ -47,7 +40,7 @@ const JumpBackIn = ({ jumpBackIn }: JumpBackInProps) => {
                 width: "clamp(11rem, 11vw, 18rem)"
               }}
             >
-              <SongItem song={item.song} variant="card" />
+              <SongItemCard song={item.song} />
             </CarouselItem>
           ))}
         </CarouselContent>

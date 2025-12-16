@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { PlaylistItem } from "@/features/playlists/components"
+import { PlaylistItemCompact } from "@/features/playlists/components"
 
 import { type YourPlaylists } from "@repo/api"
 
@@ -38,14 +38,7 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
         <Typography variant="h1">{t("home.yourPlaylists.title")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.yourPlaylists.description")}</Typography>
       </div>
-      <Carousel
-        opts={{
-          align: "start",
-          dragFree: true,
-          skipSnaps: true
-        }}
-        className="-mx-8"
-      >
+      <Carousel className="-mx-8">
         <CarouselContent containerClassName="px-9">
           {organizedPlaylists.map((pair, columnIndex) => (
             <CarouselItem key={`column-${columnIndex}`} className="basis-auto pl-0">
@@ -55,8 +48,8 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
                   width: "clamp(7rem, 7vw, 14rem)"
                 }}
               >
-                <PlaylistItem playlist={pair[0]} variant="compact" />
-                {pair[1] && <PlaylistItem playlist={pair[1]} variant="compact" />}
+                <PlaylistItemCompact playlist={pair[0]} />
+                {pair[1] && <PlaylistItemCompact playlist={pair[1]} />}
               </div>
             </CarouselItem>
           ))}

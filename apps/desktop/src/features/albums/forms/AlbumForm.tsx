@@ -264,6 +264,7 @@ const AlbumForm = ({
                             className="flex-1"
                             placeholder={t("form.labels.name")}
                             {...field}
+                            disabled={renderProps.isSubmitting}
                           />
                           {mode === "insert" && (
                             <IconButton
@@ -296,7 +297,11 @@ const AlbumForm = ({
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{t("albums.filters.albumType")}</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          disabled={renderProps.isSubmitting}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder={t("albums.filters.albumType")} />
@@ -328,6 +333,7 @@ const AlbumForm = ({
                             min={1900}
                             max={new Date().getFullYear()}
                             step={1}
+                            disabled={renderProps.isSubmitting}
                           />
                         </FormControl>
                         <FormMessage />
@@ -353,6 +359,7 @@ const AlbumForm = ({
                             const newArtistIds = value.map(Number)
                             field.onChange(newArtistIds)
                           }}
+                          disabled={renderProps.isSubmitting}
                         />
                       </FormControl>
                       <FormMessage />
@@ -377,6 +384,7 @@ const AlbumForm = ({
                             ? `${album.name} - ${t("form.labels.thumbnail")}`
                             : undefined
                         }
+                        disabled={renderProps.isSubmitting}
                       />
                       <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
                       <FormMessage />

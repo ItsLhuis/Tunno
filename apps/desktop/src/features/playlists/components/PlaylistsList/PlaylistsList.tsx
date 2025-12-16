@@ -19,7 +19,7 @@ import {
   VirtualizedListWithHeaders
 } from "@components/ui"
 
-import { PlaylistItem } from "../PlaylistItem"
+import { PlaylistItemCard, PlaylistItemList } from "../PlaylistItem"
 import { PlaylistsListFilters } from "./PlaylistsListFilters"
 import { PlaylistsListHeader } from "./PlaylistsListHeader"
 import { PlaylistsListSearch } from "./PlaylistsListSearch"
@@ -139,15 +139,13 @@ const PlaylistsList = () => {
       gap={8}
       onEndReached={handleEndReached}
       onEndReachedThreshold={1}
-      renderItem={({ item, index, selected, toggle }) => (
-        <PlaylistItem
-          playlist={item}
-          index={index}
-          variant={viewMode === "grid" ? "card" : "list"}
-          selected={viewMode === "list" ? selected : false}
-          onToggle={viewMode === "list" ? toggle : undefined}
-        />
-      )}
+      renderItem={({ item, index, selected, toggle }) =>
+        viewMode === "grid" ? (
+          <PlaylistItemCard playlist={item} />
+        ) : (
+          <PlaylistItemList playlist={item} index={index} selected={selected} onToggle={toggle} />
+        )
+      }
       layout={viewMode}
       gridBreakpoints={{
         xs: 3,
