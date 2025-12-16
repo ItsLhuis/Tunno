@@ -26,7 +26,7 @@ import {
 
 import { SongActions } from "./SongActions"
 
-import { State } from "react-track-player-web"
+import { State } from "@track-player/web"
 
 import { type PlaySource } from "@features/player/types/playSource"
 

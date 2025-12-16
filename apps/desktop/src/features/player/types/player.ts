@@ -1,4 +1,4 @@
-import { type Track as BaseTrack } from "react-track-player-web"
+import { type Track as BaseTrack } from "@track-player/web"
 
 import { type SongWithMainRelations } from "@repo/api"
 

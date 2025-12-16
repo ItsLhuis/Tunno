@@ -6,7 +6,7 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { IconButton, Marquee, SafeLink, StickyHeader, Thumbnail, Typography } from "@components/ui"
 
-import { State } from "react-track-player-web"
+import { State } from "@track-player/web"
 
 import { type SongWithAllRelations } from "@repo/api"
 

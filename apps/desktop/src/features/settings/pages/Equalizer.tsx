@@ -23,7 +23,7 @@ import {
 
 import { SettingButton, type SettingButtonProps } from "@features/settings/components"
 
-import { type EqualizerPreset } from "react-track-player-web"
+import { type EqualizerPreset } from "@track-player/web"
 
 const Equalizer = () => {
   const { t } = useTranslation()

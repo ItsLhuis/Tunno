@@ -14,7 +14,7 @@ import { useToggleSongFavorite } from "../hooks/useToggleSongFavorite"
 
 import { cn } from "@lib/utils"
 
-import { State } from "react-track-player-web"
+import { State } from "@track-player/web"
 
 import { AddToPlaylistForm } from "@features/playlists/components"
 import { SongForm } from "../forms/SongForm"

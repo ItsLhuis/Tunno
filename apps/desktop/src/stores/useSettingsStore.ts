@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware"
 
 import { emit } from "@tauri-apps/api/event"
 
-import TrackPlayer, { type EqualizerPreset } from "react-track-player-web"
+import TrackPlayer, { type EqualizerPreset } from "@track-player/web"
 
 import { persistStorage } from "./config/persist"
 

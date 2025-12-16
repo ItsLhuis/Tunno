@@ -9,7 +9,7 @@ import {
   unregisterPlaybackListeners
 } from "@services/audio"
 
-import TrackPlayer, { RepeatMode, State } from "react-track-player-web"
+import TrackPlayer, { RepeatMode, State } from "@track-player/web"
 
 import { clearTrackCaches, resolveTrack } from "../../utils/player"
 

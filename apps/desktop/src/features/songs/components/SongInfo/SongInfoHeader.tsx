@@ -18,7 +18,7 @@ import { SongActions } from "../SongActions"
 import { Badge, Header, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { AnimatePresence, motion } from "motion/react"
-import { State } from "react-track-player-web"
+import { State } from "@track-player/web"
 
 import type { SongWithAllRelations } from "@repo/api"
 

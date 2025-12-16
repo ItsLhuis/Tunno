@@ -16,7 +16,7 @@ import { IconButton, Marquee, Thumbnail, Typography } from "@components/ui"
 
 import { AnimatePresence, motion } from "motion/react"
 
-import { RepeatMode } from "react-track-player-web"
+import { RepeatMode } from "@track-player/web"
 
 const NextSongPreview = () => {
   const { t } = useTranslation()

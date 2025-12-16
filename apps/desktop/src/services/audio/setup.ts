@@ -1,4 +1,4 @@
-import TrackPlayer, { RepeatMode } from "react-track-player-web"
+import TrackPlayer, { RepeatMode } from "@track-player/web"
 
 export const DefaultRepeatMode = RepeatMode.Queue
 

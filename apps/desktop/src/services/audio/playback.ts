@@ -9,7 +9,7 @@ import TrackPlayer, {
   type PlaybackProgressEventData,
   type PlaybackStateEventData,
   State
-} from "react-track-player-web"
+} from "@track-player/web"
 
 let unsubscribeFns: Array<() => void> = []
 

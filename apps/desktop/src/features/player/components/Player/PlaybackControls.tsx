@@ -6,7 +6,7 @@ import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { IconButton } from "@components/ui"
 
-import { RepeatMode, State } from "react-track-player-web"
+import { RepeatMode, State } from "@track-player/web"
 
 const PlaybackControls = () => {
   const { t } = useTranslation()
