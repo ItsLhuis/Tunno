@@ -11,7 +11,16 @@ const root = path.resolve(__dirname, "src")
 const host = process.env.TAURI_DEV_HOST
 
 export default defineConfig({
-  plugins: [tanstackRouter(), react(), tailwindcss()],
+  plugins: [
+    tanstackRouter(),
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler"]]
+      }
+    }),
+    ,
+    tailwindcss()
+  ],
   clearScreen: false,
   server: {
     port: 4535,

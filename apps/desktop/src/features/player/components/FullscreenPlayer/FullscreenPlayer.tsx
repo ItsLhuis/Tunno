@@ -146,7 +146,7 @@ const FullscreenPlayer = () => {
           />
         </Fade>
         <LayoutGroup>
-          <div className="flex size-full flex-col items-center justify-end gap-[3vh]">
+          <motion.div layout className="flex size-full flex-col items-center justify-end gap-[3vh]">
             <TrackInfo onPaletteChange={setPalette} onDominantColorChange={setDominantColor} />
             <AnimatePresence mode="popLayout">
               {showControls && (
@@ -157,7 +157,7 @@ const FullscreenPlayer = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 30 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <PlaybackProgress />
                   <div className="flex items-center justify-center gap-[1vh]">
@@ -168,7 +168,7 @@ const FullscreenPlayer = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         </LayoutGroup>
         <NextSongPreview />
       </div>

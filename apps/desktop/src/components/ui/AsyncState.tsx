@@ -22,7 +22,7 @@ const AsyncState = <TItem,>({
   isLoading = false,
   isError = false,
   loadingComponent = (
-    <div className="flex h-full flex-col items-center justify-center">
+    <div className="flex h-full flex-col items-center justify-center p-3">
       <Spinner />
     </div>
   ),
