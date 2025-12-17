@@ -1,4 +1,4 @@
-import { Fragment, memo, type ReactNode, useCallback, useRef, useState } from "react"
+import { Fragment, memo, type ReactNode, useCallback, useEffect, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -21,7 +21,6 @@ import { SongForm } from "../forms/SongForm"
 import { DeleteSongDialog } from "./DeleteSongDialog"
 
 import {
-  AsyncState,
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
@@ -64,23 +63,46 @@ type SongActionsProps = {
   playlistId?: number
 }
 
-const SongActions = memo(
-  ({
-    songId,
-    list,
-    variant = "dropdown",
-    children,
-    className,
-    onEditSong,
-    onDeleteSong,
-    queueIndex,
-    playlistId
-  }: SongActionsProps) => {
-    const { t } = useTranslation()
+type DialogType = "edit" | "delete" | "playlist" | null
 
-    const [isEditOpen, setIsEditOpen] = useState(false)
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [isAddToPlaylistOpen, setIsAddToPlaylistOpen] = useState(false)
+type DialogState = {
+  type: DialogType
+  song: SongWithMainRelations | null
+  songIds: number[]
+}
+
+const useDelayedUnmount = (isOpen: boolean, delay = 150) => {
+  const [shouldRender, setShouldRender] = useState(false)
+
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    if (isOpen) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      setShouldRender(true)
+    } else {
+      timeoutRef.current = setTimeout(() => setShouldRender(false), delay)
+    }
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [isOpen, delay])
+
+  return shouldRender
+}
+
+type SongActionsContentProps = {
+  songId?: number
+  list?: VirtualizedListController<SongWithMainRelations>
+  variant: "dropdown" | "context"
+  queueIndex?: number
+  playlistId?: number
+  onOpenDialog: (type: DialogType, song: SongWithMainRelations | null, songIds: number[]) => void
+}
+
+const SongActionsContent = memo(
+  ({ songId, list, variant, queueIndex, playlistId, onOpenDialog }: SongActionsContentProps) => {
+    const { t } = useTranslation()
 
     const artistsScrollRef = useRef<HTMLDivElement | null>(null)
 
@@ -120,116 +142,15 @@ const SongActions = memo(
     const resolvedSongId = songId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
     const {
-      data: targetSong,
-      isLoading: isSongLoading,
-      isError: isSongError
+      data: fetchedSong,
+      isLoading,
+      isError
     } = useFetchSongByIdWithMainRelations(shouldFetchSong ? resolvedSongId : null)
 
-    const finalTargetSong =
+    const targetSong: SongWithMainRelations | undefined =
       hasMultipleSelections || hasSingleSelection
-        ? list.data.find((song) => song.id === Number(list.selectedIds[0]))
-        : targetSong
-
-    const handlePlaySong = async () => {
-      if (finalTargetSong && !hasMultipleSelections) {
-        if (
-          currentTrack &&
-          currentTrack.id === finalTargetSong.id &&
-          playbackState === State.Playing
-        ) {
-          await pause()
-          return
-        }
-
-        if (
-          currentTrack &&
-          currentTrack.id === finalTargetSong.id &&
-          playbackState === State.Paused
-        ) {
-          await play()
-          return
-        }
-
-        await loadTracks([finalTargetSong.id], 0, "songs")
-        await play()
-        return
-      }
-
-      if (list && list.selectedIds.length > 0) {
-        const selectedIds = list.selectedIds.map((id) => Number(id))
-        await loadTracks(selectedIds, 0, "songs")
-        await play()
-      }
-    }
-
-    const handlePlayNext = async () => {
-      if (list && list.selectedIds.length > 0) {
-        const selectedIds = list.selectedIds.map((id) => Number(id))
-        await addToQueue(selectedIds, "next")
-        return
-      }
-
-      if (finalTargetSong) {
-        await addToQueue([finalTargetSong.id], "next")
-      }
-    }
-
-    const handleAddToQueue = async () => {
-      if (list && list.selectedIds.length > 0) {
-        const selectedIds = list.selectedIds.map((id) => Number(id))
-        await addToQueue(selectedIds, "end")
-        return
-      }
-
-      if (finalTargetSong) {
-        await addToQueue([finalTargetSong.id], "end")
-      }
-    }
-
-    const handleToggleFavorite = async () => {
-      if (finalTargetSong) {
-        await toggleFavoriteMutation.mutateAsync({ id: finalTargetSong.id })
-      }
-    }
-
-    const isCurrentlyPlaying = finalTargetSong
-      ? currentTrack?.id === finalTargetSong.id && playbackState === State.Playing
-      : false
-
-    const handleEditClick = () => {
-      if (finalTargetSong) {
-        if (onEditSong) {
-          onEditSong(finalTargetSong)
-        } else {
-          setIsEditOpen(true)
-        }
-      }
-    }
-
-    const handleDeleteClick = () => {
-      if (finalTargetSong) {
-        if (onDeleteSong) {
-          onDeleteSong(finalTargetSong)
-        } else {
-          setIsDeleteOpen(true)
-        }
-      }
-    }
-
-    const handleRemoveFromQueue = async () => {
-      if (queueIndex !== undefined && queueIndex !== null) {
-        await removeFromQueue(queueIndex)
-      }
-    }
-
-    const handleRemoveFromPlaylist = async () => {
-      if (playlistId && finalTargetSong) {
-        await removeFromPlaylistMutation.mutateAsync({
-          playlistId,
-          songIds: [finalTargetSong.id]
-        })
-      }
-    }
+        ? list?.data.find((song) => song.id === Number(list.selectedIds[0]))
+        : fetchedSong
 
     const MenuItem = variant === "context" ? ContextMenuItem : DropdownMenuItem
     const MenuLabel = variant === "context" ? ContextMenuLabel : DropdownMenuLabel
@@ -238,113 +159,101 @@ const SongActions = memo(
     const MenuSubTrigger = variant === "context" ? ContextMenuSubTrigger : DropdownMenuSubTrigger
     const MenuSubContent = variant === "context" ? ContextMenuSubContent : DropdownMenuSubContent
 
-    const renderPlaybackActions = () => {
-      if (hasMultipleSelections) {
-        return (
-          <Fragment>
-            <MenuItem onClick={handlePlaySong} disabled={isTrackLoading}>
-              <Icon name="Play" />
-              {t("common.play")}
-            </MenuItem>
-            <MenuItem onClick={handlePlayNext}>
-              <Icon name="Forward" />
-              {t("common.playNext")}
-            </MenuItem>
-          </Fragment>
-        )
+    const handlePlaySong = async () => {
+      if (targetSong && !hasMultipleSelections) {
+        if (currentTrack?.id === targetSong.id) {
+          playbackState === State.Playing ? await pause() : await play()
+          return
+        }
+        await loadTracks([targetSong.id], 0, "songs")
+        await play()
+        return
       }
 
+      if (list && list.selectedIds.length > 0) {
+        await loadTracks(list.selectedIds.map(Number), 0, "songs")
+        await play()
+      }
+    }
+
+    const handlePlayNext = async () => {
+      const ids = list?.selectedIds.length
+        ? list.selectedIds.map(Number)
+        : targetSong
+          ? [targetSong.id]
+          : []
+      if (ids.length) await addToQueue(ids, "next")
+    }
+
+    const handleAddToQueue = async () => {
+      const ids = list?.selectedIds.length
+        ? list.selectedIds.map(Number)
+        : targetSong
+          ? [targetSong.id]
+          : []
+      if (ids.length) await addToQueue(ids, "end")
+    }
+
+    const handleToggleFavorite = async () => {
+      if (targetSong) await toggleFavoriteMutation.mutateAsync({ id: targetSong.id })
+    }
+
+    const handleRemoveFromQueue = async () => {
+      if (queueIndex !== undefined) await removeFromQueue(queueIndex)
+    }
+
+    const handleRemoveFromPlaylist = async () => {
+      if (playlistId && targetSong) {
+        await removeFromPlaylistMutation.mutateAsync({
+          playlistId,
+          songIds: [targetSong.id]
+        })
+      }
+    }
+
+    const handleOpenPlaylist = () => {
+      const ids = list?.selectedIds.length
+        ? list.selectedIds.map(Number)
+        : targetSong
+          ? [targetSong.id]
+          : []
+      onOpenDialog("playlist", targetSong ?? null, ids)
+    }
+
+    const isCurrentlyPlaying = targetSong
+      ? currentTrack?.id === targetSong.id && playbackState === State.Playing
+      : false
+
+    if (shouldFetchSong && isLoading) {
       return (
-        <Fragment>
-          <MenuItem onClick={handlePlaySong} disabled={isTrackLoading}>
-            <Icon name={isCurrentlyPlaying ? "Pause" : "Play"} />
-            {isCurrentlyPlaying ? t("common.pause") : t("common.play")}
-          </MenuItem>
-          <MenuItem onClick={handlePlayNext}>
-            <Icon name="Forward" />
-            {t("common.playNext")}
-          </MenuItem>
-        </Fragment>
+        <div className="flex items-center justify-center p-4">
+          <Spinner />
+        </div>
       )
     }
 
-    const renderNavigationActions = () => {
-      if (!finalTargetSong) return []
-
-      const actions = [
-        <MenuItem key="goToSong" asChild>
-          <SafeLink to="/songs/$id" params={{ id: finalTargetSong.id.toString() }}>
-            <Icon name="Music" />
-            {t("common.goToSong")}
-          </SafeLink>
-        </MenuItem>
-      ]
-
-      if (finalTargetSong.album) {
-        actions.push(
-          <MenuItem key="goToAlbum" asChild>
-            <SafeLink to="/albums/$id" params={{ id: finalTargetSong.album.id.toString() }}>
-              <Icon name="Disc" />
-              {t("common.goToAlbum")}
-            </SafeLink>
-          </MenuItem>
-        )
-      }
-
-      if (finalTargetSong.artists?.length === 1) {
-        actions.push(
-          <MenuItem key="goToArtist" asChild>
-            <SafeLink
-              to="/artists/$id"
-              params={{ id: finalTargetSong.artists?.[0]?.artistId.toString() }}
-            >
-              <Icon name="User" />
-              {t("common.goToArtist")}
-            </SafeLink>
-          </MenuItem>
-        )
-      }
-
-      if (finalTargetSong.artists?.length > 1) {
-        actions.push(
-          <MenuSub key="goToArtists">
-            <MenuSubTrigger>
-              <Icon name="User" />
-              {t("common.goToArtist")}
-            </MenuSubTrigger>
-            <MenuSubContent className="p-0">
-              <ScrollArea className="p-1" ref={artistsScrollRef}>
-                <VirtualizedList
-                  scrollRef={artistsScrollRef}
-                  data={finalTargetSong.artists || []}
-                  keyExtractor={keyExtractor}
-                  renderItem={({ item: artist }) => (
-                    <MenuItem asChild>
-                      <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
-                        <Icon name="User" />
-                        <Typography className="line-clamp-none truncate">
-                          {artist.artist.name}
-                        </Typography>
-                      </SafeLink>
-                    </MenuItem>
-                  )}
-                  estimateItemHeight={30}
-                  containerClassName="max-h-52"
-                />
-              </ScrollArea>
-            </MenuSubContent>
-          </MenuSub>
-        )
-      }
-
-      return actions
+    if (shouldFetchSong && (isError || !targetSong)) {
+      return (
+        <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
+          {t("common.noResultsFound")}
+        </Typography>
+      )
     }
 
-    const renderActions = () => {
-      const actions = []
-
-      actions.push(
-        <MenuSub key="addTo">
+    return (
+      <Fragment>
+        <MenuLabel>{t("common.playback")}</MenuLabel>
+        <MenuItem onClick={handlePlaySong} disabled={isTrackLoading}>
+          <Icon name={isCurrentlyPlaying ? "Pause" : "Play"} />
+          {isCurrentlyPlaying ? t("common.pause") : t("common.play")}
+        </MenuItem>
+        <MenuItem onClick={handlePlayNext}>
+          <Icon name="Forward" />
+          {t("common.playNext")}
+        </MenuItem>
+        <MenuSeparator />
+        <MenuLabel>{t("common.actions")}</MenuLabel>
+        <MenuSub>
           <MenuSubTrigger>
             <Icon name="Plus" />
             {t("common.addTo")}
@@ -354,229 +263,240 @@ const SongActions = memo(
               <Icon name="ListVideo" />
               {t("common.queue")}
             </MenuItem>
-            <MenuItem onClick={() => setIsAddToPlaylistOpen(true)}>
+            <MenuItem onClick={handleOpenPlaylist}>
               <Icon name="ListMusic" />
               {t("common.playlist")}
             </MenuItem>
           </MenuSubContent>
         </MenuSub>
-      )
-
-      if (!hasMultipleSelections && finalTargetSong) {
-        actions.push(
-          <MenuItem
-            key="favorite"
-            onClick={handleToggleFavorite}
-            disabled={toggleFavoriteMutation.isPending}
-          >
-            <Icon
-              name="Heart"
-              isFilled={finalTargetSong.isFavorite}
-              className={cn(finalTargetSong.isFavorite && "text-primary!")}
-            />
-            {finalTargetSong.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-          </MenuItem>
-        )
-
-        const navigationActions = renderNavigationActions()
-        if (navigationActions.length > 0) {
-          actions.push(...navigationActions)
-        }
-
-        if (queueIndex !== undefined && queueIndex !== null) {
-          actions.push(
-            <MenuItem key="removeFromQueue" onClick={handleRemoveFromQueue}>
-              <Icon name="ListX" />
-              {t("common.removeFromQueue")}
-            </MenuItem>
-          )
-        }
-
-        if (playlistId !== undefined && playlistId !== null) {
-          actions.push(
-            <MenuItem
-              key="removeFromPlaylist"
-              onClick={handleRemoveFromPlaylist}
-              disabled={removeFromPlaylistMutation.isPending}
-            >
-              <Icon name="ListMusic" />
-              {t("common.removeFromPlaylist")}
-            </MenuItem>
-          )
-        }
-
-        actions.push(
-          <MenuItem key="edit" onClick={handleEditClick}>
-            <Icon name="Edit" />
-            {t("form.buttons.update")}
-          </MenuItem>,
-          <MenuItem key="delete" onClick={handleDeleteClick}>
-            <Icon name="Trash2" />
-            {t("form.buttons.delete")}
-          </MenuItem>
-        )
-      }
-
-      return actions.length > 0 ? actions : null
-    }
-
-    const playbackActions = renderPlaybackActions()
-    const actionItems = renderActions()
-    const hasAnyActions = playbackActions || actionItems
-
-    const MenuContent = variant === "context" ? ContextMenuContent : DropdownMenuContent
-
-    const renderMenuContent = () => (
-      <MenuContent>
-        {!hasAnyActions ? (
-          <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
-            {t("common.noResultsFound")}
-          </Typography>
-        ) : (
+        {!hasMultipleSelections && targetSong && (
           <Fragment>
-            {playbackActions && (
-              <Fragment>
-                <MenuLabel>{t("common.playback")}</MenuLabel>
-                {playbackActions}
-                {actionItems && <MenuSeparator />}
-              </Fragment>
+            <MenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
+              <Icon
+                name="Heart"
+                isFilled={targetSong.isFavorite}
+                className={cn(targetSong.isFavorite && "text-primary!")}
+              />
+              {targetSong.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+            </MenuItem>
+            <MenuItem asChild>
+              <SafeLink to="/songs/$id" params={{ id: targetSong.id.toString() }}>
+                <Icon name="Music" />
+                {t("common.goToSong")}
+              </SafeLink>
+            </MenuItem>
+            {targetSong.album && (
+              <MenuItem asChild>
+                <SafeLink to="/albums/$id" params={{ id: targetSong.album.id.toString() }}>
+                  <Icon name="Disc" />
+                  {t("common.goToAlbum")}
+                </SafeLink>
+              </MenuItem>
             )}
-            {actionItems && (
-              <Fragment>
-                <MenuLabel>{t("common.actions")}</MenuLabel>
-                {actionItems}
-              </Fragment>
+            {targetSong.artists?.length === 1 && (
+              <MenuItem asChild>
+                <SafeLink
+                  to="/artists/$id"
+                  params={{ id: targetSong.artists[0].artistId.toString() }}
+                >
+                  <Icon name="User" />
+                  {t("common.goToArtist")}
+                </SafeLink>
+              </MenuItem>
             )}
+            {targetSong.artists && targetSong.artists.length > 1 && (
+              <MenuSub>
+                <MenuSubTrigger>
+                  <Icon name="User" />
+                  {t("common.goToArtist")}
+                </MenuSubTrigger>
+                <MenuSubContent className="p-0">
+                  <ScrollArea className="p-1" ref={artistsScrollRef}>
+                    <VirtualizedList
+                      scrollRef={artistsScrollRef}
+                      data={targetSong.artists}
+                      keyExtractor={keyExtractor}
+                      renderItem={({ item: artist }) => (
+                        <MenuItem asChild>
+                          <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
+                            <Icon name="User" />
+                            <Typography className="line-clamp-none truncate">
+                              {artist.artist.name}
+                            </Typography>
+                          </SafeLink>
+                        </MenuItem>
+                      )}
+                      estimateItemHeight={30}
+                      containerClassName="max-h-52"
+                    />
+                  </ScrollArea>
+                </MenuSubContent>
+              </MenuSub>
+            )}
+            {queueIndex !== undefined && (
+              <MenuItem onClick={handleRemoveFromQueue}>
+                <Icon name="ListX" />
+                {t("common.removeFromQueue")}
+              </MenuItem>
+            )}
+            {playlistId !== undefined && (
+              <MenuItem
+                onClick={handleRemoveFromPlaylist}
+                disabled={removeFromPlaylistMutation.isPending}
+              >
+                <Icon name="ListMusic" />
+                {t("common.removeFromPlaylist")}
+              </MenuItem>
+            )}
+            <MenuItem onClick={() => onOpenDialog("edit", targetSong, [targetSong.id])}>
+              <Icon name="Edit" />
+              {t("form.buttons.update")}
+            </MenuItem>
+            <MenuItem onClick={() => onOpenDialog("delete", targetSong, [targetSong.id])}>
+              <Icon name="Trash2" />
+              {t("form.buttons.delete")}
+            </MenuItem>
           </Fragment>
         )}
-      </MenuContent>
+      </Fragment>
     )
+  }
+)
 
-    const renderContent = () => {
-      if (hasMultipleSelections || !shouldFetchSong) {
-        if (variant === "context") {
-          return (
-            <ContextMenu>
-              <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
-              {renderMenuContent()}
-            </ContextMenu>
-          )
+const SongActions = memo(
+  ({
+    songId,
+    list,
+    variant = "dropdown",
+    children,
+    className,
+    onEditSong,
+    onDeleteSong,
+    queueIndex,
+    playlistId
+  }: SongActionsProps) => {
+    const { t } = useTranslation()
+
+    const [isOpen, setIsOpen] = useState(false)
+    const [dialogState, setDialogState] = useState<DialogState>({
+      type: null,
+      song: null,
+      songIds: []
+    })
+
+    const shouldRenderContent = useDelayedUnmount(isOpen)
+    const shouldRenderEditDialog = useDelayedUnmount(dialogState.type === "edit")
+    const shouldRenderDeleteDialog = useDelayedUnmount(dialogState.type === "delete")
+    const shouldRenderPlaylistDialog = useDelayedUnmount(dialogState.type === "playlist")
+
+    const lastValidSongRef = useRef<SongWithMainRelations | null>(null)
+
+    const lastValidSongIdsRef = useRef<number[]>([])
+
+    useEffect(() => {
+      if (dialogState.song) {
+        lastValidSongRef.current = dialogState.song
+      }
+    }, [dialogState.song])
+
+    useEffect(() => {
+      if (dialogState.songIds.length > 0) {
+        lastValidSongIdsRef.current = dialogState.songIds
+      } else if (dialogState.song) {
+        lastValidSongIdsRef.current = [dialogState.song.id]
+      }
+    }, [dialogState.songIds, dialogState.song])
+
+    const handleOpenDialog = useCallback(
+      (type: DialogType, song: SongWithMainRelations | null, songIds: number[]) => {
+        if (type === "edit" && onEditSong && song) {
+          onEditSong(song)
+          return
         }
 
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              {children || (
-                <IconButton
-                  name="MoreHorizontal"
-                  variant="ghost"
-                  className={cn(className, "shrink-0")}
-                  tooltip={t("common.more")}
-                />
-              )}
-            </DropdownMenuTrigger>
-            {renderMenuContent()}
-          </DropdownMenu>
-        )
-      }
+        if (type === "delete" && onDeleteSong && song) {
+          onDeleteSong(song)
+          return
+        }
 
-      if (variant === "context") {
-        return (
-          <ContextMenu>
-            <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
-            <AsyncState
-              data={finalTargetSong}
-              isLoading={isSongLoading}
-              isError={isSongError}
-              loadingComponent={
-                <ContextMenuContent>
-                  <div className="flex items-center justify-center p-4">
-                    <Spinner />
-                  </div>
-                </ContextMenuContent>
-              }
-              errorComponent={
-                <ContextMenuContent>
-                  <Typography
-                    affects={["muted"]}
-                    className="flex h-full items-center justify-center py-3"
-                  >
-                    {t("common.noResultsFound")}
-                  </Typography>
-                </ContextMenuContent>
-              }
-            >
-              {renderMenuContent()}
-            </AsyncState>
-          </ContextMenu>
-        )
-      }
+        setDialogState({ type, song, songIds })
+      },
+      [onEditSong, onDeleteSong]
+    )
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            {children || (
-              <IconButton
-                name="MoreHorizontal"
-                variant="ghost"
-                className={cn(className, "shrink-0")}
-                tooltip={t("common.more")}
-              />
-            )}
-          </DropdownMenuTrigger>
-          <AsyncState
-            data={finalTargetSong}
-            isLoading={isSongLoading}
-            isError={isSongError}
-            loadingComponent={
-              <DropdownMenuContent>
-                <div className="flex items-center justify-center p-4">
-                  <Spinner />
-                </div>
-              </DropdownMenuContent>
-            }
-            errorComponent={
-              <DropdownMenuContent>
-                <Typography
-                  affects={["muted"]}
-                  className="flex h-full items-center justify-center py-3"
-                >
-                  {t("common.noResultsFound")}
-                </Typography>
-              </DropdownMenuContent>
-            }
-          >
-            {renderMenuContent()}
-          </AsyncState>
-        </DropdownMenu>
-      )
-    }
+    const closeDialog = useCallback(() => {
+      setDialogState({ type: null, song: null, songIds: [] })
+    }, [])
+
+    const Root = variant === "context" ? ContextMenu : DropdownMenu
+    const Trigger = variant === "context" ? ContextMenuTrigger : DropdownMenuTrigger
+    const Content = variant === "context" ? ContextMenuContent : DropdownMenuContent
+
+    const trigger =
+      variant === "context"
+        ? children
+        : (children ?? (
+            <IconButton
+              name="MoreHorizontal"
+              variant="ghost"
+              className={cn(className, "shrink-0")}
+              tooltip={t("common.more")}
+            />
+          ))
+
+    const dialogSong = dialogState.song ?? lastValidSongRef.current
+
+    const dialogSongIds =
+      dialogState.songIds.length > 0
+        ? dialogState.songIds
+        : dialogSong
+          ? [dialogSong.id]
+          : lastValidSongIdsRef.current
 
     return (
       <Fragment>
-        {renderContent()}
-        {finalTargetSong && !hasMultipleSelections && (
-          <Fragment>
-            <SongForm
-              songId={finalTargetSong.id}
-              mode="update"
-              open={isEditOpen}
-              onOpen={setIsEditOpen}
-            />
-            <DeleteSongDialog song={finalTargetSong} open={isDeleteOpen} onOpen={setIsDeleteOpen} />
-          </Fragment>
+        <Root onOpenChange={setIsOpen}>
+          <Trigger
+            asChild={variant === "dropdown"}
+            className={variant === "context" ? className : undefined}
+          >
+            {trigger}
+          </Trigger>
+          <Content>
+            {shouldRenderContent && (
+              <SongActionsContent
+                songId={songId}
+                list={list}
+                variant={variant}
+                queueIndex={queueIndex}
+                playlistId={playlistId}
+                onOpenDialog={handleOpenDialog}
+              />
+            )}
+          </Content>
+        </Root>
+        {shouldRenderEditDialog && dialogSong && (
+          <SongForm
+            songId={dialogSong.id}
+            mode="update"
+            open={dialogState.type === "edit"}
+            onOpen={(open) => !open && closeDialog()}
+          />
         )}
-        <AddToPlaylistForm
-          songIds={
-            hasMultipleSelections && list
-              ? list.selectedIds.map(Number)
-              : finalTargetSong
-                ? [finalTargetSong.id]
-                : []
-          }
-          open={isAddToPlaylistOpen}
-          onOpen={setIsAddToPlaylistOpen}
-        />
+        {shouldRenderDeleteDialog && dialogSong && (
+          <DeleteSongDialog
+            song={dialogSong}
+            open={dialogState.type === "delete"}
+            onOpen={(open) => !open && closeDialog()}
+          />
+        )}
+        {shouldRenderPlaylistDialog && dialogSongIds.length > 0 && (
+          <AddToPlaylistForm
+            songIds={dialogSongIds}
+            open={dialogState.type === "playlist"}
+            onOpen={(open) => !open && closeDialog()}
+          />
+        )}
       </Fragment>
     )
   }
