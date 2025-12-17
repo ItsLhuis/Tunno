@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 
 import { cn } from "@lib/utils"
 
 import { getRenderableFileSrc } from "@services/storage"
 
-import type { AppPaths } from "@lib/appStorage"
-
 import { Fade } from "@components/ui/Fade"
 import { Icon, type IconProps } from "@components/ui/Icon"
 import { Image, type ImageProps } from "@components/ui/Image"
+
+import { LRUCache } from "@repo/utils"
+
+import { type AppPaths } from "@lib/appStorage"
 
 export type ThumbnailProps = ImageProps & {
   placeholderIcon: IconProps["name"]
@@ -16,53 +18,85 @@ export type ThumbnailProps = ImageProps & {
   sourceDir?: keyof Omit<AppPaths, "songs">
 }
 
-const Thumbnail = ({
-  fileName,
-  sourceDir = "thumbnails",
-  placeholderIcon,
-  containerClassName,
-  className,
-  ...props
-}: ThumbnailProps) => {
-  const [src, setSrc] = useState<string | null>(null)
+const thumbnailCache = new LRUCache<string, string>(1000)
 
-  useEffect(() => {
-    const load = async () => {
+const getCacheKey = (sourceDir: string, fileName: string) => `${sourceDir}:${fileName}`
+
+const Thumbnail = memo(
+  ({
+    fileName,
+    sourceDir = "thumbnails",
+    placeholderIcon,
+    containerClassName,
+    className,
+    ...props
+  }: ThumbnailProps) => {
+    const [src, setSrc] = useState<string | null>(() => {
+      if (typeof fileName === "string") {
+        return thumbnailCache.get(getCacheKey(sourceDir, fileName)) ?? null
+      }
+      return null
+    })
+
+    useEffect(() => {
       if (!fileName) {
         setSrc(null)
         return
       }
 
-      const resolvedFileName = await Promise.resolve(fileName)
+      let cancelled = false
 
-      const url = await getRenderableFileSrc(resolvedFileName, sourceDir)
-      setSrc(url)
+      const load = async () => {
+        const resolvedFileName = typeof fileName === "string" ? fileName : await fileName
+
+        if (cancelled) return
+
+        const cacheKey = getCacheKey(sourceDir, resolvedFileName)
+        const cached = thumbnailCache.get(cacheKey)
+
+        if (cached) {
+          setSrc(cached)
+          return
+        }
+
+        const url = await getRenderableFileSrc(resolvedFileName, sourceDir)
+
+        if (cancelled) return
+
+        thumbnailCache.set(cacheKey, url)
+        setSrc(url)
+      }
+
+      load()
+
+      return () => {
+        cancelled = true
+      }
+    }, [fileName, sourceDir])
+
+    if (!fileName) {
+      return (
+        <Fade
+          className={cn(
+            "border-border bg-secondary flex size-14 shrink-0 items-center justify-center rounded border transition-colors",
+            containerClassName
+          )}
+        >
+          <Icon name={placeholderIcon} className={cn("text-secondary-foreground", className)} />
+        </Fade>
+      )
     }
-    load()
-  }, [fileName, sourceDir])
 
-  if (!fileName) {
     return (
-      <Fade
-        className={cn(
-          "flex size-14 shrink-0 items-center justify-center rounded border border-border bg-secondary transition-colors",
-          containerClassName
-        )}
-      >
-        <Icon name={placeholderIcon} className={cn("text-secondary-foreground", className)} />
-      </Fade>
+      <Image
+        src={src ?? undefined}
+        alt="thumbnail"
+        className={cn("size-14", className)}
+        containerClassName={cn("size-14 aspect-square", containerClassName)}
+        {...props}
+      />
     )
   }
-
-  return (
-    <Image
-      src={src ?? undefined}
-      alt="thumbnail"
-      className={cn("size-14", className)}
-      containerClassName={cn("size-14 aspect-square", containerClassName)}
-      {...props}
-    />
-  )
-}
+)
 
 export { Thumbnail }
