@@ -2,6 +2,35 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.1.6] - 2025-12-18
+
+### Fixed
+
+- 🐛 **Fullscreen Player Controls**: Auto-hide controls and cursor after inactivity in fullscreen
+  mode for an immersive viewing experience. Controls fade in smoothly when the mouse moves.
+  ([#2](https://github.com/ItsLhuis/Tunno/issues/2))
+- 🐛 **Layout Animation**: Fixed motion layout animation conflicts in fullscreen player
+- 🐛 **Player navigation & repeat**: Fixed repeat mode behavior and corrected track navigation logic
+- 🐛 **Song form loading**: Prevented race conditions during song form initialization
+
+### Changed
+
+- ⚡ **Performance improvements**:
+  - Significantly improved rendering performance of action components throughout the application
+  - Optimized thumbnail component rendering for faster load times and smoother scrolling
+  - Reduced unnecessary re-renders in frequently used UI components
+  - Virtualized player queue sheet for improved performance with large queues
+  - Corrected play interaction handling in the player
+- 🎨 **UI improvements**:
+  - Restructured item components for better maintainability
+  - Updated track player dependency with styling improvements
+  - Removed unnecessary disabled cursor styles
+  - Added new container component and player colors utility
+  - Adjusted layout and spacing across desktop components for improved visual consistency
+- 🔧 **Internal improvements**:
+  - Moved player hooks and utilities to common directories for better reusability
+  - Updated core application files and utilities
+
 ## [1.1.5] - 2025-12-09
 
 ### Fixed
