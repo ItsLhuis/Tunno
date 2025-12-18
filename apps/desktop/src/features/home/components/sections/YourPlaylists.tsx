@@ -38,8 +38,8 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
         <Typography variant="h1">{t("home.yourPlaylists.title")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.yourPlaylists.description")}</Typography>
       </div>
-      <Carousel className="-mx-8">
-        <CarouselContent containerClassName="px-9">
+      <Carousel className="-mx-2">
+        <CarouselContent>
           {organizedPlaylists.map((pair, columnIndex) => (
             <CarouselItem key={`column-${columnIndex}`} className="basis-auto pl-0">
               <div

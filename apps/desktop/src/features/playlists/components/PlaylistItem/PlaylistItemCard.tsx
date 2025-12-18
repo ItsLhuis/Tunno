@@ -56,7 +56,7 @@ const PlaylistItemCard = memo(({ playlist }: PlaylistItemCardProps) => {
             </PlaylistActions>
           </div>
         </div>
-        <div className="absolute right-2 bottom-14 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
+        <div className="absolute right-2 bottom-13 z-10 opacity-0 transition-all group-focus-within:opacity-100 group-hover:opacity-100">
           {canPlay && (
             <IconButton
               name="Play"
