@@ -24,4 +24,5 @@ export type SongItemListProps = BaseSongItemProps & {
   allSongIds?: number[]
   onToggle?: () => void
   visibleColumns?: ColumnKey[]
+  queuePlayback?: boolean
 }

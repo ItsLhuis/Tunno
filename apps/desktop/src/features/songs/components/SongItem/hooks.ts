@@ -8,22 +8,32 @@ import { State } from "@track-player/web"
 
 import { type PlaySource } from "@features/player/types/playSource"
 
+type UseSongPlaybackOptions = {
+  queuePlayback?: boolean
+  queueIndex?: number
+}
+
 export function useSongPlayback(
   songId: number,
   allSongIds?: number[],
   playSource: PlaySource = "songs",
-  sourceContextId?: number
+  sourceContextId?: number,
+  options?: UseSongPlaybackOptions
 ) {
-  const { loadTracks, play, pause, currentTrackId, playbackState, isTrackLoading } = usePlayerStore(
-    useShallow((state) => ({
-      loadTracks: state.loadTracks,
-      play: state.play,
-      pause: state.pause,
-      currentTrackId: state.currentTrackId,
-      playbackState: state.playbackState,
-      isTrackLoading: state.isTrackLoading
-    }))
-  )
+  const { queuePlayback = false, queueIndex } = options ?? {}
+
+  const { loadTracks, play, pause, skipToTrack, currentTrackId, playbackState, isTrackLoading } =
+    usePlayerStore(
+      useShallow((state) => ({
+        loadTracks: state.loadTracks,
+        play: state.play,
+        pause: state.pause,
+        skipToTrack: state.skipToTrack,
+        currentTrackId: state.currentTrackId,
+        playbackState: state.playbackState,
+        isTrackLoading: state.isTrackLoading
+      }))
+    )
 
   const isCurrentlyPlaying = currentTrackId === songId && playbackState === State.Playing
 
@@ -38,6 +48,12 @@ export function useSongPlayback(
         await play()
         return
       }
+    }
+
+    if (queuePlayback && queueIndex !== undefined) {
+      await skipToTrack(queueIndex)
+      await play()
+      return
     }
 
     if (allSongIds && allSongIds.length > 0) {
@@ -56,6 +72,9 @@ export function useSongPlayback(
     playbackState,
     pause,
     play,
+    queuePlayback,
+    queueIndex,
+    skipToTrack,
     allSongIds,
     loadTracks,
     playSource,

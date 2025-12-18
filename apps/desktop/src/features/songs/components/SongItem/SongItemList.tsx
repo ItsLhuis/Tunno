@@ -36,7 +36,8 @@ const SongItemList = memo(
     sourceContextId,
     visibleColumns,
     queueIndex,
-    playlistId
+    playlistId,
+    queuePlayback = false
   }: SongItemListProps) => {
     const { t, i18n } = useTranslation()
 
@@ -44,7 +45,8 @@ const SongItemList = memo(
       song.id,
       allSongIds,
       playSource,
-      sourceContextId
+      sourceContextId,
+      { queuePlayback, queueIndex }
     )
 
     const showCheckbox = !!onToggle
