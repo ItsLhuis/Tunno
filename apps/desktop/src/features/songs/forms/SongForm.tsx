@@ -99,6 +99,7 @@ const SongForm = ({
   const [internalOpen, setInternalOpen] = useState(false)
 
   const hasResetFormRef = useRef(false)
+  const hasLoadedInitialDataRef = useRef(false)
 
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
@@ -152,7 +153,13 @@ const SongForm = ({
   }, [mode])
 
   useEffect(() => {
-    if (!isSongLoading && song && mode === "update" && !hasResetFormRef.current) {
+    if (
+      !isSongLoading &&
+      !isAlbumsLoading &&
+      song &&
+      mode === "update" &&
+      !hasResetFormRef.current
+    ) {
       form.reset({
         name: song.name,
         thumbnail: song.thumbnail ?? null,
@@ -165,8 +172,9 @@ const SongForm = ({
         lyrics: song.lyrics ?? null
       })
       hasResetFormRef.current = true
+      hasLoadedInitialDataRef.current = true
     }
-  }, [isSongLoading, mode])
+  }, [isSongLoading, isAlbumsLoading, song, mode, form])
 
   useEffect(() => {
     if (
@@ -183,6 +191,7 @@ const SongForm = ({
     if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
       form.reset()
       hasResetFormRef.current = false
+      hasLoadedInitialDataRef.current = false
     }
   }, [isOpen, asModal])
 
@@ -254,7 +263,11 @@ const SongForm = ({
     return (
       <AsyncState
         data={mode === "update" ? song : true}
-        isLoading={mode === "update" ? isSongLoading : false}
+        isLoading={
+          mode === "update"
+            ? isSongLoading || (!hasLoadedInitialDataRef.current && isAlbumsLoading)
+            : false
+        }
         isError={mode === "update" ? isSongError : false}
         loadingComponent={
           <div className="flex items-center justify-center p-8">
@@ -499,7 +512,7 @@ const SongForm = ({
         </Form>
       </AsyncState>
     )
-  }, [form, mode, renderProps, song, isSongLoading, isSongError])
+  }, [form, mode, renderProps, song, isSongLoading, isSongError, isAlbumsLoading])
 
   if (!asModal) return FormContent
 
@@ -533,7 +546,7 @@ const SongForm = ({
               !renderProps.isValid ||
               !renderProps.isDirty ||
               renderProps.isSubmitting ||
-              (mode === "update" && isSongLoading)
+              (mode === "update" && (isSongLoading || isAlbumsLoading))
             }
             isLoading={renderProps.isSubmitting}
             onClick={() => form.handleSubmit(handleFormSubmit)()}
