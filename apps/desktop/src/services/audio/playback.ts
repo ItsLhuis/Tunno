@@ -53,10 +53,11 @@ export function registerPlaybackListeners() {
       ensureWindowForIndex,
       updateNavigationStates,
       validateAndUpdateState,
-      isRehydrating
+      isRehydrating,
+      isQueueLoading
     } = usePlayerStore.getState()
 
-    if (isRehydrating) return
+    if (isRehydrating || isQueueLoading) return
 
     try {
       await syncStateWithPlayer()

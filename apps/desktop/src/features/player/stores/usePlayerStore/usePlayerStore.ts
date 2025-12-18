@@ -795,16 +795,6 @@ const _usePlayerStore = create<PlayerStore>()(
           return
         }
 
-        if (repeatMode === RepeatMode.Track) {
-          try {
-            await TrackPlayer.seekTo(0)
-            await TrackPlayer.play()
-          } catch (error) {
-            console.error("PlayerStore: Error in playNext (repeat track):", error)
-          }
-          return
-        }
-
         const nextIndex = currentTrackIndex + 1
 
         if (isValidIndex(nextIndex, queueIds.length)) {
@@ -822,16 +812,6 @@ const _usePlayerStore = create<PlayerStore>()(
         const { currentTrackIndex, queueIds, repeatMode, skipToTrack, play } = get()
 
         if (currentTrackIndex === null || queueIds.length === 0) {
-          return
-        }
-
-        if (repeatMode === RepeatMode.Track) {
-          try {
-            await TrackPlayer.seekTo(0)
-            await TrackPlayer.play()
-          } catch (error) {
-            console.error("PlayerStore: Error in playPrevious (repeat track):", error)
-          }
           return
         }
 
@@ -1331,20 +1311,18 @@ const _usePlayerStore = create<PlayerStore>()(
 
         if (currentTrackIndex !== null && queueIds.length > 0) {
           if (queueIds.length === 1) {
-            canPlayNext = canPlayPrevious = repeatMode !== RepeatMode.Off
+            canPlayNext = canPlayPrevious = repeatMode === RepeatMode.Queue
           } else {
             switch (repeatMode) {
-              case RepeatMode.Off:
-                canPlayNext = currentTrackIndex < queueIds.length - 1
-                canPlayPrevious = currentTrackIndex > 0
-                break
-              case RepeatMode.Track:
               case RepeatMode.Queue:
                 canPlayNext = canPlayPrevious = true
                 break
+              case RepeatMode.Track:
+              case RepeatMode.Off:
               default:
                 canPlayNext = currentTrackIndex < queueIds.length - 1
                 canPlayPrevious = currentTrackIndex > 0
+                break
             }
           }
         }
