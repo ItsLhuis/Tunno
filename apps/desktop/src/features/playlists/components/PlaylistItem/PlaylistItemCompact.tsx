@@ -31,7 +31,7 @@ const PlaylistItemCompact = memo(({ playlist }: PlaylistItemCompactProps) => {
             fileName={playlist.thumbnail}
             alt={playlist.name}
             containerClassName="size-full"
-            className={cn("size-full", !playlist.thumbnail && "p-[25%]")}
+            className="size-full"
           />
         </div>
         <div className="absolute inset-x-2 bottom-2 h-14 rounded-b-lg bg-linear-to-t from-black/50 to-transparent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100" />

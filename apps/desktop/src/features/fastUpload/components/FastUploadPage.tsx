@@ -55,7 +55,6 @@ const FastUploadPage = () => {
 
   return (
     <VirtualizedListWithHeaders
-      className="p-9 pt-0"
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
       ListEmptyComponent={ListEmpty}

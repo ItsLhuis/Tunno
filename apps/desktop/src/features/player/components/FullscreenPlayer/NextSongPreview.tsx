@@ -132,17 +132,17 @@ const NextSongPreview = () => {
             <div className="flex w-full min-w-0 flex-col gap-[0.25vh] truncate">
               <Typography
                 affects={["small", "muted"]}
-                className="mb-[0.75vh] text-[clamp(0.5rem,1.225vh,1.225rem)] tracking-wide uppercase"
+                className="mb-[0.75vh] text-[1.25vh] tracking-wide uppercase"
               >
                 {t("common.upNext")}
               </Typography>
               <Marquee className="w-full">
-                <Typography variant="h4" className="text-primary text-[clamp(1rem,2vh,1.5rem)]">
+                <Typography variant="h4" className="text-primary text-[2vh]">
                   {nextSong.name}
                 </Typography>
               </Marquee>
               <Marquee className="w-full">
-                <Typography affects={["muted"]} className="text-[clamp(0.5rem,1.225vh,1.225rem)]">
+                <Typography affects={["muted"]} className="text-[1.25vh]">
                   {nextSong.artists && nextSong.artists.length > 0
                     ? nextSong.artists.map((artist) => artist.artist.name).join(", ")
                     : t("common.unknownArtist")}
@@ -153,7 +153,7 @@ const NextSongPreview = () => {
               name="Play"
               onClick={handlePlayNext}
               disabled={!canPlayNext || isTransitioning}
-              className="size-[4vh] min-h-10 min-w-10 shrink-0 rounded-full [&_svg]:size-[clamp(1.25rem,2vh,1.25rem)]"
+              className="size-[4vh] shrink-0 rounded-full [&_svg]:size-[2vh]"
             />
           </div>
         </motion.div>

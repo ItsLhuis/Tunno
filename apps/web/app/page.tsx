@@ -15,7 +15,7 @@ export default function Home() {
       <Navbar />
       <Particles className="pointer-events-none fixed inset-0 z-0 h-screen w-screen" />
       <Spotlight />
-      <section className="relative z-10 mx-auto h-full w-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
+      <section className="relative z-10 mx-auto size-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
         <InView className="mt-20 mb-12 flex flex-col items-center justify-center">
           <Button variant="outline" className="relative rounded-full" asChild>
             <Link href="https://github.com/ItsLhuis/tunno">
@@ -55,7 +55,7 @@ export default function Home() {
           </div>
         </InView>
       </section>
-      <section className="relative z-10 mx-auto h-full w-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
+      <section className="relative z-10 mx-auto size-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
         <InView className="mt-20 mb-12 flex flex-col items-center justify-center">
           <Button variant="outline" className="relative rounded-full" asChild>
             <Link href="https://github.com/ItsLhuis/tunno">
@@ -95,7 +95,7 @@ export default function Home() {
           </div>
         </InView>
       </section>
-      <section className="relative z-10 mx-auto h-full w-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
+      <section className="relative z-10 mx-auto size-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
         <InView className="mt-20 mb-12 flex flex-col items-center justify-center">
           <Button variant="outline" className="relative rounded-full" asChild>
             <Link href="https://github.com/ItsLhuis/tunno">
@@ -135,7 +135,7 @@ export default function Home() {
           </div>
         </InView>
       </section>
-      <section className="relative z-10 mx-auto h-full w-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
+      <section className="relative z-10 mx-auto size-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
         <InView className="mt-20 mb-12 flex flex-col items-center justify-center">
           <Button variant="outline" className="relative rounded-full" asChild>
             <Link href="https://github.com/ItsLhuis/tunno">
@@ -175,7 +175,7 @@ export default function Home() {
           </div>
         </InView>
       </section>
-      <section className="relative z-10 mx-auto h-full w-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
+      <section className="relative z-10 mx-auto size-full max-w-full px-4 transition-all md:max-w-screen-xl md:px-12 lg:px-20">
         <InView className="mt-20 mb-12 flex flex-col items-center justify-center">
           <Button variant="outline" className="relative rounded-full" asChild>
             <Link href="https://github.com/ItsLhuis/tunno">

@@ -121,10 +121,7 @@ const PlaybackControls = () => {
         tooltip={getShuffleTooltip()}
         variant="ghost"
         onClick={handleShuffle}
-        className={cn(
-          "h-[4vh] min-h-9 w-[4vh] min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]",
-          isShuffleEnabled && "text-primary"
-        )}
+        className={cn("size-[4vh] [&_svg]:size-[2vh]", isShuffleEnabled && "text-primary")}
       />
       <IconButton
         name="SkipBack"
@@ -132,12 +129,12 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handlePrevious}
         disabled={!canPlayPrevious}
-        className="size-[4vh] min-h-9 min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
+        className="size-[4vh] [&_svg]:size-[2vh]"
       />
       <IconButton
         name={isPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
-        className="size-[6vh] min-h-12 min-w-12 rounded-full [&_svg]:size-[clamp(1.25rem,3vh,1.75rem)]"
+        className="size-[6vh] rounded-full [&_svg]:size-[3vh]"
         tooltip={isPlaying ? t("common.pause") : t("common.play")}
         onClick={handlePlayPause}
         disabled={!canPlay}
@@ -148,7 +145,7 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handleNext}
         disabled={!canPlayNext}
-        className="size-[4vh] min-h-9 min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
+        className="size-[4vh] [&_svg]:size-[2vh]"
       />
       <IconButton
         name={getRepeatIcon()}
@@ -156,7 +153,7 @@ const PlaybackControls = () => {
         variant="ghost"
         onClick={handleRepeat}
         className={cn(
-          "h-[4vh] min-h-9 w-[4vh] min-w-9 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]",
+          "size-[4vh] [&_svg]:size-[2vh]",
           repeatMode !== RepeatMode.Off && "text-primary"
         )}
       />

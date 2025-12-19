@@ -37,12 +37,12 @@ const TrackInfo = ({ onPaletteChange, onDominantColorChange }: TrackInfoProps) =
       {currentTrack ? (
         <div className="flex w-full flex-col gap-[0.75vh] truncate">
           <Marquee className="w-full">
-            <Typography variant="h1" className="text-primary text-[clamp(3rem,8vh,10rem)]">
+            <Typography variant="h1" className="text-primary text-[8vh]">
               {currentTrack.title}
             </Typography>
           </Marquee>
           <Marquee className="w-full">
-            <Typography affects={["muted"]} className="text-[clamp(1rem,2.5vh,2.5rem)]">
+            <Typography affects={["muted"]} className="text-[2.5vh]">
               {currentTrack.artist
                 ? currentTrack.artists.map((artist) => artist.artist.name).join(", ")
                 : t("common.unknownArtist")}
@@ -50,7 +50,7 @@ const TrackInfo = ({ onPaletteChange, onDominantColorChange }: TrackInfoProps) =
           </Marquee>
         </div>
       ) : (
-        <Typography affects={["muted"]} className="text-[clamp(1rem,2.5vh,2.5rem)]">
+        <Typography affects={["muted"]} className="text-[2.5vh]">
           {t("common.noSongPlaying")}
         </Typography>
       )}

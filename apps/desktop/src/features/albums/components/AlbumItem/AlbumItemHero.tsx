@@ -30,8 +30,8 @@ const AlbumItemHero = memo(({ album, heroLabel }: AlbumItemHeroProps) => {
           placeholderIcon="Disc"
           fileName={album.thumbnail}
           alt={album.name}
-          className={album.thumbnail ? "h-full w-full" : "size-24"}
-          containerClassName="h-full w-full rounded"
+          className={album.thumbnail ? "size-full" : "size-24"}
+          containerClassName="size-full rounded"
         />
       </div>
       <div className="flex flex-1 flex-col gap-3">

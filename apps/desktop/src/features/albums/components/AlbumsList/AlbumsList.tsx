@@ -127,6 +127,7 @@ const AlbumsList = () => {
 
   return (
     <VirtualizedListWithHeaders
+      className={cn(viewMode === "grid" && "p-7 pt-0")}
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
       ListHeaderComponent={ListHeader}

@@ -4,7 +4,7 @@ import { TrackInfo } from "./TrackInfo"
 
 const ExpandedLayout = () => {
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex size-full flex-col">
       <Titlebar />
       <div className="flex min-h-0 flex-1">
         <TrackArtwork />

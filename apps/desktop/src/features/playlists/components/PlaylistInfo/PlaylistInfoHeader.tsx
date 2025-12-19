@@ -9,8 +9,6 @@ import { useTogglePlaylistFavorite } from "../../hooks/useTogglePlaylistFavorite
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
 import { useImageSrc } from "@hooks/useImageSrc"
 
-import { cn } from "@lib/utils"
-
 import { formatDuration } from "@repo/utils"
 
 import {
@@ -105,8 +103,8 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
             placeholderIcon="ListMusic"
             fileName={playlist.thumbnail}
             alt={playlist.name}
-            className={cn("h-full w-full object-contain", !playlist.thumbnail && "p-[25%]")}
-            containerClassName="h-full w-full rounded"
+            containerClassName="size-full rounded"
+            className="size-full"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2 truncate">
@@ -115,7 +113,7 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-1 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {playlist.name}
           </Typography>

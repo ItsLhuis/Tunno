@@ -9,7 +9,7 @@ const HomeHeader = () => {
     <Header className="flex flex-col gap-6 pb-3">
       <Typography
         variant="h1"
-        className="line-clamp-2 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
+        className="line-clamp-1 text-4xl break-all md:text-6xl lg:text-7xl xl:text-8xl"
       >
         {t("home.title")}
       </Typography>

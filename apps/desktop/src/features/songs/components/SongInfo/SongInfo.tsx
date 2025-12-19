@@ -102,8 +102,8 @@ const SongInfo = () => {
           {data.artists.length > 0 && (
             <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("artists.title")}</Typography>
-              <Carousel className="-mx-11">
-                <CarouselContent containerClassName="px-9">
+              <Carousel className="-mx-2">
+                <CarouselContent>
                   {data.artists.map((artist, index) => (
                     <CarouselItem
                       key={artist.artist.id || index}
@@ -124,8 +124,8 @@ const SongInfo = () => {
           {data.playlists.length > 0 && (
             <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("common.appearsIn")}</Typography>
-              <Carousel className="-mx-11">
-                <CarouselContent containerClassName="px-9">
+              <Carousel className="-mx-2">
+                <CarouselContent>
                   {data.playlists.map((playlist, index) => (
                     <CarouselItem
                       key={playlist.playlist.id || index}

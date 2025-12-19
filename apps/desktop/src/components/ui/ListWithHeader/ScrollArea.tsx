@@ -67,7 +67,7 @@ const ScrollAreaWithHeaders = ({
     <ScrollArea
       ref={scrollRef}
       className={cn(
-        "bg-background relative h-full w-full flex-1 [&>div>div]:flex!",
+        "bg-background relative size-full flex-1 [&>div>div]:flex!",
         containerClassName
       )}
       style={style}

@@ -4,8 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useAlbumPlayback } from "./hooks"
 
-import { cn } from "@lib/utils"
-
 import { IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { AlbumActions } from "../AlbumActions"
@@ -23,14 +21,14 @@ const AlbumItemCard = memo(({ album }: AlbumItemCardProps) => {
 
   return (
     <AlbumActions variant="context" albumId={album.id}>
-      <div className="group focus-within:bg-accent hover:bg-accent relative flex h-full w-full flex-col items-start rounded p-2 transition-colors">
-        <div className="mb-2 h-full w-full">
+      <div className="group focus-within:bg-accent hover:bg-accent relative flex size-full flex-col items-start rounded p-2 transition-colors">
+        <div className="mb-2 size-full">
           <Thumbnail
             placeholderIcon="Disc"
             fileName={album.thumbnail}
             alt={album.name}
-            containerClassName="h-full w-full rounded"
-            className={cn("h-full w-full", !album.thumbnail && "p-[25%]")}
+            containerClassName="size-full rounded"
+            className="size-full"
           />
         </div>
         <div className="flex w-full items-start justify-between gap-2">

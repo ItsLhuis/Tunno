@@ -4,8 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useSongPlayback } from "./hooks"
 
-import { cn } from "@lib/utils"
-
 import PlayingLottie from "@assets/lotties/Playing.json"
 import Lottie from "lottie-react"
 
@@ -40,7 +38,7 @@ const SongItemCard = memo(
               fileName={song.thumbnail}
               alt={song.name}
               containerClassName="size-full"
-              className={cn("size-full", !song.thumbnail && "p-[25%]")}
+              className="size-full"
             />
           </div>
           <div className="flex w-full items-start justify-between gap-2">

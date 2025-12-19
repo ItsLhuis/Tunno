@@ -42,7 +42,7 @@ const TrackArtwork = ({ onPaletteChange, onDominantColorChange }: TrackArtworkPr
   return (
     <div className="group relative flex aspect-square h-[45vh] items-center justify-center overflow-hidden rounded">
       <motion.div
-        className="flex h-full w-full items-center justify-center rounded"
+        className="flex size-full items-center justify-center rounded"
         animate={{
           backgroundColor: dominantColor || undefined
         }}
@@ -54,13 +54,13 @@ const TrackArtwork = ({ onPaletteChange, onDominantColorChange }: TrackArtworkPr
         {imageSrc && (
           <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
         )}
-        <div className="aspect-square h-full w-full">
+        <div className="aspect-square size-full">
           <Thumbnail
             placeholderIcon="Music"
             fileName={currentTrack?.thumbnail}
             alt={currentTrack?.title}
-            containerClassName={cn("h-full w-full", currentTrack?.thumbnail && "border-none")}
-            className={cn("h-full w-full object-contain", !currentTrack?.thumbnail && "p-[25%]")}
+            containerClassName={cn("size-full", currentTrack?.thumbnail && "border-none")}
+            className="size-full"
           />
         </div>
       </motion.div>

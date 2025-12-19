@@ -9,16 +9,14 @@ import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
 import { useImageSrc } from "@hooks/useImageSrc"
 
-import { cn } from "@lib/utils"
-
 import { formatTime } from "@repo/utils"
 
 import { SongActions } from "../SongActions"
 
 import { Badge, Header, IconButton, SafeLink, Thumbnail, Typography } from "@components/ui"
 
-import { AnimatePresence, motion } from "motion/react"
 import { State } from "@track-player/web"
+import { AnimatePresence, motion } from "motion/react"
 
 import type { SongWithAllRelations } from "@repo/api"
 
@@ -114,8 +112,8 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
             placeholderIcon="Music"
             fileName={song.thumbnail}
             alt={song.name}
-            className={cn("h-full w-full object-contain", !song.thumbnail && "p-[25%]")}
-            containerClassName="h-full w-full rounded"
+            containerClassName="size-full rounded"
+            className="size-full"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2 truncate">
@@ -124,7 +122,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-1 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {song.name}
           </Typography>

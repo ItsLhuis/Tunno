@@ -4,8 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { usePlaylistPlayback } from "./hooks"
 
-import { cn } from "@lib/utils"
-
 import { IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 import { PlaylistActions } from "../PlaylistActions"
@@ -33,7 +31,7 @@ const PlaylistItemCard = memo(({ playlist }: PlaylistItemCardProps) => {
             fileName={playlist.thumbnail}
             alt={playlist.name}
             containerClassName="size-full"
-            className={cn("size-full", !playlist.thumbnail && "p-[25%]")}
+            className="size-full"
           />
         </div>
         <div className="flex w-full items-start justify-between gap-2">

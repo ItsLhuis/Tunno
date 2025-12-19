@@ -33,7 +33,7 @@ const CompactLayout = () => {
         <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
       )}
       <motion.div
-        className="grid h-full w-full grid-cols-[auto_1fr_auto]"
+        className="grid size-full grid-cols-[auto_1fr_auto]"
         animate={{
           backgroundColor: dominantColor || undefined
         }}

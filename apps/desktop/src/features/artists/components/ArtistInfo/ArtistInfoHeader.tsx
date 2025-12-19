@@ -11,8 +11,6 @@ import { useToggleArtistFavorite } from "../../hooks/useToggleArtistFavorite"
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
 import { useImageSrc } from "@hooks/useImageSrc"
 
-import { cn } from "@lib/utils"
-
 import { formatDuration } from "@repo/utils"
 
 import {
@@ -107,8 +105,8 @@ const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
             placeholderIcon="User"
             fileName={artist.thumbnail}
             alt={artist.name}
-            className={cn("h-full w-full object-cover", !artist.thumbnail && "p-[25%]")}
-            containerClassName="h-full w-full rounded-full"
+            containerClassName="size-full rounded-full"
+            className="size-full object-cover"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2 truncate">
@@ -117,7 +115,7 @@ const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-1 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {artist.name}
           </Typography>

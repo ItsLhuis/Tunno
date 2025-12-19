@@ -30,8 +30,8 @@ const ArtistItemHero = memo(({ artist, heroLabel }: ArtistItemHeroProps) => {
           placeholderIcon="User"
           fileName={artist.thumbnail}
           alt={artist.name}
-          className={artist.thumbnail ? "h-full w-full" : "size-24"}
-          containerClassName="h-full w-full rounded-full"
+          className={artist.thumbnail ? "size-full" : "size-24"}
+          containerClassName="size-full rounded-full"
         />
       </div>
       <div className="flex flex-1 flex-col gap-3">

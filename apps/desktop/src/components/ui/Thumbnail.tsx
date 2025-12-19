@@ -78,11 +78,14 @@ const Thumbnail = memo(
       return (
         <Fade
           className={cn(
-            "border-border bg-secondary flex size-14 shrink-0 items-center justify-center rounded border transition-colors",
+            "border-border bg-secondary flex aspect-square size-14 shrink-0 items-center justify-center rounded border transition-colors",
             containerClassName
           )}
         >
-          <Icon name={placeholderIcon} className={cn("text-secondary-foreground", className)} />
+          <Icon
+            name={placeholderIcon}
+            className={cn("text-secondary-foreground", className, "size-1/4")}
+          />
         </Fade>
       )
     }

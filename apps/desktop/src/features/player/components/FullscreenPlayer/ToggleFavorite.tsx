@@ -29,7 +29,7 @@ const ToggleFavorite = () => {
       isFilled={currentTrack?.isFavorite}
       tooltip={currentTrack?.isFavorite ? t("common.unfavorite") : t("common.favorite")}
       variant="text"
-      className="size-[4vh] min-h-9 min-w-9 shrink-0 [&_svg]:size-[clamp(1rem,2vh,1.25rem)]"
+      className="size-[4vh] shrink-0 [&_svg]:size-[2vh]"
       disabled={!currentTrack}
       onClick={handleToggleFavorite}
     />

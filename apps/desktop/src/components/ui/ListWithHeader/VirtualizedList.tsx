@@ -96,7 +96,7 @@ const VirtualizedListWithHeaders = <TItem,>({
   return (
     <ScrollArea
       ref={scrollRef}
-      className={cn("bg-background relative h-full w-full flex-1", containerClassName)}
+      className={cn("bg-background relative size-full flex-1", containerClassName)}
     >
       <div className={cn("flex w-full flex-1 flex-col", isListEmpty && "h-full")}>
         <Fade
@@ -121,8 +121,8 @@ const VirtualizedListWithHeaders = <TItem,>({
             </Container>
           )}
         </div>
-        <div className={cn("relative flex-1", className)}>
-          <Container className="h-full p-9 pt-0">
+        <div className="relative flex-1">
+          <Container className={cn("h-full p-9 pt-0", className)}>
             <VirtualizedList
               {...(props as VirtualizedListProps<TItem>)}
               scrollRef={scrollRef}

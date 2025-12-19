@@ -9,8 +9,6 @@ import { useToggleAlbumFavorite } from "../../hooks/useToggleAlbumFavorite"
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
 import { useImageSrc } from "@hooks/useImageSrc"
 
-import { cn } from "@lib/utils"
-
 import { formatDuration } from "@repo/utils"
 
 import { AlbumActions } from "../AlbumActions"
@@ -106,8 +104,8 @@ const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
             placeholderIcon="Disc"
             fileName={album.thumbnail}
             alt={album.name}
-            className={cn("h-full w-full object-contain", !album.thumbnail && "p-[25%]")}
-            containerClassName="h-full w-full rounded"
+            containerClassName="size-full rounded"
+            className="size-full"
           />
         </div>
         <div className="flex flex-1 flex-col gap-2 truncate">
@@ -116,7 +114,7 @@ const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-2 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
+            className="line-clamp-1 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
           >
             {album.name}
           </Typography>

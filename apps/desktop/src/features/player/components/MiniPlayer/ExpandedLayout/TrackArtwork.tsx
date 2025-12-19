@@ -25,9 +25,9 @@ const TrackArtwork = () => {
   const { dominantColor, imageRef } = useImageColor({ imageSrc })
 
   return (
-    <div className="group relative flex h-full w-full items-center justify-center overflow-hidden p-1">
+    <div className="group relative flex size-full items-center justify-center overflow-hidden p-1">
       <motion.div
-        className="flex h-full w-full items-center justify-center rounded"
+        className="flex size-full items-center justify-center rounded"
         animate={{
           backgroundColor: dominantColor || undefined
         }}
@@ -45,7 +45,7 @@ const TrackArtwork = () => {
             fileName={currentTrack?.thumbnail}
             alt={currentTrack?.title}
             containerClassName={cn("h-full w-fit", currentTrack?.thumbnail && "border-none")}
-            className={cn("h-full w-full object-contain", !currentTrack?.thumbnail && "p-[25%]")}
+            className="size-full"
           />
         </div>
       </motion.div>
