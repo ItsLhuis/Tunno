@@ -82,7 +82,7 @@ const SongInfo = () => {
           HeaderComponent={Header}
           StickyHeaderComponent={StickyHeader}
           ListHeaderComponent={ListHeader}
-          className="space-y-6"
+          className="flex flex-col gap-6"
         >
           <SongItemList song={data} index={0} allSongIds={[data.id]} />
           {data.album && (
@@ -90,11 +90,7 @@ const SongInfo = () => {
               <Typography variant="h3" className="mx-2">
                 {t("common.album")}
               </Typography>
-              <div
-                style={{
-                  width: "clamp(11rem, 11vw, 18rem)"
-                }}
-              >
+              <div className="w-50">
                 <AlbumItemCard album={data.album} />
               </div>
             </section>
@@ -105,19 +101,13 @@ const SongInfo = () => {
               <Carousel className="-mx-2">
                 <CarouselContent>
                   {data.artists.map((artist, index) => (
-                    <CarouselItem
-                      key={artist.artist.id || index}
-                      className="basis-auto"
-                      style={{
-                        width: "clamp(11rem, 11vw, 18rem)"
-                      }}
-                    >
+                    <CarouselItem key={artist.artist.id || index} className="w-50">
                       <ArtistItemCard artist={artist.artist} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="ml-20" />
-                <CarouselNext className="mr-20" />
+                <CarouselPrevious />
+                <CarouselNext />
               </Carousel>
             </section>
           )}
@@ -127,19 +117,13 @@ const SongInfo = () => {
               <Carousel className="-mx-2">
                 <CarouselContent>
                   {data.playlists.map((playlist, index) => (
-                    <CarouselItem
-                      key={playlist.playlist.id || index}
-                      className="basis-auto"
-                      style={{
-                        width: "clamp(11rem, 11vw, 18rem)"
-                      }}
-                    >
+                    <CarouselItem key={playlist.playlist.id || index} className="w-50">
                       <PlaylistItemCard playlist={playlist.playlist} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="ml-20" />
-                <CarouselNext className="mr-20" />
+                <CarouselPrevious />
+                <CarouselNext />
               </Carousel>
             </section>
           )}
