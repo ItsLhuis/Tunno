@@ -36,19 +36,13 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
       <Carousel className="-mx-2">
         <CarouselContent>
           {newReleases.albums.slice(1).map((album, index) => (
-            <CarouselItem
-              key={`${album.id}-${index}`}
-              className="basis-auto"
-              style={{
-                width: "clamp(11rem, 11vw, 18rem)"
-              }}
-            >
+            <CarouselItem key={`${album.id}-${index}`} className="w-50">
               <AlbumItemCard album={album} />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="ml-20" />
-        <CarouselNext className="mr-20" />
+        <CarouselPrevious />
+        <CarouselNext />
       </Carousel>
     </section>
   )

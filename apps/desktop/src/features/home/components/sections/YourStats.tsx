@@ -215,8 +215,8 @@ const YourStats = ({ stats }: YourStatsProps) => {
               )
             })}
           </CarouselContent>
-          <CarouselPrevious className="ml-20" />
-          <CarouselNext className="mr-20" />
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       )}
     </section>

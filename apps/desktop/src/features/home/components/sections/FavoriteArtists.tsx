@@ -40,19 +40,13 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
       <Carousel className="-mx-2">
         <CarouselContent>
           {favoriteArtists.artists.slice(1).map((artist, index) => (
-            <CarouselItem
-              key={`${artist.id}-${index}`}
-              className="basis-auto"
-              style={{
-                width: "clamp(11rem, 11vw, 18rem)"
-              }}
-            >
+            <CarouselItem key={`${artist.id}-${index}`} className="w-50">
               <ArtistItemCard artist={artist} />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="ml-20" />
-        <CarouselNext className="mr-20" />
+        <CarouselPrevious />
+        <CarouselNext />
       </Carousel>
     </section>
   )
