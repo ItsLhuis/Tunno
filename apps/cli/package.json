@@ -45,7 +45,6 @@
     "inquirer": "^12.2.0",
     "natural": "^8.0.1",
     "ora": "^9.0.0",
-    "sanitize-filename": "^1.6.3",
     "sharp": "^0.33.5",
     "uuid": "^11.0.5"
   },

@@ -36,7 +36,11 @@ export type Song = {
 export type FastUploadManifest = {
   version: number
   createdAt: string
-  source: { cliVersion: string; os: string }
+  source: {
+    type: "cli" | "desktop"
+    version: string
+    os: string
+  }
   stats: { totalTracks: number }
   tracks: FastUploadTrack[]
 }

@@ -50,6 +50,32 @@ export const execPromise = promisify(exec)
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+const ILLEGAL_CHARS_RE = /[\/\?<>\\:\*\|"]/g
+const CONTROL_CHARS_RE = /[\x00-\x1f\x80-\x9f]/g
+const RESERVED_NAMES_RE = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i
+const TRAILING_RE = /[\. ]+$/
+
+export const sanitizeFilename = (input: string, maxLength: number = 200): string => {
+  if (typeof input !== "string") return "Unknown"
+
+  let sanitized = input
+    .replace(ILLEGAL_CHARS_RE, "")
+    .replace(CONTROL_CHARS_RE, "")
+    .replace(TRAILING_RE, "")
+    .replace(/\s+/g, " ")
+    .trim()
+
+  if (RESERVED_NAMES_RE.test(sanitized)) {
+    sanitized = `_${sanitized}`
+  }
+
+  if (sanitized.length > maxLength) {
+    sanitized = sanitized.slice(0, maxLength).replace(TRAILING_RE, "")
+  }
+
+  return sanitized || "Unknown"
+}
+
 export const cleanArtistName = (artistName: string): string => {
   return artistName
     .replace(/([a-z])([A-Z])/g, "$1 $2")

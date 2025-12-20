@@ -5,8 +5,6 @@ import { v4 as uuid } from "uuid"
 
 import chalk from "chalk"
 
-import sanitize from "sanitize-filename"
-
 import { getDownloadPath } from "./config"
 
 import {
@@ -14,7 +12,8 @@ import {
   cleanTrackName,
   downloadThumbnail,
   execPromise,
-  runCommand
+  runCommand,
+  sanitizeFilename
 } from "./utils"
 
 import { getTrack, getTrackById } from "./spotify"
@@ -59,13 +58,11 @@ export const download = async (
 
     let videoDir = options?.basicDownload
       ? downloadPath
-      : path.join(downloadPath, sanitize(videoInfo.title, { replacement: "" }))
+      : path.join(downloadPath, sanitizeFilename(videoInfo.title))
 
     const songUUID = uuid()
 
-    const songFileName = options?.basicDownload
-      ? sanitize(videoInfo.title, { replacement: "" })
-      : songUUID
+    const songFileName = options?.basicDownload ? sanitizeFilename(videoInfo.title) : songUUID
 
     if (!options?.basicDownload) {
       let track
@@ -157,7 +154,7 @@ export const download = async (
         duration: videoInfo.duration
       })
 
-      videoDir = path.join(downloadPath, sanitize(track.title, { replacement: "" }))
+      videoDir = path.join(downloadPath, sanitizeFilename(track.title))
       if (fs.existsSync(videoDir)) fs.rmSync(videoDir, { recursive: true, force: true })
       fs.mkdirSync(videoDir, { recursive: true })
 

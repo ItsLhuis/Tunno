@@ -125,7 +125,8 @@ const buildManifest = (validDirs: ValidatedDirectory[]): FastUploadManifest => {
     version: 1,
     createdAt: new Date().toISOString(),
     source: {
-      cliVersion: version,
+      type: "cli",
+      version,
       os: os.platform()
     },
     stats: {
