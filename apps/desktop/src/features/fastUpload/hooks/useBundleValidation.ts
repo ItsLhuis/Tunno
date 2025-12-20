@@ -1,6 +1,6 @@
 import { copyBundleToCache, extractManifest } from "../api/tauri"
 
-import type { FastUploadManifest } from "../types"
+import { type FastUploadManifest } from "../types"
 
 type ValidationResult = {
   isValid: boolean

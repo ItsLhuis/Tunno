@@ -2,7 +2,7 @@ import { memo, useMemo, type ReactElement, type Ref } from "react"
 
 import { cn } from "@lib/utils"
 
-import type { VirtualizedItemProps } from "../types"
+import { type VirtualizedItemProps } from "../types"
 
 const VirtualizedItem = memo(function VirtualizedItem<T>({
   item,

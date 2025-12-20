@@ -1,4 +1,4 @@
-import type { VirtualizedListWithHeadersProps } from "@components/ui/ListWithHeader/VirtualizedList"
+import { type VirtualizedListWithHeadersProps } from "@components/ui/ListWithHeader/VirtualizedList"
 
 export type Lyric = {
   text: string

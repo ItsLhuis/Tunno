@@ -22,13 +22,7 @@ const PlaylistItemHero = memo(({ playlist, heroLabel }: PlaylistItemHeroProps) =
 
   return (
     <div className="flex flex-1 items-end gap-6">
-      <div
-        className="shrink-0"
-        style={{
-          width: "clamp(20rem, 20vw, 35rem)",
-          height: "clamp(20rem, 20vw, 35rem)"
-        }}
-      >
+      <div className="aspect-square w-100 shrink-0">
         <Thumbnail
           placeholderIcon="ListMusic"
           fileName={playlist.thumbnail}

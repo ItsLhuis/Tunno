@@ -4,7 +4,7 @@ import { cn } from "@lib/utils"
 
 import { VirtualizedItem } from "./VirtualizedItem"
 
-import type { VirtualRowProps } from "../types"
+import { type VirtualRowProps } from "../types"
 
 const VirtualRow = memo(function VirtualRow<TItem>({
   virtualRow,
@@ -66,7 +66,7 @@ const VirtualRow = memo(function VirtualRow<TItem>({
       key={virtualRow.key}
       data-index={virtualRow.index}
       ref={measureRef}
-      className={cn("absolute left-0 right-0")}
+      className={cn("absolute right-0 left-0")}
       style={transformStyle}
     >
       <div className={cn("grid", rowClassName)} style={gridStyle}>

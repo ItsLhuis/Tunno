@@ -14,7 +14,7 @@ import { Fade } from "@components/ui/Fade"
 
 import { VirtualRow } from "./components"
 
-import type { VirtualizedListProps } from "./types"
+import { type VirtualizedListProps } from "./types"
 
 const VirtualizedList = <TItem,>({
   data,

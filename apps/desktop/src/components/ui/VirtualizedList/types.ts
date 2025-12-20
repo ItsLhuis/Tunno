@@ -1,7 +1,13 @@
-import type { ComponentProps, ComponentType, CSSProperties, ReactNode, RefObject } from "react"
+import {
+  type ComponentProps,
+  type ComponentType,
+  type CSSProperties,
+  type ReactNode,
+  type RefObject
+} from "react"
 
-import type { Virtualizer } from "@tanstack/react-virtual"
-import type { SelectionController } from "@repo/utils"
+import { type Virtualizer } from "@tanstack/react-virtual"
+import { type SelectionController } from "@repo/utils"
 
 export type VirtualizedListController<TItem> = SelectionController<TItem>
 

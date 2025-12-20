@@ -17,17 +17,17 @@ import {
   getYourPlaylists
 } from "../api/queries"
 
-import type {
-  Discover,
-  FavoriteArtists,
-  HiddenGems,
-  JumpBackIn,
-  NewReleases,
-  OnRepeat,
-  RecentlyAdded,
-  TopAlbums,
-  UserStats,
-  YourPlaylists
+import {
+  type Discover,
+  type FavoriteArtists,
+  type HiddenGems,
+  type JumpBackIn,
+  type NewReleases,
+  type OnRepeat,
+  type RecentlyAdded,
+  type TopAlbums,
+  type UserStats,
+  type YourPlaylists
 } from "@repo/api"
 
 type HomeOptions = {

@@ -14,7 +14,7 @@ import {
   type IconProps
 } from "@components/ui"
 
-import type { ProcessingTrack, TrackStatus } from "../types"
+import { type ProcessingTrack, type TrackStatus } from "../types"
 
 type TrackItemProps = {
   track: ProcessingTrack

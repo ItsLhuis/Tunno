@@ -6,7 +6,7 @@ import { SongActions } from "@features/songs/components"
 
 import { Checkbox, Fade, Icon, Typography, type VirtualizedListController } from "@components/ui"
 
-import type { SongWithMainRelations } from "@repo/api"
+import { type SongWithMainRelations } from "@repo/api"
 
 type AlbumInfoSubHeaderProps = {
   list: VirtualizedListController<SongWithMainRelations> | null

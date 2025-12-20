@@ -2,13 +2,13 @@ import { type QueryParams } from "../types"
 
 export type QueryHomeParams = QueryParams<string, Record<string, unknown>>
 
-import type { SongWithMainRelations } from "../songs"
+import { type SongWithMainRelations } from "../songs"
 
-import type { Artist, ArtistWithStats } from "../artists"
+import { type Artist, ArtistWithStats } from "../artists"
 
-import type { Album, AlbumWithArtists } from "../albums"
+import { type Album, type AlbumWithArtists } from "../albums"
 
-import type { Playlist } from "../playlists"
+import { type Playlist } from "../playlists"
 
 export type UserStats = {
   totalSongs: number

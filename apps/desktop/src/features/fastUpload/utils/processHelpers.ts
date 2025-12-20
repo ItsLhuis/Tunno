@@ -12,7 +12,7 @@ import { isTransientError, isUniqueConstraintError, retryWithBackoff } from "./r
 
 import { type EntityCache } from "./entityCache"
 
-import type { CLIArtist, CLISong } from "../types"
+import { type CLIArtist, type CLISong } from "../types"
 
 type LocalArtistCache = Map<string, number>
 

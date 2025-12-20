@@ -1,6 +1,11 @@
 import { create } from "zustand"
 
-import type { FastUploadManifest, ProcessError, ProcessingTrack, ProcessStatus } from "../types"
+import {
+  type FastUploadManifest,
+  type ProcessError,
+  type ProcessingTrack,
+  type ProcessStatus
+} from "../types"
 
 type FastUploadState = {
   processId: string | null

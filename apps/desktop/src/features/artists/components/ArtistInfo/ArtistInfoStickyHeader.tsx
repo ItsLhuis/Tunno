@@ -17,7 +17,7 @@ import {
   type VirtualizedListController
 } from "@components/ui"
 
-import type { ArtistWithAllRelations, SongWithMainRelations } from "@repo/api"
+import { type ArtistWithAllRelations, type SongWithMainRelations } from "@repo/api"
 
 type ArtistInfoStickyHeaderProps = {
   artist: ArtistWithAllRelations

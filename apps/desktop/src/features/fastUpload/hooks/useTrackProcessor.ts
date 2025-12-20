@@ -22,7 +22,7 @@ import {
 
 import { type EntityCache } from "../utils"
 
-import type { CLISong, ProcessingTrack, ProcessResult } from "../types"
+import { type CLISong, type ProcessingTrack, type ProcessResult } from "../types"
 
 export function useTrackProcessor() {
   const processTrack = useCallback(
