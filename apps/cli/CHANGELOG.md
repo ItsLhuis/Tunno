@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno CLI project will be documented in this file.
 
+## [1.6.1] - 2025-12-20
+
+### Changed
+
+- 🔄 Standardized bundle manifest source structure to `{ type, version, os }` for consistency with
+  desktop app
+
 ## [1.6.0] - 2025-12-05
 
 ### Added
