@@ -52,7 +52,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       closeButton
       {...props}
-      duration={Infinity}
     />
   )
 }
