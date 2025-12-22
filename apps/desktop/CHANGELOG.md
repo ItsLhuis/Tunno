@@ -2,6 +2,19 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.2.0] - 2025-12-22
+
+### Added
+
+- 📦 **Library Export**: Export your entire music library as a bundle file for backup or to transfer
+  to another device. Access via Settings → Sync. ([#4](https://github.com/ItsLhuis/Tunno/issues/4))
+
+### Changed
+
+- 🎨 **UI improvements**: Refined component styles and standardized spacing across item cards,
+  actions, and settings pages
+- ⚡ **Fast Upload**: Improved UX with Fade transitions and added link to export settings
+
 ## [1.1.6] - 2025-12-18
 
 ### Fixed
