@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Tunno",
   "mainBinaryName": "Tunno",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "identifier": "com.itslhuis.tunno",
   "build": {
     "frontendDist": "../dist",

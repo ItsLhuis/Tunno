@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.2.1] - 2025-12-22
+
+### Fixed
+
+- 🐛 **Toast Duration**: Removed infinite toast duration that was accidentally left from testing,
+  toasts now auto-dismiss as expected
+
 ## [1.2.0] - 2025-12-22
 
 ### Added
