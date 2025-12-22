@@ -57,7 +57,7 @@ const ChoiceboxItem = ({
 const ChoiceboxItemHeader = ({ className, ...props }: CardHeaderProps) => (
   <CardHeader
     data-slot="choicebox-item-header"
-    className={cn("flex-1 gap-0 p-0", className)}
+    className={cn("flex-1 p-0", className)}
     {...props}
   />
 )

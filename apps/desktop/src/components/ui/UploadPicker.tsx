@@ -40,6 +40,12 @@ type FolderItem = {
   path: string
 }
 
+export type UploadPickerTriggerProps = {
+  onClick: () => void
+  disabled: boolean
+  isLoading: boolean
+}
+
 export type UploadPickerProps = {
   mode?: "file" | "folder"
   defaultValue?: string
@@ -55,7 +61,7 @@ export type UploadPickerProps = {
   description?: string
   storageDir?: keyof AppPaths
   displayName?: string
-  trigger?: ReactNode
+  trigger?: (props: UploadPickerTriggerProps) => ReactNode
   hideDefaultTrigger?: boolean
   showPreview?: boolean
 }
@@ -259,14 +265,11 @@ const UploadPicker = ({
 
   return (
     <div className={cn("w-full max-w-full space-y-3 overflow-hidden", className)}>
-      {trigger && (
-        <div
-          onClick={handleSelectItem}
-          className={disabled ? "pointer-events-none opacity-50" : "cursor-pointer"}
-        >
-          {trigger}
-        </div>
-      )}
+      {trigger?.({
+        onClick: handleSelectItem,
+        disabled,
+        isLoading
+      })}
       {!hideDefaultTrigger && (
         <Card className={cn("block rounded border-none p-0", className)}>
           <Button

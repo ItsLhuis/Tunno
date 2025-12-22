@@ -28,6 +28,9 @@ export const typographyVariants = cva("transition-colors", {
       muted: "text-muted-foreground",
       bold: "font-bold",
       italic: "italic",
+      underline: "underline",
+      strikethrough: "line-through",
+      underlineStrikethrough: "underline line-through",
       removePMargin: "not-first:mt-0",
       uppercase: "uppercase"
     }

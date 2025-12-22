@@ -1,7 +1,2 @@
-export type {
-  VirtualizedItemProps,
-  VirtualizedListController,
-  VirtualizedListProps,
-  VirtualRowProps
-} from "./types"
+export type * from "./types"
 export { VirtualizedList } from "./VirtualizedList"
