@@ -32,7 +32,7 @@ const ArtistItemCard = memo(({ artist }: ArtistItemCardProps) => {
           />
         </div>
         <div className="flex w-full items-start justify-between gap-2">
-          <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
             <Marquee>
               <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
                 <Typography className="w-full truncate">{artist.name}</Typography>
