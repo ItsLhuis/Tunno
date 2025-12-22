@@ -55,9 +55,9 @@ const About = () => {
 
   const settings: (SettingButtonProps & { key: string })[] = [
     {
-      key: "identity",
-      title: t("settings.about.identity.title"),
-      description: t("settings.about.identity.description"),
+      key: "about",
+      title: t("settings.about.title"),
+      description: t("settings.about.description"),
       renderLeft: () => <Icon name="Info" className="mt-1" />,
       children: (
         <div className="flex items-center">

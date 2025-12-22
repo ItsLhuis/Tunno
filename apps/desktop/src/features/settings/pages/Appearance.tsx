@@ -62,7 +62,7 @@ const Appearance = () => {
           {themes.map((theme) => (
             <ChoiceboxItem value={theme.value} key={theme.value} className="gap-3">
               {theme.icon}
-              <ChoiceboxItemHeader>
+              <ChoiceboxItemHeader className="gap-0">
                 <ChoiceboxItemTitle>{theme.name}</ChoiceboxItemTitle>
               </ChoiceboxItemHeader>
               <ChoiceboxItemContent>

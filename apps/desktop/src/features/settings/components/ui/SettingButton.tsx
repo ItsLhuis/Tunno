@@ -25,7 +25,7 @@ const SettingButton = ({
     <div className={cn("flex w-full flex-col gap-3 transition-colors", className)}>
       <div className="grid grid-cols-[auto_1fr_auto] items-start gap-3">
         {renderLeft && <div>{renderLeft()}</div>}
-        <div className="min-w-0 text-left">
+        <div className="min-w-0 space-y-1 text-left">
           {typeof title === "string" ? (
             <Typography variant="h6" className="wrap-break-word">
               {title}
