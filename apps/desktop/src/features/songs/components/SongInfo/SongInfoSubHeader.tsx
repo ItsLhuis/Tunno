@@ -2,7 +2,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { cn } from "@lib/utils"
 
-import { Icon, Typography } from "@components/ui"
+import { Icon, IconButton, Typography } from "@components/ui"
 
 type SongInfoSubHeaderProps = {
   className?: string
@@ -21,17 +21,14 @@ const SongInfoSubHeader = ({ className }: SongInfoSubHeaderProps) => {
       <div className="flex items-center justify-center">
         <Typography affects={["small", "muted", "uppercase"]}>#</Typography>
       </div>
-      <Typography className="text-muted-foreground text-sm font-medium">
-        {t("common.title")}
-      </Typography>
-      <Typography className="text-muted-foreground text-sm font-medium">
-        {t("common.album")}
-      </Typography>
-      <Typography className="text-muted-foreground text-sm font-medium">
-        {t("common.added")}
-      </Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.title")}</Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.album")}</Typography>
+      <Typography affects={["small", "muted", "uppercase"]}>{t("common.added")}</Typography>
       <div className="flex items-center justify-center">
         <Icon name="Timer" className="text-muted-foreground" />
+      </div>
+      <div className="opacity-0">
+        <IconButton name="MoreHorizontal" />
       </div>
     </div>
   )
