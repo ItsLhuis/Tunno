@@ -198,7 +198,7 @@ const PlaylistActionsContent = memo(
 
     if (shouldFetchPlaylist && (isError || !targetPlaylist)) {
       return (
-        <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
+        <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
           {t("common.noResultsFound")}
         </Typography>
       )
@@ -208,7 +208,7 @@ const PlaylistActionsContent = memo(
 
     if (!hasAnyActions) {
       return (
-        <Typography affects={["muted"]} className="flex h-full items-center justify-center py-3">
+        <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
           {t("common.noResultsFound")}
         </Typography>
       )
