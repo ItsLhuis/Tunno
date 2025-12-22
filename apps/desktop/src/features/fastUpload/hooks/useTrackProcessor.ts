@@ -445,6 +445,8 @@ export function useTrackProcessor() {
           thumbnailsUpdated
         }
       } catch (error) {
+        console.error("FastUpload: Error in processTrack:", track.title, error)
+
         return {
           success: false,
           skipped: false,

@@ -2,7 +2,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { open } from "@tauri-apps/plugin-shell"
 
-import { Header, IconButton, Typography } from "@components/ui"
+import { Header, IconButton, SafeLink, Typography } from "@components/ui"
 
 import { ProcessingControls } from "./ProcessingControls"
 import { ProgressSection } from "./ProgressSection"
@@ -24,8 +24,17 @@ const FastUploadHeader = () => {
           <ProcessingControls className="ml-auto" />
         </div>
         <div className="flex items-center gap-1">
-          <Typography variant="p" affects={["muted", "small"]}>
-            {t("fastUpload.description")}
+          <Typography
+            variant="p"
+            affects={["muted", "small"]}
+            className="flex flex-row items-center gap-1"
+          >
+            {t("fastUpload.description")}{" "}
+            <SafeLink to="/settings/sync">
+              <Typography variant="p" affects={["muted", "small", "underline"]}>
+                {t("settings.title")} → {t("settings.sync.title")}
+              </Typography>
+            </SafeLink>
           </Typography>
           <IconButton
             name="ExternalLink"

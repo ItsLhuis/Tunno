@@ -68,6 +68,7 @@ export function useFastUploadProcessor() {
       try {
         await entityCacheRef.current.initialize()
       } catch (error) {
+        console.error("FastUpload: Error initializing entity cache:", error)
         entityCacheRef.current = null
       }
     }
@@ -101,6 +102,7 @@ export function useFastUploadProcessor() {
           incrementErrorCount()
         }
       } catch (error) {
+        console.error("FastUpload: Error processing track:", track.id, error)
         updateTrackStatus(track.id, "error", "Failed to import track")
         addError({
           trackId: track.id,

@@ -10,7 +10,7 @@ import { useFastUploadProcessor } from "../hooks/useFastUploadProcessor"
 
 import { cleanupAllFastUploadCache, cleanupCacheDirectory } from "../api/tauri"
 
-import { Button, UploadPicker } from "@components/ui"
+import { Button, Fade, UploadPicker } from "@components/ui"
 
 type ProcessingControlsProps = {
   className?: string
@@ -34,6 +34,10 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
   )
 
   const isValidating = status === "validating"
+  const isReady = status === "ready"
+  const isCompleted = status === "completed"
+  const isIdle = status === "idle" || status === "error"
+  const isLoading = isProcessing || isValidating
 
   const handleBundleSelect = async (path: string) => {
     if (isValidating || isProcessing) return
@@ -91,51 +95,61 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
     resetStore()
   }
 
-  const isReady = status === "ready"
-  const isCompleted = status === "completed"
-
-  const showSecondaryButton = isReady || isCompleted
-  const secondaryButtonText = isCompleted ? t("common.clear") : t("fastUpload.selectBundle")
-
-  const primaryButtonText = isReady ? t("common.start") : t("fastUpload.selectBundle")
-
-  const isLoading = isProcessing || isValidating
-
   return (
     <div className={className}>
       <div className="ml-auto flex items-center gap-2">
-        {showSecondaryButton ? (
-          isCompleted ? (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleClearAndSelectNew}
-              isLoading={isLoading}
-            >
-              {secondaryButtonText}
-            </Button>
-          ) : (
+        <Fade show={isIdle} mode="popLayout" initial={false}>
+          <UploadPicker
+            mode="file"
+            onChange={handleBundleSelect}
+            onError={handleBundleError}
+            accept={["zip"]}
+            disabled={isLoading}
+            hideDefaultTrigger
+            trigger={({ onClick, disabled }) => (
+              <Button size="sm" onClick={onClick} disabled={disabled} isLoading={isLoading}>
+                {t("fastUpload.selectBundle")}
+              </Button>
+            )}
+            showPreview={false}
+          />
+        </Fade>
+        <Fade show={isReady || isProcessing} mode="popLayout" initial={false}>
+          <div className="flex items-center gap-2">
             <UploadPicker
               mode="file"
               onChange={handleBundleSelect}
               onError={handleBundleError}
               accept={["zip"]}
               disabled={isLoading}
-              hideDefaultTrigger={true}
-              trigger={
-                <Button variant="outline" size="sm" isLoading={isLoading}>
-                  {secondaryButtonText}
+              hideDefaultTrigger
+              trigger={({ onClick, disabled }) => (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onClick}
+                  disabled={disabled}
+                  isLoading={isLoading}
+                >
+                  {t("fastUpload.selectBundle")}
                 </Button>
-              }
+              )}
               showPreview={false}
             />
-          )
-        ) : (
-          <Button variant="outline" size="sm" style={{ visibility: "hidden" }} disabled>
-            {t("fastUpload.changeBundle")}
-          </Button>
-        )}
-        {isReady && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleClearAndSelectNew}
+              isLoading={isLoading}
+            >
+              {t("common.clear")}
+            </Button>
+            <Button onClick={handleStartProcessing} isLoading={isLoading} size="sm">
+              {t("common.start")}
+            </Button>
+          </div>
+        </Fade>
+        <Fade show={isCompleted} mode="popLayout" initial={false}>
           <Button
             variant="outline"
             size="sm"
@@ -144,27 +158,7 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
           >
             {t("common.clear")}
           </Button>
-        )}
-        {isReady ? (
-          <Button onClick={handleStartProcessing} isLoading={isLoading} size="sm">
-            {primaryButtonText}
-          </Button>
-        ) : (
-          <UploadPicker
-            mode="file"
-            onChange={handleBundleSelect}
-            onError={handleBundleError}
-            accept={["zip"]}
-            disabled={isLoading}
-            hideDefaultTrigger={true}
-            trigger={
-              <Button size="sm" isLoading={isLoading}>
-                {primaryButtonText}
-              </Button>
-            }
-            showPreview={false}
-          />
-        )}
+        </Fade>
       </div>
     </div>
   )

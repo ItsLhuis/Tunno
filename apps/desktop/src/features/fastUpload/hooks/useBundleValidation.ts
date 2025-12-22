@@ -75,6 +75,8 @@ export function useBundleValidation() {
         cachePath
       }
     } catch (error) {
+      console.error("FastUpload: Error in validateBundle:", error)
+
       const errorMessage = error instanceof Error ? error.message : String(error)
       const errorLower = errorMessage.toLowerCase()
 

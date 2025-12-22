@@ -2,7 +2,8 @@ export type FastUploadManifest = {
   version: number
   createdAt: string
   source: {
-    cliVersion: string
+    type: "cli" | "desktop"
+    version: string
     os: string
   }
   stats: {
