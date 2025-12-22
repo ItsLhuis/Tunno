@@ -539,14 +539,31 @@ export const ukrainian: Language = {
       },
       sync: {
         title: "Синхронізація",
-        description: "Синхронізуйте дані між пристроями"
+        description: "Синхронізуйте дані між пристроями",
+        export: {
+          title: "Експорт бібліотеки",
+          description:
+            "Експортуйте вашу бібліотеку як файл пакету для резервного копіювання або використання на іншому пристрої",
+          selectDestination: "Вибрати місце призначення",
+          exportingSongs: "Експорт {count} пісн{count, plural, one {і} few {і} other {ь}}",
+          preparingExport: "Підготовка експорту",
+          exportingMessage: "Це може зайняти деякий час",
+          exportSuccess: "Бібліотеку успішно експортовано",
+          showFolder: "Показати папку",
+          exportAgain: "Експортувати знову",
+          exportFailed: "Помилка експорту",
+          tryAgain: "Спробувати знову",
+          noSongs: "Немає пісень для експорту",
+          libraryEmpty: "Ваша бібліотека порожня",
+          noValidSongs: "Немає дійсних пісень для експорту",
+          missingAlbumInfo: "Усі пісні не мають інформації про альбом",
+          songsExported:
+            "{count} пісн{count, plural, one {я} few{і} other{ень}} експортовано до пакету"
+        }
       },
       about: {
         title: "Про програму",
-        identity: {
-          title: "Про програму",
-          description: "Інформація про програму та деталі версії"
-        },
+        description: "Інформація про програму та деталі версії",
         whatsNew: {
           title: "Що нового",
           description: "Ознайомтесь з останніми функціями та покращеннями",
@@ -570,7 +587,7 @@ export const ukrainian: Language = {
     },
     fastUpload: {
       title: "Швидке завантаження",
-      description: "Створіть пакет за допомогою Tunno CLI, потім імпортуйте його тут",
+      description: "Імпортуйте пакети з CLI або експортовані з",
       cliTooltip: "Відкрити документацію Tunno CLI",
       selectBundle: "Вибрати пакет",
       changeBundle: "Змінити пакет",

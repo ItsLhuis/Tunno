@@ -9,10 +9,12 @@ use tauri_plugin_window_state::StateFlags;
 
 mod api;
 mod fastupload;
+mod sync;
 mod utils;
 
 use api::commands::*;
 use fastupload::*;
+use sync::*;
 use utils::*;
 
 #[cfg(debug_assertions)]
@@ -65,7 +67,8 @@ pub fn run() {
             fast_upload_extract_manifest,
             fast_upload_cleanup_cache_directory,
             fast_upload_check_cache_exists,
-            fast_upload_cleanup_all_cache
+            fast_upload_cleanup_all_cache,
+            sync_create_bundle
         ])
         .setup(|app| {
             #[cfg(desktop)]

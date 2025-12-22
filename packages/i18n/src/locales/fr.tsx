@@ -540,14 +540,31 @@ export const french: Language = {
       },
       sync: {
         title: "Synchronisation",
-        description: "Synchroniseուս vos données sur tous vos appareils"
+        description: "Synchronisez vos données sur tous vos appareils",
+        export: {
+          title: "Exporter la bibliothèque",
+          description:
+            "Exportez votre bibliothèque sous forme de fichier bundle pour la sauvegarde ou pour l'utiliser sur un autre appareil",
+          selectDestination: "Sélectionner la destination",
+          exportingSongs: "Exportation de {count} chanson{count, plural, one {} other{s}}",
+          preparingExport: "Préparation de l'exportation",
+          exportingMessage: "Cela peut prendre un moment",
+          exportSuccess: "Bibliothèque exportée avec succès",
+          showFolder: "Afficher le dossier",
+          exportAgain: "Exporter à nouveau",
+          exportFailed: "Échec de l'exportation",
+          tryAgain: "Réessayer",
+          noSongs: "Aucune chanson à exporter",
+          libraryEmpty: "Votre bibliothèque est vide",
+          noValidSongs: "Aucune chanson valide à exporter",
+          missingAlbumInfo: "Toutes les chansons n'ont pas d'informations d'album",
+          songsExported:
+            "{count} chanson{count, plural, one {} other{s}} exportée{count, plural, one {} other{s}} vers le bundle"
+        }
       },
       about: {
         title: "À propos",
-        identity: {
-          title: "À propos",
-          description: "Informations sur l'application et détails de la version"
-        },
+        description: "Informations sur l'application et détails de la version",
         whatsNew: {
           title: "Nouveautés",
           description: "Découvrez les dernières fonctionnalités et améliorations",
@@ -571,7 +588,7 @@ export const french: Language = {
     },
     fastUpload: {
       title: "Téléversement rapide",
-      description: "Créez un paquet avec Tunno CLI, puis importez-le ici",
+      description: "Importer des paquets du CLI ou exportés depuis",
       cliTooltip: "Ouvrir la documentation de Tunno CLI",
       selectBundle: "Sélectionner le paquet",
       changeBundle: "Changer le paquet",

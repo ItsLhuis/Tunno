@@ -540,14 +540,30 @@ export const dutch: Language = {
       },
       sync: {
         title: "Synchronisatie",
-        description: "Synchroniseer je gegevens tussen apparaten"
+        description: "Synchroniseer je gegevens tussen apparaten",
+        export: {
+          title: "Bibliotheek exporteren",
+          description:
+            "Exporteer je bibliotheek als een bundelbestand voor back-up of om op een ander apparaat te gebruiken",
+          selectDestination: "Selecteer bestemming",
+          exportingSongs: "{count} nummer{count, plural, one {} other{s}} exporteren",
+          preparingExport: "Export voorbereiden",
+          exportingMessage: "Dit kan even duren",
+          exportSuccess: "Bibliotheek succesvol geëxporteerd",
+          showFolder: "Map tonen",
+          exportAgain: "Opnieuw exporteren",
+          exportFailed: "Export mislukt",
+          tryAgain: "Opnieuw proberen",
+          noSongs: "Geen nummers om te exporteren",
+          libraryEmpty: "Je bibliotheek is leeg",
+          noValidSongs: "Geen geldige nummers om te exporteren",
+          missingAlbumInfo: "Alle nummers missen albuminformatie",
+          songsExported: "{count} nummer{count, plural, one {} other{s}} geëxporteerd naar bundel"
+        }
       },
       about: {
         title: "Over",
-        identity: {
-          title: "Over",
-          description: "Applicatie-informatie en versiedetails"
-        },
+        description: "Applicatie-informatie en versiedetails",
         whatsNew: {
           title: "Wat is er nieuw",
           description: "Bekijk de nieuwste functies en verbeteringen",
@@ -571,7 +587,7 @@ export const dutch: Language = {
     },
     fastUpload: {
       title: "Snelle upload",
-      description: "Maak een pakket met Tunno CLI en importeer het hier",
+      description: "Importeer pakketten van de CLI of geëxporteerd vanuit",
       cliTooltip: "Open Tunno CLI-documentatie",
       selectBundle: "Pakket selecteren",
       changeBundle: "Pakket wijzigen",

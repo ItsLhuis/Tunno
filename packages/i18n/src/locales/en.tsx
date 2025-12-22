@@ -539,14 +539,30 @@ export const english: Language = {
       },
       sync: {
         title: "Sync",
-        description: "Synchronize your data across devices"
+        description: "Synchronize your data across devices",
+        export: {
+          title: "Export Library",
+          description:
+            "Export your library as a bundle file for backup or to use on another device",
+          selectDestination: "Select destination",
+          exportingSongs: "Exporting {count} song{count, plural, one {} other{s}}",
+          preparingExport: "Preparing export",
+          exportingMessage: "This may take a moment",
+          exportSuccess: "Library exported successfully",
+          showFolder: "Show folder",
+          exportAgain: "Export again",
+          exportFailed: "Export failed",
+          tryAgain: "Try again",
+          noSongs: "No songs to export",
+          libraryEmpty: "Your library is empty",
+          noValidSongs: "No valid songs to export",
+          missingAlbumInfo: "All songs are missing album information",
+          songsExported: "{count} song{count, plural, one {} other{s}} exported to bundle"
+        }
       },
       about: {
         title: "About",
-        identity: {
-          title: "About",
-          description: "Application information and version details"
-        },
+        description: "Application information and version details",
         whatsNew: {
           title: "What's New",
           description: "Check out the latest features and improvements",
@@ -570,7 +586,7 @@ export const english: Language = {
     },
     fastUpload: {
       title: "Fast Upload",
-      description: "Create a bundle using the Tunno CLI, then import it here",
+      description: "Import bundles from the CLI or exported from",
       cliTooltip: "Open Tunno CLI documentation",
       selectBundle: "Select bundle",
       changeBundle: "Change bundle",

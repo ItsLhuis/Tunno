@@ -539,14 +539,30 @@ export const vietnamese: Language = {
       },
       sync: {
         title: "Đồng bộ",
-        description: "Đồng bộ dữ liệu của bạn trên các thiết bị"
+        description: "Đồng bộ dữ liệu của bạn trên các thiết bị",
+        export: {
+          title: "Xuất thư viện",
+          description:
+            "Xuất thư viện của bạn dưới dạng tệp gói để sao lưu hoặc sử dụng trên thiết bị khác",
+          selectDestination: "Chọn đích",
+          exportingSongs: "Đang xuất {count} bài hát",
+          preparingExport: "Đang chuẩn bị xuất",
+          exportingMessage: "Quá trình này có thể mất một lúc",
+          exportSuccess: "Xuất thư viện thành công",
+          showFolder: "Hiển thị thư mục",
+          exportAgain: "Xuất lại",
+          exportFailed: "Xuất thất bại",
+          tryAgain: "Thử lại",
+          noSongs: "Không có bài hát để xuất",
+          libraryEmpty: "Thư viện của bạn trống",
+          noValidSongs: "Không có bài hát hợp lệ để xuất",
+          missingAlbumInfo: "Tất cả bài hát thiếu thông tin album",
+          songsExported: "{count} bài hát đã xuất sang gói"
+        }
       },
       about: {
         title: "Về ứng dụng",
-        identity: {
-          title: "Về ứng dụng",
-          description: "Thông tin ứng dụng và chi tiết phiên bản"
-        },
+        description: "Thông tin ứng dụng và chi tiết phiên bản",
         whatsNew: {
           title: "Tính năng mới",
           description: "Xem các tính năng và cải tiến mới nhất",
@@ -570,7 +586,7 @@ export const vietnamese: Language = {
     },
     fastUpload: {
       title: "Tải lên nhanh",
-      description: "Tạo gói bằng Tunno CLI, sau đó nhập vào đây",
+      description: "Nhập gói từ CLI hoặc được xuất từ",
       cliTooltip: "Mở tài liệu Tunno CLI",
       selectBundle: "Chọn gói",
       changeBundle: "Thay đổi gói",

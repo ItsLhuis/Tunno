@@ -540,14 +540,31 @@ export const portuguese: Language = {
       },
       sync: {
         title: "Sincronização",
-        description: "Sincronize os seus dados entre dispositivos"
+        description: "Sincronize os seus dados entre dispositivos",
+        export: {
+          title: "Exportar biblioteca",
+          description:
+            "Exporte a sua biblioteca como um ficheiro de pacote para backup ou para usar noutro dispositivo",
+          selectDestination: "Selecionar destino",
+          exportingSongs: "A exportar {count} música{count, plural, one {} other{s}}",
+          preparingExport: "A preparar exportação",
+          exportingMessage: "Isto pode demorar um momento",
+          exportSuccess: "Biblioteca exportada com sucesso",
+          showFolder: "Mostrar pasta",
+          exportAgain: "Exportar novamente",
+          exportFailed: "Falha na exportação",
+          tryAgain: "Tentar novamente",
+          noSongs: "Sem músicas para exportar",
+          libraryEmpty: "A tua biblioteca está vazia",
+          noValidSongs: "Sem músicas válidas para exportar",
+          missingAlbumInfo: "Todas as músicas não têm informação do álbum",
+          songsExported:
+            "{count} música{count, plural, one {} other{s}} exportada{count, plural, one {} other{s}} para o pacote"
+        }
       },
       about: {
         title: "Sobre",
-        identity: {
-          title: "Sobre",
-          description: "Informações da aplicação e detalhes da versão"
-        },
+        description: "Informações da aplicação e detalhes da versão",
         whatsNew: {
           title: "Novidades",
           description: "Consulte as últimas funcionalidades e melhorias",
@@ -571,7 +588,7 @@ export const portuguese: Language = {
     },
     fastUpload: {
       title: "Upload Rápido",
-      description: "Cria um pacote usando o Tunno CLI, depois importa-o aqui",
+      description: "Importa pacotes do CLI ou exportados de",
       cliTooltip: "Abrir documentação do Tunno CLI",
       selectBundle: "Selecionar pacote",
       changeBundle: "Alterar pacote",

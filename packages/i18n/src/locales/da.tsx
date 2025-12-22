@@ -539,14 +539,30 @@ export const danish: Language = {
       },
       sync: {
         title: "Synkronisering",
-        description: "Synkroniser dine data på tværs af enheder"
+        description: "Synkroniser dine data på tværs af enheder",
+        export: {
+          title: "Eksporter bibliotek",
+          description:
+            "Eksporter dit bibliotek som en bundle-fil til backup eller til brug på en anden enhed",
+          selectDestination: "Vælg destination",
+          exportingSongs: "Eksporterer {count} sang{count, plural, one {} other{e}}",
+          preparingExport: "Forbereder eksport",
+          exportingMessage: "Dette kan tage et øjeblik",
+          exportSuccess: "Bibliotek eksporteret",
+          showFolder: "Vis mappe",
+          exportAgain: "Eksporter igen",
+          exportFailed: "Eksport mislykkedes",
+          tryAgain: "Prøv igen",
+          noSongs: "Ingen sange at eksportere",
+          libraryEmpty: "Dit bibliotek er tomt",
+          noValidSongs: "Ingen gyldige sange at eksportere",
+          missingAlbumInfo: "Alle sange mangler albuminformation",
+          songsExported: "{count} sang{count, plural, one {} other{e}} eksporteret til pakke"
+        }
       },
       about: {
         title: "Om",
-        identity: {
-          title: "Om",
-          description: "Applikationsinformation og versionsdetaljer"
-        },
+        description: "Applikationsinformation og versionsdetaljer",
         whatsNew: {
           title: "Hvad er nyt",
           description: "Tjek de seneste funktioner og forbedringer ud",
@@ -570,7 +586,7 @@ export const danish: Language = {
     },
     fastUpload: {
       title: "Hurtig Upload",
-      description: "Opret en pakke med Tunno CLI, og importer den her",
+      description: "Importer pakker fra CLI eller eksporteret fra",
       cliTooltip: "Åbn Tunno CLI-dokumentation",
       selectBundle: "Vælg pakke",
       changeBundle: "Skift pakke",

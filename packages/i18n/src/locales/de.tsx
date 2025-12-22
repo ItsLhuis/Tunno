@@ -539,14 +539,30 @@ export const german: Language = {
       },
       sync: {
         title: "Synchronisation",
-        description: "Synchronisieren Sie Ihre Daten zwischen Geräten"
+        description: "Synchronisieren Sie Ihre Daten zwischen Geräten",
+        export: {
+          title: "Bibliothek exportieren",
+          description:
+            "Exportieren Sie Ihre Bibliothek als Bundle-Datei zur Sicherung oder zur Verwendung auf einem anderen Gerät",
+          selectDestination: "Ziel auswählen",
+          exportingSongs: "Exportiere {count} Song{count, plural, one {} other{s}}",
+          preparingExport: "Export wird vorbereitet",
+          exportingMessage: "Dies kann einen Moment dauern",
+          exportSuccess: "Bibliothek erfolgreich exportiert",
+          showFolder: "Ordner anzeigen",
+          exportAgain: "Erneut exportieren",
+          exportFailed: "Export fehlgeschlagen",
+          tryAgain: "Erneut versuchen",
+          noSongs: "Keine Songs zum Exportieren",
+          libraryEmpty: "Deine Bibliothek ist leer",
+          noValidSongs: "Keine gültigen Songs zum Exportieren",
+          missingAlbumInfo: "Allen Songs fehlen Albuminformationen",
+          songsExported: "{count} Song{count, plural, one {} other{s}} in Bundle exportiert"
+        }
       },
       about: {
         title: "Über",
-        identity: {
-          title: "Über",
-          description: "Anwendungsinformationen und Versionsdetails"
-        },
+        description: "Anwendungsinformationen und Versionsdetails",
         whatsNew: {
           title: "Neues",
           description: "Erkunden Sie die neuesten Funktionen und Verbesserungen",
@@ -570,7 +586,7 @@ export const german: Language = {
     },
     fastUpload: {
       title: "Schneller Upload",
-      description: "Erstellen Sie ein Bundle mit dem Tunno CLI und importieren Sie es hier",
+      description: "Importiere Pakete vom CLI oder exportiert von",
       cliTooltip: "Tunno CLI-Dokumentation öffnen",
       selectBundle: "Paket auswählen",
       changeBundle: "Paket ändern",

@@ -541,13 +541,28 @@ export type Translations = {
     sync: {
       title: string
       description: string
+      export: {
+        title: string
+        description: string
+        selectDestination: string
+        exportingSongs: string
+        preparingExport: string
+        exportingMessage: string
+        exportSuccess: string
+        showFolder: string
+        exportAgain: string
+        exportFailed: string
+        tryAgain: string
+        noSongs: string
+        libraryEmpty: string
+        noValidSongs: string
+        missingAlbumInfo: string
+        songsExported: string
+      }
     }
     about: {
       title: string
-      identity: {
-        title: string
-        description: string
-      }
+      description: string
       whatsNew: {
         title: string
         description: string

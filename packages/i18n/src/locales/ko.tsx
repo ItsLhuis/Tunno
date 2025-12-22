@@ -539,14 +539,29 @@ export const korean: Language = {
       },
       sync: {
         title: "동기화",
-        description: "기기 간 데이터 동기화"
+        description: "기기 간 데이터 동기화",
+        export: {
+          title: "라이브러리 내보내기",
+          description: "백업용 또는 다른 기기에서 사용하기 위해 라이브러리를 번들 파일로 내보내기",
+          selectDestination: "대상 선택",
+          exportingSongs: "{count}곡 내보내는 중",
+          preparingExport: "내보내기 준비 중",
+          exportingMessage: "잠시 기다려 주세요",
+          exportSuccess: "라이브러리 내보내기 완료",
+          showFolder: "폴더 표시",
+          exportAgain: "다시 내보내기",
+          exportFailed: "내보내기 실패",
+          tryAgain: "다시 시도",
+          noSongs: "내보낼 곡이 없습니다",
+          libraryEmpty: "라이브러리가 비어 있습니다",
+          noValidSongs: "내보낼 수 있는 유효한 곡이 없습니다",
+          missingAlbumInfo: "모든 곡에 앨범 정보가 없습니다",
+          songsExported: "{count}곡을 번들로 내보냈습니다"
+        }
       },
       about: {
         title: "정보",
-        identity: {
-          title: "정보",
-          description: "애플리케이션 정보 및 버전 세부 정보"
-        },
+        description: "애플리케이션 정보 및 버전 세부 정보",
         whatsNew: {
           title: "새로운 기능",
           description: "최신 기능과 개선 사항을 확인하세요",
@@ -570,7 +585,7 @@ export const korean: Language = {
     },
     fastUpload: {
       title: "빠른 업로드",
-      description: "Tunno CLI를 사용하여 번들을 만든 다음 여기에서 가져옵니다",
+      description: "CLI에서 또는 다음에서 내보낸 번들 가져오기",
       cliTooltip: "Tunno CLI 문서 열기",
       selectBundle: "번들 선택",
       changeBundle: "번들 변경",

@@ -539,14 +539,31 @@ export const swedish: Language = {
       },
       sync: {
         title: "Synkronisering",
-        description: "Synkronisera dina data mellan enheter"
+        description: "Synkronisera dina data mellan enheter",
+        export: {
+          title: "Exportera bibliotek",
+          description:
+            "Exportera ditt bibliotek som en paketfil för säkerhetskopiering eller för användning på en annan enhet",
+          selectDestination: "Välj destination",
+          exportingSongs: "Exporterar {count} låt{count, plural, one {} other{ar}}",
+          preparingExport: "Förbereder export",
+          exportingMessage: "Detta kan ta en stund",
+          exportSuccess: "Bibliotek exporterat",
+          showFolder: "Visa mapp",
+          exportAgain: "Exportera igen",
+          exportFailed: "Export misslyckades",
+          tryAgain: "Försök igen",
+          noSongs: "Inga låtar att exportera",
+          libraryEmpty: "Ditt bibliotek är tomt",
+          noValidSongs: "Inga giltiga låtar att exportera",
+          missingAlbumInfo: "Alla låtar saknar albuminformation",
+          songsExported:
+            "{count} låt{count, plural, one {} other{ar}} exporterad{count, plural, one {} other{e}} till paket"
+        }
       },
       about: {
         title: "Om",
-        identity: {
-          title: "Om",
-          description: "Applikationsinformation och versionsdetaljer"
-        },
+        description: "Applikationsinformation och versionsdetaljer",
         whatsNew: {
           title: "Vad är nytt",
           description: "Kolla in de senaste funktionerna och förbättringarna",
@@ -570,7 +587,7 @@ export const swedish: Language = {
     },
     fastUpload: {
       title: "Snabb uppladdning",
-      description: "Skapa ett paket med Tunno CLI och importera det här",
+      description: "Importera paket från CLI eller exporterade från",
       cliTooltip: "Öppna Tunno CLI-dokumentation",
       selectBundle: "Välj paket",
       changeBundle: "Ändra paket",

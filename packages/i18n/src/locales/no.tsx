@@ -539,14 +539,30 @@ export const norwegian: Language = {
       },
       sync: {
         title: "Synkronisering",
-        description: "Synkroniser data på tvers av enheter"
+        description: "Synkroniser data på tvers av enheter",
+        export: {
+          title: "Eksporter bibliotek",
+          description:
+            "Eksporter biblioteket ditt som en pakkefil for sikkerhetskopiering eller for bruk på en annen enhet",
+          selectDestination: "Velg destinasjon",
+          exportingSongs: "Eksporterer {count} sang{count, plural, one {} other{er}}",
+          preparingExport: "Forbereder eksport",
+          exportingMessage: "Dette kan ta et øyeblikk",
+          exportSuccess: "Bibliotek eksportert",
+          showFolder: "Vis mappe",
+          exportAgain: "Eksporter på nytt",
+          exportFailed: "Eksport mislyktes",
+          tryAgain: "Prøv igjen",
+          noSongs: "Ingen sanger å eksportere",
+          libraryEmpty: "Biblioteket ditt er tomt",
+          noValidSongs: "Ingen gyldige sanger å eksportere",
+          missingAlbumInfo: "Alle sanger mangler albuminformasjon",
+          songsExported: "{count} sang{count, plural, one {} other{er}} eksportert til pakke"
+        }
       },
       about: {
         title: "Om",
-        identity: {
-          title: "Om",
-          description: "Applikasjonsinformasjon og versjonsdetaljer"
-        },
+        description: "Applikasjonsinformasjon og versjonsdetaljer",
         whatsNew: {
           title: "Hva er nytt",
           description: "Sjekk ut de nyeste funksjonene og forbedringene",
@@ -570,7 +586,7 @@ export const norwegian: Language = {
     },
     fastUpload: {
       title: "Rask opplasting",
-      description: "Opprett en pakke med Tunno CLI, og importer den her",
+      description: "Importer pakker fra CLI eller eksportert fra",
       cliTooltip: "Åpne Tunno CLI-dokumentasjon",
       selectBundle: "Velg pakke",
       changeBundle: "Endre pakke",

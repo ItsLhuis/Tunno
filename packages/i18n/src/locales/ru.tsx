@@ -539,14 +539,31 @@ export const russian: Language = {
       },
       sync: {
         title: "Синхронизация",
-        description: "Синхронизируйте данные между устройствами"
+        description: "Синхронизируйте данные между устройствами",
+        export: {
+          title: "Экспорт библиотеки",
+          description:
+            "Экспортируйте вашу библиотеку как файл пакета для резервного копирования или использования на другом устройстве",
+          selectDestination: "Выбрать место назначения",
+          exportingSongs: "Экспорт {count} песн{count, plural, one {и} few {и} other {ей}}",
+          preparingExport: "Подготовка экспорта",
+          exportingMessage: "Это может занять некоторое время",
+          exportSuccess: "Библиотека успешно экспортирована",
+          showFolder: "Показать папку",
+          exportAgain: "Экспортировать снова",
+          exportFailed: "Ошибка экспорта",
+          tryAgain: "Попробовать снова",
+          noSongs: "Нет песен для экспорта",
+          libraryEmpty: "Ваша библиотека пуста",
+          noValidSongs: "Нет допустимых песен для экспорта",
+          missingAlbumInfo: "У всех песен отсутствует информация об альбоме",
+          songsExported:
+            "{count} пес{count, plural, one {ня} few{ни} other{ен}} экспортировано в пакет"
+        }
       },
       about: {
         title: "О программе",
-        identity: {
-          title: "О программе",
-          description: "Информация о приложении и сведения о версии"
-        },
+        description: "Информация о приложении и сведения о версии",
         whatsNew: {
           title: "Что нового",
           description: "Ознакомьтесь с последними функциями и улучшениями",
@@ -570,7 +587,7 @@ export const russian: Language = {
     },
     fastUpload: {
       title: "Быстрая загрузка",
-      description: "Создайте пакет с помощью Tunno CLI, затем импортируйте его здесь",
+      description: "Импортируйте пакеты из CLI или экспортированные из",
       cliTooltip: "Открыть документацию Tunno CLI",
       selectBundle: "Выбрать пакет",
       changeBundle: "Изменить пакет",

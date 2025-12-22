@@ -539,14 +539,30 @@ export const turkish: Language = {
       },
       sync: {
         title: "Senkronizasyon",
-        description: "Verilerinizi cihazlar arasında senkronize edin"
+        description: "Verilerinizi cihazlar arasında senkronize edin",
+        export: {
+          title: "Kütüphaneyi dışa aktar",
+          description:
+            "Kütüphanenizi yedekleme veya başka bir cihazda kullanmak için paket dosyası olarak dışa aktarın",
+          selectDestination: "Hedef seçin",
+          exportingSongs: "{count} şarkı dışa aktarılıyor",
+          preparingExport: "Dışa aktarma hazırlanıyor",
+          exportingMessage: "Bu biraz zaman alabilir",
+          exportSuccess: "Kütüphane başarıyla dışa aktarıldı",
+          showFolder: "Klasörü göster",
+          exportAgain: "Tekrar dışa aktar",
+          exportFailed: "Dışa aktarma başarısız",
+          tryAgain: "Tekrar dene",
+          noSongs: "Dışa aktarılacak şarkı yok",
+          libraryEmpty: "Kütüphanen boş",
+          noValidSongs: "Dışa aktarılacak geçerli şarkı yok",
+          missingAlbumInfo: "Tüm şarkılarda albüm bilgisi eksik",
+          songsExported: "{count} şarkı pakete dışa aktarıldı"
+        }
       },
       about: {
         title: "Hakkında",
-        identity: {
-          title: "Hakkında",
-          description: "Uygulama bilgileri ve sürüm ayrıntıları"
-        },
+        description: "Uygulama bilgileri ve sürüm ayrıntıları",
         whatsNew: {
           title: "Yenilikler",
           description: "En son özellikleri ve iyileştirmeleri kontrol edin",
@@ -570,7 +586,7 @@ export const turkish: Language = {
     },
     fastUpload: {
       title: "Hızlı Yükleme",
-      description: "Tunno CLI kullanarak bir paket oluşturun, ardından buraya aktarın",
+      description: "CLI'dan veya dışa aktarılan paketleri içe aktar",
       cliTooltip: "Tunno CLI belgelerini aç",
       selectBundle: "Paket seç",
       changeBundle: "Paketi değiştir",

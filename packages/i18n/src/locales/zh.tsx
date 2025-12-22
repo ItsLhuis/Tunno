@@ -537,14 +537,29 @@ export const chinese: Language = {
       },
       sync: {
         title: "同步",
-        description: "在设备间同步您的数据"
+        description: "在设备间同步您的数据",
+        export: {
+          title: "导出音乐库",
+          description: "将您的音乐库导出为打包文件，用于备份或在其他设备上使用",
+          selectDestination: "选择目标位置",
+          exportingSongs: "正在导出 {count} 首歌曲",
+          preparingExport: "准备导出",
+          exportingMessage: "这可能需要一些时间",
+          exportSuccess: "音乐库导出成功",
+          showFolder: "显示文件夹",
+          exportAgain: "再次导出",
+          exportFailed: "导出失败",
+          tryAgain: "重试",
+          noSongs: "没有歌曲可导出",
+          libraryEmpty: "你的音乐库是空的",
+          noValidSongs: "没有有效的歌曲可导出",
+          missingAlbumInfo: "所有歌曲都缺少专辑信息",
+          songsExported: "已将 {count} 首歌曲导出到包"
+        }
       },
       about: {
         title: "关于",
-        identity: {
-          title: "关于",
-          description: "应用程序信息和版本详情"
-        },
+        description: "应用程序信息和版本详情",
         whatsNew: {
           title: "新功能",
           description: "查看最新功能和改进",
@@ -568,7 +583,7 @@ export const chinese: Language = {
     },
     fastUpload: {
       title: "快速上传",
-      description: "使用 Tunno CLI 创建包，然后在此处导入",
+      description: "从 CLI 导入包或从此处导出",
       cliTooltip: "打开 Tunno CLI 文档",
       selectBundle: "选择包",
       changeBundle: "更改包",

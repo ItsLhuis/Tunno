@@ -540,14 +540,31 @@ export const italian: Language = {
       },
       sync: {
         title: "Sincronizzazione",
-        description: "Sincronizza i tuoi dati tra i dispositivi"
+        description: "Sincronizza i tuoi dati tra i dispositivi",
+        export: {
+          title: "Esporta libreria",
+          description:
+            "Esporta la tua libreria come file bundle per il backup o per usarla su un altro dispositivo",
+          selectDestination: "Seleziona destinazione",
+          exportingSongs: "Esportazione di {count} brano{count, plural, one {} other{i}}",
+          preparingExport: "Preparazione esportazione",
+          exportingMessage: "Potrebbe richiedere un momento",
+          exportSuccess: "Libreria esportata con successo",
+          showFolder: "Mostra cartella",
+          exportAgain: "Esporta di nuovo",
+          exportFailed: "Esportazione fallita",
+          tryAgain: "Riprova",
+          noSongs: "Nessuna canzone da esportare",
+          libraryEmpty: "La tua libreria è vuota",
+          noValidSongs: "Nessuna canzone valida da esportare",
+          missingAlbumInfo: "Tutte le canzoni mancano di informazioni sull'album",
+          songsExported:
+            "{count} canzon{count, plural, one {e} other{i}} esportat{count, plural, one {a} other{e}} nel bundle"
+        }
       },
       about: {
         title: "Informazioni",
-        identity: {
-          title: "Informazioni",
-          description: "Informazioni sull'applicazione e dettagli della versione"
-        },
+        description: "Informazioni sull'applicazione e dettagli della versione",
         whatsNew: {
           title: "Novità",
           description: "Scopri le ultime funzionalità e miglioramenti",
@@ -571,7 +588,7 @@ export const italian: Language = {
     },
     fastUpload: {
       title: "Caricamento veloce",
-      description: "Crea un pacchetto usando il CLI Tunno, quindi importalo qui",
+      description: "Importa pacchetti dal CLI o esportati da",
       cliTooltip: "Apri documentazione CLI Tunno",
       selectBundle: "Seleziona pacchetto",
       changeBundle: "Cambia pacchetto",

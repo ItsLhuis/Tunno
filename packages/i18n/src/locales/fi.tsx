@@ -539,14 +539,30 @@ export const finnish: Language = {
       },
       sync: {
         title: "Synkronointi",
-        description: "Synkronoi tietosi laitteiden välillä"
+        description: "Synkronoi tietosi laitteiden välillä",
+        export: {
+          title: "Vie kirjasto",
+          description:
+            "Vie kirjastosi pakettitiedostona varmuuskopioksi tai käytettäväksi toisella laitteella",
+          selectDestination: "Valitse kohde",
+          exportingSongs: "Viedään {count} kappale{count, plural, one {} other{tta}}",
+          preparingExport: "Valmistellaan vientiä",
+          exportingMessage: "Tämä voi kestää hetken",
+          exportSuccess: "Kirjasto viety onnistuneesti",
+          showFolder: "Näytä kansio",
+          exportAgain: "Vie uudelleen",
+          exportFailed: "Vienti epäonnistui",
+          tryAgain: "Yritä uudelleen",
+          noSongs: "Ei kappaleita vietäväksi",
+          libraryEmpty: "Kirjastosi on tyhjä",
+          noValidSongs: "Ei kelvollisia kappaleita vietäväksi",
+          missingAlbumInfo: "Kaikista kappaleista puuttuu albumitiedot",
+          songsExported: "{count} kappale{count, plural, one {} other{tta}} viety pakettiin"
+        }
       },
       about: {
         title: "Tietoja",
-        identity: {
-          title: "Tietoja",
-          description: "Sovellustiedot ja versiotiedot"
-        },
+        description: "Sovellustiedot ja versiotiedot",
         whatsNew: {
           title: "Mitä uutta",
           description: "Tutustu uusimpiin ominaisuuksiin ja parannuksiin",
@@ -570,7 +586,7 @@ export const finnish: Language = {
     },
     fastUpload: {
       title: "Nopea lataus",
-      description: "Luo paketti Tunno CLI:llä ja tuo se tähän",
+      description: "Tuo paketteja CLI:stä tai viety kohteesta",
       cliTooltip: "Avaa Tunno CLI-dokumentaatio",
       selectBundle: "Valitse paketti",
       changeBundle: "Vaihda paketti",

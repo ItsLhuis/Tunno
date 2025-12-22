@@ -539,14 +539,31 @@ export const hindi: Language = {
       },
       sync: {
         title: "सिंक",
-        description: "अपने डेटा को उपकरणों के बीच सिंक्रनाइज़ करें"
+        description: "अपने डेटा को उपकरणों के बीच सिंक्रनाइज़ करें",
+        export: {
+          title: "लाइब्रेरी निर्यात करें",
+          description:
+            "अपनी लाइब्रेरी को बैकअप के लिए या किसी अन्य डिवाइस पर उपयोग के लिए बंडल फ़ाइल के रूप में निर्यात करें",
+          selectDestination: "गंतव्य चुनें",
+          exportingSongs: "{count} गाना निर्यात हो रहा है",
+          preparingExport: "निर्यात की तैयारी",
+          exportingMessage: "इसमें कुछ समय लग सकता है",
+          exportSuccess: "लाइब्रेरी सफलतापूर्वक निर्यात हुई",
+          showFolder: "फ़ोल्डर दिखाएं",
+          exportAgain: "फिर से निर्यात करें",
+          exportFailed: "निर्यात विफल",
+          tryAgain: "पुनः प्रयास करें",
+          noSongs: "निर्यात के लिए कोई गाने नहीं",
+          libraryEmpty: "आपकी लाइब्रेरी खाली है",
+          noValidSongs: "निर्यात के लिए कोई मान्य गाने नहीं",
+          missingAlbumInfo: "सभी गानों में एल्बम जानकारी नहीं है",
+          songsExported:
+            "{count} गाना{count, plural, one {} other {ने}} बंडल में निर्यात किया{count, plural, one {} other {ए}} गया{count, plural, one {} other {ए}}"
+        }
       },
       about: {
         title: "के बारे में",
-        identity: {
-          title: "के बारे में",
-          description: "एप्लिकेशन जानकारी और संस्करण विवरण"
-        },
+        description: "एप्लिकेशन जानकारी और संस्करण विवरण",
         whatsNew: {
           title: "क्या नया है",
           description: "नवीनतम सुविधाओं और सुधारों की जांच करें",
@@ -570,7 +587,7 @@ export const hindi: Language = {
     },
     fastUpload: {
       title: "तेज़ अपलोड",
-      description: "Tunno CLI का उपयोग करके एक बंडल बनाएं, फिर इसे यहाँ आयात करें",
+      description: "CLI से या यहाँ से निर्यातित बंडल आयात करें",
       cliTooltip: "Tunno CLI दस्तावेज़ खोलें",
       selectBundle: "बंडल चुनें",
       changeBundle: "बंडल बदलें",

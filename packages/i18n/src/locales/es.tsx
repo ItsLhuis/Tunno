@@ -540,14 +540,31 @@ export const spanish: Language = {
       },
       sync: {
         title: "Sincronización",
-        description: "Sincronice sus datos en varios dispositivos"
+        description: "Sincronice sus datos en varios dispositivos",
+        export: {
+          title: "Exportar biblioteca",
+          description:
+            "Exporte su biblioteca como un archivo de paquete para respaldo o para usar en otro dispositivo",
+          selectDestination: "Seleccionar destino",
+          exportingSongs: "Exportando {count} canción{count, plural, one {} other{es}}",
+          preparingExport: "Preparando exportación",
+          exportingMessage: "Esto puede tardar un momento",
+          exportSuccess: "Biblioteca exportada exitosamente",
+          showFolder: "Mostrar carpeta",
+          exportAgain: "Exportar de nuevo",
+          exportFailed: "Error al exportar",
+          tryAgain: "Intentar de nuevo",
+          noSongs: "No hay canciones para exportar",
+          libraryEmpty: "Tu biblioteca está vacía",
+          noValidSongs: "No hay canciones válidas para exportar",
+          missingAlbumInfo: "Todas las canciones carecen de información del álbum",
+          songsExported:
+            "{count} canción{count, plural, one {} other{es}} exportada{count, plural, one {} other{s}} al paquete"
+        }
       },
       about: {
         title: "Acerca de",
-        identity: {
-          title: "Acerca de",
-          description: "Información de la aplicación y detalles de versión"
-        },
+        description: "Información de la aplicación y detalles de versión",
         whatsNew: {
           title: "Novedades",
           description: "Consulta las últimas funciones y mejoras",
@@ -571,7 +588,7 @@ export const spanish: Language = {
     },
     fastUpload: {
       title: "Carga rápida",
-      description: "Crea un paquete usando el CLI de Tunno, luego impórtalo aquí",
+      description: "Importa paquetes del CLI o exportados desde",
       cliTooltip: "Abrir documentación del CLI de Tunno",
       selectBundle: "Seleccionar paquete",
       changeBundle: "Cambiar paquete",

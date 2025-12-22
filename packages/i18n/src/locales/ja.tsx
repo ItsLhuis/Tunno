@@ -539,14 +539,30 @@ export const japanese: Language = {
       },
       sync: {
         title: "同期",
-        description: "デバイス間でデータを同期します"
+        description: "デバイス間でデータを同期します",
+        export: {
+          title: "ライブラリをエクスポート",
+          description:
+            "バックアップや他のデバイスで使用するために、ライブラリをバンドルファイルとしてエクスポートします",
+          selectDestination: "保存先を選択",
+          exportingSongs: "{count}曲をエクスポート中",
+          preparingExport: "エクスポートを準備中",
+          exportingMessage: "しばらくお待ちください",
+          exportSuccess: "ライブラリのエクスポートが完了しました",
+          showFolder: "フォルダを表示",
+          exportAgain: "再度エクスポート",
+          exportFailed: "エクスポートに失敗しました",
+          tryAgain: "再試行",
+          noSongs: "エクスポートする曲がありません",
+          libraryEmpty: "ライブラリが空です",
+          noValidSongs: "エクスポートできる有効な曲がありません",
+          missingAlbumInfo: "すべての曲にアルバム情報がありません",
+          songsExported: "{count}曲をバンドルにエクスポートしました"
+        }
       },
       about: {
         title: "について",
-        identity: {
-          title: "について",
-          description: "アプリケーション情報とバージョン詳細"
-        },
+        description: "アプリケーション情報とバージョン詳細",
         whatsNew: {
           title: "新着情報",
           description: "最新の機能と改善を確認してください",
@@ -570,7 +586,7 @@ export const japanese: Language = {
     },
     fastUpload: {
       title: "高速アップロード",
-      description: "Tunno CLIを使用してバンドルを作成し、ここでインポートします",
+      description: "CLIからのバンドルまたはエクスポート元からインポート",
       cliTooltip: "Tunno CLIドキュメントを開く",
       selectBundle: "バンドルを選択",
       changeBundle: "バンドルを変更",

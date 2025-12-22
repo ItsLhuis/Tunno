@@ -539,14 +539,31 @@ export const polish: Language = {
       },
       sync: {
         title: "Synchronizacja",
-        description: "Synchronizuj dane między urządzeniami"
+        description: "Synchronizuj dane między urządzeniami",
+        export: {
+          title: "Eksportuj bibliotekę",
+          description:
+            "Wyeksportuj swoją bibliotekę jako plik pakietu do kopii zapasowej lub do użycia na innym urządzeniu",
+          selectDestination: "Wybierz miejsce docelowe",
+          exportingSongs: "Eksportowanie {count} utwor{count, plural, one {u} few {ów} other {ów}}",
+          preparingExport: "Przygotowywanie eksportu",
+          exportingMessage: "To może chwilę potrwać",
+          exportSuccess: "Biblioteka wyeksportowana pomyślnie",
+          showFolder: "Pokaż folder",
+          exportAgain: "Eksportuj ponownie",
+          exportFailed: "Eksport nie powiódł się",
+          tryAgain: "Spróbuj ponownie",
+          noSongs: "Brak utworów do eksportu",
+          libraryEmpty: "Twoja biblioteka jest pusta",
+          noValidSongs: "Brak prawidłowych utworów do eksportu",
+          missingAlbumInfo: "Wszystkie utwory nie mają informacji o albumie",
+          songsExported:
+            "{count} utwór{count, plural, one {} few{y} other{ów}} wyeksportowano do pakietu"
+        }
       },
       about: {
         title: "O Aplikacji",
-        identity: {
-          title: "O Aplikacji",
-          description: "Informacje o aplikacji i szczegóły wersji"
-        },
+        description: "Informacje o aplikacji i szczegóły wersji",
         whatsNew: {
           title: "Co Nowego",
           description: "Sprawdź najnowsze funkcje i ulepszenia",
@@ -570,7 +587,7 @@ export const polish: Language = {
     },
     fastUpload: {
       title: "Szybkie przesyłanie",
-      description: "Utwórz pakiet używając Tunno CLI, a następnie zaimportuj go tutaj",
+      description: "Importuj pakiety z CLI lub wyeksportowane z",
       cliTooltip: "Otwórz dokumentację Tunno CLI",
       selectBundle: "Wybierz pakiet",
       changeBundle: "Zmień pakiet",
