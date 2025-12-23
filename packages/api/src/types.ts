@@ -16,18 +16,20 @@ export type PaginatedResponse<T> = {
   hasPrevPage: boolean
 }
 
-export type EntityType = "song" | "artist" | "album" | "playlist"
+export type EntityType = "song" | "artist" | "album" | "playlist" | "sidebar"
 
 export type SongRelations = "home" | "artists" | "albums" | "playlists"
-export type ArtistRelations = "home" | "songs" | "albums"
-export type AlbumRelations = "home" | "songs" | "artists"
-export type PlaylistRelations = "home" | "songs"
+export type ArtistRelations = "home" | "songs" | "albums" | "sidebar"
+export type AlbumRelations = "home" | "songs" | "artists" | "sidebar"
+export type PlaylistRelations = "home" | "songs" | "sidebar"
+export type SidebarRelations = "albums" | "artists" | "playlists"
 
 export type RelationsMap = {
   song: SongRelations
   artist: ArtistRelations
   album: AlbumRelations
   playlist: PlaylistRelations
+  sidebar: SidebarRelations
 }
 
 export type InvalidationContext<T extends EntityType> = {
