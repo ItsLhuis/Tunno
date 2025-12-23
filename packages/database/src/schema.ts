@@ -3,6 +3,23 @@ import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "driz
 
 import { v4 as randomUUID } from "uuid"
 
+export const sidebar = sqliteTable(
+  "sidebar",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    entityType: text("entity_type", { enum: ["album", "artist", "playlist"] }).notNull(),
+    entityId: integer("entity_id").notNull(),
+    position: integer("position").notNull().default(0),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`)
+  },
+  (table) => [
+    uniqueIndex("sidebar_entity_unique").on(table.entityType, table.entityId),
+    index("sidebar_created_idx").on(table.createdAt)
+  ]
+)
+
 export const songs = sqliteTable(
   "songs",
   {

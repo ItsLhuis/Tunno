@@ -1,4 +1,7 @@
-import { songs, artists, albums, playlists } from "./schema"
+import { albums, artists, playlists, sidebar, songs } from "./schema"
+
+export type Sidebar = typeof sidebar.$inferSelect
+export type InsertSidebar = typeof sidebar.$inferInsert
 
 export type Song = typeof songs.$inferSelect
 export type InsertSong = typeof songs.$inferInsert
