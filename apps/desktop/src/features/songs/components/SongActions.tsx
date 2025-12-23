@@ -18,10 +18,6 @@ import { cn } from "@lib/utils"
 
 import { State } from "@track-player/web"
 
-import { AddToPlaylistForm } from "@features/playlists/components"
-import { SongForm } from "../forms/SongForm"
-import { DeleteSongDialog } from "./DeleteSongDialog"
-
 import {
   ContextMenu,
   ContextMenuContent,
@@ -50,6 +46,11 @@ import {
   VirtualizedList,
   type VirtualizedListController
 } from "@components/ui"
+
+import { SongForm } from "../forms/SongForm"
+import { DeleteSongDialog } from "./DeleteSongDialog"
+
+import { AddToPlaylistForm } from "@features/playlists/components"
 
 import { type SongWithMainRelations } from "@repo/api"
 
