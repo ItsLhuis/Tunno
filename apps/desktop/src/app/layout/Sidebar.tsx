@@ -1,18 +1,32 @@
-import { useEffect, useState } from "react"
+import { Fragment, useCallback, useEffect, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
 import { useRouterState, type LinkProps } from "@tanstack/react-router"
 
-import { Button, Icon, SafeLink, ScrollArea, type IconProps } from "@components/ui"
+import { useFetchSidebarItems } from "@features/sidebar/hooks"
 
-type SidebarItem = {
+import {
+  Button,
+  Icon,
+  SafeLink,
+  ScrollArea,
+  Separator,
+  VirtualizedList,
+  type IconProps
+} from "@components/ui"
+
+import { SidebarItem } from "@features/sidebar/components"
+
+import { type SidebarItemWithDetails } from "@repo/api"
+
+type SidebarNavItem = {
   icon: IconProps["name"]
   label: "home.title" | "songs.title" | "playlists.title" | "albums.title" | "artists.title"
   href: LinkProps["to"]
 }
 
-const sidebar: SidebarItem[] = [
+const navItems: SidebarNavItem[] = [
   { icon: "Home", label: "home.title", href: "/" },
   { icon: "Music", label: "songs.title", href: "/songs" },
   { icon: "DiscAlbum", label: "albums.title", href: "/albums" },
@@ -23,10 +37,14 @@ const sidebar: SidebarItem[] = [
 const Sidebar = () => {
   const { t } = useTranslation()
 
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const { data: sidebarItems } = useFetchSidebarItems()
+
   const routerState = useRouterState()
   const currentPath = routerState.location.pathname
 
-  const activeIndex = sidebar.findIndex((item) => item.href === currentPath)
+  const activeIndex = navItems.findIndex((item) => item.href === currentPath)
   const [lastValidIndex, setLastValidIndex] = useState<number>(activeIndex)
 
   useEffect(() => {
@@ -35,12 +53,19 @@ const Sidebar = () => {
 
   const isVisible = activeIndex !== -1
 
+  const hasSidebarItems = sidebarItems && sidebarItems.length > 0
+
+  const keyExtractor = useCallback(
+    (item: SidebarItemWithDetails) => `${item.entityType}-${item.entityId}`,
+    []
+  )
+
   return (
-    <aside className="flex h-full flex-row border-r bg-sidebar">
-      <ScrollArea className="h-full">
+    <aside className="bg-sidebar flex h-full flex-row border-r">
+      <ScrollArea className="h-full" ref={scrollRef}>
         <div className="relative">
           <div
-            className="absolute left-0 top-0 w-1 rounded-br-lg rounded-tr-lg bg-primary transition-[transform,opacity]"
+            className="bg-primary absolute top-0 left-0 w-1 rounded-tr-lg rounded-br-lg transition-[transform,opacity]"
             style={{
               transform: `translateY(${lastValidIndex * 3.5}rem)`,
               height: "3.5rem",
@@ -48,12 +73,12 @@ const Sidebar = () => {
             }}
           />
           <div className="flex flex-col bg-transparent">
-            {sidebar.map((item, index) => (
+            {navItems.map((item, index) => (
               <Button
                 key={item.label}
                 tooltip={{ children: t(item.label), side: "right" }}
                 variant="ghost"
-                className="h-14 w-14 rounded-none"
+                className="size-14 rounded-none"
                 asChild
               >
                 <SafeLink to={item.href}>
@@ -65,6 +90,18 @@ const Sidebar = () => {
               </Button>
             ))}
           </div>
+          {hasSidebarItems && (
+            <Fragment>
+              <Separator />
+              <VirtualizedList
+                scrollRef={scrollRef}
+                data={sidebarItems}
+                keyExtractor={keyExtractor}
+                renderItem={({ item }) => <SidebarItem item={item} />}
+                estimateItemHeight={40}
+              />
+            </Fragment>
+          )}
         </div>
       </ScrollArea>
     </aside>

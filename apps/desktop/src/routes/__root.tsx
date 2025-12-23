@@ -21,6 +21,11 @@ import { migrate } from "@database/migrate"
 
 import { initializeStorage } from "@services/storage"
 
+import { queryClient } from "@lib/queryClient"
+
+import { sidebarKeys } from "@repo/api"
+import { getSidebarItems } from "@features/sidebar/api"
+
 import { Footer, Sidebar, Titlebar } from "@app/layout"
 import { AnimatedOutlet, Fade, Image, toast } from "@components/ui"
 
@@ -45,10 +50,19 @@ function RootComponent() {
 
   const { i18n, t } = useTranslation()
 
+  const prefetchSidebarItems = async (): Promise<void> => {
+    await queryClient.prefetchQuery({
+      queryKey: sidebarKeys.list(),
+      queryFn: getSidebarItems
+    })
+  }
+
   const prepareApp = async (): Promise<void> => {
     await initializeStorage()
     await migrate()
     await i18n.changeLanguage(language)
+
+    await prefetchSidebarItems()
 
     await new Promise((resolve) => setTimeout(resolve, 500))
   }
@@ -127,10 +141,10 @@ function RootComponent() {
   const showSplash = !isAppReady || showSplashOnVisibility || !isWindowVisible
 
   return (
-    <div className="relative flex h-dvh w-dvw flex-col bg-background">
+    <div className="bg-background relative flex h-dvh w-dvw flex-col">
       <Fade
         show={showSplash}
-        className="absolute inset-0 z-40 flex items-center justify-center bg-background"
+        className="bg-background absolute inset-0 z-40 flex items-center justify-center"
       >
         <Image
           src={Logo || "/placeholder.svg"}
