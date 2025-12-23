@@ -14,12 +14,9 @@ import { useFetchSongIdsByArtistIds } from "@features/songs/hooks/useFetchSongId
 
 import { useToggleArtistFavorite } from "../hooks/useToggleArtistFavorite"
 
+import { useIsInSidebar, useToggleSidebarItem } from "@features/sidebar/hooks"
+
 import { cn } from "@lib/utils"
-
-import { ArtistForm } from "../forms/ArtistForm"
-import { DeleteArtistDialog } from "./DeleteArtistDialog"
-
-import { AddToPlaylistForm } from "@features/playlists/components"
 
 import {
   ContextMenu,
@@ -47,6 +44,11 @@ import {
   Typography,
   type VirtualizedListController
 } from "@components/ui"
+
+import { ArtistForm } from "../forms/ArtistForm"
+import { DeleteArtistDialog } from "./DeleteArtistDialog"
+
+import { AddToPlaylistForm } from "@features/playlists/components"
 
 import { type Artist } from "@repo/api"
 
@@ -89,6 +91,7 @@ const ArtistActionsContent = memo(
     )
 
     const toggleFavoriteMutation = useToggleArtistFavorite()
+    const toggleSidebarMutation = useToggleSidebarItem()
 
     const hasMultipleSelections = list && list.selectedIds.length > 1
     const hasSingleSelection = list && list.selectedIds.length === 1
@@ -110,6 +113,11 @@ const ArtistActionsContent = memo(
       : []
     const { data: multipleSongIds } = useFetchSongIdsByArtistIds(
       hasMultipleSelections ? artistsWithSongs : null
+    )
+
+    const { data: isInSidebar } = useIsInSidebar(
+      "artist",
+      !hasMultipleSelections ? resolvedArtistId : null
     )
 
     const targetArtist: Artist | undefined =
@@ -173,6 +181,16 @@ const ArtistActionsContent = memo(
     const handleToggleFavorite = async () => {
       if (targetArtist) {
         await toggleFavoriteMutation.mutateAsync({ id: targetArtist.id })
+      }
+    }
+
+    const handleToggleSidebar = async () => {
+      if (targetArtist) {
+        await toggleSidebarMutation.mutateAsync({
+          entityType: "artist",
+          entityId: targetArtist.id,
+          name: targetArtist.name
+        })
       }
     }
 
@@ -256,6 +274,10 @@ const ArtistActionsContent = memo(
                 className={cn(targetArtist.isFavorite && "text-primary!")}
               />
               {targetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+            </MenuItem>
+            <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
+              <Icon name="PanelLeft" />
+              {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
             </MenuItem>
             <MenuItem asChild>
               <SafeLink to="/artists/$id" params={{ id: targetArtist.id.toString() }}>

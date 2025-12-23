@@ -58,7 +58,7 @@ export function useUpdateArtist() {
     },
     onSettled: () => {
       invalidateQueries(queryClient, "artist", {
-        relations: ["home", "songs", "albums"]
+        relations: ["home", "songs", "albums", "sidebar"]
       })
     }
   })

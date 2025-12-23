@@ -14,11 +14,9 @@ import { useFetchSongIdsByPlaylistIds } from "@features/songs/hooks/useFetchSong
 
 import { useTogglePlaylistFavorite } from "../hooks/useTogglePlaylistFavorite"
 
-import { cn } from "@lib/utils"
+import { useIsInSidebar, useToggleSidebarItem } from "@features/sidebar/hooks"
 
-import { PlaylistForm } from "../forms/PlaylistForm"
-import { AddToPlaylistForm } from "./AddToPlaylistForm"
-import { DeletePlaylistDialog } from "./DeletePlaylistDialog"
+import { cn } from "@lib/utils"
 
 import {
   ContextMenu,
@@ -46,6 +44,11 @@ import {
   Typography,
   type VirtualizedListController
 } from "@components/ui"
+
+import { PlaylistForm } from "../forms/PlaylistForm"
+import { DeletePlaylistDialog } from "./DeletePlaylistDialog"
+
+import { AddToPlaylistForm } from "./AddToPlaylistForm"
 
 import { type Playlist } from "@repo/api"
 
@@ -88,6 +91,7 @@ const PlaylistActionsContent = memo(
     )
 
     const toggleFavoriteMutation = useTogglePlaylistFavorite()
+    const toggleSidebarMutation = useToggleSidebarItem()
 
     const hasMultipleSelections = list && list.selectedIds.length > 1
     const hasSingleSelection = list && list.selectedIds.length === 1
@@ -112,6 +116,11 @@ const PlaylistActionsContent = memo(
       : []
     const { data: multipleSongIds } = useFetchSongIdsByPlaylistIds(
       hasMultipleSelections ? playlistsWithSongs : null
+    )
+
+    const { data: isInSidebar } = useIsInSidebar(
+      "playlist",
+      !hasMultipleSelections ? resolvedPlaylistId : null
     )
 
     const targetPlaylist: Playlist | undefined =
@@ -175,6 +184,16 @@ const PlaylistActionsContent = memo(
     const handleToggleFavorite = async () => {
       if (targetPlaylist) {
         await toggleFavoriteMutation.mutateAsync(targetPlaylist.id)
+      }
+    }
+
+    const handleToggleSidebar = async () => {
+      if (targetPlaylist) {
+        await toggleSidebarMutation.mutateAsync({
+          entityType: "playlist",
+          entityId: targetPlaylist.id,
+          name: targetPlaylist.name
+        })
       }
     }
 
@@ -258,6 +277,10 @@ const PlaylistActionsContent = memo(
                 className={cn(targetPlaylist.isFavorite && "text-primary!")}
               />
               {targetPlaylist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+            </MenuItem>
+            <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
+              <Icon name="PanelLeft" />
+              {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
             </MenuItem>
             <MenuItem asChild>
               <SafeLink to="/playlists/$id" params={{ id: targetPlaylist.id.toString() }}>

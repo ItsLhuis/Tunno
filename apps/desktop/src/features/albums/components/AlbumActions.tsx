@@ -14,12 +14,9 @@ import { useFetchSongIdsByAlbumIds } from "@features/songs/hooks/useFetchSongIds
 
 import { useToggleAlbumFavorite } from "../hooks/useToggleAlbumFavorite"
 
+import { useIsInSidebar, useToggleSidebarItem } from "@features/sidebar/hooks"
+
 import { cn } from "@lib/utils"
-
-import { AlbumForm } from "../forms/AlbumForm"
-import { DeleteAlbumDialog } from "./DeleteAlbumDialog"
-
-import { AddToPlaylistForm } from "@features/playlists/components"
 
 import {
   ContextMenu,
@@ -49,6 +46,11 @@ import {
   VirtualizedList,
   type VirtualizedListController
 } from "@components/ui"
+
+import { AlbumForm } from "../forms/AlbumForm"
+import { DeleteAlbumDialog } from "./DeleteAlbumDialog"
+
+import { AddToPlaylistForm } from "@features/playlists/components"
 
 import { type Album, type AlbumWithSongsAndArtists } from "@repo/api"
 
@@ -102,6 +104,7 @@ const AlbumActionsContent = memo(
     )
 
     const toggleFavoriteMutation = useToggleAlbumFavorite()
+    const toggleSidebarMutation = useToggleSidebarItem()
 
     const hasMultipleSelections = list && list.selectedIds.length > 1
     const hasSingleSelection = list && list.selectedIds.length === 1
@@ -123,6 +126,11 @@ const AlbumActionsContent = memo(
       : []
     const { data: multipleSongIds } = useFetchSongIdsByAlbumIds(
       hasMultipleSelections ? albumsWithSongs : null
+    )
+
+    const { data: isInSidebar } = useIsInSidebar(
+      "album",
+      !hasMultipleSelections ? resolvedAlbumId : null
     )
 
     const targetAlbum: AlbumWithSongsAndArtists | undefined =
@@ -188,6 +196,16 @@ const AlbumActionsContent = memo(
     const handleToggleFavorite = async () => {
       if (targetAlbum) {
         await toggleFavoriteMutation.mutateAsync({ id: targetAlbum.id })
+      }
+    }
+
+    const handleToggleSidebar = async () => {
+      if (targetAlbum) {
+        await toggleSidebarMutation.mutateAsync({
+          entityType: "album",
+          entityId: targetAlbum.id,
+          name: targetAlbum.name
+        })
       }
     }
 
@@ -271,6 +289,10 @@ const AlbumActionsContent = memo(
                 className={cn(targetAlbum.isFavorite && "text-primary!")}
               />
               {targetAlbum.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+            </MenuItem>
+            <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
+              <Icon name="PanelLeft" />
+              {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
             </MenuItem>
             <MenuItem asChild>
               <SafeLink to="/albums/$id" params={{ id: targetAlbum.id.toString() }}>
