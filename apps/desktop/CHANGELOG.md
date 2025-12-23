@@ -2,6 +2,15 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.3.0] - 2025-12-23
+
+### Added
+
+- 📌 **Sidebar Pinning**: Pin your favorite albums, artists, and playlists to the sidebar for quick
+  access. Right-click any item and select "Add to sidebar" to pin it. Pinned items appear below the
+  navigation icons with thumbnails for instant recognition.
+  ([#5](https://github.com/ItsLhuis/Tunno/issues/5))
+
 ## [1.2.1] - 2025-12-22
 
 ### Fixed
