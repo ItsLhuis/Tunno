@@ -87,7 +87,9 @@ export const finnish: Language = {
       start: "Aloita",
       completed: "Valmis",
       songsPlayed: "{count} kappale{count, plural, one {} other{tta}}",
-      appearsIn: "Esiintyy"
+      appearsIn: "Esiintyy",
+      addToSidebar: "Lisää sivupalkkiin",
+      removeFromSidebar: "Poista sivupalkista"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const finnish: Language = {
       deletedTitle: "Poistettu suosikeista",
       deletedDescription: "{name} poistettu suosikeista",
       deletedFailedTitle: "Poisto suosikeista epäonnistui"
+    },
+    sidebar: {
+      addedTitle: "Lisätty sivupalkkiin",
+      addedDescription: "{name} on lisätty sivupalkkiin",
+      addedFailedTitle: "Lisääminen sivupalkkiin epäonnistui",
+      removedTitle: "Poistettu sivupalkista",
+      removedDescription: "{name} on poistettu sivupalkista"
     },
     settings: {
       title: "Asetukset",

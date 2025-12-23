@@ -87,7 +87,9 @@ export const ukrainian: Language = {
       start: "Почати",
       completed: "Завершено",
       songsPlayed: "{count} пісень{count, plural, one {} other{}}",
-      appearsIn: "Присутня в"
+      appearsIn: "Присутня в",
+      addToSidebar: "Додати до бічної панелі",
+      removeFromSidebar: "Видалити з бічної панелі"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const ukrainian: Language = {
       deletedTitle: "Видалено з вибраного",
       deletedDescription: "{name} видалено з вибраного",
       deletedFailedTitle: "Не вдалося видалити з вибраного"
+    },
+    sidebar: {
+      addedTitle: "Додано до бічної панелі",
+      addedDescription: "{name} було додано до бічної панелі",
+      addedFailedTitle: "Не вдалося додати до бічної панелі",
+      removedTitle: "Видалено з бічної панелі",
+      removedDescription: "{name} було видалено з бічної панелі"
     },
     settings: {
       title: "Налаштування",

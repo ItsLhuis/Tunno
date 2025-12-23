@@ -87,7 +87,9 @@ export const hindi: Language = {
       start: "शुरू करें",
       completed: "पूरा हुआ",
       songsPlayed: "{count} गाना{count, plural, one {} other{ों}}",
-      appearsIn: "में दिखाई देता है"
+      appearsIn: "में दिखाई देता है",
+      addToSidebar: "साइडबार में जोड़ें",
+      removeFromSidebar: "साइडबार से हटाएँ"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const hindi: Language = {
       deletedTitle: "पसंदीदा से हटाया गया",
       deletedDescription: "{name} को पसंदीदा से हटाया गया है",
       deletedFailedTitle: "पसंदीदा से हटाने में विफल"
+    },
+    sidebar: {
+      addedTitle: "साइडबार में जोड़ा गया",
+      addedDescription: "{name} को साइडबार में जोड़ दिया गया है",
+      addedFailedTitle: "साइडबार में जोड़ने में विफल",
+      removedTitle: "साइडबार से हटाया गया",
+      removedDescription: "{name} को साइडबार से हटा दिया गया है"
     },
     settings: {
       title: "सेटिंग्स",

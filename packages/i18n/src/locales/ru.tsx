@@ -87,7 +87,9 @@ export const russian: Language = {
       start: "Начать",
       completed: "Завершено",
       songsPlayed: "{count} пес{count, plural, one {ня} other{ен}}",
-      appearsIn: "Присутствует в"
+      appearsIn: "Присутствует в",
+      addToSidebar: "Добавить на боковую панель",
+      removeFromSidebar: "Удалить с боковой панели"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const russian: Language = {
       deletedTitle: "Удалено из избранного",
       deletedDescription: "{name} удалена из избранного",
       deletedFailedTitle: "Не удалось удалить из избранного"
+    },
+    sidebar: {
+      addedTitle: "Добавлено на боковую панель",
+      addedDescription: "{name} был добавлен на боковую панель",
+      addedFailedTitle: "Не удалось добавить на боковую панель",
+      removedTitle: "Удалено с боковой панели",
+      removedDescription: "{name} был удален с боковой панели"
     },
     settings: {
       title: "Настройки",

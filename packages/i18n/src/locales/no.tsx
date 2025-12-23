@@ -87,7 +87,9 @@ export const norwegian: Language = {
       start: "Start",
       completed: "Fullført",
       songsPlayed: "{count} sang{count, plural, one {} other{er}}",
-      appearsIn: "Forekommer i"
+      appearsIn: "Forekommer i",
+      addToSidebar: "Legg til i sidefelt",
+      removeFromSidebar: "Fjern fra sidefelt"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const norwegian: Language = {
       deletedTitle: "Fjernet fra favoritter",
       deletedDescription: "{name} er fjernet fra favoritter",
       deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
+    },
+    sidebar: {
+      addedTitle: "Lagt til i sidefeltet",
+      addedDescription: "{name} er lagt til i sidefeltet",
+      addedFailedTitle: "Kunne ikke legge til i sidefeltet",
+      removedTitle: "Fjernet fra sidefeltet",
+      removedDescription: "{name} er fjernet fra sidefeltet"
     },
     settings: {
       title: "Innstillinger",

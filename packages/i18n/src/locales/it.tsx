@@ -87,7 +87,9 @@ export const italian: Language = {
       start: "Avvia",
       completed: "Completato",
       songsPlayed: "{count} brano{count, plural, one {} other{i}}",
-      appearsIn: "Appare in"
+      appearsIn: "Appare in",
+      addToSidebar: "Aggiungi alla barra laterale",
+      removeFromSidebar: "Rimuovi dalla barra laterale"
     },
     form: {
       titles: {
@@ -466,6 +468,13 @@ export const italian: Language = {
       deletedTitle: "Rimosso dai preferiti",
       deletedDescription: "{name} è stato rimosso dai preferiti",
       deletedFailedTitle: "Rimozione dai preferiti fallita"
+    },
+    sidebar: {
+      addedTitle: "Aggiunto alla barra laterale",
+      addedDescription: "{name} è stato aggiunto alla barra laterale",
+      addedFailedTitle: "Aggiunta alla barra laterale non riuscita",
+      removedTitle: "Rimosso dalla barra laterale",
+      removedDescription: "{name} è stato rimosso dalla barra laterale"
     },
     settings: {
       title: "Impostazioni",

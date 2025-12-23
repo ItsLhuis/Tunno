@@ -87,7 +87,9 @@ export const danish: Language = {
       start: "Start",
       completed: "Fuldført",
       songsPlayed: "{count} sang{count, plural, one {} other{e}}",
-      appearsIn: "Forekommer i"
+      appearsIn: "Forekommer i",
+      addToSidebar: "Føj til sidepanel",
+      removeFromSidebar: "Fjern fra sidepanel"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const danish: Language = {
       deletedTitle: "Fjernet Fra Favoritter",
       deletedDescription: "{name} er blevet fjernet fra favoritter",
       deletedFailedTitle: "Kunne Ikke Fjerne Fra Favoritter"
+    },
+    sidebar: {
+      addedTitle: "Føjet til sidepanel",
+      addedDescription: "{name} er blevet føjet til sidepanelet",
+      addedFailedTitle: "Kunne ikke føje til sidepanel",
+      removedTitle: "Fjernet fra sidepanel",
+      removedDescription: "{name} er blevet fjernet fra sidepanelet"
     },
     settings: {
       title: "Indstillinger",

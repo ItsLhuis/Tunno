@@ -87,7 +87,9 @@ export const portuguese: Language = {
       start: "Iniciar",
       completed: "Concluído",
       songsPlayed: "{count} música{count, plural, one {} other{s}}",
-      appearsIn: "Aparece em"
+      appearsIn: "Aparece em",
+      addToSidebar: "Adicionar à barra lateral",
+      removeFromSidebar: "Remover da barra lateral"
     },
     form: {
       titles: {
@@ -466,6 +468,13 @@ export const portuguese: Language = {
       deletedTitle: "Removido dos Favoritos",
       deletedDescription: "{name} foi removido dos favoritos",
       deletedFailedTitle: "Falha ao remover dos favoritos"
+    },
+    sidebar: {
+      addedTitle: "Adicionado à barra lateral",
+      addedDescription: "{name} foi adicionado à barra lateral",
+      addedFailedTitle: "Falha ao adicionar à barra lateral",
+      removedTitle: "Removido da barra lateral",
+      removedDescription: "{name} foi removido da barra lateral"
     },
     settings: {
       title: "Definições",

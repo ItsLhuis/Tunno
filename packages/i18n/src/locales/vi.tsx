@@ -87,7 +87,9 @@ export const vietnamese: Language = {
       start: "Bắt đầu",
       completed: "Hoàn thành",
       songsPlayed: "{count} bài hát",
-      appearsIn: "Xuất hiện trong"
+      appearsIn: "Xuất hiện trong",
+      addToSidebar: "Thêm vào thanh bên",
+      removeFromSidebar: "Xóa khỏi thanh bên"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const vietnamese: Language = {
       deletedTitle: "Đã xóa khỏi yêu thích",
       deletedDescription: "{name} đã bị xóa khỏi yêu thích",
       deletedFailedTitle: "Xóa khỏi yêu thích thất bại"
+    },
+    sidebar: {
+      addedTitle: "Đã thêm vào Thanh bên",
+      addedDescription: "{name} đã được thêm vào thanh bên",
+      addedFailedTitle: "Thêm vào Thanh bên thất bại",
+      removedTitle: "Đã xóa khỏi Thanh bên",
+      removedDescription: "{name} đã bị xóa khỏi thanh bên"
     },
     settings: {
       title: "Cài đặt",

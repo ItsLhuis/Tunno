@@ -87,7 +87,9 @@ export const polish: Language = {
       start: "Rozpocznij",
       completed: "Zakończono",
       songsPlayed: "{count} utwór{count, plural, one {} other{ów}}",
-      appearsIn: "Występuje w"
+      appearsIn: "Występuje w",
+      addToSidebar: "Dodaj do paska bocznego",
+      removeFromSidebar: "Usuń z paska bocznego"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const polish: Language = {
       deletedTitle: "Usunięto z ulubionych",
       deletedDescription: "{name} został usunięty z ulubionych",
       deletedFailedTitle: "Nie udało się usunąć z ulubionych"
+    },
+    sidebar: {
+      addedTitle: "Dodano do paska bocznego",
+      addedDescription: "{name} został dodany do paska bocznego",
+      addedFailedTitle: "Nie udało się dodać do paska bocznego",
+      removedTitle: "Usunięto z paska bocznego",
+      removedDescription: "{name} został usunięty z paska bocznego"
     },
     settings: {
       title: "Ustawienia",

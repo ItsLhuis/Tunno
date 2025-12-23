@@ -87,7 +87,9 @@ export const dutch: Language = {
       start: "Start",
       completed: "Voltooid",
       songsPlayed: "{count} nummer{count, plural, one {} other{s}}",
-      appearsIn: "Komt voor in"
+      appearsIn: "Komt voor in",
+      addToSidebar: "Toevoegen aan zijbalk",
+      removeFromSidebar: "Verwijderen uit zijbalk"
     },
     form: {
       titles: {
@@ -466,6 +468,13 @@ export const dutch: Language = {
       deletedTitle: "Verwijderd uit favorieten",
       deletedDescription: "{name} is verwijderd uit favorieten",
       deletedFailedTitle: "Verwijderen uit favorieten mislukt"
+    },
+    sidebar: {
+      addedTitle: "Toegevoegd aan zijbalk",
+      addedDescription: "{name} is toegevoegd aan de zijbalk",
+      addedFailedTitle: "Toevoegen aan zijbalk mislukt",
+      removedTitle: "Verwijderd uit zijbalk",
+      removedDescription: "{name} is verwijderd uit de zijbalk"
     },
     settings: {
       title: "Instellingen",

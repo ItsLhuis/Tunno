@@ -87,7 +87,9 @@ export const chinese: Language = {
       start: "开始",
       completed: "完成",
       songsPlayed: "{count} 首歌曲",
-      appearsIn: "出现在"
+      appearsIn: "出现在",
+      addToSidebar: "添加到侧边栏",
+      removeFromSidebar: "从侧边栏移除"
     },
     form: {
       titles: {
@@ -463,6 +465,13 @@ export const chinese: Language = {
       deletedTitle: "已从收藏中删除",
       deletedDescription: "{name} 已从收藏中删除",
       deletedFailedTitle: "删除收藏失败"
+    },
+    sidebar: {
+      addedTitle: "已添加到侧边栏",
+      addedDescription: "{name} 已被添加到侧边栏",
+      addedFailedTitle: "添加到侧边栏失败",
+      removedTitle: "已从侧边栏移除",
+      removedDescription: "{name} 已从侧边栏移除"
     },
     settings: {
       title: "设置",

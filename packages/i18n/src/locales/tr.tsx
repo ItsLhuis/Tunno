@@ -87,7 +87,9 @@ export const turkish: Language = {
       start: "Başlat",
       completed: "Tamamlandı",
       songsPlayed: "{count} şarkı{count, plural, one {} other{}}",
-      appearsIn: "Yer aldığı"
+      appearsIn: "Yer aldığı",
+      addToSidebar: "Kenar çubuğuna ekle",
+      removeFromSidebar: "Kenar çubuğundan kaldır"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const turkish: Language = {
       deletedTitle: "Favorilerden kaldırıldı",
       deletedDescription: "{name} favorilerden kaldırıldı",
       deletedFailedTitle: "Favorilerden kaldırılamadı"
+    },
+    sidebar: {
+      addedTitle: "Kenar çubuğuna eklendi",
+      addedDescription: "{name} kenar çubuğuna eklendi",
+      addedFailedTitle: "Kenar çubuğuna eklenemedi",
+      removedTitle: "Kenar çubuğundan kaldırıldı",
+      removedDescription: "{name} kenar çubuğundan kaldırıldı"
     },
     settings: {
       title: "Ayarlar",

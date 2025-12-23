@@ -87,7 +87,9 @@ export const german: Language = {
       start: "Starten",
       completed: "Abgeschlossen",
       songsPlayed: "{count} Lied{count, plural, one {} other{er}}",
-      appearsIn: "Erscheint in"
+      appearsIn: "Erscheint in",
+      addToSidebar: "Zur Seitenleiste hinzufügen",
+      removeFromSidebar: "Aus der Seitenleiste entfernen"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const german: Language = {
       deletedTitle: "Von Favoriten Entfernt",
       deletedDescription: "{name} wurde von den Favoriten entfernt",
       deletedFailedTitle: "Entfernung Von Favoriten Fehlgeschlagen"
+    },
+    sidebar: {
+      addedTitle: "Zur Seitenleiste hinzugefügt",
+      addedDescription: "{name} wurde zur Seitenleiste hinzugefügt",
+      addedFailedTitle: "Hinzufügen zur Seitenleiste fehlgeschlagen",
+      removedTitle: "Aus der Seitenleiste entfernt",
+      removedDescription: "{name} wurde aus der Seitenleiste entfernt"
     },
     settings: {
       title: "Einstellungen",

@@ -87,7 +87,9 @@ export const english: Language = {
       start: "Start",
       completed: "Completed",
       songsPlayed: "{count} song{count, plural, one {} other{s}}",
-      appearsIn: "Appears in"
+      appearsIn: "Appears in",
+      addToSidebar: "Add to sidebar",
+      removeFromSidebar: "Remove from sidebar"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const english: Language = {
       deletedTitle: "Removed from Favorites",
       deletedDescription: "{name} has been removed from favorites",
       deletedFailedTitle: "Failed to Remove from Favorites"
+    },
+    sidebar: {
+      addedTitle: "Added to Sidebar",
+      addedDescription: "{name} has been added to sidebar",
+      addedFailedTitle: "Failed to Add to Sidebar",
+      removedTitle: "Removed from Sidebar",
+      removedDescription: "{name} has been removed from sidebar"
     },
     settings: {
       title: "Settings",

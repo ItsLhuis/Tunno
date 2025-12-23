@@ -87,7 +87,9 @@ export const japanese: Language = {
       start: "開始",
       completed: "完了",
       songsPlayed: "{count}曲",
-      appearsIn: "に含まれる"
+      appearsIn: "に含まれる",
+      addToSidebar: "サイドバーに追加",
+      removeFromSidebar: "サイドバーから削除"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const japanese: Language = {
       deletedTitle: "お気に入りから削除されました",
       deletedDescription: "{name} がお気に入りから削除されました",
       deletedFailedTitle: "お気に入りからの削除に失敗しました"
+    },
+    sidebar: {
+      addedTitle: "サイドバーに追加しました",
+      addedDescription: "{name}をサイドバーに追加しました",
+      addedFailedTitle: "サイドバーへの追加に失敗しました",
+      removedTitle: "サイドバーから削除しました",
+      removedDescription: "{name}をサイドバーから削除しました"
     },
     settings: {
       title: "設定",

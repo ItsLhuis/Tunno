@@ -87,7 +87,9 @@ export const korean: Language = {
       start: "시작",
       completed: "완료",
       songsPlayed: "{count}곡",
-      appearsIn: "에 포함됨"
+      appearsIn: "에 포함됨",
+      addToSidebar: "사이드바에 추가",
+      removeFromSidebar: "사이드바에서 제거"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const korean: Language = {
       deletedTitle: "즐겨찾기에서 제거됨",
       deletedDescription: "{name} 이(가) 즐겨찾기에서 제거되었습니다",
       deletedFailedTitle: "즐겨찾기 제거 실패"
+    },
+    sidebar: {
+      addedTitle: "사이드바에 추가됨",
+      addedDescription: "{name}이(가) 사이드바에 추가되었습니다",
+      addedFailedTitle: "사이드바에 추가하지 못했습니다",
+      removedTitle: "사이드바에서 제거됨",
+      removedDescription: "{name}이(가) 사이드바에서 제거되었습니다"
     },
     settings: {
       title: "설정",

@@ -87,7 +87,9 @@ export const swedish: Language = {
       start: "Starta",
       completed: "Slutförd",
       songsPlayed: "{count} låt{count, plural, one {} other{ar}}",
-      appearsIn: "Förekommer i"
+      appearsIn: "Förekommer i",
+      addToSidebar: "Lägg till i sidofältet",
+      removeFromSidebar: "Ta bort från sidofältet"
     },
     form: {
       titles: {
@@ -465,6 +467,13 @@ export const swedish: Language = {
       deletedTitle: "Borttagen från favoriter",
       deletedDescription: "{name} har tagits bort från favoriter",
       deletedFailedTitle: "Misslyckades att ta bort från favoriter"
+    },
+    sidebar: {
+      addedTitle: "Tillagd i sidofältet",
+      addedDescription: "{name} har lagts till i sidofältet",
+      addedFailedTitle: "Det gick inte att lägga till i sidofältet",
+      removedTitle: "Borttagen från sidofältet",
+      removedDescription: "{name} har tagits bort från sidofältet"
     },
     settings: {
       title: "Inställningar",

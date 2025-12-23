@@ -87,7 +87,9 @@ export const french: Language = {
       start: "Démarrer",
       completed: "Terminé",
       songsPlayed: "{count} chanson{count, plural, one {} other{s}}",
-      appearsIn: "Apparaît dans"
+      appearsIn: "Apparaît dans",
+      addToSidebar: "Ajouter à la barre latérale",
+      removeFromSidebar: "Retirer de la barre latérale"
     },
     form: {
       titles: {
@@ -466,6 +468,13 @@ export const french: Language = {
       deletedTitle: "Retiré des favoris",
       deletedDescription: "{name} a été retiré des favoris",
       deletedFailedTitle: "Échec du retrait des favoris"
+    },
+    sidebar: {
+      addedTitle: "Ajouté à la barre latérale",
+      addedDescription: "{name} a été ajouté à la barre latérale",
+      addedFailedTitle: "Échec de l'ajout à la barre latérale",
+      removedTitle: "Retiré de la barre latérale",
+      removedDescription: "{name} a été retiré de la barre latérale"
     },
     settings: {
       title: "Paramètres",

@@ -91,6 +91,8 @@ export type Translations = {
     completed: string
     songsPlayed: string
     appearsIn: string
+    addToSidebar: string
+    removeFromSidebar: string
   }
   form: {
     titles: {
@@ -466,6 +468,13 @@ export type Translations = {
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string
+  }
+  sidebar: {
+    addedTitle: string
+    addedDescription: string
+    addedFailedTitle: string
+    removedTitle: string
+    removedDescription: string
   }
   settings: {
     title: string
