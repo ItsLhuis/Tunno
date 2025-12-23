@@ -57,9 +57,9 @@ const ExportSection = () => {
         />
       </Fade>
       <Fade show={isExporting} mode="popLayout" initial={false}>
-        <div className="flex items-center gap-3 py-1">
+        <div className="flex items-center gap-3">
           <Spinner />
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <Typography affects={["small"]}>
               {totalSongs > 0
                 ? t("settings.sync.export.exportingSongs", { count: totalSongs })

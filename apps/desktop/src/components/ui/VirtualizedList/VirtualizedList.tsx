@@ -49,6 +49,7 @@ const VirtualizedList = <TItem,>({
   const internalScrollRef = useRef<HTMLDivElement | null>(null)
   const scrollRef = externalScrollRef || internalScrollRef
   const previousScrollRefRef = useRef(externalScrollRef)
+
   const hasMeasuredRef = useRef(false)
 
   const isGridLayout = layout === "grid"

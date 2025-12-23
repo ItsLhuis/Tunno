@@ -146,7 +146,7 @@ const Equalizer = () => {
           <SelectContent>
             {equalizerPresets.map((preset) => (
               <SelectItem key={preset.value} value={preset.value}>
-                <div className="flex flex-col items-start">
+                <div className="flex flex-col items-start gap-1">
                   <Typography affects={["bold"]}>{preset.label}</Typography>
                   <Typography affects={["muted"]} className="text-xs">
                     {preset.description}
