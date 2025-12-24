@@ -6,10 +6,12 @@
   "scripts": {
     "shadcnui": "tsx ../../scripts/shadcnui.ts ./src",
     "start": "vite",
-    "dev": "tauri dev",
+    "dev": "tauri dev --config src-tauri/tauri.conf.dev.json",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:migrate:dev": "cross-env TUNNO_ENV=dev drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
+    "db:studio:dev": "cross-env TUNNO_ENV=dev drizzle-kit studio",
     "build:vite": "tsc && vite build",
     "build": "tauri build",
     "tauri": "tauri",
@@ -88,6 +90,7 @@
   },
   "devDependencies": {
     "@libsql/client": "^0.15.15",
+    "cross-env": "^10.1.0",
     "@tanstack/react-query-devtools": "^5.90.2",
     "@tanstack/router-plugin": "^1.135.0",
     "@tauri-apps/cli": "^2.9.4",

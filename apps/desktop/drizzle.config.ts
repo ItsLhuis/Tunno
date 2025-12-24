@@ -3,9 +3,16 @@ import { defineConfig } from "drizzle-kit"
 import fs from "fs"
 import path from "path"
 
-const tauriConfigPath = path.resolve(__dirname, ".", "src-tauri", "tauri.conf.json")
+const isDev = process.env.TUNNO_ENV === "dev"
 
-const defaultBundleId = "com.itslhuis.tunno"
+const tauriConfigPath = path.resolve(
+  __dirname,
+  ".",
+  "src-tauri",
+  isDev ? "tauri.conf.dev.json" : "tauri.conf.json"
+)
+
+const defaultBundleId = isDev ? "com.itslhuis.tunno.dev" : "com.itslhuis.tunno"
 
 function getBundleId() {
   try {
