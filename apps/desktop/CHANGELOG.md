@@ -2,6 +2,25 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.4.0] - 2025-12-25
+
+### Added
+
+- 🔍 **Window Zoom**: Zoom in/out of the application window using keyboard shortcuts (Ctrl+/-,
+  Ctrl+0) or via Settings → Appearance. Customize your viewing experience with adjustable zoom
+  levels.
+- 📊 **Stats Sheets**: View detailed statistics for songs, albums, artists, and playlists in a
+  dedicated sheet modal. Access via the new stats button in entity headers.
+- 🎨 **Featured Album**: The home page now showcases a featured album at the top with dynamic
+  background colors based on album artwork.
+
+### Changed
+
+- 🏠 **Home Page Redesign**: Streamlined home page with a cleaner layout focused on what matters
+  most: Featured Album, On Repeat, Favorite Artists, New Releases, and Your Playlists.
+- 🎵 **On Repeat Section**: Redesigned with a new list layout for improved browsing experience.
+- 🎛️ **MiniPlayer**: Improved track info display in both compact and expanded layouts.
+
 ## [1.3.0] - 2025-12-23
 
 ### Added
