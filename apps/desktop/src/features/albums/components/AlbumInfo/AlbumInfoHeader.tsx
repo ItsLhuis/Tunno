@@ -20,6 +20,7 @@ import {
 } from "@components/ui"
 
 import { AlbumActions } from "../AlbumActions"
+import { AlbumStatsSheet } from "./AlbumStatsSheet"
 
 import { type AlbumWithAllRelations, type SongWithMainRelations } from "@repo/api"
 
@@ -116,6 +117,7 @@ const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />
+        <AlbumStatsSheet album={album} />
         <AlbumActions albumId={album.id} />
       </div>
     </Header>
