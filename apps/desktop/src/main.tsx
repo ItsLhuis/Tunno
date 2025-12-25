@@ -11,6 +11,8 @@ import { useAllStoresHydrated } from "@utils/stores"
 
 import { useToggleSongFavorite } from "@features/songs/hooks/useToggleSongFavorite"
 
+import { useZoom } from "@hooks/useZoom"
+
 import { cleanupAllFastUploadCache } from "@features/fastUpload/api/tauri"
 
 import { QueryClientProvider } from "@tanstack/react-query"
@@ -67,6 +69,11 @@ const PlayerFavoriteListener = () => {
   return null
 }
 
+const ZoomManager = () => {
+  useZoom()
+  return null
+}
+
 const Main = () => {
   const allStoresHydrated = useAllStoresHydrated()
 
@@ -88,6 +95,7 @@ const Main = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
+        <ZoomManager />
         <PlayerFavoriteListener />
         <RouterProvider router={router} />
         <Toaster />

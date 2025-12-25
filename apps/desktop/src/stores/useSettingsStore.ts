@@ -14,6 +14,7 @@ const SETTINGS_STORE_NAME = "settings"
 type SettingsState = {
   theme: "dark" | "light" | "system"
   language: LocaleKeys
+  zoomLevel: number
   equalizerEnabled: boolean
   equalizerPreset: EqualizerPreset
   equalizerBandGains: number[]
@@ -23,6 +24,7 @@ type SettingsState = {
 type SettingsActions = {
   setTheme: (theme: "dark" | "light" | "system") => void
   setLanguage: (code: LocaleKeys) => void
+  setZoomLevel: (level: number) => void
   setEqualizerEnabled: (enabled: boolean) => Promise<void>
   setEqualizerPreset: (preset: EqualizerPreset) => Promise<void>
   setEqualizerBandGain: (bandIndex: number, gain: number) => Promise<void>
@@ -37,6 +39,7 @@ export const useSettingsStore = create<SettingsStore>()(
     (set, get) => ({
       theme: "system",
       language: "en" as LocaleKeys,
+      zoomLevel: 1,
       hasHydrated: false,
       equalizerEnabled: false,
       equalizerPreset: "flat",
@@ -46,6 +49,10 @@ export const useSettingsStore = create<SettingsStore>()(
         set({ language: code })
         i18n.changeLanguage(code)
         emit("settings:language-changed", code)
+      },
+      setZoomLevel: (level) => {
+        const clampedLevel = Math.max(0.5, Math.min(1.5, level))
+        set({ zoomLevel: clampedLevel })
       },
       setHasHydrated: (hasHydrated) => {
         set({ hasHydrated })
@@ -106,6 +113,7 @@ export const useSettingsStore = create<SettingsStore>()(
       partialize: (state) => ({
         theme: state.theme,
         language: state.language,
+        zoomLevel: state.zoomLevel,
         equalizerEnabled: state.equalizerEnabled,
         equalizerPreset: state.equalizerPreset,
         equalizerBandGains: state.equalizerBandGains
