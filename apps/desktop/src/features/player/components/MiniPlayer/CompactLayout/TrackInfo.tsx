@@ -27,7 +27,7 @@ const TrackInfo = () => {
         className={currentTrack?.thumbnail ? "size-14" : "size-6"}
       />
       {currentTrack ? (
-        <div className="w-full truncate">
+        <div className="flex w-full flex-col gap-1 truncate">
           <Marquee>
             <Typography variant="h5" className="text-primary">
               {currentTrack.title}

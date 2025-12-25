@@ -16,9 +16,9 @@ const TrackInfo = () => {
   )
 
   return (
-    <div className="h-auto w-full border-t border-border bg-sidebar p-3">
+    <div className="border-border bg-sidebar h-auto w-full border-t p-3">
       {currentTrack ? (
-        <div>
+        <div className="flex w-full flex-col gap-1 truncate">
           <Marquee>
             <Typography variant="h5">{currentTrack.title}</Typography>
           </Marquee>

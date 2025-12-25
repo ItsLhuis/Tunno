@@ -131,7 +131,7 @@ const PlaybackControls = () => {
       <IconButton
         name={isPlaying ? "Pause" : "Play"}
         isLoading={isTrackLoading}
-        className="h-14 w-14 rounded-full [&_svg]:size-7"
+        className="size-11 rounded-full [&_svg]:size-5"
         tooltip={isPlaying ? t("common.pause") : t("common.play")}
         onClick={handlePlayPause}
         disabled={!canPlay}
