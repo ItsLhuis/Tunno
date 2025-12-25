@@ -1,5 +1,4 @@
 export * from "./ArtistInfo"
 export * from "./ArtistInfoHeader"
 export * from "./ArtistInfoStickyHeader"
-export * from "./ArtistInfoStats"
 export * from "./ArtistInfoSubHeader"

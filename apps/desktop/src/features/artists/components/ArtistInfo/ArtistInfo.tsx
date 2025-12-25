@@ -20,7 +20,6 @@ import {
 import { SongItemList } from "@features/songs/components"
 
 import { ArtistInfoHeader } from "./ArtistInfoHeader"
-import { ArtistInfoStats } from "./ArtistInfoStats"
 import { ArtistInfoStickyHeader } from "./ArtistInfoStickyHeader"
 import { ArtistInfoSubHeader } from "./ArtistInfoSubHeader"
 
@@ -63,12 +62,7 @@ const ArtistInfo = () => {
 
   const Header = useCallback(() => {
     if (!artist) return null
-    return (
-      <div>
-        <ArtistInfoHeader artist={artist} list={listController} />
-        <ArtistInfoStats artist={artist} />
-      </div>
-    )
+    return <ArtistInfoHeader artist={artist} list={listController} />
   }, [artist, listController])
 
   const StickyHeader = useCallback(() => {

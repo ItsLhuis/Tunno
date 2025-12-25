@@ -21,6 +21,7 @@ import {
 } from "@components/ui"
 
 import { ArtistActions } from "../ArtistActions"
+import { ArtistStatsSheet } from "./ArtistStatsSheet"
 
 import { type ArtistWithAllRelations, type SongWithMainRelations } from "@repo/api"
 
@@ -102,6 +103,7 @@ const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />
+        <ArtistStatsSheet artist={artist} />
         <ArtistActions artistId={artist.id} />
       </div>
     </Header>
