@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { AlbumItemCard, AlbumItemHero } from "@features/albums/components"
+import { AlbumItemCard } from "@features/albums/components"
 
 import { type NewReleases } from "@repo/api"
 
@@ -20,22 +20,21 @@ type NewReleasesProps = {
 const NewReleases = ({ newReleases }: NewReleasesProps) => {
   const { t } = useTranslation()
 
-  if (newReleases.totalAlbums === 0) {
+  const albums = newReleases.albums.slice(1)
+
+  if (albums.length === 0) {
     return null
   }
 
   return (
     <section className="flex w-full flex-col gap-3">
-      <div className="mb-2 flex flex-col gap-1">
+      <div className="flex flex-col gap-1">
         <Typography variant="h1">{t("home.newReleases.title", "New Releases")}</Typography>
         <Typography affects={["muted", "small"]}>{t("home.newReleases.description")}</Typography>
       </div>
-      {newReleases.albums.slice(0, 1).map((album, index) => (
-        <AlbumItemHero key={`${album.id}-${index}`} album={album} />
-      ))}
       <Carousel className="-mx-2">
         <CarouselContent>
-          {newReleases.albums.slice(1).map((album, index) => (
+          {albums.map((album, index) => (
             <CarouselItem key={`${album.id}-${index}`} className="w-50">
               <AlbumItemCard album={album} />
             </CarouselItem>

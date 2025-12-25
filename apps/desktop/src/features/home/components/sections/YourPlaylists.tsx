@@ -39,10 +39,10 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
         <Typography affects={["muted", "small"]}>{t("home.yourPlaylists.description")}</Typography>
       </div>
       <Carousel className="-mx-2">
-        <CarouselContent className="gap-0">
+        <CarouselContent className="gap-2">
           {organizedPlaylists.map((pair, columnIndex) => (
             <CarouselItem key={`column-${columnIndex}`}>
-              <div className="flex w-32 flex-col">
+              <div className="flex w-100 flex-col gap-2">
                 <PlaylistItemCompact playlist={pair[0]} />
                 {pair[1] && <PlaylistItemCompact playlist={pair[1]} />}
               </div>
