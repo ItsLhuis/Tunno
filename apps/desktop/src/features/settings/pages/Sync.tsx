@@ -1,6 +1,6 @@
 import { Header, ScrollAreaWithHeaders, StickyHeader, Typography } from "@components/ui"
 
-import { ExportSection } from "@features/sync/components"
+import { ExportSection } from "@features/settings/features/sync/components"
 
 const Sync = () => {
   return (

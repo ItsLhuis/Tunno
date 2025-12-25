@@ -1,79 +1,11 @@
-import { type ReactElement } from "react"
-
-import { useTheme } from "@contexts/ThemeContext"
-
 import { useTranslation } from "@repo/i18n"
 
-import {
-  Choicebox,
-  ChoiceboxItem,
-  ChoiceboxItemContent,
-  ChoiceboxItemHeader,
-  ChoiceboxItemIndicator,
-  ChoiceboxItemTitle,
-  Header,
-  Icon,
-  ScrollAreaWithHeaders,
-  StickyHeader,
-  Typography
-} from "@components/ui"
+import { Header, ScrollAreaWithHeaders, StickyHeader, Typography } from "@components/ui"
 
-import { SettingButton, type SettingButtonProps } from "@features/settings/components"
-
-type ThemeValue = "light" | "dark" | "system"
-
-type ThemeOption = {
-  value: ThemeValue
-  name: string
-  icon: ReactElement
-}
+import { ThemeSection, ZoomSection } from "@features/settings/features/appearance/components"
 
 const Appearance = () => {
   const { t } = useTranslation()
-
-  const { theme, setTheme } = useTheme()
-
-  const themes: ThemeOption[] = [
-    {
-      value: "light",
-      name: t("settings.appearance.light"),
-      icon: <Icon name="Sun" />
-    },
-    {
-      value: "dark",
-      name: t("settings.appearance.dark"),
-      icon: <Icon name="Moon" />
-    },
-    {
-      value: "system",
-      name: t("settings.appearance.system"),
-      icon: <Icon name="Laptop" />
-    }
-  ]
-
-  const settings: (SettingButtonProps & { key: string })[] = [
-    {
-      key: "theme",
-      title: t("settings.appearance.title"),
-      description: t("settings.appearance.description"),
-      renderLeft: () => <Icon name="Palette" className="mt-1" />,
-      children: (
-        <Choicebox defaultValue={theme} onValueChange={setTheme}>
-          {themes.map((theme) => (
-            <ChoiceboxItem value={theme.value} key={theme.value} className="gap-3">
-              {theme.icon}
-              <ChoiceboxItemHeader className="gap-0">
-                <ChoiceboxItemTitle>{theme.name}</ChoiceboxItemTitle>
-              </ChoiceboxItemHeader>
-              <ChoiceboxItemContent>
-                <ChoiceboxItemIndicator />
-              </ChoiceboxItemContent>
-            </ChoiceboxItem>
-          ))}
-        </Choicebox>
-      )
-    }
-  ]
 
   return (
     <ScrollAreaWithHeaders
@@ -97,16 +29,8 @@ const Appearance = () => {
       }}
     >
       <div className="flex flex-col gap-9">
-        {settings.map((setting) => (
-          <SettingButton
-            key={setting.key}
-            title={setting.title}
-            description={setting.description}
-            renderLeft={setting.renderLeft}
-            renderRight={setting.renderRight}
-            children={setting.children}
-          />
-        ))}
+        <ThemeSection />
+        <ZoomSection />
       </div>
     </ScrollAreaWithHeaders>
   )
