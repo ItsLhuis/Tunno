@@ -89,7 +89,9 @@ export const portuguese: Language = {
       songsPlayed: "{count} música{count, plural, one {} other{s}}",
       appearsIn: "Aparece em",
       addToSidebar: "Adicionar à barra lateral",
-      removeFromSidebar: "Remover da barra lateral"
+      removeFromSidebar: "Remover da barra lateral",
+      featured: "Em destaque",
+      stats: "Estatísticas"
     },
     form: {
       titles: {
@@ -259,29 +261,9 @@ export const portuguese: Language = {
         title: "Os Teus Artistas",
         description: "Artistas que mais amas"
       },
-      topAlbums: {
-        title: "Top Álbuns",
-        description: "Os teus álbuns mais ouvidos"
-      },
-      recentlyAdded: {
-        title: "Adicionados Recentemente",
-        description: "Últimas adições à tua biblioteca"
-      },
-      hiddenGems: {
-        title: "Joias Escondidas",
-        description: "Redescobre favoritos esquecidos"
-      },
       discover: {
         title: "Descobrir",
         description: "Novas recomendações musicais para ti"
-      },
-      yourStats: {
-        title: "A Tua Música",
-        description: "As tuas estatísticas e insights de audição",
-        topSong: "Música Top",
-        topAlbum: "Álbum Top",
-        topArtist: "Artista Top",
-        topPlaylist: "Playlist Top"
       }
     },
     songs: {
@@ -480,10 +462,18 @@ export const portuguese: Language = {
       title: "Definições",
       appearance: {
         title: "Aparência",
-        description: "Selecione o seu modo de aparência preferido",
-        light: "Claro",
-        dark: "Escuro",
-        system: "Sistema"
+        description: "Defina as preferências de aparência da aplicação",
+        theme: {
+          title: "Tema",
+          description: "Selecione o tema da aplicação",
+          light: "Claro",
+          dark: "Escuro",
+          system: "Sistema"
+        },
+        zoom: {
+          title: "Zoom",
+          description: "Ajuste o nível de zoom da aplicação"
+        }
       },
       language: {
         title: "Idioma",

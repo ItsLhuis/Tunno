@@ -89,7 +89,9 @@ export const ukrainian: Language = {
       songsPlayed: "{count} пісень{count, plural, one {} other{}}",
       appearsIn: "Присутня в",
       addToSidebar: "Додати до бічної панелі",
-      removeFromSidebar: "Видалити з бічної панелі"
+      removeFromSidebar: "Видалити з бічної панелі",
+      featured: "Рекомендовані",
+      stats: "Статистика"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const ukrainian: Language = {
         title: "Ваші Виконавці",
         description: "Виконавці, яких ви любите найбільше"
       },
-      topAlbums: {
-        title: "Топ Альбоми",
-        description: "Ваші найбільш прослуховувані альбоми"
-      },
-      recentlyAdded: {
-        title: "Нещодавно Додані",
-        description: "Останні додавання до вашої бібліотеки"
-      },
-      hiddenGems: {
-        title: "Приховані Перлини",
-        description: "Перевідкрийте забуті улюблені"
-      },
       discover: {
         title: "Відкрити",
         description: "Нові музичні рекомендації для вас"
-      },
-      yourStats: {
-        title: "Ваша Музика",
-        description: "Ваша статистика прослуховування та інсайти",
-        topSong: "Топ пісня",
-        topAlbum: "Топ альбом",
-        topArtist: "Топ виконавець",
-        topPlaylist: "Топ плейлист"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const ukrainian: Language = {
       title: "Налаштування",
       appearance: {
         title: "Вигляд",
-        description: "Виберіть бажаний режим вигляду",
-        light: "Світлий",
-        dark: "Темний",
-        system: "Система"
+        description: "Налаштуйте параметри зовнішнього вигляду програми.",
+        theme: {
+          title: "Тема",
+          description: "Виберіть тему програми",
+          light: "Світлий",
+          dark: "Темний",
+          system: "Система"
+        },
+        zoom: {
+          title: "Масштаб",
+          description: "Налаштуйте рівень масштабування програми"
+        }
       },
       language: {
         title: "Мова",

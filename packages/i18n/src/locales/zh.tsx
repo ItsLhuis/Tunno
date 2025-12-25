@@ -89,7 +89,9 @@ export const chinese: Language = {
       songsPlayed: "{count} 首歌曲",
       appearsIn: "出现在",
       addToSidebar: "添加到侧边栏",
-      removeFromSidebar: "从侧边栏移除"
+      removeFromSidebar: "从侧边栏移除",
+      featured: "精选",
+      stats: "统计"
     },
     form: {
       titles: {
@@ -256,29 +258,9 @@ export const chinese: Language = {
         title: "你的艺术家",
         description: "你最喜爱的艺术家"
       },
-      topAlbums: {
-        title: "热门专辑",
-        description: "你播放最多的专辑"
-      },
-      recentlyAdded: {
-        title: "最近添加",
-        description: "最近添加到你的音乐库"
-      },
-      hiddenGems: {
-        title: "隐藏的宝石",
-        description: "重新发现被遗忘的收藏"
-      },
       discover: {
         title: "发现",
         description: "为你推荐的新音乐"
-      },
-      yourStats: {
-        title: "你的音乐",
-        description: "你的收听统计和洞察",
-        topSong: "热门歌曲",
-        topAlbum: "热门专辑",
-        topArtist: "热门艺术家",
-        topPlaylist: "热门播放列表"
       }
     },
     songs: {
@@ -477,10 +459,18 @@ export const chinese: Language = {
       title: "设置",
       appearance: {
         title: "外观",
-        description: "选择您偏好的外观模式",
-        light: "浅色",
-        dark: "深色",
-        system: "系统"
+        description: "定义应用程序的外观偏好设置。",
+        theme: {
+          title: "主题",
+          description: "选择应用程序主题",
+          light: "浅色",
+          dark: "深色",
+          system: "系统"
+        },
+        zoom: {
+          title: "缩放",
+          description: "调整应用程序的缩放级别"
+        }
       },
       language: {
         title: "语言",

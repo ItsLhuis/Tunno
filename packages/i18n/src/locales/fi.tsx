@@ -89,7 +89,9 @@ export const finnish: Language = {
       songsPlayed: "{count} kappale{count, plural, one {} other{tta}}",
       appearsIn: "Esiintyy",
       addToSidebar: "Lisää sivupalkkiin",
-      removeFromSidebar: "Poista sivupalkista"
+      removeFromSidebar: "Poista sivupalkista",
+      featured: "Esittelyssä",
+      stats: "Tilastot"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const finnish: Language = {
         title: "Sinun Artistisi",
         description: "Artistit joita rakastat eniten"
       },
-      topAlbums: {
-        title: "Top Albumit",
-        description: "Eniten kuunnellut albumisi"
-      },
-      recentlyAdded: {
-        title: "Äsken Lisätty",
-        description: "Viimeisimmät lisäykset kirjastoon"
-      },
-      hiddenGems: {
-        title: "Piilotetut Helmet",
-        description: "Löydä uudelleen unohdetut suosikit"
-      },
       discover: {
         title: "Löydä",
         description: "Uusia musiikkisuosituksia sinulle"
-      },
-      yourStats: {
-        title: "Sinun Musiikkisi",
-        description: "Kuuntelustatistiikkasi ja oivallukset",
-        topSong: "Top kappale",
-        topAlbum: "Top albumi",
-        topArtist: "Top artisti",
-        topPlaylist: "Top soittolista"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const finnish: Language = {
       title: "Asetukset",
       appearance: {
         title: "Ulkoasu",
-        description: "Valitse haluamasi ulkoasutila",
-        light: "Vaalea",
-        dark: "Tumma",
-        system: "Järjestelmä"
+        description: "Määritä sovelluksen ulkoasuasetukset.",
+        theme: {
+          title: "Teema",
+          description: "Valitse sovelluksen teema",
+          light: "Vaalea",
+          dark: "Tumma",
+          system: "Järjestelmä"
+        },
+        zoom: {
+          title: "Zoomaus",
+          description: "Säädä sovelluksen zoomaustasoa"
+        }
       },
       language: {
         title: "Kieli",

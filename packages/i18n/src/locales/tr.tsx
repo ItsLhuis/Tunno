@@ -89,7 +89,9 @@ export const turkish: Language = {
       songsPlayed: "{count} şarkı{count, plural, one {} other{}}",
       appearsIn: "Yer aldığı",
       addToSidebar: "Kenar çubuğuna ekle",
-      removeFromSidebar: "Kenar çubuğundan kaldır"
+      removeFromSidebar: "Kenar çubuğundan kaldır",
+      featured: "Öne Çıkanlar",
+      stats: "İstatistikler"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const turkish: Language = {
         title: "Sanatçıların",
         description: "En çok sevdiğin sanatçılar"
       },
-      topAlbums: {
-        title: "Top Albümler",
-        description: "En çok çaldığın albümler"
-      },
-      recentlyAdded: {
-        title: "Son Eklenenler",
-        description: "Kütüphanene son eklenenler"
-      },
-      hiddenGems: {
-        title: "Gizli Mücevherler",
-        description: "Unutulan favorileri yeniden keşfet"
-      },
       discover: {
         title: "Keşfet",
         description: "Senin için yeni müzik önerileri"
-      },
-      yourStats: {
-        title: "Müziğin",
-        description: "Dinleme istatistiklerin ve içgörülerin",
-        topSong: "En Çok Dinlenen Şarkı",
-        topAlbum: "En Çok Dinlenen Albüm",
-        topArtist: "En Çok Dinlenen Sanatçı",
-        topPlaylist: "En Çok Dinlenen Çalma Listesi"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const turkish: Language = {
       title: "Ayarlar",
       appearance: {
         title: "Görünüm",
-        description: "Tercih ettiğiniz görünüm modunu seçin",
-        light: "Açık",
-        dark: "Koyu",
-        system: "Sistem"
+        description: "Uygulamanın görünüm tercihlerini belirleyin.",
+        theme: {
+          title: "Tema",
+          description: "Uygulama temasını seçin",
+          light: "Açık",
+          dark: "Koyu",
+          system: "Sistem"
+        },
+        zoom: {
+          title: "Yakınlaştırma",
+          description: "Uygulamanın yakınlaştırma seviyesini ayarlayın"
+        }
       },
       language: {
         title: "Dil",

@@ -89,7 +89,9 @@ export const dutch: Language = {
       songsPlayed: "{count} nummer{count, plural, one {} other{s}}",
       appearsIn: "Komt voor in",
       addToSidebar: "Toevoegen aan zijbalk",
-      removeFromSidebar: "Verwijderen uit zijbalk"
+      removeFromSidebar: "Verwijderen uit zijbalk",
+      featured: "Uitgelicht",
+      stats: "Statistieken"
     },
     form: {
       titles: {
@@ -259,29 +261,9 @@ export const dutch: Language = {
         title: "Jouw Artiesten",
         description: "Artiesten waar je het meest van houdt"
       },
-      topAlbums: {
-        title: "Top Albums",
-        description: "Jouw meest afgespeelde albums"
-      },
-      recentlyAdded: {
-        title: "Recent Toegevoegd",
-        description: "Laatste toevoegingen aan je bibliotheek"
-      },
-      hiddenGems: {
-        title: "Verborgen Parels",
-        description: "Herontdek vergeten favorieten"
-      },
       discover: {
         title: "Ontdekken",
         description: "Nieuwe muziekaanbevelingen voor jou"
-      },
-      yourStats: {
-        title: "Jouw Muziek",
-        description: "Jouw luisterstatistieken en inzichten",
-        topSong: "Top Nummer",
-        topAlbum: "Top Album",
-        topArtist: "Top Artiest",
-        topPlaylist: "Top Afspeellijst"
       }
     },
     songs: {
@@ -480,10 +462,18 @@ export const dutch: Language = {
       title: "Instellingen",
       appearance: {
         title: "Uiterlijk",
-        description: "Selecteer je voorkeursweergavemodus",
-        light: "Licht",
-        dark: "Donker",
-        system: "Systeem"
+        description: "Definieer de weergavevoorkeuren van de applicatie.",
+        theme: {
+          title: "Thema",
+          description: "Selecteer het thema van de applicatie",
+          light: "Licht",
+          dark: "Donker",
+          system: "Systeem"
+        },
+        zoom: {
+          title: "Zoom",
+          description: "Pas het zoomniveau van de applicatie aan"
+        }
       },
       language: {
         title: "Taal",

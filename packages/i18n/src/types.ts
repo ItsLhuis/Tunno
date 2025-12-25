@@ -93,6 +93,8 @@ export type Translations = {
     appearsIn: string
     addToSidebar: string
     removeFromSidebar: string
+    featured: string
+    stats: string
   }
   form: {
     titles: {
@@ -259,29 +261,9 @@ export type Translations = {
       title: string
       description: string
     }
-    topAlbums: {
-      title: string
-      description: string
-    }
-    recentlyAdded: {
-      title: string
-      description: string
-    }
-    hiddenGems: {
-      title: string
-      description: string
-    }
     discover: {
       title: string
       description: string
-    }
-    yourStats: {
-      title: string
-      description: string
-      topSong: string
-      topAlbum: string
-      topArtist: string
-      topPlaylist: string
     }
   }
   songs: {
@@ -481,9 +463,17 @@ export type Translations = {
     appearance: {
       title: string
       description: string
-      light: string
-      dark: string
-      system: string
+      theme: {
+        title: string
+        description: string
+        light: string
+        dark: string
+        system: string
+      }
+      zoom: {
+        title: string
+        description: string
+      }
     }
     language: {
       title: string

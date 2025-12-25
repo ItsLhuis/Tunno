@@ -89,7 +89,9 @@ export const korean: Language = {
       songsPlayed: "{count}곡",
       appearsIn: "에 포함됨",
       addToSidebar: "사이드바에 추가",
-      removeFromSidebar: "사이드바에서 제거"
+      removeFromSidebar: "사이드바에서 제거",
+      featured: "주요",
+      stats: "통계"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const korean: Language = {
         title: "당신의 아티스트",
         description: "가장 사랑하는 아티스트"
       },
-      topAlbums: {
-        title: "인기 앨범",
-        description: "가장 많이 재생된 앨범"
-      },
-      recentlyAdded: {
-        title: "최근 추가됨",
-        description: "라이브러리에 최근 추가된 음악"
-      },
-      hiddenGems: {
-        title: "숨겨진 보석",
-        description: "잊혀진 즐겨찾기 재발견"
-      },
       discover: {
         title: "발견",
         description: "당신을 위한 새로운 음악 추천"
-      },
-      yourStats: {
-        title: "당신의 음악",
-        description: "듣기 통계 및 인사이트",
-        topSong: "인기 곡",
-        topAlbum: "인기 앨범",
-        topArtist: "인기 아티스트",
-        topPlaylist: "인기 플레이리스트"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const korean: Language = {
       title: "설정",
       appearance: {
         title: "모양",
-        description: "선호하는 모드 선택",
-        light: "라이트",
-        dark: "다크",
-        system: "시스템"
+        description: "응용 프로그램의 모양 기본 설정을 정의하십시오.",
+        theme: {
+          title: "테마",
+          description: "애플리케이션 테마 선택",
+          light: "라이트",
+          dark: "다크",
+          system: "시스템"
+        },
+        zoom: {
+          title: "확대/축소",
+          description: "애플리케이션 확대/축소 레벨 조정"
+        }
       },
       language: {
         title: "언어",

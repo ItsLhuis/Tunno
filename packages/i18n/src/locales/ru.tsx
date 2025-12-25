@@ -89,7 +89,9 @@ export const russian: Language = {
       songsPlayed: "{count} пес{count, plural, one {ня} other{ен}}",
       appearsIn: "Присутствует в",
       addToSidebar: "Добавить на боковую панель",
-      removeFromSidebar: "Удалить с боковой панели"
+      removeFromSidebar: "Удалить с боковой панели",
+      featured: "Рекомендуемое",
+      stats: "Статистика"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const russian: Language = {
         title: "Ваши Исполнители",
         description: "Исполнители, которых вы любите больше всего"
       },
-      topAlbums: {
-        title: "Топ Альбомы",
-        description: "Ваши самые прослушиваемые альбомы"
-      },
-      recentlyAdded: {
-        title: "Недавно Добавленные",
-        description: "Последние добавления в вашу библиотеку"
-      },
-      hiddenGems: {
-        title: "Скрытые Жемчужины",
-        description: "Переоткройте забытые фавориты"
-      },
       discover: {
         title: "Открыть",
         description: "Новые музыкальные рекомендации для вас"
-      },
-      yourStats: {
-        title: "Ваша Музыка",
-        description: "Ваша статистика прослушивания и инсайты",
-        topSong: "Топ песня",
-        topAlbum: "Топ альбом",
-        topArtist: "Топ исполнитель",
-        topPlaylist: "Топ плейлист"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const russian: Language = {
       title: "Настройки",
       appearance: {
         title: "Внешний вид",
-        description: "Выберите предпочитаемый режим отображения",
-        light: "Светлый",
-        dark: "Тёмный",
-        system: "Системный"
+        description: "Настройте параметры внешнего вида приложения.",
+        theme: {
+          title: "Тема",
+          description: "Выберите тему приложения",
+          light: "Светлый",
+          dark: "Тёмный",
+          system: "Системный"
+        },
+        zoom: {
+          title: "Масштаб",
+          description: "Настройте уровень масштабирования приложения"
+        }
       },
       language: {
         title: "Язык",

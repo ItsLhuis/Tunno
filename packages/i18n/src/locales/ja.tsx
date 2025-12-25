@@ -89,7 +89,9 @@ export const japanese: Language = {
       songsPlayed: "{count}曲",
       appearsIn: "に含まれる",
       addToSidebar: "サイドバーに追加",
-      removeFromSidebar: "サイドバーから削除"
+      removeFromSidebar: "サイドバーから削除",
+      featured: "注目",
+      stats: "統計"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const japanese: Language = {
         title: "あなたのアーティスト",
         description: "最も愛するアーティスト"
       },
-      topAlbums: {
-        title: "トップアルバム",
-        description: "最も再生されたアルバム"
-      },
-      recentlyAdded: {
-        title: "最近追加",
-        description: "ライブラリへの最新追加"
-      },
-      hiddenGems: {
-        title: "隠れた名曲",
-        description: "忘れられたお気に入りを再発見"
-      },
       discover: {
         title: "発見",
         description: "あなたのための新しい音楽レコメンデーション"
-      },
-      yourStats: {
-        title: "あなたの音楽",
-        description: "リスニング統計とインサイト",
-        topSong: "トップソング",
-        topAlbum: "トップアルバム",
-        topArtist: "トップアーティスト",
-        topPlaylist: "トッププレイリスト"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const japanese: Language = {
       title: "設定",
       appearance: {
         title: "外観",
-        description: "好みの外観モードを選択してください",
-        light: "ライト",
-        dark: "ダーク",
-        system: "システム"
+        description: "アプリケーションの外観設定を定義します。",
+        theme: {
+          title: "テーマ",
+          description: "アプリケーションのテーマを選択してください",
+          light: "ライト",
+          dark: "ダーク",
+          system: "システム"
+        },
+        zoom: {
+          title: "ズーム",
+          description: "アプリケーションのズームレベルを調整"
+        }
       },
       language: {
         title: "言語",

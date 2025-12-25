@@ -89,7 +89,9 @@ export const danish: Language = {
       songsPlayed: "{count} sang{count, plural, one {} other{e}}",
       appearsIn: "Forekommer i",
       addToSidebar: "Føj til sidepanel",
-      removeFromSidebar: "Fjern fra sidepanel"
+      removeFromSidebar: "Fjern fra sidepanel",
+      featured: "Fremhævet",
+      stats: "Statistik"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const danish: Language = {
         title: "Dine Kunstnere",
         description: "Kunstnere du elsker mest"
       },
-      topAlbums: {
-        title: "Top Album",
-        description: "Dine mest spillede album"
-      },
-      recentlyAdded: {
-        title: "Nyligt Tilføjet",
-        description: "Seneste tilføjelser til dit bibliotek"
-      },
-      hiddenGems: {
-        title: "Skjulte Perler",
-        description: "Genopdag glemte favoritter"
-      },
       discover: {
         title: "Opdag",
         description: "Nye musikkanbefalinger til dig"
-      },
-      yourStats: {
-        title: "Din Musik",
-        description: "Dine lytte statistikker og indsigter",
-        topSong: "Top Sang",
-        topAlbum: "Top Album",
-        topArtist: "Top Kunstner",
-        topPlaylist: "Top Afspilningsliste"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const danish: Language = {
       title: "Indstillinger",
       appearance: {
         title: "Udseende",
-        description: "Vælg din foretrukne udseendetilstand",
-        light: "Lys",
-        dark: "Mørk",
-        system: "System"
+        description: "Definer applikationens udseendepræferencer",
+        theme: {
+          title: "Tema",
+          description: "Vælg applikationstemaet",
+          light: "Lys",
+          dark: "Mørk",
+          system: "System"
+        },
+        zoom: {
+          title: "Zoom",
+          description: "Juster applikationens zoomniveau"
+        }
       },
       language: {
         title: "Sprog",

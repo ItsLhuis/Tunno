@@ -89,7 +89,9 @@ export const swedish: Language = {
       songsPlayed: "{count} låt{count, plural, one {} other{ar}}",
       appearsIn: "Förekommer i",
       addToSidebar: "Lägg till i sidofältet",
-      removeFromSidebar: "Ta bort från sidofältet"
+      removeFromSidebar: "Ta bort från sidofältet",
+      featured: "Utvalda",
+      stats: "Statistik"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const swedish: Language = {
         title: "Dina Artister",
         description: "Artister du älskar mest"
       },
-      topAlbums: {
-        title: "Topp Album",
-        description: "Dina mest spelade album"
-      },
-      recentlyAdded: {
-        title: "Nyligen Tillagda",
-        description: "Senaste tilläggen till ditt bibliotek"
-      },
-      hiddenGems: {
-        title: "Dolda Pärlor",
-        description: "Återupptäck glömda favoriter"
-      },
       discover: {
         title: "Upptäck",
         description: "Nya musikrekommendationer för dig"
-      },
-      yourStats: {
-        title: "Din Musik",
-        description: "Dina lyssningsstatistik och insikter",
-        topSong: "Toppsång",
-        topAlbum: "Topalbum",
-        topArtist: "Toppartist",
-        topPlaylist: "Toppspellista"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const swedish: Language = {
       title: "Inställningar",
       appearance: {
         title: "Utseende",
-        description: "Välj ditt föredragna utseendeläge",
-        light: "Ljust",
-        dark: "Mörkt",
-        system: "System"
+        description: "Definiera applikationens utseendepreferenser.",
+        theme: {
+          title: "Tema",
+          description: "Välj applikationstema",
+          light: "Ljust",
+          dark: "Mörkt",
+          system: "System"
+        },
+        zoom: {
+          title: "Zoom",
+          description: "Justera applikationens zoomnivå"
+        }
       },
       language: {
         title: "Språk",

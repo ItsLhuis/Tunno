@@ -65,9 +65,9 @@ const Home = () => {
   const renderStatsSection = () => (
     <View>
       <View style={styles.sectionHeader}>
-        <Text variant="h1">{t("home.yourStats.title")}</Text>
+        <Text variant="h1">t("home.yourStats.title")</Text>
         <Text size="sm" color="mutedForeground">
-          {t("home.yourStats.description")}
+          t("home.yourStats.description")
         </Text>
       </View>
       <View style={styles.statsGrid}>
@@ -325,20 +325,20 @@ const Home = () => {
           renderArtistItem
         )}
         {renderHorizontalSection(
-          t("home.topAlbums.title"),
-          t("home.topAlbums.description"),
+          "t('home.topAlbums.title')",
+          "t('home.topAlbums.description')",
           MOCK_ALBUMS,
           renderAlbumItem
         )}
         {renderHorizontalSection(
-          t("home.hiddenGems.title"),
-          t("home.hiddenGems.description"),
+          "t('home.hiddenGems.title')",
+          "t('home.hiddenGems.description')",
           MOCK_SONGS.slice(0, 10),
           renderSongItem
         )}
         {renderHorizontalSection(
-          t("home.recentlyAdded.title"),
-          t("home.recentlyAdded.description"),
+          "t('home.recentlyAdded.title')",
+          "t('home.recentlyAdded.description')",
           MOCK_SONGS.slice(0, 10),
           renderSongItem
         )}

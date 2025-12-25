@@ -89,7 +89,9 @@ export const english: Language = {
       songsPlayed: "{count} song{count, plural, one {} other{s}}",
       appearsIn: "Appears in",
       addToSidebar: "Add to sidebar",
-      removeFromSidebar: "Remove from sidebar"
+      removeFromSidebar: "Remove from sidebar",
+      featured: "Featured",
+      stats: "Stats"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const english: Language = {
         title: "Your Artists",
         description: "Artists you love most"
       },
-      topAlbums: {
-        title: "Top Albums",
-        description: "Your most played albums"
-      },
-      recentlyAdded: {
-        title: "Recently Added",
-        description: "Latest additions to your library"
-      },
-      hiddenGems: {
-        title: "Hidden Gems",
-        description: "Rediscover forgotten favorites"
-      },
       discover: {
         title: "Discover",
         description: "New music recommendations for you"
-      },
-      yourStats: {
-        title: "Your Music",
-        description: "Your listening statistics and insights",
-        topSong: "Top Song",
-        topAlbum: "Top Album",
-        topArtist: "Top Artist",
-        topPlaylist: "Top Playlist"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const english: Language = {
       title: "Settings",
       appearance: {
         title: "Appearance",
-        description: "Select your preferred appearance mode",
-        light: "Light",
-        dark: "Dark",
-        system: "System"
+        description: "Define the application's appearance preferences",
+        theme: {
+          title: "Theme",
+          description: "Select the application theme",
+          light: "Light",
+          dark: "Dark",
+          system: "System"
+        },
+        zoom: {
+          title: "Zoom",
+          description: "Adjust the application zoom level"
+        }
       },
       language: {
         title: "Language",

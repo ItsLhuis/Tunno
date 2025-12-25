@@ -89,7 +89,9 @@ export const german: Language = {
       songsPlayed: "{count} Lied{count, plural, one {} other{er}}",
       appearsIn: "Erscheint in",
       addToSidebar: "Zur Seitenleiste hinzufügen",
-      removeFromSidebar: "Aus der Seitenleiste entfernen"
+      removeFromSidebar: "Aus der Seitenleiste entfernen",
+      featured: "Vorgestellt",
+      stats: "Statistiken"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const german: Language = {
         title: "Ihre Künstler",
         description: "Künstler, die Sie am meisten lieben"
       },
-      topAlbums: {
-        title: "Top Alben",
-        description: "Ihre meistgespielten Alben"
-      },
-      recentlyAdded: {
-        title: "Kürzlich Hinzugefügt",
-        description: "Neueste Ergänzungen zu Ihrer Bibliothek"
-      },
-      hiddenGems: {
-        title: "Versteckte Schätze",
-        description: "Entdecken Sie vergessene Favoriten neu"
-      },
       discover: {
         title: "Entdecken",
         description: "Neue Musikeempfehlungen für Sie"
-      },
-      yourStats: {
-        title: "Ihre Musik",
-        description: "Ihre Hörstatistiken und Einblicke",
-        topSong: "Top Song",
-        topAlbum: "Top Album",
-        topArtist: "Top Künstler",
-        topPlaylist: "Top Playlist"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const german: Language = {
       title: "Einstellungen",
       appearance: {
         title: "Aussehen",
-        description: "Wählen Sie Ihren bevorzugten Aussehen-Modus",
-        light: "Hell",
-        dark: "Dunkel",
-        system: "System"
+        description: "Legen Sie die Darstellungseinstellungen der Anwendung fest.",
+        theme: {
+          title: "Thema",
+          description: "Wählen Sie das Anwendungsthema",
+          light: "Hell",
+          dark: "Dunkel",
+          system: "System"
+        },
+        zoom: {
+          title: "Zoom",
+          description: "Passen Sie die Zoomstufe der Anwendung an"
+        }
       },
       language: {
         title: "Sprache",

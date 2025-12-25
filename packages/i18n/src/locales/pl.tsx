@@ -89,7 +89,9 @@ export const polish: Language = {
       songsPlayed: "{count} utwór{count, plural, one {} other{ów}}",
       appearsIn: "Występuje w",
       addToSidebar: "Dodaj do paska bocznego",
-      removeFromSidebar: "Usuń z paska bocznego"
+      removeFromSidebar: "Usuń z paska bocznego",
+      featured: "Wyróżnione",
+      stats: "Statystyki"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const polish: Language = {
         title: "Twoi Artyści",
         description: "Artyści których kochasz najbardziej"
       },
-      topAlbums: {
-        title: "Top Albumy",
-        description: "Twoje najczęściej odtwarzane albumy"
-      },
-      recentlyAdded: {
-        title: "Ostatnio Dodane",
-        description: "Najnowsze dodatki do twojej biblioteki"
-      },
-      hiddenGems: {
-        title: "Ukryte Perły",
-        description: "Odkryj ponownie zapomniane ulubione"
-      },
       discover: {
         title: "Odkryj",
         description: "Nowe rekomendacje muzyczne dla ciebie"
-      },
-      yourStats: {
-        title: "Twoja Muzyka",
-        description: "Twoje statystyki słuchania i spostrzeżenia",
-        topSong: "Top utwór",
-        topAlbum: "Top album",
-        topArtist: "Top artysta",
-        topPlaylist: "Top lista odtwarzania"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const polish: Language = {
       title: "Ustawienia",
       appearance: {
         title: "Wygląd",
-        description: "Wybierz preferowany tryb wyglądu",
-        light: "Jasny",
-        dark: "Ciemny",
-        system: "Systemowy"
+        description: "Zdefiniuj preferencje wyglądu aplikacji.",
+        theme: {
+          title: "Motyw",
+          description: "Wybierz motyw aplikacji",
+          light: "Jasny",
+          dark: "Ciemny",
+          system: "Systemowy"
+        },
+        zoom: {
+          title: "Powiększenie",
+          description: "Dostosuj poziom powiększenia aplikacji"
+        }
       },
       language: {
         title: "Język",

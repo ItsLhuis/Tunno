@@ -89,7 +89,9 @@ export const vietnamese: Language = {
       songsPlayed: "{count} bài hát",
       appearsIn: "Xuất hiện trong",
       addToSidebar: "Thêm vào thanh bên",
-      removeFromSidebar: "Xóa khỏi thanh bên"
+      removeFromSidebar: "Xóa khỏi thanh bên",
+      featured: "Nổi bật",
+      stats: "Thống kê"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const vietnamese: Language = {
         title: "Nghệ Sĩ Của Bạn",
         description: "Những nghệ sĩ bạn yêu thích nhất"
       },
-      topAlbums: {
-        title: "Album Hàng Đầu",
-        description: "Những album bạn phát nhiều nhất"
-      },
-      recentlyAdded: {
-        title: "Mới Thêm Gần Đây",
-        description: "Những bản nhạc mới nhất được thêm vào thư viện"
-      },
-      hiddenGems: {
-        title: "Viên Ngọc Ẩn",
-        description: "Khám phá lại những yêu thích đã quên"
-      },
       discover: {
         title: "Khám Phá",
         description: "Những gợi ý âm nhạc mới dành cho bạn"
-      },
-      yourStats: {
-        title: "Âm Nhạc Của Bạn",
-        description: "Thống kê nghe nhạc và hiểu biết của bạn",
-        topSong: "Bài hát hàng đầu",
-        topAlbum: "Album hàng đầu",
-        topArtist: "Nghệ sĩ hàng đầu",
-        topPlaylist: "Playlist hàng đầu"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const vietnamese: Language = {
       title: "Cài đặt",
       appearance: {
         title: "Giao diện",
-        description: "Chọn chế độ giao diện ưu tiên của bạn",
-        light: "Sáng",
-        dark: "Tối",
-        system: "Hệ thống"
+        description: "Đặt cấu hình các tùy chọn giao diện của ứng dụng.",
+        theme: {
+          title: "Chủ đề",
+          description: "Chọn chủ đề ứng dụng",
+          light: "Sáng",
+          dark: "Tối",
+          system: "Hệ thống"
+        },
+        zoom: {
+          title: "Thu phóng",
+          description: "Điều chỉnh mức thu phóng của ứng dụng"
+        }
       },
       language: {
         title: "Ngôn ngữ",

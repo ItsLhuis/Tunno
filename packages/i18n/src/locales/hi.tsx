@@ -89,7 +89,9 @@ export const hindi: Language = {
       songsPlayed: "{count} गाना{count, plural, one {} other{ों}}",
       appearsIn: "में दिखाई देता है",
       addToSidebar: "साइडबार में जोड़ें",
-      removeFromSidebar: "साइडबार से हटाएँ"
+      removeFromSidebar: "साइडबार से हटाएँ",
+      featured: "विशेष रुप से प्रदर्शित",
+      stats: "आंकड़े"
     },
     form: {
       titles: {
@@ -258,29 +260,9 @@ export const hindi: Language = {
         title: "आपके कलाकार",
         description: "कलाकार जिन्हें आप सबसे अधिक प्यार करते हैं"
       },
-      topAlbums: {
-        title: "टॉप एल्बम",
-        description: "आपके सबसे अधिक बजाए गए एल्बम"
-      },
-      recentlyAdded: {
-        title: "हाल ही में जोड़े गए",
-        description: "आपके लाइब्रेरी में नवीनतम जोड़"
-      },
-      hiddenGems: {
-        title: "छुपे हुए रत्न",
-        description: "भूली हुई पसंदीदा को फिर से खोजें"
-      },
       discover: {
         title: "खोजें",
         description: "आपके लिए नए संगीत सुझाव"
-      },
-      yourStats: {
-        title: "आपका संगीत",
-        description: "आपके सुनने के आंकड़े और अंतर्दृष्टि",
-        topSong: "टॉप गाना",
-        topAlbum: "टॉप एल्बम",
-        topArtist: "टॉप कलाकार",
-        topPlaylist: "टॉप प्लेलिस्ट"
       }
     },
     songs: {
@@ -479,10 +461,18 @@ export const hindi: Language = {
       title: "सेटिंग्स",
       appearance: {
         title: "दिखावट",
-        description: "अपनी पसंदीदा दिखावट चुनें",
-        light: "हल्का",
-        dark: "गहरा",
-        system: "सिस्टम"
+        description: "एप्लिकेशन की दिखावट सेटिंग्स परिभाषित करें।",
+        theme: {
+          title: "थीम",
+          description: "एप्लिकेशन थीम चुनें",
+          light: "हल्का",
+          dark: "गहरा",
+          system: "सिस्टम"
+        },
+        zoom: {
+          title: "ज़ूम",
+          description: "एप्लिकेशन का ज़ूम स्तर समायोजित करें"
+        }
       },
       language: {
         title: "भाषा",
