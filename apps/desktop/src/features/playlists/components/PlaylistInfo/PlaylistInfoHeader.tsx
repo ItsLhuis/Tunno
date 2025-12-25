@@ -19,6 +19,7 @@ import {
 } from "@components/ui"
 
 import { PlaylistActions } from "../PlaylistActions"
+import { PlaylistStatsSheet } from "./PlaylistStatsSheet"
 
 import { type PlaylistWithAllRelations, type SongWithMainRelations } from "@repo/api"
 
@@ -99,6 +100,7 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />
+        <PlaylistStatsSheet playlist={playlist} />
         <PlaylistActions playlistId={playlist.id} />
       </div>
     </Header>

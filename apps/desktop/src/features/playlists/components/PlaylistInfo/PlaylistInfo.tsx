@@ -20,7 +20,6 @@ import {
 import { SongItemList } from "@features/songs/components"
 
 import { PlaylistInfoHeader } from "./PlaylistInfoHeader"
-import { PlaylistInfoStats } from "./PlaylistInfoStats"
 import { PlaylistInfoStickyHeader } from "./PlaylistInfoStickyHeader"
 import { PlaylistInfoSubHeader } from "./PlaylistInfoSubHeader"
 
@@ -63,12 +62,7 @@ const PlaylistInfo = () => {
 
   const Header = useCallback(() => {
     if (!playlist) return null
-    return (
-      <div>
-        <PlaylistInfoHeader playlist={playlist} list={listController} />
-        <PlaylistInfoStats playlist={playlist} />
-      </div>
-    )
+    return <PlaylistInfoHeader playlist={playlist} list={listController} />
   }, [playlist, listController])
 
   const StickyHeader = useCallback(() => {
