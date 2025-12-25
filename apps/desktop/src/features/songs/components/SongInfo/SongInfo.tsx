@@ -27,7 +27,6 @@ import { PlaylistItemCard } from "@features/playlists/components/PlaylistItem"
 
 import { SongItemList } from "../SongItem"
 import { SongInfoHeader } from "./SongInfoHeader"
-import { SongInfoStats } from "./SongInfoStats"
 import { SongInfoStickyHeader } from "./SongInfoStickyHeader"
 import { SongInfoSubHeader } from "./SongInfoSubHeader"
 
@@ -45,12 +44,7 @@ const SongInfo = () => {
 
   const Header = useCallback(() => {
     if (!song) return null
-    return (
-      <div>
-        <SongInfoHeader song={song} />
-        <SongInfoStats song={song} />
-      </div>
-    )
+    return <SongInfoHeader song={song} />
   }, [song])
 
   const StickyHeader = useCallback(() => {

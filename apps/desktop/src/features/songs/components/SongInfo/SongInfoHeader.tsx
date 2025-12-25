@@ -6,7 +6,7 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useToggleSongFavorite } from "../../hooks/useToggleSongFavorite"
 
-import { formatTime } from "@repo/utils"
+import { calculateStreak, formatTime } from "@repo/utils"
 
 import {
   Badge,
@@ -19,6 +19,10 @@ import {
 } from "@components/ui"
 
 import { SongActions } from "../SongActions"
+import { SongStatsSheet } from "./SongStatsSheet"
+
+import StreakLottie from "@assets/lotties/Streak.json"
+import Lottie from "lottie-react"
 
 import { State } from "@track-player/web"
 
@@ -63,6 +67,9 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   }
 
   const toggleFavoriteMutation = useToggleSongFavorite()
+
+  const playHistory = song.playHistory ?? []
+  const streak = calculateStreak(playHistory)
 
   const handleToggleFavorite = () => {
     toggleFavoriteMutation.mutate({ id: song.id })
@@ -136,7 +143,9 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onClick={handleToggleFavorite}
         />
+        <SongStatsSheet song={song} />
         <SongActions songId={song.id} />
+        {streak >= 2 && <Lottie animationData={StreakLottie} className="size-8" />}
       </div>
     </Header>
   )
