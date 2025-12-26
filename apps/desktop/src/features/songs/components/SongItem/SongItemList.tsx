@@ -2,6 +2,8 @@ import { memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useBreakpoint } from "@hooks/useBreakpoint"
+
 import { useSongPlayback } from "./hooks"
 
 import { cn } from "@lib/utils"
@@ -43,6 +45,8 @@ const SongItemList = memo(
   }: SongItemListProps) => {
     const { t, i18n } = useTranslation()
 
+    const { isBelow } = useBreakpoint()
+
     const { isCurrentlyPlaying, isTrackLoading, handlePlaySong } = useSongPlayback(
       song.id,
       allSongIds,
@@ -54,11 +58,11 @@ const SongItemList = memo(
     const showCheckbox = !!onToggle
     const columnsToShow = visibleColumns || ALL_COLUMNS
 
-    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox
+    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox && !isBelow("sm")
     const showTitleColumn = columnsToShow.includes("title")
-    const showAlbumColumn = columnsToShow.includes("album")
-    const showDateColumn = columnsToShow.includes("date")
-    const showDurationColumn = columnsToShow.includes("duration")
+    const showAlbumColumn = columnsToShow.includes("album") && !isBelow("md")
+    const showDateColumn = columnsToShow.includes("date") && !isBelow("lg")
+    const showDurationColumn = columnsToShow.includes("duration") && !isBelow("sm")
 
     const gridTemplateColumns = useMemo(() => {
       const cols: string[] = []

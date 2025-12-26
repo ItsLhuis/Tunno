@@ -1,4 +1,8 @@
+import { useMemo } from "react"
+
 import { useTranslation } from "@repo/i18n"
+
+import { useBreakpoint } from "@hooks/useBreakpoint"
 
 import { cn } from "@lib/utils"
 
@@ -11,22 +15,41 @@ type SongInfoSubHeaderProps = {
 const SongInfoSubHeader = ({ className }: SongInfoSubHeaderProps) => {
   const { t } = useTranslation()
 
+  const { isBelow } = useBreakpoint()
+
+  const showAlbumColumn = !isBelow("md")
+  const showDateColumn = !isBelow("lg")
+  const showDurationColumn = !isBelow("sm")
+
+  const gridTemplateColumns = useMemo(() => {
+    const cols: string[] = ["60px", "1fr"]
+    if (showAlbumColumn) cols.push("1fr")
+    if (showDateColumn) cols.push("0.5fr")
+    if (showDurationColumn) cols.push("80px")
+    cols.push("40px")
+    return cols.join(" ")
+  }, [showAlbumColumn, showDateColumn, showDurationColumn])
+
   return (
     <div
-      className={cn(
-        className,
-        "grid w-full grid-cols-[60px_1fr_1fr_0.5fr_80px_40px] items-center gap-3 px-2 pb-2 text-sm font-medium"
-      )}
+      className={cn(className, "grid w-full items-center gap-3 px-2 pb-2 text-sm font-medium")}
+      style={{ gridTemplateColumns }}
     >
       <div className="flex items-center justify-center">
         <Typography affects={["small", "muted", "uppercase"]}>#</Typography>
       </div>
       <Typography affects={["small", "muted", "uppercase"]}>{t("common.title")}</Typography>
-      <Typography affects={["small", "muted", "uppercase"]}>{t("common.album")}</Typography>
-      <Typography affects={["small", "muted", "uppercase"]}>{t("common.added")}</Typography>
-      <div className="flex items-center justify-center">
-        <Icon name="Timer" className="text-muted-foreground" />
-      </div>
+      {showAlbumColumn && (
+        <Typography affects={["small", "muted", "uppercase"]}>{t("common.album")}</Typography>
+      )}
+      {showDateColumn && (
+        <Typography affects={["small", "muted", "uppercase"]}>{t("common.added")}</Typography>
+      )}
+      {showDurationColumn && (
+        <div className="flex items-center justify-center">
+          <Icon name="Timer" className="text-muted-foreground" />
+        </div>
+      )}
       <div className="opacity-0">
         <IconButton name="MoreHorizontal" />
       </div>

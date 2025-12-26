@@ -52,7 +52,7 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
   const hasSelectedRows = list.hasSelection
 
   return (
-    <Header className="flex items-center gap-3">
+    <Header className="flex flex-col gap-6 md:flex-row md:items-center md:gap-3">
       <SongForm
         trigger={
           <IconButton
@@ -63,27 +63,29 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
           />
         }
       />
-      <IconButton
-        name="Shuffle"
-        className="size-14 shrink-0 rounded-full [&_svg]:size-7"
-        isLoading={isShuffling}
-        disabled={hasSelectedRows || allSongIds.length === 0}
-        tooltip={t("common.shuffleAndPlay")}
-        onClick={handleShuffleAndPlay}
-      />
-      <Typography variant="h1" className="truncate">
-        {t("songs.title")}
-      </Typography>
-      <Tabs defaultValue={viewMode} className="ml-auto">
-        <TabsList className="h-auto">
-          <TabsTrigger className="p-2" value="grid" onClick={() => setViewMode("grid")}>
-            <Icon name="Grid" />
-          </TabsTrigger>
-          <TabsTrigger className="p-2" value="list" onClick={() => setViewMode("list")}>
-            <Icon name="List" />
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div className="grid flex-1 grid-cols-[auto_1fr_auto] items-center gap-3">
+        <IconButton
+          name="Shuffle"
+          className="size-14 rounded-full [&_svg]:size-7"
+          isLoading={isShuffling}
+          disabled={hasSelectedRows || allSongIds.length === 0}
+          tooltip={t("common.shuffleAndPlay")}
+          onClick={handleShuffleAndPlay}
+        />
+        <Typography variant="h1" className="truncate">
+          {t("songs.title")}
+        </Typography>
+        <Tabs defaultValue={viewMode}>
+          <TabsList className="h-auto">
+            <TabsTrigger className="p-2" value="grid" onClick={() => setViewMode("grid")}>
+              <Icon name="Grid" />
+            </TabsTrigger>
+            <TabsTrigger className="p-2" value="list" onClick={() => setViewMode("list")}>
+              <Icon name="List" />
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
     </Header>
   )
 }
