@@ -2,6 +2,12 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.4.1] - 2025-12-26
+
+### Changed
+
+- 🎨 **Stats Sheets**: Improved header styling in stats sheets for better visual consistency.
+
 ## [1.4.0] - 2025-12-25
 
 ### Added
