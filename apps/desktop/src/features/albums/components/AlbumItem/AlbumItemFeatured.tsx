@@ -50,8 +50,8 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
       {imageSrc && (
         <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
       )}
-      <div className="relative flex items-end gap-6 p-9">
-        <div className="aspect-square w-100 shrink-0">
+      <div className="relative flex flex-col gap-6 p-9 md:flex-row md:items-end">
+        <div className="aspect-square w-full shrink-0 md:w-100">
           <motion.div
             className="flex size-full items-center justify-center overflow-hidden rounded"
             animate={{
@@ -71,15 +71,15 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
             />
           </motion.div>
         </div>
-        <div className="flex flex-1 flex-col gap-3">
-          <div className="flex flex-1 flex-col gap-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-3">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
             <Badge variant="muted" className="w-fit">
               {t("common.featured")}
             </Badge>
             <Typography
               variant="h1"
               className={cn(
-                "line-clamp-1 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl",
+                "truncate text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl",
                 dominantColor && "text-primary"
               )}
             >
