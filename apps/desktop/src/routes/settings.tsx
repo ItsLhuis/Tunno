@@ -11,8 +11,9 @@ export const Route = createFileRoute("/settings")({
 function SettingsLayout() {
   return (
     <div className="flex flex-1 overflow-hidden">
-      <Sidebar />
-      <AnimatedOutlet />
+      <Sidebar>
+        <AnimatedOutlet />
+      </Sidebar>
     </div>
   )
 }
