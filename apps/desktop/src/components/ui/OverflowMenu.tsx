@@ -14,8 +14,8 @@ import { useTranslation } from "@repo/i18n"
 
 import { cn } from "@lib/utils"
 
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@components/ui/DropdownMenu"
 import { IconButton } from "@components/ui/IconButton"
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/Popover"
 import { ScrollArea } from "@components/ui/ScrollArea"
 
 export type OverflowMenuProps = Omit<ComponentProps<"div">, "children"> & {
@@ -23,6 +23,7 @@ export type OverflowMenuProps = Omit<ComponentProps<"div">, "children"> & {
   className?: string
   triggerClassName?: string
   contentClassName?: string
+  renderOverflowItem?: (item: ReactNode, index: number) => ReactNode
 }
 
 const OverflowMenu = ({
@@ -30,6 +31,7 @@ const OverflowMenu = ({
   className,
   triggerClassName,
   contentClassName,
+  renderOverflowItem,
   ref,
   ...props
 }: OverflowMenuProps) => {
@@ -171,28 +173,35 @@ const OverflowMenu = ({
     >
       <div
         ref={measureRef}
-        className="pointer-events-none fixed -left-[9999px] -top-[9999px] flex items-center gap-2 opacity-0"
+        className="pointer-events-none fixed -top-[9999px] -left-[9999px] flex items-center gap-2 opacity-0"
         aria-hidden="true"
       >
         {childrenArray}
       </div>
       {visibleItems}
       {hasOverflow && (
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger asChild>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+          <DropdownMenuTrigger asChild>
             <IconButton
               name="MoreHorizontal"
               variant="link"
               className={cn("shrink-0", triggerClassName)}
               tooltip={t("common.more")}
             />
-          </PopoverTrigger>
-          <PopoverContent className="p-0">
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="p-0">
             <ScrollArea className="flex max-h-[300px] flex-col">
-              <div className={cn("p-2", contentClassName)}>{overflowItems}</div>
+              <div className={cn("p-1", contentClassName)}>
+                {renderOverflowItem
+                  ? overflowItems.map((item, index) => {
+                      const originalIndex = visibleItems.length + index
+                      return renderOverflowItem(item, originalIndex)
+                    })
+                  : overflowItems}
+              </div>
             </ScrollArea>
-          </PopoverContent>
-        </Popover>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </div>
   )

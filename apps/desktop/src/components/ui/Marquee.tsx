@@ -53,12 +53,13 @@ const Marquee = ({ children, speed = 50, shadow = true, className, ...props }: M
   }, [])
 
   useEffect(() => {
-    if (!contentRef.current) return
+    if (!containerRef.current || !contentRef.current) return
 
     const resizeObserver = new ResizeObserver(() => {
       checkOverflow()
     })
 
+    resizeObserver.observe(containerRef.current)
     resizeObserver.observe(contentRef.current)
 
     return () => {

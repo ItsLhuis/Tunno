@@ -1,6 +1,10 @@
+import { Fragment } from "react"
+
 import { useRouter, useRouterState } from "@tanstack/react-router"
 
 import { useTranslation } from "@repo/i18n"
+
+import { useBreakpoint } from "@hooks/useBreakpoint"
 
 import { useBreadcrumbs } from "./hooks"
 
@@ -19,16 +23,19 @@ import { Titlebar as WindowTitlebar } from "@components/window"
 import {
   AsyncState,
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
   Fade,
   Icon,
   IconButton,
   Image,
+  OverflowMenu,
   SafeLink,
   Spinner,
   Typography
 } from "@components/ui"
-
-import { OverflowMenu } from "@components/ui/OverflowMenu"
 
 type TitlebarProps = {
   isSplashVisible: boolean
@@ -39,6 +46,9 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   const routerState = useRouterState()
 
   const { t } = useTranslation()
+
+  const { isBelow } = useBreakpoint()
+  const isCompact = isBelow("sm")
 
   const canGoBack = router.history.canGoBack()
   const canGoForward = router.history.length > routerState.location.state.__TSR_index + 1
@@ -96,7 +106,34 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
               className="mr-3 aspect-auto w-4"
             />
             <Fade show={!isSplashVisible} className="bg-muted flex w-full items-center rounded">
-              <OverflowMenu data-tauri-drag-region className="flex-1 px-3" triggerClassName="-ml-3">
+              <OverflowMenu
+                data-tauri-drag-region
+                className="flex-1 px-3"
+                triggerClassName="-ml-3"
+                renderOverflowItem={(_, index) => {
+                  const breadcrumb = breadcrumbs[index]
+                  const isLast = index === breadcrumbs.length - 1
+
+                  if (isLast || breadcrumb.isNotClickable) {
+                    return (
+                      <DropdownMenuItem key={breadcrumb.path} disabled>
+                        <Icon name="ChevronRight" />
+                        {breadcrumb.label || t("common.noResultsFound")}
+                      </DropdownMenuItem>
+                    )
+                  }
+
+                  return (
+                    <DropdownMenuItem
+                      key={breadcrumb.path}
+                      onClick={() => router.navigate({ to: breadcrumb.path })}
+                    >
+                      <Icon name="ChevronRight" />
+                      {breadcrumb.label}
+                    </DropdownMenuItem>
+                  )
+                }}
+              >
                 {breadcrumbs.map((breadcrumb, index) => {
                   const isLast = index === breadcrumbs.length - 1
 
@@ -194,26 +231,50 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
             </Fade>
           </div>
           <Fade show={!isSplashVisible} className="ml-3 flex items-center gap-2">
-            <Button
-              tooltip={{ children: t("fastUpload.title"), side: "bottom" }}
-              variant="ghost"
-              size="icon"
-              asChild
-            >
-              <SafeLink to="/fast-upload">
-                <Icon name="Zap" />
-              </SafeLink>
-            </Button>
-            <Button
-              tooltip={{ children: t("settings.title"), side: "bottom" }}
-              variant="ghost"
-              size="icon"
-              asChild
-            >
-              <SafeLink to="/settings/appearance">
-                <Icon name="Settings" />
-              </SafeLink>
-            </Button>
+            {isCompact ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <IconButton name="MoreHorizontal" variant="ghost" tooltip={t("common.more")} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <SafeLink to="/fast-upload">
+                      <Icon name="Zap" />
+                      {t("fastUpload.title")}
+                    </SafeLink>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <SafeLink to="/settings/appearance">
+                      <Icon name="Settings" />
+                      {t("settings.title")}
+                    </SafeLink>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Fragment>
+                <Button
+                  tooltip={{ children: t("fastUpload.title"), side: "bottom" }}
+                  variant="ghost"
+                  size="icon"
+                  asChild
+                >
+                  <SafeLink to="/fast-upload">
+                    <Icon name="Zap" />
+                  </SafeLink>
+                </Button>
+                <Button
+                  tooltip={{ children: t("settings.title"), side: "bottom" }}
+                  variant="ghost"
+                  size="icon"
+                  asChild
+                >
+                  <SafeLink to="/settings/appearance">
+                    <Icon name="Settings" />
+                  </SafeLink>
+                </Button>
+              </Fragment>
+            )}
           </Fade>
         </div>
       </WindowTitlebar>
