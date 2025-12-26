@@ -14,6 +14,7 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
   Thumbnail,
   Typography
@@ -46,7 +47,7 @@ const PlaylistStatsSheet = ({ playlist }: PlaylistStatsSheetProps) => {
       </SheetTrigger>
       <SheetContent className="flex flex-col gap-0 p-0">
         <SheetHeader className="flex flex-col gap-6 p-6">
-          <Typography variant="h3">{t("common.stats")}</Typography>
+          <SheetTitle>{t("common.stats")}</SheetTitle>
           <div className="flex items-center gap-3">
             <Thumbnail
               placeholderIcon="ListMusic"
