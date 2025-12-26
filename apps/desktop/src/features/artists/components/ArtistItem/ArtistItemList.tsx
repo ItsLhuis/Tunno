@@ -2,6 +2,8 @@ import { memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useBreakpoint } from "@hooks/useBreakpoint"
+
 import { useArtistPlayback } from "./hooks"
 
 import { cn } from "@lib/utils"
@@ -12,46 +14,37 @@ import { ArtistActions } from "../ArtistActions"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
-import { type ArtistItemListProps, type ColumnKey } from "./types"
-
-const ALL_COLUMNS: ColumnKey[] = ["checkbox", "title", "playCount", "lastPlayed", "date"]
+import { type ArtistItemListProps } from "./types"
 
 const ArtistItemList = memo(
-  ({ artist, index = 0, selected = false, onToggle, visibleColumns }: ArtistItemListProps) => {
+  ({ artist, index = 0, selected = false, onToggle }: ArtistItemListProps) => {
     const { t, i18n } = useTranslation()
+
+    const { isBelow } = useBreakpoint()
 
     const { isLoading, isTrackLoading, handlePlayArtist } = useArtistPlayback(artist.id)
 
     const canPlay = artist.totalTracks > 0
 
     const showCheckbox = !!onToggle
-    const columnsToShow = visibleColumns || ALL_COLUMNS
 
-    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox
-    const showTitleColumn = columnsToShow.includes("title")
-    const showPlayCountColumn = columnsToShow.includes("playCount")
-    const showLastPlayedColumn = columnsToShow.includes("lastPlayed")
-    const showDateColumn = columnsToShow.includes("date")
+    const showCheckboxColumn = showCheckbox && !isBelow("sm")
+    const showPlayCountColumn = !isBelow("md")
+    const showLastPlayedColumn = !isBelow("lg")
+    const showDateColumn = !isBelow("xl")
 
     const gridTemplateColumns = useMemo(() => {
       const cols: string[] = []
 
       if (showCheckboxColumn) cols.push("24px")
-      cols.push("60px")
-      if (showTitleColumn) cols.push("1fr")
+      cols.push("60px", "1fr")
       if (showPlayCountColumn) cols.push("0.5fr")
       if (showLastPlayedColumn) cols.push("0.5fr")
       if (showDateColumn) cols.push("0.5fr")
       cols.push("40px")
 
       return cols.join(" ")
-    }, [
-      showCheckboxColumn,
-      showTitleColumn,
-      showPlayCountColumn,
-      showLastPlayedColumn,
-      showDateColumn
-    ])
+    }, [showCheckboxColumn, showPlayCountColumn, showLastPlayedColumn, showDateColumn])
 
     return (
       <ArtistActions variant="context" artistId={artist.id}>
@@ -86,29 +79,27 @@ const ArtistItemList = memo(
               />
             </div>
           </div>
-          {showTitleColumn && (
-            <div className="flex flex-1 items-center gap-3 truncate">
-              <Thumbnail
-                placeholderIcon="User"
-                fileName={artist.thumbnail}
-                alt={artist.name}
-                containerClassName="rounded-full"
-              />
-              <div className="flex w-full flex-col gap-1 truncate">
-                <Marquee>
-                  <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
-                    <Typography className="truncate">{artist.name}</Typography>
-                  </SafeLink>
-                </Marquee>
-                <Marquee>
-                  <Typography affects={["muted", "small"]}>
-                    {t("common.songsPlayed", { count: artist.totalTracks })}
-                    {artist.totalDuration > 0 && ` • ${formatDuration(artist.totalDuration, t)}`}
-                  </Typography>
-                </Marquee>
-              </div>
+          <div className="flex flex-1 items-center gap-3 truncate">
+            <Thumbnail
+              placeholderIcon="User"
+              fileName={artist.thumbnail}
+              alt={artist.name}
+              containerClassName="rounded-full"
+            />
+            <div className="flex w-full flex-col gap-1 truncate">
+              <Marquee>
+                <SafeLink to="/artists/$id" params={{ id: artist.id.toString() }}>
+                  <Typography className="truncate">{artist.name}</Typography>
+                </SafeLink>
+              </Marquee>
+              <Marquee>
+                <Typography affects={["muted", "small"]}>
+                  {t("common.songsPlayed", { count: artist.totalTracks })}
+                  {artist.totalDuration > 0 && ` • ${formatDuration(artist.totalDuration, t)}`}
+                </Typography>
+              </Marquee>
             </div>
-          )}
+          </div>
           {showPlayCountColumn && (
             <div className="truncate">
               <Typography className="truncate">{formatNumber(artist.playCount)}</Typography>

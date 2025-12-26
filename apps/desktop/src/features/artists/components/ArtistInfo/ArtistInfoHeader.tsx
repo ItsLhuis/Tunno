@@ -1,5 +1,3 @@
-import { Fragment } from "react"
-
 import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
@@ -57,8 +55,8 @@ const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
   return (
     <Header className="flex flex-col gap-6">
       <DominantColorGradient thumbnail={artist.thumbnail} />
-      <div className="flex flex-1 items-end gap-6">
-        <div className="aspect-square w-100 shrink-0">
+      <div className="flex flex-col gap-6 md:flex-row md:items-end">
+        <div className="aspect-square w-full shrink-0 md:w-100">
           <Thumbnail
             placeholderIcon="User"
             fileName={artist.thumbnail}
@@ -67,28 +65,32 @@ const ArtistInfoHeader = ({ artist, list }: ArtistInfoHeaderProps) => {
             className="size-full object-cover"
           />
         </div>
-        <div className="flex flex-1 flex-col gap-2 truncate">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
           <Badge variant="muted" className="w-fit">
             {t("common.artist")}
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-1 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
+            className="truncate text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
           >
             {artist.name}
           </Typography>
-          <Typography affects={["muted", "small"]}>
-            {t("common.songsPlayed", { count: artist.totalTracks })}
+          <div className="flex flex-col gap-1">
+            <Typography affects={["muted", "small"]} className="truncate">
+              {t("common.songsPlayed", { count: artist.totalTracks })}
+            </Typography>
             {artist.totalDuration > 0 && (
-              <Fragment> • {formatDuration(artist.totalDuration, t)}</Fragment>
+              <Typography affects={["muted", "small"]} className="truncate">
+                {formatDuration(artist.totalDuration, t)}
+              </Typography>
             )}
-          </Typography>
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-3 pt-3">
+      <div className="flex items-center gap-3">
         <IconButton
           name="Shuffle"
-          className="h-14 w-14 shrink-0 rounded-full [&_svg]:size-7"
+          className="size-14 shrink-0 rounded-full [&_svg]:size-7"
           isLoading={isShuffling}
           disabled={hasSelectedRows || !artist.songs || artist.songs.length === 0}
           tooltip={t("common.shuffleAndPlay")}
