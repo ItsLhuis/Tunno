@@ -5,6 +5,8 @@ import { useTranslation } from "@repo/i18n"
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
+import { useBreakpoint } from "@hooks/useBreakpoint"
+
 import { Button, Icon, IconButton, SafeLink } from "@components/ui"
 
 import { PlaybackVolumeControl } from "./PlaybackVolumeControl"
@@ -12,6 +14,9 @@ import { QueueSheet } from "./QueueSheet"
 
 const PlaybackOptions = () => {
   const { t } = useTranslation()
+
+  const { isBelow } = useBreakpoint()
+  const isCompact = isBelow("md")
 
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -63,27 +68,39 @@ const PlaybackOptions = () => {
 
   return (
     <div className="flex items-center justify-end gap-2 truncate">
-      <Button tooltip={t("common.lyrics")} size="icon" variant="ghost" className="shrink-0" asChild>
-        <SafeLink to="/lyrics">
-          <Icon name="MicVocal" />
-        </SafeLink>
-      </Button>
+      {!isCompact && (
+        <Button
+          tooltip={t("common.lyrics")}
+          size="icon"
+          variant="ghost"
+          className="shrink-0"
+          asChild
+        >
+          <SafeLink to="/lyrics">
+            <Icon name="MicVocal" />
+          </SafeLink>
+        </Button>
+      )}
       <PlaybackVolumeControl />
       <QueueSheet />
-      <IconButton
-        name="PictureInPicture2"
-        tooltip={t("common.openMiniplayer")}
-        variant="ghost"
-        className="shrink-0"
-        onClick={handleOpenMiniPlayer}
-      />
-      <IconButton
-        name={isFullscreen ? "Minimize2" : "Maximize"}
-        tooltip={isFullscreen ? t("common.exitFullScreen") : t("common.enterFullScreen")}
-        variant="ghost"
-        className="shrink-0"
-        onClick={handleToggleFullscreen}
-      />
+      {!isCompact && (
+        <>
+          <IconButton
+            name="PictureInPicture2"
+            tooltip={t("common.openMiniplayer")}
+            variant="ghost"
+            className="shrink-0"
+            onClick={handleOpenMiniPlayer}
+          />
+          <IconButton
+            name={isFullscreen ? "Minimize2" : "Maximize"}
+            tooltip={isFullscreen ? t("common.exitFullScreen") : t("common.enterFullScreen")}
+            variant="ghost"
+            className="shrink-0"
+            onClick={handleToggleFullscreen}
+          />
+        </>
+      )}
     </div>
   )
 }

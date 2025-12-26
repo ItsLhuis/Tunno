@@ -4,12 +4,17 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
+import { useBreakpoint } from "@hooks/useBreakpoint"
+
 import { useToggleSongFavorite } from "@features/songs/hooks/useToggleSongFavorite"
 
 import { Fade, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
 
 const TrackInfo = () => {
   const { t } = useTranslation()
+
+  const { isBelow } = useBreakpoint()
+  const isCompact = isBelow("md")
 
   const { currentTrack } = usePlayerStore(
     useShallow((state) => ({
@@ -25,6 +30,9 @@ const TrackInfo = () => {
     }
   }
 
+  const thumbnailSize = isCompact ? "size-14" : "size-24"
+  const thumbnailPlaceholderSize = isCompact ? "size-5" : "size-8"
+
   return (
     <div className="flex h-full items-end gap-3 truncate">
       {currentTrack ? (
@@ -33,23 +41,25 @@ const TrackInfo = () => {
             placeholderIcon="Music"
             fileName={currentTrack?.thumbnail}
             alt={currentTrack?.title}
-            containerClassName="size-24"
-            className={currentTrack?.thumbnail ? "size-24" : "size-8"}
+            containerClassName={thumbnailSize}
+            className={currentTrack?.thumbnail ? thumbnailSize : thumbnailPlaceholderSize}
           />
         </Fade>
       ) : (
-        <div className="size-24" />
+        <div className={thumbnailSize} />
       )}
-      <Fade show={!!currentTrack} className="w-full truncate">
-        <IconButton
-          name="Heart"
-          isFilled={currentTrack?.isFavorite}
-          tooltip={currentTrack?.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-          variant="text"
-          className="shrink-0"
-          disabled={!currentTrack || toggleFavoriteMutation.isPending}
-          onClick={handleToggleFavorite}
-        />
+      <Fade show={!!currentTrack} className="w-full space-y-1 truncate">
+        {!isCompact && (
+          <IconButton
+            name="Heart"
+            isFilled={currentTrack?.isFavorite}
+            tooltip={currentTrack?.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+            variant="text"
+            className="shrink-0"
+            disabled={!currentTrack || toggleFavoriteMutation.isPending}
+            onClick={handleToggleFavorite}
+          />
+        )}
         <Marquee>
           <SafeLink to={`/songs/$id`} params={{ id: currentTrack?.id?.toString() }}>
             <Typography variant="h5">{currentTrack?.title}</Typography>

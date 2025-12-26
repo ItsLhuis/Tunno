@@ -4,12 +4,17 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
+import { useBreakpoint } from "@hooks/useBreakpoint"
+
 import { IconButton } from "@components/ui"
 
 import { RepeatMode, State } from "@track-player/web"
 
 const PlaybackControls = () => {
   const { t } = useTranslation()
+
+  const { isBelow } = useBreakpoint()
+  const isCompact = isBelow("md")
 
   const {
     play,
@@ -114,13 +119,15 @@ const PlaybackControls = () => {
 
   return (
     <div className="flex flex-row items-center justify-center gap-2">
-      <IconButton
-        name="Shuffle"
-        tooltip={getShuffleTooltip()}
-        variant="ghost"
-        onClick={handleShuffle}
-        className={isShuffleEnabled ? "text-primary" : ""}
-      />
+      {!isCompact && (
+        <IconButton
+          name="Shuffle"
+          tooltip={getShuffleTooltip()}
+          variant="ghost"
+          onClick={handleShuffle}
+          className={isShuffleEnabled ? "text-primary" : ""}
+        />
+      )}
       <IconButton
         name="SkipBack"
         tooltip={t("common.previous")}
@@ -143,13 +150,15 @@ const PlaybackControls = () => {
         onClick={handleNext}
         disabled={!canPlayNext}
       />
-      <IconButton
-        name={getRepeatIcon()}
-        tooltip={getRepeatTooltip()}
-        variant="ghost"
-        onClick={handleRepeat}
-        className={repeatMode !== RepeatMode.Off ? "text-primary" : ""}
-      />
+      {!isCompact && (
+        <IconButton
+          name={getRepeatIcon()}
+          tooltip={getRepeatTooltip()}
+          variant="ghost"
+          onClick={handleRepeat}
+          className={repeatMode !== RepeatMode.Off ? "text-primary" : ""}
+        />
+      )}
     </div>
   )
 }
