@@ -2,6 +2,24 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.4.2] - 2025-12-26
+
+### Changed
+
+- 📱 **Responsive Layouts**: Improved layout adaptability across all pages. Elements now reorganize
+  gracefully on smaller windows, with titles that shorten when needed without hiding important
+  controls.
+- 🎛️ **Player Adaptability**: Player controls now adapt to available space, showing essential
+  controls on smaller windows while keeping the full set on larger ones.
+- ⚙️ **Settings Navigation**: Redesigned settings menu that transforms into a slide-out panel on
+  smaller windows for easier navigation.
+- 🎨 **Visual Consistency**: Refined button sizes and spacing throughout the app for a more polished
+  look.
+- 📐 **Smaller Minimum Window**: The app now supports even smaller window sizes for better
+  flexibility.
+- 🎵 **Playlist Details**: Playlist headers now display the total number of songs alongside the
+  duration.
+
 ## [1.4.1] - 2025-12-26
 
 ### Changed
