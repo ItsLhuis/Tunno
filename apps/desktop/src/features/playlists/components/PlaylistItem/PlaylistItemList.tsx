@@ -2,6 +2,8 @@ import { memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useBreakpoint } from "@hooks/useBreakpoint"
+
 import { usePlaylistPlayback } from "./hooks"
 
 import { cn } from "@lib/utils"
@@ -12,13 +14,13 @@ import { PlaylistActions } from "../PlaylistActions"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
-import { type ColumnKey, type PlaylistItemListProps } from "./types"
-
-const ALL_COLUMNS: ColumnKey[] = ["checkbox", "title", "playCount", "lastPlayed", "date"]
+import { type PlaylistItemListProps } from "./types"
 
 const PlaylistItemList = memo(
-  ({ playlist, index = 0, selected = false, onToggle, visibleColumns }: PlaylistItemListProps) => {
+  ({ playlist, index = 0, selected = false, onToggle }: PlaylistItemListProps) => {
     const { t, i18n } = useTranslation()
+
+    const { isBelow } = useBreakpoint()
 
     const { isLoading, isTrackLoading, handlePlayPlaylist } = usePlaylistPlayback(
       playlist.id,
@@ -28,33 +30,24 @@ const PlaylistItemList = memo(
     const canPlay = playlist.totalTracks > 0
 
     const showCheckbox = !!onToggle
-    const columnsToShow = visibleColumns || ALL_COLUMNS
 
-    const showCheckboxColumn = columnsToShow.includes("checkbox") && showCheckbox
-    const showTitleColumn = columnsToShow.includes("title")
-    const showPlayCountColumn = columnsToShow.includes("playCount")
-    const showLastPlayedColumn = columnsToShow.includes("lastPlayed")
-    const showDateColumn = columnsToShow.includes("date")
+    const showCheckboxColumn = showCheckbox && !isBelow("sm")
+    const showPlayCountColumn = !isBelow("md")
+    const showLastPlayedColumn = !isBelow("lg")
+    const showDateColumn = !isBelow("xl")
 
     const gridTemplateColumns = useMemo(() => {
       const cols: string[] = []
 
       if (showCheckboxColumn) cols.push("24px")
-      cols.push("60px")
-      if (showTitleColumn) cols.push("1fr")
+      cols.push("60px", "1fr")
       if (showPlayCountColumn) cols.push("0.5fr")
       if (showLastPlayedColumn) cols.push("0.5fr")
       if (showDateColumn) cols.push("0.5fr")
       cols.push("40px")
 
       return cols.join(" ")
-    }, [
-      showCheckboxColumn,
-      showTitleColumn,
-      showPlayCountColumn,
-      showLastPlayedColumn,
-      showDateColumn
-    ])
+    }, [showCheckboxColumn, showPlayCountColumn, showLastPlayedColumn, showDateColumn])
 
     return (
       <PlaylistActions variant="context" playlistId={playlist.id}>
@@ -89,29 +82,26 @@ const PlaylistItemList = memo(
               />
             </div>
           </div>
-          {showTitleColumn && (
-            <div className="flex flex-1 items-center gap-3 truncate">
-              <Thumbnail
-                placeholderIcon="ListMusic"
-                fileName={playlist.thumbnail}
-                alt={playlist.name}
-              />
-              <div className="flex w-full flex-col gap-1 truncate">
-                <Marquee>
-                  <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
-                    <Typography className="truncate">{playlist.name}</Typography>
-                  </SafeLink>
-                </Marquee>
-                <Marquee>
-                  <Typography affects={["muted", "small"]}>
-                    {t("common.songsPlayed", { count: playlist.totalTracks })}
-                    {playlist.totalDuration > 0 &&
-                      ` • ${formatDuration(playlist.totalDuration, t)}`}
-                  </Typography>
-                </Marquee>
-              </div>
+          <div className="flex flex-1 items-center gap-3 truncate">
+            <Thumbnail
+              placeholderIcon="ListMusic"
+              fileName={playlist.thumbnail}
+              alt={playlist.name}
+            />
+            <div className="flex w-full flex-col gap-1 truncate">
+              <Marquee>
+                <SafeLink to="/playlists/$id" params={{ id: playlist.id.toString() }}>
+                  <Typography className="truncate">{playlist.name}</Typography>
+                </SafeLink>
+              </Marquee>
+              <Marquee>
+                <Typography affects={["muted", "small"]}>
+                  {t("common.songsPlayed", { count: playlist.totalTracks })}
+                  {playlist.totalDuration > 0 && ` • ${formatDuration(playlist.totalDuration, t)}`}
+                </Typography>
+              </Marquee>
             </div>
-          )}
+          </div>
           {showPlayCountColumn && (
             <div className="truncate">
               <Typography className="truncate">{formatNumber(playlist.playCount)}</Typography>

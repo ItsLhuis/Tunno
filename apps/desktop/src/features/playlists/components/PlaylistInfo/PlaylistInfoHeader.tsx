@@ -55,8 +55,8 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
   return (
     <Header className="flex flex-col gap-6">
       <DominantColorGradient thumbnail={playlist.thumbnail} />
-      <div className="flex flex-1 items-end gap-6">
-        <div className="aspect-square w-100 shrink-0">
+      <div className="flex flex-col gap-6 md:flex-row md:items-end">
+        <div className="aspect-square w-full shrink-0 md:w-100">
           <Thumbnail
             placeholderIcon="ListMusic"
             fileName={playlist.thumbnail}
@@ -65,24 +65,29 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
             className="size-full"
           />
         </div>
-        <div className="flex flex-1 flex-col gap-2 truncate">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
           <Badge variant="muted" className="w-fit">
             {t("common.playlist")}
           </Badge>
           <Typography
             variant="h1"
-            className="line-clamp-1 truncate text-4xl text-pretty md:text-6xl lg:text-7xl xl:text-8xl"
+            className="truncate text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
           >
             {playlist.name}
           </Typography>
-          {playlist.totalDuration > 0 && (
-            <Typography affects={["small", "muted"]}>
-              {formatDuration(playlist.totalDuration, t)}
+          <div className="flex flex-col gap-1">
+            <Typography affects={["muted", "small"]} className="truncate">
+              {t("common.songsPlayed", { count: playlist.songs?.length ?? 0 })}
             </Typography>
-          )}
+            {playlist.totalDuration > 0 && (
+              <Typography affects={["muted", "small"]} className="truncate">
+                {formatDuration(playlist.totalDuration, t)}
+              </Typography>
+            )}
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-3 pt-3">
+      <div className="flex items-center gap-3">
         <IconButton
           name="Shuffle"
           className="size-14 shrink-0 rounded-full [&_svg]:size-7"

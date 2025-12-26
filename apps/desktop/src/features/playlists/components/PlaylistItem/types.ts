@@ -1,7 +1,5 @@
 import { type Playlist } from "@repo/api"
 
-export type ColumnKey = "checkbox" | "title" | "playCount" | "lastPlayed" | "date"
-
 export type BasePlaylistItemProps = {
   playlist: Playlist
 }
@@ -23,5 +21,4 @@ export type PlaylistItemListProps = BasePlaylistItemProps & {
   index?: number
   selected?: boolean
   onToggle?: () => void
-  visibleColumns?: ColumnKey[]
 }

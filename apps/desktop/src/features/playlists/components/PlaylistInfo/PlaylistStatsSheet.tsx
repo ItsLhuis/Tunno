@@ -11,6 +11,7 @@ import {
   Marquee,
   SafeLink,
   ScrollArea,
+  Separator,
   Sheet,
   SheetContent,
   SheetHeader,
@@ -68,75 +69,78 @@ const PlaylistStatsSheet = ({ playlist }: PlaylistStatsSheetProps) => {
             </div>
           </div>
         </SheetHeader>
-        <ScrollArea className="h-full p-6 pt-0">
-          <div className="flex flex-col gap-3">
-            <Card>
-              <CardTitle>
-                <Icon name="Music" className="text-muted-foreground" />
-                <Typography affects={["muted", "small"]} className="truncate">
-                  {t("songs.title")}
-                </Typography>
-              </CardTitle>
-              <CardDescription>
-                <Typography affects={["bold", "medium"]} className="truncate">
-                  {formatNumber(totalTracks)}
-                </Typography>
-              </CardDescription>
-            </Card>
-            <Card>
-              <CardTitle>
-                <Icon name="Clock" className="text-muted-foreground" />
-                <Typography affects={["muted", "small"]} className="truncate">
-                  {t("common.duration")}
-                </Typography>
-              </CardTitle>
-              <CardDescription>
-                <Typography affects={["bold", "medium"]} className="truncate">
-                  {formatDuration(totalDuration, t)}
-                </Typography>
-              </CardDescription>
-            </Card>
-            <Card>
-              <CardTitle>
-                <Icon name="PlayCircle" className="text-muted-foreground" />
-                <Typography affects={["muted", "small"]} className="truncate">
-                  {t("common.totalPlays")}
-                </Typography>
-              </CardTitle>
-              <CardDescription>
-                <Typography affects={["bold", "medium"]} className="truncate">
-                  {formatNumber(playCount)}
-                </Typography>
-              </CardDescription>
-            </Card>
-            <Card>
-              <CardTitle>
-                <Icon name="Clock" className="text-muted-foreground" />
-                <Typography affects={["muted", "small"]} className="truncate">
-                  {t("common.listenTime")}
-                </Typography>
-              </CardTitle>
-              <CardDescription>
-                <Typography affects={["bold", "medium"]} className="truncate">
-                  {formatDuration(totalPlayTime, t)}
-                </Typography>
-              </CardDescription>
-            </Card>
-            <Card>
-              <CardTitle>
-                <Icon name="Play" className="text-muted-foreground" />
-                <Typography affects={["muted", "small"]} className="truncate">
-                  {t("common.lastPlayed")}
-                </Typography>
-              </CardTitle>
-              <CardDescription>
-                <Typography affects={["bold", "medium"]} className="truncate">
-                  {lastPlayedAt
-                    ? formatRelativeDate(lastPlayedAt, i18n.language, t)
-                    : t("common.neverPlayed")}
-                </Typography>
-              </CardDescription>
-            </Card>
+        <Separator />
+        <ScrollArea className="h-full">
+          <div className="p-6">
+            <div className="flex flex-col gap-3">
+              <Card>
+                <CardTitle>
+                  <Icon name="Music" className="text-muted-foreground" />
+                  <Typography affects={["muted", "small"]} className="truncate">
+                    {t("songs.title")}
+                  </Typography>
+                </CardTitle>
+                <CardDescription>
+                  <Typography affects={["bold", "medium"]} className="truncate">
+                    {formatNumber(totalTracks)}
+                  </Typography>
+                </CardDescription>
+              </Card>
+              <Card>
+                <CardTitle>
+                  <Icon name="Clock" className="text-muted-foreground" />
+                  <Typography affects={["muted", "small"]} className="truncate">
+                    {t("common.duration")}
+                  </Typography>
+                </CardTitle>
+                <CardDescription>
+                  <Typography affects={["bold", "medium"]} className="truncate">
+                    {formatDuration(totalDuration, t)}
+                  </Typography>
+                </CardDescription>
+              </Card>
+              <Card>
+                <CardTitle>
+                  <Icon name="PlayCircle" className="text-muted-foreground" />
+                  <Typography affects={["muted", "small"]} className="truncate">
+                    {t("common.totalPlays")}
+                  </Typography>
+                </CardTitle>
+                <CardDescription>
+                  <Typography affects={["bold", "medium"]} className="truncate">
+                    {formatNumber(playCount)}
+                  </Typography>
+                </CardDescription>
+              </Card>
+              <Card>
+                <CardTitle>
+                  <Icon name="Clock" className="text-muted-foreground" />
+                  <Typography affects={["muted", "small"]} className="truncate">
+                    {t("common.listenTime")}
+                  </Typography>
+                </CardTitle>
+                <CardDescription>
+                  <Typography affects={["bold", "medium"]} className="truncate">
+                    {formatDuration(totalPlayTime, t)}
+                  </Typography>
+                </CardDescription>
+              </Card>
+              <Card>
+                <CardTitle>
+                  <Icon name="Play" className="text-muted-foreground" />
+                  <Typography affects={["muted", "small"]} className="truncate">
+                    {t("common.lastPlayed")}
+                  </Typography>
+                </CardTitle>
+                <CardDescription>
+                  <Typography affects={["bold", "medium"]} className="truncate">
+                    {lastPlayedAt
+                      ? formatRelativeDate(lastPlayedAt, i18n.language, t)
+                      : t("common.neverPlayed")}
+                  </Typography>
+                </CardDescription>
+              </Card>
+            </div>
           </div>
         </ScrollArea>
       </SheetContent>
