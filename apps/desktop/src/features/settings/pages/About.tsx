@@ -3,6 +3,7 @@ import { useTranslation } from "@repo/i18n"
 import { Header, ScrollAreaWithHeaders, StickyHeader, Typography } from "@components/ui"
 
 import { AboutSection } from "@features/settings/features/about/components"
+import { SidebarTrigger } from "@features/settings/layout"
 
 const About = () => {
   const { t } = useTranslation()
@@ -11,7 +12,8 @@ const About = () => {
     <ScrollAreaWithHeaders
       HeaderComponent={() => {
         return (
-          <Header className="mb-3">
+          <Header className="mb-3 flex items-center gap-3">
+            <SidebarTrigger />
             <Typography variant="h1" className="truncate">
               {t("settings.about.title")}
             </Typography>
@@ -21,6 +23,7 @@ const About = () => {
       StickyHeaderComponent={() => {
         return (
           <StickyHeader className="flex items-center gap-3 pb-9">
+            <SidebarTrigger />
             <Typography variant="h4" className="truncate">
               {t("settings.about.title")}
             </Typography>
