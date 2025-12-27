@@ -1,15 +1,15 @@
 {
-  "version": "1.4.2",
-  "notes": "### Changed\n\n- 📱 **Responsive Layouts**: Improved layout adaptability across all pages. Elements now reorganize\n  gracefully on smaller windows, with titles that shorten when needed without hiding important\n  controls.\n- 🎛️ **Player Adaptability**: Player controls now adapt to available space, showing essential\n  controls on smaller windows while keeping the full set on larger ones.\n- ⚙️ **Settings Navigation**: Redesigned settings menu that transforms into a slide-out panel on\n  smaller windows for easier navigation.\n- 🎨 **Visual Consistency**: Refined button sizes and spacing throughout the app for a more polished\n  look.\n- 📐 **Smaller Minimum Window**: The app now supports even smaller window sizes for better\n  flexibility.\n- 🎵 **Playlist Details**: Playlist headers now display the total number of songs alongside the\n  duration.",
-  "pub_date": "2025-12-26T21:58:55.247Z",
+  "version": "1.4.3",
+  "notes": "### Fixed\n\n- 🐛 **Sync Export**: Songs without direct artist associations now correctly use album artists as\n  fallback, preventing \"must have at least one artist\" validation errors during Fast Upload import.\n- 🔧 **Fast Upload Logging**: Added error logging when bundle validation fails for easier debugging.",
+  "pub_date": "2025-12-27T19:14:15.163Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXhoUGI1ak8xbGVXMFhjSURKNm9rLzlrVXJhRmU2SHhiTGF2YUFyTUROdStpbktjeTl5VjVlUXZmRjJEUi9HeTNna0l0Tjdmek1qVUszdlJYSEVSOFF3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY2Nzg2MzMzCWZpbGU6VHVubm9fMS40LjJfeDY0X2VuLVVTLm1zaQpZOGltdTdpSlduNVp4dEE1NzZyNGhQTWJ5S3Vib21QQkduSUt2SjQxU21Qd0k1Nkw4RnEyWkVmQ3Y0UGlRL0daazJRMm9oeE9QcnBON3gxRndRWW1CZz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.4.2/Tunno_1.4.2_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS9YcGZjRHZnYWhHMjBRNGZFMVV2TGFJZ08wUkVlVGJNTitSTEd4MG5VekFPaSttWWk0K2hKTGI2SC95bE9KSjNTTHNFUXd5bTVVeEdBd1FzTXBMQVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY2ODYyODUzCWZpbGU6VHVubm9fMS40LjNfeDY0X2VuLVVTLm1zaQpWRmtRTHRCb085SVo5ZEVZdU9jSWptUDk0MjVTSTB1ZjhKR3VWZzJ1dmRPMnZXUEFQQU9qdHNwNFY3Y1owN2JnWVAzVUp1R3l5NitueDlyaFJoMXNCUT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.4.3/Tunno_1.4.3_x64_en-US.msi"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXhoUGI1ak8xbGVXMFhjSURKNm9rLzlrVXJhRmU2SHhiTGF2YUFyTUROdStpbktjeTl5VjVlUXZmRjJEUi9HeTNna0l0Tjdmek1qVUszdlJYSEVSOFF3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY2Nzg2MzMzCWZpbGU6VHVubm9fMS40LjJfeDY0X2VuLVVTLm1zaQpZOGltdTdpSlduNVp4dEE1NzZyNGhQTWJ5S3Vib21QQkduSUt2SjQxU21Qd0k1Nkw4RnEyWkVmQ3Y0UGlRL0daazJRMm9oeE9QcnBON3gxRndRWW1CZz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.4.2/Tunno_1.4.2_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS9YcGZjRHZnYWhHMjBRNGZFMVV2TGFJZ08wUkVlVGJNTitSTEd4MG5VekFPaSttWWk0K2hKTGI2SC95bE9KSjNTTHNFUXd5bTVVeEdBd1FzTXBMQVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY2ODYyODUzCWZpbGU6VHVubm9fMS40LjNfeDY0X2VuLVVTLm1zaQpWRmtRTHRCb085SVo5ZEVZdU9jSWptUDk0MjVTSTB1ZjhKR3VWZzJ1dmRPMnZXUEFQQU9qdHNwNFY3Y1owN2JnWVAzVUp1R3l5NitueDlyaFJoMXNCUT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.4.3/Tunno_1.4.3_x64_en-US.msi"
     }
   }
 }
