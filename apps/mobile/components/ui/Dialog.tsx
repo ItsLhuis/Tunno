@@ -14,25 +14,29 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import { View, type GestureResponderEvent, type ViewProps } from "react-native"
 
-import { BottomSheetModal, type SNAP_POINT_TYPE } from "@gorhom/bottom-sheet"
-
-import { BottomSheet, type BottomSheetProps } from "@components/ui/BottomSheet"
+import {
+  BottomSheet,
+  type BottomSheetProps,
+  type BottomSheetRef,
+  BottomSheetView,
+  type SNAP_POINT_TYPE
+} from "@components/ui/BottomSheet"
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Text, type TextProps } from "@components/ui/Text"
 
 type DialogContextValue = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  sheetRef: RefObject<BottomSheetModal | null>
+  sheetRef: RefObject<BottomSheetRef | null>
 }
 
 const DialogContext = createContext<DialogContextValue | undefined>(undefined)
 
 const useDialog = () => {
   const context = useContext(DialogContext)
-  if (!context) {
-    throw new Error("Dialog components must be used within Dialog")
-  }
+
+  if (!context) throw new Error("Dialog components must be used within Dialog")
+
   return context
 }
 
@@ -43,7 +47,8 @@ type DialogProps = {
 }
 
 const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) => {
-  const sheetRef = useRef<BottomSheetModal | null>(null)
+  const sheetRef = useRef<BottomSheetRef | null>(null)
+
   const [internalOpen, setInternalOpen] = useState(false)
 
   const isControlled = controlledOpen !== undefined
@@ -123,7 +128,14 @@ const DialogClose = ({ onPress, onClose, ...props }: DialogCloseProps) => {
 
 type DialogContentProps = Omit<BottomSheetProps, "ref">
 
-const DialogContent = ({ children, onChange, ...props }: DialogContentProps) => {
+const DialogContent = ({
+  children,
+  onChange,
+  enableDynamicSizing = true,
+  ...props
+}: DialogContentProps) => {
+  const styles = useStyles(dialogStyles)
+
   const { sheetRef, onOpenChange } = useDialog()
 
   const handleChange = useCallback(
@@ -137,8 +149,17 @@ const DialogContent = ({ children, onChange, ...props }: DialogContentProps) => 
   )
 
   return (
-    <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      {children}
+    <BottomSheet
+      ref={sheetRef}
+      onChange={handleChange}
+      enableDynamicSizing={enableDynamicSizing}
+      {...props}
+    >
+      {enableDynamicSizing ? (
+        <BottomSheetView style={styles.content}>{children}</BottomSheetView>
+      ) : (
+        children
+      )}
     </BottomSheet>
   )
 }
@@ -163,7 +184,11 @@ const DialogDescription = ({ ...props }: TextProps) => {
   return <Text size="sm" color="mutedForeground" {...props} />
 }
 
-const dialogStyles = createStyleSheet(({ theme }) => ({
+const dialogStyles = createStyleSheet(({ theme, runtime }) => ({
+  content: {
+    flex: 1,
+    paddingBottom: runtime.insets.bottom
+  },
   header: {
     gap: theme.space(2),
     paddingHorizontal: theme.space("lg")

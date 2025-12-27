@@ -7,11 +7,16 @@ import { createStyleSheet, durationTokens, useStyles, useTheme } from "@styles"
 import {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
+  BottomSheetFlashList,
   BottomSheetModal,
   type BottomSheetModalProps,
+  BottomSheetScrollView,
   BottomSheetView,
+  type SNAP_POINT_TYPE,
   useBottomSheetTimingConfigs
 } from "@gorhom/bottom-sheet"
+
+export type BottomSheetRef = BottomSheetModal
 
 import { Easing } from "react-native-reanimated"
 
@@ -92,7 +97,7 @@ const BottomSheet = ({
         }
       }}
     >
-      <BottomSheetView style={[styles.container, containerViewStyle]}>{children}</BottomSheetView>
+      {children}
     </BottomSheetModal>
   )
 }
@@ -111,4 +116,6 @@ const bottomSheetStyles = createStyleSheet(({ theme, runtime }) => ({
   }
 }))
 
-export { BottomSheet }
+export { BottomSheet, BottomSheetFlashList, BottomSheetScrollView, BottomSheetView }
+
+export type { SNAP_POINT_TYPE }
