@@ -211,10 +211,15 @@ export function useSyncProcessor() {
             metadataJson: JSON.stringify(metadata, null, 2)
           })
 
+          const songArtists =
+            song.artists.length > 0
+              ? song.artists.map((artist) => artist.artist.name)
+              : song.album!.artists.map((artist) => artist.artist.name)
+
           tracksMeta.push({
             dirName,
             title: song.name,
-            artists: song.artists.map((artist) => artist.artist.name),
+            artists: songArtists,
             album: song.album!.name,
             thumbnail: song.thumbnail
           })

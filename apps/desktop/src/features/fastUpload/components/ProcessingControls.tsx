@@ -61,6 +61,7 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
     if (result.isValid && result.manifest && result.cachePath) {
       initializeProcess(path, result.manifest, result.cachePath)
     } else {
+      console.error("FastUpload: Bundle validation failed:", result.error, result.errorType)
       setStatus("error")
     }
   }
