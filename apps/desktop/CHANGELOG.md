@@ -2,6 +2,14 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.4.3] - 2025-12-27
+
+### Fixed
+
+- 🐛 **Sync Export**: Songs without direct artist associations now correctly use album artists as
+  fallback, preventing "must have at least one artist" validation errors during Fast Upload import.
+- 🔧 **Fast Upload Logging**: Added error logging when bundle validation fails for easier debugging.
+
 ## [1.4.2] - 2025-12-26
 
 ### Changed
