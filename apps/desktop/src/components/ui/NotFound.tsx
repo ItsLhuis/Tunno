@@ -23,9 +23,9 @@ const NotFound = ({ className, ...props }: NotFoundProps) => {
     >
       <Lottie
         animationData={NotFoundLottie}
-        className="size-[240px]"
+        className="size-60"
         style={{
-          marginTop: "-70px",
+          marginTop: "-90px",
           marginBottom: "-70px"
         }}
       />

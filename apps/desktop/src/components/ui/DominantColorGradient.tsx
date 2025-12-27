@@ -12,7 +12,7 @@ type DominantColorGradientProps = {
   className?: string
 }
 
-const DominantColorGradient = ({ thumbnail, className = "h-60" }: DominantColorGradientProps) => {
+const DominantColorGradient = ({ thumbnail, className }: DominantColorGradientProps) => {
   const imageSrc = useImageSrc({ thumbnail })
 
   const { dominantColor, imageRef } = useImageColorAndPalette({ imageSrc })
@@ -25,7 +25,7 @@ const DominantColorGradient = ({ thumbnail, className = "h-60" }: DominantColorG
       <AnimatePresence>
         <motion.div
           key={dominantColor}
-          className={cn("absolute inset-0", className)}
+          className={cn("absolute inset-0 h-60", className)}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

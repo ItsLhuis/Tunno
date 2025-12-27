@@ -36,17 +36,14 @@ const ZoomSection = () => {
           onValueChange={handleZoomChange}
           className="relative"
         >
-          <div className="bg-border absolute top-2 right-2 left-2 h-0.5" />
+          <div className="bg-border absolute top-2 right-2 left-2 h-px" />
           <div className="relative flex items-start justify-between">
             {zoomLevels.map((zoom) => {
               const isSelected = Math.round(zoomLevel * 100) === zoom
 
               return (
                 <div key={zoom} className="flex flex-col items-center gap-2">
-                  <RadioGroupItem
-                    value={zoom.toString()}
-                    className="border-border bg-background data-[state=checked]:border-primary border-2"
-                  />
+                  <RadioGroupItem value={zoom.toString()} className="bg-background" />
                   <Typography affects={isSelected ? ["small"] : ["small", "muted"]}>
                     {zoom}%
                   </Typography>
