@@ -1,12 +1,15 @@
 import {
+  cloneElement,
   createContext,
   Fragment,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type ReactElement,
   type ReactNode,
   type RefObject
 } from "react"
@@ -17,7 +20,7 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import {
   BottomSheet,
-  BottomSheetView,
+  BottomSheetScrollView,
   type BottomSheetProps,
   type BottomSheetRef,
   type SNAP_POINT_TYPE
@@ -90,9 +93,16 @@ const Popover = ({ open: controlledOpen, onOpenChange, children }: PopoverProps)
   return <PopoverContext.Provider value={value}>{children}</PopoverContext.Provider>
 }
 
-export type PopoverTriggerProps = ButtonProps
+type PopoverTriggerRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
+}
 
-const PopoverTrigger = ({ onPress, ...props }: PopoverTriggerProps) => {
+export type PopoverTriggerProps = ButtonProps & {
+  children?: ReactNode | ((props: PopoverTriggerRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const PopoverTrigger = ({ onPress, children, asChild, ...props }: PopoverTriggerProps) => {
   const popoverContext = usePopover()
 
   const handlePress = useCallback(
@@ -103,33 +113,62 @@ const PopoverTrigger = ({ onPress, ...props }: PopoverTriggerProps) => {
     [popoverContext, onPress]
   )
 
-  return <Button onPress={handlePress} {...props} />
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
+
+  return (
+    <Button onPress={handlePress} {...props}>
+      {children}
+    </Button>
+  )
 }
 
 const PopoverAnchor = ({ children }: { children: ReactNode }) => {
   return <Fragment>{children}</Fragment>
 }
 
-export type PopoverCloseProps = ButtonProps & {
-  onClose?: () => void
+type PopoverCloseRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
 }
 
-const PopoverClose = ({ onPress, onClose, ...props }: PopoverCloseProps) => {
-  const context = useContext(PopoverContext)
+export type PopoverCloseProps = ButtonProps & {
+  children?: ReactNode | ((props: PopoverCloseRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const PopoverClose = ({ onPress, children, asChild, ...props }: PopoverCloseProps) => {
+  const popoverContext = usePopover()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
-      if (context) {
-        context.onOpenChange(false)
-      } else if (onClose) {
-        onClose()
-      }
+      popoverContext?.onOpenChange(false)
       onPress?.(event)
     },
-    [context, onClose, onPress]
+    [popoverContext, onPress]
   )
 
-  return <Button onPress={handlePress} {...props} />
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
+
+  return (
+    <Button onPress={handlePress} {...props}>
+      {children}
+    </Button>
+  )
 }
 
 export type PopoverContentProps = Omit<BottomSheetProps, "ref">
@@ -153,16 +192,18 @@ const PopoverContent = ({ children, onChange, ...props }: PopoverContentProps) =
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetView style={styles.content}>
+      <BottomSheetScrollView contentContainerStyle={styles.content}>
         <PopoverContext.Provider value={popoverContext}>{children}</PopoverContext.Provider>
-      </BottomSheetView>
+      </BottomSheetScrollView>
     </BottomSheet>
   )
 }
 
-const popoverStyles = createStyleSheet(({ theme }) => ({
+const popoverStyles = createStyleSheet(({ theme, runtime }) => ({
   content: {
-    padding: theme.space(4)
+    gap: theme.space("lg"),
+    padding: theme.space("lg"),
+    paddingBottom: runtime.insets.bottom + theme.space("lg")
   }
 }))
 

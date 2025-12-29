@@ -1,11 +1,15 @@
 import {
+  cloneElement,
   createContext,
+  Fragment,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type ReactElement,
   type ReactNode,
   type RefObject
 } from "react"
@@ -18,7 +22,7 @@ import {
   BottomSheet,
   type BottomSheetProps,
   type BottomSheetRef,
-  BottomSheetView,
+  BottomSheetScrollView,
   type SNAP_POINT_TYPE
 } from "@components/ui/BottomSheet"
 import { Button, type ButtonProps } from "@components/ui/Button"
@@ -84,9 +88,16 @@ const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) =
   return <DialogContext.Provider value={value}>{children}</DialogContext.Provider>
 }
 
-type DialogTriggerProps = ButtonProps
+type DialogTriggerRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
+}
 
-const DialogTrigger = ({ onPress, ...props }: DialogTriggerProps) => {
+export type DialogTriggerProps = ButtonProps & {
+  children?: ReactNode | ((props: DialogTriggerRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const DialogTrigger = ({ onPress, children, asChild, ...props }: DialogTriggerProps) => {
   const { onOpenChange } = useDialog()
 
   const handlePress = useCallback(
@@ -97,33 +108,62 @@ const DialogTrigger = ({ onPress, ...props }: DialogTriggerProps) => {
     [onOpenChange, onPress]
   )
 
-  return <Button onPress={handlePress} {...props} />
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
+
+  return (
+    <Button onPress={handlePress} {...props}>
+      {children}
+    </Button>
+  )
 }
 
 const DialogPortal = ({ children }: { children: ReactNode }) => {
-  return <>{children}</>
+  return <Fragment>{children}</Fragment>
 }
 
-type DialogCloseProps = ButtonProps & {
-  onClose?: () => void
+type DialogCloseRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
 }
 
-const DialogClose = ({ onPress, onClose, ...props }: DialogCloseProps) => {
-  const context = useContext(DialogContext)
+export type DialogCloseProps = ButtonProps & {
+  children?: ReactNode | ((props: DialogCloseRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const DialogClose = ({ onPress, children, asChild, ...props }: DialogCloseProps) => {
+  const dialogContext = useContext(DialogContext)
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
-      if (context) {
-        context.onOpenChange(false)
-      } else if (onClose) {
-        onClose()
-      }
+      dialogContext?.onOpenChange(false)
       onPress?.(event)
     },
-    [context, onClose, onPress]
+    [dialogContext, onPress]
   )
 
-  return <Button onPress={handlePress} {...props} />
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
+
+  return (
+    <Button onPress={handlePress} {...props}>
+      {children}
+    </Button>
+  )
 }
 
 type DialogContentProps = Omit<BottomSheetProps, "ref">
@@ -136,7 +176,9 @@ const DialogContent = ({
 }: DialogContentProps) => {
   const styles = useStyles(dialogStyles)
 
-  const { sheetRef, onOpenChange } = useDialog()
+  const dialogContext = useDialog()
+
+  const { sheetRef, onOpenChange } = dialogContext
 
   const handleChange = useCallback(
     (index: number, position: number, type: SNAP_POINT_TYPE) => {
@@ -156,9 +198,11 @@ const DialogContent = ({
       {...props}
     >
       {enableDynamicSizing ? (
-        <BottomSheetView style={styles.content}>{children}</BottomSheetView>
+        <BottomSheetScrollView contentContainerStyle={styles.content}>
+          <DialogContext.Provider value={dialogContext}>{children}</DialogContext.Provider>
+        </BottomSheetScrollView>
       ) : (
-        children
+        <DialogContext.Provider value={dialogContext}>{children}</DialogContext.Provider>
       )}
     </BottomSheet>
   )
@@ -187,16 +231,16 @@ const DialogDescription = ({ ...props }: TextProps) => {
 const dialogStyles = createStyleSheet(({ theme, runtime }) => ({
   content: {
     flex: 1,
+    gap: theme.space("lg"),
+    paddingHorizontal: theme.space("lg"),
     paddingBottom: runtime.insets.bottom
   },
   header: {
-    gap: theme.space(2),
-    paddingHorizontal: theme.space("lg")
+    gap: theme.space(2)
   },
   footer: {
     flexDirection: "row",
     gap: theme.space(2),
-    padding: theme.space("lg"),
     justifyContent: "flex-end"
   }
 }))

@@ -1,12 +1,15 @@
 import {
+  cloneElement,
   createContext,
   Fragment,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type ReactElement,
   type ReactNode,
   type RefObject
 } from "react"
@@ -17,13 +20,12 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import {
   BottomSheet,
-  BottomSheetView,
+  BottomSheetScrollView,
   type BottomSheetProps,
   type BottomSheetRef,
   type SNAP_POINT_TYPE
 } from "@components/ui/BottomSheet"
 import { Button, type ButtonProps } from "@components/ui/Button"
-import { IconButton } from "@components/ui/IconButton"
 import { Text, type TextProps } from "@components/ui/Text"
 
 type SheetContextValue = {
@@ -91,9 +93,16 @@ const Sheet = ({ open: controlledOpen, onOpenChange, children }: SheetProps) => 
   return <SheetContext.Provider value={value}>{children}</SheetContext.Provider>
 }
 
-export type SheetTriggerProps = ButtonProps
+type SheetTriggerRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
+}
 
-const SheetTrigger = ({ onPress, ...props }: SheetTriggerProps) => {
+export type SheetTriggerProps = ButtonProps & {
+  children?: ReactNode | ((props: SheetTriggerRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const SheetTrigger = ({ onPress, children, asChild, ...props }: SheetTriggerProps) => {
   const sheetContext = useSheet()
 
   const handlePress = useCallback(
@@ -104,33 +113,62 @@ const SheetTrigger = ({ onPress, ...props }: SheetTriggerProps) => {
     [sheetContext, onPress]
   )
 
-  return <Button onPress={handlePress} {...props} />
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
+
+  return (
+    <Button onPress={handlePress} {...props}>
+      {children}
+    </Button>
+  )
 }
 
 const SheetPortal = ({ children }: { children: ReactNode }) => {
   return <Fragment>{children}</Fragment>
 }
 
-export type SheetCloseProps = ButtonProps & {
-  onClose?: () => void
+type SheetCloseRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
 }
 
-const SheetClose = ({ onPress, onClose, ...props }: SheetCloseProps) => {
-  const context = useContext(SheetContext)
+export type SheetCloseProps = ButtonProps & {
+  children?: ReactNode | ((props: SheetCloseRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const SheetClose = ({ onPress, children, asChild, ...props }: SheetCloseProps) => {
+  const sheetContext = useSheet()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
-      if (context) {
-        context.onOpenChange(false)
-      } else if (onClose) {
-        onClose()
-      }
+      sheetContext?.onOpenChange(false)
       onPress?.(event)
     },
-    [context, onClose, onPress]
+    [sheetContext, onPress]
   )
 
-  return <Button onPress={handlePress} {...props} />
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
+
+  return (
+    <Button onPress={handlePress} {...props}>
+      {children}
+    </Button>
+  )
 }
 
 const SheetOverlay = () => {
@@ -160,16 +198,9 @@ const SheetContent = ({ children, onChange, side = "bottom", ...props }: SheetCo
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetView style={styles.contentContainer}>
-        <SheetContext.Provider value={sheetContext}>
-          <View style={styles.closeButtonContainer}>
-            <SheetClose variant="ghost" size="icon">
-              <IconButton name="X" variant="ghost" />
-            </SheetClose>
-          </View>
-          {children}
-        </SheetContext.Provider>
-      </BottomSheetView>
+      <BottomSheetScrollView contentContainerStyle={styles.content}>
+        <SheetContext.Provider value={sheetContext}>{children}</SheetContext.Provider>
+      </BottomSheetScrollView>
     </BottomSheet>
   )
 }
@@ -194,25 +225,20 @@ const SheetDescription = ({ ...props }: TextProps) => {
   return <Text size="sm" color="mutedForeground" {...props} />
 }
 
-const sheetStyles = createStyleSheet(({ theme }) => ({
-  contentContainer: {
-    flex: 1
-  },
-  closeButtonContainer: {
-    position: "absolute",
-    top: 0,
-    right: theme.space(2),
-    zIndex: 1
+const sheetStyles = createStyleSheet(({ theme, runtime }) => ({
+  content: {
+    flex: 1,
+    gap: theme.space("lg"),
+    paddingHorizontal: theme.space("lg"),
+    paddingBottom: runtime.insets.bottom
   },
   header: {
-    gap: theme.space(1.5),
-    padding: theme.space(4)
+    gap: theme.space(2)
   },
   footer: {
-    marginTop: "auto",
-    flexDirection: "column",
+    flexDirection: "row",
     gap: theme.space(2),
-    padding: theme.space(4)
+    justifyContent: "flex-end"
   }
 }))
 

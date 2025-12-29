@@ -1,11 +1,15 @@
 import {
+  cloneElement,
   createContext,
+  Fragment,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type ReactElement,
   type ReactNode,
   type RefObject
 } from "react"
@@ -23,7 +27,11 @@ import Animated, {
   withTiming
 } from "react-native-reanimated"
 
-import { BottomSheet, BottomSheetView, type BottomSheetProps } from "@components/ui/BottomSheet"
+import {
+  BottomSheet,
+  BottomSheetScrollView,
+  type BottomSheetProps
+} from "@components/ui/BottomSheet"
 import { Icon } from "@components/ui/Icon"
 import { Pressable, type PressableProps } from "@components/ui/Pressable"
 import { Separator } from "@components/ui/Separator"
@@ -166,12 +174,23 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
   )
 }
 
-export type SelectTriggerProps = Omit<PressableProps, "children"> & {
-  size?: "sm" | "default"
-  children?: ReactNode
+type SelectTriggerRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
 }
 
-const SelectTrigger = ({ size = "default", children, style, ...props }: SelectTriggerProps) => {
+export type SelectTriggerProps = Omit<PressableProps, "children"> & {
+  size?: "sm" | "default"
+  children?: ReactNode | ((props: SelectTriggerRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const SelectTrigger = ({
+  size = "default",
+  children,
+  asChild,
+  style,
+  ...props
+}: SelectTriggerProps) => {
   const styles = useStyles(selectStyles)
 
   const selectContext = useSelect()
@@ -183,6 +202,16 @@ const SelectTrigger = ({ size = "default", children, style, ...props }: SelectTr
     },
     [selectContext, props]
   )
+
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
 
   return (
     <Pressable style={[styles.trigger({ size }), style]} onPress={handlePress} {...props}>
@@ -221,9 +250,9 @@ const SelectContent = ({ children, onChange, ...props }: SelectContentProps) => 
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetView style={styles.content}>
+      <BottomSheetScrollView contentContainerStyle={styles.content}>
         <SelectContext.Provider value={selectContext}>{children}</SelectContext.Provider>
-      </BottomSheetView>
+      </BottomSheetScrollView>
     </BottomSheet>
   )
 }
@@ -314,7 +343,7 @@ const SelectSeparator = ({ style }: SelectSeparatorProps) => {
   return <Separator style={[styles.separator, style]} />
 }
 
-const selectStyles = createStyleSheet(({ theme }) => ({
+const selectStyles = createStyleSheet(({ theme, runtime }) => ({
   trigger: createVariant({
     base: {
       flexDirection: "row",
@@ -352,9 +381,11 @@ const selectStyles = createStyleSheet(({ theme }) => ({
     flex: 1
   },
   content: {
-    padding: theme.space(1)
+    paddingVertical: theme.space(1),
+    paddingBottom: runtime.insets.bottom + theme.space(1)
   },
   label: {
+    marginHorizontal: theme.space(1),
     paddingHorizontal: theme.space(2),
     paddingVertical: theme.space(1.5)
   },
@@ -363,6 +394,7 @@ const selectStyles = createStyleSheet(({ theme }) => ({
     alignItems: "center",
     gap: theme.space(2),
     borderRadius: theme.radius("sm"),
+    marginHorizontal: theme.space(1),
     paddingHorizontal: theme.space(2),
     paddingVertical: theme.space(1.5),
     paddingRight: theme.space(8)
@@ -379,8 +411,7 @@ const selectStyles = createStyleSheet(({ theme }) => ({
     justifyContent: "center"
   },
   separator: {
-    marginVertical: theme.space(1),
-    marginHorizontal: -theme.space(1)
+    marginVertical: theme.space(1)
   }
 }))
 
