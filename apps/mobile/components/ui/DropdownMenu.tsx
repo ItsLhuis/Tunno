@@ -1,12 +1,15 @@
 import {
+  cloneElement,
   createContext,
   Fragment,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type ReactElement,
   type ReactNode,
   type RefObject
 } from "react"
@@ -15,7 +18,11 @@ import { View, type GestureResponderEvent, type StyleProp, type ViewStyle } from
 
 import { createStyleSheet, durationTokens, useStyles } from "@styles"
 
-import { type BottomSheetRef, type SNAP_POINT_TYPE } from "@components/ui/BottomSheet"
+import {
+  type BottomSheetRef,
+  type SNAP_POINT_TYPE,
+  useBottomSheetModal
+} from "@components/ui/BottomSheet"
 
 import Animated, {
   interpolate,
@@ -24,7 +31,11 @@ import Animated, {
   withTiming
 } from "react-native-reanimated"
 
-import { BottomSheet, BottomSheetView, type BottomSheetProps } from "@components/ui/BottomSheet"
+import {
+  BottomSheet,
+  BottomSheetScrollView,
+  type BottomSheetProps
+} from "@components/ui/BottomSheet"
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Icon } from "@components/ui/Icon"
 import { Pressable, type PressableProps } from "@components/ui/Pressable"
@@ -108,9 +119,21 @@ const DropdownMenu = ({ open: controlledOpen, onOpenChange, children }: Dropdown
   return <DropdownMenuContext.Provider value={value}>{children}</DropdownMenuContext.Provider>
 }
 
-export type DropdownMenuTriggerProps = ButtonProps
+type DropdownMenuTriggerRenderProps = {
+  onPress: (e: GestureResponderEvent) => void
+}
 
-const DropdownMenuTrigger = ({ onPress, ...props }: DropdownMenuTriggerProps) => {
+export type DropdownMenuTriggerProps = ButtonProps & {
+  children?: ReactNode | ((props: DropdownMenuTriggerRenderProps) => ReactNode)
+  asChild?: boolean
+}
+
+const DropdownMenuTrigger = ({
+  onPress,
+  children,
+  asChild,
+  ...props
+}: DropdownMenuTriggerProps) => {
   const dropdownContext = useDropdownMenu()
 
   const handlePress = useCallback(
@@ -121,7 +144,21 @@ const DropdownMenuTrigger = ({ onPress, ...props }: DropdownMenuTriggerProps) =>
     [dropdownContext, onPress]
   )
 
-  return <Button onPress={handlePress} {...props} />
+  if (typeof children === "function") {
+    return <Fragment>{children({ onPress: handlePress })}</Fragment>
+  }
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children as ReactElement<{ onPress?: typeof handlePress }>, {
+      onPress: handlePress
+    })
+  }
+
+  return (
+    <Button onPress={handlePress} {...props}>
+      {children}
+    </Button>
+  )
 }
 
 const DropdownMenuPortal = ({ children }: { children: ReactNode }) => {
@@ -139,12 +176,72 @@ const DropdownMenuGroup = ({ children, style }: DropdownMenuGroupProps) => {
   return <View style={[styles.group, style]}>{children}</View>
 }
 
+type DropdownMenuSubContextValue = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  sheetRef: RefObject<BottomSheetRef | null>
+}
+
+const DropdownMenuSubContext = createContext<DropdownMenuSubContextValue | undefined>(undefined)
+
+function useDropdownMenuSub() {
+  return useContext(DropdownMenuSubContext)
+}
+
+function useDropdownMenuSubRequired() {
+  const context = useContext(DropdownMenuSubContext)
+
+  if (!context) throw new Error("DropdownMenuSub components must be used within DropdownMenuSub")
+
+  return context
+}
+
 export type DropdownMenuSubProps = {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
   children: ReactNode
 }
 
-const DropdownMenuSub = ({ children }: DropdownMenuSubProps) => {
-  return <Fragment>{children}</Fragment>
+const DropdownMenuSub = ({
+  open: controlledOpen,
+  onOpenChange,
+  children
+}: DropdownMenuSubProps) => {
+  const sheetRef = useRef<BottomSheetRef | null>(null)
+
+  const [internalOpen, setInternalOpen] = useState(false)
+
+  const isControlled = controlledOpen !== undefined
+  const open = isControlled ? controlledOpen : internalOpen
+
+  const handleOpenChange = useCallback(
+    (isOpen: boolean) => {
+      if (!isControlled) {
+        setInternalOpen(isOpen)
+      }
+      onOpenChange?.(isOpen)
+    },
+    [isControlled, onOpenChange]
+  )
+
+  useEffect(() => {
+    if (open) {
+      sheetRef.current?.present()
+    } else {
+      sheetRef.current?.close()
+    }
+  }, [open])
+
+  const value = useMemo(
+    () => ({
+      open,
+      onOpenChange: handleOpenChange,
+      sheetRef
+    }),
+    [open, handleOpenChange]
+  )
+
+  return <DropdownMenuSubContext.Provider value={value}>{children}</DropdownMenuSubContext.Provider>
 }
 
 export type DropdownMenuSubTriggerProps = PressableProps & {
@@ -158,27 +255,64 @@ const DropdownMenuSubTrigger = ({
   children,
   title,
   style,
+  onPress,
   ...props
 }: DropdownMenuSubTriggerProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
+  const subContext = useDropdownMenuSub()
+
+  const handlePress = useCallback(
+    (event: GestureResponderEvent) => {
+      subContext?.onOpenChange(true)
+      onPress?.(event)
+    },
+    [subContext, onPress]
+  )
+
   return (
-    <Pressable style={[styles.item, inset && styles.itemInset, style]} {...props}>
+    <Pressable
+      style={[styles.item, inset && styles.itemInset, style]}
+      onPress={handlePress}
+      {...props}
+    >
       {children ? children : title ? <Text size="sm">{title}</Text> : null}
       <Icon name="ChevronRight" size="sm" color="mutedForeground" style={styles.itemIconRight} />
     </Pressable>
   )
 }
 
-export type DropdownMenuSubContentProps = {
-  children: ReactNode
-  style?: StyleProp<ViewStyle>
-}
+export type DropdownMenuSubContentProps = Omit<BottomSheetProps, "ref">
 
-const DropdownMenuSubContent = ({ children, style }: DropdownMenuSubContentProps) => {
+const DropdownMenuSubContent = ({ children, onChange, ...props }: DropdownMenuSubContentProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  return <View style={[styles.subContent, style]}>{children}</View>
+  const dropdownContext = useDropdownMenu()
+  const subContext = useDropdownMenuSubRequired()
+
+  const { sheetRef, onOpenChange: onSubOpenChange } = subContext
+
+  const handleChange = useCallback(
+    (index: number, position: number, type: SNAP_POINT_TYPE) => {
+      if (index === -1) {
+        onSubOpenChange(false)
+      }
+      onChange?.(index, position, type)
+    },
+    [onChange, onSubOpenChange]
+  )
+
+  return (
+    <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
+      <BottomSheetScrollView contentContainerStyle={styles.content}>
+        {dropdownContext && (
+          <DropdownMenuContext.Provider value={dropdownContext}>
+            {children}
+          </DropdownMenuContext.Provider>
+        )}
+      </BottomSheetScrollView>
+    </BottomSheet>
+  )
 }
 
 export type DropdownMenuContentProps = Omit<BottomSheetProps, "ref">
@@ -202,11 +336,11 @@ const DropdownMenuContent = ({ children, onChange, ...props }: DropdownMenuConte
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetView style={styles.content}>
+      <BottomSheetScrollView contentContainerStyle={styles.content}>
         <DropdownMenuContext.Provider value={dropdownContext}>
           {children}
         </DropdownMenuContext.Provider>
-      </BottomSheetView>
+      </BottomSheetScrollView>
     </BottomSheet>
   )
 }
@@ -230,16 +364,16 @@ const DropdownMenuItem = ({
 }: DropdownMenuItemProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  const dropdownContext = useDropdownMenu()
+  const { dismissAll } = useBottomSheetModal()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       onPress?.(event)
       if (closeOnPress) {
-        dropdownContext?.onOpenChange(false)
+        dismissAll()
       }
     },
-    [closeOnPress, dropdownContext, onPress]
+    [closeOnPress, dismissAll, onPress]
   )
 
   return (
@@ -275,17 +409,17 @@ const DropdownMenuCheckboxItem = ({
 }: DropdownMenuCheckboxItemProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  const dropdownContext = useDropdownMenu()
+  const { dismissAll } = useBottomSheetModal()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       onCheckedChange?.(!checked)
       onPress?.(event)
       if (closeOnPress) {
-        dropdownContext?.onOpenChange(false)
+        dismissAll()
       }
     },
-    [checked, closeOnPress, onCheckedChange, dropdownContext, onPress]
+    [checked, closeOnPress, onCheckedChange, dismissAll, onPress]
   )
 
   return (
@@ -350,7 +484,7 @@ const DropdownMenuRadioItem = ({
 }: DropdownMenuRadioItemProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  const dropdownContext = useDropdownMenu()
+  const { dismissAll } = useBottomSheetModal()
 
   const radioContext = useDropdownMenuRadio()
 
@@ -367,10 +501,10 @@ const DropdownMenuRadioItem = ({
       radioContext?.onValueChange(value)
       onPress?.(event)
       if (closeOnPress) {
-        dropdownContext?.onOpenChange(false)
+        dismissAll()
       }
     },
-    [closeOnPress, dropdownContext, onPress, radioContext, value]
+    [closeOnPress, dismissAll, onPress, radioContext, value]
   )
 
   const indicatorAnimatedStyle = useAnimatedStyle(() => {
@@ -435,19 +569,18 @@ const DropdownMenuShortcut = ({ style, ...props }: DropdownMenuShortcutProps) =>
   return <Text size="xs" color="mutedForeground" style={[styles.shortcut, style]} {...props} />
 }
 
-const dropdownMenuStyles = createStyleSheet(({ theme }) => ({
+const dropdownMenuStyles = createStyleSheet(({ theme, runtime }) => ({
   content: {
-    padding: theme.space(1)
+    paddingVertical: theme.space(1),
+    paddingBottom: runtime.insets.bottom + theme.space(1)
   },
   group: {},
-  subContent: {
-    paddingLeft: theme.space(2)
-  },
   item: {
     flexDirection: "row",
     alignItems: "center",
     gap: theme.space(2),
     borderRadius: theme.radius("sm"),
+    marginHorizontal: theme.space(1),
     paddingHorizontal: theme.space(2),
     paddingVertical: theme.space(1.5)
   },
@@ -470,6 +603,7 @@ const dropdownMenuStyles = createStyleSheet(({ theme }) => ({
     justifyContent: "center"
   },
   label: {
+    marginHorizontal: theme.space(1),
     paddingHorizontal: theme.space(2),
     paddingVertical: theme.space(1.5)
   },
@@ -477,8 +611,7 @@ const dropdownMenuStyles = createStyleSheet(({ theme }) => ({
     paddingLeft: theme.space(8)
   },
   separator: {
-    marginVertical: theme.space(1),
-    marginHorizontal: -theme.space(1)
+    marginVertical: theme.space(1)
   },
   shortcut: {
     marginLeft: "auto",
