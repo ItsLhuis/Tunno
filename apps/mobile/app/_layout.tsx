@@ -1,3 +1,5 @@
+import "intl-pluralrules"
+
 import "expo-dev-client"
 
 import { useCallback, useEffect, useLayoutEffect, useState } from "react"
