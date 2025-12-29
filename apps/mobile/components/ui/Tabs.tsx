@@ -53,6 +53,7 @@ const Tabs = ({
   style
 }: TabsProps) => {
   const styles = useStyles(tabsStyles)
+
   const [internalValue, setInternalValue] = useState(defaultValue)
 
   const isControlled = controlledValue !== undefined

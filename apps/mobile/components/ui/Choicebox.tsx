@@ -260,6 +260,7 @@ const choiceboxStyles = createStyleSheet(({ theme }) => ({
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
+      gap: theme.space("sm"),
       borderRadius: theme.radius(),
       padding: theme.space(3),
       borderWidth: theme.borderWidth()

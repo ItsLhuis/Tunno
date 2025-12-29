@@ -196,9 +196,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className, disabled }: Lyr
                       containerClassName="p-3 h-full"
                       ListEmptyComponent={() => (
                         <div className="flex h-full items-center justify-center py-8">
-                          <Typography affects={["muted", "italic"]}>
-                            {t("form.messages.noLyrics")}
-                          </Typography>
+                          <Typography affects={["muted"]}>{t("form.messages.noLyrics")}</Typography>
                         </div>
                       )}
                       renderItem={({ item: line }) => (
@@ -235,9 +233,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className, disabled }: Lyr
               containerClassName="p-3 h-full"
               ListEmptyComponent={() => (
                 <div className="flex h-full items-center justify-center py-8">
-                  <Typography affects={["muted", "italic"]}>
-                    {t("form.messages.noLyrics")}
-                  </Typography>
+                  <Typography affects={["muted"]}>{t("form.messages.noLyrics")}</Typography>
                 </div>
               )}
               renderItem={({ item: line, index }) => (

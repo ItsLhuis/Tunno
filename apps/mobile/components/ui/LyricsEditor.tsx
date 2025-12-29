@@ -4,7 +4,7 @@ import { View, type StyleProp, type ViewStyle } from "react-native"
 
 import { FlashList, type ListRenderItemInfo } from "@shopify/flash-list"
 
-import { createStyleSheet, useStyles } from "@styles"
+import { createStyleSheet, useBreakpoints, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -51,6 +51,7 @@ type LyricLineProps = {
   onRemove: (index: number) => void
   canRemove: boolean
   disabled?: boolean
+  isSmallScreen?: boolean
 }
 
 const LyricLine = memo(function LyricLine({
@@ -63,7 +64,8 @@ const LyricLine = memo(function LyricLine({
   onTimeChange,
   onRemove,
   canRemove,
-  disabled
+  disabled,
+  isSmallScreen = false
 }: LyricLineProps) {
   const styles = useStyles(lyricLineStyles)
 
@@ -86,25 +88,27 @@ const LyricLine = memo(function LyricLine({
   }, [index, onRemove])
 
   return (
-    <View style={styles.container}>
-      <NumberInput
-        min={Math.max(0, minTime)}
-        max={maxTime}
-        step={1}
-        value={line.startTime}
-        onChange={handleTimeChange}
-        format={formatTime}
-        parse={parseTime}
-        disabled={disabled}
-        style={styles.timeInput}
-      />
-      <TextInput
-        placeholder={placeholder}
-        value={line.text}
-        onChangeText={handleTextChange}
-        style={styles.textInput}
-        disabled={disabled}
-      />
+    <View style={styles.container(index, isSmallScreen)}>
+      <View style={styles.inputsRow(isSmallScreen)}>
+        <NumberInput
+          min={Math.max(0, minTime)}
+          max={maxTime}
+          step={1}
+          value={line.startTime}
+          onChange={handleTimeChange}
+          format={formatTime}
+          parse={parseTime}
+          disabled={disabled}
+          style={styles.timeInput(isSmallScreen)}
+        />
+        <TextInput
+          placeholder={placeholder}
+          value={line.text}
+          onChangeText={handleTextChange}
+          style={styles.textInput}
+          disabled={disabled}
+        />
+      </View>
       <IconButton
         name="X"
         variant="ghost"
@@ -125,7 +129,11 @@ const LyricsEditor = ({
 }: LyricsEditorProps) => {
   const styles = useStyles(lyricsEditorStyles)
 
+  const breakpoints = useBreakpoints()
+
   const { t } = useTranslation()
+
+  const isSmallScreen = !breakpoints.sm
 
   const [syncedLines, setSyncedLines] = useState<Lyric[]>(() => (Array.isArray(value) ? value : []))
 
@@ -196,14 +204,23 @@ const LyricsEditor = ({
         onRemove={removeSyncedLine}
         canRemove={true}
         disabled={disabled}
+        isSmallScreen={isSmallScreen}
       />
     ),
-    [syncedLines, placeholder, handleTextChange, handleTimeChange, removeSyncedLine, disabled]
+    [
+      syncedLines,
+      placeholder,
+      handleTextChange,
+      handleTimeChange,
+      removeSyncedLine,
+      disabled,
+      isSmallScreen
+    ]
   )
 
   const renderPreviewItem = useCallback(
-    ({ item }: ListRenderItemInfo<Lyric>) => (
-      <View style={styles.previewLine}>
+    ({ item, index }: ListRenderItemInfo<Lyric>) => (
+      <View style={styles.previewLine(index)}>
         <Text size="sm" color="mutedForeground" style={styles.previewTime}>
           [{formatTime(item.startTime)}]
         </Text>
@@ -221,9 +238,7 @@ const LyricsEditor = ({
   const ListEmptyComponent = useCallback(
     () => (
       <View style={styles.emptyContainer}>
-        <Text color="mutedForeground" style={styles.emptyText}>
-          {t("form.messages.noLyrics")}
-        </Text>
+        <Text color="mutedForeground">{t("form.messages.noLyrics")}</Text>
       </View>
     ),
     [styles, t]
@@ -303,24 +318,39 @@ const LyricsEditor = ({
   )
 }
 
-const lyricLineStyles = createStyleSheet(({ theme }) => ({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: theme.space(2),
-    padding: theme.space(3),
-    borderRadius: theme.radius(),
-    borderWidth: theme.borderWidth(),
-    borderColor: theme.colors.border,
-    backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(50))
-  },
-  timeInput: {
-    width: 125
-  },
-  textInput: {
-    flex: 1
+const lyricLineStyles = createStyleSheet(({ theme }) => {
+  const itemSpacing = theme.space("sm")
+  const gap = theme.space(2)
+
+  return {
+    container: (index: number, isSmallScreen: boolean) =>
+      viewStyle({
+        flexDirection: "row",
+        alignItems: isSmallScreen ? "flex-start" : "center",
+        gap,
+        padding: theme.space(3),
+        borderRadius: theme.radius(),
+        borderWidth: theme.borderWidth(),
+        borderColor: theme.colors.border,
+        backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(50)),
+        marginTop: index > 0 ? itemSpacing : 0
+      }),
+    inputsRow: (isSmallScreen: boolean) =>
+      viewStyle({
+        flex: 1,
+        flexDirection: isSmallScreen ? "column" : "row",
+        alignItems: isSmallScreen ? "stretch" : "center",
+        gap
+      }),
+    timeInput: (isSmallScreen: boolean) =>
+      viewStyle({
+        width: isSmallScreen ? "100%" : "30%"
+      }),
+    textInput: {
+      flex: 1
+    }
   }
-}))
+})
 
 const lyricsEditorStyles = createStyleSheet(({ theme, runtime }) => ({
   container: {
@@ -355,16 +385,14 @@ const lyricsEditorStyles = createStyleSheet(({ theme, runtime }) => ({
     height: 300
   },
   listContent: {
-    padding: theme.space(3),
-    gap: theme.space(2)
+    flex: 1,
+    padding: theme.space(3)
   },
   emptyContainer: {
+    flex: 1,
     padding: theme.space(8),
     alignItems: "center",
     justifyContent: "center"
-  },
-  emptyText: {
-    fontStyle: "italic"
   },
   previewContainer: {
     flex: 1,
@@ -375,14 +403,16 @@ const lyricsEditorStyles = createStyleSheet(({ theme, runtime }) => ({
     marginBottom: runtime.insets.bottom + theme.space(6)
   },
   previewList: {
-    padding: theme.space(3),
-    gap: theme.space(2)
+    flex: 1,
+    padding: theme.space(3)
   },
-  previewLine: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: theme.space(2)
-  },
+  previewLine: (index: number) =>
+    viewStyle({
+      flexDirection: "row",
+      alignItems: "flex-start",
+      gap: theme.space(2),
+      marginTop: index > 0 ? theme.space("sm") : 0
+    }),
   previewTime: {
     flexShrink: 0
   },
