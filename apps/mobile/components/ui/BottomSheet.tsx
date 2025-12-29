@@ -1,4 +1,12 @@
-import { type ReactNode, type Ref, useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type ComponentProps,
+  type ReactNode,
+  type Ref,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react"
 
 import { BackHandler, type StyleProp, type ViewStyle } from "react-native"
 
@@ -7,14 +15,17 @@ import { createStyleSheet, durationTokens, useStyles, useTheme } from "@styles"
 import {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
-  BottomSheetFlashList,
   BottomSheetModal,
   type BottomSheetModalProps,
-  BottomSheetScrollView,
+  BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetView,
   type SNAP_POINT_TYPE,
+  useBottomSheetModal,
+  useBottomSheetScrollableCreator,
   useBottomSheetTimingConfigs
 } from "@gorhom/bottom-sheet"
+
+import { FlashList, type FlashListProps } from "@shopify/flash-list"
 
 export type BottomSheetRef = BottomSheetModal
 
@@ -116,6 +127,32 @@ const bottomSheetStyles = createStyleSheet(({ theme, runtime }) => ({
   }
 }))
 
-export { BottomSheet, BottomSheetFlashList, BottomSheetScrollView, BottomSheetView }
+type BottomSheetScrollViewProps = ComponentProps<typeof GorhomBottomSheetScrollView>
+
+const BottomSheetScrollView = (props: BottomSheetScrollViewProps) => {
+  return (
+    <GorhomBottomSheetScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
+      overScrollMode="never"
+      {...props}
+    />
+  )
+}
+
+function BottomSheetFlashList<T>(props: FlashListProps<T>) {
+  const ScrollComponent = useBottomSheetScrollableCreator()
+
+  return <FlashList {...props} renderScrollComponent={ScrollComponent} />
+}
+
+export {
+  BottomSheet,
+  BottomSheetFlashList,
+  BottomSheetScrollView,
+  BottomSheetView,
+  useBottomSheetModal
+}
 
 export type { SNAP_POINT_TYPE }
