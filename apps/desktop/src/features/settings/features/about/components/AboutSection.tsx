@@ -61,7 +61,9 @@ const AboutSection = () => {
           />
           <div className="flex flex-col gap-1">
             <Typography>{appName}&nbsp;</Typography>
-            <Typography affects={["small", "muted"]}>Version {currentVersion}</Typography>
+            <Typography affects={["small", "muted"]}>
+              {t("settings.about.version")} {currentVersion}
+            </Typography>
           </div>
         </div>
       )
