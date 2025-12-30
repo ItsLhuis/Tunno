@@ -113,7 +113,7 @@ const EqualizerSection = () => {
       key: "enable",
       title: t("settings.equalizer.enable.title"),
       description: t("settings.equalizer.enable.description"),
-      renderLeft: () => <Icon name="Volume2" className="mt-1" />,
+      renderLeft: () => <Icon name="Volume2" />,
       children: (
         <div className="flex items-center gap-3">
           <Button
@@ -132,7 +132,7 @@ const EqualizerSection = () => {
       key: "presets",
       title: t("settings.equalizer.presets.title"),
       description: t("settings.equalizer.presets.description"),
-      renderLeft: () => <Icon name="Settings" className="mt-1" />,
+      renderLeft: () => <Icon name="Settings" />,
       children: (
         <Select
           value={equalizerPreset}
@@ -161,7 +161,7 @@ const EqualizerSection = () => {
       key: "bands",
       title: t("settings.equalizer.bands.title"),
       description: t("settings.equalizer.bands.description"),
-      renderLeft: () => <Icon name="Sliders" className="mt-1" />,
+      renderLeft: () => <Icon name="Sliders" />,
       children: (
         <div className="grid grid-cols-2 gap-3 overflow-hidden sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10">
           {equalizerBands.map((band) => (
@@ -205,7 +205,7 @@ const EqualizerSection = () => {
       key: "reset",
       title: t("settings.equalizer.reset.title"),
       description: t("settings.equalizer.reset.description"),
-      renderLeft: () => <Icon name="RotateCcw" className="mt-1" />,
+      renderLeft: () => <Icon name="RotateCcw" />,
       children: (
         <Button variant="outline" size="sm" className="w-fit" onClick={resetEqualizer}>
           {t("settings.equalizer.reset.button")}

@@ -29,7 +29,7 @@ const ZoomSection = () => {
       key: "zoom",
       title: t("settings.appearance.zoom.title"),
       description: t("settings.appearance.zoom.description"),
-      renderLeft: () => <Icon name="ZoomIn" className="mt-1" />,
+      renderLeft: () => <Icon name="ZoomIn" />,
       children: (
         <RadioGroup
           value={Math.round(zoomLevel * 100).toString()}

@@ -36,7 +36,7 @@ const Sync = () => {
         )}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.sectionsContainer}>{/* Sync sections will be added here */}</View>
+        <View style={styles.sectionsContainer}></View>
       </ScrollViewWithHeaders>
     </View>
   )

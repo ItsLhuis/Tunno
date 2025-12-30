@@ -460,6 +460,7 @@ export const usePlayerStore = create<PlayerStore>()(
               return resolveTrack(song)
             })
           )
+
           if (currentPlayerQueue.length > 0) {
             const indicesToRemove: number[] = []
 
@@ -559,6 +560,7 @@ export const usePlayerStore = create<PlayerStore>()(
 
         const finalCurrentIndex = tracksBeforeCurrent.length
         const actualCurrentIndex = await TrackPlayer.getActiveTrackIndex()
+
         if (actualCurrentIndex !== finalCurrentIndex) {
           await TrackPlayer.skip(finalCurrentIndex)
         }
@@ -789,16 +791,6 @@ export const usePlayerStore = create<PlayerStore>()(
           return
         }
 
-        if (repeatMode === RepeatMode.Track) {
-          try {
-            await TrackPlayer.seekTo(0)
-            await TrackPlayer.play()
-          } catch (error) {
-            console.error("PlayerStore: Error in playNext (repeat track):", error)
-          }
-          return
-        }
-
         const nextIndex = currentTrackIndex + 1
 
         if (isValidIndex(nextIndex, queueIds.length)) {
@@ -816,16 +808,6 @@ export const usePlayerStore = create<PlayerStore>()(
         const { currentTrackIndex, queueIds, repeatMode, skipToTrack, play } = get()
 
         if (currentTrackIndex === null || queueIds.length === 0) {
-          return
-        }
-
-        if (repeatMode === RepeatMode.Track) {
-          try {
-            await TrackPlayer.seekTo(0)
-            await TrackPlayer.play()
-          } catch (error) {
-            console.error("PlayerStore: Error in playPrevious (repeat track):", error)
-          }
           return
         }
 
@@ -887,10 +869,11 @@ export const usePlayerStore = create<PlayerStore>()(
           await get().ensureWindowForIndex(index)
 
           const { windowStartIndex: newStart } = get()
-          const playerIndex = index - newStart
 
-          const currentQueue = await TrackPlayer.getQueue()
-          if (isValidIndex(playerIndex, currentQueue.length)) {
+          const playerIndex = index - newStart
+          const playerQueue = await TrackPlayer.getQueue()
+
+          if (isValidIndex(playerIndex, playerQueue.length)) {
             await TrackPlayer.skip(playerIndex)
 
             const currentTrackId = queueIds[index]
@@ -1326,20 +1309,18 @@ export const usePlayerStore = create<PlayerStore>()(
 
         if (currentTrackIndex !== null && queueIds.length > 0) {
           if (queueIds.length === 1) {
-            canPlayNext = canPlayPrevious = repeatMode !== RepeatMode.Off
+            canPlayNext = canPlayPrevious = repeatMode === RepeatMode.Queue
           } else {
             switch (repeatMode) {
-              case RepeatMode.Off:
-                canPlayNext = currentTrackIndex < queueIds.length - 1
-                canPlayPrevious = currentTrackIndex > 0
-                break
-              case RepeatMode.Track:
               case RepeatMode.Queue:
                 canPlayNext = canPlayPrevious = true
                 break
+              case RepeatMode.Track:
+              case RepeatMode.Off:
               default:
                 canPlayNext = currentTrackIndex < queueIds.length - 1
                 canPlayPrevious = currentTrackIndex > 0
+                break
             }
           }
         }

@@ -131,7 +131,8 @@ const aboutSectionStyles = createStyleSheet(({ theme }) => ({
   logo: {
     width: 32,
     height: 32,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    borderColor: "transparent"
   },
   aboutInfo: {
     gap: theme.space("xs")

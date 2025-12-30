@@ -35,7 +35,7 @@ const LanguageSection = () => {
       key: "language",
       title: t("settings.language.title"),
       description: t("settings.language.description"),
-      renderLeft: () => <Icon name="Languages" className="mt-1" />,
+      renderLeft: () => <Icon name="Languages" />,
       children: (
         <Choicebox defaultValue={language} onValueChange={setLanguage}>
           {Object.values(locales).map((locale) => (

@@ -50,7 +50,7 @@ const AboutSection = () => {
       key: "about",
       title: t("settings.about.title"),
       description: t("settings.about.description"),
-      renderLeft: () => <Icon name="Info" className="mt-1" />,
+      renderLeft: () => <Icon name="Info" />,
       children: (
         <div className="flex items-center">
           <Image
@@ -72,7 +72,7 @@ const AboutSection = () => {
       key: "whatsNew",
       title: t("settings.about.whatsNew.title"),
       description: t("settings.about.whatsNew.description"),
-      renderLeft: () => <Icon name="Sparkles" className="mt-1" />,
+      renderLeft: () => <Icon name="Sparkles" />,
       children: (
         <Button variant="outline" size="sm" className="w-fit" onClick={handleOpenChangelog}>
           <Icon name="ExternalLink" />
@@ -84,7 +84,7 @@ const AboutSection = () => {
       key: "storage",
       title: t("settings.about.storage.title"),
       description: t("settings.about.storage.description"),
-      renderLeft: () => <Icon name="Database" className="mt-1" />,
+      renderLeft: () => <Icon name="Database" />,
       children: (
         <Button variant="outline" size="sm" className="w-fit" onClick={handleOpenAppDataFolder}>
           <Icon name="FolderOpen" />
@@ -96,7 +96,7 @@ const AboutSection = () => {
       key: "legal",
       title: t("settings.about.legal.title"),
       description: t("settings.about.legal.description"),
-      renderLeft: () => <Icon name="FileText" className="mt-1" />,
+      renderLeft: () => <Icon name="FileText" />,
       children: (
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">

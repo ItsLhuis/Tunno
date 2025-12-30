@@ -52,7 +52,7 @@ const ThemeSection = () => {
       key: "theme",
       title: t("settings.appearance.theme.title"),
       description: t("settings.appearance.theme.description"),
-      renderLeft: () => <Icon name="Palette" className="mt-1" />,
+      renderLeft: () => <Icon name="Palette" />,
       children: (
         <Choicebox defaultValue={theme} onValueChange={setTheme}>
           {themes.map((theme) => (

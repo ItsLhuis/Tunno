@@ -467,6 +467,7 @@ const _usePlayerStore = create<PlayerStore>()(
               return resolveTrack(song)
             })
           )
+
           if (currentPlayerQueue.length > 0) {
             const indicesToRemove: number[] = []
 
@@ -565,6 +566,7 @@ const _usePlayerStore = create<PlayerStore>()(
 
         const finalCurrentIndex = tracksBeforeCurrent.length
         const actualCurrentIndex = TrackPlayer.getActiveTrackIndex()
+
         if (actualCurrentIndex !== finalCurrentIndex) {
           await TrackPlayer.skip(finalCurrentIndex)
         }
@@ -873,6 +875,7 @@ const _usePlayerStore = create<PlayerStore>()(
           await get().ensureWindowForIndex(index)
 
           const { windowStartIndex: newStart } = get()
+
           const playerIndex = index - newStart
 
           if (isValidIndex(playerIndex, TrackPlayer.getQueue().length)) {
