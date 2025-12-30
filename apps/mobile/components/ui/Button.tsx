@@ -1,10 +1,11 @@
-import { type ReactNode } from "react"
+import { Fragment, type ReactNode } from "react"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
 import { createStyleSheet, createVariant, useStyles, type StyleVariants } from "@styles"
 
 import { Fade } from "@components/ui/Fade"
+import { Icon, type IconProps } from "@components/ui/Icon"
 import { Pressable, type PressableProps } from "@components/ui/Pressable"
 import { Spinner } from "@components/ui/Spinner"
 import { Text, type TextProps } from "@components/ui/Text"
@@ -15,6 +16,8 @@ export type ButtonProps = Omit<PressableProps, "style" | "children"> &
   StyleVariants<typeof buttonStyles, "button"> & {
     children?: ReactNode
     title?: string | null
+    leftIcon?: IconProps["name"]
+    rightIcon?: IconProps["name"]
     isLoading?: boolean
     disabled?: boolean
     containerStyle?: StyleProp<ViewStyle>
@@ -27,6 +30,8 @@ const Button = ({
   size = "default",
   children,
   title,
+  leftIcon,
+  rightIcon,
   isLoading = false,
   disabled = false,
   containerStyle,
@@ -38,6 +43,9 @@ const Button = ({
   const styles = useStyles(buttonStyles)
 
   const spinnerColor = getButtonForegroundColor(variant)
+
+  const iconColor = getButtonForegroundColor(variant)
+  const iconSize = size === "sm" ? "sm" : "base"
 
   const isDisabled = disabled || isLoading
 
@@ -59,14 +67,20 @@ const Button = ({
         <Fade show={!isLoading} initial={false} unmountOnExit={false} style={styles.content}>
           {children ? (
             children
-          ) : title ? (
-            <Text
-              style={[styles.buttonText({ variant, size, isDisabled }), titleProps?.style]}
-              {...titleProps}
-            >
-              {title}
-            </Text>
-          ) : null}
+          ) : (
+            <Fragment>
+              {leftIcon && <Icon name={leftIcon} size={iconSize} color={iconColor} />}
+              {title && (
+                <Text
+                  style={[styles.buttonText({ variant, size, isDisabled }), titleProps?.style]}
+                  {...titleProps}
+                >
+                  {title}
+                </Text>
+              )}
+              {rightIcon && <Icon name={rightIcon} size={iconSize} color={iconColor} />}
+            </Fragment>
+          )}
         </Fade>
         <Fade show={isLoading} unmountOnExit={false} style={styles.spinnerContainer}>
           <Spinner size="sm" color={spinnerColor} />
