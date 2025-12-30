@@ -117,6 +117,7 @@ const FormDescription = ({ style, ...props }: TextProps) => {
 
 const FormMessage = ({ style, children, ...props }: TextProps) => {
   const { error, formMessageId } = useFormField()
+
   const body = error ? String(error?.message ?? "") : children
 
   if (!body) {

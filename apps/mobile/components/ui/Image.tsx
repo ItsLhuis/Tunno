@@ -18,7 +18,11 @@ const Image = ({ style, transition, ...props }: ImageProps) => {
 
 const imageStyles = createStyleSheet(({ theme }) => ({
   image: {
-    backgroundColor: theme.colors.muted
+    backgroundColor: theme.colors.muted,
+    borderWidth: theme.borderWidth(),
+    borderColor: theme.colors.border,
+    borderRadius: theme.radius(),
+    overflow: "hidden"
   }
 }))
 
