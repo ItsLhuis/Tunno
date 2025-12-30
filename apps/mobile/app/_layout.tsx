@@ -14,6 +14,8 @@ import { useShallow } from "zustand/shallow"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
+import { type ThemeMode } from "@styles"
+
 import "@repo/i18n"
 import { useTranslation } from "@repo/i18n"
 
@@ -134,9 +136,14 @@ function Main() {
         <BottomSheetModalProvider>
           <SystemBars style="auto" />
           <View onLayout={onChildrenLayout} style={styles.container}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="settings" options={{ headerShown: false }} />
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: theme.colors.background }
+              }}
+            >
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="settings" />
             </Stack>
           </View>
           <Toaster />
@@ -154,9 +161,16 @@ const mainStyles = createStyleSheet(({ theme }) => ({
 }))
 
 export default function RootLayout() {
+  const { theme, setTheme } = useSettingsStore(
+    useShallow((state) => ({
+      theme: state.theme,
+      setTheme: state.setTheme
+    }))
+  )
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <ThemeProvider themeMode={theme as ThemeMode} onThemeModeChange={setTheme}>
         <Main />
       </ThemeProvider>
     </QueryClientProvider>
