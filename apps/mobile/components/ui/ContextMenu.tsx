@@ -379,7 +379,7 @@ const ContextMenuItem = ({
 
   return (
     <Pressable
-      style={[styles.item, inset && styles.itemInset, disabled && styles.itemDisabled, style]}
+      style={[styles.item, inset && styles.itemInset, style]}
       onPress={handlePress}
       disabled={disabled}
       {...props}
@@ -425,7 +425,7 @@ const ContextMenuCheckboxItem = ({
 
   return (
     <Pressable
-      style={[styles.item, styles.itemWithIndicator, disabled && styles.itemDisabled, style]}
+      style={[styles.item, styles.itemWithIndicator, style]}
       onPress={handlePress}
       disabled={disabled}
       {...props}
@@ -520,7 +520,7 @@ const ContextMenuRadioItem = ({
 
   return (
     <Pressable
-      style={[styles.item, styles.itemWithIndicator, disabled && styles.itemDisabled, style]}
+      style={[styles.item, styles.itemWithIndicator, style]}
       onPress={handlePress}
       disabled={disabled}
       {...props}
@@ -590,9 +590,6 @@ const contextMenuStyles = createStyleSheet(({ theme, runtime }) => ({
   },
   itemWithIndicator: {
     paddingLeft: theme.space(2)
-  },
-  itemDisabled: {
-    opacity: theme.opacity(50)
   },
   itemIconRight: {
     marginLeft: "auto"

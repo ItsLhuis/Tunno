@@ -317,12 +317,7 @@ const SelectItem = ({
   })
 
   return (
-    <Pressable
-      style={[styles.item, disabled && styles.itemDisabled, style]}
-      onPress={handlePress}
-      disabled={disabled}
-      {...props}
-    >
+    <Pressable style={[styles.item, style]} onPress={handlePress} disabled={disabled} {...props}>
       {children ? children : title ? <Text size="sm">{title}</Text> : null}
       <View style={styles.checkContainer}>
         <Animated.View style={checkAnimatedStyle}>
@@ -398,9 +393,6 @@ const selectStyles = createStyleSheet(({ theme, runtime }) => ({
     paddingHorizontal: theme.space(2),
     paddingVertical: theme.space(1.5),
     paddingRight: theme.space(8)
-  },
-  itemDisabled: {
-    opacity: theme.opacity(50)
   },
   checkContainer: {
     position: "absolute",

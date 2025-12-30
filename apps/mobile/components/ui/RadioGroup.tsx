@@ -139,9 +139,7 @@ const RadioGroupItem = ({ value, disabled: itemDisabled = false, style }: RadioG
       accessibilityState={{ checked: isChecked, disabled: isDisabled }}
       style={style}
     >
-      <Animated.View
-        style={[styles.circle, circleAnimatedStyle, isDisabled && styles.circleDisabled]}
-      >
+      <Animated.View style={[styles.circle, circleAnimatedStyle]}>
         <Animated.View style={[styles.indicator, indicatorAnimatedStyle]} />
       </Animated.View>
     </Pressable>
@@ -164,9 +162,6 @@ const radioGroupStyles = createStyleSheet(({ theme }) => ({
     borderColor: theme.colors.primary,
     alignItems: "center",
     justifyContent: "center"
-  },
-  circleDisabled: {
-    opacity: theme.opacity(50)
   },
   indicator: {
     width: INDICATOR_SIZE,

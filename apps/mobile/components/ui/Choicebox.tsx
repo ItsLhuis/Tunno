@@ -140,14 +140,7 @@ const ChoiceboxItem = ({
       accessibilityState={{ checked: isSelected, disabled: isDisabled }}
       {...props}
     >
-      <Animated.View
-        style={[
-          styles.item({ variant }),
-          cardAnimatedStyle,
-          isDisabled && styles.itemDisabled,
-          style
-        ]}
-      >
+      <Animated.View style={[styles.item({ variant }), cardAnimatedStyle, style]}>
         {children}
       </Animated.View>
     </Pressable>
@@ -289,9 +282,6 @@ const choiceboxStyles = createStyleSheet(({ theme }) => ({
       variant: "outline"
     }
   }),
-  itemDisabled: {
-    opacity: theme.opacity(50)
-  },
   itemHeader: {
     flex: 1,
     gap: theme.space(0.5)

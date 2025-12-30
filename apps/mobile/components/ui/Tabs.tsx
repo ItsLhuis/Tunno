@@ -170,9 +170,7 @@ const TabsTrigger = ({
       accessibilityState={{ selected: isActive, disabled }}
       style={style}
     >
-      <Animated.View
-        style={[styles.trigger, triggerAnimatedStyle, disabled && styles.triggerDisabled]}
-      >
+      <Animated.View style={[styles.trigger, triggerAnimatedStyle]}>
         {children ? (
           children
         ) : title ? (
@@ -226,9 +224,6 @@ const tabsStyles = createStyleSheet(({ theme }) => ({
     borderRadius: theme.radius(),
     alignItems: "center",
     justifyContent: "center"
-  },
-  triggerDisabled: {
-    opacity: theme.opacity(50)
   },
   triggerText: {
     fontSize: theme.fontSize("sm"),

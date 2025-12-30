@@ -95,36 +95,21 @@ const Switch = ({
       accessibilityState={{ checked: isChecked, disabled }}
       style={style}
     >
-      <Animated.View style={[styles.track({ disabled }), trackAnimatedStyle]}>
-        <Animated.View
-          style={[styles.thumb({ checked: isChecked, disabled }), thumbAnimatedStyle]}
-        />
+      <Animated.View style={[styles.track, trackAnimatedStyle]}>
+        <Animated.View style={[styles.thumb({ checked: isChecked }), thumbAnimatedStyle]} />
       </Animated.View>
     </Pressable>
   )
 }
 
 const switchStyles = createStyleSheet(({ theme }) => ({
-  track: createVariant({
-    base: {
-      width: SWITCH_WIDTH,
-      height: SWITCH_HEIGHT,
-      borderRadius: SWITCH_HEIGHT / 2,
-      justifyContent: "center",
-      paddingHorizontal: THUMB_MARGIN
-    },
-    variants: {
-      disabled: {
-        true: {
-          opacity: theme.opacity(50)
-        },
-        false: {}
-      }
-    },
-    defaultVariants: {
-      disabled: false
-    }
-  }),
+  track: {
+    width: SWITCH_WIDTH,
+    height: SWITCH_HEIGHT,
+    borderRadius: SWITCH_HEIGHT / 2,
+    justifyContent: "center",
+    paddingHorizontal: THUMB_MARGIN
+  },
   thumb: createVariant({
     base: {
       width: THUMB_SIZE,
@@ -139,17 +124,10 @@ const switchStyles = createStyleSheet(({ theme }) => ({
         false: {
           backgroundColor: theme.colors.foreground
         }
-      },
-      disabled: {
-        true: {
-          backgroundColor: theme.colors.mutedForeground
-        },
-        false: {}
       }
     },
     defaultVariants: {
-      checked: false,
-      disabled: false
+      checked: false
     }
   })
 }))

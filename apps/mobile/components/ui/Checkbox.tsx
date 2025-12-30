@@ -95,7 +95,7 @@ const Checkbox = ({
       accessibilityState={{ checked: isChecked, disabled }}
       style={style}
     >
-      <Animated.View style={[styles.box, boxAnimatedStyle, disabled && styles.boxDisabled]}>
+      <Animated.View style={[styles.box, boxAnimatedStyle]}>
         <Animated.View style={[styles.iconContainer, iconAnimatedStyle]}>
           <Icon name="Check" size="xs" color="primaryForeground" />
         </Animated.View>
@@ -112,9 +112,6 @@ const checkboxStyles = createStyleSheet(({ theme }) => ({
     borderWidth: theme.borderWidth(),
     alignItems: "center",
     justifyContent: "center"
-  },
-  boxDisabled: {
-    opacity: theme.opacity(50)
   },
   iconContainer: {
     alignItems: "center",

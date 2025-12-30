@@ -21,14 +21,16 @@ export type PressableProps = Omit<RNPressableProps, "style"> & {
 }
 
 const pressScale = 0.96
-const pressOpacity = opacityTokens[60]
+const pressOpacity = opacityTokens[50]
 const pressDuration = durationTokens[100]
 const defaultOpacity = opacityTokens[100]
+const disabledOpacity = opacityTokens[50]
 
 const Pressable = ({
   containerStyle,
   disableScaleEffect = false,
   disableOpacityEffect = false,
+  disabled = false,
   children,
   style,
   onPressIn,
@@ -36,11 +38,11 @@ const Pressable = ({
   ...props
 }: PressableProps) => {
   const scale = useSharedValue(1)
-  const opacity = useSharedValue(1)
+  const opacity = useSharedValue(disabled ? disabledOpacity : defaultOpacity)
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
-    opacity: opacity.value
+    opacity: disabled ? disabledOpacity : opacity.value
   }))
 
   const handlePressIn = (event: GestureResponderEvent) => {
@@ -68,6 +70,7 @@ const Pressable = ({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       style={containerStyle}
+      disabled={disabled}
       {...props}
     >
       <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>

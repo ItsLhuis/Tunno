@@ -2,7 +2,13 @@ import { useCallback, useEffect, useState } from "react"
 
 import { type StyleProp, type ViewStyle } from "react-native"
 
-import { createStyleSheet, durationTokens, useAnimatedTheme, useStyles } from "@styles"
+import {
+  createStyleSheet,
+  createVariant,
+  durationTokens,
+  useAnimatedTheme,
+  useStyles
+} from "@styles"
 
 import Animated, {
   interpolateColor,
@@ -191,9 +197,7 @@ const NumberInput = ({
   const canIncrement = !disabled && (max === undefined || (currentValue ?? 0) < max)
 
   return (
-    <Animated.View
-      style={[styles.container, disabled && styles.containerDisabled, borderStyle, style]}
-    >
+    <Animated.View style={[borderStyle, styles.container({ disabled }), style]}>
       <IconButton
         variant="ghost"
         name="Minus"
@@ -228,18 +232,28 @@ const NumberInput = ({
 }
 
 const numberInputStyles = createStyleSheet(({ theme }) => ({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: theme.radius(),
-    borderWidth: theme.borderWidth(),
-    borderColor: theme.colors.input,
-    backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
-    overflow: "hidden"
-  },
-  containerDisabled: {
-    opacity: theme.opacity(50)
-  },
+  container: createVariant({
+    base: {
+      flexDirection: "row",
+      alignItems: "center",
+      borderRadius: theme.radius(),
+      borderWidth: theme.borderWidth(),
+      borderColor: theme.colors.input,
+      backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
+      overflow: "hidden"
+    },
+    variants: {
+      disabled: {
+        true: {
+          opacity: theme.opacity(50)
+        },
+        false: {}
+      }
+    },
+    defaultVariants: {
+      disabled: false
+    }
+  }),
   button: {
     borderRadius: 0
   },
