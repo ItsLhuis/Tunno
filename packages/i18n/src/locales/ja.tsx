@@ -562,6 +562,7 @@ export const japanese: Language = {
       about: {
         title: "について",
         description: "アプリケーション情報とバージョン詳細",
+        version: "バージョン",
         whatsNew: {
           title: "新着情報",
           description: "最新の機能と改善を確認してください",

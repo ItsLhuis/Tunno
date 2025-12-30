@@ -563,6 +563,7 @@ export const polish: Language = {
       about: {
         title: "O Aplikacji",
         description: "Informacje o aplikacji i szczegóły wersji",
+        version: "Wersja",
         whatsNew: {
           title: "Co Nowego",
           description: "Sprawdź najnowsze funkcje i ulepszenia",

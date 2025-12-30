@@ -559,6 +559,7 @@ export const chinese: Language = {
       about: {
         title: "关于",
         description: "应用程序信息和版本详情",
+        version: "版本",
         whatsNew: {
           title: "新功能",
           description: "查看最新功能和改进",

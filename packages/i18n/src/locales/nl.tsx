@@ -563,6 +563,7 @@ export const dutch: Language = {
       about: {
         title: "Over",
         description: "Applicatie-informatie en versiedetails",
+        version: "Versie",
         whatsNew: {
           title: "Wat is er nieuw",
           description: "Bekijk de nieuwste functies en verbeteringen",

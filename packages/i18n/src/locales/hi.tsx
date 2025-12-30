@@ -563,6 +563,7 @@ export const hindi: Language = {
       about: {
         title: "के बारे में",
         description: "एप्लिकेशन जानकारी और संस्करण विवरण",
+        version: "संस्करण",
         whatsNew: {
           title: "क्या नया है",
           description: "नवीनतम सुविधाओं और सुधारों की जांच करें",

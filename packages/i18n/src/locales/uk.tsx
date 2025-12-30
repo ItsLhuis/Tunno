@@ -563,6 +563,7 @@ export const ukrainian: Language = {
       about: {
         title: "Про програму",
         description: "Інформація про програму та деталі версії",
+        version: "Версія",
         whatsNew: {
           title: "Що нового",
           description: "Ознайомтесь з останніми функціями та покращеннями",

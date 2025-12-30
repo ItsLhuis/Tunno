@@ -563,6 +563,7 @@ export const swedish: Language = {
       about: {
         title: "Om",
         description: "Applikationsinformation och versionsdetaljer",
+        version: "Version",
         whatsNew: {
           title: "Vad är nytt",
           description: "Kolla in de senaste funktionerna och förbättringarna",

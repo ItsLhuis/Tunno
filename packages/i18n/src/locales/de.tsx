@@ -562,6 +562,7 @@ export const german: Language = {
       about: {
         title: "Über",
         description: "Anwendungsinformationen und Versionsdetails",
+        version: "Version",
         whatsNew: {
           title: "Neues",
           description: "Erkunden Sie die neuesten Funktionen und Verbesserungen",

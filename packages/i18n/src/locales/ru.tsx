@@ -563,6 +563,7 @@ export const russian: Language = {
       about: {
         title: "О программе",
         description: "Информация о приложении и сведения о версии",
+        version: "Версия",
         whatsNew: {
           title: "Что нового",
           description: "Ознакомьтесь с последними функциями и улучшениями",

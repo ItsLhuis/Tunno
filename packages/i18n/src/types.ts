@@ -562,6 +562,7 @@ export type Translations = {
     about: {
       title: string
       description: string
+      version: string
       whatsNew: {
         title: string
         description: string

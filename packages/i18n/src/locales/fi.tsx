@@ -562,6 +562,7 @@ export const finnish: Language = {
       about: {
         title: "Tietoja",
         description: "Sovellustiedot ja versiotiedot",
+        version: "Versio",
         whatsNew: {
           title: "Mitä uutta",
           description: "Tutustu uusimpiin ominaisuuksiin ja parannuksiin",

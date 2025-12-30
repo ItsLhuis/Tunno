@@ -562,6 +562,7 @@ export const turkish: Language = {
       about: {
         title: "Hakkında",
         description: "Uygulama bilgileri ve sürüm ayrıntıları",
+        version: "Sürüm",
         whatsNew: {
           title: "Yenilikler",
           description: "En son özellikleri ve iyileştirmeleri kontrol edin",

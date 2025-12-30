@@ -561,6 +561,7 @@ export const korean: Language = {
       about: {
         title: "정보",
         description: "애플리케이션 정보 및 버전 세부 정보",
+        version: "버전",
         whatsNew: {
           title: "새로운 기능",
           description: "최신 기능과 개선 사항을 확인하세요",

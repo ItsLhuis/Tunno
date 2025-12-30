@@ -562,6 +562,7 @@ export const english: Language = {
       about: {
         title: "About",
         description: "Application information and version details",
+        version: "Version",
         whatsNew: {
           title: "What's New",
           description: "Check out the latest features and improvements",

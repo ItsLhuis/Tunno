@@ -562,6 +562,7 @@ export const vietnamese: Language = {
       about: {
         title: "Về ứng dụng",
         description: "Thông tin ứng dụng và chi tiết phiên bản",
+        version: "Phiên bản",
         whatsNew: {
           title: "Tính năng mới",
           description: "Xem các tính năng và cải tiến mới nhất",

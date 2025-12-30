@@ -562,6 +562,7 @@ export const norwegian: Language = {
       about: {
         title: "Om",
         description: "Applikasjonsinformasjon og versjonsdetaljer",
+        version: "Versjon",
         whatsNew: {
           title: "Hva er nytt",
           description: "Sjekk ut de nyeste funksjonene og forbedringene",

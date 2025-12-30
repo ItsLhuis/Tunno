@@ -562,6 +562,7 @@ export const danish: Language = {
       about: {
         title: "Om",
         description: "Applikationsinformation og versionsdetaljer",
+        version: "Version",
         whatsNew: {
           title: "Hvad er nyt",
           description: "Tjek de seneste funktioner og forbedringer ud",

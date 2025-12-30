@@ -564,6 +564,7 @@ export const portuguese: Language = {
       about: {
         title: "Sobre",
         description: "Informações da aplicação e detalhes da versão",
+        version: "Versão",
         whatsNew: {
           title: "Novidades",
           description: "Consulte as últimas funcionalidades e melhorias",
