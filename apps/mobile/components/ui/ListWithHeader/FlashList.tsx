@@ -2,7 +2,7 @@ import { useImperativeHandle, type ComponentClass, type ComponentProps, type Ref
 
 import { View } from "react-native"
 
-import { createStyleSheet, useStyles } from "@styles"
+import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { FlashList, type FlashListProps, type FlashListRef } from "@shopify/flash-list"
 
@@ -87,12 +87,6 @@ const FlashListWithHeaders = <ItemT extends any = any>({
     headerFadeInThreshold,
     onScrollWorklet
   })
-
-  const combinedContentContainerStyle = [
-    scrollViewAdjustments.contentContainerStyle,
-    contentContainerStyle
-  ]
-
   return (
     <View
       style={[
@@ -128,7 +122,7 @@ const FlashListWithHeaders = <ItemT extends any = any>({
           debouncedFixScroll()
           if (onMomentumScrollEnd) onMomentumScrollEnd(e)
         }}
-        contentContainerStyle={combinedContentContainerStyle}
+        contentContainerStyle={[scrollViewAdjustments.contentContainerStyle, contentContainerStyle]}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
             ? automaticallyAdjustsScrollIndicatorInsets
@@ -174,11 +168,12 @@ const FlashListWithHeaders = <ItemT extends any = any>({
 }
 
 const flashListStyles = createStyleSheet(({ runtime }) => ({
-  container: (ignoreLeftSafeArea: boolean, ignoreRightSafeArea: boolean) => ({
-    flex: 1,
-    paddingLeft: ignoreLeftSafeArea ? 0 : runtime.insets.left,
-    paddingRight: ignoreRightSafeArea ? 0 : runtime.insets.right
-  }),
+  container: (ignoreLeftSafeArea: boolean, ignoreRightSafeArea: boolean) =>
+    viewStyle({
+      flex: 1,
+      paddingLeft: ignoreLeftSafeArea ? 0 : runtime.insets.left,
+      paddingRight: ignoreRightSafeArea ? 0 : runtime.insets.right
+    }),
   absoluteHeader: {
     position: "absolute",
     top: 0,

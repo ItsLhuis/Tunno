@@ -1,6 +1,6 @@
 import { useImperativeHandle, type ComponentProps, type ReactNode, type Ref } from "react"
 
-import { createStyleSheet, useStyles } from "@styles"
+import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { useScroll } from "./hooks"
 
@@ -163,11 +163,12 @@ const ScrollViewWithHeaders = ({
 }
 
 const scrollViewStyles = createStyleSheet(({ runtime }) => ({
-  container: (ignoreLeftSafeArea: boolean, ignoreRightSafeArea: boolean) => ({
-    flex: 1,
-    paddingLeft: ignoreLeftSafeArea ? 0 : runtime.insets.left,
-    paddingRight: ignoreRightSafeArea ? 0 : runtime.insets.right
-  }),
+  container: (ignoreLeftSafeArea: boolean, ignoreRightSafeArea: boolean) =>
+    viewStyle({
+      flex: 1,
+      paddingLeft: ignoreLeftSafeArea ? 0 : runtime.insets.left,
+      paddingRight: ignoreRightSafeArea ? 0 : runtime.insets.right
+    }),
   absoluteHeader: {
     position: "absolute",
     top: 0,

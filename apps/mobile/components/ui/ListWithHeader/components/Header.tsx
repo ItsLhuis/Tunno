@@ -258,12 +258,13 @@ const borderStyles = createStyleSheet(({ theme }) => ({
   })
 }))
 
-const largeHeaderStyles = createStyleSheet(() => ({
+const largeHeaderStyles = createStyleSheet(({ theme }) => ({
   container: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    paddingBottom: theme.space("lg")
   }
 }))
 
@@ -273,7 +274,7 @@ const largeHeaderSubtitleStyles = createStyleSheet(({ theme }) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: theme.space("lg")
+    paddingBottom: theme.space("lg")
   }
 }))
 
