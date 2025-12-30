@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react"
+import { createContext, useContext, useMemo, type ReactNode } from "react"
 
 import { useColorScheme } from "react-native"
 
@@ -26,7 +26,8 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
  */
 type ThemeProviderProps = {
   children: ReactNode
-  initialThemeMode?: ThemeMode
+  themeMode: ThemeMode
+  onThemeModeChange: (mode: ThemeMode) => void
   lightTheme?: Theme
   darkTheme?: Theme
 }
@@ -38,25 +39,25 @@ type ThemeProviderProps = {
  * to child components via useTheme hook.
  *
  * @param children - React children
- * @param initialThemeMode - Initial theme mode (defaults to "system")
+ * @param themeMode - Current theme mode (controlled)
+ * @param onThemeModeChange - Callback when theme mode changes
  * @param lightTheme - Custom light theme (optional)
  * @param darkTheme - Custom dark theme (optional)
  *
  * @example
  * ```tsx
- * <ThemeProvider initialThemeMode="dark">
+ * <ThemeProvider themeMode={themeMode} onThemeModeChange={setThemeMode}>
  *   <App />
  * </ThemeProvider>
  * ```
  */
 export function ThemeProvider({
   children,
-  initialThemeMode = "system",
+  themeMode,
+  onThemeModeChange,
   lightTheme: customLightTheme,
   darkTheme: customDarkTheme
 }: ThemeProviderProps) {
-  const [themeMode, setThemeMode] = useState<ThemeMode>(initialThemeMode)
-
   const systemColorScheme = useColorScheme()
 
   const runtime = useRuntimeValues()
@@ -77,9 +78,9 @@ export function ThemeProvider({
       theme,
       runtime,
       themeMode,
-      setThemeMode
+      setThemeMode: onThemeModeChange
     }),
-    [theme, runtime, themeMode]
+    [theme, runtime, themeMode, onThemeModeChange]
   )
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
