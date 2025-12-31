@@ -1,6 +1,8 @@
-import { memo } from "react"
+import { memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
+
+import { useBreakpoint } from "@hooks/useBreakpoint"
 
 import { join } from "@tauri-apps/api/path"
 
@@ -42,9 +44,22 @@ type StatusConfig = {
 const TrackItem = memo(({ track, processId }: TrackItemProps) => {
   const { t } = useTranslation()
 
+  const { isBelow } = useBreakpoint()
+
   const getThumbnailPath = (dirName: string, thumbnailName: string): Promise<string> => {
     return join(processId!, "tracks", dirName, thumbnailName)
   }
+
+  const showAlbumColumn = !isBelow("md")
+
+  const gridTemplateColumns = useMemo(() => {
+    const cols: string[] = ["auto", "1fr"]
+
+    if (showAlbumColumn) cols.push("1fr")
+    cols.push("minmax(140px, auto)")
+
+    return cols.join(" ")
+  }, [showAlbumColumn])
 
   const statusConfig: StatusConfig = {
     pending: {
@@ -80,7 +95,7 @@ const TrackItem = memo(({ track, processId }: TrackItemProps) => {
   return (
     <div
       className="group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded p-2 transition-colors"
-      style={{ gridTemplateColumns: "auto 1fr 1fr minmax(140px, auto)" }}
+      style={{ gridTemplateColumns }}
     >
       <div className="relative flex items-center justify-center">
         <Thumbnail
@@ -113,15 +128,17 @@ const TrackItem = memo(({ track, processId }: TrackItemProps) => {
           </Marquee>
         </div>
       </div>
-      <div className="min-w-0">
-        <Marquee>
-          {track.album ? (
-            <Typography className="truncate">{track.album}</Typography>
-          ) : (
-            <Typography affects={["muted"]}>{t("common.unknownAlbum")}</Typography>
-          )}
-        </Marquee>
-      </div>
+      {showAlbumColumn && (
+        <div className="min-w-0">
+          <Marquee>
+            {track.album ? (
+              <Typography className="truncate">{track.album}</Typography>
+            ) : (
+              <Typography affects={["muted"]}>{t("common.unknownAlbum")}</Typography>
+            )}
+          </Marquee>
+        </div>
+      )}
       <div className="flex items-center justify-center">
         <Badge variant={config.variant} className="flex w-max items-center gap-1.5">
           {config.animate ? (

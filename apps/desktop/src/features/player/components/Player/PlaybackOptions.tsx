@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -84,7 +84,7 @@ const PlaybackOptions = () => {
       <PlaybackVolumeControl />
       <QueueSheet />
       {!isCompact && (
-        <>
+        <Fragment>
           <IconButton
             name="PictureInPicture2"
             tooltip={t("common.openMiniplayer")}
@@ -99,7 +99,7 @@ const PlaybackOptions = () => {
             className="shrink-0"
             onClick={handleToggleFullscreen}
           />
-        </>
+        </Fragment>
       )}
     </div>
   )
