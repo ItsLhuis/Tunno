@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Tunno",
   "mainBinaryName": "Tunno",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "identifier": "com.itslhuis.tunno",
   "build": {
     "frontendDist": "../dist",
@@ -54,7 +54,9 @@
     "security": {
       "assetProtocol": {
         "enable": true,
-        "scope": ["**"]
+        "scope": [
+          "**"
+        ]
       },
       "csp": null
     }
@@ -71,7 +73,9 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "resources": ["migrations/*"],
+    "resources": [
+      "migrations/*"
+    ],
     "copyright": "Copyright © 2025 ItsLhuis. All rights reserved.",
     "license": "MIT",
     "shortDescription": "Personal music library manager and player",
@@ -119,10 +123,18 @@
     },
     "linux": {
       "deb": {
-        "depends": ["libwebkit2gtk-4.1-0", "libgtk-3-0", "libayatana-appindicator3-1"]
+        "depends": [
+          "libwebkit2gtk-4.1-0",
+          "libgtk-3-0",
+          "libayatana-appindicator3-1"
+        ]
       },
       "rpm": {
-        "depends": ["webkit2gtk4.1", "gtk3", "libappindicator-gtk3"],
+        "depends": [
+          "webkit2gtk4.1",
+          "gtk3",
+          "libappindicator-gtk3"
+        ],
         "release": "1",
         "epoch": 0
       },
@@ -135,7 +147,9 @@
   "plugins": {
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3Qzg2RDk5NEY1NjU4QjcKUldTM1dGWlBtVzNJNTZvZ1F3QUVMczJXaENtNG5EOEl2T0x3aEd3RlRtTHBqTGJDMERzMjh6VS8K",
-      "endpoints": ["https://raw.githubusercontent.com/ItsLhuis/Tunno/updates/desktop/latest.json"],
+      "endpoints": [
+        "https://raw.githubusercontent.com/ItsLhuis/Tunno/updates/desktop/latest.json"
+      ],
       "windows": {
         "installMode": "passive"
       }

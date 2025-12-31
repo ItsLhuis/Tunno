@@ -1,7 +1,7 @@
 {
   "name": "@tunno/desktop",
   "private": true,
-  "version": "1.4.3",
+  "version": "1.4.4",
   "type": "module",
   "scripts": {
     "shadcnui": "tsx ../../scripts/shadcnui.ts ./src",

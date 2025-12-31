@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.4.4] - 2025-12-31
+
+### Changed
+
+- 📱 **Fast Upload**: Track list now adapts to window size, hiding album column on smaller screens
+  for better responsiveness.
+
 ## [1.4.3] - 2025-12-27
 
 ### Fixed
