@@ -10,7 +10,7 @@ const ZOOM_STEP = 0.1
 const MIN_ZOOM = 0.5
 const MAX_ZOOM = 1.5
 
-export const useZoom = () => {
+export function useZoom() {
   const { zoomLevel, setZoomLevel } = useSettingsStore(
     useShallow((state) => ({ zoomLevel: state.zoomLevel, setZoomLevel: state.setZoomLevel }))
   )

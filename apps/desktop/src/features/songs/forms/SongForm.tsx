@@ -496,7 +496,7 @@ const SongForm = ({
                           value={field.value}
                           onChange={field.onChange}
                           placeholder={t("form.labels.lyrics")}
-                          className="min-h-[200px]"
+                          className="min-h-50"
                           disabled={renderProps.isSubmitting}
                         />
                       </FormControl>

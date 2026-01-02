@@ -223,7 +223,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className, disabled }: Lyr
               />
             </div>
           </div>
-          <ScrollArea ref={editorScrollRef} className="h-[300px]">
+          <ScrollArea ref={editorScrollRef} className="h-75">
             <VirtualizedList
               data={syncedLines}
               keyExtractor={keyExtractor}

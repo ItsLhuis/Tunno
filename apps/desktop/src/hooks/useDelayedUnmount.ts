@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 
-export const useDelayedUnmount = (isOpen: boolean, delay = 150) => {
+export function useDelayedUnmount(isOpen: boolean, delay = 150) {
   const [shouldRender, setShouldRender] = useState(false)
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
