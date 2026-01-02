@@ -32,8 +32,6 @@ export const setupAudioPlayer = async () => {
       Capability.Skip,
       Capability.SkipToNext,
       Capability.SkipToPrevious,
-      Capability.JumpForward,
-      Capability.JumpBackward,
       Capability.SeekTo
     ],
     progressUpdateEventInterval: 1
