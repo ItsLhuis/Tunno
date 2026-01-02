@@ -1,0 +1,71 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+
+import { useRouter, usePathname } from "expo-router"
+
+import { useTranslation } from "@repo/i18n"
+
+import { artistKeys, invalidateQueries, isCustomError } from "@repo/api"
+
+import { getSongByIdWithMainRelations } from "../../songs/api/queries"
+import { deleteArtist } from "../api/mutations"
+
+import { useShallow } from "zustand/shallow"
+
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
+
+import { toast } from "@components/ui"
+
+export function useDeleteArtist() {
+  const queryClient = useQueryClient()
+
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const { t } = useTranslation()
+
+  const { currentTrackId, updateTrackMetadata } = usePlayerStore(
+    useShallow((state) => ({
+      currentTrackId: state.currentTrackId,
+      updateTrackMetadata: state.updateTrackMetadata
+    }))
+  )
+
+  return useMutation({
+    mutationFn: ({ id }: { id: number }) => deleteArtist(id, t),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: artistKeys.all })
+    },
+    onSuccess: async (artist) => {
+      if (currentTrackId) {
+        const currentSong = await getSongByIdWithMainRelations(currentTrackId)
+        if (currentSong?.artists?.some((a) => a.artistId === artist.id)) {
+          await updateTrackMetadata(currentSong)
+        }
+      }
+
+      const artistDetailPath = `/artists/${artist.id}`
+
+      if (pathname === artistDetailPath) {
+        router.replace("/artists")
+      }
+
+      toast.success(t("artists.deletedTitle"), {
+        description: t("artists.deletedDescription", { name: artist.name })
+      })
+    },
+    onError: (error) => {
+      if (isCustomError(error)) {
+        toast.error(t("artists.deletedFailedTitle"), {
+          description: error.message
+        })
+      } else {
+        toast.error(t("artists.deletedFailedTitle"))
+      }
+    },
+    onSettled: () => {
+      invalidateQueries(queryClient, "artist", {
+        relations: ["home", "songs", "albums", "sidebar"]
+      })
+    }
+  })
+}

@@ -1,0 +1,37 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+
+import { useTranslation } from "@repo/i18n"
+
+import { albumKeys, invalidateQueries } from "@repo/api"
+
+import { toggleAlbumFavorite } from "../api/mutations"
+
+import { toast } from "@components/ui"
+
+export function useToggleAlbumFavorite() {
+  const queryClient = useQueryClient()
+
+  const { t } = useTranslation()
+
+  return useMutation({
+    mutationFn: ({ id }: { id: number }) => toggleAlbumFavorite(id),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: albumKeys.all })
+    },
+    onSuccess: async (album) => {
+      toast.success(album.isFavorite ? t("favorites.createdTitle") : t("favorites.deletedTitle"), {
+        description: album.isFavorite
+          ? t("favorites.createdDescription", { name: album.name })
+          : t("favorites.deletedDescription", { name: album.name })
+      })
+    },
+    onError: () => {
+      toast.error(t("favorites.createdFailedTitle"))
+    },
+    onSettled: () => {
+      invalidateQueries(queryClient, "album", {
+        relations: ["home"]
+      })
+    }
+  })
+}

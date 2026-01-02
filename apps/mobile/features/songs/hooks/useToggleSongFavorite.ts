@@ -30,10 +30,10 @@ export function useToggleSongFavorite() {
         await updateTrackMetadata(songWithMainRelations)
       }
 
-      toast.success(song.isFavorite ? t("favorites.deletedTitle") : t("favorites.createdTitle"), {
+      toast.success(song.isFavorite ? t("favorites.createdTitle") : t("favorites.deletedTitle"), {
         description: song.isFavorite
-          ? t("favorites.deletedDescription", { name: song.name })
-          : t("favorites.createdDescription", { name: song.name })
+          ? t("favorites.createdDescription", { name: song.name })
+          : t("favorites.deletedDescription", { name: song.name })
       })
     },
     onError: () => {
