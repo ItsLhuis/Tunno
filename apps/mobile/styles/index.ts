@@ -1,4 +1,5 @@
 export * from "./core/context"
+export * from "./core/ScopedTheme"
 export * from "./core/factory"
 export * from "./core/hooks"
 export * from "./core/processing"

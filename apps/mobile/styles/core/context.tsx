@@ -19,7 +19,7 @@ type ThemeContextValue = {
   setThemeMode: (mode: ThemeMode) => void
 }
 
-const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
+export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 
 /**
  * Props for ThemeProvider component
