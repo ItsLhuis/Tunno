@@ -1,12 +1,23 @@
+import { useEffect } from "react"
+
 import { createStyleSheet, useStyles, useTheme } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
 import { Tabs } from "expo-router"
 
-import { View } from "react-native"
+import { useWindowDimensions, View } from "react-native"
+
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from "react-native-reanimated"
 
 import { Fade, Icon, Pressable, Text, type IconProps } from "@components/ui"
+
+import { TabbarProvider, useTabbarLayout } from "@/contexts/TabbarContext"
 
 type RouteIconMap = Record<string, IconProps["name"]>
 
@@ -18,19 +29,71 @@ const routeIcons: RouteIconMap = {
   artists: "Users"
 }
 
-export default function TabLayout() {
+type TabIndicatorProps = {
+  activeIndex: number
+  tabCount: number
+}
+
+function TabIndicator({ activeIndex, tabCount }: TabIndicatorProps) {
+  const styles = useStyles(tabIndicatorStyles)
+
+  const { width: screenWidth } = useWindowDimensions()
+
+  const tabWidth = screenWidth / tabCount
+
+  const translateX = useSharedValue(activeIndex * tabWidth)
+
+  useEffect(() => {
+    translateX.value = withTiming(activeIndex * tabWidth, {
+      duration: 300,
+      easing: Easing.bezier(0.4, 0, 0.2, 1)
+    })
+  }, [activeIndex, tabWidth])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    width: tabWidth,
+    transform: [{ translateX: translateX.value }]
+  }))
+
+  return (
+    <View style={styles.container}>
+      <Animated.View style={[styles.indicator, animatedStyle]} />
+    </View>
+  )
+}
+
+const tabIndicatorStyles = createStyleSheet(({ theme }) => ({
+  container: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 2
+  },
+  indicator: {
+    height: 2,
+    backgroundColor: theme.colors.primary,
+    borderBottomLeftRadius: theme.radius("full"),
+    borderBottomRightRadius: theme.radius("full")
+  }
+}))
+
+function TabLayoutContent() {
   const styles = useStyles(tabLayoutStyles)
 
   const { theme } = useTheme()
 
   const { t } = useTranslation()
 
+  const onTabbarLayout = useTabbarLayout()
+
   return (
     <View style={styles.container}>
       <Tabs
         tabBar={(props) => (
-          <Fade style={styles.tabBar}>
+          <Fade style={styles.tabBar} onLayout={onTabbarLayout}>
             {/* {props.state.routes && props.state.routes.length > 0 && <BottomPlayer />} */}
+            <TabIndicator activeIndex={props.state.index} tabCount={props.state.routes.length} />
             <View style={styles.tabBarContent}>
               {props.state.routes.map((route, index) => {
                 const { options } = props.descriptors[route.key]
@@ -94,6 +157,14 @@ export default function TabLayout() {
       </Tabs>
       {/* <Player /> */}
     </View>
+  )
+}
+
+export default function TabLayout() {
+  return (
+    <TabbarProvider>
+      <TabLayoutContent />
+    </TabbarProvider>
   )
 }
 

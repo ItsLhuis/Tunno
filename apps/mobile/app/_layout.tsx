@@ -1,3 +1,5 @@
+import "react-native-get-random-values"
+
 import "intl-pluralrules"
 
 import "expo-dev-client"
@@ -45,6 +47,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { KeyboardProvider } from "react-native-keyboard-controller"
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+
+import { PortalHost, PortalProvider } from "@gorhom/portal"
 
 import { Toaster } from "@components/ui"
 
@@ -133,21 +137,24 @@ function Main() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <KeyboardProvider>
-        <BottomSheetModalProvider>
-          <SystemBars style="auto" />
-          <View onLayout={onChildrenLayout} style={styles.container}>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: theme.colors.background }
-              }}
-            >
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="settings" />
-            </Stack>
-          </View>
-          <Toaster />
-        </BottomSheetModalProvider>
+        <PortalProvider>
+          <BottomSheetModalProvider>
+            <SystemBars style="auto" />
+            <View onLayout={onChildrenLayout} style={styles.container}>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: theme.colors.background }
+                }}
+              >
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="settings" />
+              </Stack>
+            </View>
+            <Toaster />
+            <PortalHost name="dialog" />
+          </BottomSheetModalProvider>
+        </PortalProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>
   )

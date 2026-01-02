@@ -18,7 +18,7 @@ import {
   Text
 } from "@components/ui"
 
-import { useResponsiveColumns } from "@hooks/useResponsiveColumns"
+import { useResponsiveColumns } from "@components/ui/ListWithHeader/hooks"
 
 const MOCK_ARTISTS = Array.from({ length: 50 }, (_, i) => ({
   id: String(i),
