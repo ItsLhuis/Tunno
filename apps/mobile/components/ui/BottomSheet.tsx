@@ -17,8 +17,8 @@ import {
   type BottomSheetBackdropProps,
   BottomSheetModal,
   type BottomSheetModalProps,
-  BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetView,
+  BottomSheetScrollView as GorhomBottomSheetScrollView,
   type SNAP_POINT_TYPE,
   useBottomSheetModal,
   useBottomSheetScrollableCreator,
@@ -61,7 +61,13 @@ const BottomSheet = ({
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        opacity={1}
+        style={styles.backdrop}
+      />
     ),
     []
   )
@@ -114,6 +120,9 @@ const BottomSheet = ({
 }
 
 const bottomSheetStyles = createStyleSheet(({ theme, runtime }) => ({
+  backdrop: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)"
+  },
   background: {
     backgroundColor: theme.colors.background,
     borderRadius: theme.radius("2xl")
@@ -144,7 +153,14 @@ const BottomSheetScrollView = (props: BottomSheetScrollViewProps) => {
 function BottomSheetFlashList<T>(props: FlashListProps<T>) {
   const ScrollComponent = useBottomSheetScrollableCreator()
 
-  return <FlashList {...props} renderScrollComponent={ScrollComponent} />
+  return (
+    <FlashList
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      {...props}
+      renderScrollComponent={ScrollComponent}
+    />
+  )
 }
 
 export {

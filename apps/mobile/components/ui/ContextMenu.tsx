@@ -37,8 +37,7 @@ import {
   BottomSheetScrollView,
   type BottomSheetProps,
   type BottomSheetRef,
-  type SNAP_POINT_TYPE,
-  useBottomSheetModal
+  type SNAP_POINT_TYPE
 } from "@components/ui/BottomSheet"
 import { Icon } from "@components/ui/Icon"
 import { Pressable, type PressableProps } from "@components/ui/Pressable"
@@ -49,6 +48,7 @@ type ContextMenuContextValue = {
   open: boolean
   onOpenChange: (open: boolean) => void
   sheetRef: RefObject<BottomSheetRef | null>
+  closeMenu: () => void
 }
 
 const ContextMenuContext = createContext<ContextMenuContextValue | undefined>(undefined)
@@ -102,6 +102,10 @@ const ContextMenu = ({ open: controlledOpen, onOpenChange, children }: ContextMe
     [isControlled, onOpenChange]
   )
 
+  const closeMenu = useCallback(() => {
+    handleOpenChange(false)
+  }, [handleOpenChange])
+
   useEffect(() => {
     if (open) {
       sheetRef.current?.present()
@@ -114,9 +118,10 @@ const ContextMenu = ({ open: controlledOpen, onOpenChange, children }: ContextMe
     () => ({
       open,
       onOpenChange: handleOpenChange,
-      sheetRef
+      sheetRef,
+      closeMenu
     }),
-    [open, handleOpenChange]
+    [open, handleOpenChange, closeMenu]
   )
 
   return <ContextMenuContext.Provider value={value}>{children}</ContextMenuContext.Provider>
@@ -288,7 +293,6 @@ export type ContextMenuSubContentProps = Omit<BottomSheetProps, "ref">
 const ContextMenuSubContent = ({ children, onChange, ...props }: ContextMenuSubContentProps) => {
   const styles = useStyles(contextMenuStyles)
 
-  const contextMenuContext = useContextMenu()
   const subContext = useContextMenuSubRequired()
 
   const { sheetRef, onOpenChange: onSubOpenChange } = subContext
@@ -303,14 +307,26 @@ const ContextMenuSubContent = ({ children, onChange, ...props }: ContextMenuSubC
     [onChange, onSubOpenChange]
   )
 
+  const closeMenu = useCallback(() => {
+    onSubOpenChange(false)
+  }, [onSubOpenChange])
+
+  const subContextValue = useMemo(
+    (): ContextMenuContextValue => ({
+      open: subContext.open,
+      onOpenChange: onSubOpenChange,
+      sheetRef,
+      closeMenu
+    }),
+    [subContext.open, onSubOpenChange, sheetRef, closeMenu]
+  )
+
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
       <BottomSheetScrollView contentContainerStyle={styles.content}>
-        {contextMenuContext && (
-          <ContextMenuContext.Provider value={contextMenuContext}>
-            {children}
-          </ContextMenuContext.Provider>
-        )}
+        <ContextMenuContext.Provider value={subContextValue}>
+          {children}
+        </ContextMenuContext.Provider>
       </BottomSheetScrollView>
     </BottomSheet>
   )
@@ -365,16 +381,16 @@ const ContextMenuItem = ({
 }: ContextMenuItemProps) => {
   const styles = useStyles(contextMenuStyles)
 
-  const { dismissAll } = useBottomSheetModal()
+  const contextMenuContext = useContextMenu()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       onPress?.(event)
       if (closeOnPress) {
-        dismissAll()
+        contextMenuContext?.closeMenu()
       }
     },
-    [closeOnPress, dismissAll, onPress]
+    [closeOnPress, contextMenuContext, onPress]
   )
 
   return (
@@ -410,17 +426,17 @@ const ContextMenuCheckboxItem = ({
 }: ContextMenuCheckboxItemProps) => {
   const styles = useStyles(contextMenuStyles)
 
-  const { dismissAll } = useBottomSheetModal()
+  const contextMenuContext = useContextMenu()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       onCheckedChange?.(!checked)
       onPress?.(event)
       if (closeOnPress) {
-        dismissAll()
+        contextMenuContext?.closeMenu()
       }
     },
-    [checked, closeOnPress, onCheckedChange, dismissAll, onPress]
+    [checked, closeOnPress, onCheckedChange, contextMenuContext, onPress]
   )
 
   return (
@@ -485,7 +501,7 @@ const ContextMenuRadioItem = ({
 }: ContextMenuRadioItemProps) => {
   const styles = useStyles(contextMenuStyles)
 
-  const { dismissAll } = useBottomSheetModal()
+  const contextMenuContext = useContextMenu()
 
   const radioContext = useContextMenuRadio()
 
@@ -502,10 +518,10 @@ const ContextMenuRadioItem = ({
       radioContext?.onValueChange(value)
       onPress?.(event)
       if (closeOnPress) {
-        dismissAll()
+        contextMenuContext?.closeMenu()
       }
     },
-    [closeOnPress, dismissAll, onPress, radioContext, value]
+    [closeOnPress, contextMenuContext, onPress, radioContext, value]
   )
 
   const indicatorAnimatedStyle = useAnimatedStyle(() => {

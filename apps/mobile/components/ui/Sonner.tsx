@@ -64,12 +64,12 @@ const sonnerStyles = createStyleSheet(({ theme }) => ({
     elevation: 0
   },
   title: {
-    fontWeight: theme.fontWeight("bold"),
+    fontFamily: "SpaceGrotesk-Bold",
     fontSize: theme.fontSize(),
     marginTop: 2
   },
   description: {
-    fontWeight: theme.fontWeight(),
+    fontFamily: "SpaceGrotesk-Regular",
     fontSize: theme.fontSize("xs")
   },
   buttons: {
@@ -83,7 +83,7 @@ const sonnerStyles = createStyleSheet(({ theme }) => ({
     paddingHorizontal: theme.space(4)
   },
   actionButtonText: {
-    fontWeight: theme.fontWeight("bold"),
+    fontFamily: "SpaceGrotesk-Bold",
     fontSize: theme.fontSize("base")
   },
   cancelButton: {
@@ -93,7 +93,7 @@ const sonnerStyles = createStyleSheet(({ theme }) => ({
     paddingHorizontal: theme.space(4)
   },
   cancelButtonText: {
-    fontWeight: theme.fontWeight("bold"),
+    fontFamily: "SpaceGrotesk-Bold",
     fontSize: theme.fontSize("base")
   }
 }))

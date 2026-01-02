@@ -2,6 +2,8 @@ import { type ReactNode, useRef } from "react"
 
 import { type BlurEvent, type FocusEvent, TextInput as RNTextInput, View } from "react-native"
 
+import { useTranslation } from "@repo/i18n"
+
 import { createStyleSheet, durationTokens, useAnimatedTheme, useStyles } from "@styles"
 
 import Animated, {
@@ -24,14 +26,19 @@ export type SearchInputProps = TextInputProps & {
 }
 
 const SearchInput = ({
-  cancelLabel = "Cancel",
+  cancelLabel,
   onCancel,
   renderRight,
   ...textInputProps
 }: SearchInputProps) => {
+  const { t } = useTranslation()
+
   const styles = useStyles(searchInputStyles)
 
   const animatedTheme = useAnimatedTheme()
+
+  const resolvedCancelLabel = cancelLabel ?? t("common.cancel")
+  const resolvedPlaceholder = textInputProps.placeholder ?? t("common.search")
 
   const inputRef = useRef<RNTextInput>(null)
 
@@ -59,7 +66,6 @@ const SearchInput = ({
   const handleCancel = () => {
     if (inputRef.current) {
       inputRef.current.blur()
-      inputRef.current.clear()
     }
     onCancel?.()
   }
@@ -102,11 +108,12 @@ const SearchInput = ({
         <Icon name="Search" color="foreground" style={styles.searchIcon} />
         <TextInput
           ref={inputRef}
+          {...textInputProps}
           onFocus={handleFocus}
           onBlur={handleBlur}
           disableBorderAnimation
           style={styles.input}
-          {...textInputProps}
+          placeholder={resolvedPlaceholder}
         />
         {renderRight && <View style={styles.rightContent}>{renderRight}</View>}
       </Animated.View>
@@ -123,7 +130,7 @@ const SearchInput = ({
         <Button
           variant="text"
           size="sm"
-          title={cancelLabel}
+          title={resolvedCancelLabel}
           onPress={() => {}}
           titleProps={{ numberOfLines: 1 }}
         />
@@ -133,7 +140,7 @@ const SearchInput = ({
           <Button
             variant="text"
             size="sm"
-            title={cancelLabel}
+            title={resolvedCancelLabel}
             onPress={handleCancel}
             titleProps={{ numberOfLines: 1, ellipsizeMode: "clip" }}
             style={{ paddingRight: 0 }}
@@ -167,7 +174,8 @@ const searchInputStyles = createStyleSheet(({ theme }) => ({
   input: {
     flex: 1,
     borderWidth: theme.borderWidth("none"),
-    paddingHorizontal: theme.space("0")
+    paddingHorizontal: theme.space("0"),
+    backgroundColor: "transparent"
   },
   rightContent: {
     flexShrink: 0

@@ -76,6 +76,7 @@ const AsyncState = <TItem,>({
 
 const asyncStateStyles = createStyleSheet(({ theme }) => ({
   container: {
+    flex: 1,
     width: "100%"
   },
   centered: {

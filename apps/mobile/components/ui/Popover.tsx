@@ -14,18 +14,22 @@ import {
   type RefObject
 } from "react"
 
-import { type GestureResponderEvent } from "react-native"
+import { type GestureResponderEvent, type ViewProps } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
 import {
   BottomSheet,
+  BottomSheetFlashList,
   BottomSheetScrollView,
+  BottomSheetView,
   type BottomSheetProps,
   type BottomSheetRef,
   type SNAP_POINT_TYPE
 } from "@components/ui/BottomSheet"
 import { Button, type ButtonProps } from "@components/ui/Button"
+
+import { type FlashListProps } from "@shopify/flash-list"
 
 type PopoverContextValue = {
   open: boolean
@@ -174,8 +178,6 @@ const PopoverClose = ({ onPress, children, asChild, ...props }: PopoverCloseProp
 export type PopoverContentProps = Omit<BottomSheetProps, "ref">
 
 const PopoverContent = ({ children, onChange, ...props }: PopoverContentProps) => {
-  const styles = useStyles(popoverStyles)
-
   const popoverContext = usePopoverRequired()
 
   const { sheetRef, onOpenChange } = popoverContext
@@ -192,19 +194,68 @@ const PopoverContent = ({ children, onChange, ...props }: PopoverContentProps) =
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetScrollView contentContainerStyle={styles.content}>
-        <PopoverContext.Provider value={popoverContext}>{children}</PopoverContext.Provider>
-      </BottomSheetScrollView>
+      <PopoverContext.Provider value={popoverContext}>{children}</PopoverContext.Provider>
     </BottomSheet>
   )
 }
 
+export type PopoverViewProps = ViewProps
+
+const PopoverView = ({ children, style, ...props }: PopoverViewProps) => {
+  const styles = useStyles(popoverStyles)
+
+  return (
+    <BottomSheetView style={[styles.view, style]} {...props}>
+      {children}
+    </BottomSheetView>
+  )
+}
+
+export type PopoverScrollViewProps = ViewProps & {
+  contentContainerStyle?: ViewProps["style"]
+}
+
+const PopoverScrollView = ({ children, style, contentContainerStyle }: PopoverScrollViewProps) => {
+  const styles = useStyles(popoverStyles)
+
+  return (
+    <BottomSheetScrollView
+      style={[styles.scrollView, style]}
+      contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}
+    >
+      {children}
+    </BottomSheetScrollView>
+  )
+}
+
+export type PopoverFlashListProps<T> = FlashListProps<T>
+
+function PopoverFlashList<T>(props: PopoverFlashListProps<T>) {
+  return <BottomSheetFlashList<T> {...props} />
+}
+
 const popoverStyles = createStyleSheet(({ theme, runtime }) => ({
-  content: {
+  view: {
+    flex: 1,
     gap: theme.space("lg"),
-    padding: theme.space("lg"),
-    paddingBottom: runtime.insets.bottom + theme.space("lg")
+    paddingBottom: runtime.insets.bottom
+  },
+  scrollView: {
+    flex: 1
+  },
+  scrollViewContent: {
+    gap: theme.space("lg"),
+    paddingBottom: runtime.insets.bottom
   }
 }))
 
-export { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger }
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverClose,
+  PopoverContent,
+  PopoverFlashList,
+  PopoverScrollView,
+  PopoverTrigger,
+  PopoverView
+}

@@ -1,13 +1,15 @@
 import { ColorValue } from "react-native"
 
-import { type ColorKey, type FontSizeAlias, resolveColor, useTheme } from "@styles"
+import { type ColorKey, type FontSizeAlias, fontSizeTokens, resolveColor, useTheme } from "@styles"
 
 import { icons, type LucideProps } from "lucide-react-native"
 
-type IconSize = FontSizeAlias
+type IconSize = FontSizeAlias | `${string}%`
+
+export type IconName = keyof typeof icons
 
 export type IconProps = Omit<LucideProps, "size" | "color"> & {
-  name: keyof typeof icons
+  name: IconName
   isFilled?: boolean
   size?: IconSize
   color?: ColorKey
@@ -18,7 +20,8 @@ const Icon = ({ name, isFilled, size = "lg", color, style, ...props }: IconProps
 
   const LucideIcon = icons[name] ?? icons["Info"]
 
-  const iconSize = theme.fontSize(size)
+  const isAlias = size in fontSizeTokens
+  const iconSize = isAlias ? theme.fontSize(size as FontSizeAlias) : size
 
   const resolvedColor = color ? resolveColor(theme, color) : undefined
   const iconColor: ColorValue = resolvedColor ?? theme.colors.foreground

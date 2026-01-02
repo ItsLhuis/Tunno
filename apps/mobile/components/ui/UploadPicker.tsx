@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState, type ReactNode } from "react"
+import { Fragment, useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 
 import { View, type GestureResponderEvent, type StyleProp, type ViewStyle } from "react-native"
 
@@ -141,6 +141,8 @@ const UploadPicker = ({
     [mode, displayName, storageDir]
   )
 
+  const hasInitializedDefaultRef = useRef(false)
+
   useEffect(() => {
     if (isControlled) {
       if (value) {
@@ -152,13 +154,18 @@ const UploadPicker = ({
         setItem(null)
         setIsLoading(false)
       }
-    } else if (defaultValue && !item) {
+    }
+  }, [value, isControlled, createItemFromPathOrName])
+
+  useEffect(() => {
+    if (!isControlled && defaultValue && !hasInitializedDefaultRef.current) {
+      hasInitializedDefaultRef.current = true
       setIsLoading(true)
       createItemFromPathOrName(defaultValue)
         .then(setItem)
         .finally(() => setIsLoading(false))
     }
-  }, [value, isControlled, defaultValue, createItemFromPathOrName, item])
+  }, [isControlled, defaultValue, createItemFromPathOrName])
 
   const validateFile = (file: { name: string; size: number }) => {
     if (mode === "file" && file.size > maxSize) {

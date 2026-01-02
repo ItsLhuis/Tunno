@@ -18,12 +18,6 @@ import { View, type GestureResponderEvent, type StyleProp, type ViewStyle } from
 
 import { createStyleSheet, durationTokens, useStyles } from "@styles"
 
-import {
-  type BottomSheetRef,
-  type SNAP_POINT_TYPE,
-  useBottomSheetModal
-} from "@components/ui/BottomSheet"
-
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -34,7 +28,9 @@ import Animated, {
 import {
   BottomSheet,
   BottomSheetScrollView,
-  type BottomSheetProps
+  type BottomSheetProps,
+  type BottomSheetRef,
+  type SNAP_POINT_TYPE
 } from "@components/ui/BottomSheet"
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Icon } from "@components/ui/Icon"
@@ -46,6 +42,7 @@ type DropdownMenuContextValue = {
   open: boolean
   onOpenChange: (open: boolean) => void
   sheetRef: RefObject<BottomSheetRef | null>
+  closeMenu: () => void
 }
 
 const DropdownMenuContext = createContext<DropdownMenuContextValue | undefined>(undefined)
@@ -99,6 +96,10 @@ const DropdownMenu = ({ open: controlledOpen, onOpenChange, children }: Dropdown
     [isControlled, onOpenChange]
   )
 
+  const closeMenu = useCallback(() => {
+    handleOpenChange(false)
+  }, [handleOpenChange])
+
   useEffect(() => {
     if (open) {
       sheetRef.current?.present()
@@ -111,9 +112,10 @@ const DropdownMenu = ({ open: controlledOpen, onOpenChange, children }: Dropdown
     () => ({
       open,
       onOpenChange: handleOpenChange,
-      sheetRef
+      sheetRef,
+      closeMenu
     }),
-    [open, handleOpenChange]
+    [open, handleOpenChange, closeMenu]
   )
 
   return <DropdownMenuContext.Provider value={value}>{children}</DropdownMenuContext.Provider>
@@ -287,7 +289,6 @@ export type DropdownMenuSubContentProps = Omit<BottomSheetProps, "ref">
 const DropdownMenuSubContent = ({ children, onChange, ...props }: DropdownMenuSubContentProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  const dropdownContext = useDropdownMenu()
   const subContext = useDropdownMenuSubRequired()
 
   const { sheetRef, onOpenChange: onSubOpenChange } = subContext
@@ -302,14 +303,26 @@ const DropdownMenuSubContent = ({ children, onChange, ...props }: DropdownMenuSu
     [onChange, onSubOpenChange]
   )
 
+  const closeMenu = useCallback(() => {
+    onSubOpenChange(false)
+  }, [onSubOpenChange])
+
+  const subContextValue = useMemo(
+    (): DropdownMenuContextValue => ({
+      open: subContext.open,
+      onOpenChange: onSubOpenChange,
+      sheetRef,
+      closeMenu
+    }),
+    [subContext.open, onSubOpenChange, sheetRef, closeMenu]
+  )
+
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
       <BottomSheetScrollView contentContainerStyle={styles.content}>
-        {dropdownContext && (
-          <DropdownMenuContext.Provider value={dropdownContext}>
-            {children}
-          </DropdownMenuContext.Provider>
-        )}
+        <DropdownMenuContext.Provider value={subContextValue}>
+          {children}
+        </DropdownMenuContext.Provider>
       </BottomSheetScrollView>
     </BottomSheet>
   )
@@ -364,16 +377,16 @@ const DropdownMenuItem = ({
 }: DropdownMenuItemProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  const { dismissAll } = useBottomSheetModal()
+  const dropdownContext = useDropdownMenu()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       onPress?.(event)
       if (closeOnPress) {
-        dismissAll()
+        dropdownContext?.closeMenu()
       }
     },
-    [closeOnPress, dismissAll, onPress]
+    [closeOnPress, dropdownContext, onPress]
   )
 
   return (
@@ -409,17 +422,17 @@ const DropdownMenuCheckboxItem = ({
 }: DropdownMenuCheckboxItemProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  const { dismissAll } = useBottomSheetModal()
+  const dropdownContext = useDropdownMenu()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       onCheckedChange?.(!checked)
       onPress?.(event)
       if (closeOnPress) {
-        dismissAll()
+        dropdownContext?.closeMenu()
       }
     },
-    [checked, closeOnPress, onCheckedChange, dismissAll, onPress]
+    [checked, closeOnPress, onCheckedChange, dropdownContext, onPress]
   )
 
   return (
@@ -484,7 +497,7 @@ const DropdownMenuRadioItem = ({
 }: DropdownMenuRadioItemProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
-  const { dismissAll } = useBottomSheetModal()
+  const dropdownContext = useDropdownMenu()
 
   const radioContext = useDropdownMenuRadio()
 
@@ -501,10 +514,10 @@ const DropdownMenuRadioItem = ({
       radioContext?.onValueChange(value)
       onPress?.(event)
       if (closeOnPress) {
-        dismissAll()
+        dropdownContext?.closeMenu()
       }
     },
-    [closeOnPress, dismissAll, onPress, radioContext, value]
+    [closeOnPress, dropdownContext, onPress, radioContext, value]
   )
 
   const indicatorAnimatedStyle = useAnimatedStyle(() => {

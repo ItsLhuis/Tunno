@@ -20,13 +20,17 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import {
   BottomSheet,
+  BottomSheetFlashList,
   BottomSheetScrollView,
+  BottomSheetView,
   type BottomSheetProps,
   type BottomSheetRef,
   type SNAP_POINT_TYPE
 } from "@components/ui/BottomSheet"
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Text, type TextProps } from "@components/ui/Text"
+
+import { type FlashListProps } from "@shopify/flash-list"
 
 type SheetContextValue = {
   open: boolean
@@ -171,17 +175,17 @@ const SheetClose = ({ onPress, children, asChild, ...props }: SheetCloseProps) =
   )
 }
 
-const SheetOverlay = () => {
-  return null
-}
-
 export type SheetContentProps = Omit<BottomSheetProps, "ref"> & {
   side?: "top" | "bottom" | "left" | "right"
 }
 
-const SheetContent = ({ children, onChange, side = "bottom", ...props }: SheetContentProps) => {
-  const styles = useStyles(sheetStyles)
-
+const SheetContent = ({
+  children,
+  onChange,
+  side = "bottom",
+  enableDynamicSizing = true,
+  ...props
+}: SheetContentProps) => {
   const sheetContext = useSheetRequired()
 
   const { sheetRef, onOpenChange } = sheetContext
@@ -197,12 +201,50 @@ const SheetContent = ({ children, onChange, side = "bottom", ...props }: SheetCo
   )
 
   return (
-    <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetScrollView contentContainerStyle={styles.content}>
-        <SheetContext.Provider value={sheetContext}>{children}</SheetContext.Provider>
-      </BottomSheetScrollView>
+    <BottomSheet
+      ref={sheetRef}
+      onChange={handleChange}
+      enableDynamicSizing={enableDynamicSizing}
+      {...props}
+    >
+      <SheetContext.Provider value={sheetContext}>{children}</SheetContext.Provider>
     </BottomSheet>
   )
+}
+
+export type SheetViewProps = ViewProps
+
+const SheetView = ({ children, style, ...props }: SheetViewProps) => {
+  const styles = useStyles(sheetStyles)
+
+  return (
+    <BottomSheetView style={[styles.view, style]} {...props}>
+      {children}
+    </BottomSheetView>
+  )
+}
+
+export type SheetScrollViewProps = ViewProps & {
+  contentContainerStyle?: ViewProps["style"]
+}
+
+const SheetScrollView = ({ children, style, contentContainerStyle }: SheetScrollViewProps) => {
+  const styles = useStyles(sheetStyles)
+
+  return (
+    <BottomSheetScrollView
+      style={[styles.scrollView, style]}
+      contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}
+    >
+      {children}
+    </BottomSheetScrollView>
+  )
+}
+
+export type SheetFlashListProps<T> = FlashListProps<T>
+
+function SheetFlashList<T>(props: SheetFlashListProps<T>) {
+  return <BottomSheetFlashList<T> {...props} />
 }
 
 const SheetHeader = ({ style, ...props }: ViewProps) => {
@@ -226,19 +268,29 @@ const SheetDescription = ({ ...props }: TextProps) => {
 }
 
 const sheetStyles = createStyleSheet(({ theme, runtime }) => ({
-  content: {
+  view: {
     flex: 1,
     gap: theme.space("lg"),
-    paddingHorizontal: theme.space("lg"),
+    paddingBottom: runtime.insets.bottom
+  },
+  scrollView: {
+    flex: 1
+  },
+  scrollViewContent: {
+    gap: theme.space("lg"),
     paddingBottom: runtime.insets.bottom
   },
   header: {
-    gap: theme.space(2)
+    gap: theme.space(2),
+    paddingHorizontal: theme.space("lg"),
+    paddingBottom: theme.space("lg")
   },
   footer: {
     flexDirection: "row",
     gap: theme.space(2),
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    paddingHorizontal: theme.space("lg"),
+    paddingTop: theme.space("lg")
   }
 }))
 
@@ -247,10 +299,12 @@ export {
   SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFlashList,
   SheetFooter,
   SheetHeader,
-  SheetOverlay,
   SheetPortal,
+  SheetScrollView,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
+  SheetView
 }

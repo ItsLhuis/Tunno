@@ -35,7 +35,6 @@ const badgeStyles = createStyleSheet(({ theme }) => ({
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      alignSelf: "flex-start",
       borderRadius: theme.radius("full"),
       borderWidth: theme.borderWidth(),
       paddingHorizontal: theme.space(2),

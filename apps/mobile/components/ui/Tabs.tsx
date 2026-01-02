@@ -21,6 +21,7 @@ import Animated, {
 
 import { Pressable } from "@components/ui/Pressable"
 import { type TextProps } from "@components/ui/Text"
+import { Icon, type IconName } from "@components/ui/Icon"
 
 type TabsContextValue = {
   value: string
@@ -104,6 +105,7 @@ export type TabsTriggerProps = {
   disabled?: boolean
   children?: ReactNode
   title?: string
+  icon?: IconName
   style?: StyleProp<ViewStyle>
   textProps?: TextProps
 }
@@ -113,6 +115,7 @@ const TabsTrigger = ({
   disabled = false,
   children,
   title,
+  icon,
   style,
   textProps
 }: TabsTriggerProps) => {
@@ -171,8 +174,8 @@ const TabsTrigger = ({
       style={style}
     >
       <Animated.View style={[styles.trigger, triggerAnimatedStyle]}>
-        {children ? (
-          children
+        {icon ? (
+          <Icon name={icon} color={isActive ? "primaryForeground" : "mutedForeground"} />
         ) : title ? (
           <Animated.Text
             style={[styles.triggerText, textAnimatedStyle, textProps?.style]}
@@ -180,6 +183,8 @@ const TabsTrigger = ({
           >
             {title}
           </Animated.Text>
+        ) : children ? (
+          children
         ) : null}
       </Animated.View>
     </Pressable>
@@ -219,8 +224,7 @@ const tabsStyles = createStyleSheet(({ theme }) => ({
     alignSelf: "flex-start"
   },
   trigger: {
-    paddingHorizontal: theme.space(3),
-    paddingVertical: theme.space(1),
+    padding: theme.space(2.75),
     borderRadius: theme.radius(),
     alignItems: "center",
     justifyContent: "center"

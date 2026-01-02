@@ -30,7 +30,8 @@ import { Text } from "@components/ui/Text"
 export type CalendarProps = Omit<RNCalendarProps, "theme" | "style"> & {
   style?: StyleProp<ViewStyle>
   containerStyle?: StyleProp<ViewStyle>
-  onDateSelect?: (date: string) => void
+  selected?: Date | string
+  onSelect?: (date: Date | undefined) => void
 }
 
 export type CalendarListProps = {
@@ -202,7 +203,7 @@ const CustomDay = ({
   const styles = useStyles(dayStyles)
 
   const isSelected = marking?.selected || state === "selected"
-  const isDisabled = marking?.disabled || state === "disabled"
+  const isDisabled = (marking?.disabled || state === "disabled") && !isSelected
   const isToday = state === "today"
   const isInactive = state === "inactive"
 
@@ -225,15 +226,12 @@ const CustomDay = ({
 
     if (isSelected) {
       baseStyles.push(styles.selectedContainer)
-      if (marking?.selectedColor) {
-        baseStyles.push({ backgroundColor: marking.selectedColor })
-      }
     } else if (isToday) {
       baseStyles.push(styles.todayContainer)
     }
 
     return baseStyles
-  }, [isSelected, isToday, marking?.selectedColor, styles])
+  }, [isSelected, isToday, styles])
 
   const textColor = useMemo(() => {
     if (isSelected) {
@@ -262,7 +260,7 @@ const CustomDay = ({
     <Pressable
       onPress={handlePress}
       onLongPress={handleLongPress}
-      disabled={shouldDisableTouch}
+      disabled={isDisabled}
       style={containerStyle}
     >
       <Text size="sm" style={{ color: textColor }}>
@@ -296,10 +294,22 @@ const dayStyles = createStyleSheet(({ theme }) => ({
   }
 }))
 
+const dateToString = (date: Date | string | undefined): string => {
+  if (!date) return ""
+  if (typeof date === "string") return date.split("T")[0]
+  return date.toISOString().split("T")[0]
+}
+
+const stringToDate = (dateString: string): Date | undefined => {
+  if (!dateString) return undefined
+  return new Date(dateString)
+}
+
 const Calendar = ({
   style,
   containerStyle,
-  onDateSelect,
+  selected: selectedProp,
+  onSelect,
   markedDates: externalMarkedDates,
   ...props
 }: CalendarProps) => {
@@ -309,7 +319,9 @@ const Calendar = ({
 
   const { i18n } = useTranslation()
 
-  const [selected, setSelected] = useState<string>("")
+  const [selectedInternal, setSelectedInternal] = useState<string>("")
+
+  const selected = selectedProp ? dateToString(selectedProp) : selectedInternal
 
   useMemo(() => {
     configureLocale(i18n.language)
@@ -350,10 +362,10 @@ const Calendar = ({
 
   const handleDayPress = useCallback(
     (day: DateData) => {
-      setSelected(day.dateString)
-      onDateSelect?.(day.dateString)
+      setSelectedInternal(day.dateString)
+      onSelect?.(stringToDate(day.dateString))
     },
-    [onDateSelect]
+    [onSelect]
   )
 
   const markedDates = useMemo<MarkedDates>(() => {

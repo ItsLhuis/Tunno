@@ -1,5 +1,4 @@
-import { type ReactNode } from "react"
-
+import { type ReactNode, useEffect } from "react"
 import {
   type GestureResponderEvent,
   Pressable as RNPressable,
@@ -7,9 +6,7 @@ import {
   StyleProp,
   ViewStyle
 } from "react-native"
-
 import { durationTokens, opacityTokens } from "@styles"
-
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 
 export type PressableProps = Omit<RNPressableProps, "style"> & {
@@ -40,9 +37,15 @@ const Pressable = ({
   const scale = useSharedValue(1)
   const opacity = useSharedValue(disabled ? disabledOpacity : defaultOpacity)
 
+  useEffect(() => {
+    opacity.value = withTiming(disabled ? disabledOpacity : defaultOpacity, {
+      duration: pressDuration
+    })
+  }, [disabled, opacity])
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
-    opacity: disabled ? disabledOpacity : opacity.value
+    opacity: opacity.value
   }))
 
   const handlePressIn = (event: GestureResponderEvent) => {

@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect } from "react"
 
-import { type StyleProp, type ViewStyle } from "react-native"
+import { type LayoutChangeEvent, type StyleProp, type ViewStyle } from "react-native"
 
 import { durationTokens } from "@styles"
 
@@ -32,6 +32,7 @@ export type FadeProps = {
   exit?: boolean
   unmountOnExit?: boolean
   easing?: WithTimingConfig["easing"]
+  onLayout?: (event: LayoutChangeEvent) => void
 }
 
 const Fade = ({
@@ -49,7 +50,8 @@ const Fade = ({
   initial = true,
   exit = true,
   unmountOnExit = true,
-  easing
+  easing,
+  onLayout
 }: FadeProps) => {
   const defaultOffset = 20
   const defaultDuration = durationTokens[300]
@@ -163,7 +165,11 @@ const Fade = ({
     return null
   }
 
-  return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>
+  return (
+    <Animated.View style={[animatedStyle, style]} onLayout={onLayout}>
+      {children}
+    </Animated.View>
+  )
 }
 
 export { Fade }

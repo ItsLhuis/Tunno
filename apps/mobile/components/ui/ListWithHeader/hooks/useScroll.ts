@@ -31,7 +31,7 @@ type UseScrollProps = {
   onScrollWorklet?: (evt: NativeScrollEvent) => void
 }
 
-export const useScroll = ({
+export function useScroll({
   scrollRef,
   largeHeaderShown,
   largeHeaderExists,
@@ -42,7 +42,7 @@ export const useScroll = ({
   headerFadeInThreshold = 1,
   inverted,
   onScrollWorklet
-}: UseScrollProps) => {
+}: UseScrollProps) {
   const scrollY = useSharedValue<number>(0)
 
   const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState<number>(
@@ -122,7 +122,10 @@ export const useScroll = ({
       },
       contentContainerStyle: {
         paddingTop: absoluteHeader && !inverted ? absoluteHeaderHeight : 0,
-        paddingBottom: absoluteHeader && inverted ? absoluteHeaderHeight : 0
+        ...(absoluteHeader &&
+          inverted && {
+            paddingBottom: absoluteHeaderHeight
+          })
       }
     }
   }, [inverted, absoluteHeaderHeight, absoluteHeader])

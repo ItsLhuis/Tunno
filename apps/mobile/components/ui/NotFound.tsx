@@ -11,9 +11,10 @@ import { Text } from "@components/ui/Text"
 
 export type NotFoundProps = {
   style?: StyleProp<ViewStyle>
+  message?: string
 }
 
-const NotFound = ({ style }: NotFoundProps) => {
+const NotFound = ({ style, message }: NotFoundProps) => {
   const styles = useStyles(notFoundStyles)
 
   const { t } = useTranslation()
@@ -22,7 +23,7 @@ const NotFound = ({ style }: NotFoundProps) => {
     <View style={[styles.container, style]}>
       <LottieView source={NotFoundLottie} autoPlay loop style={styles.lottie} />
       <Text color="mutedForeground" size="sm">
-        {t("common.noResultsFound")}
+        {message ?? t("common.noResultsFound")}
       </Text>
     </View>
   )

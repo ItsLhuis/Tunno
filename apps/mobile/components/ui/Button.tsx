@@ -50,7 +50,7 @@ const Button = ({
   const isDisabled = disabled || isLoading
 
   return (
-    <View style={[{ alignSelf: "center" }, containerStyle]}>
+    <View style={[styles.container, containerStyle]}>
       <Pressable
         style={[styles.button({ variant, size }), style]}
         disabled={isDisabled}
@@ -84,11 +84,14 @@ const Button = ({
 }
 
 const buttonStyles = createStyleSheet(({ theme }) => ({
+  container: {
+    alignSelf: "stretch"
+  },
   button: createVariant({
     base: {
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       gap: theme.space(2),
       borderRadius: theme.radius()
     },
@@ -125,7 +128,7 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
       size: {
         default: {
           paddingVertical: theme.space(2),
-          paddingHorizontal: theme.space(4),
+          paddingHorizontal: theme.space(3),
           minHeight: theme.space(9)
         },
         sm: {

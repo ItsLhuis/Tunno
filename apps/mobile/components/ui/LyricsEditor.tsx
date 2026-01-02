@@ -12,19 +12,21 @@ import { formatTime, parseTime } from "@repo/utils"
 
 import { Badge } from "@components/ui/Badge"
 import { BottomSheetFlashList } from "@components/ui/BottomSheet"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@components/ui/Dialog"
 import { IconButton } from "@components/ui/IconButton"
 import { NumberInput } from "@components/ui/NumberInput"
 import { Separator } from "@components/ui/Separator"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFlashList,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "@components/ui/Sheet"
 import { Text } from "@components/ui/Text"
 import { TextInput } from "@components/ui/TextInput"
+import { NotFound } from "./NotFound"
 
 export type Lyric = {
   text: string
@@ -232,16 +234,12 @@ const LyricsEditor = ({
         </Text>
       </View>
     ),
-    [styles]
+    []
   )
 
   const ListEmptyComponent = useCallback(
-    () => (
-      <View style={styles.emptyContainer}>
-        <Text color="mutedForeground">{t("form.messages.noLyrics")}</Text>
-      </View>
-    ),
-    [styles, t]
+    () => <NotFound message={t("form.messages.noLyrics")} />,
+    []
   )
 
   const maxDuration = syncedLines.length > 0 ? Math.max(...syncedLines.map((l) => l.startTime)) : 0
@@ -263,27 +261,29 @@ const LyricsEditor = ({
             </Badge>
           </View>
           <View style={styles.actions}>
-            <Dialog>
-              <DialogTrigger variant="ghost" size="icon">
+            <Sheet>
+              <SheetTrigger asChild>
                 <IconButton name="Eye" variant="ghost" />
-              </DialogTrigger>
-              <DialogContent enableDynamicSizing={false} snapPoints={["100%"]}>
-                <DialogHeader>
-                  <DialogTitle>{t("form.titles.lyricsPreview")}</DialogTitle>
-                  <DialogDescription>{t("form.descriptions.lyricsPreview")}</DialogDescription>
-                </DialogHeader>
-                <View style={styles.previewContainer}>
-                  <BottomSheetFlashList
-                    data={syncedLines}
-                    keyExtractor={keyExtractor}
-                    renderItem={renderPreviewItem}
-                    ListEmptyComponent={ListEmptyComponent}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.previewList}
-                  />
+              </SheetTrigger>
+              <SheetContent enableDynamicSizing={false} snapPoints={["100%"]}>
+                <View style={styles.sheetContainer}>
+                  <SheetHeader>
+                    <SheetTitle>{t("form.titles.lyricsPreview")}</SheetTitle>
+                    <SheetDescription>{t("form.descriptions.lyricsPreview")}</SheetDescription>
+                  </SheetHeader>
+                  <View style={styles.previewContainer}>
+                    <SheetFlashList
+                      data={syncedLines}
+                      keyExtractor={keyExtractor}
+                      renderItem={renderPreviewItem}
+                      ListEmptyComponent={ListEmptyComponent}
+                      showsVerticalScrollIndicator={false}
+                      contentContainerStyle={styles.previewList(syncedLines.length === 0)}
+                    />
+                  </View>
                 </View>
-              </DialogContent>
-            </Dialog>
+              </SheetContent>
+            </Sheet>
             <IconButton name="Plus" variant="ghost" onPress={addSyncedLine} disabled={disabled} />
           </View>
         </View>
@@ -296,7 +296,7 @@ const LyricsEditor = ({
               renderItem={renderItem}
               ListEmptyComponent={ListEmptyComponent}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.listContent}
+              contentContainerStyle={styles.listContent(syncedLines.length === 0)}
               keyboardShouldPersistTaps="handled"
               nestedScrollEnabled
             />
@@ -307,7 +307,7 @@ const LyricsEditor = ({
               renderItem={renderItem}
               ListEmptyComponent={ListEmptyComponent}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.listContent}
+              contentContainerStyle={styles.listContent(syncedLines.length === 0)}
               keyboardShouldPersistTaps="handled"
               nestedScrollEnabled
             />
@@ -356,6 +356,10 @@ const lyricsEditorStyles = createStyleSheet(({ theme, runtime }) => ({
   container: {
     width: "100%"
   },
+  sheetContainer: {
+    flex: 1,
+    paddingBottom: theme.space("lg") + runtime.insets.bottom
+  },
   card: {
     borderRadius: theme.radius(),
     borderWidth: theme.borderWidth(),
@@ -382,30 +386,30 @@ const lyricsEditorStyles = createStyleSheet(({ theme, runtime }) => ({
     gap: theme.space(1)
   },
   list: {
-    height: 300
+    height: 300,
+    minHeight: 0
   },
-  listContent: {
-    flex: 1,
-    padding: theme.space(3)
-  },
-  emptyContainer: {
-    flex: 1,
-    padding: theme.space(8),
-    alignItems: "center",
-    justifyContent: "center"
-  },
+  listContent: (isEmpty: boolean) =>
+    viewStyle({
+      padding: theme.space(3),
+      ...(isEmpty && {
+        flex: 1
+      })
+    }),
   previewContainer: {
     flex: 1,
+    marginHorizontal: theme.space("lg"),
     borderRadius: theme.radius(),
     borderWidth: theme.borderWidth(),
-    borderColor: theme.colors.border,
-    margin: theme.space(6),
-    marginBottom: runtime.insets.bottom + theme.space(6)
+    borderColor: theme.colors.border
   },
-  previewList: {
-    flex: 1,
-    padding: theme.space(3)
-  },
+  previewList: (isEmpty: boolean) =>
+    viewStyle({
+      padding: theme.space(3),
+      ...(isEmpty && {
+        flex: 1
+      })
+    }),
   previewLine: (index: number) =>
     viewStyle({
       flexDirection: "row",

@@ -7,36 +7,54 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type ReactElement,
-  type ReactNode,
-  type RefObject
+  type ReactNode
 } from "react"
 
-import { createStyleSheet, useStyles } from "@styles"
-
-import { View, type GestureResponderEvent, type ViewProps } from "react-native"
-
 import {
-  BottomSheet,
-  type BottomSheetProps,
-  type BottomSheetRef,
-  BottomSheetScrollView,
-  type SNAP_POINT_TYPE
-} from "@components/ui/BottomSheet"
+  BackHandler,
+  Pressable,
+  StyleSheet,
+  View,
+  type GestureResponderEvent,
+  type ViewProps
+} from "react-native"
+
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  type WithTimingConfig
+} from "react-native-reanimated"
+
+import { scheduleOnRN } from "react-native-worklets"
+
+import { Portal } from "@gorhom/portal"
+
+import { createStyleSheet, durationTokens, useStyles } from "@styles"
+
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Text, type TextProps } from "@components/ui/Text"
+
+const TIMING_CONFIG: WithTimingConfig = {
+  duration: durationTokens[300],
+  easing: Easing.bezier(0.4, 0, 0.2, 1)
+}
 
 type DialogContextValue = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  sheetRef: RefObject<BottomSheetRef | null>
 }
 
 const DialogContext = createContext<DialogContextValue | undefined>(undefined)
 
-const useDialog = () => {
+function useDialog() {
+  return useContext(DialogContext)
+}
+
+function useDialogRequired() {
   const context = useContext(DialogContext)
 
   if (!context) throw new Error("Dialog components must be used within Dialog")
@@ -51,8 +69,6 @@ type DialogProps = {
 }
 
 const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) => {
-  const sheetRef = useRef<BottomSheetRef | null>(null)
-
   const [internalOpen, setInternalOpen] = useState(false)
 
   const isControlled = controlledOpen !== undefined
@@ -68,19 +84,10 @@ const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) =
     [isControlled, onOpenChange]
   )
 
-  useEffect(() => {
-    if (open) {
-      sheetRef.current?.present()
-    } else {
-      sheetRef.current?.close()
-    }
-  }, [open])
-
   const value = useMemo(
     () => ({
       open,
-      onOpenChange: handleOpenChange,
-      sheetRef
+      onOpenChange: handleOpenChange
     }),
     [open, handleOpenChange]
   )
@@ -98,14 +105,14 @@ export type DialogTriggerProps = ButtonProps & {
 }
 
 const DialogTrigger = ({ onPress, children, asChild, ...props }: DialogTriggerProps) => {
-  const { onOpenChange } = useDialog()
+  const dialogContext = useDialog()
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
-      onOpenChange(true)
+      dialogContext?.onOpenChange(true)
       onPress?.(event)
     },
-    [onOpenChange, onPress]
+    [dialogContext, onPress]
   )
 
   if (typeof children === "function") {
@@ -166,45 +173,119 @@ const DialogClose = ({ onPress, children, asChild, ...props }: DialogCloseProps)
   )
 }
 
-type DialogContentProps = Omit<BottomSheetProps, "ref">
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
-const DialogContent = ({
-  children,
-  onChange,
-  enableDynamicSizing = true,
-  ...props
-}: DialogContentProps) => {
+type DialogContentProps = ViewProps
+
+const DialogContent = ({ children, style, ...props }: DialogContentProps) => {
   const styles = useStyles(dialogStyles)
 
-  const dialogContext = useDialog()
+  const dialogContext = useDialogRequired()
 
-  const { sheetRef, onOpenChange } = dialogContext
+  const { open, onOpenChange } = dialogContext
 
-  const handleChange = useCallback(
-    (index: number, position: number, type: SNAP_POINT_TYPE) => {
-      if (index === -1) {
-        onOpenChange(false)
-      }
-      onChange?.(index, position, type)
-    },
-    [onChange, onOpenChange]
-  )
+  const [mounted, setMounted] = useState(false)
+
+  const opacity = useSharedValue(0)
+  const scale = useSharedValue(0.95)
+
+  const handleAnimationComplete = useCallback((isOpen: boolean) => {
+    if (!isOpen) {
+      setMounted(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (open) {
+      setMounted(true)
+
+      opacity.value = withTiming(1, TIMING_CONFIG)
+      scale.value = withTiming(1, TIMING_CONFIG)
+    } else if (mounted) {
+      opacity.value = withTiming(0, TIMING_CONFIG, (finished) => {
+        "worklet"
+        if (finished) {
+          scheduleOnRN(handleAnimationComplete, false)
+        }
+      })
+      scale.value = withTiming(0.95, TIMING_CONFIG)
+    }
+  }, [open, mounted, opacity, scale, handleAnimationComplete])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    const onBackPress = () => {
+      onOpenChange(false)
+      return true
+    }
+
+    const subscription = BackHandler.addEventListener("hardwareBackPress", onBackPress)
+
+    return () => {
+      subscription.remove()
+    }
+  }, [mounted, onOpenChange])
+
+  const backdropAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value
+  }))
+
+  const contentAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: scale.value }]
+  }))
+
+  const handleBackdropPress = useCallback(() => {
+    onOpenChange(false)
+  }, [onOpenChange])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
-    <BottomSheet
-      ref={sheetRef}
-      onChange={handleChange}
-      enableDynamicSizing={enableDynamicSizing}
-      {...props}
-    >
-      {enableDynamicSizing ? (
-        <BottomSheetScrollView contentContainerStyle={styles.content}>
+    <Portal hostName="dialog">
+      <View style={[StyleSheet.absoluteFill, styles.container]}>
+        <AnimatedPressable
+          style={[styles.backdrop, backdropAnimatedStyle]}
+          onPress={handleBackdropPress}
+        />
+        <Animated.View style={[styles.content, style, contentAnimatedStyle]} {...props}>
           <DialogContext.Provider value={dialogContext}>{children}</DialogContext.Provider>
-        </BottomSheetScrollView>
-      ) : (
-        <DialogContext.Provider value={dialogContext}>{children}</DialogContext.Provider>
-      )}
-    </BottomSheet>
+        </Animated.View>
+      </View>
+    </Portal>
+  )
+}
+
+export type DialogViewProps = ViewProps
+
+const DialogView = ({ children, style, ...props }: DialogViewProps) => {
+  const styles = useStyles(dialogStyles)
+
+  return (
+    <View style={[styles.view, style]} {...props}>
+      {children}
+    </View>
+  )
+}
+
+export type DialogScrollViewProps = ViewProps & {
+  contentContainerStyle?: ViewProps["style"]
+}
+
+const DialogScrollView = ({ children, style, contentContainerStyle }: DialogScrollViewProps) => {
+  const styles = useStyles(dialogStyles)
+
+  return (
+    <Animated.ScrollView
+      style={[styles.scrollView, style]}
+      contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}
+      showsVerticalScrollIndicator={false}
+    >
+      {children}
+    </Animated.ScrollView>
   )
 }
 
@@ -221,19 +302,45 @@ const DialogFooter = ({ style, ...props }: ViewProps) => {
 }
 
 const DialogTitle = ({ ...props }: TextProps) => {
-  return <Text variant="h3" {...props} />
+  return <Text variant="h4" weight="semibold" {...props} />
 }
 
 const DialogDescription = ({ ...props }: TextProps) => {
   return <Text size="sm" color="mutedForeground" {...props} />
 }
 
-const dialogStyles = createStyleSheet(({ theme, runtime }) => ({
+const dialogStyles = createStyleSheet(({ theme }) => ({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.space("lg")
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)"
+  },
   content: {
-    flex: 1,
+    backgroundColor: theme.colors.background,
+    borderRadius: theme.radius("xl"),
+    width: "100%",
+    maxWidth: 400,
+    padding: theme.space("lg"),
     gap: theme.space("lg"),
-    paddingHorizontal: theme.space("lg"),
-    paddingBottom: runtime.insets.bottom
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 8
+  },
+  view: {
+    gap: theme.space("lg")
+  },
+  scrollView: {
+    flex: 1
+  },
+  scrollViewContent: {
+    gap: theme.space("lg")
   },
   header: {
     gap: theme.space(2)
@@ -253,6 +360,8 @@ export {
   DialogFooter,
   DialogHeader,
   DialogPortal,
+  DialogScrollView,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
+  DialogView
 }

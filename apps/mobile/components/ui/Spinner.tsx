@@ -17,7 +17,7 @@ export type SpinnerProps = Omit<ActivityIndicatorProps, "size" | "color"> &
     color?: ColorKey | undefined
   }
 
-const Spinner = ({ size = "base", color, disabled = false, style, ...props }: SpinnerProps) => {
+const Spinner = ({ size = "xl", color, disabled = false, style, ...props }: SpinnerProps) => {
   const styles = useStyles(spinnerStyles)
 
   const { theme } = useTheme()
