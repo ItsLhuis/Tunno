@@ -1,3 +1,3 @@
-import { Language } from "@features/settings/pages"
+import { Language } from "@features/settings/screens"
 
 export default Language

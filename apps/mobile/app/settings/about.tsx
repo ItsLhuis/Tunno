@@ -1,3 +1,3 @@
-import { About } from "@features/settings/pages"
+import { About } from "@features/settings/screens"
 
 export default About

@@ -1,3 +1,3 @@
-import { Settings } from "@features/settings/pages"
+import { Settings } from "@features/settings/screens"
 
 export default Settings

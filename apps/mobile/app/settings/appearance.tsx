@@ -1,3 +1,3 @@
-import { Appearance } from "@features/settings/pages"
+import { Appearance } from "@features/settings/screens"
 
 export default Appearance

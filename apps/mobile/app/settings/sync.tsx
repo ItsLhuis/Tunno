@@ -1,3 +1,3 @@
-import { Sync } from "@features/settings/pages"
+import { Sync } from "@features/settings/screens"
 
 export default Sync
