@@ -28,6 +28,7 @@ export type HeaderProps = {
   headerRightStyle?: StyleProp<ViewStyle>
   headerRightFadesIn?: boolean
   headerBackgroundAnimation?: boolean
+  transparentBackground?: boolean
   ignoreTopSafeArea?: boolean
   scrollY?: SharedValue<number>
   showHeader: DerivedValue<0 | 1>

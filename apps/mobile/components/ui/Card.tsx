@@ -4,6 +4,7 @@ import { View, type StyleProp, type ViewStyle } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
+import { Icon, type IconProps } from "@components/ui/Icon"
 import { Text, type TextProps } from "@components/ui/Text"
 
 export type CardProps = {
@@ -28,22 +29,35 @@ const CardHeader = ({ children, style }: CardHeaderProps) => {
   return <View style={[styles.cardHeader, style]}>{children}</View>
 }
 
-export type CardTitleProps = TextProps
+export type CardTitleProps = TextProps & {
+  leftIcon?: IconProps["name"]
+  iconColor?: IconProps["color"]
+}
 
-const CardTitle = ({ style, ...props }: CardTitleProps) => {
+const CardTitle = ({
+  leftIcon,
+  iconColor = "mutedForeground",
+  style,
+  ...props
+}: CardTitleProps) => {
   const styles = useStyles(cardStyles)
 
-  return <Text weight="semibold" style={[styles.cardTitle, style]} {...props} />
+  if (leftIcon) {
+    return (
+      <View style={styles.cardTitleWithIcon}>
+        <Icon name={leftIcon} color={iconColor} />
+        <Text style={style} {...props} />
+      </View>
+    )
+  }
+
+  return <Text style={style} {...props} />
 }
 
 export type CardDescriptionProps = TextProps
 
 const CardDescription = ({ style, ...props }: CardDescriptionProps) => {
-  const styles = useStyles(cardStyles)
-
-  return (
-    <Text size="sm" color="mutedForeground" style={[styles.cardDescription, style]} {...props} />
-  )
+  return <Text style={style} {...props} />
 }
 
 export type CardActionProps = {
@@ -91,8 +105,11 @@ const cardStyles = createStyleSheet(({ theme }) => ({
   cardHeader: {
     gap: theme.space(1)
   },
-  cardTitle: {},
-  cardDescription: {},
+  cardTitleWithIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: theme.space(2)
+  },
   cardAction: {
     alignSelf: "flex-start"
   },

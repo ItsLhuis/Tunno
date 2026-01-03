@@ -36,6 +36,7 @@ const Header = ({
   headerRightStyle,
   headerRightFadesIn,
   headerBackgroundAnimation = true,
+  transparentBackground = false,
   ignoreTopSafeArea = false,
   bottomBorder = true,
   borderColor,
@@ -51,6 +52,10 @@ const Header = ({
   const noHeaderLeftRight = !headerLeft && !headerRight
 
   const headerBackgroundStyle = useAnimatedStyle(() => {
+    if (transparentBackground) {
+      return { backgroundColor: "transparent" }
+    }
+
     return {
       backgroundColor: interpolateColor(
         showHeader.value,
