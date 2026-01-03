@@ -66,6 +66,7 @@ const Button = ({
               {title && (
                 <Text
                   style={[styles.buttonText({ variant, size }), titleProps?.style]}
+                  numberOfLines={1 || titleProps?.numberOfLines}
                   {...titleProps}
                 >
                   {title}

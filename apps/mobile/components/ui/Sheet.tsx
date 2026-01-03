@@ -281,7 +281,7 @@ const sheetStyles = createStyleSheet(({ theme, runtime }) => ({
     paddingBottom: runtime.insets.bottom
   },
   header: {
-    gap: theme.space(2),
+    gap: theme.space(),
     paddingHorizontal: theme.space("lg"),
     paddingBottom: theme.space("lg")
   },

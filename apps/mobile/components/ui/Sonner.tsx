@@ -66,15 +66,17 @@ const sonnerStyles = createStyleSheet(({ theme }) => ({
   title: {
     fontFamily: "SpaceGrotesk-Bold",
     fontSize: theme.fontSize(),
+    color: theme.colors.foreground,
     marginTop: 2
   },
   description: {
     fontFamily: "SpaceGrotesk-Regular",
-    fontSize: theme.fontSize("xs")
+    fontSize: theme.fontSize("xs"),
+    color: theme.colors.mutedForeground
   },
   buttons: {
     flexDirection: "row-reverse" as const,
-    gap: theme.space(1)
+    gap: theme.space(2)
   },
   actionButton: {
     borderRadius: theme.radius(),
