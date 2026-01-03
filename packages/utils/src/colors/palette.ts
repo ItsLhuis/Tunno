@@ -4,6 +4,8 @@ type RGBTuple = [number, number, number]
 
 type Oklch = { l: number; c: number; h?: number }
 
+export type ColorFormat = "oklch" | "rgb"
+
 export type Palette = {
   background: string
   foreground: string
@@ -23,6 +25,7 @@ function getRelativeLuminance(r: number, g: number, b: number): number {
     const v = val / 255
     return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
   })
+
   return 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear
 }
 
@@ -32,9 +35,11 @@ export function getContrastRatio(colorA: string, colorB: string): number {
 
 function rgbToOklch(r: number, g: number, b: number): Oklch {
   const oklch = toOklch({ mode: "rgb", r: r / 255, g: g / 255, b: b / 255 })
+
   if (!oklch || oklch.mode !== "oklch") {
     return { l: 0.5, c: 0 }
   }
+
   return {
     l: oklch.l ?? 0.5,
     c: oklch.c ?? 0,
@@ -44,9 +49,11 @@ function rgbToOklch(r: number, g: number, b: number): Oklch {
 
 function oklchToRgb(oklch: Oklch): RGBTuple {
   const rgb = toRgb({ mode: "oklch", l: oklch.l, c: oklch.c, h: oklch.h ?? 0 })
+
   if (!rgb || rgb.mode !== "rgb") {
     return [128, 128, 128]
   }
+
   return [
     Math.max(0, Math.min(255, Math.round((rgb.r ?? 0.5) * 255))),
     Math.max(0, Math.min(255, Math.round((rgb.g ?? 0.5) * 255))),
@@ -57,7 +64,9 @@ function oklchToRgb(oklch: Oklch): RGBTuple {
 function getContrastRatioFromRgb(rgb1: RGBTuple, rgb2: RGBTuple): number {
   const l1 = getRelativeLuminance(...rgb1)
   const l2 = getRelativeLuminance(...rgb2)
+
   const [lighter, darker] = l1 >= l2 ? [l1, l2] : [l2, l1]
+
   return (lighter + 0.05) / (darker + 0.05)
 }
 
@@ -125,6 +134,7 @@ export function ensureReadableOnBackground(
   const result = generateContrastColor(bgTuple, fgOklchObj, minRatio)
   const resultRgb = oklchToRgb(result)
   const clamped = clampChroma({ mode: "oklch", ...result }, "oklch")
+
   return (
     formatCss(clamped) ??
     formatCss({ mode: "rgb", r: resultRgb[0] / 255, g: resultRgb[1] / 255, b: resultRgb[2] / 255 })
@@ -136,6 +146,7 @@ function analyzeColor(oklch: Oklch): {
   needsBoost: boolean
 } {
   let saturationLevel: "desaturated" | "moderate" | "vibrant"
+
   if (oklch.c < 0.05) saturationLevel = "desaturated"
   else if (oklch.c < 0.15) saturationLevel = "moderate"
   else saturationLevel = "vibrant"
@@ -147,9 +158,11 @@ function analyzeColor(oklch: Oklch): {
 
 function clampIntoGamut(oklch: Oklch): Oklch {
   const clamped = clampChroma({ mode: "oklch", ...oklch }, "oklch")
+
   if (!clamped || clamped.mode !== "oklch") {
     return oklch
   }
+
   return {
     l: clamped.l ?? oklch.l,
     c: clamped.c ?? oklch.c,
@@ -157,25 +170,47 @@ function clampIntoGamut(oklch: Oklch): Oklch {
   }
 }
 
-export function generateColorPalette(rgbColor: RGBTuple): Palette {
+function formatColor(oklch: Oklch, format: ColorFormat): string {
+  if (format === "rgb") {
+    const rgb = oklchToRgb(oklch)
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
+  }
+
+  return (
+    formatCss({ mode: "oklch", ...oklch }) ??
+    `oklch(${oklch.l} ${oklch.c}${oklch.h !== undefined ? ` ${oklch.h}` : ""})`
+  )
+}
+
+function formatColorFromRgb(rgb: RGBTuple, format: ColorFormat): string {
+  if (format === "rgb") {
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
+  }
+
+  const oklch = rgbToOklch(...rgb)
+
+  return (
+    formatCss({ mode: "oklch", ...oklch }) ??
+    `oklch(${oklch.l} ${oklch.c}${oklch.h !== undefined ? ` ${oklch.h}` : ""})`
+  )
+}
+
+export function generateColorPalette(rgbColor: RGBTuple, format: ColorFormat = "oklch"): Palette {
   const bgOklch = rgbToOklch(...rgbColor)
   const bgLum = getRelativeLuminance(...rgbColor)
+
   const isLight = bgLum > 0.5
 
   const { saturationLevel, needsBoost } = analyzeColor(bgOklch)
 
-  const backgroundColor =
-    formatCss({ mode: "oklch", l: bgOklch.l, c: bgOklch.c, h: bgOklch.h }) ??
-    `rgb(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]})`
+  const backgroundColor = formatColorFromRgb(rgbColor, format)
 
   const targetForegroundL = isLight ? 0.12 : 0.98
   const foregroundC = Math.min(bgOklch.c * 0.1, 0.02)
 
   let foregroundOklch = clampIntoGamut({ l: targetForegroundL, c: foregroundC, h: bgOklch.h })
   foregroundOklch = generateContrastColor(rgbColor, foregroundOklch, 8, isLight)
-  const foreground =
-    formatCss({ mode: "oklch", ...foregroundOklch }) ??
-    `oklch(${foregroundOklch.l} ${foregroundOklch.c}${foregroundOklch.h !== undefined ? ` ${foregroundOklch.h}` : ""})`
+  const foreground = formatColor(foregroundOklch, format)
 
   const primaryHueShift = isLight ? (needsBoost ? -8 : -5) : needsBoost ? 8 : 5
   const primaryHue = bgOklch.h !== undefined ? (bgOklch.h + primaryHueShift + 360) % 360 : undefined
@@ -203,9 +238,7 @@ export function generateColorPalette(rgbColor: RGBTuple): Palette {
     primaryOklch = generateContrastColor(rgbColor, primaryOklch, 3.5, isLight)
     primaryRgb = oklchToRgb(primaryOklch)
   }
-  const primary =
-    formatCss({ mode: "oklch", ...primaryOklch }) ??
-    `oklch(${primaryOklch.l} ${primaryOklch.c}${primaryOklch.h !== undefined ? ` ${primaryOklch.h}` : ""})`
+  const primary = formatColor(primaryOklch, format)
 
   const primaryFgTarget: RGBTuple = primaryOklch.l > 0.55 ? [0, 0, 0] : [255, 255, 255]
   const primaryForegroundOklch = generateContrastColor(
@@ -214,9 +247,7 @@ export function generateColorPalette(rgbColor: RGBTuple): Palette {
     4.5,
     primaryOklch.l > 0.55
   )
-  const primaryForeground =
-    formatCss({ mode: "oklch", ...primaryForegroundOklch }) ??
-    `oklch(${primaryForegroundOklch.l} ${primaryForegroundOklch.c}${primaryForegroundOklch.h !== undefined ? ` ${primaryForegroundOklch.h}` : ""})`
+  const primaryForeground = formatColor(primaryForegroundOklch, format)
 
   const mutedL = isLight ? Math.max(bgOklch.l - 0.06, 0.9) : Math.min(bgOklch.l + 0.06, 0.18)
   const mutedC = Math.max(bgOklch.c * 0.25, 0.008)
@@ -230,9 +261,7 @@ export function generateColorPalette(rgbColor: RGBTuple): Palette {
     mutedOklch = clampIntoGamut({ l: adjustedL, c: mutedC, h: bgOklch.h })
     mutedRgb = oklchToRgb(mutedOklch)
   }
-  const muted =
-    formatCss({ mode: "oklch", ...mutedOklch }) ??
-    `oklch(${mutedOklch.l} ${mutedOklch.c}${mutedOklch.h !== undefined ? ` ${mutedOklch.h}` : ""})`
+  const muted = formatColor(mutedOklch, format)
 
   const mutedForegroundL = isLight
     ? Math.max(0.35, Math.min(0.55, bgOklch.l - 0.35))
@@ -247,9 +276,7 @@ export function generateColorPalette(rgbColor: RGBTuple): Palette {
     mutedForegroundOklch = generateContrastColor(rgbColor, mutedForegroundOklch, 2.8, isLight)
     mutedForegroundRgb = oklchToRgb(mutedForegroundOklch)
   }
-  const mutedForeground =
-    formatCss({ mode: "oklch", ...mutedForegroundOklch }) ??
-    `oklch(${mutedForegroundOklch.l} ${mutedForegroundOklch.c}${mutedForegroundOklch.h !== undefined ? ` ${mutedForegroundOklch.h}` : ""})`
+  const mutedForeground = formatColor(mutedForegroundOklch, format)
 
   const accentHueShift = isLight ? -18 : 18
   const accentHue = bgOklch.h !== undefined ? (bgOklch.h + accentHueShift + 360) % 360 : undefined
@@ -276,9 +303,7 @@ export function generateColorPalette(rgbColor: RGBTuple): Palette {
     accentRgb = oklchToRgb(accentOklch)
   }
 
-  const accent =
-    formatCss({ mode: "oklch", ...accentOklch }) ??
-    `oklch(${accentOklch.l} ${accentOklch.c}${accentOklch.h !== undefined ? ` ${accentOklch.h}` : ""})`
+  const accent = formatColor(accentOklch, format)
 
   const accentFgTarget: RGBTuple = accentOklch.l > 0.55 ? [0, 0, 0] : [255, 255, 255]
   const accentForegroundOklch = generateContrastColor(
@@ -287,9 +312,7 @@ export function generateColorPalette(rgbColor: RGBTuple): Palette {
     4.5,
     accentOklch.l > 0.55
   )
-  const accentForeground =
-    formatCss({ mode: "oklch", ...accentForegroundOklch }) ??
-    `oklch(${accentForegroundOklch.l} ${accentForegroundOklch.c}${accentForegroundOklch.h !== undefined ? ` ${accentForegroundOklch.h}` : ""})`
+  const accentForeground = formatColor(accentForegroundOklch, format)
 
   return {
     background: backgroundColor,
