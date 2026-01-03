@@ -6,7 +6,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { BackButton } from "@components/navigation"
+import { BackButton, FadingScreen } from "@components/navigation"
 import { Button, Header, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
 
 import { SongForm } from "@features/songs/forms"
@@ -19,7 +19,7 @@ const InsertSong = () => {
   const { t } = useTranslation()
 
   return (
-    <View style={styles.container}>
+    <FadingScreen style={styles.container}>
       <ScrollViewWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
@@ -67,7 +67,7 @@ const InsertSong = () => {
           )}
         </SongForm>
       </ScrollViewWithHeaders>
-    </View>
+    </FadingScreen>
   )
 }
 

@@ -1,6 +1,6 @@
-import { View } from "react-native"
-
 import { createStyleSheet, useStyles } from "@styles"
+
+import { FadingScreen } from "@components/navigation"
 
 import { SongInfo } from "@features/songs/components"
 
@@ -8,9 +8,9 @@ const Song = () => {
   const styles = useStyles(songStyles)
 
   return (
-    <View style={styles.container}>
+    <FadingScreen style={styles.container}>
       <SongInfo />
-    </View>
+    </FadingScreen>
   )
 }
 
