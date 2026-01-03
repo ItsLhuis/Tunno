@@ -35,6 +35,10 @@
     },
     "plugins": [
       [
+        "./plugins/withAndroidDrawableAssets.js",
+        ["./assets/drawables/media3_notification_small_icon.xml"]
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash/light.png",
