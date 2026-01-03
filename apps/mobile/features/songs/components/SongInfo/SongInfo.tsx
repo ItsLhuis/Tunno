@@ -1,4 +1,4 @@
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 
 import { View } from "react-native"
 
@@ -12,7 +12,13 @@ import { useFetchSongByIdWithAllRelations } from "../../hooks/useFetchSongByIdWi
 
 import { formatTime } from "@repo/utils"
 
-import { AsyncState, ScrollViewWithHeaders, Text, type ScrollHeaderProps } from "@components/ui"
+import {
+  AsyncState,
+  RefreshControl,
+  ScrollViewWithHeaders,
+  Text,
+  type ScrollHeaderProps
+} from "@components/ui"
 
 import { SongItemList } from "../SongItem"
 import { SongInfoHeader } from "./SongInfoHeader"
@@ -25,11 +31,20 @@ const SongInfo = () => {
 
   const { t } = useTranslation()
 
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
   const {
     data: song,
     isLoading: isSongLoading,
-    isError: isSongError
+    isError: isSongError,
+    refetch
   } = useFetchSongByIdWithAllRelations(Number(id))
+
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true)
+    await refetch()
+    setIsRefreshing(false)
+  }, [refetch])
 
   const HeaderComponent = useCallback(
     ({ scrollY, showHeader }: ScrollHeaderProps) => {
@@ -51,19 +66,19 @@ const SongInfo = () => {
           HeaderComponent={HeaderComponent}
           LargeHeaderComponent={LargeHeaderComponent}
           disableAutoFixScroll
-          absoluteHeader
-          contentContainerStyle={styles.content}
+          refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
         >
-          <View style={styles.section}>
-            <SongItemList song={data} allSongIds={[data.id]} />
-          </View>
-          {/* {data.album && (
+          <View style={styles.content}>
+            <View style={styles.section}>
+              <SongItemList song={data} allSongIds={[data.id]} />
+            </View>
+            {/* {data.album && (
             <View style={styles.section}>
               <Text variant="h3">{t("common.album")}</Text>
               <AlbumItemCard album={data.album} />
             </View>
           )} */}
-          {/* {data.artists.length > 0 && (
+            {/* {data.artists.length > 0 && (
             <View style={styles.section}>
               <Text variant="h3">{t("artists.title")}</Text>
               <Carousel>
@@ -73,7 +88,7 @@ const SongInfo = () => {
               </Carousel>
             </View>
           )} */}
-          {/* {data.playlists && data.playlists.length > 0 && (
+            {/* {data.playlists && data.playlists.length > 0 && (
             <View style={styles.section}>
               <Text variant="h3">{t("common.appearsIn")}</Text>
               <Carousel>
@@ -83,33 +98,38 @@ const SongInfo = () => {
               </Carousel>
             </View>
           )} */}
-          {data.lyrics && Array.isArray(data.lyrics) && data.lyrics.length > 0 && (
-            <View style={styles.section}>
-              <Text variant="h3">{t("form.labels.lyrics")}</Text>
-              <View style={styles.lyricsContainer}>
-                {data.lyrics.map((line, index) => (
-                  <View key={index} style={styles.lyricLine}>
-                    <Text size="sm" color="mutedForeground">
-                      [{formatTime(line.startTime)}]
-                    </Text>
-                    <Text size="sm">-</Text>
-                    <Text size="sm" style={styles.lyricText}>
-                      {line.text || "..."}
-                    </Text>
-                  </View>
-                ))}
+            {data.lyrics && Array.isArray(data.lyrics) && data.lyrics.length > 0 && (
+              <View style={styles.section}>
+                <Text variant="h3">{t("form.labels.lyrics")}</Text>
+                <View style={styles.lyricsContainer}>
+                  {data.lyrics.map((line, index) => (
+                    <View key={index} style={styles.lyricLine}>
+                      <Text size="sm" color="mutedForeground">
+                        [{formatTime(line.startTime)}]
+                      </Text>
+                      <Text size="sm">-</Text>
+                      <Text size="sm" style={styles.lyricText}>
+                        {line.text || "..."}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
               </View>
-            </View>
-          )}
+            )}
+          </View>
         </ScrollViewWithHeaders>
       )}
     </AsyncState>
   )
 }
 
-const songInfoStyles = createStyleSheet(({ theme }) => ({
+const songInfoStyles = createStyleSheet(({ theme, runtime }) => ({
+  container: {
+    flex: 1
+  },
   content: {
-    padding: theme.space("lg"),
+    paddingHorizontal: theme.space("lg"),
+    paddingBottom: theme.space("lg") + runtime.insets.bottom,
     gap: theme.space("lg")
   },
   section: {

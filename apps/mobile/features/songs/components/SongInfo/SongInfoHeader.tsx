@@ -15,9 +15,18 @@ import { calculateStreak, formatTime } from "@repo/utils"
 import StreakLottie from "@assets/lotties/Streak.json"
 import LottieView from "lottie-react-native"
 
-import { Badge, IconButton, LargeHeader, Pressable, Text, Thumbnail } from "@components/ui"
+import {
+  Badge,
+  DominantColorGradient,
+  IconButton,
+  LargeHeader,
+  Pressable,
+  Text,
+  Thumbnail
+} from "@components/ui"
 
 import { SongActions } from "../SongActions"
+import { SongStatsSheet } from "./SongStatsSheet"
 
 import { State } from "react-native-track-player"
 
@@ -84,6 +93,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
 
   return (
     <LargeHeader style={styles.container}>
+      <DominantColorGradient thumbnail={song.thumbnail} />
       <View style={styles.content}>
         <Thumbnail
           fileName={song.thumbnail}
@@ -141,6 +151,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           disabled={toggleFavoriteMutation.isPending}
           onPress={handleToggleFavorite}
         />
+        <SongStatsSheet song={song} />
         <SongActions songId={song.id} />
         {streak >= 2 && (
           <LottieView source={StreakLottie} autoPlay loop style={styles.streakLottie} />
@@ -155,7 +166,7 @@ const songInfoHeaderStyles = createStyleSheet(({ theme }) => ({
     flexDirection: "column",
     alignItems: "stretch",
     gap: theme.space("lg"),
-    paddingBottom: 0
+    paddingHorizontal: theme.space("lg")
   },
   content: {
     flexDirection: "column",

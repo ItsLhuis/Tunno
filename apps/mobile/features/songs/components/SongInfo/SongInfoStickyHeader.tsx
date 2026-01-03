@@ -1,12 +1,15 @@
 import { View } from "react-native"
 
-import { createStyleSheet, useStyles } from "@styles"
+import { createStyleSheet, ScopedPalette, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
+
+import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
+import { useThumbnailUri } from "@hooks/useThumbnailUri"
 
 import { BackButton } from "@components/navigation"
 import {
@@ -25,7 +28,7 @@ import { type SongWithAllRelations } from "@repo/api"
 
 type SongInfoStickyHeaderProps = {
   song: SongWithAllRelations
-} & HeaderProps
+} & Omit<HeaderProps, "transparentBackground" | "bottomBorder" | "headerBackgroundAnimation">
 
 const SongInfoStickyHeader = ({
   song,
@@ -36,6 +39,10 @@ const SongInfoStickyHeader = ({
   const styles = useStyles(songInfoStickyHeaderStyles)
 
   const { t } = useTranslation()
+
+  const thumbnailUri = useThumbnailUri({ fileName: song.thumbnail })
+
+  const { palette, dominantColor } = useImageColorAndPalette({ imageUri: thumbnailUri })
 
   const { play, pause, playbackState, isTrackLoading, currentTrackId, loadTracks } = usePlayerStore(
     useShallow((state) => ({
@@ -79,54 +86,64 @@ const SongInfoStickyHeader = ({
       : t("common.unknownArtist")
 
   return (
-    <Header
-      scrollY={scrollY}
-      showHeader={showHeader}
-      headerLeft={
-        <View style={styles.headerLeft}>
-          <BackButton />
-          <FadingView opacity={showHeader}>
-            <IconButton
-              name={isCurrentlyPlaying ? "Pause" : "Play"}
-              isLoading={isTrackLoading}
-              variant="text"
-              onPress={handlePlayPause}
-              disabled={!canPlay}
+    <ScopedPalette palette={palette}>
+      <Header
+        scrollY={scrollY}
+        showHeader={showHeader}
+        headerBackgroundAnimation={!dominantColor}
+        bottomBorder={!dominantColor}
+        headerStyle={{
+          backgroundColor: dominantColor || undefined
+        }}
+        headerLeft={
+          <View style={styles.headerLeft}>
+            <BackButton />
+            <FadingView opacity={showHeader}>
+              <IconButton
+                name={isCurrentlyPlaying ? "Pause" : "Play"}
+                isLoading={isTrackLoading}
+                variant="text"
+                onPress={handlePlayPause}
+                disabled={!canPlay}
+              />
+            </FadingView>
+          </View>
+        }
+        headerCenter={
+          <View style={styles.headerCenter}>
+            <Thumbnail
+              fileName={song.thumbnail}
+              placeholderIcon="Music"
+              containerStyle={styles.thumbnail}
             />
-          </FadingView>
-        </View>
-      }
-      headerCenter={
-        <View style={styles.headerCenter}>
-          <Thumbnail
-            fileName={song.thumbnail}
-            placeholderIcon="Music"
-            containerStyle={styles.thumbnail}
-          />
-          <View style={styles.textContainer}>
-            <Text weight="medium" numberOfLines={1}>
-              {song.name}
-            </Text>
-            {song.artists.length > 0 ? (
-              <Pressable onPress={() => handleArtistPress(song.artists[0].artistId)}>
+            <View style={styles.textContainer}>
+              <Text weight="medium" numberOfLines={1}>
+                {song.name}
+              </Text>
+              {song.artists.length > 0 ? (
+                <Pressable onPress={() => handleArtistPress(song.artists[0].artistId)}>
+                  <Text size="xs" color="mutedForeground" numberOfLines={1}>
+                    {artistsText}
+                  </Text>
+                </Pressable>
+              ) : (
                 <Text size="xs" color="mutedForeground" numberOfLines={1}>
                   {artistsText}
                 </Text>
-              </Pressable>
-            ) : (
-              <Text size="xs" color="mutedForeground" numberOfLines={1}>
-                {artistsText}
-              </Text>
-            )}
+              )}
+            </View>
           </View>
-        </View>
-      }
-      {...props}
-    />
+        }
+        {...props}
+      />
+    </ScopedPalette>
   )
 }
 
 const songInfoStickyHeaderStyles = createStyleSheet(({ theme }) => ({
+  headerStyle: {
+    backgroundColor: "red"
+  },
   headerLeft: {
     flexDirection: "row",
     alignItems: "center",
