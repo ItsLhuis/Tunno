@@ -55,7 +55,6 @@ import {
   SheetTitle,
   SheetTrigger,
   Spinner,
-  Text,
   TextInput,
   UploadPicker
 } from "@components/ui"
@@ -287,11 +286,6 @@ const SongForm = ({
         loadingComponent={
           <View style={styles.loadingContainer}>
             <Spinner />
-          </View>
-        }
-        errorComponent={
-          <View style={styles.errorContainer}>
-            <Text color="mutedForeground">{t("common.noResultsFound")}</Text>
           </View>
         }
       >
