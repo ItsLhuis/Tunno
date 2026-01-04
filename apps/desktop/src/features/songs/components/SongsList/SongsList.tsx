@@ -147,7 +147,7 @@ const SongsList = () => {
       onEndReachedThreshold={1}
       renderItem={({ item, index, selected, toggle }) =>
         viewMode === "grid" ? (
-          <SongItemCard song={item} />
+          <SongItemCard song={item} allSongIds={songIds} />
         ) : (
           <SongItemList
             song={item}

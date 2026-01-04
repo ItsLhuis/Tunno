@@ -16,7 +16,9 @@ export type SongItemHeroProps = BaseSongItemProps & {
   heroLabel?: string
 }
 
-export type SongItemCardProps = BaseSongItemProps
+export type SongItemCardProps = BaseSongItemProps & {
+  allSongIds?: number[]
+}
 
 export type SongItemListProps = BaseSongItemProps & {
   index?: number
