@@ -17,6 +17,8 @@ import { LRUCache, shuffleArray } from "@repo/utils"
 
 import { getSongFromCacheOrFetch, prefetchSongs } from "../utils/player"
 
+import { type BottomSheetRef } from "@components/ui"
+
 import { type Track } from "../types/player"
 
 import { type PlaySource } from "../types/playSource"
@@ -53,6 +55,7 @@ type PlayerState = {
   sourceContextId: number | null
   cachedSongs: LRUCache<number, SongWithMainRelations>
   isRehydrating: boolean
+  playerSheetRef: BottomSheetRef | null
   hasHydrated: boolean
 }
 
@@ -97,6 +100,7 @@ type PlayerActions = {
   validateAndUpdateState: () => Promise<void>
   setPlaySource: (source: PlaySource) => void
   updateTrackMetadata: (song: SongWithMainRelations) => Promise<void>
+  setPlayerSheetRef: (ref: BottomSheetRef | null) => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -237,6 +241,7 @@ export const usePlayerStore = create<PlayerStore>()(
       sourceContextId: null,
       cachedSongs: new LRUCache<number, SongWithMainRelations>(DEFAULT_WINDOW_SIZE),
       isRehydrating: false,
+      playerSheetRef: null,
       hasHydrated: false,
       validateAndUpdateState: async () => {
         const { trackIds, queueIds, currentTrackIndex } = get()
@@ -1436,6 +1441,9 @@ export const usePlayerStore = create<PlayerStore>()(
         } catch (error) {
           console.error("PlayerStore: Error updating track metadata:", error)
         }
+      },
+      setPlayerSheetRef: (ref) => {
+        set({ playerSheetRef: ref })
       },
       setHasHydrated: (hasHydrated) => {
         set({ hasHydrated })
