@@ -4,9 +4,10 @@ import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { FlashList, type FlashListProps, type FlashListRef } from "@shopify/flash-list"
-
+import { FlashListWithHeaders } from "@components/ui/ListWithHeader"
 import { NotFound } from "@components/ui/NotFound"
+
+import { type FlashListRef } from "@shopify/flash-list"
 
 import { LyricLine } from "./LyricLine"
 
@@ -16,9 +17,8 @@ const LyricsReader = ({
   lyrics,
   currentTime,
   onSeek,
-  style,
+  isPlaying,
   contentContainerStyle,
-  ListEmptyComponent,
   ...props
 }: LyricsReaderProps) => {
   const styles = useStyles(lyricsReaderStyles)
@@ -68,14 +68,14 @@ const LyricsReader = ({
   }, [lyrics])
 
   useEffect(() => {
-    if (!stickEnabled || isUserScrolling || filteredActiveIndex < 0) return
+    if (!isPlaying || !stickEnabled || isUserScrolling || filteredActiveIndex < 0) return
 
     listRef.current?.scrollToIndex({
       index: filteredActiveIndex,
       animated: true,
       viewPosition: 0.3
     })
-  }, [filteredActiveIndex, stickEnabled, isUserScrolling])
+  }, [filteredActiveIndex, stickEnabled, isUserScrolling, isPlaying])
 
   const handleScrollBeginDrag = useCallback(() => {
     setIsUserScrolling(true)
@@ -98,30 +98,24 @@ const LyricsReader = ({
 
   const keyExtractor = useCallback((_: Lyric, index: number) => String(index), [])
 
-  const renderItem = useCallback<NonNullable<FlashListProps<Lyric>["renderItem"]>>(
-    ({ item, index }) => {
-      const isActive = index === filteredActiveIndex
-
-      return <LyricLine lyric={item} isActive={isActive} onPress={() => onSeek(item.startTime)} />
-    },
-    [filteredActiveIndex, onSeek]
-  )
-
-  const ListEmptyComponentResolved = ListEmptyComponent ?? <NotFound />
-
   return (
-    <View style={[styles.container, style]}>
-      <FlashList
+    <View style={styles.container}>
+      <FlashListWithHeaders
         ref={listRef}
         data={filteredLyrics}
         keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
         onScrollBeginDrag={handleScrollBeginDrag}
         onScrollEndDrag={handleScrollEndDrag}
         onMomentumScrollEnd={handleMomentumScrollEnd}
         contentContainerStyle={contentContainerStyle}
-        ListEmptyComponent={ListEmptyComponentResolved}
+        ListEmptyComponent={props.ListEmptyComponent ?? <NotFound />}
+        renderItem={({ item, index }) => {
+          const isActive = index === filteredActiveIndex
+
+          return (
+            <LyricLine lyric={item} isActive={isActive} onPress={() => onSeek(item.startTime)} />
+          )
+        }}
         {...props}
       />
     </View>

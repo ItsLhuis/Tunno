@@ -1,3 +1,4 @@
+export * from "./AnimatedBackground"
 export * from "./AsyncState"
 export * from "./Badge"
 export * from "./BottomSheet"

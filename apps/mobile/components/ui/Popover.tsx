@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -57,10 +58,13 @@ export type PopoverProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
+  ref?: React.Ref<BottomSheetRef>
 }
 
-const Popover = ({ open: controlledOpen, onOpenChange, children }: PopoverProps) => {
-  const sheetRef = useRef<BottomSheetRef | null>(null)
+const Popover = ({ open: controlledOpen, onOpenChange, children, ref }: PopoverProps) => {
+  const internalSheetRef = useRef<BottomSheetRef | null>(null)
+
+  useImperativeHandle(ref, () => internalSheetRef.current as BottomSheetRef)
 
   const [internalOpen, setInternalOpen] = useState(false)
 
@@ -79,9 +83,9 @@ const Popover = ({ open: controlledOpen, onOpenChange, children }: PopoverProps)
 
   useEffect(() => {
     if (open) {
-      sheetRef.current?.present()
+      internalSheetRef.current?.present()
     } else {
-      sheetRef.current?.close()
+      internalSheetRef.current?.close()
     }
   }, [open])
 
@@ -89,7 +93,7 @@ const Popover = ({ open: controlledOpen, onOpenChange, children }: PopoverProps)
     () => ({
       open,
       onOpenChange: handleOpenChange,
-      sheetRef
+      sheetRef: internalSheetRef
     }),
     [open, handleOpenChange]
   )

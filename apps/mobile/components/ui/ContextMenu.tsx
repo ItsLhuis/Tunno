@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -82,10 +83,13 @@ export type ContextMenuProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
+  ref?: React.Ref<BottomSheetRef>
 }
 
-const ContextMenu = ({ open: controlledOpen, onOpenChange, children }: ContextMenuProps) => {
-  const sheetRef = useRef<BottomSheetRef | null>(null)
+const ContextMenu = ({ open: controlledOpen, onOpenChange, children, ref }: ContextMenuProps) => {
+  const internalSheetRef = useRef<BottomSheetRef | null>(null)
+
+  useImperativeHandle(ref, () => internalSheetRef.current as BottomSheetRef)
 
   const [internalOpen, setInternalOpen] = useState(false)
 
@@ -108,9 +112,9 @@ const ContextMenu = ({ open: controlledOpen, onOpenChange, children }: ContextMe
 
   useEffect(() => {
     if (open) {
-      sheetRef.current?.present()
+      internalSheetRef.current?.present()
     } else {
-      sheetRef.current?.close()
+      internalSheetRef.current?.close()
     }
   }, [open])
 
@@ -118,7 +122,7 @@ const ContextMenu = ({ open: controlledOpen, onOpenChange, children }: ContextMe
     () => ({
       open,
       onOpenChange: handleOpenChange,
-      sheetRef,
+      sheetRef: internalSheetRef,
       closeMenu
     }),
     [open, handleOpenChange, closeMenu]

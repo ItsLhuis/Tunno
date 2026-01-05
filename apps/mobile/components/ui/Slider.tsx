@@ -1,5 +1,3 @@
-import { type StyleProp, type ViewStyle } from "react-native"
-
 import { type ColorKey, createStyleSheet, resolveColor, useStyles, useTheme } from "@styles"
 
 import {
@@ -15,8 +13,6 @@ export type SliderProps = Omit<
   | "thumbTintColor"
   | "minimumTrackTintColor"
   | "maximumTrackTintColor"
-  | "trackStyle"
-  | "thumbStyle"
 > & {
   animationType?: "timing" | "spring"
   minimumValue?: number
@@ -24,8 +20,6 @@ export type SliderProps = Omit<
   thumbTintColor?: ColorKey
   minimumTrackTintColor?: ColorKey
   maximumTrackTintColor?: ColorKey
-  trackStyle?: StyleProp<ViewStyle>
-  thumbStyle?: StyleProp<ViewStyle>
 }
 
 const Slider = ({
@@ -68,7 +62,7 @@ const Slider = ({
       minimumTrackTintColor={minTrackColor}
       maximumTrackTintColor={maxTrackColor}
       trackStyle={trackStyle ? [styles.track, trackStyle] : styles.track}
-      thumbStyle={thumbStyle ? [styles.thumb, thumbStyle] : styles.thumb}
+      thumbStyle={thumbStyle ? [styles.thumb, trackStyle] : styles.thumb}
       {...props}
     />
   )
@@ -79,8 +73,8 @@ const sliderStyles = createStyleSheet(({ theme }) => ({
     height: theme.borderWidth(4)
   },
   thumb: {
-    height: theme.fontSize("sm"),
-    width: theme.fontSize("sm")
+    height: theme.fontSize("xs"),
+    width: theme.fontSize("xs")
   }
 }))
 

@@ -1,12 +1,17 @@
-import { Text as RNText, type TextProps as RNTextProps } from "react-native"
+import { Text as RNText, type TextProps as RNTextProps, type TextStyle } from "react-native"
+
+import Animated, { useAnimatedStyle, type AnimatedStyle } from "react-native-reanimated"
 
 import {
   createColorVariants,
   createStyleSheet,
   createVariant,
+  useAnimatedPaletteColor,
   useStyles,
   type StyleVariants
 } from "@styles"
+
+import { type AnimatedPaletteColorKey } from "@styles/core/AnimatedScopedPalette"
 
 export type TextProps = RNTextProps & StyleVariants<typeof textStyles, "text">
 
@@ -33,6 +38,48 @@ export const Text = ({
           fontStyle: fontStyle ?? "normal",
           margin: margin ?? "default"
         }),
+        style
+      ]}
+      {...props}
+    />
+  )
+}
+
+export type AnimatedTextProps = Omit<RNTextProps, "style"> &
+  Omit<StyleVariants<typeof textStyles, "text">, "color"> & {
+    style?: AnimatedStyle<TextStyle>
+    animatedColor?: AnimatedPaletteColorKey
+  }
+
+export const AnimatedText = ({
+  variant,
+  size,
+  weight,
+  animatedColor = "foreground",
+  fontStyle,
+  margin,
+  style,
+  ...props
+}: AnimatedTextProps) => {
+  const styles = useStyles(textStyles)
+
+  const color = useAnimatedPaletteColor(animatedColor)
+
+  const animatedColorStyle = useAnimatedStyle(() => ({
+    color: color.value
+  }))
+
+  return (
+    <Animated.Text
+      style={[
+        styles.text({
+          variant: variant ?? "p",
+          ...(size !== undefined && { size }),
+          ...(weight !== undefined && { weight }),
+          fontStyle: fontStyle ?? "normal",
+          margin: margin ?? "default"
+        }),
+        animatedColorStyle,
         style
       ]}
       {...props}
@@ -200,6 +247,9 @@ const textStyles = createStyleSheet(({ theme }) => ({
         },
         underlineStrikethrough: {
           textDecorationLine: "underline line-through"
+        },
+        uppercase: {
+          textTransform: "uppercase"
         }
       },
       margin: {

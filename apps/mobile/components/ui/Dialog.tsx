@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useState,
   type ReactElement,
@@ -21,6 +22,8 @@ import {
   type ViewProps
 } from "react-native"
 
+import { createStyleSheet, durationTokens, ThemeContext, useBaseTheme, useStyles } from "@styles"
+
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -33,14 +36,17 @@ import { scheduleOnRN } from "react-native-worklets"
 
 import { Portal } from "@gorhom/portal"
 
-import { createStyleSheet, durationTokens, useStyles } from "@styles"
-
 import { Button, type ButtonProps } from "@components/ui/Button"
 import { Text, type TextProps } from "@components/ui/Text"
 
 const TIMING_CONFIG: WithTimingConfig = {
   duration: durationTokens[300],
   easing: Easing.bezier(0.4, 0, 0.2, 1)
+}
+
+export type DialogRef = {
+  open: () => void
+  close: () => void
 }
 
 type DialogContextValue = {
@@ -62,13 +68,23 @@ function useDialogRequired() {
   return context
 }
 
-type DialogProps = {
+export type DialogProps = {
+  ref?: React.Ref<DialogRef>
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  inheritPalette?: boolean
   children: ReactNode
 }
 
-const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) => {
+const Dialog = ({
+  open: controlledOpen,
+  onOpenChange,
+  inheritPalette = false,
+  children,
+  ref
+}: DialogProps) => {
+  const baseTheme = useBaseTheme()
+
   const [internalOpen, setInternalOpen] = useState(false)
 
   const isControlled = controlledOpen !== undefined
@@ -84,6 +100,11 @@ const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) =
     [isControlled, onOpenChange]
   )
 
+  useImperativeHandle(ref, () => ({
+    open: () => handleOpenChange(true),
+    close: () => handleOpenChange(false)
+  }))
+
   const value = useMemo(
     () => ({
       open,
@@ -92,7 +113,15 @@ const Dialog = ({ open: controlledOpen, onOpenChange, children }: DialogProps) =
     [open, handleOpenChange]
   )
 
-  return <DialogContext.Provider value={value}>{children}</DialogContext.Provider>
+  return (
+    <DialogContext.Provider value={value}>
+      {inheritPalette ? (
+        children
+      ) : (
+        <ThemeContext.Provider value={baseTheme}>{children}</ThemeContext.Provider>
+      )}
+    </DialogContext.Provider>
+  )
 }
 
 type DialogTriggerRenderProps = {
@@ -314,7 +343,8 @@ const dialogStyles = createStyleSheet(({ theme }) => ({
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
-    padding: theme.space("lg")
+    padding: theme.space(),
+    zIndex: 9999
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
@@ -327,11 +357,7 @@ const dialogStyles = createStyleSheet(({ theme }) => ({
     maxWidth: 400,
     padding: theme.space("lg"),
     gap: theme.space("lg"),
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 8
+    ...theme.shadow("xl")
   },
   view: {
     gap: theme.space("lg")

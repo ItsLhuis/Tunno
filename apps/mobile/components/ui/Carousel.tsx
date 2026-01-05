@@ -18,7 +18,7 @@ import {
   durationTokens,
   ScopedTheme,
   sizeTokens,
-  spacingAliases,
+  spacingTokens,
   useStyles,
   useTheme,
   viewStyle,
@@ -265,7 +265,7 @@ type CarouselInternalContextValue = {
 const CarouselInternalContext = createContext<CarouselInternalContextValue | undefined>(undefined)
 
 function resolveSpacing(value: SpacingAlias | number): number {
-  return typeof value === "number" ? value : spacingAliases[value]
+  return typeof value === "number" ? value : spacingTokens[value]
 }
 
 function resolveSize(value: SizeAlias | number): number {

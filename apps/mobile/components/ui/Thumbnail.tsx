@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react"
 
-import { type StyleProp, type ViewStyle } from "react-native"
+import { View, type StyleProp, type ViewStyle } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
@@ -83,9 +83,11 @@ const Thumbnail = memo(
 
     if (!fileName) {
       return (
-        <Fade style={[styles.placeholder, containerStyle]}>
-          <Icon name={placeholderIcon} size={placeholderIconSize} color="mutedForeground" />
-        </Fade>
+        <View style={styles.container}>
+          <Fade style={[styles.placeholder, containerStyle]}>
+            <Icon name={placeholderIcon} size={placeholderIconSize} color="mutedForeground" />
+          </Fade>
+        </View>
       )
     }
 
@@ -100,17 +102,20 @@ const Thumbnail = memo(
 )
 
 const thumbnailStyles = createStyleSheet(({ theme }) => ({
-  placeholder: {
-    aspectRatio: 1,
-    width: theme.size(14),
+  container: {
     backgroundColor: theme.colors.secondary,
     borderWidth: theme.borderWidth(),
     borderColor: theme.colors.border,
-    borderRadius: theme.radius(),
+    borderRadius: theme.radius()
+  },
+  placeholder: {
+    aspectRatio: 1,
+    width: theme.size(14),
     alignItems: "center",
     justifyContent: "center"
   },
   image: {
+    backgroundColor: theme.colors.secondary,
     aspectRatio: 1,
     width: theme.size(14)
   }

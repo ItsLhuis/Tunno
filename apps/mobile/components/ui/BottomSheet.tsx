@@ -10,7 +10,14 @@ import {
 
 import { BackHandler, type StyleProp, type ViewStyle } from "react-native"
 
-import { createStyleSheet, durationTokens, useStyles, useTheme } from "@styles"
+import {
+  createStyleSheet,
+  durationTokens,
+  ThemeContext,
+  useBaseTheme,
+  useStyles,
+  useTheme
+} from "@styles"
 
 import {
   BottomSheetBackdrop,
@@ -27,15 +34,16 @@ import {
 
 import { FlashList, type FlashListProps } from "@shopify/flash-list"
 
-export type BottomSheetRef = BottomSheetModal
-
 import { Easing } from "react-native-reanimated"
+
+export type BottomSheetRef = BottomSheetModal
 
 export type BottomSheetProps = BottomSheetModalProps & {
   ref?: Ref<BottomSheetModal>
   backgroundStyle?: StyleProp<Omit<ViewStyle, "position" | "top" | "left" | "bottom" | "right">>
   handleIndicatorStyle?: StyleProp<ViewStyle>
   containerViewStyle?: StyleProp<ViewStyle>
+  inheritPalette?: boolean
   children: ReactNode
 }
 
@@ -48,12 +56,30 @@ const BottomSheet = ({
   bottomInset,
   children,
   onChange,
+  inheritPalette = false,
   ref,
   ...props
 }: BottomSheetProps) => {
   const styles = useStyles(bottomSheetStyles)
 
   const { runtime } = useTheme()
+
+  const baseTheme = useBaseTheme()
+
+  const baseStyles = useMemo(
+    () => ({
+      background: {
+        backgroundColor: baseTheme.theme.colors.background,
+        borderRadius: baseTheme.theme.radius("2xl")
+      },
+      handleIndicator: {
+        backgroundColor: baseTheme.theme.colors.mutedForeground
+      }
+    }),
+    [baseTheme.theme]
+  )
+
+  const resolvedStyles = inheritPalette ? styles : baseStyles
 
   const snap = useMemo(() => snapPoints, [snapPoints])
 
@@ -100,9 +126,9 @@ const BottomSheet = ({
       bottomInset={bottomInset ?? 0}
       snapPoints={snap}
       backdropComponent={renderBackdrop}
-      backgroundStyle={[styles.background, backgroundStyle]}
+      backgroundStyle={[resolvedStyles.background, backgroundStyle]}
       animationConfigs={timingConfig}
-      handleIndicatorStyle={[styles.handleIndicator, handleIndicatorStyle]}
+      handleIndicatorStyle={[resolvedStyles.handleIndicator, handleIndicatorStyle]}
       enableOverDrag={false}
       enablePanDownToClose
       {...props}
@@ -114,7 +140,11 @@ const BottomSheet = ({
         }
       }}
     >
-      {children}
+      {inheritPalette ? (
+        children
+      ) : (
+        <ThemeContext.Provider value={baseTheme}>{children}</ThemeContext.Provider>
+      )}
     </BottomSheetModal>
   )
 }

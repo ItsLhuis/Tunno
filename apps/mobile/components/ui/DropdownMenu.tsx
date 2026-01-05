@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -76,10 +77,13 @@ export type DropdownMenuProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
+  ref?: React.Ref<BottomSheetRef>
 }
 
-const DropdownMenu = ({ open: controlledOpen, onOpenChange, children }: DropdownMenuProps) => {
-  const sheetRef = useRef<BottomSheetRef | null>(null)
+const DropdownMenu = ({ open: controlledOpen, onOpenChange, children, ref }: DropdownMenuProps) => {
+  const internalSheetRef = useRef<BottomSheetRef | null>(null)
+
+  useImperativeHandle(ref, () => internalSheetRef.current as BottomSheetRef)
 
   const [internalOpen, setInternalOpen] = useState(false)
 
@@ -102,9 +106,9 @@ const DropdownMenu = ({ open: controlledOpen, onOpenChange, children }: Dropdown
 
   useEffect(() => {
     if (open) {
-      sheetRef.current?.present()
+      internalSheetRef.current?.present()
     } else {
-      sheetRef.current?.close()
+      internalSheetRef.current?.close()
     }
   }, [open])
 
@@ -112,7 +116,7 @@ const DropdownMenu = ({ open: controlledOpen, onOpenChange, children }: Dropdown
     () => ({
       open,
       onOpenChange: handleOpenChange,
-      sheetRef,
+      sheetRef: internalSheetRef,
       closeMenu
     }),
     [open, handleOpenChange, closeMenu]

@@ -2,7 +2,15 @@ import { Fragment, type ReactNode } from "react"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
-import { createStyleSheet, createVariant, useStyles, type StyleVariants } from "@styles"
+import {
+  createStyleSheet,
+  createVariant,
+  useAnimatedPaletteColor,
+  useStyles,
+  type StyleVariants
+} from "@styles"
+
+import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
 import { Fade } from "@components/ui/Fade"
 import { Icon, type IconProps } from "@components/ui/Icon"
@@ -84,6 +92,61 @@ const Button = ({
   )
 }
 
+export type AnimatedButtonProps = Omit<PressableProps, "style" | "children"> &
+  StyleVariants<typeof buttonStyles, "button"> & {
+    children?: ReactNode
+    isLoading?: boolean
+    disabled?: boolean
+    containerStyle?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
+  }
+
+const AnimatedButton = ({
+  variant = "default",
+  size = "default",
+  children,
+  isLoading = false,
+  disabled = false,
+  containerStyle,
+  style,
+  disableOpacityEffect = false,
+  ...props
+}: AnimatedButtonProps) => {
+  const styles = useStyles(buttonStyles)
+
+  const primaryColor = useAnimatedPaletteColor("primary")
+
+  const animatedBackgroundStyle = useAnimatedStyle(() => {
+    if (variant !== "default") {
+      return {}
+    }
+    return {
+      backgroundColor: primaryColor.value
+    }
+  })
+
+  const isDisabled = disabled || isLoading
+
+  return (
+    <View style={[styles.container, containerStyle]}>
+      <Pressable
+        style={[styles.button({ variant, size }), style]}
+        disabled={isDisabled}
+        disableOpacityEffect={disableOpacityEffect || isLoading}
+        {...props}
+      >
+        <Animated.View style={[styles.animatedBackground, animatedBackgroundStyle]} />
+        <Fade show={!isLoading} initial={false} unmountOnExit={false} style={styles.content}>
+          {children}
+        </Fade>
+        <Fade show={isLoading} unmountOnExit={false} style={styles.spinnerContainer}>
+          <Spinner size="sm" color="primaryForeground" />
+        </Fade>
+      </Pressable>
+    </View>
+  )
+}
+
 const buttonStyles = createStyleSheet(({ theme }) => ({
   container: {
     alignSelf: "stretch"
@@ -94,7 +157,8 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
       alignItems: "center",
       justifyContent: "flex-start",
       gap: theme.space(2),
-      borderRadius: theme.radius()
+      borderRadius: theme.radius(),
+      overflow: "hidden"
     },
     variants: {
       variant: {
@@ -211,7 +275,8 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: theme.space(2)
+    gap: theme.space(2),
+    zIndex: 1
   },
   spinnerContainer: {
     position: "absolute",
@@ -220,8 +285,16 @@ const buttonStyles = createStyleSheet(({ theme }) => ({
     right: 0,
     bottom: 0,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    zIndex: 1
+  },
+  animatedBackground: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
   }
 }))
 
-export { Button }
+export { AnimatedButton, Button }

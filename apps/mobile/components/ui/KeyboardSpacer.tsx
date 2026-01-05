@@ -1,8 +1,8 @@
+import { useTabbarHeight } from "@contexts/TabbarContext"
+
 import { useKeyboardHandler } from "react-native-keyboard-controller"
 
 import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated"
-
-import { useTabbarHeight } from "@/contexts/TabbarContext"
 
 type KeyboardSpacerProps = {
   additionalOffset?: number

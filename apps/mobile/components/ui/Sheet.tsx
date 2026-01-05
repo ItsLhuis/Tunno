@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -57,13 +58,15 @@ export type SheetProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
+  ref?: React.Ref<BottomSheetRef>
 }
 
-const Sheet = ({ open: controlledOpen, onOpenChange, children }: SheetProps) => {
-  const sheetRef = useRef<BottomSheetRef | null>(null)
+const Sheet = ({ open: controlledOpen, onOpenChange, children, ref }: SheetProps) => {
+  const internalSheetRef = useRef<BottomSheetRef | null>(null)
+
+  useImperativeHandle(ref, () => internalSheetRef.current as BottomSheetRef)
 
   const [internalOpen, setInternalOpen] = useState(false)
-
   const isControlled = controlledOpen !== undefined
   const open = isControlled ? controlledOpen : internalOpen
 
@@ -79,9 +82,9 @@ const Sheet = ({ open: controlledOpen, onOpenChange, children }: SheetProps) => 
 
   useEffect(() => {
     if (open) {
-      sheetRef.current?.present()
+      internalSheetRef.current?.present()
     } else {
-      sheetRef.current?.close()
+      internalSheetRef.current?.close()
     }
   }, [open])
 
@@ -89,7 +92,7 @@ const Sheet = ({ open: controlledOpen, onOpenChange, children }: SheetProps) => 
     () => ({
       open,
       onOpenChange: handleOpenChange,
-      sheetRef
+      sheetRef: internalSheetRef
     }),
     [open, handleOpenChange]
   )
@@ -281,7 +284,7 @@ const sheetStyles = createStyleSheet(({ theme, runtime }) => ({
     paddingBottom: runtime.insets.bottom
   },
   header: {
-    gap: theme.space(),
+    gap: theme.space("sm"),
     paddingHorizontal: theme.space("lg"),
     paddingBottom: theme.space("lg")
   },

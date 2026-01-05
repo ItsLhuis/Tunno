@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -92,15 +93,18 @@ export type SelectProps = (SelectSingleProps | SelectMultipleProps) & {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
+  ref?: React.Ref<BottomSheetRef>
 }
 
 const Select = (props: SelectProps) => {
-  const { open: controlledOpen, onOpenChange, children } = props
+  const { open: controlledOpen, onOpenChange, children, ref } = props
 
   const multiple = props.multiple === true
   const maxCount = multiple && "maxCount" in props ? (props.maxCount ?? 3) : 3
 
-  const sheetRef = useRef<BottomSheetRef | null>(null)
+  const internalSheetRef = useRef<BottomSheetRef | null>(null)
+
+  useImperativeHandle(ref, () => internalSheetRef.current as BottomSheetRef)
 
   const [internalOpen, setInternalOpen] = useState(false)
   const [internalValue, setInternalValue] = useState<string | string[] | undefined>(
@@ -171,9 +175,9 @@ const Select = (props: SelectProps) => {
 
   useEffect(() => {
     if (open) {
-      sheetRef.current?.present()
+      internalSheetRef.current?.present()
     } else {
-      sheetRef.current?.close()
+      internalSheetRef.current?.close()
     }
   }, [open])
 
@@ -183,7 +187,7 @@ const Select = (props: SelectProps) => {
       onOpenChange: handleOpenChange,
       multiple,
       value,
-      sheetRef,
+      sheetRef: internalSheetRef,
       maxCount,
       isSelected,
       toggleValue,

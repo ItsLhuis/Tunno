@@ -1,7 +1,12 @@
-import { Button, type ButtonProps } from "@components/ui/Button"
-import { Icon, type IconProps } from "@components/ui/Icon"
-
 import { createStyleSheet, useStyles } from "@styles"
+
+import {
+  AnimatedButton,
+  Button,
+  type AnimatedButtonProps,
+  type ButtonProps
+} from "@components/ui/Button"
+import { AnimatedIcon, Icon, type AnimatedIconProps, type IconProps } from "@components/ui/Icon"
 
 import { getButtonForegroundColor } from "@lib/utils"
 
@@ -41,6 +46,43 @@ const IconButton = ({
   )
 }
 
+export type AnimatedIconButtonProps = Omit<AnimatedButtonProps, "size" | "children"> & {
+  name: IconProps["name"]
+  isFilled?: boolean
+  animatedIconColor?: AnimatedIconProps["animatedColor"]
+  iconSize?: IconProps["size"]
+}
+
+const AnimatedIconButton = ({
+  name,
+  isFilled,
+  animatedIconColor = "foreground",
+  iconSize,
+  variant,
+  containerStyle,
+  style,
+  ...props
+}: AnimatedIconButtonProps) => {
+  const styles = useStyles(iconButtonStyles)
+
+  return (
+    <AnimatedButton
+      size="icon"
+      variant={variant}
+      containerStyle={[styles.container, containerStyle]}
+      style={[styles.button, style]}
+      {...props}
+    >
+      <AnimatedIcon
+        name={name}
+        isFilled={isFilled}
+        animatedColor={animatedIconColor}
+        size={iconSize}
+      />
+    </AnimatedButton>
+  )
+}
+
 const iconButtonStyles = createStyleSheet(() => ({
   container: {
     alignSelf: "center"
@@ -50,4 +92,4 @@ const iconButtonStyles = createStyleSheet(() => ({
   }
 }))
 
-export { IconButton }
+export { AnimatedIconButton, IconButton }
