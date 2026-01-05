@@ -1,7 +1,7 @@
 const SPACING_BASE_UNIT = 4
 const SIZE_BASE_UNIT = 4
 
-export const spacingAliases = {
+export const spacingTokens = {
   xs: SPACING_BASE_UNIT * 1,
   sm: SPACING_BASE_UNIT * 2,
   md: SPACING_BASE_UNIT * 4,
@@ -26,7 +26,7 @@ export const sizeTokens = {
   auto: "auto"
 } as const
 
-export type SpacingAlias = keyof typeof spacingAliases
+export type SpacingAlias = keyof typeof spacingTokens
 export type SizeAlias = keyof typeof sizeTokens
 
 export { SPACING_BASE_UNIT, SIZE_BASE_UNIT }

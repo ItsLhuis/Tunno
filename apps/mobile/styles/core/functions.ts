@@ -19,7 +19,7 @@ import {
   sizeTokens,
   SIZE_BASE_UNIT,
   SPACING_BASE_UNIT,
-  spacingAliases,
+  spacingTokens,
   type SizeAlias,
   type SpacingAlias
 } from "../tokens/spacing"
@@ -49,7 +49,7 @@ export function createSpaceFunction() {
     "worklet"
 
     if (value === undefined) {
-      return spacingAliases.md
+      return spacingTokens.md
     }
 
     if (value === "px") {
@@ -61,7 +61,7 @@ export function createSpaceFunction() {
     }
 
     if (typeof value === "string") {
-      return spacingAliases[value as SpacingAlias]
+      return spacingTokens[value as SpacingAlias]
     }
 
     return value * SPACING_BASE_UNIT

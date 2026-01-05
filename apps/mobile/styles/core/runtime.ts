@@ -31,7 +31,7 @@ import { type RuntimeValues } from "./types"
  *
  * @returns Runtime values object
  */
-export function useRuntimeValues(): RuntimeValues {
+export function useRuntime(): RuntimeValues {
   const colorScheme = useColorScheme()
 
   const insets = useSafeAreaInsets()

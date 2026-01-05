@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo, type ReactNode } from "react"
 
 import { useColorScheme } from "react-native"
 
-import { useRuntimeValues } from "./runtime"
+import { useRuntime } from "./runtime"
 
 import { darkTheme } from "../themes/dark"
 import { lightTheme } from "../themes/light"
@@ -20,6 +20,12 @@ type ThemeContextValue = {
 }
 
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
+
+/**
+ * Base theme context that is never overridden by scoped palettes
+ * Used to reset theme in components like BottomSheet
+ */
+export const BaseThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 
 /**
  * Props for ThemeProvider component
@@ -60,7 +66,7 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const systemColorScheme = useColorScheme()
 
-  const runtime = useRuntimeValues()
+  const runtime = useRuntime()
 
   const light = customLightTheme ?? lightTheme
   const dark = customDarkTheme ?? darkTheme
@@ -83,7 +89,11 @@ export function ThemeProvider({
     [theme, runtime, themeMode, onThemeModeChange]
   )
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  return (
+    <BaseThemeContext.Provider value={value}>
+      <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    </BaseThemeContext.Provider>
+  )
 }
 
 /**
@@ -106,6 +116,25 @@ export function useTheme(): ThemeContextValue {
 
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider")
+  }
+
+  return context
+}
+
+/**
+ * Hook to access the base theme context (unaffected by scoped palettes)
+ *
+ * Returns the original theme without any palette overrides.
+ * Useful for components like BottomSheet that should use the base theme.
+ *
+ * @returns Base theme context value
+ * @throws {Error} If used outside ThemeProvider
+ */
+export function useBaseTheme(): ThemeContextValue {
+  const context = useContext(BaseThemeContext)
+
+  if (!context) {
+    throw new Error("useBaseTheme must be used within a ThemeProvider")
   }
 
   return context
