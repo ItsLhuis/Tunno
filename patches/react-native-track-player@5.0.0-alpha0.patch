@@ -1,7 +1,16 @@
 diff --git a/android/src/main/java/com/doublesymmetry/trackplayer/service/MusicService.kt b/android/src/main/java/com/doublesymmetry/trackplayer/service/MusicService.kt
-index b495b5a98d36c637409e7379ccf0d0a77507f0d0..8165a6f71cdfdcfa8753aa9c1e1924f7d927a928 100644
+index b495b5a98d36c637409e7379ccf0d0a77507f0d0..bb6df9bbda95b849b3d37758529be9b2a9467364 100644
 --- a/android/src/main/java/com/doublesymmetry/trackplayer/service/MusicService.kt
 +++ b/android/src/main/java/com/doublesymmetry/trackplayer/service/MusicService.kt
+@@ -101,7 +101,7 @@ class MusicService : HeadlessJsMediaService() {
+         val openAppIntent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
+             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+             // Add the Uri data so apps can identify that it was a notification click
+-            data = Uri.parse("trackplayer://notification.click")
++            data = Uri.parse("tunno:///?action=show-player")
+             action = Intent.ACTION_VIEW
+         }
+         mediaSession = MediaLibrarySession.Builder(this, fakePlayer,
 @@ -290,11 +290,20 @@ class MusicService : HeadlessJsMediaService() {
                      playerCommandsBuilder.add(Player.COMMAND_SEEK_IN_CURRENT_MEDIA_ITEM)
                  }
