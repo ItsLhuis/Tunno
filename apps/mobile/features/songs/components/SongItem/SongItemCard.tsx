@@ -18,14 +18,21 @@ import { SongActions } from "../SongActions"
 import { type SongItemCardProps } from "./types"
 
 const SongItemCard = memo(
-  ({ song, playSource = "songs", sourceContextId, queueIndex, playlistId }: SongItemCardProps) => {
+  ({
+    song,
+    allSongIds,
+    playSource = "songs",
+    sourceContextId,
+    queueIndex,
+    playlistId
+  }: SongItemCardProps) => {
     const styles = useStyles(songItemCardStyles)
 
     const { t } = useTranslation()
 
-    const { isCurrentlyPlaying, isTrackLoading, handlePlaySong } = useSongPlayback(
+    const { playerSheetRef, isCurrentlyPlaying, isTrackLoading, handlePlaySong } = useSongPlayback(
       song.id,
-      undefined,
+      allSongIds,
       playSource,
       sourceContextId
     )
@@ -34,6 +41,7 @@ const SongItemCard = memo(
       if (isTrackLoading) return
 
       await handlePlaySong()
+      playerSheetRef?.present()
     }
 
     const artistsText =

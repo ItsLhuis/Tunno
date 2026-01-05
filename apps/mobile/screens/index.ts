@@ -1,5 +1,6 @@
 export { Albums } from "./Albums"
 export { Artists } from "./Artists"
 export { Home } from "./Home"
+export { Lyrics } from "./Lyrics"
 export { Playlists } from "./Playlists"
 export * from "./songs"

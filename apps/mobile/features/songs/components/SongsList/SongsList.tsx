@@ -2,9 +2,11 @@ import { Fragment, useCallback, useMemo, useState } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, useStyles, useTheme, viewStyle } from "@styles"
+import { createStyleSheet, spacingTokens, useStyles, viewStyle } from "@styles"
 
 import { useResponsiveColumns } from "@components/ui/ListWithHeader/hooks"
+
+import { useBottomPlayerHeight } from "@features/player/contexts/BottomPlayerLayoutContext"
 
 import { useShallow } from "zustand/shallow"
 
@@ -33,11 +35,11 @@ import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 const SongsList = () => {
   const styles = useStyles(songsListStyles)
 
-  const { theme } = useTheme()
-
   const numColumns = useResponsiveColumns()
 
-  const gap = theme.space()
+  const gap = spacingTokens.md
+
+  const bottomPlayerHeight = useBottomPlayerHeight()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -137,7 +139,7 @@ const SongsList = () => {
         onEndReachedThreshold={0.5}
         ListEmptyComponent={ListEmptyComponent}
         ListFooterComponent={ListFooterComponent}
-        contentContainerStyle={styles.contentContainer(songs.length === 0)}
+        contentContainerStyle={styles.contentContainer(songs.length === 0, bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
         renderItem={({ item, index }) => {
           const isLastItem = index === songs.length - 1
@@ -152,7 +154,7 @@ const SongsList = () => {
 
             return (
               <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow ? 0 : gap)}>
-                <SongItemCard song={item} />
+                <SongItemCard song={item} allSongIds={songIds} />
               </View>
             )
           }
@@ -183,9 +185,10 @@ const songsListStyles = createStyleSheet(({ theme }) => ({
     alignItems: "center",
     paddingVertical: theme.space()
   },
-  contentContainer: (isEmpty: boolean) =>
+  contentContainer: (isEmpty: boolean, bottomOffset: number) =>
     viewStyle({
       padding: theme.space("lg"),
+      paddingBottom: theme.space("lg") + theme.space("md") + bottomOffset,
       ...(isEmpty && {
         flex: 1
       })

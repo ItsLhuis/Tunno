@@ -6,7 +6,7 @@ import "expo-dev-client"
 
 import { useCallback, useEffect, useLayoutEffect, useState } from "react"
 
-import { Linking, View } from "react-native"
+import { View } from "react-native"
 
 import { useFonts } from "expo-font"
 
@@ -15,6 +15,8 @@ import { useAllStoresHydrated } from "@utils/stores"
 import { useShallow } from "zustand/shallow"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
+
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { type ThemeMode } from "@styles"
 
@@ -52,7 +54,9 @@ import { PortalHost, PortalProvider } from "@gorhom/portal"
 
 import { Toaster } from "@components/ui"
 
-import { Stack } from "expo-router"
+import { Player } from "@features/player/components"
+
+import { Stack, useLocalSearchParams } from "expo-router"
 
 import { enableFreeze, enableScreens } from "react-native-screens"
 
@@ -66,6 +70,8 @@ function Main() {
 
   const { theme } = useTheme()
 
+  const params = useLocalSearchParams<{ action: string }>()
+
   const [isAppReady, setIsAppReady] = useState(false)
 
   const allStoresHydrated = useAllStoresHydrated()
@@ -75,6 +81,12 @@ function Main() {
   const { language } = useSettingsStore(
     useShallow((state) => ({
       language: state.language
+    }))
+  )
+
+  const { playerSheetRef } = usePlayerStore(
+    useShallow((state) => ({
+      playerSheetRef: state.playerSheetRef
     }))
   )
 
@@ -116,21 +128,15 @@ function Main() {
     startApp()
   }, [isUpdatePending, allStoresHydrated, fontsLoaded])
 
+  useEffect(() => {
+    if (params.action === "show-player") {
+      playerSheetRef?.present()
+    }
+  }, [params])
+
   const onChildrenLayout = useCallback(() => {
     if (isAppReady) SplashScreen.hide()
   }, [isAppReady])
-
-  useEffect(() => {
-    function deepLinkHandler(data: { url: string }) {
-      console.log("deepLinkHandler", data.url)
-    }
-
-    const subscription = Linking.addEventListener("url", deepLinkHandler)
-
-    Linking.getInitialURL().then((url) => console.log("getInitialURL", url))
-
-    return () => subscription.remove()
-  }, [])
 
   if (!allStoresHydrated || !isAppReady) return null
 
@@ -153,6 +159,7 @@ function Main() {
             </View>
             <Toaster />
             <PortalHost name="dialog" />
+            <Player />
           </BottomSheetModalProvider>
         </PortalProvider>
       </KeyboardProvider>

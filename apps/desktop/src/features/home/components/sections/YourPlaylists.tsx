@@ -9,7 +9,7 @@ import {
   Typography
 } from "@components/ui"
 
-import { PlaylistItemCompact } from "@/features/playlists/components"
+import { PlaylistItemCompact } from "@features/playlists/components"
 
 import { type YourPlaylists } from "@repo/api"
 

@@ -12,7 +12,9 @@ export type BaseSongItemProps = {
   playlistId?: number
 }
 
-export type SongItemCardProps = BaseSongItemProps
+export type SongItemCardProps = BaseSongItemProps & {
+  allSongIds?: number[]
+}
 
 export type SongItemListProps = BaseSongItemProps & {
   allSongIds?: number[]

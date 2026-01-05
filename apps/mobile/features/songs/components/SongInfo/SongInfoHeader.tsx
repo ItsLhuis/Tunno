@@ -140,7 +140,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
           name={isCurrentlyPlaying ? "Pause" : "Play"}
           isLoading={isTrackLoading}
           style={styles.playButton}
-          iconSize="3xl"
+          iconSize="2xl"
           onPress={handlePlayPause}
           disabled={!canPlay}
         />

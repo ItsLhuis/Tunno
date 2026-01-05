@@ -31,7 +31,7 @@ const SongItemList = memo(
 
     const { t } = useTranslation()
 
-    const { isCurrentlyPlaying, isTrackLoading, handlePlaySong } = useSongPlayback(
+    const { playerSheetRef, isCurrentlyPlaying, isTrackLoading, handlePlaySong } = useSongPlayback(
       song.id,
       allSongIds,
       playSource,
@@ -43,6 +43,7 @@ const SongItemList = memo(
       if (isTrackLoading) return
 
       await handlePlaySong()
+      playerSheetRef?.present()
     }
 
     const artistsText =

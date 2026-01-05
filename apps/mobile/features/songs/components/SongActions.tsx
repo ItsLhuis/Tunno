@@ -61,6 +61,7 @@ type SongActionsProps = {
   onDeleteSong?: (song: SongWithMainRelations) => void
   queueIndex?: number
   playlistId?: number
+  stackBehavior?: "push" | "replace"
 }
 
 type DialogType = "edit" | "delete" | "playlist" | null
@@ -88,6 +89,7 @@ const SongActionsContent = memo(
     const pathname = usePathname()
 
     const {
+      playerSheetRef,
       loadTracks,
       play,
       pause,
@@ -98,6 +100,7 @@ const SongActionsContent = memo(
       removeFromQueue
     } = usePlayerStore(
       useShallow((state) => ({
+        playerSheetRef: state.playerSheetRef,
         loadTracks: state.loadTracks,
         play: state.play,
         pause: state.pause,
@@ -176,23 +179,26 @@ const SongActionsContent = memo(
 
     const handleGoToSong = useCallback(() => {
       if (targetSong && pathname !== `/songs/${targetSong.id}`) {
+        playerSheetRef?.dismiss()
         router.push(`/songs/${targetSong.id}`)
       }
-    }, [targetSong, router, pathname])
+    }, [targetSong, router, pathname, playerSheetRef])
 
     const handleGoToAlbum = useCallback(() => {
       if (targetSong?.album && pathname !== `/albums/${targetSong.album.id}`) {
+        playerSheetRef?.dismiss()
         // router.push(`/albums/${targetSong.album.id}`)
       }
-    }, [targetSong, router, pathname])
+    }, [targetSong, router, pathname, playerSheetRef])
 
     const handleGoToArtist = useCallback(
       (artistId: number) => {
         if (pathname !== `/artists/${artistId}`) {
+          playerSheetRef?.dismiss()
           // router.push(`/artists/${artistId}`)
         }
       },
-      [router, pathname]
+      [router, pathname, playerSheetRef]
     )
 
     const handleOpenPlaylist = useCallback(() => {
@@ -203,9 +209,10 @@ const SongActionsContent = memo(
 
     const handleOpenEdit = useCallback(() => {
       if (targetSong) {
+        playerSheetRef?.dismiss()
         onOpenDialog("edit", targetSong)
       }
-    }, [targetSong, onOpenDialog])
+    }, [targetSong, onOpenDialog, playerSheetRef])
 
     const handleOpenDelete = useCallback(() => {
       if (targetSong) {
@@ -364,7 +371,8 @@ const SongActions = memo(
     onEditSong,
     onDeleteSong,
     queueIndex,
-    playlistId
+    playlistId,
+    stackBehavior
   }: SongActionsProps) => {
     const router = useRouter()
 
@@ -419,7 +427,7 @@ const SongActions = memo(
                 typeof children === "function" ? children({ onLongPress }) : children
               }
             </ContextMenuTrigger>
-            <ContextMenuContent>
+            <ContextMenuContent stackBehavior={stackBehavior}>
               <SongActionsContent
                 songId={songId}
                 variant={variant}
@@ -452,7 +460,7 @@ const SongActions = memo(
       <Fragment>
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent stackBehavior={stackBehavior}>
             <SongActionsContent
               songId={songId}
               variant={variant}

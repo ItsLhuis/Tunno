@@ -1,12 +1,14 @@
 import { useEffect } from "react"
 
+import { useWindowDimensions, View } from "react-native"
+
 import { createStyleSheet, useStyles, useTheme } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { Tabs } from "expo-router"
+import { TabbarProvider, useTabbarLayout } from "@contexts/TabbarContext"
 
-import { useWindowDimensions, View } from "react-native"
+import { BottomPlayerLayoutProvider } from "@features/player/contexts/BottomPlayerLayoutContext"
 
 import Animated, {
   Easing,
@@ -15,9 +17,11 @@ import Animated, {
   withTiming
 } from "react-native-reanimated"
 
-import { Fade, Icon, Pressable, Text, type IconProps } from "@components/ui"
+import { Tabs } from "expo-router"
 
-import { TabbarProvider, useTabbarLayout } from "@/contexts/TabbarContext"
+import { BottomPlayer } from "@features/player/components/BottomPlayer"
+
+import { Fade, Icon, Pressable, Text, type IconProps } from "@components/ui"
 
 type RouteIconMap = Record<string, IconProps["name"]>
 
@@ -85,14 +89,14 @@ function TabLayoutContent() {
 
   const { t } = useTranslation()
 
-  const onTabbarLayout = useTabbarLayout()
+  const onLayout = useTabbarLayout()
 
   return (
     <View style={styles.container}>
       <Tabs
         tabBar={(props) => (
-          <Fade style={styles.tabBar} onLayout={onTabbarLayout}>
-            {/* {props.state.routes && props.state.routes.length > 0 && <BottomPlayer />} */}
+          <Fade style={styles.tabBar} onLayout={onLayout}>
+            {props.state.routes && props.state.routes.length > 0 && <BottomPlayer />}
             <TabIndicator activeIndex={props.state.index} tabCount={props.state.routes.length} />
             <View style={styles.tabBarContent}>
               {props.state.routes.map((route, index) => {
@@ -130,7 +134,12 @@ function TabLayoutContent() {
                     style={styles.tabItem}
                   >
                     {iconName && <Icon name={iconName} color={iconColor} />}
-                    <Text size="xs" weight="bold" color={iconColor} numberOfLines={1}>
+                    <Text
+                      size="xs"
+                      weight={isFocused ? "bold" : "normal"}
+                      color={iconColor}
+                      numberOfLines={1}
+                    >
                       {options.title}
                     </Text>
                   </Pressable>
@@ -155,7 +164,6 @@ function TabLayoutContent() {
         <Tabs.Screen name="playlists" options={{ title: t("playlists.title") }} />
         <Tabs.Screen name="artists" options={{ title: t("artists.title") }} />
       </Tabs>
-      {/* <Player /> */}
     </View>
   )
 }
@@ -163,7 +171,9 @@ function TabLayoutContent() {
 export default function TabLayout() {
   return (
     <TabbarProvider>
-      <TabLayoutContent />
+      <BottomPlayerLayoutProvider>
+        <TabLayoutContent />
+      </BottomPlayerLayoutProvider>
     </TabbarProvider>
   )
 }
