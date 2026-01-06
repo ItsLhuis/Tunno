@@ -37,6 +37,8 @@ export type CardTitleProps = TextProps & {
 const CardTitle = ({
   leftIcon,
   iconColor = "mutedForeground",
+  size = "xs",
+  weight = "semibold",
   style,
   ...props
 }: CardTitleProps) => {
@@ -46,12 +48,12 @@ const CardTitle = ({
     return (
       <View style={styles.cardTitleWithIcon}>
         <Icon name={leftIcon} color={iconColor} />
-        <Text style={style} {...props} />
+        <Text size={size} weight={weight} style={style} {...props} />
       </View>
     )
   }
 
-  return <Text style={style} {...props} />
+  return <Text size={size} weight={weight} style={style} {...props} />
 }
 
 export type CardDescriptionProps = TextProps

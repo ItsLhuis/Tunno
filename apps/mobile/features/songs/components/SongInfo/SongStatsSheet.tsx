@@ -79,7 +79,7 @@ const SongStatsSheet = ({ song }: SongStatsSheetProps) => {
         <SheetScrollView>
           <View style={styles.content}>
             <Card>
-              <CardTitle leftIcon="CirclePlay" size="sm" color="mutedForeground">
+              <CardTitle leftIcon="CirclePlay" color="mutedForeground">
                 {t("common.totalPlays")}
               </CardTitle>
               <CardDescription weight="bold" color="foreground">
@@ -87,7 +87,7 @@ const SongStatsSheet = ({ song }: SongStatsSheetProps) => {
               </CardDescription>
             </Card>
             <Card>
-              <CardTitle leftIcon="Clock" size="sm" color="mutedForeground">
+              <CardTitle leftIcon="Clock" color="mutedForeground">
                 {t("common.listenTime")}
               </CardTitle>
               <CardDescription weight="bold" color="foreground">
@@ -95,7 +95,7 @@ const SongStatsSheet = ({ song }: SongStatsSheetProps) => {
               </CardDescription>
             </Card>
             <Card>
-              <CardTitle leftIcon="Clock4" size="sm" color="mutedForeground">
+              <CardTitle leftIcon="Clock4" color="mutedForeground">
                 {t("common.averageListenTime")}
               </CardTitle>
               <CardDescription weight="bold" color="foreground">
@@ -103,7 +103,7 @@ const SongStatsSheet = ({ song }: SongStatsSheetProps) => {
               </CardDescription>
             </Card>
             <Card>
-              <CardTitle leftIcon="TrendingUp" size="sm" color="mutedForeground">
+              <CardTitle leftIcon="TrendingUp" color="mutedForeground">
                 {t("common.retentionRate")}
               </CardTitle>
               <CardDescription weight="bold" color="foreground">
@@ -111,7 +111,7 @@ const SongStatsSheet = ({ song }: SongStatsSheetProps) => {
               </CardDescription>
             </Card>
             <Card>
-              <CardTitle leftIcon="Play" size="sm" color="mutedForeground">
+              <CardTitle leftIcon="Play" color="mutedForeground">
                 {t("common.lastPlayed")}
               </CardTitle>
               <CardDescription weight="bold" color="foreground">
@@ -121,7 +121,7 @@ const SongStatsSheet = ({ song }: SongStatsSheetProps) => {
               </CardDescription>
             </Card>
             <Card>
-              <CardTitle leftIcon="Flame" size="sm" color="mutedForeground">
+              <CardTitle leftIcon="Flame" color="mutedForeground">
                 {t("common.streak")}
               </CardTitle>
               <View style={styles.streakValue}>
