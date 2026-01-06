@@ -6,7 +6,7 @@ import "expo-dev-client"
 
 import { useCallback, useEffect, useLayoutEffect, useState } from "react"
 
-import { View } from "react-native"
+import { Linking, View } from "react-native"
 
 import { useFonts } from "expo-font"
 
@@ -56,7 +56,7 @@ import { Toaster } from "@components/ui"
 
 import { Player } from "@features/player/components"
 
-import { Stack, useLocalSearchParams } from "expo-router"
+import { Stack } from "expo-router"
 
 import { enableFreeze, enableScreens } from "react-native-screens"
 
@@ -69,8 +69,6 @@ function Main() {
   const styles = useStyles(mainStyles)
 
   const { theme } = useTheme()
-
-  const params = useLocalSearchParams<{ action: string }>()
 
   const [isAppReady, setIsAppReady] = useState(false)
 
@@ -129,10 +127,31 @@ function Main() {
   }, [isUpdatePending, allStoresHydrated, fontsLoaded])
 
   useEffect(() => {
-    if (params.action === "show-player") {
-      playerSheetRef?.present()
+    const handleUrl = (url: string | null) => {
+      if (!url) return
+
+      try {
+        const urlObj = new URL(url)
+        const action = urlObj.searchParams.get("action")
+
+        if (action === "show-player" && playerSheetRef) {
+          playerSheetRef.present()
+        }
+      } catch {}
     }
-  }, [params])
+
+    const deepLinkHandler = ({ url }: { url: string }) => {
+      handleUrl(url)
+    }
+
+    const subscription = Linking.addEventListener("url", deepLinkHandler)
+
+    Linking.getInitialURL().then((url) => {
+      handleUrl(url)
+    })
+
+    return () => subscription.remove()
+  }, [playerSheetRef])
 
   const onChildrenLayout = useCallback(() => {
     if (isAppReady) SplashScreen.hide()
