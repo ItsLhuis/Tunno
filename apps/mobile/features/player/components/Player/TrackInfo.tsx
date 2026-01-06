@@ -8,7 +8,8 @@ import {
   imageStyle,
   spacingTokens,
   useRuntime,
-  useStyles
+  useStyles,
+  viewStyle
 } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
@@ -48,8 +49,8 @@ const SIDE_OPACITY = 1
 
 const WINDOW_OFFSET = 4
 const ANIMATION_DURATION = durationTokens[300]
-const SWIPE_VELOCITY_THRESHOLD = durationTokens[500]
-const SWIPE_DISTANCE_THRESHOLD = 0.2
+const SWIPE_VELOCITY_THRESHOLD = 500
+const SWIPE_DISTANCE_THRESHOLD = 0.25
 
 type CarouselDimensions = {
   itemWidth: number
@@ -57,10 +58,11 @@ type CarouselDimensions = {
   containerPadding: number
 }
 
-const calculateDimensions = (screenWidth: number): CarouselDimensions => {
-  const itemWidth = screenWidth * ITEM_WIDTH_RATIO
+const calculateDimensions = (screenWidth: number, isSingleTrack: boolean): CarouselDimensions => {
+  const itemWidth = isSingleTrack ? screenWidth - ITEM_GAP * 2 : screenWidth * ITEM_WIDTH_RATIO
+
   const snapInterval = itemWidth + ITEM_GAP
-  const containerPadding = (screenWidth - itemWidth) / 2
+  const containerPadding = isSingleTrack ? ITEM_GAP : (screenWidth - itemWidth) / 2
 
   return { itemWidth, snapInterval, containerPadding }
 }
@@ -70,14 +72,28 @@ type CarouselItemProps = {
   visualIndex: number
   offsetX: SharedValue<number>
   dimensions: CarouselDimensions
+  isSingleTrack: boolean
 }
 
-const CarouselItem = ({ item, visualIndex, offsetX, dimensions }: CarouselItemProps) => {
+const CarouselItem = ({
+  item,
+  visualIndex,
+  offsetX,
+  dimensions,
+  isSingleTrack
+}: CarouselItemProps) => {
   const styles = useStyles(carouselItemStyles)
 
   const { itemWidth, snapInterval } = dimensions
 
   const animatedStyle = useAnimatedStyle(() => {
+    if (isSingleTrack) {
+      return {
+        transform: [{ translateX: 0 }, { scale: 1 }],
+        opacity: 1
+      }
+    }
+
     const itemCenter = visualIndex * snapInterval
     const distance = offsetX.value - itemCenter
     const normalizedDistance = Math.abs(distance) / snapInterval
@@ -130,12 +146,7 @@ const TrackInfo = () => {
 
   const { t } = useTranslation()
 
-  const dimensions = useMemo(() => calculateDimensions(screenWidth), [screenWidth])
-
-  const { itemWidth, snapInterval, containerPadding } = dimensions
-
   const offsetX = useSharedValue(0)
-  const activeVisualIndex = useSharedValue(0)
   const gestureStartOffset = useSharedValue(0)
   const isGestureActive = useSharedValue(false)
   const isInitialized = useRef(false)
@@ -201,6 +212,15 @@ const TrackInfo = () => {
     }
   }, [currentTrackIndex, queueIds, cachedSongs])
 
+  const isSingleTrack = visibleTracks.length === 1
+
+  const dimensions = useMemo(
+    () => calculateDimensions(screenWidth, isSingleTrack),
+    [screenWidth, isSingleTrack]
+  )
+
+  const { itemWidth, snapInterval, containerPadding } = dimensions
+
   const maxVisualIndex = Math.max(0, visibleTracks.length - 1)
 
   const handleTrackChange = useCallback(
@@ -222,7 +242,6 @@ const TrackInfo = () => {
       const initialOffset = currentVisualIndex * snapInterval
 
       offsetX.value = initialOffset
-      activeVisualIndex.value = currentVisualIndex
       lastSyncedQueueIndex.current = currentTrackIndex
       isInitialized.current = true
     }
@@ -238,7 +257,6 @@ const TrackInfo = () => {
       const targetOffset = currentVisualIndex * snapInterval
 
       offsetX.value = withTiming(targetOffset, { duration: ANIMATION_DURATION })
-      activeVisualIndex.value = currentVisualIndex
       lastSyncedQueueIndex.current = currentTrackIndex
     }
   }, [currentVisualIndex, visibleTracks.length, currentTrackIndex, snapInterval])
@@ -248,17 +266,13 @@ const TrackInfo = () => {
       isInitialized.current = false
       lastSyncedQueueIndex.current = null
       offsetX.value = 0
-      activeVisualIndex.value = 0
     }
   }, [queueIds.length])
 
-  const animateToIndex = useCallback(
-    (targetVisualIndex: number) => {
+  const snapToIndex = useCallback(
+    (targetIndex: number) => {
       "worklet"
-      const clampedIndex = Math.max(0, Math.min(targetVisualIndex, maxVisualIndex))
-
-      activeVisualIndex.value = clampedIndex
-
+      const clampedIndex = Math.max(0, Math.min(targetIndex, maxVisualIndex))
       const targetOffset = clampedIndex * snapInterval
 
       offsetX.value = withTiming(targetOffset, { duration: ANIMATION_DURATION }, (finished) => {
@@ -282,28 +296,31 @@ const TrackInfo = () => {
       "worklet"
       const newOffset = gestureStartOffset.value - event.translationX
       const maxOffset = maxVisualIndex * snapInterval
-
       const overscrollLimit = itemWidth * 0.2
 
       offsetX.value = Math.max(-overscrollLimit, Math.min(newOffset, maxOffset + overscrollLimit))
     })
     .onEnd((event) => {
       "worklet"
-      const currentIdx = activeVisualIndex.value
-      const velocity = event.velocityX
-      const translation = event.translationX
-      const threshold = itemWidth * SWIPE_DISTANCE_THRESHOLD
+      isGestureActive.value = false
 
-      let newIndex = currentIdx
+      const velocity = -event.velocityX
+      const translation = -event.translationX
+
+      const currentOffset = offsetX.value
+      const nearestIndex = Math.round(currentOffset / snapInterval)
+
+      let targetIndex = nearestIndex
 
       if (Math.abs(velocity) > SWIPE_VELOCITY_THRESHOLD) {
-        newIndex = velocity < 0 ? currentIdx + 1 : currentIdx - 1
-      } else if (Math.abs(translation) > threshold) {
-        newIndex = translation < 0 ? currentIdx + 1 : currentIdx - 1
+        targetIndex = velocity > 0 ? nearestIndex + 1 : nearestIndex - 1
+      } else if (Math.abs(translation) > itemWidth * SWIPE_DISTANCE_THRESHOLD) {
+        targetIndex = translation > 0 ? nearestIndex + 1 : nearestIndex - 1
       }
 
-      isGestureActive.value = false
-      animateToIndex(newIndex)
+      targetIndex = Math.max(0, Math.min(targetIndex, maxVisualIndex))
+
+      snapToIndex(targetIndex)
     })
     .onFinalize(() => {
       "worklet"
@@ -323,9 +340,9 @@ const TrackInfo = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.carouselContainer}>
+      <View style={styles.carouselContainer(containerPadding)}>
         <GestureDetector gesture={panGesture}>
-          <Animated.View style={[styles.carouselWrapper(containerPadding), carouselAnimatedStyle]}>
+          <Animated.View style={[styles.carouselWrapper, carouselAnimatedStyle]}>
             {visibleTracks.map((item, index) => (
               <CarouselItem
                 key={`${item.queueIndex}-${item.song.id}`}
@@ -333,6 +350,7 @@ const TrackInfo = () => {
                 visualIndex={index}
                 offsetX={offsetX}
                 dimensions={dimensions}
+                isSingleTrack={isSingleTrack}
               />
             ))}
           </Animated.View>
@@ -354,6 +372,7 @@ const TrackInfo = () => {
           variant="text"
           isFilled={isFavorite}
           animatedIconColor={isFavorite ? "primary" : "foreground"}
+          iconSize="2xl"
           onPress={handleToggleFavorite}
           disabled={!currentTrack}
         />
@@ -362,28 +381,26 @@ const TrackInfo = () => {
   )
 }
 
-const trackInfoStyles = createStyleSheet(({ theme }) => ({
+const trackInfoStyles = createStyleSheet(({ theme, runtime }) => ({
   container: {
     width: "100%",
     alignItems: "center",
     gap: theme.space("lg")
   },
-  carouselContainer: {
-    width: "100%",
-    aspectRatio: 1,
-    overflow: "hidden"
+  carouselContainer: (padding: number) => {
+    const verticalPadding = Math.max(theme.space("lg"), runtime.dimensions.height * 0.04)
+
+    return viewStyle({
+      width: "100%",
+      paddingHorizontal: padding,
+      paddingVertical: verticalPadding,
+      overflow: "hidden"
+    })
   },
-  carouselWrapper: (padding: number) => ({
-    flex: 1,
+  carouselWrapper: {
     flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: padding
-  }),
-  fallbackThumbnail: imageStyle({
-    width: "100%",
-    aspectRatio: 1,
-    borderRadius: theme.radius()
-  }),
+    alignItems: "center"
+  },
   infoRow: {
     width: "100%",
     flexDirection: "row",

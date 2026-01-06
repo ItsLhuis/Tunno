@@ -205,6 +205,7 @@ const headerStyles = createStyleSheet(({ theme, runtime }) => ({
   left: (headerCenterExists: boolean) => {
     const centerWidth = headerCenterExists ? 0.4 * runtime.dimensions.width : 0
     const minSideHeaderWidth = (runtime.dimensions.width - centerWidth) / 2
+
     return viewStyle({
       flexDirection: "row",
       paddingLeft: theme.space("lg"),
@@ -219,6 +220,7 @@ const headerStyles = createStyleSheet(({ theme, runtime }) => ({
   },
   center: (headerCenterExists: boolean) => {
     const centerWidth = headerCenterExists ? 0.4 * runtime.dimensions.width : 0
+
     return viewStyle({
       flex: 1,
       flexDirection: "row",
@@ -230,6 +232,7 @@ const headerStyles = createStyleSheet(({ theme, runtime }) => ({
   },
   centerFixed: (headerCenterExists: boolean) => {
     const centerWidth = headerCenterExists ? 0.4 * runtime.dimensions.width : 0
+
     return viewStyle({
       flex: 1,
       flexDirection: "row",
@@ -242,6 +245,7 @@ const headerStyles = createStyleSheet(({ theme, runtime }) => ({
   right: (headerCenterExists: boolean) => {
     const centerWidth = headerCenterExists ? 0.4 * runtime.dimensions.width : 0
     const minSideHeaderWidth = (runtime.dimensions.width - centerWidth) / 2
+
     return viewStyle({
       flexDirection: "row-reverse",
       paddingRight: theme.space("lg"),
