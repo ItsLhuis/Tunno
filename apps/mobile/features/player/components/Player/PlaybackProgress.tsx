@@ -108,12 +108,11 @@ const PlaybackProgress = () => {
 const playbackProgressStyles = createStyleSheet(({ theme }) => ({
   container: {
     width: "100%",
-    gap: theme.space("sm"),
     paddingHorizontal: theme.space("lg")
   },
   slider: {
     width: "100%",
-    height: "auto"
+    height: theme.size("xl")
   },
   timeRow: {
     flexDirection: "row",

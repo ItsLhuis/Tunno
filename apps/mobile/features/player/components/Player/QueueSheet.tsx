@@ -168,7 +168,12 @@ const QueueSheet = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <AnimatedIconButton name="ListMusic" variant="text" animatedIconColor="foreground" />
+        <AnimatedIconButton
+          name="ListMusic"
+          variant="text"
+          animatedIconColor="foreground"
+          iconSize="2xl"
+        />
       </SheetTrigger>
       <SheetContent enableDynamicSizing={false} snapPoints={["100%"]} stackBehavior="push">
         <View style={styles.sheetContainer}>

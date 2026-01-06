@@ -34,6 +34,7 @@ const PlaybackOptions = () => {
         name="MicVocal"
         variant="text"
         animatedIconColor="foreground"
+        iconSize="2xl"
         onPress={handleLyricsPress}
         disabled={!currentTrack}
       />

@@ -125,8 +125,7 @@ const playerStyles = createStyleSheet(({ theme, runtime }) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: theme.space("lg"),
-    paddingHorizontal: theme.space("lg")
+    padding: theme.space("lg")
   },
   contentContainer: {
     flexGrow: 1,
