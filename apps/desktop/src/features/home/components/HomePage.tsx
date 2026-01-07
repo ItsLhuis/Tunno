@@ -1,4 +1,4 @@
-import { Fragment, useCallback } from "react"
+import { useCallback } from "react"
 
 import { useFetchHome } from "../hooks/useFetchHome"
 
@@ -19,6 +19,7 @@ import {
   YourPlaylists
 } from "./sections"
 
+import { HomePageEmpty } from "./HomePageEmpty"
 import { HomeStickyHeader } from "./HomeStickyHeader"
 
 const HomePage = () => {
@@ -40,12 +41,13 @@ const HomePage = () => {
     <ScrollAreaWithHeaders
       HeaderComponent={Header}
       StickyHeaderComponent={StickyHeader}
-      className="flex w-full flex-1 flex-col pt-0"
+      className="flex w-full flex-1 flex-col pt-9"
     >
       <AsyncState
         data={home}
         isLoading={isLoading}
         isError={isError}
+        EmptyComponent={<HomePageEmpty />}
         className={cn("flex w-full flex-1 flex-col gap-9", (isLoading || isError) && "min-h-44")}
       >
         {(data) => {
@@ -58,6 +60,7 @@ const HomePage = () => {
           const hasFavoriteArtists = (data.favoriteArtists?.totalArtists ?? 0) > 0
 
           const hasAnySection =
+            featuredAlbum ||
             hasJumpBackIn ||
             hasOnRepeat ||
             hasYourPlaylists ||
@@ -66,17 +69,19 @@ const HomePage = () => {
             hasFavoriteArtists
 
           return (
-            <Fragment>
+            <AsyncState
+              data={hasAnySection}
+              EmptyComponent={<HomePageEmpty />}
+              className="flex w-full flex-1 flex-col gap-9"
+            >
               {featuredAlbum && <AlbumItemFeatured album={featuredAlbum} />}
-              <AsyncState data={hasAnySection} className="flex w-full flex-1 flex-col gap-9">
-                {hasJumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn!} />}
-                {hasOnRepeat && <OnRepeat onRepeat={data.onRepeat!} />}
-                {hasNewReleases && <NewReleases newReleases={data.newReleases!} />}
-                {hasYourPlaylists && <YourPlaylists yourPlaylists={data.yourPlaylists!} />}
-                {hasDiscover && <Discover discover={data.discover!} />}
-                {hasFavoriteArtists && <FavoriteArtists favoriteArtists={data.favoriteArtists!} />}
-              </AsyncState>
-            </Fragment>
+              {hasJumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn!} />}
+              {hasOnRepeat && <OnRepeat onRepeat={data.onRepeat!} />}
+              {hasNewReleases && <NewReleases newReleases={data.newReleases!} />}
+              {hasYourPlaylists && <YourPlaylists yourPlaylists={data.yourPlaylists!} />}
+              {hasDiscover && <Discover discover={data.discover!} />}
+              {hasFavoriteArtists && <FavoriteArtists favoriteArtists={data.favoriteArtists!} />}
+            </AsyncState>
           )
         }}
       </AsyncState>
