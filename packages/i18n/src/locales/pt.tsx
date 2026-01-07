@@ -264,6 +264,30 @@ export const portuguese: Language = {
       discover: {
         title: "Descobrir",
         description: "Novas recomendações musicais para ti"
+      },
+      empty: {
+        title: "A tua biblioteca está vazia",
+        description:
+          "Bem-vindo ao Tunno. Para começar, terás de adicionar algumas músicas à tua biblioteca pessoal.",
+        getStarted: "Começar",
+        songs: {
+          title: "Importar músicas",
+          description:
+            "Adiciona ficheiros de música do teu dispositivo para começar a construir a tua biblioteca"
+        },
+        albums: {
+          title: "Criar álbuns",
+          description: "Organiza a tua música criando álbuns com arte e detalhes"
+        },
+        playlists: {
+          title: "Criar lista de reprodução",
+          description:
+            "Cria as tuas próprias misturas para qualquer estado de espírito ou atividade"
+        },
+        artists: {
+          title: "Adicionar artistas",
+          description: "Cria perfis de artistas para organizar e gerir a sua música"
+        }
       }
     },
     songs: {

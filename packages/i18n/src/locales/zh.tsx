@@ -261,6 +261,27 @@ export const chinese: Language = {
       discover: {
         title: "发现",
         description: "为你推荐的新音乐"
+      },
+      empty: {
+        title: "您的音乐库为空",
+        description: "欢迎使用 Tunno。要开始，您需要将一些音乐添加到您的个人音乐库中。",
+        getStarted: "开始使用",
+        songs: {
+          title: "导入歌曲",
+          description: "从您的设备添加音乐文件以开始构建您的音乐库"
+        },
+        albums: {
+          title: "创建专辑",
+          description: "通过创建带有封面和详细信息的专辑来组织您的音乐"
+        },
+        playlists: {
+          title: "创建播放列表",
+          description: "为任何心情或活动策划您自己的混音"
+        },
+        artists: {
+          title: "添加艺术家",
+          description: "创建艺术家资料以组织和管理他们的音乐"
+        }
       }
     },
     songs: {

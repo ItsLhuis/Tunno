@@ -263,6 +263,28 @@ export const norwegian: Language = {
       discover: {
         title: "Oppdag",
         description: "Nye musikanbefalinger for deg"
+      },
+      empty: {
+        title: "Biblioteket ditt er tomt",
+        description:
+          "Velkommen til Tunno. For å komme i gang må du legge til musikk i ditt personlige bibliotek.",
+        getStarted: "Kom i gang",
+        songs: {
+          title: "Importer sanger",
+          description: "Legg til musikkfiler fra enheten din for å begynne å bygge biblioteket ditt"
+        },
+        albums: {
+          title: "Opprett album",
+          description: "Organiser musikken din ved å opprette album med omslag og detaljer"
+        },
+        playlists: {
+          title: "Opprett spilleliste",
+          description: "Lag dine egne mikser for enhver stemning eller aktivitet"
+        },
+        artists: {
+          title: "Legg til artister",
+          description: "Opprett artistprofiler for å organisere og administrere musikken deres"
+        }
       }
     },
     songs: {

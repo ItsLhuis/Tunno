@@ -263,6 +263,29 @@ export const turkish: Language = {
       discover: {
         title: "Keşfet",
         description: "Senin için yeni müzik önerileri"
+      },
+      empty: {
+        title: "Kütüphanen boş",
+        description:
+          "Tunno'ya hoş geldiniz. Başlamak için kişisel kütüphanenize biraz müzik eklemeniz gerekecek.",
+        getStarted: "Başla",
+        songs: {
+          title: "Şarkıları içe aktar",
+          description:
+            "Kütüphanenizi oluşturmaya başlamak için cihazınızdan müzik dosyaları ekleyin"
+        },
+        albums: {
+          title: "Albüm oluştur",
+          description: "Albüm kapakları ve detaylarıyla müziğinizi düzenleyin"
+        },
+        playlists: {
+          title: "Çalma listesi oluştur",
+          description: "Herhangi bir ruh hali veya aktivite için kendi karışımlarınızı derleyin"
+        },
+        artists: {
+          title: "Sanatçı ekle",
+          description: "Müziklerini düzenlemek ve yönetmek için sanatçı profilleri oluşturun"
+        }
       }
     },
     songs: {

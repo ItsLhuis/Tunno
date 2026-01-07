@@ -263,6 +263,28 @@ export const japanese: Language = {
       discover: {
         title: "発見",
         description: "あなたのための新しい音楽レコメンデーション"
+      },
+      empty: {
+        title: "あなたのライブラリは空です",
+        description:
+          "Tunnoへようこそ。始めるには、あなたの個人ライブラリに音楽を追加する必要があります。",
+        getStarted: "始める",
+        songs: {
+          title: "曲をインポート",
+          description: "デバイスから音楽ファイルを追加して、ライブラリの構築を開始します"
+        },
+        albums: {
+          title: "アルバムを作成",
+          description: "アートワークと詳細を含むアルバムを作成して音楽を整理します"
+        },
+        playlists: {
+          title: "プレイリストを作成",
+          description: "あらゆる気分やアクティビティに合わせて独自のミックスをキュレーションします"
+        },
+        artists: {
+          title: "アーティストを追加",
+          description: "アーティストプロファイルを作成して、彼らの音楽を整理および管理します"
+        }
       }
     },
     songs: {

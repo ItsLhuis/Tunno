@@ -263,6 +263,28 @@ export const swedish: Language = {
       discover: {
         title: "Upptäck",
         description: "Nya musikrekommendationer för dig"
+      },
+      empty: {
+        title: "Ditt bibliotek är tomt",
+        description:
+          "Välkommen till Tunno. För att komma igång måste du lägga till musik i ditt personliga bibliotek.",
+        getStarted: "Kom igång",
+        songs: {
+          title: "Importera låtar",
+          description: "Lägg till musikfiler från din enhet för att börja bygga ditt bibliotek"
+        },
+        albums: {
+          title: "Skapa album",
+          description: "Organisera din musik genom att skapa album med omslag och detaljer"
+        },
+        playlists: {
+          title: "Skapa spellista",
+          description: "Skapa dina egna mixar för varje humör eller aktivitet"
+        },
+        artists: {
+          title: "Lägg till artister",
+          description: "Skapa artistprofiler för att organisera och hantera deras musik"
+        }
       }
     },
     songs: {

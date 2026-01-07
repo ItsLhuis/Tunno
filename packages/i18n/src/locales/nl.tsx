@@ -264,6 +264,28 @@ export const dutch: Language = {
       discover: {
         title: "Ontdekken",
         description: "Nieuwe muziekaanbevelingen voor jou"
+      },
+      empty: {
+        title: "Je bibliotheek is leeg",
+        description:
+          "Welkom bij Tunno. Om te beginnen, moet je muziek toevoegen aan je persoonlijke bibliotheek.",
+        getStarted: "Begin",
+        songs: {
+          title: "Nummers importeren",
+          description: "Voeg muziekbestanden toe vanaf je apparaat om je bibliotheek op te bouwen"
+        },
+        albums: {
+          title: "Albums maken",
+          description: "Organiseer je muziek door albums met artwork en details te maken"
+        },
+        playlists: {
+          title: "Playlist maken",
+          description: "Stel je eigen mixen samen voor elke stemming of activiteit"
+        },
+        artists: {
+          title: "Artiesten toevoegen",
+          description: "Maak artiestenprofielen om hun muziek te organiseren en te beheren"
+        }
       }
     },
     songs: {

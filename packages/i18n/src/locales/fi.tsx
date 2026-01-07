@@ -263,6 +263,28 @@ export const finnish: Language = {
       discover: {
         title: "Löydä",
         description: "Uusia musiikkisuosituksia sinulle"
+      },
+      empty: {
+        title: "Kirjastosi on tyhjä",
+        description:
+          "Tervetuloa Tunnoon. Aloittaaksesi, sinun täytyy lisätä musiikkia henkilökohtaiseen kirjastoosi.",
+        getStarted: "Aloita",
+        songs: {
+          title: "Tuo kappaleita",
+          description: "Lisää musiikkitiedostoja laitteeltasi aloittaaksesi kirjastosi rakentamisen"
+        },
+        albums: {
+          title: "Luo albumeita",
+          description: "Järjestä musiikkisi luomalla albumeita kansikuvilla ja tiedoilla"
+        },
+        playlists: {
+          title: "Luo soittolista",
+          description: "Kuratoi omia miksauksia mihin tahansa mielialaan tai toimintaan"
+        },
+        artists: {
+          title: "Lisää artisteja",
+          description: "Luo artistiprofiileja järjestääksesi ja hallitaksesi heidän musiikkiaan"
+        }
       }
     },
     songs: {

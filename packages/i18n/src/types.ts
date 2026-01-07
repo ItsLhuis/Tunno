@@ -265,6 +265,27 @@ export type Translations = {
       title: string
       description: string
     }
+    empty: {
+      title: string
+      description: string
+      getStarted: string
+      songs: {
+        title: string
+        description: string
+      }
+      albums: {
+        title: string
+        description: string
+      }
+      playlists: {
+        title: string
+        description: string
+      }
+      artists: {
+        title: string
+        description: string
+      }
+    }
   }
   songs: {
     title: string

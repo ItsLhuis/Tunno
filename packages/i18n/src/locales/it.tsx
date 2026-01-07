@@ -264,6 +264,29 @@ export const italian: Language = {
       discover: {
         title: "Scopri",
         description: "Nuove raccomandazioni musicali per te"
+      },
+      empty: {
+        title: "La tua libreria è vuota",
+        description:
+          "Benvenuto in Tunno. Per iniziare, dovrai aggiungere della musica alla tua libreria personale.",
+        getStarted: "Inizia",
+        songs: {
+          title: "Importa brani",
+          description:
+            "Aggiungi file musicali dal tuo dispositivo per iniziare a costruire la tua libreria"
+        },
+        albums: {
+          title: "Crea album",
+          description: "Organizza la tua musica creando album con copertine e dettagli"
+        },
+        playlists: {
+          title: "Crea playlist",
+          description: "Cura i tuoi mix per ogni stato d'animo o attività"
+        },
+        artists: {
+          title: "Aggiungi artisti",
+          description: "Crea profili artisti per organizzare e gestire la loro musica"
+        }
       }
     },
     songs: {

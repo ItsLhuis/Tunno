@@ -264,6 +264,30 @@ export const french: Language = {
       discover: {
         title: "Découvrir",
         description: "Nouvelles recommandations musicales pour vous"
+      },
+      empty: {
+        title: "Votre bibliothèque est vide",
+        description:
+          "Bienvenue sur Tunno. Pour commencer, vous devrez ajouter de la musique à votre bibliothèque personnelle.",
+        getStarted: "Commencer",
+        songs: {
+          title: "Importer des chansons",
+          description:
+            "Ajoutez des fichiers musicaux depuis votre appareil pour commencer à construire votre bibliothèque"
+        },
+        albums: {
+          title: "Créer des albums",
+          description:
+            "Organisez votre musique en créant des albums avec des illustrations et des détails"
+        },
+        playlists: {
+          title: "Créer une playlist",
+          description: "Organisez vos propres mix pour chaque humeur ou activité"
+        },
+        artists: {
+          title: "Ajouter des artistes",
+          description: "Créez des profils d'artistes pour organiser et gérer leur musique"
+        }
       }
     },
     songs: {

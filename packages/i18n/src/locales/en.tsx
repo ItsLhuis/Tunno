@@ -263,6 +263,28 @@ export const english: Language = {
       discover: {
         title: "Discover",
         description: "New music recommendations for you"
+      },
+      empty: {
+        title: "Your library is empty",
+        description:
+          "Welcome to Tunno. To get started, you'll need to add some music to your personal library.",
+        getStarted: "Get started",
+        songs: {
+          title: "Import Songs",
+          description: "Add music files from your device to start building your library"
+        },
+        albums: {
+          title: "Create Albums",
+          description: "Organize your music by creating albums with artwork and details"
+        },
+        playlists: {
+          title: "Create Playlist",
+          description: "Curate your own mixes for any mood or activity"
+        },
+        artists: {
+          title: "Add Artists",
+          description: "Create artist profiles to organize and manage their music"
+        }
       }
     },
     songs: {

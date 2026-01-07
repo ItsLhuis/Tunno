@@ -263,6 +263,28 @@ export const vietnamese: Language = {
       discover: {
         title: "Khám Phá",
         description: "Những gợi ý âm nhạc mới dành cho bạn"
+      },
+      empty: {
+        title: "Thư viện của bạn trống",
+        description:
+          "Chào mừng bạn đến với Tunno. Để bắt đầu, bạn sẽ cần thêm một số nhạc vào thư viện cá nhân của mình.",
+        getStarted: "Bắt đầu",
+        songs: {
+          title: "Nhập bài hát",
+          description: "Thêm các tệp nhạc từ thiết bị của bạn để bắt đầu xây dựng thư viện của mình"
+        },
+        albums: {
+          title: "Tạo album",
+          description: "Sắp xếp nhạc của bạn bằng cách tạo album với ảnh bìa và chi tiết"
+        },
+        playlists: {
+          title: "Tạo danh sách phát",
+          description: "Tạo các bản phối của riêng bạn cho bất kỳ tâm trạng hoặc hoạt động nào"
+        },
+        artists: {
+          title: "Thêm nghệ sĩ",
+          description: "Tạo hồ sơ nghệ sĩ để sắp xếp và quản lý nhạc của họ"
+        }
       }
     },
     songs: {

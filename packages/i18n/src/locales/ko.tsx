@@ -263,6 +263,28 @@ export const korean: Language = {
       discover: {
         title: "발견",
         description: "당신을 위한 새로운 음악 추천"
+      },
+      empty: {
+        title: "라이브러리가 비어 있습니다",
+        description:
+          "Tunno에 오신 것을 환영합니다. 시작하려면 개인 라이브러리에 음악을 추가해야 합니다.",
+        getStarted: "시작하기",
+        songs: {
+          title: "노래 가져오기",
+          description: "라이브러리를 구축하려면 기기에서 음악 파일을 추가하세요"
+        },
+        albums: {
+          title: "앨범 만들기",
+          description: "앨범 아트워크와 세부 정보를 사용하여 음악을 정리하세요"
+        },
+        playlists: {
+          title: "재생목록 만들기",
+          description: "어떤 분위기나 활동에도 나만의 믹스를 큐레이션하세요"
+        },
+        artists: {
+          title: "아티스트 추가",
+          description: "아티스트 프로필을 만들어 음악을 정리하고 관리하세요"
+        }
       }
     },
     songs: {

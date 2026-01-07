@@ -263,6 +263,28 @@ export const danish: Language = {
       discover: {
         title: "Opdag",
         description: "Nye musikkanbefalinger til dig"
+      },
+      empty: {
+        title: "Dit bibliotek er tomt",
+        description:
+          "Velkommen til Tunno. For at komme i gang skal du tilføje noget musik til dit personlige bibliotek.",
+        getStarted: "Kom i gang",
+        songs: {
+          title: "Importer sange",
+          description: "Tilføj musikfiler fra din enhed for at begynde at opbygge dit bibliotek"
+        },
+        albums: {
+          title: "Opret album",
+          description: "Organiser din musik ved at oprette album med illustrationer og detaljer"
+        },
+        playlists: {
+          title: "Opret afspilningsliste",
+          description: "Sammenstil dine egne mix til enhver stemning eller aktivitet"
+        },
+        artists: {
+          title: "Tilføj kunstnere",
+          description: "Opret kunstnerprofiler for at organisere og administrere deres musik"
+        }
       }
     },
     songs: {

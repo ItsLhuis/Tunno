@@ -263,6 +263,29 @@ export const polish: Language = {
       discover: {
         title: "Odkryj",
         description: "Nowe rekomendacje muzyczne dla ciebie"
+      },
+      empty: {
+        title: "Twoja biblioteka jest pusta",
+        description:
+          "Witaj w Tunno. Aby rozpocząć, musisz dodać muzykę do swojej osobistej biblioteki.",
+        getStarted: "Rozpocznij",
+        songs: {
+          title: "Importuj utwory",
+          description:
+            "Dodaj pliki muzyczne z urządzenia, aby rozpocząć budowanie swojej biblioteki"
+        },
+        albums: {
+          title: "Twórz albumy",
+          description: "Organizuj swoją muzykę, tworząc albumy z grafiką i szczegółami"
+        },
+        playlists: {
+          title: "Twórz playlisty",
+          description: "Twórz własne miksy na każdy nastrój lub aktywność"
+        },
+        artists: {
+          title: "Dodaj artystów",
+          description: "Twórz profile artystów, aby organizować i zarządzać ich muzyką"
+        }
       }
     },
     songs: {
