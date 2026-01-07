@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.4.5] - 2026-01-07
+
+### Added
+
+- ✨ **Empty Home Page**: The home page now features a welcoming empty state with a call-to-action
+  to get started.
+
 ## [1.4.4] - 2025-12-31
 
 ### Changed
