@@ -269,12 +269,12 @@ const SongForm = ({
             : false
         }
         isError={mode === "update" ? isSongError : false}
-        loadingComponent={
+        LoadingComponent={
           <div className="flex items-center justify-center p-8">
             <Spinner />
           </div>
         }
-        errorComponent={
+        ErrorComponent={
           <div className="flex items-center justify-center p-8">{t("common.noResultsFound")}</div>
         }
       >

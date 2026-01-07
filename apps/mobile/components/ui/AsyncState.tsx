@@ -22,9 +22,9 @@ export type AsyncStateProps<TItem> = {
   data: TItem | boolean | null | undefined
   isLoading?: boolean
   isError?: boolean
-  loadingComponent?: ReactNode
-  errorComponent?: ReactNode
-  emptyComponent?: ReactNode
+  LoadingComponent?: ReactNode
+  ErrorComponent?: ReactNode
+  EmptyComponent?: ReactNode
   style?: StyleProp<ViewStyle>
   children: ReactNode | ((data: NonNullable<TItem>) => ReactNode)
 }
@@ -33,9 +33,9 @@ const AsyncState = <TItem,>({
   data,
   isLoading = false,
   isError = false,
-  loadingComponent = <DefaultLoadingComponent />,
-  errorComponent = <NotFound />,
-  emptyComponent = <NotFound />,
+  LoadingComponent = <DefaultLoadingComponent />,
+  ErrorComponent = <NotFound />,
+  EmptyComponent = <NotFound />,
   style,
   children
 }: AsyncStateProps<TItem>) => {
@@ -51,9 +51,9 @@ const AsyncState = <TItem,>({
   }
 
   const getContent = () => {
-    if (isLoading) return loadingComponent
-    if (isError) return errorComponent
-    if (isEmpty(data)) return emptyComponent
+    if (isLoading) return LoadingComponent
+    if (isError) return ErrorComponent
+    if (isEmpty(data)) return EmptyComponent
     if (typeof children === "function") {
       return children(data as NonNullable<TItem>)
     }

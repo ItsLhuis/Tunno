@@ -300,7 +300,7 @@ const UploadPicker = ({
         </Card>
       )}
       {showPreview && (item !== null || isLoading) && (
-        <AsyncState data={item} isLoading={isLoading} emptyComponent={null}>
+        <AsyncState data={item} isLoading={isLoading} EmptyComponent={null}>
           {(loadedItem) => (
             <Card style={styles.preview}>
               <View style={styles.previewContent}>

@@ -283,7 +283,7 @@ const SongForm = ({
             : false
         }
         isError={mode === "update" ? isSongError : false}
-        loadingComponent={
+        LoadingComponent={
           <View style={styles.loadingContainer}>
             <Spinner />
           </View>

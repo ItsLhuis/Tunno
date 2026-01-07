@@ -212,12 +212,12 @@ const ArtistForm = ({
         data={mode === "update" ? artist : true}
         isLoading={mode === "update" ? isArtistLoading : false}
         isError={mode === "update" ? isArtistError : false}
-        loadingComponent={
+        LoadingComponent={
           <div className="flex items-center justify-center p-8">
             <Spinner />
           </div>
         }
-        errorComponent={
+        ErrorComponent={
           <div className="flex items-center justify-center p-8">{t("common.noResultsFound")}</div>
         }
       >

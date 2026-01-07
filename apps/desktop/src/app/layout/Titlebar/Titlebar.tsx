@@ -143,8 +143,8 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                         <AsyncState
                           data={breadcrumb.label}
                           isLoading={breadcrumb.isLoading}
-                          loadingComponent={<Spinner variant="ellipsis" size={12} />}
-                          errorComponent={
+                          LoadingComponent={<Spinner variant="ellipsis" size={12} />}
+                          ErrorComponent={
                             <Typography
                               data-tauri-drag-region
                               affects="small"
@@ -153,7 +153,7 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
                               {t("common.noResultsFound")}
                             </Typography>
                           }
-                          emptyComponent={
+                          EmptyComponent={
                             <Typography
                               data-tauri-drag-region
                               affects="small"

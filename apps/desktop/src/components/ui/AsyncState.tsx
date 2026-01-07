@@ -10,9 +10,9 @@ export type AsyncStateProps<TItem> = {
   data: TItem | boolean | null | undefined
   isLoading?: boolean
   isError?: boolean
-  loadingComponent?: ReactNode
-  errorComponent?: ReactNode
-  emptyComponent?: ReactNode
+  LoadingComponent?: ReactNode
+  ErrorComponent?: ReactNode
+  EmptyComponent?: ReactNode
   className?: string
   children: ReactNode | ((data: NonNullable<TItem>) => ReactNode)
 }
@@ -21,13 +21,13 @@ const AsyncState = <TItem,>({
   data,
   isLoading = false,
   isError = false,
-  loadingComponent = (
+  LoadingComponent = (
     <div className="flex h-full flex-col items-center justify-center p-4">
       <Spinner />
     </div>
   ),
-  errorComponent = <NotFound />,
-  emptyComponent = <NotFound />,
+  ErrorComponent = <NotFound />,
+  EmptyComponent = <NotFound />,
   className,
   children
 }: AsyncStateProps<TItem>) => {
@@ -41,9 +41,9 @@ const AsyncState = <TItem,>({
   }
 
   const getContent = () => {
-    if (isLoading) return loadingComponent
-    if (isError) return errorComponent
-    if (isEmpty(data)) return emptyComponent
+    if (isLoading) return LoadingComponent
+    if (isError) return ErrorComponent
+    if (isEmpty(data)) return EmptyComponent
     if (typeof children === "function") {
       return children(data as NonNullable<TItem>)
     }

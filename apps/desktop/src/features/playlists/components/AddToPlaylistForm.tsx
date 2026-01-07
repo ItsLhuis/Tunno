@@ -147,7 +147,7 @@ const AddToPlaylistForm = ({
                     data={playlists}
                     isLoading={isPlaylistsLoading}
                     isError={isPlaylistsError}
-                    emptyComponent={
+                    EmptyComponent={
                       <div className="flex h-full items-center justify-center py-8">
                         <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
                       </div>

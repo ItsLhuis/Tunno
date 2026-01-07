@@ -239,12 +239,12 @@ const AlbumForm = ({
         data={mode === "update" ? album : true}
         isLoading={mode === "update" ? isAlbumLoading : false}
         isError={mode === "update" ? isAlbumError : false}
-        loadingComponent={
+        LoadingComponent={
           <div className="flex items-center justify-center p-8">
             <Spinner />
           </div>
         }
-        errorComponent={
+        ErrorComponent={
           <div className="flex items-center justify-center p-8">{t("common.noResultsFound")}</div>
         }
       >

@@ -213,12 +213,12 @@ const PlaylistForm = ({
         data={mode === "update" ? playlist : true}
         isLoading={mode === "update" ? isPlaylistLoading : false}
         isError={mode === "update" ? isPlaylistError : false}
-        loadingComponent={
+        LoadingComponent={
           <div className="flex items-center justify-center p-8">
             <Spinner />
           </div>
         }
-        errorComponent={
+        ErrorComponent={
           <div className="flex items-center justify-center p-8">{t("common.noResultsFound")}</div>
         }
       >
