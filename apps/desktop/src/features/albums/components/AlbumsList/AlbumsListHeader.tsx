@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react"
+
 import { useTranslation } from "@repo/i18n"
+
+import { useNavigate, useSearch } from "@tanstack/react-router"
 
 import { useShallow } from "zustand/shallow"
 
@@ -31,6 +35,30 @@ type AlbumsListHeaderProps = {
 const AlbumsListHeader = ({ list, allAlbumIds }: AlbumsListHeaderProps) => {
   const { t } = useTranslation()
 
+  const navigate = useNavigate()
+
+  const { create } = useSearch({ from: "/albums/" })
+
+  const [isFormOpen, setIsFormOpen] = useState(false)
+
+  useEffect(() => {
+    if (create) {
+      requestAnimationFrame(() => setIsFormOpen(true))
+    }
+  }, [create])
+
+  const handleOpenChange = (open: boolean) => {
+    setIsFormOpen(open)
+
+    if (!open && create) {
+      navigate({
+        to: "/albums",
+        search: (prev) => ({ ...prev, create: undefined }),
+        replace: true
+      })
+    }
+  }
+
   const { viewMode, setViewMode } = useAlbumsStore(
     useShallow((state) => ({
       viewMode: state.viewMode,
@@ -57,6 +85,8 @@ const AlbumsListHeader = ({ list, allAlbumIds }: AlbumsListHeaderProps) => {
   return (
     <Header className="flex flex-col gap-6 md:flex-row md:items-center md:gap-3">
       <AlbumForm
+        open={isFormOpen}
+        onOpen={handleOpenChange}
         trigger={
           <IconButton
             name="Plus"

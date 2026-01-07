@@ -300,7 +300,7 @@ const UploadPicker = ({
         </Card>
       )}
       {showPreview && (item !== null || isLoading) && (
-        <AsyncState data={item} isLoading={isLoading} emptyComponent={null}>
+        <AsyncState data={item} isLoading={isLoading} EmptyComponent={null}>
           {(loadedItem) => (
             <Card className="w-full overflow-hidden p-3">
               <div className="flex w-full items-center gap-3">

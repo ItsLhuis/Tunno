@@ -30,7 +30,7 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
   const { songIds, isShuffling, handleShuffleAndPlay } = useAlbumPlayback(album.id)
 
   return (
-    <div className="relative mt-9" style={cssVariables as CSSProperties}>
+    <div className="relative" style={cssVariables as CSSProperties}>
       <AnimatePresence>
         <motion.div
           key={dominantColor}
