@@ -49,7 +49,7 @@ const SIDE_OPACITY = 1
 
 const WINDOW_OFFSET = 4
 const ANIMATION_DURATION = durationTokens[300]
-const SWIPE_VELOCITY_THRESHOLD = 500
+const SWIPE_VELOCITY_THRESHOLD = durationTokens[500]
 const SWIPE_DISTANCE_THRESHOLD = 0.25
 
 type CarouselDimensions = {
@@ -58,11 +58,10 @@ type CarouselDimensions = {
   containerPadding: number
 }
 
-const calculateDimensions = (screenWidth: number, isSingleTrack: boolean): CarouselDimensions => {
-  const itemWidth = isSingleTrack ? screenWidth - ITEM_GAP * 2 : screenWidth * ITEM_WIDTH_RATIO
-
+const calculateDimensions = (screenWidth: number): CarouselDimensions => {
+  const itemWidth = screenWidth * ITEM_WIDTH_RATIO
   const snapInterval = itemWidth + ITEM_GAP
-  const containerPadding = isSingleTrack ? ITEM_GAP : (screenWidth - itemWidth) / 2
+  const containerPadding = (screenWidth - itemWidth) / 2
 
   return { itemWidth, snapInterval, containerPadding }
 }
@@ -72,28 +71,15 @@ type CarouselItemProps = {
   visualIndex: number
   offsetX: SharedValue<number>
   dimensions: CarouselDimensions
-  isSingleTrack: boolean
+  onPress: (visualIndex: number) => void
 }
 
-const CarouselItem = ({
-  item,
-  visualIndex,
-  offsetX,
-  dimensions,
-  isSingleTrack
-}: CarouselItemProps) => {
+const CarouselItem = ({ item, visualIndex, offsetX, dimensions, onPress }: CarouselItemProps) => {
   const styles = useStyles(carouselItemStyles)
 
   const { itemWidth, snapInterval } = dimensions
 
   const animatedStyle = useAnimatedStyle(() => {
-    if (isSingleTrack) {
-      return {
-        transform: [{ translateX: 0 }, { scale: 1 }],
-        opacity: 1
-      }
-    }
-
     const itemCenter = visualIndex * snapInterval
     const distance = offsetX.value - itemCenter
     const normalizedDistance = Math.abs(distance) / snapInterval
@@ -111,14 +97,21 @@ const CarouselItem = ({
     }
   })
 
+  const tapGesture = Gesture.Tap().onEnd(() => {
+    "worklet"
+    scheduleOnRN(onPress, visualIndex)
+  })
+
   return (
-    <Animated.View style={[styles.itemContainer(itemWidth), animatedStyle]}>
-      <Thumbnail
-        fileName={item.song.thumbnail}
-        placeholderIcon="Music"
-        containerStyle={styles.thumbnail(!!item.song.thumbnail)}
-      />
-    </Animated.View>
+    <GestureDetector gesture={tapGesture}>
+      <Animated.View style={[styles.itemContainer(itemWidth), animatedStyle]}>
+        <Thumbnail
+          fileName={item.song.thumbnail}
+          placeholderIcon="Music"
+          containerStyle={styles.thumbnail(!!item.song.thumbnail)}
+        />
+      </Animated.View>
+    </GestureDetector>
   )
 }
 
@@ -212,12 +205,7 @@ const TrackInfo = () => {
     }
   }, [currentTrackIndex, queueIds, cachedSongs])
 
-  const isSingleTrack = visibleTracks.length === 1
-
-  const dimensions = useMemo(
-    () => calculateDimensions(screenWidth, isSingleTrack),
-    [screenWidth, isSingleTrack]
-  )
+  const dimensions = useMemo(() => calculateDimensions(screenWidth), [screenWidth])
 
   const { itemWidth, snapInterval, containerPadding } = dimensions
 
@@ -284,6 +272,15 @@ const TrackInfo = () => {
     [maxVisualIndex, snapInterval, handleTrackChange]
   )
 
+  const handleItemPress = useCallback(
+    (visualIndex: number) => {
+      if (visualIndex !== currentVisualIndex && !isQueueLoading) {
+        snapToIndex(visualIndex)
+      }
+    },
+    [currentVisualIndex, isQueueLoading, snapToIndex]
+  )
+
   const panGesture = Gesture.Pan()
     .enabled(!isQueueLoading && visibleTracks.length > 1)
     .activeOffsetX([-10, 10])
@@ -341,20 +338,30 @@ const TrackInfo = () => {
   return (
     <View style={styles.container}>
       <View style={styles.carouselContainer(containerPadding)}>
-        <GestureDetector gesture={panGesture}>
-          <Animated.View style={[styles.carouselWrapper, carouselAnimatedStyle]}>
-            {visibleTracks.map((item, index) => (
-              <CarouselItem
-                key={`${item.queueIndex}-${item.song.id}`}
-                item={item}
-                visualIndex={index}
-                offsetX={offsetX}
-                dimensions={dimensions}
-                isSingleTrack={isSingleTrack}
-              />
-            ))}
-          </Animated.View>
-        </GestureDetector>
+        {visibleTracks.length > 0 ? (
+          <GestureDetector gesture={panGesture}>
+            <Animated.View style={[styles.carouselWrapper, carouselAnimatedStyle]}>
+              {visibleTracks.map((item, index) => (
+                <CarouselItem
+                  key={`${item.queueIndex}-${item.song.id}`}
+                  item={item}
+                  visualIndex={index}
+                  offsetX={offsetX}
+                  dimensions={dimensions}
+                  onPress={handleItemPress}
+                />
+              ))}
+            </Animated.View>
+          </GestureDetector>
+        ) : (
+          <View style={styles.emptyThumbnailContainer(itemWidth)}>
+            <Thumbnail
+              fileName={currentTrack?.thumbnail}
+              placeholderIcon="Music"
+              containerStyle={styles.emptyThumbnail}
+            />
+          </View>
+        )}
       </View>
       <View style={styles.infoRow}>
         <View style={styles.infoContainer}>
@@ -401,6 +408,16 @@ const trackInfoStyles = createStyleSheet(({ theme, runtime }) => ({
     flexDirection: "row",
     alignItems: "center"
   },
+  emptyThumbnailContainer: (width: number) => ({
+    width,
+    aspectRatio: 1,
+    alignSelf: "center"
+  }),
+  emptyThumbnail: imageStyle({
+    width: "100%",
+    aspectRatio: 1,
+    borderRadius: theme.radius()
+  }),
   infoRow: {
     width: "100%",
     flexDirection: "row",
