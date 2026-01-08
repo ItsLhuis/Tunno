@@ -4,6 +4,8 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useRouter } from "expo-router"
+
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -40,6 +42,8 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   const styles = useStyles(songInfoHeaderStyles)
 
   const { t } = useTranslation()
+
+  const router = useRouter()
 
   const { play, pause, playbackState, isTrackLoading, currentTrackId, loadTracks } = usePlayerStore(
     useShallow((state) => ({
@@ -87,8 +91,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   }
 
   const handleAlbumPress = (albumId: number) => {
-    console.log(albumId)
-    // router.push(`/albums/${albumId}`)
+    router.push(`/albums/${albumId}`)
   }
 
   return (

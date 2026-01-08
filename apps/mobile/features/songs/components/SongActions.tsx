@@ -187,7 +187,7 @@ const SongActionsContent = memo(
     const handleGoToAlbum = useCallback(() => {
       if (targetSong?.album && pathname !== `/albums/${targetSong.album.id}`) {
         playerSheetRef?.dismiss()
-        // router.push(`/albums/${targetSong.album.id}`)
+        router.push(`/albums/${targetSong.album.id}`)
       }
     }, [targetSong, router, pathname, playerSheetRef])
 
