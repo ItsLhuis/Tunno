@@ -96,7 +96,7 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
       <div className="grid flex-1 grid-cols-[auto_1fr_auto] items-center gap-3">
         <IconButton
           name="Shuffle"
-          className="size-14 rounded-full [&_svg]:size-7"
+          className="size-14 rounded-full [&_svg]:size-6"
           isLoading={isShuffling}
           disabled={hasSelectedRows || allSongIds.length === 0}
           tooltip={t("common.shuffleAndPlay")}

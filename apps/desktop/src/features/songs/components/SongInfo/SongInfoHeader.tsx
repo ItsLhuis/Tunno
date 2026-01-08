@@ -132,7 +132,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
         <IconButton
           name={isCurrentlyPlaying ? "Pause" : "Play"}
           isLoading={isTrackLoading}
-          className="size-14 shrink-0 rounded-full [&_svg]:size-7"
+          className="size-14 shrink-0 rounded-full [&_svg]:size-6"
           tooltip={isCurrentlyPlaying ? t("common.pause") : t("common.play")}
           onClick={handlePlayPause}
           disabled={!canPlay}

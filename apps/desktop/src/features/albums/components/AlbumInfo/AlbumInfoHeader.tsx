@@ -98,7 +98,7 @@ const AlbumInfoHeader = ({ album, list }: AlbumInfoHeaderProps) => {
       <div className="flex items-center gap-3">
         <IconButton
           name="Shuffle"
-          className="size-14 shrink-0 rounded-full [&_svg]:size-7"
+          className="size-14 shrink-0 rounded-full [&_svg]:size-6"
           isLoading={isShuffling}
           disabled={hasSelectedRows || !album.songs || album.songs.length === 0}
           tooltip={t("common.shuffleAndPlay")}
