@@ -12,49 +12,49 @@ import { formatDuration } from "@repo/utils"
 
 import { Pressable, Text, Thumbnail } from "@components/ui"
 
-import { AlbumActions } from "../AlbumActions"
+import { ArtistActions } from "../ArtistActions"
 
-import { type AlbumItemCardProps } from "./types"
+import { type ArtistItemCardProps } from "./types"
 
-const AlbumItemCard = memo(({ album }: AlbumItemCardProps) => {
-  const styles = useStyles(albumItemCardStyles)
+const ArtistItemCard = memo(({ artist }: ArtistItemCardProps) => {
+  const styles = useStyles(artistItemCardStyles)
 
   const { t } = useTranslation()
 
   const router = useRouter()
 
   const handlePress = () => {
-    router.push(`/albums/${album.id}`)
+    router.push(`/artists/${artist.id}`)
   }
 
   return (
-    <AlbumActions variant="context" albumId={album.id}>
+    <ArtistActions variant="context" artistId={artist.id}>
       {({ onLongPress }) => (
         <Pressable style={styles.container} onPress={handlePress} onLongPress={onLongPress}>
           <Thumbnail
-            fileName={album.thumbnail}
-            placeholderIcon="Disc"
+            fileName={artist.thumbnail}
+            placeholderIcon="User"
             containerStyle={styles.thumbnail}
           />
           <View style={styles.infoRow}>
             <View style={styles.infoContainer}>
               <Text weight="medium" numberOfLines={1}>
-                {album.name}
+                {artist.name}
               </Text>
               <Text size="xs" color="mutedForeground" numberOfLines={1}>
-                {t("common.songsPlayed", { count: album.totalTracks })}
-                {album.totalDuration > 0 && ` • ${formatDuration(album.totalDuration, t)}`}
+                {t("common.songsPlayed", { count: artist.totalTracks })}
+                {artist.totalDuration > 0 && ` • ${formatDuration(artist.totalDuration, t)}`}
               </Text>
             </View>
-            <AlbumActions albumId={album.id} />
+            <ArtistActions artistId={artist.id} />
           </View>
         </Pressable>
       )}
-    </AlbumActions>
+    </ArtistActions>
   )
 })
 
-const albumItemCardStyles = createStyleSheet(({ theme }) => ({
+const artistItemCardStyles = createStyleSheet(({ theme }) => ({
   container: {
     flexDirection: "column",
     gap: theme.space("sm")
@@ -62,7 +62,7 @@ const albumItemCardStyles = createStyleSheet(({ theme }) => ({
   thumbnail: {
     width: "100%",
     aspectRatio: 1,
-    borderRadius: theme.radius()
+    borderRadius: theme.radius("full")
   },
   infoRow: {
     flexDirection: "row",
@@ -75,4 +75,4 @@ const albumItemCardStyles = createStyleSheet(({ theme }) => ({
   }
 }))
 
-export { AlbumItemCard }
+export { ArtistItemCard }

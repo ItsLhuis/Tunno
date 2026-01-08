@@ -4,6 +4,8 @@ import { createStyleSheet, ScopedPalette, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useRouter } from "expo-router"
+
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -39,6 +41,8 @@ const SongInfoStickyHeader = ({
   const styles = useStyles(songInfoStickyHeaderStyles)
 
   const { t } = useTranslation()
+
+  const router = useRouter()
 
   const thumbnailUri = useThumbnailUri({ fileName: song.thumbnail })
 
@@ -76,8 +80,7 @@ const SongInfoStickyHeader = ({
   }
 
   const handleArtistPress = (artistId: number) => {
-    console.log(artistId)
-    // router.push(`/artists/${artistId}`)
+    router.push(`/artists/${artistId}`)
   }
 
   const artistsText =

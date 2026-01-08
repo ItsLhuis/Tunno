@@ -1,5 +1,5 @@
 export * from "./albums"
-export { Artists } from "./Artists"
+export * from "./artists"
 export { Home } from "./Home"
 export { Lyrics } from "./Lyrics"
 export { Playlists } from "./Playlists"

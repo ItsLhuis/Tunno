@@ -4,8 +4,6 @@ import { createStyleSheet, ScopedPalette, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useRouter } from "expo-router"
-
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -14,37 +12,27 @@ import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
 import { useThumbnailUri } from "@hooks/useThumbnailUri"
 
 import { BackButton } from "@components/navigation"
-import {
-  FadingView,
-  Header,
-  IconButton,
-  Pressable,
-  Text,
-  Thumbnail,
-  type HeaderProps
-} from "@components/ui"
+import { FadingView, Header, IconButton, Text, Thumbnail, type HeaderProps } from "@components/ui"
 
-import { type AlbumWithAllRelations } from "@repo/api"
+import { type ArtistWithAllRelations } from "@repo/api"
 
-type AlbumInfoStickyHeaderProps = {
-  album: AlbumWithAllRelations
+type ArtistInfoStickyHeaderProps = {
+  artist: ArtistWithAllRelations
   songIds: number[]
 } & Omit<HeaderProps, "transparentBackground" | "bottomBorder" | "headerBackgroundAnimation">
 
-const AlbumInfoStickyHeader = ({
-  album,
+const ArtistInfoStickyHeader = ({
+  artist,
   songIds,
   scrollY,
   showHeader,
   ...props
-}: AlbumInfoStickyHeaderProps) => {
-  const styles = useStyles(albumInfoStickyHeaderStyles)
+}: ArtistInfoStickyHeaderProps) => {
+  const styles = useStyles(artistInfoStickyHeaderStyles)
 
   const { t } = useTranslation()
 
-  const router = useRouter()
-
-  const thumbnailUri = useThumbnailUri({ fileName: album.thumbnail })
+  const thumbnailUri = useThumbnailUri({ fileName: artist.thumbnail })
 
   const { palette, dominantColor } = useImageColorAndPalette({ imageUri: thumbnailUri })
 
@@ -57,17 +45,8 @@ const AlbumInfoStickyHeader = ({
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || songIds.length === 0) return
-    shuffleAndPlay(songIds, "album", album.id)
+    shuffleAndPlay(songIds, "artist", artist.id)
   }
-
-  const handleArtistPress = (artistId: number) => {
-    router.push(`/artists/${artistId}`)
-  }
-
-  const artistsText =
-    album.artists.length > 0
-      ? album.artists.map((a) => a.artist.name).join(", ")
-      : t("common.unknownArtist")
 
   return (
     <ScopedPalette palette={palette}>
@@ -96,25 +75,17 @@ const AlbumInfoStickyHeader = ({
         headerCenter={
           <View style={styles.headerCenter}>
             <Thumbnail
-              fileName={album.thumbnail}
-              placeholderIcon="Disc"
+              fileName={artist.thumbnail}
+              placeholderIcon="User"
               containerStyle={styles.thumbnail}
             />
             <View style={styles.textContainer}>
               <Text weight="medium" numberOfLines={1}>
-                {album.name}
+                {artist.name}
               </Text>
-              {album.artists.length > 0 ? (
-                <Pressable onPress={() => handleArtistPress(album.artists[0].artistId)}>
-                  <Text size="xs" color="mutedForeground" numberOfLines={1}>
-                    {artistsText}
-                  </Text>
-                </Pressable>
-              ) : (
-                <Text size="xs" color="mutedForeground" numberOfLines={1}>
-                  {artistsText}
-                </Text>
-              )}
+              <Text size="xs" color="mutedForeground" numberOfLines={1}>
+                {t("common.songsPlayed", { count: artist.totalTracks })}
+              </Text>
             </View>
           </View>
         }
@@ -124,7 +95,7 @@ const AlbumInfoStickyHeader = ({
   )
 }
 
-const albumInfoStickyHeaderStyles = createStyleSheet(({ theme }) => ({
+const artistInfoStickyHeaderStyles = createStyleSheet(({ theme }) => ({
   headerLeft: {
     flexDirection: "row",
     alignItems: "center",
@@ -140,11 +111,11 @@ const albumInfoStickyHeaderStyles = createStyleSheet(({ theme }) => ({
   thumbnail: {
     width: theme.size(10),
     height: theme.size(10),
-    borderRadius: theme.radius("sm")
+    borderRadius: theme.radius("full")
   },
   textContainer: {
     gap: theme.space("xs")
   }
 }))
 
-export { AlbumInfoStickyHeader }
+export { ArtistInfoStickyHeader }

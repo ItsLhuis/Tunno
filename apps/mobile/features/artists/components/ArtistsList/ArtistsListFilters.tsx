@@ -6,7 +6,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { useShallow } from "zustand/shallow"
 
-import { useAlbumsStore } from "../../stores/useAlbumsStore"
+import { useArtistsStore } from "../../stores/useArtistsStore"
 
 import {
   Badge,
@@ -34,14 +34,14 @@ import {
   Text
 } from "@components/ui"
 
-import { type OrderableAlbumColumns } from "@repo/api"
+import { type OrderableArtistColumns } from "@repo/api"
 
-const AlbumsListFilters = () => {
-  const styles = useStyles(albumsListFiltersStyles)
+const ArtistsListFilters = () => {
+  const styles = useStyles(artistsListFiltersStyles)
 
   const { t } = useTranslation()
 
-  const { filters, orderBy, setFilters, clearFilters, setOrderBy } = useAlbumsStore(
+  const { filters, orderBy, setFilters, clearFilters, setOrderBy } = useArtistsStore(
     useShallow((state) => ({
       filters: state.filters,
       orderBy: state.orderBy,
@@ -78,20 +78,20 @@ const AlbumsListFilters = () => {
         <SheetContent enableDynamicSizing={false} snapPoints={["100%"]}>
           <View style={styles.sheetContainer}>
             <SheetHeader>
-              <SheetTitle>{t("albums.filters.title")}</SheetTitle>
+              <SheetTitle>{t("artists.filters.title")}</SheetTitle>
             </SheetHeader>
             <Separator />
             <SheetScrollView>
               <View style={styles.content}>
                 <View style={styles.section}>
-                  <Label>{t("albums.filters.sortBy")}</Label>
+                  <Label>{t("artists.filters.sortBy")}</Label>
                   <View style={styles.sortRow}>
                     <View style={styles.sortColumn}>
                       <Select
                         value={orderBy?.column || "createdAt"}
                         onValueChange={(column) =>
                           setOrderBy({
-                            column: column as OrderableAlbumColumns,
+                            column: column as OrderableArtistColumns,
                             direction: orderBy?.direction || "desc"
                           })
                         }
@@ -100,40 +100,35 @@ const AlbumsListFilters = () => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="name" title={t("albums.filters.sortOptions.name")} />
+                          <SelectItem value="name" title={t("artists.filters.sortOptions.name")} />
                           <SelectItem
                             value="isFavorite"
-                            title={t("albums.filters.sortOptions.favorites")}
+                            title={t("artists.filters.sortOptions.favorites")}
                           />
                           <SelectItem
                             value="playCount"
-                            title={t("albums.filters.sortOptions.playCount")}
+                            title={t("artists.filters.sortOptions.playCount")}
                           />
                           <SelectItem
                             value="lastPlayedAt"
-                            title={t("albums.filters.sortOptions.lastPlayed")}
+                            title={t("artists.filters.sortOptions.lastPlayed")}
                           />
                           <SelectItem
                             value="createdAt"
-                            title={t("albums.filters.sortOptions.createdAt")}
+                            title={t("artists.filters.sortOptions.createdAt")}
                           />
                           <SelectItem
                             value="updatedAt"
-                            title={t("albums.filters.sortOptions.updatedAt")}
+                            title={t("artists.filters.sortOptions.updatedAt")}
                           />
                           <SelectItem
                             value="totalTracks"
-                            title={t("albums.filters.sortOptions.totalTracks")}
+                            title={t("artists.filters.sortOptions.totalTracks")}
                           />
                           <SelectItem
                             value="totalDuration"
-                            title={t("albums.filters.sortOptions.totalDuration")}
+                            title={t("artists.filters.sortOptions.totalDuration")}
                           />
-                          <SelectItem
-                            value="releaseYear"
-                            title={t("albums.filters.sortOptions.releaseYear")}
-                          />
-                          <SelectItem value="albumType" title={t("albums.filters.albumType")} />
                         </SelectContent>
                       </Select>
                     </View>
@@ -164,9 +159,9 @@ const AlbumsListFilters = () => {
                 </View>
                 <View style={styles.switchRow}>
                   <View style={styles.switchLabel}>
-                    <Label>{t("albums.filters.favorites")}</Label>
+                    <Label>{t("artists.filters.favorites")}</Label>
                     <Text size="xs" color="mutedForeground">
-                      {t("albums.filters.favoritesDescription")}
+                      {t("artists.filters.favoritesDescription")}
                     </Text>
                   </View>
                   <Switch
@@ -175,50 +170,11 @@ const AlbumsListFilters = () => {
                   />
                 </View>
                 <View style={styles.section}>
-                  <Label>{t("albums.filters.albumType")}</Label>
-                  <Select
-                    value={(filters.albumType as string) || "all"}
-                    onValueChange={(value) =>
-                      setFilters({
-                        albumType:
-                          value === "all"
-                            ? undefined
-                            : (value as "single" | "album" | "compilation")
-                      })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all" title={t("albums.filters.all")} />
-                      <SelectItem value="single" title={t("albums.filters.single")} />
-                      <SelectItem value="album" title={t("albums.filters.album")} />
-                      <SelectItem value="compilation" title={t("albums.filters.compilation")} />
-                    </SelectContent>
-                  </Select>
-                </View>
-                <View style={styles.section}>
-                  <Label>{t("albums.filters.releaseYear")}</Label>
-                  <NumberInput
-                    placeholder={t("albums.filters.releaseYear")}
-                    value={
-                      Array.isArray(filters.releaseYear)
-                        ? undefined
-                        : (filters.releaseYear ?? undefined)
-                    }
-                    onChange={(value) => setFilters({ releaseYear: value })}
-                    min={1900}
-                    max={new Date().getFullYear()}
-                    step={1}
-                  />
-                </View>
-                <View style={styles.section}>
-                  <Label>{t("albums.filters.playCount")}</Label>
+                  <Label>{t("artists.filters.playCount")}</Label>
                   <View style={styles.rangeRow}>
                     <View style={styles.rangeInput}>
                       <Text size="xs" color="mutedForeground">
-                        {t("albums.filters.playCountMin")}
+                        {t("artists.filters.playCountMin")}
                       </Text>
                       <NumberInput
                         placeholder="0"
@@ -230,7 +186,7 @@ const AlbumsListFilters = () => {
                     </View>
                     <View style={styles.rangeInput}>
                       <Text size="xs" color="mutedForeground">
-                        {t("albums.filters.playCountMax")}
+                        {t("artists.filters.playCountMax")}
                       </Text>
                       <NumberInput
                         placeholder="100"
@@ -243,11 +199,11 @@ const AlbumsListFilters = () => {
                   </View>
                 </View>
                 <View style={styles.section}>
-                  <Label>{t("albums.filters.totalTracks")}</Label>
+                  <Label>{t("artists.filters.totalTracks")}</Label>
                   <View style={styles.rangeRow}>
                     <View style={styles.rangeInput}>
                       <Text size="xs" color="mutedForeground">
-                        {t("albums.filters.totalTracksMin")}
+                        {t("artists.filters.totalTracksMin")}
                       </Text>
                       <NumberInput
                         placeholder="0"
@@ -259,7 +215,7 @@ const AlbumsListFilters = () => {
                     </View>
                     <View style={styles.rangeInput}>
                       <Text size="xs" color="mutedForeground">
-                        {t("albums.filters.totalTracksMax")}
+                        {t("artists.filters.totalTracksMax")}
                       </Text>
                       <NumberInput
                         placeholder="100"
@@ -272,11 +228,11 @@ const AlbumsListFilters = () => {
                   </View>
                 </View>
                 <View style={styles.section}>
-                  <Label>{t("albums.filters.totalDuration")}</Label>
+                  <Label>{t("artists.filters.totalDuration")}</Label>
                   <View style={styles.rangeRow}>
                     <View style={styles.rangeInput}>
                       <Text size="xs" color="mutedForeground">
-                        {t("albums.filters.totalDurationMin")}
+                        {t("artists.filters.totalDurationMin")}
                       </Text>
                       <NumberInput
                         placeholder="0"
@@ -288,7 +244,7 @@ const AlbumsListFilters = () => {
                     </View>
                     <View style={styles.rangeInput}>
                       <Text size="xs" color="mutedForeground">
-                        {t("albums.filters.totalDurationMax")}
+                        {t("artists.filters.totalDurationMax")}
                       </Text>
                       <NumberInput
                         placeholder="3600"
@@ -307,7 +263,7 @@ const AlbumsListFilters = () => {
                 <Separator />
                 <SheetFooter>
                   <Button
-                    title={t("albums.filters.clear")}
+                    title={t("artists.filters.clear")}
                     variant="outline"
                     onPress={clearFilters}
                     leftIcon="Trash2"
@@ -323,7 +279,7 @@ const AlbumsListFilters = () => {
   )
 }
 
-const albumsListFiltersStyles = createStyleSheet(({ theme, runtime }) => ({
+const artistsListFiltersStyles = createStyleSheet(({ theme, runtime }) => ({
   container: {
     flexDirection: "row",
     alignItems: "center"
@@ -373,4 +329,4 @@ const albumsListFiltersStyles = createStyleSheet(({ theme, runtime }) => ({
   }
 }))
 
-export { AlbumsListFilters }
+export { ArtistsListFilters }

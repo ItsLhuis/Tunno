@@ -157,10 +157,10 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
     (artistId: number) => {
       if (pathname !== `/artists/${artistId}`) {
         playerSheetRef?.dismiss()
-        // router.push(`/artists/${artistId}`)
+        router.push(`/artists/${artistId}`)
       }
     },
-    [pathname, playerSheetRef]
+    [router, pathname, playerSheetRef]
   )
 
   const handleOpenPlaylist = useCallback(() => {

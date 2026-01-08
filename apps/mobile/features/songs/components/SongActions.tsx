@@ -195,7 +195,7 @@ const SongActionsContent = memo(
       (artistId: number) => {
         if (pathname !== `/artists/${artistId}`) {
           playerSheetRef?.dismiss()
-          // router.push(`/artists/${artistId}`)
+          router.push(`/artists/${artistId}`)
         }
       },
       [router, pathname, playerSheetRef]

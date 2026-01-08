@@ -8,9 +8,7 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
-import { useRouter } from "expo-router"
-
-import { useToggleAlbumFavorite } from "../../hooks/useToggleAlbumFavorite"
+import { useToggleArtistFavorite } from "../../hooks/useToggleArtistFavorite"
 
 import { formatDuration } from "@repo/utils"
 
@@ -19,27 +17,24 @@ import {
   DominantColorGradient,
   IconButton,
   LargeHeader,
-  Pressable,
   Text,
   Thumbnail
 } from "@components/ui"
 
-import { AlbumActions } from "../AlbumActions"
-import { AlbumStatsSheet } from "./AlbumStatsSheet"
+import { ArtistActions } from "../ArtistActions"
+import { ArtistStatsSheet } from "./ArtistStatsSheet"
 
-import { type AlbumWithAllRelations } from "@repo/api"
+import { type ArtistWithAllRelations } from "@repo/api"
 
-type AlbumInfoHeaderProps = {
-  album: AlbumWithAllRelations
+type ArtistInfoHeaderProps = {
+  artist: ArtistWithAllRelations
   songIds: number[]
 }
 
-const AlbumInfoHeader = ({ album, songIds }: AlbumInfoHeaderProps) => {
-  const styles = useStyles(albumInfoHeaderStyles)
+const ArtistInfoHeader = ({ artist, songIds }: ArtistInfoHeaderProps) => {
+  const styles = useStyles(artistInfoHeaderStyles)
 
   const { t } = useTranslation()
-
-  const router = useRouter()
 
   const { shuffleAndPlay, isShuffling } = usePlayerStore(
     useShallow((state) => ({
@@ -50,54 +45,36 @@ const AlbumInfoHeader = ({ album, songIds }: AlbumInfoHeaderProps) => {
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || songIds.length === 0) return
-    shuffleAndPlay(songIds, "album", album.id)
+    shuffleAndPlay(songIds, "artist", artist.id)
   }
 
-  const toggleFavoriteMutation = useToggleAlbumFavorite()
+  const toggleFavoriteMutation = useToggleArtistFavorite()
 
   const handleToggleFavorite = () => {
-    toggleFavoriteMutation.mutate({ id: album.id })
-  }
-
-  const handleArtistPress = (artistId: number) => {
-    router.push(`/artists/${artistId}`)
+    toggleFavoriteMutation.mutate({ id: artist.id })
   }
 
   return (
     <LargeHeader style={styles.container}>
-      <DominantColorGradient thumbnail={album.thumbnail} />
+      <DominantColorGradient thumbnail={artist.thumbnail} />
       <View style={styles.content}>
         <Thumbnail
-          fileName={album.thumbnail}
-          placeholderIcon="Disc"
+          fileName={artist.thumbnail}
+          placeholderIcon="User"
           containerStyle={styles.thumbnail}
         />
         <View style={styles.infoContainer}>
-          <Badge
-            variant="muted"
-            title={t(`albums.filters.${album.albumType}`)}
-            style={styles.badge}
-          />
+          <Badge variant="muted" title={t("common.artist")} style={styles.badge} />
           <Text variant="h1" numberOfLines={2}>
-            {album.name}
+            {artist.name}
           </Text>
           <View style={styles.metaContainer}>
-            {album.artists.length > 0 ? (
-              <Pressable onPress={() => handleArtistPress(album.artists[0].artistId)}>
-                <Text size="sm" numberOfLines={1}>
-                  {album.artists[0].artist.name}
-                </Text>
-              </Pressable>
-            ) : (
-              <Text size="sm" color="mutedForeground" numberOfLines={1}>
-                {t("common.unknownArtist")}
-              </Text>
-            )}
-            {(album.releaseYear || album.totalDuration > 0) && (
+            <Text size="sm" color="mutedForeground" numberOfLines={1}>
+              {t("common.songsPlayed", { count: artist.totalTracks })}
+            </Text>
+            {artist.totalDuration > 0 && (
               <Text size="sm" color="mutedForeground">
-                {album.releaseYear}
-                {album.releaseYear && album.totalDuration > 0 && " • "}
-                {album.totalDuration > 0 && formatDuration(album.totalDuration, t)}
+                {formatDuration(artist.totalDuration, t)}
               </Text>
             )}
           </View>
@@ -114,19 +91,19 @@ const AlbumInfoHeader = ({ album, songIds }: AlbumInfoHeaderProps) => {
         />
         <IconButton
           name="Heart"
-          isFilled={album.isFavorite}
+          isFilled={artist.isFavorite}
           variant="text"
           disabled={toggleFavoriteMutation.isPending}
           onPress={handleToggleFavorite}
         />
-        <AlbumStatsSheet album={album} />
-        <AlbumActions albumId={album.id} />
+        <ArtistStatsSheet artist={artist} />
+        <ArtistActions artistId={artist.id} />
       </View>
     </LargeHeader>
   )
 }
 
-const albumInfoHeaderStyles = createStyleSheet(({ theme }) => ({
+const artistInfoHeaderStyles = createStyleSheet(({ theme }) => ({
   container: {
     flexDirection: "column",
     alignItems: "stretch",
@@ -140,7 +117,7 @@ const albumInfoHeaderStyles = createStyleSheet(({ theme }) => ({
   thumbnail: {
     width: "100%",
     aspectRatio: 1,
-    borderRadius: theme.radius("lg")
+    borderRadius: theme.radius("full")
   },
   infoContainer: {
     gap: theme.space("sm")
@@ -164,4 +141,4 @@ const albumInfoHeaderStyles = createStyleSheet(({ theme }) => ({
   }
 }))
 
-export { AlbumInfoHeader }
+export { ArtistInfoHeader }

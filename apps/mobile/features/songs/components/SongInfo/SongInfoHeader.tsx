@@ -86,8 +86,7 @@ const SongInfoHeader = ({ song }: SongInfoHeaderProps) => {
   }
 
   const handleArtistPress = (artistId: number) => {
-    console.log(artistId)
-    // router.push(`/artists/${artistId}`)
+    router.push(`/artists/${artistId}`)
   }
 
   const handleAlbumPress = (albumId: number) => {

@@ -1,0 +1,83 @@
+import { useState, type ReactNode } from "react"
+
+import { useTranslation } from "@repo/i18n"
+
+import { useDeleteArtist } from "../hooks/useDeleteArtist"
+
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@components/ui"
+
+import { type Artist } from "@repo/api"
+
+type DeleteArtistDialogProps = {
+  artist: Artist
+  trigger?: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+const DeleteArtistDialog = ({ artist, trigger, open, onOpenChange }: DeleteArtistDialogProps) => {
+  const { t } = useTranslation()
+
+  const [internalOpen, setInternalOpen] = useState(false)
+
+  const isOpen = open !== undefined ? open : internalOpen
+  const setIsOpen = onOpenChange || setInternalOpen
+
+  const deleteArtistMutation = useDeleteArtist()
+
+  const handleDeleteArtist = async () => {
+    await deleteArtistMutation.mutateAsync({ id: artist.id })
+    setIsOpen(false)
+  }
+
+  const handleCancel = () => {
+    setIsOpen(false)
+  }
+
+  return (
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!deleteArtistMutation.isPending) setIsOpen(open)
+      }}
+    >
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("form.titles.deleteArtist")}</DialogTitle>
+          <DialogDescription>{t("form.messages.confirmDelete")}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button
+              title={t("form.buttons.cancel")}
+              variant="outline"
+              onPress={handleCancel}
+              disabled={deleteArtistMutation.isPending}
+              isLoading={deleteArtistMutation.isPending}
+            />
+          </DialogClose>
+          <Button
+            title={t("form.buttons.delete")}
+            variant="destructive"
+            onPress={handleDeleteArtist}
+            disabled={deleteArtistMutation.isPending}
+            isLoading={deleteArtistMutation.isPending}
+          />
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export { DeleteArtistDialog }
