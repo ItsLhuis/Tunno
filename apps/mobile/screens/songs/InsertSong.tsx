@@ -77,6 +77,7 @@ const insertSongStyles = createStyleSheet(({ theme, runtime }) => ({
     backgroundColor: theme.colors.background
   },
   contentContainer: {
+    flexGrow: 1,
     padding: theme.space("lg"),
     paddingBottom: runtime.insets.bottom + theme.space("lg")
   },

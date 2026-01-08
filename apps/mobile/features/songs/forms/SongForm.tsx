@@ -616,11 +616,7 @@ const songFormStyles = createStyleSheet(({ theme, runtime }) => ({
     flex: 1
   },
   loadingContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: theme.space(8)
-  },
-  errorContainer: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     padding: theme.space(8)

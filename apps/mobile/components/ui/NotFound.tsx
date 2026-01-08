@@ -20,7 +20,7 @@ const NotFound = ({ style, message }: NotFoundProps) => {
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} pointerEvents="none">
       <LottieView source={NotFoundLottie} autoPlay loop style={styles.lottie} />
       <Text color="mutedForeground" size="sm">
         {message ?? t("common.noResultsFound")}
