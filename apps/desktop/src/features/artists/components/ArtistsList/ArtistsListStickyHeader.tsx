@@ -51,14 +51,7 @@ const ArtistsListStickyHeader = ({
   return (
     <StickyHeader className={cn("flex items-center gap-3", className)}>
       <ArtistForm
-        trigger={
-          <IconButton
-            name="Plus"
-            className="[&_svg]:size-5"
-            variant="ghost"
-            tooltip={t("form.titles.createArtist")}
-          />
-        }
+        trigger={<IconButton name="Plus" variant="ghost" tooltip={t("form.titles.createArtist")} />}
       />
       <IconButton
         name="Shuffle"

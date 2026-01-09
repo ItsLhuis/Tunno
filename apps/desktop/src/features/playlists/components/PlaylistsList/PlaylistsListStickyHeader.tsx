@@ -52,12 +52,7 @@ const PlaylistsListStickyHeader = ({
     <StickyHeader className={cn("flex items-center gap-3", className)}>
       <PlaylistForm
         trigger={
-          <IconButton
-            name="Plus"
-            className="[&_svg]:size-5"
-            variant="ghost"
-            tooltip={t("form.titles.createPlaylist")}
-          />
+          <IconButton name="Plus" variant="ghost" tooltip={t("form.titles.createPlaylist")} />
         }
       />
       <IconButton

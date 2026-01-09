@@ -224,7 +224,7 @@ const tabsStyles = createStyleSheet(({ theme }) => ({
     alignSelf: "flex-start"
   },
   trigger: {
-    padding: theme.space(2.75),
+    padding: theme.space(2),
     borderRadius: theme.radius(),
     alignItems: "center",
     justifyContent: "center"

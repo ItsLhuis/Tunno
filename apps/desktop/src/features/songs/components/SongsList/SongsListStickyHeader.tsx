@@ -44,14 +44,7 @@ const SongsListStickyHeader = ({ list, allSongIds, className }: SongsListStickyH
   return (
     <StickyHeader className={cn("flex items-center gap-3", className)}>
       <SongForm
-        trigger={
-          <IconButton
-            name="Plus"
-            className="[&_svg]:size-5"
-            variant="ghost"
-            tooltip={t("form.titles.createSong")}
-          />
-        }
+        trigger={<IconButton name="Plus" variant="ghost" tooltip={t("form.titles.createSong")} />}
       />
       <IconButton
         name="Shuffle"

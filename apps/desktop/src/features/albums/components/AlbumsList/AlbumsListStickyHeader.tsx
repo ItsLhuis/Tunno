@@ -47,14 +47,7 @@ const AlbumsListStickyHeader = ({ list, allAlbumIds, className }: AlbumsListStic
   return (
     <StickyHeader className={cn("flex items-center gap-3", className)}>
       <AlbumForm
-        trigger={
-          <IconButton
-            name="Plus"
-            className="[&_svg]:size-5"
-            variant="ghost"
-            tooltip={t("form.titles.createAlbum")}
-          />
-        }
+        trigger={<IconButton name="Plus" variant="ghost" tooltip={t("form.titles.createAlbum")} />}
       />
       <IconButton
         name="Shuffle"

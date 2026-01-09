@@ -88,12 +88,7 @@ const PlaylistsListHeader = ({ list, allPlaylistIds }: PlaylistsListHeaderProps)
         open={isFormOpen}
         onOpen={handleOpenChange}
         trigger={
-          <IconButton
-            name="Plus"
-            className="[&_svg]:size-5"
-            variant="ghost"
-            tooltip={t("form.titles.createPlaylist")}
-          />
+          <IconButton name="Plus" variant="ghost" tooltip={t("form.titles.createPlaylist")} />
         }
       />
       <div className="grid flex-1 grid-cols-[auto_1fr_auto] items-center gap-3">
@@ -110,10 +105,10 @@ const PlaylistsListHeader = ({ list, allPlaylistIds }: PlaylistsListHeaderProps)
         </Typography>
         <Tabs defaultValue={viewMode}>
           <TabsList className="h-auto">
-            <TabsTrigger className="p-2" value="grid" onClick={() => setViewMode("grid")}>
+            <TabsTrigger value="grid" onClick={() => setViewMode("grid")}>
               <Icon name="Grid" />
             </TabsTrigger>
-            <TabsTrigger className="p-2" value="list" onClick={() => setViewMode("list")}>
+            <TabsTrigger value="list" onClick={() => setViewMode("list")}>
               <Icon name="List" />
             </TabsTrigger>
           </TabsList>
