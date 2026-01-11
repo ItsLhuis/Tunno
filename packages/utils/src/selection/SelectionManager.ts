@@ -40,6 +40,42 @@ type SelectedItemsCache<TItem> = {
 
 const SMALL_ARRAY_THRESHOLD = 10
 
+/**
+ * Manages selection state for a collection of items with caching optimizations
+ *
+ * Provides efficient selection operations with O(1) lookups for checking if an
+ * item is selected. Maintains caches for frequently accessed data like selected
+ * items arrays and IDs. Subscribes to selection changes to notify listeners.
+ *
+ * Performance optimizations:
+ * - Caches selected items array and invalidates only when selection changes
+ * - Uses reference equality for small arrays to avoid full comparison
+ * - Pre-allocates selected items array to avoid reallocation
+ *
+ * @template TItem - Type of items being managed
+ *
+ * @example
+ * ```ts
+ * const manager = new SelectionManager(item => item.id, items)
+ *
+ * // Subscribe to changes
+ * const unsubscribe = manager.subscribe((ids, items) => {
+ *   console.log('Selection changed:', ids, items)
+ * })
+ *
+ * // Toggle selection
+ * manager.toggleSelect(item1.id)
+ *
+ * // Select all
+ * manager.selectAll()
+ *
+ * // Get state
+ * const state = manager.getState()
+ * console.log(state.selectedCount)
+ *
+ * unsubscribe()
+ * ```
+ */
 export class SelectionManager<TItem> {
   private readonly keyExtractor: KeyExtractor<TItem>
 
@@ -69,6 +105,14 @@ export class SelectionManager<TItem> {
     this.setData(data)
   }
 
+  /**
+   * Updates the data items and rebuilds the ID lookup cache
+   *
+   * Caches are invalidated when data changes. The cache stores data IDs and
+   * a Map for O(1) item lookup by ID, which is used by getSelectedItems.
+   *
+   * @param data - New array of items to track
+   */
   setData(data: readonly TItem[]): void {
     const dataLength = data.length
     const shouldRecache = this.cache.data !== data || this.cache.dataLength !== dataLength
@@ -95,6 +139,14 @@ export class SelectionManager<TItem> {
     this.data = [...data]
   }
 
+  /**
+   * Returns the current selection state
+   *
+   * State includes selected IDs, counts, and boolean flags for convenience.
+   * The returned object is read-only to prevent direct mutation.
+   *
+   * @returns Current selection state
+   */
   getState(): SelectionState {
     const selectedCount = this.selectedIds.size
     const totalCount = this.cache.dataLength
@@ -112,6 +164,19 @@ export class SelectionManager<TItem> {
     return this.selectedIds.has(id)
   }
 
+  /**
+   * Toggles selection for a single item
+   *
+   * In additive mode (default), adds/removes the item from selection. If this
+   * would leave exactly one item selected, clears selection instead to avoid
+   * accidental single selections.
+   *
+   * In non-additive mode, selects only this item and deselects all others.
+   * If this item is already the only one selected, does nothing.
+   *
+   * @param id - Item ID to toggle
+   * @param additive - If true (default), add/remove from selection. If false, select only this item
+   */
   toggleSelect(id: string, additive = true): void {
     const prev = this.selectedIds
 
@@ -145,6 +210,12 @@ export class SelectionManager<TItem> {
     this.setSelectedIds(next)
   }
 
+  /**
+   * Selects all items in the current data set
+   *
+   * Caches the "all selected" Set to avoid recreating it on repeated calls.
+   * The cache is invalidated when data changes or selection is cleared.
+   */
   selectAll(): void {
     const { dataIds } = this.cache
     const totalCount = this.cache.dataLength
@@ -156,11 +227,22 @@ export class SelectionManager<TItem> {
     this.setSelectedIds(this.allSelectedSet)
   }
 
+  /**
+   * Clears all selections and resets the "all selected" cache
+   */
   clearSelection(): void {
     this.setSelectedIds(new Set())
     this.allSelectedSet = null
   }
 
+  /**
+   * Returns selected IDs as an array with caching
+   *
+   * The cached result is returned if the selectedIds Set reference hasn't
+   * changed, avoiding unnecessary array conversion.
+   *
+   * @returns Array of selected item IDs
+   */
   getSelectedIds(): readonly string[] {
     if (this.selectedIdsSetRef === this.selectedIds && this.selectedIdsArrayCache) {
       return this.selectedIdsArrayCache
@@ -174,6 +256,15 @@ export class SelectionManager<TItem> {
     return array
   }
 
+  /**
+   * Returns selected items with caching for performance
+   *
+   * Looks up selected IDs in the cached itemById Map. Pre-allocates the
+   * result array to the expected size for efficiency. The cache is
+   * invalidated when selection changes.
+   *
+   * @returns Array of selected items
+   */
   getSelectedItems(): readonly TItem[] {
     const selectedIdsArray = this.getSelectedIds()
     const currentSize = selectedIdsArray.length
@@ -204,6 +295,15 @@ export class SelectionManager<TItem> {
     return selectedItems
   }
 
+  /**
+   * Returns a controller with methods to manipulate selection
+   *
+   * The controller provides a convenient API that doesn't require direct
+   * access to the manager instance. Useful for passing selection controls
+   * to components.
+   *
+   * @returns Selection controller with current data and control methods
+   */
   getController(): SelectionController<TItem> {
     const state = this.getState()
     const selectedIdsArray = this.getSelectedIds()
@@ -226,6 +326,15 @@ export class SelectionManager<TItem> {
     } as const
   }
 
+  /**
+   * Subscribes to selection changes
+   *
+   * The callback receives both selected IDs and selected items. Returns an
+   * unsubscribe function that removes the callback.
+   *
+   * @param callback - Function to call when selection changes
+   * @returns Unsubscribe function
+   */
   subscribe(callback: SelectionChangeCallback<TItem>): () => void {
     this.callbacks.add(callback)
 

@@ -1,5 +1,29 @@
 import { type QueryPlaylistParams } from "./types"
 
+/**
+ * Query keys for playlist-related data.
+ *
+ * Provides a structured way to generate unique keys for React Query,
+ * enabling efficient caching and invalidation of playlist data.
+ *
+ * Base keys:
+ * - `all`: all playlists
+ * - `withSongs`, `withStats`: key parts for relations
+ * - `withSongsAndStats`, `withMainRelations`, `withAllRelations`, `withCustomRelations`: combinations
+ *
+ * Methods:
+ * - `list(params?)`: list playlists
+ * - `listWithSongs(params?)`: list playlists with songs
+ * - `listWithStats(params?)`: list playlists with stats
+ * - `listWithSongsAndStats(params?)`: list playlists with songs and stats
+ * - `listWithMainRelations(params?)`: list playlists with main relations
+ * - `listWithAllRelations(params?)`: list playlists with all relations
+ * - `listInfiniteWithMainRelations(params?)`: infinite scrolling list of playlists with main relations
+ * - `listIdsOnly(params?)`: list only playlist IDs
+ * - `listWithCustomRelations(relationKey, params?)`: list playlists with custom relation
+ * - `details(id)`: fetch playlist details
+ * - `detailsWithSongs(id)`, `detailsWithStats(id)`, etc.: variations including relations
+ */
 export const playlistKeys = {
   all: ["playlists"] as const,
   withSongs: ["withSongs"] as const,

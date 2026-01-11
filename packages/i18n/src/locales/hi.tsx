@@ -2,6 +2,9 @@ import Hi from "../assets/hi.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Hindi language configuration.
+ */
 export const hindi: Language = {
   code: "hi",
   name: "हिन्दी",

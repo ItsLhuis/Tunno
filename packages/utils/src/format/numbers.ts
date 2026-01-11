@@ -1,3 +1,11 @@
+/**
+ * Calculates the retention rate of a track based on its play history and total duration.
+ * The retention rate indicates how much of the track is typically listened to.
+ *
+ * @param playHistory - An array of play events, each with `timeListened` in seconds.
+ * @param duration - The total duration of the track in seconds.
+ * @returns The retention rate as a percentage (0-100), rounded up to 100 if very close.
+ */
 export function calculateRetentionRate(
   playHistory: Array<{ timeListened: number }>,
   duration: number
@@ -12,6 +20,20 @@ export function calculateRetentionRate(
   return retention >= 99.5 ? 100 : retention
 }
 
+/**
+ * Formats a number into a human-readable string with metric suffixes (K, M, B).
+ *
+ * @param num - The number to format.
+ * @returns A string representation of the formatted number.
+ *
+ * @example
+ * ```ts
+ * formatNumber(1200)       // "1.2K"
+ * formatNumber(1500000)    // "1.5M"
+ * formatNumber(1000000000) // "1B"
+ * formatNumber(999)        // "999"
+ * ```
+ */
 export function formatNumber(num: number): string {
   if (num >= 1000000000) {
     return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "B"
@@ -25,6 +47,13 @@ export function formatNumber(num: number): string {
   return num.toString()
 }
 
+/**
+ * Calculates the current consecutive daily play streak based on play history.
+ * A streak is maintained if a song was played yesterday and today, or only yesterday if today has no plays.
+ *
+ * @param playHistory - An array of play events, each with a `playedAt` timestamp.
+ * @returns The number of consecutive days a song has been played.
+ */
 export function calculateStreak(playHistory: Array<{ playedAt: Date | string }>): number {
   if (playHistory.length === 0) return 0
 

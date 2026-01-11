@@ -2,6 +2,9 @@ import Vi from "../assets/vi.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Vietnamese language configuration.
+ */
 export const vietnamese: Language = {
   code: "vi",
   name: "Tiếng Việt",

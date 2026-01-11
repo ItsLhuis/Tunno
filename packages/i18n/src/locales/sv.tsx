@@ -2,6 +2,9 @@ import Sv from "../assets/sv.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Swedish language configuration.
+ */
 export const swedish: Language = {
   code: "sv",
   name: "Svenska",

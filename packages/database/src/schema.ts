@@ -3,6 +3,10 @@ import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "driz
 
 import { v4 as randomUUID } from "uuid"
 
+/**
+ * Schema definition for the `sidebar` table.
+ * Stores items added to the user's sidebar, including their type, ID, position, and creation timestamp.
+ */
 export const sidebar = sqliteTable(
   "sidebar",
   {
@@ -20,6 +24,10 @@ export const sidebar = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `songs` table.
+ * Stores information about individual music tracks.
+ */
 export const songs = sqliteTable(
   "songs",
   {
@@ -69,6 +77,10 @@ export const songs = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `song_stats` table.
+ * Stores statistical data for each song.
+ */
 export const songStats = sqliteTable(
   "song_stats",
   {
@@ -87,6 +99,10 @@ export const songStats = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `song_artists` join table.
+ * Links songs to their artists, supporting multiple artists per song.
+ */
 export const songsToArtists = sqliteTable(
   "song_artists",
   {
@@ -105,6 +121,10 @@ export const songsToArtists = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `artists` table.
+ * Stores information about music artists.
+ */
 export const artists = sqliteTable(
   "artists",
   {
@@ -143,6 +163,10 @@ export const artists = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `artist_stats` table.
+ * Stores statistical data for each artist.
+ */
 export const artistStats = sqliteTable(
   "artist_stats",
   {
@@ -161,6 +185,10 @@ export const artistStats = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `albums` table.
+ * Stores information about music albums.
+ */
 export const albums = sqliteTable(
   "albums",
   {
@@ -203,6 +231,10 @@ export const albums = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `album_stats` table.
+ * Stores statistical data for each album.
+ */
 export const albumStats = sqliteTable(
   "album_stats",
   {
@@ -221,6 +253,10 @@ export const albumStats = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `album_artists` join table.
+ * Links albums to their artists, supporting multiple artists per album.
+ */
 export const albumsToArtists = sqliteTable(
   "album_artists",
   {
@@ -239,6 +275,10 @@ export const albumsToArtists = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `playlists` table.
+ * Stores information about user-created music playlists.
+ */
 export const playlists = sqliteTable(
   "playlists",
   {
@@ -280,6 +320,10 @@ export const playlists = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `playlist_stats` table.
+ * Stores statistical data for each playlist.
+ */
 export const playlistStats = sqliteTable(
   "playlist_stats",
   {
@@ -298,6 +342,10 @@ export const playlistStats = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `playlist_songs` join table.
+ * Links playlists to their songs, supporting many-to-many relationship.
+ */
 export const playlistsToSongs = sqliteTable(
   "playlist_songs",
   {
@@ -317,6 +365,10 @@ export const playlistsToSongs = sqliteTable(
   ]
 )
 
+/**
+ * Schema definition for the `play_history` table.
+ * Records individual playback events for songs.
+ */
 export const playHistory = sqliteTable(
   "play_history",
   {
@@ -344,6 +396,9 @@ export const playHistory = sqliteTable(
   ]
 )
 
+/**
+ * Defines the relationships for the `songs` table.
+ */
 export const songsRelations = relations(songs, ({ one, many }) => ({
   album: one(albums, {
     fields: [songs.albumId],
@@ -358,6 +413,9 @@ export const songsRelations = relations(songs, ({ one, many }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `songStats` table.
+ */
 export const songStatsRelations = relations(songStats, ({ one }) => ({
   song: one(songs, {
     fields: [songStats.songId],
@@ -365,6 +423,9 @@ export const songStatsRelations = relations(songStats, ({ one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `artists` table.
+ */
 export const artistsRelations = relations(artists, ({ many, one }) => ({
   songs: many(songsToArtists),
   albums: many(albumsToArtists),
@@ -374,6 +435,9 @@ export const artistsRelations = relations(artists, ({ many, one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `artistStats` table.
+ */
 export const artistStatsRelations = relations(artistStats, ({ one }) => ({
   artist: one(artists, {
     fields: [artistStats.artistId],
@@ -381,6 +445,9 @@ export const artistStatsRelations = relations(artistStats, ({ one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `albums` table.
+ */
 export const albumsRelations = relations(albums, ({ many, one }) => ({
   artists: many(albumsToArtists),
   songs: many(songs),
@@ -390,6 +457,9 @@ export const albumsRelations = relations(albums, ({ many, one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `albumStats` table.
+ */
 export const albumStatsRelations = relations(albumStats, ({ one }) => ({
   album: one(albums, {
     fields: [albumStats.albumId],
@@ -397,6 +467,9 @@ export const albumStatsRelations = relations(albumStats, ({ one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `albumsToArtists` join table.
+ */
 export const albumsToArtistsRelations = relations(albumsToArtists, ({ one }) => ({
   album: one(albums, {
     fields: [albumsToArtists.albumId],
@@ -408,6 +481,9 @@ export const albumsToArtistsRelations = relations(albumsToArtists, ({ one }) => 
   })
 }))
 
+/**
+ * Defines the relationships for the `songsToArtists` join table.
+ */
 export const songsToArtistsRelations = relations(songsToArtists, ({ one }) => ({
   song: one(songs, {
     fields: [songsToArtists.songId],
@@ -419,6 +495,9 @@ export const songsToArtistsRelations = relations(songsToArtists, ({ one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `playlists` table.
+ */
 export const playlistsRelations = relations(playlists, ({ many, one }) => ({
   songs: many(playlistsToSongs),
   stats: one(playlistStats, {
@@ -427,6 +506,9 @@ export const playlistsRelations = relations(playlists, ({ many, one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `playlistStats` table.
+ */
 export const playlistStatsRelations = relations(playlistStats, ({ one }) => ({
   playlist: one(playlists, {
     fields: [playlistStats.playlistId],
@@ -434,6 +516,9 @@ export const playlistStatsRelations = relations(playlistStats, ({ one }) => ({
   })
 }))
 
+/**
+ * Defines the relationships for the `playlistsToSongs` join table.
+ */
 export const playlistsToSongsRelations = relations(playlistsToSongs, ({ one }) => ({
   playlist: one(playlists, {
     fields: [playlistsToSongs.playlistId],
@@ -445,6 +530,9 @@ export const playlistsToSongsRelations = relations(playlistsToSongs, ({ one }) =
   })
 }))
 
+/**
+ * Defines the relationships for the `playHistory` table.
+ */
 export const playHistoryRelations = relations(playHistory, ({ one }) => ({
   song: one(songs, {
     fields: [playHistory.songId],

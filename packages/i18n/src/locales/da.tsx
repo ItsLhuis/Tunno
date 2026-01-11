@@ -2,6 +2,9 @@ import Da from "../assets/da.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Danish language configuration.
+ */
 export const danish: Language = {
   code: "da",
   name: "Danish",

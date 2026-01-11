@@ -9,6 +9,11 @@ import { type TFunction } from "@repo/i18n"
 
 const { artists } = schema
 
+/**
+ * Zod schema for validating artist thumbnail file paths.
+ * Ensures the file extension is one of the supported thumbnail formats.
+ * @param t - The i18n translation function.
+ */
 function artistThumbnailSchema(t: TFunction) {
   return z
     .string()
@@ -28,12 +33,20 @@ function artistThumbnailSchema(t: TFunction) {
     )
 }
 
+/**
+ * Defines the base fields to pick from the Drizzle schema for artist operations.
+ */
 const baseArtistPick = {
   name: true,
   thumbnail: true,
   isFavorite: true
 } as const
 
+/**
+ * Creates a Zod schema for inserting new artist data.
+ * Includes validations for name, thumbnail, and favorite status.
+ * @param t - The i18n translation function.
+ */
 export function createInsertArtistSchema(t: TFunction) {
   const baseSchema = createInsertSchema(artists, {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
@@ -44,8 +57,16 @@ export function createInsertArtistSchema(t: TFunction) {
   return baseSchema.pick(baseArtistPick)
 }
 
+/**
+ * Inferred type for inserting a new artist, based on `createInsertArtistSchema`.
+ */
 export type InsertArtistType = z.infer<ReturnType<typeof createInsertArtistSchema>>
 
+/**
+ * Creates a Zod schema for updating existing artist data.
+ * Includes validations for name, thumbnail, and favorite status.
+ * @param t - The i18n translation function.
+ */
 export function createUpdateArtistSchema(t: TFunction) {
   const baseSchema = createUpdateSchema(artists, {
     name: z.string().min(1, t("validation.name.required")).max(100, t("validation.name.max")),
@@ -56,4 +77,7 @@ export function createUpdateArtistSchema(t: TFunction) {
   return baseSchema.pick(baseArtistPick)
 }
 
+/**
+ * Inferred type for updating an existing artist, based on `createUpdateArtistSchema`.
+ */
 export type UpdateArtistType = z.infer<ReturnType<typeof createUpdateArtistSchema>>

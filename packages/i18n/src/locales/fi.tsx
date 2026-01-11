@@ -2,6 +2,9 @@ import Fi from "../assets/fi.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Finnish language configuration.
+ */
 export const finnish: Language = {
   code: "fi",
   name: "Suomi",

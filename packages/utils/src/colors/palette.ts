@@ -1,11 +1,24 @@
 import { clampChroma, converter, formatCss, wcagContrast } from "culori"
 
+/**
+ * Represents a color in RGB format as a tuple of three numbers (0-255).
+ */
 type RGBTuple = [number, number, number]
 
+/**
+ * Represents a color in Oklch format.
+ * `l` is lightness (0-1), `c` is chroma (0-~0.37), `h` is hue (0-360).
+ */
 type Oklch = { l: number; c: number; h?: number }
 
+/**
+ * Defines the supported color output formats.
+ */
 export type ColorFormat = "oklch" | "rgb"
 
+/**
+ * Represents a complete color palette with various semantic color roles.
+ */
 export type Palette = {
   background: string
   foreground: string
@@ -20,6 +33,13 @@ export type Palette = {
 const toOklch = converter("oklch")
 const toRgb = converter("rgb")
 
+/**
+ * Calculates the relative luminance of an RGB color.
+ * @param r - Red component (0-255).
+ * @param g - Green component (0-255).
+ * @param b - Blue component (0-255).
+ * @returns The relative luminance value (0-1).
+ */
 function getRelativeLuminance(r: number, g: number, b: number): number {
   const [rLinear, gLinear, bLinear] = [r, g, b].map((val) => {
     const v = val / 255
@@ -29,10 +49,23 @@ function getRelativeLuminance(r: number, g: number, b: number): number {
   return 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear
 }
 
+/**
+ * Calculates the WCAG contrast ratio between two color strings.
+ * @param colorA - The first color string.
+ * @param colorB - The second color string.
+ * @returns The contrast ratio.
+ */
 export function getContrastRatio(colorA: string, colorB: string): number {
   return wcagContrast(colorA, colorB)
 }
 
+/**
+ * Converts an RGB color tuple to an Oklch color object.
+ * @param r - Red component (0-255).
+ * @param g - Green component (0-255).
+ * @param b - Blue component (0-255).
+ * @returns The Oklch representation of the color.
+ */
 function rgbToOklch(r: number, g: number, b: number): Oklch {
   const oklch = toOklch({ mode: "rgb", r: r / 255, g: g / 255, b: b / 255 })
 
@@ -47,6 +80,11 @@ function rgbToOklch(r: number, g: number, b: number): Oklch {
   }
 }
 
+/**
+ * Converts an Oklch color object to an RGB color tuple.
+ * @param oklch - The Oklch color object.
+ * @returns The RGB representation of the color.
+ */
 function oklchToRgb(oklch: Oklch): RGBTuple {
   const rgb = toRgb({ mode: "oklch", l: oklch.l, c: oklch.c, h: oklch.h ?? 0 })
 
@@ -61,6 +99,12 @@ function oklchToRgb(oklch: Oklch): RGBTuple {
   ]
 }
 
+/**
+ * Calculates the contrast ratio between two RGB color tuples.
+ * @param rgb1 - The first RGB color tuple.
+ * @param rgb2 - The second RGB color tuple.
+ * @returns The contrast ratio.
+ */
 function getContrastRatioFromRgb(rgb1: RGBTuple, rgb2: RGBTuple): number {
   const l1 = getRelativeLuminance(...rgb1)
   const l2 = getRelativeLuminance(...rgb2)
@@ -70,6 +114,15 @@ function getContrastRatioFromRgb(rgb1: RGBTuple, rgb2: RGBTuple): number {
   return (lighter + 0.05) / (darker + 0.05)
 }
 
+/**
+ * Generates a color with sufficient contrast against a base RGB color.
+ * Iteratively adjusts the lightness of `targetOklch` until it meets the `minContrast` ratio.
+ * @param baseRgb - The RGB color of the background.
+ * @param targetOklch - The initial Oklch color to adjust.
+ * @param minContrast - The minimum required contrast ratio.
+ * @param preferDarker - Whether to prefer darkening the target color (true) or lightening (false).
+ * @returns The adjusted Oklch color.
+ */
 function generateContrastColor(
   baseRgb: RGBTuple,
   targetOklch: Oklch,
@@ -104,6 +157,25 @@ function generateContrastColor(
   return baseLum > 0.5 ? { l: 0.1, c: 0 } : { l: 0.95, c: 0 }
 }
 
+/**
+ * Adjusts a foreground color to ensure minimum contrast ratio against background
+ *
+ * Iteratively adjusts the lightness of the foreground color until it achieves
+ * the specified minimum contrast ratio with the background. Uses OKLCH color
+ * space for perceptually uniform adjustments. Returns original color if
+ * conversion fails.
+ *
+ * @param foreground - Foreground color string (any CSS color format)
+ * @param background - Background color string (any CSS color format)
+ * @param minRatio - Minimum WCAG contrast ratio required (e.g., 4.5 for AA text)
+ * @returns Adjusted foreground color as CSS string
+ *
+ * @example
+ * ```ts
+ * const readableColor = ensureReadableOnBackground('#ffffff', '#333333', 4.5)
+ * // Returns adjusted white color that meets AA contrast requirement
+ * ```
+ */
 export function ensureReadableOnBackground(
   foreground: string,
   background: string,
@@ -141,6 +213,11 @@ export function ensureReadableOnBackground(
   )
 }
 
+/**
+ * Analyzes the saturation level of an Oklch color.
+ * @param oklch - The Oklch color object.
+ * @returns An object indicating the saturation level and if it needs a boost.
+ */
 function analyzeColor(oklch: Oklch): {
   saturationLevel: "desaturated" | "moderate" | "vibrant"
   needsBoost: boolean
@@ -156,6 +233,11 @@ function analyzeColor(oklch: Oklch): {
   return { saturationLevel, needsBoost }
 }
 
+/**
+ * Clamps an Oklch color into the sRGB gamut to ensure it's displayable.
+ * @param oklch - The Oklch color object to clamp.
+ * @returns The clamped Oklch color object.
+ */
 function clampIntoGamut(oklch: Oklch): Oklch {
   const clamped = clampChroma({ mode: "oklch", ...oklch }, "oklch")
 
@@ -170,6 +252,12 @@ function clampIntoGamut(oklch: Oklch): Oklch {
   }
 }
 
+/**
+ * Formats an Oklch color object into a CSS color string of the specified format.
+ * @param oklch - The Oklch color object.
+ * @param format - The desired output format ("oklch" or "rgb").
+ * @returns The formatted CSS color string.
+ */
 function formatColor(oklch: Oklch, format: ColorFormat): string {
   if (format === "rgb") {
     const rgb = oklchToRgb(oklch)
@@ -182,6 +270,12 @@ function formatColor(oklch: Oklch, format: ColorFormat): string {
   )
 }
 
+/**
+ * Formats an RGB color tuple into a CSS color string of the specified format.
+ * @param rgb - The RGB color tuple.
+ * @param format - The desired output format ("oklch" or "rgb").
+ * @returns The formatted CSS color string.
+ */
 function formatColorFromRgb(rgb: RGBTuple, format: ColorFormat): string {
   if (format === "rgb") {
     return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
@@ -195,6 +289,34 @@ function formatColorFromRgb(rgb: RGBTuple, format: ColorFormat): string {
   )
 }
 
+/**
+ * Generates a color palette from a base RGB color with accessibility guarantees
+ *
+ * Creates an 8-color palette (background, foreground, muted, mutedForeground,
+ * primary, primaryForeground, accent, accentForeground) that maintains WCAG
+ * contrast ratios. The algorithm analyzes the base color's saturation and
+ * brightness, then generates complementary colors that work well together.
+ *
+ * Contrast requirements:
+ * - Background/foreground: 8:1 for AAA
+ * - Muted/foreground: 4.5:1 for AA text, 2.8:1 minimum for UI
+ * - Primary/background: 3.5:1 minimum
+ * - Primary/primaryForeground: 4.5:1 for AA text
+ * - Muted/accent: 1.2:1 minimum separation
+ * - Accent/accentForeground: 4.5:1 for AA text
+ *
+ * @param rgbColor - Base color as [r, g, b] tuple (0-255 each)
+ * @param format - Output color format ('oklch' or 'rgb')
+ * @returns Complete palette object with all color roles
+ *
+ * @example
+ * ```ts
+ * const palette = generateColorPalette([60, 120, 200], 'oklch')
+ * console.log(palette.primary) // Primary action color
+ * console.log(palette.background) // Background color (same as input)
+ * console.log(palette.foreground) // High contrast text color
+ * ```
+ */
 export function generateColorPalette(rgbColor: RGBTuple, format: ColorFormat = "oklch"): Palette {
   const bgOklch = rgbToOklch(...rgbColor)
   const bgLum = getRelativeLuminance(...rgbColor)

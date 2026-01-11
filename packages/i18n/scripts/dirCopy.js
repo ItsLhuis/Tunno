@@ -1,3 +1,8 @@
+/**
+ * @fileoverview This script recursively copies files and directories from a source to a target directory.
+ * It's primarily used for copying static assets during the build process.
+ */
+
 import { promises as fs } from "fs"
 import * as path from "path"
 

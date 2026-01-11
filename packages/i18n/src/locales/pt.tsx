@@ -2,6 +2,9 @@ import Pt from "../assets/pt.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Portuguese language configuration.
+ */
 export const portuguese: Language = {
   code: "pt",
   name: "Português",

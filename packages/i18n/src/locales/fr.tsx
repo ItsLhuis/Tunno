@@ -2,6 +2,9 @@ import Fr from "../assets/fr.svg"
 
 import { type Language } from "../types"
 
+/**
+ * French language configuration.
+ */
 export const french: Language = {
   code: "fr",
   name: "Français",

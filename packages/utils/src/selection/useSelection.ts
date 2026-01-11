@@ -14,6 +14,26 @@ export type UseSelectionReturn<TItem> = Readonly<{
   state: SelectionState
 }>
 
+/**
+ * React hook for managing selection state with a SelectionManager
+ *
+ * Subscribes to selection changes from the manager and provides a controller
+ * for toggling selections, selecting all, and clearing selections. The hook
+ * maintains a local state copy that updates when the manager notifies changes.
+ *
+ * @param manager - SelectionManager instance to connect to
+ * @param onSelectionChange - Optional callback invoked when selection changes
+ * @returns Selection state and controller
+ *
+ * @example
+ * ```ts
+ * const manager = createSelectionManager(item => item.id, items)
+ * const { selectedIds, controller, handleToggleItem } = useSelection(manager)
+ *
+ * // In render
+ * <button onClick={() => handleToggleItem(item.id)}>Toggle</button>
+ * ```
+ */
 export function useSelection<TItem>(
   manager: SelectionManager<TItem>,
   onSelectionChange?: (selectedIds: readonly string[], selectedItems: readonly TItem[]) => void
@@ -53,6 +73,18 @@ export function useSelection<TItem>(
   } as const
 }
 
+/**
+ * Factory function to create a SelectionManager instance
+ *
+ * @param keyExtractor - Function to extract a unique string key from each item
+ * @param data - Initial array of items to track
+ * @returns New SelectionManager instance
+ *
+ * @example
+ * ```ts
+ * const manager = createSelectionManager(item => item.id, items)
+ * ```
+ */
 export function createSelectionManager<TItem>(
   keyExtractor: KeyExtractor<TItem>,
   data: readonly TItem[] = []

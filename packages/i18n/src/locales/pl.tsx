@@ -2,6 +2,9 @@ import Pl from "../assets/pl.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Polish language configuration.
+ */
 export const polish: Language = {
   code: "pl",
   name: "Polski",

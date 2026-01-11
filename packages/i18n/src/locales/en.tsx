@@ -2,6 +2,9 @@ import En from "../assets/en.svg"
 
 import { type Language } from "../types"
 
+/**
+ * English language configuration.
+ */
 export const english: Language = {
   code: "en",
   name: "English",

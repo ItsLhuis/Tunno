@@ -15,6 +15,10 @@ import * as schema from "./schema"
 type Schema = typeof schema
 type TablesWithRelations = ExtractTablesWithRelations<Schema>
 
+/**
+ * Extracts the 'with' clause type for relations from a Drizzle ORM query configuration.
+ * @template TableName - The name of the table.
+ */
 export type IncludeRelation<TableName extends keyof TablesWithRelations> = DBQueryConfig<
   "one" | "many",
   boolean,
@@ -22,6 +26,10 @@ export type IncludeRelation<TableName extends keyof TablesWithRelations> = DBQue
   TablesWithRelations[TableName]
 >["with"]
 
+/**
+ * Extracts the 'columns' clause type for selected columns from a Drizzle ORM query configuration.
+ * @template TableName - The name of the table.
+ */
 export type IncludeColumns<TableName extends keyof TablesWithRelations> = DBQueryConfig<
   "one" | "many",
   boolean,
@@ -29,6 +37,13 @@ export type IncludeColumns<TableName extends keyof TablesWithRelations> = DBQuer
   TablesWithRelations[TableName]
 >["columns"]
 
+/**
+ * Infers the query result model for a given table, including specified relations and columns.
+ * Handles optional relations correctly.
+ * @template TableName - The name of the table.
+ * @template With - The 'with' clause for relations.
+ * @template Columns - The 'columns' clause for selected columns.
+ */
 export type InferQueryModel<
   TableName extends keyof TablesWithRelations,
   With extends IncludeRelation<TableName> | undefined = undefined,
@@ -54,8 +69,37 @@ type BaseQueryResult<
   }
 >
 
+/**
+ * Represents a value that can be used as a cursor in keyset pagination.
+ */
 export type CursorValue = string | number | boolean | null | Date
 
+/**
+ * Builds SQL cursor condition for keyset pagination with multi-column sorting
+ *
+ * Generates a WHERE clause that allows fetching pages after a cursor point
+ * when sorting by multiple columns. The condition handles tiebreaking by
+ * requiring all preceding columns to match the cursor values while the
+ * current column satisfies the comparison operator.
+ *
+ * @param params.cursorValues - Array of cursor values from the last fetched item.
+ * @param params.columns - Array of SQL column expressions matching the sort order.
+ * @param params.direction - Sort direction ('asc' or 'desc').
+ * @param params.tiebreakerDirection - Optional override for tiebreaker comparison direction.
+ * @returns SQL WHERE clause or undefined if cursor values don't match columns count.
+ *
+ * @example
+ * ```ts
+ * // For cursor pagination with (createdAt DESC, id ASC)
+ * const condition = buildCursorCondition({
+ *   cursorValues: [lastDate, lastId],
+ *   columns: [createdAt, id],
+ *   direction: 'desc',
+ *   tiebreakerDirection: 'asc'
+ * })
+ * // Generates: (createdAt < ?) OR ((createdAt = ?) AND (id > ?))
+ * ```
+ */
 export function buildCursorCondition(params: {
   cursorValues: CursorValue[]
   columns: SQLWrapper[]
@@ -92,10 +136,19 @@ export function buildCursorCondition(params: {
   return sql`(${sql.join(conditions, sql` OR `)})`
 }
 
+/**
+ * Returns an order-by SQL expression based on the column and direction.
+ * @param column - The SQL column to order by.
+ * @param direction - The sort direction ('asc' or 'desc').
+ * @returns An `asc` or `desc` SQL order-by expression.
+ */
 export function getOrderByFromColumn(column: SQLWrapper, direction: "asc" | "desc") {
   return direction === "asc" ? asc(column) : desc(column)
 }
 
+/**
+ * Enum for common SQLite error codes related to constraints.
+ */
 export enum SQLiteErrorCode {
   UNIQUE_CONSTRAINT = "2067",
   NOT_NULL_CONSTRAINT = "787",
@@ -104,15 +157,29 @@ export enum SQLiteErrorCode {
   CONSTRAINT_OTHER = "1555"
 }
 
+/**
+ * Represents a database error, potentially including a specific error code.
+ */
 export type DatabaseError = Error & {
   code?: string
   errno?: number
 }
 
+/**
+ * Type guard to check if an unknown error is a DatabaseError instance.
+ * @param error - The error to check.
+ * @returns True if the error is a DatabaseError, false otherwise.
+ */
 function isDatabaseError(error: unknown): error is DatabaseError {
   return error instanceof Error
 }
 
+/**
+ * Extracts the error code from an error object, supporting both direct 'code' property
+ * and codes embedded in the message.
+ * @param error - The error object.
+ * @returns The extracted error code as a string, or null if not found.
+ */
 function extractErrorCode(error: Error): string | null {
   if ("code" in error && typeof (error as { code?: unknown }).code === "string") {
     return (error as { code: string }).code
@@ -126,6 +193,11 @@ function extractErrorCode(error: Error): string | null {
   return null
 }
 
+/**
+ * Type guard to check if an unknown error is a DrizzleQueryError that wraps a DatabaseError with a code.
+ * @param error - The error to check.
+ * @returns True if the error matches the expected DrizzleQueryError structure, false otherwise.
+ */
 function isDrizzleQueryError(
   error: unknown
 ): error is DrizzleQueryError & { cause: DatabaseError & { code: string } } {
@@ -149,6 +221,27 @@ function isDrizzleQueryError(
   return true
 }
 
+/**
+ * Type guard to check if an error is a SQLite constraint error
+ *
+ * Checks if the error originated from Drizzle ORM and has a SQLite
+ * constraint error code. Optionally filters by specific constraint type.
+ *
+ * @param error - Unknown error to check
+ * @param constraintType - Optional specific constraint type to check for
+ * @returns True if error matches the constraint type
+ *
+ * @example
+ * ```ts
+ * try {
+ *   await db.insert(users).values(user)
+ * } catch (err) {
+ *   if (isConstraintError(err, SQLiteErrorCode.UNIQUE_CONSTRAINT)) {
+ *     console.log('Email already exists')
+ *   }
+ * }
+ * ```
+ */
 export function isConstraintError(
   error: unknown,
   constraintType?: SQLiteErrorCode
@@ -172,24 +265,45 @@ export function isConstraintError(
   )
 }
 
+/**
+ * Type guard for SQLite unique constraint errors
+ *
+ * @param error - Unknown error to check
+ * @returns True if error is a unique constraint violation
+ */
 export function isUniqueConstraintError(
   error: unknown
 ): error is DrizzleQueryError & { cause: DatabaseError & { code: string } } {
   return isConstraintError(error, SQLiteErrorCode.UNIQUE_CONSTRAINT)
 }
 
+/**
+ * Type guard for SQLite NOT NULL constraint errors
+ *
+ * @param error - Unknown error to check
+ * @returns True if error is a NOT NULL constraint violation
+ */
 export function isNotNullConstraintError(
   error: unknown
 ): error is DrizzleQueryError & { cause: DatabaseError & { code: string } } {
   return isConstraintError(error, SQLiteErrorCode.NOT_NULL_CONSTRAINT)
 }
 
+/**
+ * Type guard for SQLite foreign key constraint errors
+ *
+ * @param error - Unknown error to check
+ * @returns True if error is a foreign key constraint violation
+ */
 export function isForeignKeyConstraintError(
   error: unknown
 ): error is DrizzleQueryError & { cause: DatabaseError & { code: string } } {
   return isConstraintError(error, SQLiteErrorCode.FOREIGN_KEY_CONSTRAINT)
 }
 
+/**
+ * Provides structured information about a database constraint error.
+ */
 export type ConstraintErrorInfo = {
   type: "unique" | "not_null" | "foreign_key" | "check" | "other"
   code: string
@@ -198,6 +312,27 @@ export type ConstraintErrorInfo = {
   column?: string
 }
 
+/**
+ * Extracts structured information from SQLite constraint errors
+ *
+ * Parses SQLite error messages to extract constraint type, affected table,
+ * and column names. Useful for displaying user-friendly error messages.
+ *
+ * @param error - Error to parse
+ * @returns Structured constraint info or null if not a constraint error
+ *
+ * @example
+ * ```ts
+ * try {
+ *   await db.insert(albums).values(album)
+ * } catch (err) {
+ *   const info = extractConstraintInfo(err)
+ *   if (info?.type === 'unique' && info.table === 'albums') {
+ *     showError(`Album "${album.name}" already exists`)
+ *   }
+ * }
+ * ```
+ */
 export function extractConstraintInfo(error: unknown): ConstraintErrorInfo | null {
   if (!isDrizzleQueryError(error)) {
     return null

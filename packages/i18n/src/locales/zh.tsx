@@ -2,6 +2,9 @@ import Zh from "../assets/zh.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Chinese language configuration.
+ */
 export const chinese: Language = {
   code: "zh",
   name: "中文",

@@ -2,6 +2,9 @@ import Ru from "../assets/ru.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Russian language configuration.
+ */
 export const russian: Language = {
   code: "ru",
   name: "Русский",

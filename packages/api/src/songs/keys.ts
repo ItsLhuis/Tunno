@@ -1,5 +1,38 @@
 import { type QuerySongsParams } from "./types"
 
+/**
+ * Query keys for song-related data.
+ *
+ * Provides a structured way to generate unique keys for React Query,
+ * enabling efficient caching and invalidation of song data.
+ *
+ * Base keys:
+ * - `all`: all songs
+ * - `withAlbum`, `withArtists`, `withPlaylists`, `withStats`, `withPlayHistory`: key parts for relations
+ * - `withAlbumAndArtists`, `withAlbumAndPlaylists`, `withArtistsAndPlaylists`, `withAlbumAndArtistsAndPlaylists`, `withMainRelations`, `withAllRelations`, `withCustomRelations`: combinations
+ *
+ * Methods:
+ * - `list(params?)`: list songs
+ * - `listWithAlbum(params?)`: list songs with album
+ * - `listWithArtists(params?)`: list songs with artists
+ * - `listWithPlaylists(params?)`: list songs with playlists
+ * - `listWithStats(params?)`: list songs with stats
+ * - `listWithPlayHistory(params?)`: list songs with play history
+ * - `listWithAlbumAndArtists(params?)`: list songs with album and artists
+ * - `listWithAlbumAndPlaylists(params?)`: list songs with album and playlists
+ * - `listWithArtistsAndPlaylists(params?)`: list songs with artists and playlists
+ * - `listWithAlbumAndArtistsAndPlaylists(params?)`: list songs with album, artists, and playlists
+ * - `listWithMainRelations(params?)`: list songs with main relations
+ * - `listWithAllRelations(params?)`: list songs with all relations
+ * - `listInfiniteWithMainRelations(params?)`: infinite scrolling list of songs with main relations
+ * - `listIdsOnly(params?)`: list only song IDs
+ * - `listSongIdsByArtistIds(artistIds)`: list song IDs by artist IDs
+ * - `listSongIdsByAlbumIds(albumIds)`: list song IDs by album IDs
+ * - `listSongIdsByPlaylistIds(playlistIds)`: list song IDs by playlist IDs
+ * - `listWithCustomRelations(relationKey, params?)`: list songs with custom relation
+ * - `details(id)`: fetch song details
+ * - `detailsWithAlbum(id)`, `detailsWithArtists(id)`, `detailsWithPlaylists(id)`, `detailsWithStats(id)`, `detailsWithPlayHistory(id)`, etc.: variations including relations
+ */
 export const songKeys = {
   all: ["songs"] as const,
   withAlbum: ["withAlbum"] as const,

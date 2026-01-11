@@ -2,6 +2,9 @@ import No from "../assets/no.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Norwegian language configuration.
+ */
 export const norwegian: Language = {
   code: "no",
   name: "Norsk",

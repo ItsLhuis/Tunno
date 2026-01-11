@@ -2,6 +2,9 @@ import Ko from "../assets/ko.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Korean language configuration.
+ */
 export const korean: Language = {
   code: "ko",
   name: "한국어",

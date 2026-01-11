@@ -21,6 +21,10 @@ import { chinese } from "./locales/zh"
 
 import { type Language } from "./types"
 
+/**
+ * A constant object containing all supported locale configurations.
+ * Each key is a locale code, and its value is the corresponding Language object.
+ */
 export const Locales = {
   da: danish,
   de: german,
@@ -44,8 +48,18 @@ export const Locales = {
   zh: chinese
 } as const
 
+/**
+ * Type representing all possible locale keys (e.g., "en", "es").
+ */
 export type LocaleKeys = keyof typeof Locales
 
+/**
+ * Returns an object containing all supported locale configurations.
+ * This function ensures that the `Locales` object is correctly typed
+ * when accessed programmatically.
+ *
+ * @returns A record where keys are `LocaleKeys` and values are `Language` objects.
+ */
 export const getLocales = (): { [key in LocaleKeys]: Language } => {
   const result: { [key in LocaleKeys]: Language } = {} as { [key in LocaleKeys]: Language }
 

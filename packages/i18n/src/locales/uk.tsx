@@ -2,6 +2,9 @@ import Uk from "../assets/uk.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Ukrainian language configuration.
+ */
 export const ukrainian: Language = {
   code: "uk",
   name: "Українська",

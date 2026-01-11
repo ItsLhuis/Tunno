@@ -2,6 +2,9 @@ import Nl from "../assets/nl.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Dutch language configuration.
+ */
 export const dutch: Language = {
   code: "nl",
   name: "Nederlands",

@@ -2,6 +2,9 @@ import It from "../assets/it.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Italian language configuration.
+ */
 export const italian: Language = {
   code: "it",
   name: "Italiano",

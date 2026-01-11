@@ -2,6 +2,9 @@ import Es from "../assets/es.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Spanish language configuration.
+ */
 export const spanish: Language = {
   code: "es",
   name: "Español",

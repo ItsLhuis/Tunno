@@ -2,6 +2,9 @@ import Ja from "../assets/ja.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Japanese language configuration.
+ */
 export const japanese: Language = {
   code: "ja",
   name: "日本語",

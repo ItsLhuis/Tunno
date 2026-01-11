@@ -1,5 +1,32 @@
 import { type QueryArtistParams } from "./types"
 
+/**
+ * Query keys for artist-related data.
+ *
+ * Provides a structured way to generate unique keys for React Query,
+ * enabling efficient caching and invalidation of artist data.
+ *
+ * Base keys:
+ * - `all`: all artists
+ * - `withSongs`, `withAlbums`, `withStats`: key parts for relations
+ * - `withSongsAndAlbums`, `withMainRelations`, `withAllRelations`, `withCustomRelations`: combinations
+ *
+ * Methods:
+ * - `list(params?)`: list artists
+ * - `listWithSongs(params?)`: list artists with songs
+ * - `listWithAlbums(params?)`: list artists with albums
+ * - `listWithStats(params?)`: list artists with stats
+ * - `listWithSongsAndAlbums(params?)`: list artists with songs and albums
+ * - `listWithMainRelations(params?)`: list artists with main relations
+ * - `listWithAllRelations(params?)`: list artists with all relations
+ * - `listInfinite(params?)`: infinite scrolling list of artists
+ * - `listInfiniteWithMainRelations(params?)`: infinite scrolling list of artists with main relations
+ * - `listIdsOnly(params?)`: list only artist IDs
+ * - `listSongIdsOnly(id)`: list song IDs for a specific artist
+ * - `listWithCustomRelations(relationKey, params?)`: list artists with custom relation
+ * - `details(id)`: fetch artist details
+ * - `detailsWithSongs(id)`, `detailsWithAlbums(id)`, `detailsWithStats(id)`, etc.: variations including relations
+ */
 export const artistKeys = {
   all: ["artists"] as const,
   withSongs: ["withSongs"] as const,

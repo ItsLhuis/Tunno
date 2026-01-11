@@ -1,5 +1,21 @@
 import { type TFunction } from "@repo/i18n"
 
+/**
+ * Formats seconds as a time string in MM:SS or H:MM:SS format
+ *
+ * Always displays two digits for minutes and seconds. Hours are shown
+ * if the duration exceeds one hour.
+ *
+ * @param seconds - Duration in seconds (undefined treated as 0)
+ * @returns Formatted time string
+ *
+ * @example
+ * ```ts
+ * formatTime(90) // "1:30"
+ * formatTime(3661) // "1:01:01"
+ * formatTime(undefined) // "0:00"
+ * ```
+ */
 export function formatTime(seconds: number | undefined) {
   const s = seconds ?? 0
   const hrs = Math.floor(s / 3600)
@@ -13,6 +29,23 @@ export function formatTime(seconds: number | undefined) {
   return `${mins}:${secs.toString().padStart(2, "0")}`
 }
 
+/**
+ * Parses a time string into seconds
+ *
+ * Supports "H:MM:SS" and "MM:SS" formats, and also accepts plain
+ * integer values. Returns undefined for invalid inputs.
+ *
+ * @param str - Time string to parse
+ * @returns Duration in seconds, or undefined if parsing fails
+ *
+ * @example
+ * ```ts
+ * parseTime("1:30") // 90
+ * parseTime("1:01:01") // 3661
+ * parseTime("123") // 123
+ * parseTime("invalid") // undefined
+ * ```
+ */
 export function parseTime(str: string): number | undefined {
   const parts = str.split(":").map((p) => p.trim())
 
@@ -33,6 +66,27 @@ export function parseTime(str: string): number | undefined {
   return isNaN(fallback) ? undefined : fallback
 }
 
+/**
+ * Formats seconds as a human-readable duration string
+ *
+ * Localized duration formatter that breaks down seconds into years, weeks,
+ * days, hours, minutes, and seconds based on the user's locale. Supports
+ * controlling precision and the number of time units displayed.
+ *
+ * @param seconds - Duration in seconds (undefined treated as 0)
+ * @param t - i18n translation function
+ * @param options.maxParts - Maximum number of time units to display (default: 2)
+ * @param options.showSeconds - Include seconds in output (default: true)
+ * @param options.precision - Rounding behavior: 'exact' or 'rounded' (default: 'exact')
+ * @returns Localized duration string
+ *
+ * @example
+ * ```ts
+ * formatDuration(3665, t) // "1 hour 1 minute 5 seconds"
+ * formatDuration(3665, t, { maxParts: 1 }) // "1 hour"
+ * formatDuration(3665, t, { precision: 'rounded' }) // "1 hour 2 minutes"
+ * ```
+ */
 export function formatDuration(
   seconds: number | undefined,
   t: TFunction,

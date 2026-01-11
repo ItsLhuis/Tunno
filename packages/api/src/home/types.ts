@@ -1,7 +1,5 @@
 import { type QueryParams } from "../types"
 
-export type QueryHomeParams = QueryParams<string, Record<string, unknown>>
-
 import { type SongWithMainRelations } from "../songs"
 
 import { type Artist, ArtistWithStats } from "../artists"
@@ -10,6 +8,14 @@ import { type Album, type AlbumWithArtists } from "../albums"
 
 import { type Playlist } from "../playlists"
 
+/**
+ * Parameters for querying home screen data.
+ */
+export type QueryHomeParams = QueryParams<string, Record<string, unknown>>
+
+/**
+ * Represents various statistics about the user's music library and listening habits.
+ */
 export type UserStats = {
   totalSongs: number
   totalArtists: number
@@ -32,6 +38,9 @@ export type UserStats = {
   }
 }
 
+/**
+ * Represents data for the "Jump Back In" section, showing recently played songs.
+ */
 export type JumpBackIn = {
   items: Array<{
     song: SongWithMainRelations
@@ -44,6 +53,9 @@ export type JumpBackIn = {
   averageTimePerSession: number
 }
 
+/**
+ * Represents data for the "On Repeat" section, highlighting frequently played songs.
+ */
 export type OnRepeat = {
   songs: Array<
     SongWithMainRelations & {
@@ -60,6 +72,9 @@ export type OnRepeat = {
   }
 }
 
+/**
+ * Represents data for the "Your Playlists" section.
+ */
 export type YourPlaylists = {
   playlists: Playlist[]
   totalPlaylists: number
@@ -68,6 +83,9 @@ export type YourPlaylists = {
   favoritePlaylists: number
 }
 
+/**
+ * Represents data for the "New Releases" section.
+ */
 export type NewReleases = {
   albums: AlbumWithArtists[]
   totalAlbums: number
@@ -79,6 +97,9 @@ export type NewReleases = {
   }
 }
 
+/**
+ * Represents data for the "Discover" section, offering new music recommendations.
+ */
 export type Discover = {
   songs: Array<
     SongWithMainRelations & {
@@ -91,6 +112,9 @@ export type Discover = {
   highestDiscoveryScore: number
 }
 
+/**
+ * Represents data for the "Favorite Artists" section.
+ */
 export type FavoriteArtists = {
   artists: ArtistWithStats[]
   totalArtists: number
@@ -99,6 +123,9 @@ export type FavoriteArtists = {
   topArtist?: ArtistWithStats
 }
 
+/**
+ * Represents data for the "Top Albums" section.
+ */
 export type TopAlbums = {
   albums: AlbumWithArtists[]
   totalAlbums: number
@@ -107,6 +134,9 @@ export type TopAlbums = {
   topAlbum?: AlbumWithArtists
 }
 
+/**
+ * Represents data for the "Hidden Gems" section, suggesting lesser-known tracks.
+ */
 export type HiddenGems = {
   songs: Array<
     SongWithMainRelations & {
@@ -119,12 +149,18 @@ export type HiddenGems = {
   highestNostalgiaScore: number
 }
 
+/**
+ * Represents a single item recently added to the library, which can be a song, album, playlist, or artist.
+ */
 export type RecentlyAddedItem =
   | { type: "song"; data: SongWithMainRelations }
   | { type: "album"; data: AlbumWithArtists }
   | { type: "playlist"; data: Playlist }
   | { type: "artist"; data: Artist }
 
+/**
+ * Represents data for the "Recently Added" section, listing newly added items.
+ */
 export type RecentlyAdded = {
   items: RecentlyAddedItem[]
   totalItems: number

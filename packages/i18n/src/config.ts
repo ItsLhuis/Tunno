@@ -17,6 +17,10 @@ declare module "i18next" {
   }
 }
 
+/**
+ * Configures and initializes the i18n instance using i18next and react-i18next.
+ * Sets up translation resources, default language, fallback language, and interpolation options.
+ */
 i18n
   .use(ICU)
   .use(initReactI18next)

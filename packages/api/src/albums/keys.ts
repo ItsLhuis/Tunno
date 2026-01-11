@@ -1,5 +1,33 @@
 import { type QueryAlbumParams } from "./types"
 
+/**
+ * Query keys for album-related data.
+ *
+ * Provides a structured way to generate unique keys for React Query,
+ * enabling efficient caching and invalidation of album data.
+ *
+ * Base keys:
+ * - `all`: all albums
+ * - `withSongs`, `withArtists`, `withStats`: key parts for relations
+ * - `withSongsAndArtists`, `withMainRelations`, `withAllRelations`, `withCustomRelations`: combinations
+ *
+ * Methods:
+ * - `list(params?)`: list albums
+ * - `listWithSongs(params?)`: list albums with songs
+ * - `listWithArtists(params?)`: list albums with artists
+ * - `listWithStats(params?)`: list albums with stats
+ * - `listWithSongsAndArtists(params?)`: list albums with songs and artists
+ * - `listWithMainRelations(params?)`: list albums with main relations
+ * - `listWithAllRelations(params?)`: list albums with all relations
+ * - `listInfinite(params?)`: infinite scrolling list of albums
+ * - `listIdsOnly(params?)`: list only album IDs
+ * - `listSongIdsOnly(id)`: list song IDs for a specific album
+ * - `listByArtists(artistIds, params?)`: list albums by artist IDs
+ * - `listBySongs(songIds, params?)`: list albums by song IDs
+ * - `listWithCustomRelations(relationKey, params?)`: list albums with custom relation
+ * - `details(id)`: fetch album details
+ * - `detailsWithSongs(id)`, `detailsWithArtists(id)`, `detailsWithStats(id)`, etc.: variations including relations
+ */
 export const albumKeys = {
   all: ["albums"] as const,
   withSongs: ["withSongs"] as const,

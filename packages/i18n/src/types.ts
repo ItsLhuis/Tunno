@@ -2,6 +2,10 @@ import { type LocaleKeys } from "./locales"
 
 export { type LocaleKeys }
 
+/**
+ * Represents a language configuration, including its code, name, flag SVG,
+ * RTL support, and translation strings.
+ */
 export type Language = {
   code: LocaleKeys
   name: string
@@ -10,6 +14,10 @@ export type Language = {
   translations: Translations
 }
 
+/**
+ * Defines the structure of the translation keys and their corresponding string values.
+ * This type is automatically generated and ensures type-safety for translation keys.
+ */
 export type Translations = {
   common: {
     noResultsFound: string

@@ -2,6 +2,9 @@ import Tr from "../assets/tr.svg"
 
 import { type Language } from "../types"
 
+/**
+ * Turkish language configuration.
+ */
 export const turkish: Language = {
   code: "tr",
   name: "Türkçe",
