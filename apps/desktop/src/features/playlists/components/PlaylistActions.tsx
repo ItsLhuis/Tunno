@@ -14,7 +14,8 @@ import { useFetchSongIdsByPlaylistIds } from "@features/songs/hooks/useFetchSong
 
 import { useTogglePlaylistFavorite } from "../hooks/useTogglePlaylistFavorite"
 
-import { useIsInSidebar, useToggleSidebarItem } from "@features/sidebar/hooks"
+import { useIsInSidebar } from "@features/sidebar/hooks/useIsInSidebar"
+import { useToggleSidebarItem } from "@features/sidebar/hooks/useToggleSidebarItem"
 
 import { cn } from "@lib/utils"
 

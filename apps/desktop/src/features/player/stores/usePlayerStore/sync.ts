@@ -9,8 +9,17 @@ import { LRUCache } from "@repo/utils"
 
 import { type SongWithMainRelations } from "@repo/api"
 
+/**
+ * Defines the possible labels for application windows.
+ * This helps differentiate behavior between the main window and player-specific windows.
+ */
 export type WindowLabel = "main" | "miniPlayer" | "fullscreenPlayer"
 
+/**
+ * Retrieves the label of the current window.
+ *
+ * @returns The label of the current window, defaulting to "main".
+ */
 export function getWindowLabel(): WindowLabel {
   const label = getCurrentWindow().label
   if (label === "miniPlayer") return "miniPlayer"
@@ -18,10 +27,19 @@ export function getWindowLabel(): WindowLabel {
   return "main"
 }
 
+/**
+ * Checks if the current window is the main application window.
+ *
+ * @returns `true` if the current window is the main window, `false` otherwise.
+ */
 export function isMainWindow(): boolean {
   return getWindowLabel() === "main"
 }
 
+/**
+ * A constant object that defines the event names used for inter-window communication.
+ * This ensures consistency and avoids magic strings when emitting or listening to events.
+ */
 const EVENTS = {
   STATE_UPDATE: "player:state-update",
   STATE_REQUEST: "player:state-request",
@@ -30,40 +48,68 @@ const EVENTS = {
   ACTION_RESPONSE: "player:action-response"
 } as const
 
+/**
+ * Configuration constants for the synchronization logic.
+ */
 export const SYNC_CONFIG = {
   THROTTLE_INTERVAL: 100,
   ACTION_TIMEOUT: 30000,
   MAX_RETRIES: 0
 } as const
 
+/**
+ * A flag to ensure that the initial state hydration from the main window happens only once.
+ */
 let hasHydratedFromMain = false
 
+/**
+ * Resets the module-level cache for action keys and the hydration flag.
+ * This is useful for testing or re-initializing the sync logic.
+ */
 export function resetSyncCache(): void {
   cachedActionKeys = null
   hasHydratedFromMain = false
 }
 
+/**
+ * Represents the payload for an action request event.
+ */
 type ActionRequest<TArgs extends unknown[] = unknown[]> = {
   id: string
   action: string
   args: TArgs
 }
 
+/**
+ * Represents the payload for an action response event.
+ */
 type ActionResponse = {
   id: string
   success: boolean
   error?: string
 }
 
+/**
+ * Represents the payload for a state response event.
+ */
 type StateResponsePayload<T> = {
   state: T
 }
 
+/**
+ * Sets up synchronization logic for the main application window.
+ * This function subscribes to store changes, broadcasts them to other windows,
+ * and listens for state and action requests from secondary windows.
+ *
+ * @param store - The Zustand store instance to be synchronized.
+ * @returns A cleanup function that unsubscribes from all listeners and store changes.
+ */
 export function setupMainWindowSync<T extends Record<string, unknown>>(
   store: StoreApi<T>
 ): () => void {
   const unlisteners: UnlistenFn[] = []
 
+  // Throttles state update emissions to prevent flooding the event bus.
   const throttledEmit = throttle(
     (state: T) => {
       const serializedState = partializeStateForSync(state)
@@ -73,6 +119,7 @@ export function setupMainWindowSync<T extends Record<string, unknown>>(
     { leading: true, trailing: true }
   )
 
+  // Subscribes to store changes and emits an update if the synchronized part of the state has changed.
   const unsubscribe = store.subscribe((currentState, previousState) => {
     const currentSerialized = partializeStateForSync(currentState)
     const previousSerialized = partializeStateForSync(previousState)
@@ -82,6 +129,7 @@ export function setupMainWindowSync<T extends Record<string, unknown>>(
     }
   })
 
+  // Listens for requests for the full state from secondary windows.
   const stateRequestPromise = listen(EVENTS.STATE_REQUEST, async () => {
     try {
       const serializedState = partializeStateForSync(store.getState())
@@ -95,6 +143,7 @@ export function setupMainWindowSync<T extends Record<string, unknown>>(
 
   stateRequestPromise.then((unlisten) => unlisteners.push(unlisten))
 
+  // Listens for requests to execute an action from secondary windows.
   const actionRequestPromise = listen<ActionRequest>(EVENTS.ACTION_REQUEST, async (event) => {
     const { id, action, args } = event.payload
 
@@ -125,6 +174,7 @@ export function setupMainWindowSync<T extends Record<string, unknown>>(
 
   actionRequestPromise.then((unlisten) => unlisteners.push(unlisten))
 
+  // Returns a cleanup function to be called on component unmount.
   return () => {
     unsubscribe()
     throttledEmit.cancel()
@@ -132,8 +182,18 @@ export function setupMainWindowSync<T extends Record<string, unknown>>(
   }
 }
 
+/**
+ * A cached set of keys that correspond to actions (functions) in the store.
+ * This avoids re-calculating the keys on every state change.
+ */
 let cachedActionKeys: Set<string> | null = null
 
+/**
+ * Detects and caches the keys of all functions (actions) in the store state.
+ *
+ * @param state - The current store state.
+ * @returns A `Set` containing the names of all action functions.
+ */
 const detectActionKeys = <T extends Record<string, unknown>>(state: T): Set<string> => {
   if (cachedActionKeys) {
     return cachedActionKeys
@@ -150,8 +210,19 @@ const detectActionKeys = <T extends Record<string, unknown>>(state: T): Set<stri
   return actionKeys
 }
 
+/**
+ * A set of keys to exclude from state synchronization.
+ * This is currently empty but can be used to prevent certain state properties from being broadcast.
+ */
 const NON_SERIALIZABLE_KEYS = new Set<string>([])
 
+/**
+ * Serializes an LRUCache instance into a plain object for synchronization.
+ * LRUCache instances are not directly serializable over the event bus.
+ *
+ * @param cache - The LRUCache instance to serialize.
+ * @returns A plain object representation of the cache.
+ */
 function serializeCachedSongs(
   cache: LRUCache<number, SongWithMainRelations>
 ): Record<number, SongWithMainRelations> {
@@ -162,6 +233,13 @@ function serializeCachedSongs(
   return serialized
 }
 
+/**
+ * Deserializes a plain object back into an LRUCache instance.
+ *
+ * @param data - The plain object to deserialize.
+ * @param maxSize - The maximum size of the LRUCache.
+ * @returns A new LRUCache instance populated with the deserialized data.
+ */
 function deserializeCachedSongs(
   data: Record<number, SongWithMainRelations> | undefined,
   maxSize: number
@@ -175,6 +253,14 @@ function deserializeCachedSongs(
   return cache
 }
 
+/**
+ * Filters the store state to include only serializable properties for synchronization.
+ * It removes functions (actions) and other non-serializable keys.
+ * It also handles the custom serialization of the `cachedSongs` LRUCache.
+ *
+ * @param state - The full store state.
+ * @returns A partial state object containing only the data to be synchronized.
+ */
 const partializeStateForSync = <T extends Record<string, unknown>>(state: T): Partial<T> => {
   const actionKeys = detectActionKeys(state)
   const filtered: Record<string, unknown> = {}
@@ -184,6 +270,7 @@ const partializeStateForSync = <T extends Record<string, unknown>>(state: T): Pa
       continue
     }
 
+    // Custom serialization for LRUCache instance.
     if (key === "cachedSongs") {
       const cache = state[key] as LRUCache<number, SongWithMainRelations> | undefined
       if (cache) {
@@ -197,6 +284,14 @@ const partializeStateForSync = <T extends Record<string, unknown>>(state: T): Pa
   return filtered as Partial<T>
 }
 
+/**
+ * Sets up synchronization logic for a secondary application window (e.g., mini-player).
+ * This function listens for state updates from the main window, requests the initial state upon setup,
+ * and applies incoming state changes to the local store instance.
+ *
+ * @param store - The Zustand store instance to be synchronized.
+ * @returns A cleanup function that unsubscribes from all event listeners.
+ */
 export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
   store: StoreApi<T>
 ): () => void {
@@ -205,6 +300,7 @@ export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
   let pendingUpdate: Partial<T> | null = null
   let isProcessingUpdate = false
 
+  // Processes pending updates to avoid race conditions and ensure state is applied sequentially.
   const processPendingUpdate = () => {
     if (isProcessingUpdate || !pendingUpdate) {
       return
@@ -215,11 +311,13 @@ export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
 
     const currentSerializedState = partializeStateForSync(store.getState())
 
+    // Only update state if the new state is different from the current serialized state.
     if (!isEqual(currentSerializedState, newState)) {
       isProcessingUpdate = true
       try {
         const processedState = { ...newState } as Record<string, unknown>
 
+        // Handle custom deserialization for the `cachedSongs` LRUCache.
         if ("cachedSongs" in processedState && processedState.cachedSongs) {
           const currentState = store.getState()
           const windowSize =
@@ -236,6 +334,7 @@ export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
         store.setState(processedState as T, false)
       } finally {
         isProcessingUpdate = false
+        // If another update came in while processing, handle it now.
         if (pendingUpdate) {
           processPendingUpdate()
         }
@@ -243,6 +342,7 @@ export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
     }
   }
 
+  // Listens for throttled state updates from the main window.
   const stateUpdatePromise = listen<Partial<T>>(EVENTS.STATE_UPDATE, (event) => {
     const newState = event.payload
 
@@ -257,6 +357,7 @@ export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
 
   stateUpdatePromise.then((unlisten) => unlisteners.push(unlisten))
 
+  // Listens for the initial full state response after requesting it.
   const stateResponsePromise = listen<StateResponsePayload<Partial<T>>>(
     EVENTS.STATE_RESPONSE,
     (event) => {
@@ -298,6 +399,7 @@ export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
 
   stateResponsePromise.then((unlisten) => unlisteners.push(unlisten))
 
+  // Request the initial state from the main window.
   emit(EVENTS.STATE_REQUEST).catch(console.error)
 
   return () => {
@@ -305,6 +407,26 @@ export function setupSecondaryWindowSync<T extends Record<string, unknown>>(
   }
 }
 
+/**
+ * Creates a function that remotely executes an action on the main window's store.
+ * This simulates an RPC call over the event bus, returning a promise that resolves
+ * or rejects based on the response from the main window.
+ *
+ * @param actionName - The name of the action function to execute in the main store.
+ * @returns An async function that, when called, dispatches the action and waits for a result.
+ * @template TArgs - The argument types of the target action.
+ * @template TReturn - The return type of the target action (defaults to void).
+ *
+ * @example
+ * ```ts
+ * // In the main window store, you have: `play: async () => { ... }`
+ * // In a secondary window, you create a remote action:
+ * const remotePlay = createRemoteAction<[], void>('play');
+ *
+ * // And then call it:
+ * await remotePlay();
+ * ```
+ */
 export function createRemoteAction<TArgs extends unknown[], TReturn = void>(
   actionName: string
 ): (...args: TArgs) => Promise<TReturn> {
@@ -312,12 +434,14 @@ export function createRemoteAction<TArgs extends unknown[], TReturn = void>(
     const id = `${actionName}-${Date.now()}-${Math.random()}`
 
     try {
+      // Emit the action request to the main window.
       await emit<ActionRequest<TArgs>>(EVENTS.ACTION_REQUEST, {
         id,
         action: actionName,
         args
       })
 
+      // Wait for a response, with a timeout.
       return await new Promise<TReturn>((resolve, reject) => {
         let cleanup: (() => void) | undefined
 

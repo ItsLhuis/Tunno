@@ -29,6 +29,22 @@ import {
   type SongWithMainRelations
 } from "@repo/api"
 
+/**
+ * Retrieves a paginated list of songs, including their main relations (album and artists),
+ * based on provided query parameters, order, and filters.
+ *
+ * This function handles cursor-based pagination, allowing for efficient fetching
+ * of large datasets. It also applies various filters and sorting options.
+ *
+ * @param params - An object containing query parameters, including:
+ *   - `limit`: The maximum number of items to return per page (defaults to `PAGE_SIZE`).
+ *   - `cursor`: An optional cursor string for pagination (used to fetch the next/previous page).
+ *   - `orderBy`: An object specifying the column to order by and the direction ('asc' or 'desc').
+ *   - `filters`: An object containing various criteria to filter the songs (e.g., search, isFavorite, releaseYear).
+ * @returns A Promise that resolves to a `PaginatedResponse` object containing
+ *          an array of `SongWithMainRelations` items, `nextCursor`, `prevCursor`,
+ *          `hasNextPage`, and `hasPrevPage`.
+ */
 export async function getSongsWithMainRelationsPaginated({
   limit = PAGE_SIZE,
   cursor,
@@ -97,6 +113,12 @@ export async function getSongsWithMainRelationsPaginated({
   }
 }
 
+/**
+ * Retrieves a single song from the database by its ID without any relations.
+ *
+ * @param id - The ID of the song to retrieve.
+ * @returns A Promise that resolves to the `Song` object if found, otherwise `null`.
+ */
 export async function getSongById(id: number): Promise<Song | null> {
   const song = await database.query.songs.findFirst({
     where: eq(schema.songs.id, id)
@@ -105,6 +127,12 @@ export async function getSongById(id: number): Promise<Song | null> {
   return song || null
 }
 
+/**
+ * Retrieves a single song from the database by its ID, including its main relations (album and artists).
+ *
+ * @param id - The ID of the song to retrieve.
+ * @returns A Promise that resolves to the `SongWithMainRelations` object if found, otherwise `undefined`.
+ */
 export async function getSongByIdWithMainRelations(
   id: number
 ): Promise<SongWithMainRelations | undefined> {
@@ -124,6 +152,13 @@ export async function getSongByIdWithMainRelations(
   return song
 }
 
+/**
+ * Retrieves a single song from the database by its ID, including all its relations
+ * (album, artists, playlists, stats, playHistory).
+ *
+ * @param id - The ID of the song to retrieve.
+ * @returns A Promise that resolves to the `SongWithAllRelations` object if found, otherwise `undefined`.
+ */
 export async function getSongByIdWithAllRelations(
   id: number
 ): Promise<SongWithAllRelations | undefined> {
@@ -150,6 +185,12 @@ export async function getSongByIdWithAllRelations(
   return song
 }
 
+/**
+ * Retrieves multiple songs from the database by their IDs, including their main relations (album and artists).
+ *
+ * @param ids - An array of song IDs to retrieve.
+ * @returns A Promise that resolves to an array of `SongWithMainRelations` objects. Returns an empty array if `ids` is empty.
+ */
 export async function getSongsByIdsWithMainRelations(
   ids: number[]
 ): Promise<SongWithMainRelations[]> {
@@ -171,6 +212,12 @@ export async function getSongsByIdsWithMainRelations(
   return songs
 }
 
+/**
+ * Retrieves a list of song IDs associated with specific playlist IDs.
+ *
+ * @param playlistIds - An array of playlist IDs for which to find associated song IDs.
+ * @returns A Promise that resolves to an array of song IDs. Returns an empty array if `playlistIds` is empty.
+ */
 export async function getSongIdsByPlaylistIds(playlistIds: number[]): Promise<number[]> {
   if (playlistIds.length === 0) return []
 
@@ -182,6 +229,12 @@ export async function getSongIdsByPlaylistIds(playlistIds: number[]): Promise<nu
   return result.map((row) => row.songId)
 }
 
+/**
+ * Retrieves a list of song IDs associated with specific artist IDs.
+ *
+ * @param artistIds - An array of artist IDs for which to find associated song IDs.
+ * @returns A Promise that resolves to an array of song IDs. Returns an empty array if `artistIds` is empty.
+ */
 export async function getSongIdsByArtistIds(artistIds: number[]): Promise<number[]> {
   if (artistIds.length === 0) return []
 
@@ -193,6 +246,12 @@ export async function getSongIdsByArtistIds(artistIds: number[]): Promise<number
   return result.map((row) => row.songId)
 }
 
+/**
+ * Retrieves a list of song IDs associated with specific album IDs.
+ *
+ * @param albumIds - An array of album IDs for which to find associated song IDs.
+ * @returns A Promise that resolves to an array of song IDs. Returns an empty array if `albumIds` is empty.
+ */
 export async function getSongIdsByAlbumIds(albumIds: number[]): Promise<number[]> {
   if (albumIds.length === 0) return []
 
@@ -204,6 +263,17 @@ export async function getSongIdsByAlbumIds(albumIds: number[]): Promise<number[]
   return result.map((row) => row.songId)
 }
 
+/**
+ * Retrieves a list of all song IDs, optionally filtered and ordered.
+ *
+ * This function is used to fetch just the IDs of songs based on various criteria,
+ * without fetching their full details or relations.
+ *
+ * @param params - An object containing optional `orderBy` and `filters` for the query.
+ *   - `orderBy`: Specifies the column and direction for sorting.
+ *   - `filters`: An object containing various criteria to filter the song IDs (e.g., search, isFavorite, releaseYear).
+ * @returns A Promise that resolves to an array of song IDs.
+ */
 export async function getSongIdsOnly({ orderBy, filters }: QuerySongsParams): Promise<number[]> {
   const whereConditions = buildWhereConditions(filters)
 
@@ -225,6 +295,16 @@ export async function getSongIdsOnly({ orderBy, filters }: QuerySongsParams): Pr
   return songs.map((row) => row.id)
 }
 
+/**
+ * Constructs an array of Drizzle ORM `where` conditions based on the provided song filters.
+ *
+ * This helper function dynamically builds database query conditions for filtering songs
+ * by various properties such as search term, favorite status, release year, album ID,
+ * presence of lyrics, duration range, play count range, and last played date range.
+ *
+ * @param filters - An optional object containing various filtering criteria for songs.
+ * @returns An array of Drizzle ORM `SQL` or `Column` conditions to be used in a `where` clause.
+ */
 function buildWhereConditions(filters?: QuerySongsParams["filters"]) {
   const whereConditions = []
 

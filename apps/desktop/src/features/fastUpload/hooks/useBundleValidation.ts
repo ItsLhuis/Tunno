@@ -2,11 +2,29 @@ import { copyBundleToCache, extractManifest } from "../api/tauri"
 
 import { type FastUploadManifest } from "../types"
 
+/**
+ * Represents the result of a bundle validation operation.
+ */
 type ValidationResult = {
+  /**
+   * Indicates whether the bundle is valid.
+   */
   isValid: boolean
+  /**
+   * The parsed manifest from the bundle, present if `isValid` is true.
+   */
   manifest?: FastUploadManifest
+  /**
+   * The path to the cache directory where the bundle was extracted, present if `isValid` is true.
+   */
   cachePath?: string
+  /**
+   * A human-readable error message if `isValid` is false.
+   */
   error?: string
+  /**
+   * A machine-readable error type if `isValid` is false, for programmatic error handling.
+   */
   errorType?:
     | "corrupted_zip"
     | "missing_manifest"
@@ -18,6 +36,37 @@ type ValidationResult = {
     | "unknown"
 }
 
+/**
+ * A custom hook that provides validation logic for a fast upload bundle file.
+ *
+ * This hook encapsulates the process of validating a `.tunno-bundle` file. It
+ * copies the bundle to a temporary cache directory, extracts the `manifest.json`,
+ * and performs a series of checks to ensure the bundle is valid, compatible, and
+ * structurally sound before processing can begin. It returns detailed error
+ * information if validation fails.
+ *
+ * @returns An object containing:
+ * - `validateBundle`: An asynchronous function that takes the path to the bundle
+ *   file and returns a `ValidationResult` object. The result indicates if the
+ *   bundle is valid and includes the manifest and cache path on success, or
+ *    detailed error information on failure.
+ *
+ * @example
+ * ```tsx
+ * const { validateBundle } = useBundleValidation();
+ *
+ * async function handleFileSelect(filePath) {
+ *   const result = await validateBundle(filePath);
+ *   if (result.isValid) {
+ *     // Proceed with the manifest and cache path
+ *     console.log("Bundle is valid:", result.manifest);
+ *   } else {
+ *     // Show error to the user
+ *     console.error(`Validation failed: ${result.error}`);
+ *   }
+ * }
+ * ```
+ */
 export function useBundleValidation() {
   const validateBundle = async (bundlePath: string): Promise<ValidationResult> => {
     try {

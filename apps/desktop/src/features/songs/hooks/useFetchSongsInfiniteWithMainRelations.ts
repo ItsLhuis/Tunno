@@ -1,19 +1,19 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 
-import { type QueryArtistParams, artistKeys } from "@repo/api"
+import { type QuerySongsParams, songKeys } from "@repo/api"
 
-import { getArtistsPaginated } from "../api/queries"
+import { getSongsWithMainRelationsPaginated } from "../api/queries"
 
 /**
- * Custom hook for fetching an infinitely scrollable list of artists.
+ * Custom hook for fetching an infinitely scrollable list of songs with their main relations.
  *
  * This hook leverages `@tanstack/react-query`'s `useInfiniteQuery` to handle asynchronous
- * paginated data fetching and caching. It returns a list of artist objects and provides
- * mechanisms for infinite scrolling.
+ * paginated data fetching and caching. It returns a list of song objects, each including
+ * its primary relational data (e.g., artist, album), and provides mechanisms for infinite scrolling.
  *
- * @param params - Optional query parameters to filter the artists (e.g., search).
- * @returns A `UseInfiniteQueryResult` object from `@tanstack/react-query` containing paginated artist data,
- *          loading state, error state, and methods for fetching next/previous pages.
+ * @param params - Optional query parameters to filter the songs (e.g., search, sorting).
+ * @returns A `UseInfiniteQueryResult` object from `@tanstack/react-query` containing paginated song data
+ *          with main relations, loading state, error state, and methods for fetching next/previous pages.
  *
  * @example
  * ```tsx
@@ -24,17 +24,17 @@ import { getArtistsPaginated } from "../api/queries"
  *   isFetchingNextPage,
  *   isLoading,
  *   isError,
- * } = useFetchArtistsInfinite({ limit: 10 });
+ * } = useFetchSongsInfiniteWithMainRelations({ limit: 10 });
  *
- * if (isLoading) return <p>Loading initial artists...</p>;
- * if (isError) return <p>Error loading artists!</p>;
+ * if (isLoading) return <p>Loading initial songs...</p>;
+ * if (isError) return <p>Error loading songs!</p>;
  *
  * return (
  *   <div>
  *     {data?.pages.map((page, i) => (
  *       <React.Fragment key={i}>
- *         {page.items.map(artist => (
- *           <p key={artist.id}>{artist.name}</p>
+ *         {page.items.map(song => (
+ *           <p key={song.id}>{song.name} by {song.artist.name}</p>
  *         ))}
  *       </React.Fragment>
  *     ))}
@@ -54,11 +54,11 @@ import { getArtistsPaginated } from "../api/queries"
  * );
  * ```
  */
-export function useFetchArtistsInfinite(params?: QueryArtistParams) {
+export function useFetchSongsInfiniteWithMainRelations(params?: QuerySongsParams) {
   return useInfiniteQuery({
-    queryKey: artistKeys.listInfinite(params),
+    queryKey: songKeys.listInfiniteWithMainRelations(params),
     queryFn: async ({ pageParam }) => {
-      return getArtistsPaginated({
+      return getSongsWithMainRelationsPaginated({
         ...params,
         cursor: pageParam
       })

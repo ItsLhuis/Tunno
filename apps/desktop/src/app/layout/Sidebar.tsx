@@ -4,7 +4,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { useRouterState, type LinkProps } from "@tanstack/react-router"
 
-import { useFetchSidebarItems } from "@features/sidebar/hooks"
+import { useFetchSidebarItems } from "@features/sidebar/hooks/useFetchSidebarItems"
 
 import {
   Button,

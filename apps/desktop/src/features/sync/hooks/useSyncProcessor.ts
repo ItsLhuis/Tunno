@@ -29,6 +29,13 @@ const CONTROL_CHARS_RE = /[\x00-\x1f\x80-\x9f]/g
 const RESERVED_NAMES_RE = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i
 const TRAILING_RE = /[\. ]+$/
 
+/**
+ * Sanitizes a string to be used as a valid filename or directory name.
+ * Removes illegal characters, control characters, and reserved Windows names.
+ * @param input - The string to sanitize.
+ * @param maxLength - The maximum allowed length for the filename.
+ * @returns A safe, sanitized string.
+ */
 function sanitizeFilename(input: string, maxLength: number = 200): string {
   if (typeof input !== "string") return "Unknown"
 
@@ -50,10 +57,20 @@ function sanitizeFilename(input: string, maxLength: number = 200): string {
   return sanitized || "Unknown"
 }
 
+/**
+ * Generates a sanitized directory name from a song title.
+ * @param title - The song title.
+ * @returns A sanitized string suitable for a directory name.
+ */
 function generateDirName(title: string): string {
   return sanitizeFilename(title)
 }
 
+/**
+ * Constructs a `SyncArtist` object from a database artist entity.
+ * @param artist - The artist data.
+ * @returns A `SyncArtist` object formatted for the sync manifest.
+ */
 function buildSyncArtist(artist: { name: string; thumbnail: string | null }): SyncArtist {
   return {
     name: artist.name,
@@ -62,6 +79,11 @@ function buildSyncArtist(artist: { name: string; thumbnail: string | null }): Sy
   }
 }
 
+/**
+ * Constructs a `SyncAlbum` object from a full song export object.
+ * @param song - The song data containing album information.
+ * @returns A `SyncAlbum` object formatted for the sync manifest.
+ */
 function buildSyncAlbum(song: SongForExport): SyncAlbum {
   const album = song.album!
 
@@ -74,6 +96,11 @@ function buildSyncAlbum(song: SongForExport): SyncAlbum {
   }
 }
 
+/**
+ * Constructs the full `SyncSongMetadata` object for a song.
+ * @param song - The full song export data.
+ * @returns A `SyncSongMetadata` object.
+ */
 function buildSyncMetadata(song: SongForExport): SyncSongMetadata {
   return {
     song: song.file,
@@ -86,6 +113,11 @@ function buildSyncMetadata(song: SongForExport): SyncSongMetadata {
   }
 }
 
+/**
+ * Collects all unique thumbnail filenames associated with a song and its relations (album, artists).
+ * @param song - The full song export data.
+ * @returns An array of unique thumbnail filenames.
+ */
 function collectThumbnails(song: SongForExport): string[] {
   const thumbnails = new Set<string>()
 
@@ -114,6 +146,31 @@ function collectThumbnails(song: SongForExport): string[] {
   return Array.from(thumbnails)
 }
 
+/**
+ * Custom hook to manage the entire library export process.
+ *
+ * This hook orchestrates fetching all song data, processing it into a sync-compatible format,
+ * creating a manifest file, and invoking a Tauri command to bundle everything into a
+ * native zip archive. It uses the `useSyncStore` to expose the status and progress of the operation.
+ *
+ * @returns An object containing the current state of the export process (`status`, `progress`, etc.)
+ *          and functions to control the process (`startExport`, `reset`).
+ *
+ * @example
+ * ```tsx
+ * const { status, startExport, totalSongs, exportedCount } = useSyncProcessor();
+ *
+ * const handleExport = (path) => {
+ *   startExport(path);
+ * };
+ *
+ * if (status === 'exporting') {
+ *   return <p>Exporting {exportedCount} of {totalSongs}...</p>;
+ * }
+ *
+ * return <Button onClick={() => handleExport('/path/to/export')}>Start Export</Button>;
+ * ```
+ */
 export function useSyncProcessor() {
   const { t } = useTranslation()
 
@@ -194,6 +251,7 @@ export function useSyncProcessor() {
           let counter = 1
           const baseDirName = dirName
 
+          // Ensure directory names are unique to prevent conflicts during export.
           while (seenDirNames.has(dirName)) {
             counter++
             dirName = `${baseDirName} (${counter})`

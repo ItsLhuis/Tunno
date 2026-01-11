@@ -16,6 +16,29 @@ import { toast } from "@components/ui"
 
 import { EntityCache } from "../utils"
 
+/**
+ * A custom hook that orchestrates the entire track processing workflow for the fast upload feature.
+ *
+ * This hook is the central processor that manages the state of the upload queue,
+ * processes each track, and handles the final completion and cleanup logic. It
+ * integrates with the `useFastUploadStore` for state management and `useTrackProcessor`
+ * for individual track processing logic.
+ *
+ * @returns An object containing:
+ * - `startProcessing`: A function to begin processing the tracks in the queue.
+ * - `cleanupCache`: A function to manually clear any existing entity cache.
+ * - `isProcessing`: A boolean indicating if the processor is currently active.
+ *
+ * @example
+ * ```tsx
+ * const { startProcessing, isProcessing } = useFastUploadProcessor();
+ *
+ * // In a component:
+ * <Button onClick={startProcessing} disabled={isProcessing}>
+ *   {isProcessing ? "Processing..." : "Start Upload"}
+ * </Button>
+ * ```
+ */
 export function useFastUploadProcessor() {
   const { t } = useTranslation()
 

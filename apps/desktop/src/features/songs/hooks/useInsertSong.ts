@@ -10,6 +10,32 @@ import { toast } from "@components/ui"
 
 import { type InsertSongType } from "@repo/schemas"
 
+/**
+ * Custom hook for inserting a new song.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * creation of a new song. It includes:
+ * - Invalidating relevant queries (`songKeys.all`) to refetch data after insertion.
+ * - Error and success handling with toast notifications.
+ * - Logic to invalidate specific related queries (artists, albums, home) based on the inserted song's data.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
+ *          The `mutate` function expects an `InsertSongType` object as its argument.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: insertNewSong, isPending } = useInsertSong();
+ *
+ * const handleInsert = (songData: InsertSongType) => {
+ *   insertNewSong(songData);
+ * };
+ *
+ * // In a component:
+ * <Button onClick={() => handleInsert(newSong)} disabled={isPending}>
+ *   Add Song
+ * </Button>
+ * ```
+ */
 export function useInsertSong() {
   const queryClient = useQueryClient()
 

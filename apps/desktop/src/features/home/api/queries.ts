@@ -11,6 +11,18 @@ import {
   type YourPlaylists
 } from "@repo/api"
 
+/**
+ * Retrieves a list of recently played songs, allowing users to "jump back in" to their listening history.
+ *
+ * This function queries the play history to find songs played within a specified timeframe,
+ * ordered by the most recent plays. It also calculates aggregated statistics like total
+ * time listened and average time per session for the retrieved items.
+ *
+ * @param limit - The maximum number of recent plays to retrieve. Defaults to 8.
+ * @param hours - The number of hours back from the current time to consider for recent plays. Defaults to 48.
+ * @returns A Promise that resolves to a {@link JumpBackIn} object containing the list of recent plays
+ *          and aggregated statistics.
+ */
 export async function getJumpBackIn(limit: number = 8, hours: number = 48): Promise<JumpBackIn> {
   const hoursAgo = new Date(Date.now() - hours * 60 * 60 * 1000)
 
@@ -49,6 +61,17 @@ export async function getJumpBackIn(limit: number = 8, hours: number = 48): Prom
   }
 }
 
+/**
+ * Retrieves a list of songs that are currently "on repeat" for the user, based on recent play counts.
+ *
+ * This function identifies songs that have been played frequently within a specified number of days.
+ * It also calculates aggregated statistics like total recent plays and average plays per song.
+ *
+ * @param limit - The maximum number of "on repeat" songs to retrieve. Defaults to 8.
+ * @param days - The number of days back from the current time to consider for frequent plays. Defaults to 14.
+ * @returns A Promise that resolves to an {@link OnRepeat} object containing the list of "on repeat" songs
+ *          and aggregated statistics.
+ */
 export async function getOnRepeat(limit: number = 8, days: number = 14): Promise<OnRepeat> {
   const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
 
@@ -109,6 +132,17 @@ export async function getOnRepeat(limit: number = 8, days: number = 14): Promise
   }
 }
 
+/**
+ * Retrieves a list of the user's playlists, with optional filtering for favorites.
+ *
+ * This function fetches a limited number of playlists, calculates their total tracks and duration,
+ * and identifies the number of favorite playlists among them.
+ *
+ * @param limit - The maximum number of playlists to retrieve. Defaults to 6.
+ * @param favoritesOnly - If `true`, only favorite playlists will be returned. Defaults to `false`.
+ * @returns A Promise that resolves to a {@link YourPlaylists} object containing the list of playlists
+ *          and aggregated statistics.
+ */
 export async function getYourPlaylists(
   limit: number = 6,
   favoritesOnly: boolean = false
@@ -132,6 +166,18 @@ export async function getYourPlaylists(
   }
 }
 
+/**
+ * Retrieves a list of recently added albums, representing new releases.
+ *
+ * This function fetches albums that were created within a specified number of days,
+ * ordered by their creation date. It also calculates aggregated statistics like
+ * total tracks, total duration, and the release date range of the retrieved albums.
+ *
+ * @param limit - The maximum number of new releases to retrieve. Defaults to 8.
+ * @param days - The number of days back from the current time to consider for new releases. Defaults to 30.
+ * @returns A Promise that resolves to a {@link NewReleases} object containing the list of new release albums
+ *          and aggregated statistics.
+ */
 export async function getNewReleases(limit: number = 8, days: number = 30): Promise<NewReleases> {
   const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
 
@@ -168,6 +214,17 @@ export async function getNewReleases(limit: number = 8, days: number = 30): Prom
   }
 }
 
+/**
+ * Retrieves a list of "discover" songs, identified by a custom discovery score.
+ *
+ * This function uses a heuristic to find songs with lower play counts that are
+ * associated with popular artists or albums, suggesting they might be "hidden gems".
+ * It calculates a discovery score for each song and returns a limited list.
+ *
+ * @param limit - The maximum number of discover songs to retrieve. Defaults to 12.
+ * @returns A Promise that resolves to a {@link Discover} object containing the list of discover songs
+ *          and aggregated statistics like average and highest discovery score.
+ */
 export async function getDiscover(limit: number = 12): Promise<Discover> {
   const discoverResults = await database
     .select({
@@ -242,6 +299,18 @@ export async function getDiscover(limit: number = 12): Promise<Discover> {
   }
 }
 
+/**
+ * Retrieves a list of artists based on their play count and favorite status,
+ * intended for a "Favorite Artists" section.
+ *
+ * This function queries artists with play counts, orders them by play count,
+ * and fetches a limited number. It also calculates aggregated statistics
+ * like total recent plays and total play time for these artists.
+ *
+ * @param limit - The maximum number of favorite artists to retrieve. Defaults to 12.
+ * @returns A Promise that resolves to a {@link FavoriteArtists} object containing the list of artists
+ *          and aggregated statistics.
+ */
 export async function getFavoriteArtists(limit: number = 12): Promise<FavoriteArtists> {
   const artistsWithStats = await database
     .select({

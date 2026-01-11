@@ -11,6 +11,9 @@ import { i18n, type LocaleKeys } from "@repo/i18n"
 
 const SETTINGS_STORE_NAME = "settings"
 
+/**
+ * Represents the state structure of the {@link useSettingsStore}.
+ */
 type SettingsState = {
   theme: "dark" | "light" | "system"
   language: LocaleKeys
@@ -21,6 +24,9 @@ type SettingsState = {
   hasHydrated: boolean
 }
 
+/**
+ * Defines the available actions (methods) that can be dispatched on the {@link useSettingsStore}.
+ */
 type SettingsActions = {
   setTheme: (theme: "dark" | "light" | "system") => void
   setLanguage: (code: LocaleKeys) => void
@@ -32,8 +38,26 @@ type SettingsActions = {
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
+/**
+ * Combines the state and actions interfaces for the {@link useSettingsStore}.
+ */
 type SettingsStore = SettingsState & SettingsActions
 
+/**
+ * Zustand store for managing user settings and preferences in the desktop application.
+ *
+ * This store handles:
+ * - `theme`: The selected application theme ("dark", "light", or "system").
+ * - `language`: The selected language/locale for the application.
+ * - `zoomLevel`: The application's webview zoom level.
+ * - `equalizerEnabled`, `equalizerPreset`, `equalizerBandGains`: Audio equalizer settings.
+ * - Persistence of these settings across app sessions using Tauri's plugin-store.
+ *
+ * It integrates with the `i18n` library to change the application's language dynamically
+ * and emits Tauri events for inter-window communication on certain setting changes.
+ *
+ * @returns A Zustand store instance with settings state and actions.
+ */
 export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set, get) => ({
@@ -48,6 +72,7 @@ export const useSettingsStore = create<SettingsStore>()(
       setLanguage: (code) => {
         set({ language: code })
         i18n.changeLanguage(code)
+        // Emit a Tauri event so other windows (e.g., mini-player) can react to language changes.
         emit("settings:language-changed", code)
       },
       setZoomLevel: (level) => {
@@ -61,6 +86,7 @@ export const useSettingsStore = create<SettingsStore>()(
         set({ equalizerEnabled: enabled })
 
         try {
+          // Update the native TrackPlayer equalizer state.
           TrackPlayer.setEqualizerEnabled(enabled)
         } catch (error) {
           console.error("SettingsStore: Error in setEqualizerEnabled:", error)
@@ -70,8 +96,10 @@ export const useSettingsStore = create<SettingsStore>()(
         set({ equalizerPreset: preset })
 
         try {
+          // Apply the preset to the native TrackPlayer.
           TrackPlayer.setEqualizerPreset(preset)
 
+          // Read the actual band gains after applying the preset to keep the store in sync.
           const newGains = Array.from({ length: 10 }, (_, index) =>
             TrackPlayer.getEqualizerBandGain(index)
           )
@@ -88,6 +116,7 @@ export const useSettingsStore = create<SettingsStore>()(
         set({ equalizerBandGains: newGains })
 
         try {
+          // Apply the individual band gain to the native TrackPlayer.
           TrackPlayer.setEqualizerBandGain(bandIndex, gain)
         } catch (error) {
           console.error("SettingsStore: Error in setEqualizerBandGain:", error)
@@ -95,8 +124,10 @@ export const useSettingsStore = create<SettingsStore>()(
       },
       resetEqualizer: async () => {
         try {
+          // Reset native TrackPlayer equalizer to default.
           TrackPlayer.resetEqualizer()
 
+          // Reset store state for equalizer bands and preset.
           set({
             equalizerBandGains: new Array(10).fill(0),
             equalizerPreset: "flat"
@@ -122,10 +153,13 @@ export const useSettingsStore = create<SettingsStore>()(
         return async (state) => {
           if (state) {
             try {
+              // Reinitialize i18n language and emit Tauri event after rehydration.
               if (state.language) {
                 await i18n.changeLanguage(state.language)
+                emit("settings:language-changed", state.language)
               }
 
+              // Apply persisted equalizer settings to TrackPlayer after rehydration.
               if (state.equalizerEnabled !== undefined) {
                 TrackPlayer.setEqualizerEnabled(state.equalizerEnabled)
               }
@@ -142,6 +176,7 @@ export const useSettingsStore = create<SettingsStore>()(
             } catch (error) {
               console.error("SettingsStore: Error in onRehydrateStorage:", error)
             } finally {
+              // Mark the store as hydrated regardless of success or failure.
               state.setHasHydrated(true)
             }
           }

@@ -24,7 +24,7 @@ import { initializeStorage } from "@services/storage"
 import { queryClient } from "@lib/queryClient"
 
 import { sidebarKeys } from "@repo/api"
-import { getSidebarItems } from "@features/sidebar/api"
+import { getSidebarItems } from "@features/sidebar/api/queries"
 
 import { Footer, Sidebar, Titlebar } from "@app/layout"
 import { AnimatedOutlet, Fade, Image, toast } from "@components/ui"

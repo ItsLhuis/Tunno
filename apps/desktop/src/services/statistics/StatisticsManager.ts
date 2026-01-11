@@ -22,9 +22,29 @@ import { type PlaySource } from "@features/player/types/playSource"
 
 import { type PlaySession } from "./types"
 
+/**
+ * Manages the tracking and persistence of audio playback statistics.
+ *
+ * This class handles the lifecycle of a play session, recording details
+ * such as when a song starts playing, pauses, and ends. It updates play counts
+ * and total listening times for songs, albums, artists, and playlists in the database.
+ * It also includes mechanisms for handling play count increments based on
+ * minimum listening duration and for gracefully ending sessions.
+ */
 export class StatisticsManager {
   private currentSession: PlaySession | null = null
 
+  /**
+   * Initiates a new play session for a given song.
+   *
+   * If a session for the same song is already paused, it will resume that session.
+   * If a different song is currently playing, the existing session will be ended first.
+   * A new play history entry is created in the database.
+   *
+   * @param songId - The ID of the song that is starting to play.
+   * @param playSource - The source or context from which the song is being played (e.g., "album", "playlist").
+   * @param sourceContextId - (Optional) The ID of the context (e.g., album ID, playlist ID) if applicable.
+   */
   async startPlay(songId: number, playSource: PlaySource, sourceContextId?: number): Promise<void> {
     if (!songId || typeof songId !== "number") {
       console.warn("StatisticsManager: Invalid songId provided")
@@ -77,6 +97,13 @@ export class StatisticsManager {
     }
   }
 
+  /**
+   * Resumes a paused play session.
+   *
+   * This method updates the session's start time and resets the `isPaused` flag.
+   * If the play count has not yet been recorded for this session, it either
+   * records it immediately (if enough time has elapsed) or reschedules the recording.
+   */
   private resumePlay(): void {
     if (this.currentSession && this.currentSession.isPaused) {
       const alreadyListened = this.currentSession.totalTimeListened
@@ -93,6 +120,13 @@ export class StatisticsManager {
     }
   }
 
+  /**
+   * Schedules the recording of play counts for the current session.
+   *
+   * This method sets a timeout to call `recordPlayCounts` after a certain duration
+   * (e.g., 3 seconds of continuous playback) to ensure a song is counted as "played".
+   * If a timer is already active, it is cleared before a new one is set.
+   */
   private schedulePlayCountRecording(): void {
     if (!this.currentSession || this.currentSession.playCountRecorded) return
 
@@ -108,6 +142,12 @@ export class StatisticsManager {
     }, remainingTime)
   }
 
+  /**
+   * Updates the `totalTimeListened` for the current active play session.
+   *
+   * This method calculates the elapsed time since the session started (or resumed)
+   * and stores it in `currentSession.totalTimeListened`.
+   */
   updatePlayTime(): void {
     if (!this.currentSession || this.currentSession.isPaused) return
 
@@ -115,6 +155,13 @@ export class StatisticsManager {
     this.currentSession.totalTimeListened = Math.round(sessionDuration)
   }
 
+  /**
+   * Records play counts for the current song and its associated entities (album, artists, playlists).
+   *
+   * This method is called once a song has been listened to for a minimum duration.
+   * It increments play counters and updates `lastPlayedAt` timestamps in the database
+   * for the song itself, its album, and associated artists/playlists based on the play source.
+   */
   private async recordPlayCounts(): Promise<void> {
     if (!this.currentSession || this.currentSession.playCountRecorded) return
 
@@ -141,6 +188,12 @@ export class StatisticsManager {
     }
   }
 
+  /**
+   * Pauses the current play session.
+   *
+   * This method updates the total time listened for the session, sets the `isPaused` flag to `true`,
+   * and clears any pending play count recording timers.
+   */
   pausePlay(): void {
     if (this.currentSession && !this.currentSession.isPaused) {
       this.updatePlayTime()
@@ -153,6 +206,13 @@ export class StatisticsManager {
     }
   }
 
+  /**
+   * Retrieves essential data for a song, including its album ID and associated artist IDs.
+   *
+   * @param songId - The ID of the song to retrieve data for.
+   * @returns A Promise that resolves to an object containing the `albumId` and `artistIds`
+   *          of the song, or `null` if the song is not found or an error occurs.
+   */
   private async getSongData(
     songId: number
   ): Promise<{ albumId: number | null; artistIds: number[] } | null> {
@@ -182,6 +242,13 @@ export class StatisticsManager {
     }
   }
 
+  /**
+   * Ends the current play session and persists the total time listened to the database.
+   *
+   * This method updates the `timeListened` for the current `playHistory` entry.
+   * It also updates general time-based statistics for the song, album, artists, and playlists.
+   * The `currentSession` is reset to `null` after completion.
+   */
   async endPlay(): Promise<void> {
     if (!this.currentSession) return
 
@@ -220,6 +287,19 @@ export class StatisticsManager {
     this.currentSession = null
   }
 
+  /**
+   * Increments the play count and updates the `lastPlayedAt` timestamp for a song
+   * and its associated entities (album, artists, playlists).
+   *
+   * This method applies updates to the `songs`, `albums`, `artists`, and `playlists`
+   * tables based on the provided song details and play source context.
+   *
+   * @param songId - The ID of the song.
+   * @param albumId - The ID of the album the song belongs to, or `null`.
+   * @param artistIds - An array of IDs of artists associated with the song.
+   * @param playSource - The source from which the song was played.
+   * @param sourceContextId - (Optional) The ID of the source context (e.g., specific artist or playlist ID).
+   */
   private async updatePlayCounts(
     songId: number,
     albumId: number | null,
@@ -276,6 +356,18 @@ export class StatisticsManager {
     }
   }
 
+  /**
+   * Updates the total play time statistics for a song and its associated entities (album, artists, playlists).
+   *
+   * This method uses `onConflictDoUpdate` to either insert new play time statistics
+   * or update existing ones by adding the `timeListened` duration. This applies to
+   * song-level, album-level, artist-level, and playlist-level statistics.
+   *
+   * @param songId - The ID of the song.
+   * @param timeListened - The duration in seconds that the song was listened to in the current session.
+   * @param playSource - The source from which the song was played.
+   * @param sourceContextId - (Optional) The ID of the source context (e.g., specific artist or playlist ID).
+   */
   private async updateTimeStats(
     songId: number,
     timeListened: number,
@@ -373,6 +465,12 @@ export class StatisticsManager {
     }
   }
 
+  /**
+   * Forces the current play session to end immediately, persisting any accumulated play time.
+   *
+   * This is typically used for cleanup, such as when the player is destroyed or an error occurs,
+   * to ensure that statistics are recorded even if the session wasn't gracefully ended.
+   */
   async forceEnd(): Promise<void> {
     if (this.currentSession) {
       await this.endPlay()
@@ -380,4 +478,9 @@ export class StatisticsManager {
   }
 }
 
+/**
+ * Global singleton instance of the {@link StatisticsManager}.
+ *
+ * Use this instance to interact with the application's playback statistics tracking.
+ */
 export const Statistics = new StatisticsManager()

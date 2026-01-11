@@ -15,6 +15,21 @@ import {
   type QueryArtistParams
 } from "@repo/api"
 
+/**
+ * Retrieves a paginated list of artists based on provided query parameters, order, and filters.
+ *
+ * This function handles cursor-based pagination, allowing for efficient fetching
+ * of large datasets. It also applies various filters and sorting options.
+ *
+ * @param params - An object containing query parameters, including:
+ *   - `limit`: The maximum number of items to return per page (defaults to `PAGE_SIZE`).
+ *   - `cursor`: An optional cursor string for pagination (used to fetch the next/previous page).
+ *   - `orderBy`: An object specifying the column to order by and the direction ('asc' or 'desc').
+ *   - `filters`: An object containing various criteria to filter the artists (e.g., search, isFavorite).
+ * @returns A Promise that resolves to a `PaginatedResponse` object containing
+ *          an array of `Artist` items, `nextCursor`, `prevCursor`,
+ *          `hasNextPage`, and `hasPrevPage`.
+ */
 export async function getArtistsPaginated({
   limit = PAGE_SIZE,
   cursor,
@@ -74,6 +89,15 @@ export async function getArtistsPaginated({
   }
 }
 
+/**
+ * Retrieves a list of all artists, optionally applying a limit, order-by clause, and filters.
+ *
+ * @param params - Optional query parameters including `limit`, `orderBy`, and `filters`.
+ *   - `limit`: The maximum number of artists to return.
+ *   - `orderBy`: An object specifying the column to order by and the direction ('asc' or 'desc').
+ *   - `filters`: An object containing various criteria to filter the artists (e.g., search, isFavorite).
+ * @returns A Promise that resolves to an array of `Artist` objects.
+ */
 export async function getAllArtists({ limit, orderBy, filters }: QueryArtistParams = {}): Promise<
   Artist[]
 > {
@@ -92,6 +116,12 @@ export async function getAllArtists({ limit, orderBy, filters }: QueryArtistPara
   return artists
 }
 
+/**
+ * Retrieves a single artist from the database by its ID without any relations.
+ *
+ * @param id - The ID of the artist to retrieve.
+ * @returns A Promise that resolves to the `Artist` object if found, otherwise `null`.
+ */
 export async function getArtistById(id: number): Promise<Artist | null> {
   const artist = await database.query.artists.findFirst({
     where: eq(schema.artists.id, id)
@@ -100,6 +130,13 @@ export async function getArtistById(id: number): Promise<Artist | null> {
   return artist || null
 }
 
+/**
+ * Retrieves a single artist from the database by its ID, including all its relations
+ * (songs, albums, stats).
+ *
+ * @param id - The ID of the artist to retrieve.
+ * @returns A Promise that resolves to the `ArtistWithAllRelations` object if found, otherwise `undefined`.
+ */
 export async function getArtistByIdWithAllRelations(
   id: number
 ): Promise<ArtistWithAllRelations | undefined> {
@@ -123,6 +160,12 @@ export async function getArtistByIdWithAllRelations(
   return artist
 }
 
+/**
+ * Retrieves a single artist from the database by its ID, including its associated songs.
+ *
+ * @param id - The ID of the artist to retrieve.
+ * @returns A Promise that resolves to the `ArtistWithSongs` object if found, otherwise `undefined`.
+ */
 export async function getArtistByIdWithSongs(id: number): Promise<ArtistWithSongs | undefined> {
   const artist = await database.query.artists.findFirst({
     where: eq(schema.artists.id, id),
@@ -138,6 +181,17 @@ export async function getArtistByIdWithSongs(id: number): Promise<ArtistWithSong
   return artist
 }
 
+/**
+ * Retrieves a list of all artist IDs, optionally filtered and ordered.
+ *
+ * This function is used to fetch just the IDs of artists based on various criteria,
+ * without fetching their full details or relations.
+ *
+ * @param params - An optional object containing `orderBy` and `filters` for the query.
+ *   - `orderBy`: Specifies the column and direction for sorting.
+ *   - `filters`: An object containing various criteria to filter the artist IDs (e.g., search, isFavorite).
+ * @returns A Promise that resolves to an array of artist IDs.
+ */
 export async function getArtistIdsOnly(params?: QueryArtistParams): Promise<number[]> {
   const whereConditions = buildWhereConditions(params?.filters)
 
@@ -159,6 +213,12 @@ export async function getArtistIdsOnly(params?: QueryArtistParams): Promise<numb
   return artists.map((row) => row.id)
 }
 
+/**
+ * Retrieves a list of song IDs that are associated with a specific artist.
+ *
+ * @param id - The ID of the artist for which to retrieve song IDs.
+ * @returns A Promise that resolves to an array of song IDs.
+ */
 export async function getSongIdsByArtistId(id: number): Promise<number[]> {
   const result = await database
     .select({ songId: schema.songsToArtists.songId })
@@ -168,6 +228,16 @@ export async function getSongIdsByArtistId(id: number): Promise<number[]> {
   return result.map((row) => row.songId)
 }
 
+/**
+ * Constructs an array of Drizzle ORM `where` conditions based on the provided artist filters.
+ *
+ * This helper function dynamically builds database query conditions for filtering artists
+ * by various properties such as search term, favorite status, play count range,
+ * last played date range, total tracks range, and total duration range.
+ *
+ * @param filters - An optional object containing various filtering criteria for artists.
+ * @returns An array of Drizzle ORM `SQL` or `Column` conditions to be used in a `where` clause.
+ */
 function buildWhereConditions(filters?: QueryArtistParams["filters"]) {
   const whereConditions = []
 

@@ -6,16 +6,37 @@ import { useShallow } from "zustand/shallow"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
+/**
+ * Defines the available theme modes for the application.
+ */
 type Theme = "dark" | "light" | "system"
 
+/**
+ * Represents the state and actions provided by the {@link ThemeProviderContext}.
+ */
 type ThemeProviderState = {
   theme: Theme
   resolvedTheme: "dark" | "light"
   setTheme: (theme: Theme) => void
 }
 
+/**
+ * React Context for providing theme-related state and actions across the component tree.
+ * Consumers can use `useTheme` hook to access this context.
+ */
 const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined)
 
+/**
+ * Provides theme-related state and functionality to its children components.
+ *
+ * This provider manages the application's theme preference ("dark", "light", "system")
+ * and applies the resolved theme to the document's root element. It uses
+ * `window.matchMedia` for "system" theme resolution and, notably, leverages the
+ * experimental `document.startViewTransition` API for smooth, animated theme transitions.
+ * Theme preference is persisted via `useSettingsStore`.
+ *
+ * @param children - React children to be rendered within this provider's context.
+ */
 const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const { theme, setTheme } = useSettingsStore(
     useShallow((state) => ({
@@ -107,10 +128,16 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
   return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>
 }
 
+/**
+ * Custom hook to access the theme context provided by {@link ThemeProvider}.
+ *
+ * @returns The theme state and actions.
+ * @throws {Error} If `useTheme` is used outside of a `ThemeProvider`.
+ */
 function useTheme() {
   const context = useContext(ThemeProviderContext)
 
-  if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider")
+  if (!context) throw new Error("useTheme must be used within a ThemeProvider")
 
   return context
 }

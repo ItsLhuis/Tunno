@@ -7,6 +7,9 @@ import {
   type ProcessStatus
 } from "../types"
 
+/**
+ * Represents the state structure of the {@link useFastUploadStore}.
+ */
 type FastUploadState = {
   processId: string | null
   bundlePath: string | null
@@ -24,6 +27,9 @@ type FastUploadState = {
   completedAt: string | null
 }
 
+/**
+ * Defines the available actions (methods) that can be dispatched on the {@link useFastUploadStore}.
+ */
 type FastUploadActions = {
   initializeProcess: (bundlePath: string, manifest: FastUploadManifest, cachePath: string) => void
   setStatus: (status: ProcessStatus) => void
@@ -41,8 +47,21 @@ type FastUploadActions = {
   resetStore: () => void
 }
 
+/**
+ * Combines the state and actions interfaces for the {@link useFastUploadStore}.
+ */
 type FastUploadStore = FastUploadState & FastUploadActions
 
+/**
+ * Zustand store for managing the state and actions of the fast upload process.
+ *
+ * This store centralizes all information related to a bulk music upload operation,
+ * tracking its overall status, progress for individual tracks, and any errors encountered.
+ * It's designed to manage the lifecycle of an upload from initialization to completion,
+ * providing detailed feedback on success, errors, and skipped items.
+ *
+ * @returns A Zustand store instance with fast upload state and actions.
+ */
 export const useFastUploadStore = create<FastUploadStore>()((set, get) => ({
   processId: null,
   bundlePath: null,

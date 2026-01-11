@@ -14,16 +14,41 @@ import { type EntityCache } from "./entityCache"
 
 import { type CLIArtist, type CLISong } from "../types"
 
+/**
+ * A local cache mapping artist names to their database IDs.
+ * Used during processing to avoid redundant artist lookups within a single bundle.
+ */
 type LocalArtistCache = Map<string, number>
 
 export { type LocalArtistCache }
 
+/**
+ * Represents the fields of a song that can be updated during processing if a duplicate is found.
+ */
 type SongUpdateFields = {
+  /**
+   * The updated lyrics for the song.
+   */
   lyrics?: { text: string; startTime: number }[]
+  /**
+   * The updated duration of the song in seconds.
+   */
   duration?: number
+  /**
+   * The updated release year of the song's album.
+   */
   releaseYear?: number | null
 }
 
+/**
+ * Compares an existing song's data with new metadata from a CLI song and determines
+ * which fields need to be updated. This is used when a duplicate song is detected
+ * to ensure that only changed metadata is persisted.
+ *
+ * @param existingSong - The existing song object from the database.
+ * @param newMetadata - The new song metadata from the CLI bundle.
+ * @returns An object indicating `needsUpdate` (boolean) and the `updates` (object of changed fields).
+ */
 export function compareAndGetSongUpdates(
   existingSong: { lyrics: any; duration: number; releaseYear: number | null },
   newMetadata: CLISong
@@ -55,11 +80,32 @@ export function compareAndGetSongUpdates(
   return { needsUpdate, updates }
 }
 
+/**
+ * Represents the result of processing an artist during the fast upload.
+ */
 type ProcessArtistResult = {
+  /**
+   * The ID of the artist in the database.
+   */
   artistId: number
+  /**
+   * Indicates if the artist's thumbnail was updated during this process.
+   */
   thumbnailUpdated: boolean
 }
 
+/**
+ * Processes an artist's metadata from the CLI bundle, ensuring the artist exists in the database
+ * and handling thumbnail updates. It utilizes caching to optimize repeated artist lookups.
+ *
+ * @param artistMeta - The CLI artist metadata.
+ * @param cachePath - The path to the fast upload cache directory.
+ * @param trackDirName - The directory name of the current track within the cache.
+ * @param entityCache - (Optional) The global {@link EntityCache} instance for cross-track caching.
+ * @param localCache - (Optional) A local cache for artists processed within the current track.
+ * @returns A Promise that resolves to a {@link ProcessArtistResult} containing the artist's ID and if its thumbnail was updated.
+ * @throws {Error} If artist creation fails due to unexpected reasons after a unique constraint error.
+ */
 export async function processArtist(
   artistMeta: CLIArtist,
   cachePath: string,
@@ -168,6 +214,20 @@ export async function processArtist(
   }
 }
 
+/**
+ * Checks if an album's thumbnail needs to be updated and performs the update if necessary.
+ * This function is typically called after an album has been processed or retrieved from cache,
+ * to ensure its thumbnail is up-to-date based on the bundle's metadata.
+ *
+ * @param albumId - The ID of the album to potentially update.
+ * @param albumName - The name of the album.
+ * @param albumType - The type of the album.
+ * @param albumMeta - The CLI album metadata, containing potential new thumbnail information.
+ * @param cachePath - The path to the fast upload cache directory.
+ * @param trackDirName - The directory name of the current track within the cache.
+ * @param entityCache - (Optional) The global {@link EntityCache} instance.
+ * @returns A Promise that resolves to `true` if the thumbnail was updated, `false` otherwise.
+ */
 export async function updateAlbumThumbnailIfNeeded(
   albumId: number,
   albumName: string,

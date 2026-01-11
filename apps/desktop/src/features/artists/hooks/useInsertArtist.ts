@@ -10,6 +10,33 @@ import { toast } from "@components/ui"
 
 import { type InsertArtistType } from "@repo/schemas"
 
+/**
+ * Custom hook for inserting a new artist.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * creation of a new artist. It includes:
+ * - Invalidating relevant queries (`artistKeys.all`) to refetch data after insertion.
+ * - Error and success handling with toast notifications.
+ * - Logic to invalidate specific related queries (`home`) after insertion.
+ * - Robust error handling for custom errors.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ *          The `mutate` function expects an `InsertArtistType` object as its argument.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: insertNewArtist, isLoading } = useInsertArtist();
+ *
+ * const handleInsert = (artistData: InsertArtistType) => {
+ *   insertNewArtist(artistData);
+ * };
+ *
+ * // In a component:
+ * <Button onPress={() => handleInsert(newArtist)} disabled={isLoading}>
+ *   Add Artist
+ * </Button>
+ * ```
+ */
 export function useInsertArtist() {
   const queryClient = useQueryClient()
 

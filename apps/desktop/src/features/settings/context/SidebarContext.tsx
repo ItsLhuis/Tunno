@@ -23,7 +23,7 @@ const SidebarProvider = ({ children, isCompact }: { children: ReactNode; isCompa
 function useSidebar() {
   const context = useContext(SidebarProviderContext)
 
-  if (context === undefined) throw new Error("useSidebar must be used within a SidebarProvider")
+  if (!context) throw new Error("useSidebar must be used within a SidebarProvider")
 
   return context
 }

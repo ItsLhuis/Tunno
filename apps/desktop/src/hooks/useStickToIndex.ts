@@ -2,6 +2,9 @@ import { type RefObject, useCallback, useEffect, useRef, useState } from "react"
 
 import { type Virtualizer } from "@tanstack/react-virtual"
 
+/**
+ * Options for configuring the {@link useStickToIndex} hook.
+ */
 export type StickToIndexOptions = {
   targetIndex: number
   behavior?: ScrollBehavior
@@ -20,6 +23,9 @@ export type StickToIndexOptions = {
   virtualizer?: Virtualizer<any, any> | RefObject<Virtualizer<any, any> | null>
 }
 
+/**
+ * The object returned by the {@link useStickToIndex} hook.
+ */
 export type StickToIndexReturn = {
   scrollRef: RefObject<HTMLElement | null>
   isStuck: boolean
@@ -28,6 +34,41 @@ export type StickToIndexReturn = {
   unstick: () => void
 }
 
+/**
+ * Custom hook for managing "stick-to-index" behavior in a scrollable container.
+ *
+ * This hook automatically scrolls a designated `targetIndex` into view and attempts to keep
+ * it visible. It gracefully handles user scrolling, temporarily "unstucking" the view
+ * to allow free navigation, and can optionally resume sticking after a delay or a significant
+ * change in the target index. It supports various scrolling strategies including direct element
+ * scrolling, precise pixel calculation, and integration with `@tanstack/react-virtual` for virtualized lists.
+ *
+ * @param options - Configuration options for the hook, as defined in {@link StickToIndexOptions}.
+ * @returns An object containing the `scrollRef`, current status (`isStuck`, `isUserScrolling`),
+ *          and control functions (`stick`, `unstick`), as defined in {@link StickToIndexReturn}.
+ *
+ * @example
+ * ```tsx
+ * function MyScrollableList({ items, activeIndex }) {
+ *   const { scrollRef, isStuck, isUserScrolling, stick, unstick } = useStickToIndex({
+ *     targetIndex: activeIndex,
+ *     selector: (idx) => `#item-${idx}`,
+ *     resumeDelay: 2000,
+ *     initialScroll: true,
+ *   });
+ *
+ *   return (
+ *     <div ref={scrollRef} style={{ height: '300px', overflowY: 'auto', border: '1px solid gray' }}>
+ *       {items.map((item, index) => (
+ *         <div key={item.id} id={`item-${index}`} style={{ height: '50px', lineHeight: '50px', background: activeIndex === index ? 'lightblue' : 'white' }}>
+ *           {item.name} {activeIndex === index && '(Active)'}
+ *         </div>
+ *       ))}
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function useStickToIndex({
   targetIndex,
   behavior = "smooth",
@@ -98,6 +139,7 @@ export function useStickToIndex({
       const container = scrollRef.current
       if (!container) return null
 
+      // First, try to find the element directly in the DOM
       const targetElement = container.querySelector(selector(index)) as HTMLElement
       if (targetElement) {
         const containerRect = container.getBoundingClientRect()
@@ -121,9 +163,11 @@ export function useStickToIndex({
         return Math.max(0, scrollTop)
       }
 
+      // Fallback for virtualized lists if direct element not found or virtualizer is used
       let scrollTop = 0
 
       if (v) {
+        // If a virtualizer is provided, try to use its precise positioning
         const rowIndex = Math.floor(index / effectiveColumns)
         const virtualItems = v.getVirtualItems()
 
@@ -150,6 +194,7 @@ export function useStickToIndex({
           return Math.max(0, scrollTop)
         }
 
+        // If virtual item not found, try to estimate with virtualizer's total size and item count
         try {
           const totalSize = v.getTotalSize()
           const itemCount = v.options.count
@@ -176,6 +221,7 @@ export function useStickToIndex({
         } catch {}
       }
 
+      // Last resort: manual calculation based on cached or estimated item heights
       let measuredHeight: number | null = null
 
       for (let i = 0; i < index; i++) {

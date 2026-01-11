@@ -6,10 +6,45 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow"
 
+/**
+ * The increment/decrement step for zoom level changes.
+ */
 const ZOOM_STEP = 0.1
+/**
+ * The minimum allowed zoom level.
+ */
 const MIN_ZOOM = 0.5
+/**
+ * The maximum allowed zoom level.
+ */
 const MAX_ZOOM = 1.5
 
+/**
+ * Custom hook to manage the zoom level of the Tauri webview.
+ *
+ * This hook provides functionality to zoom in, zoom out, and reset the zoom level
+ * of the application's webview. It integrates with keyboard shortcuts (Ctrl/Cmd +/-, 0)
+ * and persists the zoom level using the `useSettingsStore`.
+ *
+ * @returns An object containing the current `zoomLevel`, `setZoomLevel` action,
+ *          `zoomIn`, `zoomOut`, `resetZoom` functions, and `MIN_ZOOM`, `MAX_ZOOM`, `ZOOM_STEP` constants.
+ *
+ * @example
+ * ```tsx
+ * function ZoomControls() {
+ *   const { zoomLevel, zoomIn, zoomOut, resetZoom } = useZoom();
+ *
+ *   return (
+ *     <div>
+ *       <p>Current Zoom: {(zoomLevel * 100).toFixed(0)}%</p>
+ *       <button onClick={zoomIn}>Zoom In</button>
+ *       <button onClick={zoomOut}>Zoom Out</button>
+ *       <button onClick={resetZoom}>Reset Zoom</button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function useZoom() {
   const { zoomLevel, setZoomLevel } = useSettingsStore(
     useShallow((state) => ({ zoomLevel: state.zoomLevel, setZoomLevel: state.setZoomLevel }))

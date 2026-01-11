@@ -34,6 +34,9 @@ const PLAYER_STORE_NAME = "player"
 
 const DEFAULT_WINDOW_SIZE = 100
 
+/**
+ * Represents the state structure of the {@link usePlayerStore}.
+ */
 type PlayerState = {
   trackIds: number[]
   queueIds: number[]
@@ -63,6 +66,9 @@ type PlayerState = {
   hasHydrated: boolean
 }
 
+/**
+ * Defines the available actions (methods) that can be dispatched on the {@link usePlayerStore}.
+ */
 type PlayerActions = {
   setVolume: (volume: number) => Promise<void>
   setIsMuted: (isMuted: boolean) => Promise<void>
@@ -107,12 +113,33 @@ type PlayerActions = {
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
+/**
+ * Combines the state and actions interfaces for the {@link usePlayerStore}.
+ */
 type PlayerStore = PlayerState & PlayerActions
 
+/**
+ * Checks if a given index is valid for an array of a specific length.
+ * A valid index must be a non-negative integer and less than the array's length.
+ *
+ * @param index - The index to validate.
+ * @param arrayLength - The length of the array.
+ * @returns `true` if the index is valid, `false` otherwise.
+ */
 function isValidIndex(index: number, arrayLength: number): boolean {
   return index >= 0 && index < arrayLength && Number.isInteger(index)
 }
 
+/**
+ * Calculates an optimal window (start and end indices) within a queue based on the current index and a desired window size.
+ * This is used to manage which tracks are loaded into `TrackPlayer` to optimize memory and performance.
+ * The window attempts to center around the `currentIndex` but respects queue boundaries.
+ *
+ * @param currentIndex - The index of the currently playing track.
+ * @param queueLength - The total number of tracks in the queue.
+ * @param windowSize - The desired maximum size of the window.
+ * @returns An object containing the `start` and `end` indices of the optimal window.
+ */
 function calculateOptimalWindow(
   currentIndex: number,
   queueLength: number,
@@ -120,12 +147,16 @@ function calculateOptimalWindow(
 ): { start: number; end: number } {
   if (queueLength === 0) return { start: 0, end: 0 }
 
+  // Ensure window size does not exceed queue length
   const clampedWindowSize = Math.min(windowSize, queueLength)
   const halfWindow = Math.floor(clampedWindowSize / 2)
 
+  // Calculate a tentative start index, trying to center the window around currentIndex
   let start = Math.max(0, currentIndex - halfWindow)
+  // Calculate the end index based on the tentative start and clamped window size
   let end = Math.min(queueLength, start + clampedWindowSize)
 
+  // Adjust start index if the end index hit the queue boundary but there's still room to shift left
   if (end === queueLength && queueLength > clampedWindowSize) {
     start = queueLength - clampedWindowSize
   }
@@ -133,17 +164,30 @@ function calculateOptimalWindow(
   return { start, end }
 }
 
+/**
+ * Validates the integrity of the player's queue state.
+ * Checks if `queueIds` and `currentTrackIndex` are consistent with `trackIds`.
+ *
+ * @param trackIds - The master list of all track IDs available for playback.
+ * @param queueIds - The currently active queue of track IDs.
+ * @param currentIndex - The index of the currently playing track within `queueIds`.
+ * @returns `true` if the queue state is consistent, `false` otherwise.
+ */
 function validateQueueIntegrity(
   trackIds: number[],
   queueIds: number[],
   currentIndex: number | null
 ): boolean {
+  // If no master tracks, then queue and current index must also be empty/null
   if (trackIds.length === 0) return queueIds.length === 0 && currentIndex === null
+  // If there are master tracks but no queue, current index must be null
   if (queueIds.length === 0) return currentIndex === null
 
+  // Ensure all IDs in the queue are present in the master track IDs
   const validQueueIds = queueIds.every((id) => trackIds.includes(id))
   if (!validQueueIds) return false
 
+  // If a current track index is set, validate its position within the queue
   if (currentIndex !== null) {
     return isValidIndex(currentIndex, queueIds.length)
   }
@@ -151,6 +195,14 @@ function validateQueueIntegrity(
   return true
 }
 
+/**
+ * Updates a single song in the LRU cache. If the cache is full, the least recently used item will be removed.
+ *
+ * @param set - Zustand `set` function for updating store state.
+ * @param get - Zustand `get` function for accessing current store state.
+ * @param id - The ID of the song to update.
+ * @param song - The `SongWithMainRelations` object to cache.
+ */
 function updateCachedSong(
   set: StoreApi<PlayerStore>["setState"],
   get: StoreApi<PlayerStore>["getState"],
@@ -162,15 +214,27 @@ function updateCachedSong(
 
   const newCache = new LRUCache<number, SongWithMainRelations>(maxSize)
 
+  // Copy existing entries to preserve order and access times in LRU
   for (const [key, value] of oldCache.entries()) {
     newCache.set(key, value)
   }
 
+  // Set the new song, updating if it exists or adding if it's new
   newCache.set(id, song)
 
   set({ cachedSongs: newCache })
 }
 
+/**
+ * Updates multiple songs in the LRU cache. This function ensures that songs relevant to the current window
+ * or explicitly prioritized remain in the cache, adjusting its size if necessary for priority items.
+ *
+ * @param set - Zustand `set` function for updating store state.
+ * @param get - Zustand `get` function for accessing current store state.
+ * @param songs - An array of `SongWithMainRelations` objects to add or update in the cache.
+ * @param priorityIds - Optional: An array of song IDs that should be prioritized and kept in cache,
+ *                      potentially expanding the cache size temporarily to accommodate them.
+ */
 function updateCachedSongs(
   set: StoreApi<PlayerStore>["setState"],
   get: StoreApi<PlayerStore>["getState"],
@@ -181,16 +245,19 @@ function updateCachedSongs(
   let maxSize = oldCache.getMaxSize()
   const prioritySet = priorityIds ? new Set(priorityIds) : null
 
+  // Adjust max size if priority IDs exceed current max size
   if (prioritySet && prioritySet.size > maxSize) {
     maxSize = prioritySet.size
   }
 
   const newCache = new LRUCache<number, SongWithMainRelations>(maxSize)
 
+  // Add new songs or update existing ones
   for (const song of songs) {
     newCache.set(song.id, song)
   }
 
+  // Preserve priority items from the old cache that are not in the new batch of songs
   if (prioritySet) {
     for (const [key, value] of oldCache.entries()) {
       if (!newCache.has(key) && prioritySet.has(key)) {
@@ -199,6 +266,7 @@ function updateCachedSongs(
     }
   }
 
+  // Fill up the rest of the new cache with items from the old cache, maintaining LRU order
   for (const [key, value] of oldCache.entries()) {
     if (!newCache.has(key) && newCache.size < maxSize) {
       newCache.set(key, value)
@@ -208,6 +276,13 @@ function updateCachedSongs(
   set({ cachedSongs: newCache })
 }
 
+/**
+ * Clears all cached songs and resets the LRU cache to its default window size.
+ * This is typically called when loading a new set of tracks to prevent stale data.
+ *
+ * @param set - Zustand `set` function for updating store state.
+ * @param get - Zustand `get` function for accessing current store state.
+ */
 function clearCachedSongs(
   set: StoreApi<PlayerStore>["setState"],
   get: StoreApi<PlayerStore>["getState"]
@@ -261,6 +336,7 @@ const _usePlayerStore = create<PlayerStore>()(
           throw new Error("PlayerStore: Invalid current index for new queue")
         }
 
+        // Calculate the optimal window of tracks to load into the player based on the new queue and current index.
         const { start: newStart, end: newEnd } = calculateOptimalWindow(
           newCurrentIndex,
           newQueueIds.length,
@@ -269,9 +345,11 @@ const _usePlayerStore = create<PlayerStore>()(
 
         const newWindowIds = newQueueIds.slice(newStart, newEnd)
 
+        // Identify any songs within the new window that are not yet in the cache.
         const missingSongs = newWindowIds.filter((id) => !get().cachedSongs.has(id))
 
         if (missingSongs.length > 0) {
+          // Prefetch missing songs to ensure they are available before loading into TrackPlayer.
           await prefetchSongs(missingSongs)
 
           const fetchedSongs: SongWithMainRelations[] = []
@@ -282,23 +360,29 @@ const _usePlayerStore = create<PlayerStore>()(
             }
           }
 
+          // Update the cache with the newly fetched songs. Prioritize songs in the new window.
           updateCachedSongs(set, get, fetchedSongs, newWindowIds)
 
+          // Verify that all songs in the new window are now in the cache.
           const stillMissing = newWindowIds.filter((id) => !get().cachedSongs.has(id))
           if (stillMissing.length > 0) {
             throw new Error("PlayerStore: Failed to load missing songs")
           }
         }
 
+        // Resolve tracks from the cache for the new window and add them to TrackPlayer.
         const tracks = await Promise.all(
           newWindowIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
         )
 
+        // Reset TrackPlayer to clear its current queue.
         await TrackPlayer.reset()
         await TrackPlayer.add(tracks)
 
+        // Calculate the player's internal index relative to the new window start.
         const playerIndex = newCurrentIndex - newStart
 
+        // Skip to the correct track in the player.
         if (isValidIndex(playerIndex, tracks.length)) {
           await TrackPlayer.skip(playerIndex)
         }
@@ -358,6 +442,7 @@ const _usePlayerStore = create<PlayerStore>()(
 
         set({ isShuffleEnabled: enabled, isQueueLoading: true })
 
+        // If no tracks or no current track, there's nothing to shuffle.
         if (trackIds.length === 0 || currentTrackId === null || currentTrackIndex === null) {
           set({ isQueueLoading: false })
           return
@@ -367,15 +452,18 @@ const _usePlayerStore = create<PlayerStore>()(
         let newCurrentIndex: number
 
         if (enabled) {
+          // When enabling shuffle, remove the current track from the list, shuffle the rest, and then put the current track at the beginning.
           const remainingIds = trackIds.filter((id) => id !== currentTrackId)
 
           newQueueIds = [currentTrackId, ...shuffleArray(remainingIds)]
-          newCurrentIndex = 0
+          newCurrentIndex = 0 // Current track is now at index 0 in the shuffled queue.
         } else {
+          // When disabling shuffle, revert to the original track order and find the index of the current track.
           newQueueIds = [...trackIds]
           newCurrentIndex = trackIds.indexOf(currentTrackId)
         }
 
+        // Calculate the new window for the player after shuffling/unshuffling.
         const half = Math.floor(windowSize / 2)
         const newStart = Math.max(
           0,
@@ -383,6 +471,7 @@ const _usePlayerStore = create<PlayerStore>()(
         )
         const newWindowIds = newQueueIds.slice(newStart, newStart + windowSize)
 
+        // Check for missing songs in the new window and prefetch them.
         const missingSongs = newWindowIds.filter((id) => !get().cachedSongs.has(id))
         if (missingSongs.length > 0) {
           await prefetchSongs(missingSongs)
@@ -409,10 +498,13 @@ const _usePlayerStore = create<PlayerStore>()(
             throw new Error(
               `PlayerStore: Expected ${missingSongs.length} songs but only fetched ${fetchedSongs.length}`
             )
+            // CRITICAL: This is a defensive check; if prefetchSongs and getSongFromCacheOrFetch fail to load all songs,
+            // it indicates a deeper issue with song data availability or fetching mechanism.
           }
 
           updateCachedSongs(set, get, fetchedSongs, newWindowIds)
 
+          // Double-check if any songs are still missing after prefetching and cache update.
           const updatedCache = get().cachedSongs
           const stillMissing = newWindowIds.filter((id) => !updatedCache.has(id))
 
@@ -448,6 +540,7 @@ const _usePlayerStore = create<PlayerStore>()(
         const currentActiveIndex = TrackPlayer.getActiveTrackIndex()
         const currentTrackNewIndex = newWindowIds.findIndex((id) => id === currentTrackId)
 
+        // Scenario 1: Current track is not in the new window (should not happen if logic is correct, but defensive check).
         if (currentTrackNewIndex < 0) {
           const cachedSongs = get().cachedSongs
           const missingInCache = newWindowIds.filter((id) => !cachedSongs.has(id))
@@ -468,7 +561,9 @@ const _usePlayerStore = create<PlayerStore>()(
             })
           )
 
+          // Clear TrackPlayer's queue and add new tracks.
           if (currentPlayerQueue.length > 0) {
+            // Remove all tracks from TrackPlayer except the one at currentActiveIndex
             const indicesToRemove: number[] = []
 
             for (let i = 0; i < currentPlayerQueue.length; i++) {
@@ -477,10 +572,12 @@ const _usePlayerStore = create<PlayerStore>()(
               }
             }
 
+            // Remove in reverse order to avoid index shifting issues
             for (let i = indicesToRemove.length - 1; i >= 0; i--) {
               await TrackPlayer.remove(indicesToRemove[i])
             }
 
+            // After removing all others, if there's still one track left (the current one), remove it as well.
             if (TrackPlayer.getQueue().length > 0) {
               await TrackPlayer.remove(0)
             }
@@ -511,7 +608,9 @@ const _usePlayerStore = create<PlayerStore>()(
           return
         }
 
+        // Scenario 2: Current track is in the new window. Update TrackPlayer queue by selectively adding/removing tracks.
         if (currentPlayerQueue.length > 0) {
+          // Remove all tracks from TrackPlayer except the currently playing one.
           const indicesToRemove: number[] = []
 
           for (let i = 0; i < currentPlayerQueue.length; i++) {
@@ -520,11 +619,13 @@ const _usePlayerStore = create<PlayerStore>()(
             }
           }
 
+          // Remove in reverse order to avoid index shifting issues
           for (let i = indicesToRemove.length - 1; i >= 0; i--) {
             await TrackPlayer.remove(indicesToRemove[i])
           }
         }
 
+        // Prepare tracks to add before and after the current track in TrackPlayer.
         const beforeCurrentIds = newWindowIds.slice(0, currentTrackNewIndex)
         const afterCurrentIds = newWindowIds.slice(currentTrackNewIndex + 1)
 
@@ -557,6 +658,7 @@ const _usePlayerStore = create<PlayerStore>()(
           })
         )
 
+        // Add tracks to TrackPlayer at the correct positions.
         if (tracksBeforeCurrent.length > 0) {
           await TrackPlayer.add(tracksBeforeCurrent, 0)
         }
@@ -564,6 +666,7 @@ const _usePlayerStore = create<PlayerStore>()(
           await TrackPlayer.add(tracksAfterCurrent)
         }
 
+        // Ensure TrackPlayer is pointing to the correct index.
         const finalCurrentIndex = tracksBeforeCurrent.length
         const actualCurrentIndex = TrackPlayer.getActiveTrackIndex()
 
@@ -614,6 +717,7 @@ const _usePlayerStore = create<PlayerStore>()(
         const { playSource, isQueueLoading } = get()
 
         if (isQueueLoading) {
+          // Prevent multiple concurrent queue loading operations.
           throw new Error("PlayerStore: Queue is already loading")
         }
 
@@ -624,8 +728,10 @@ const _usePlayerStore = create<PlayerStore>()(
         })
 
         try {
+          // Clear any existing cached song data to ensure a fresh start for the new queue.
           clearCachedSongs(set, get)
 
+          // Filter out any non-numeric IDs to ensure data integrity.
           const allIds = songIds.filter((id) => typeof id === "number")
           if (allIds.length !== songIds.length) {
             throw new Error("PlayerStore: Some songs have invalid IDs")
@@ -637,19 +743,23 @@ const _usePlayerStore = create<PlayerStore>()(
           let currentIndex: number
           const currentId = allIds[startIndex]
 
+          // Determine if shuffling should be applied, either forced or based on current state.
           const shouldShuf‌fle = forceShuf‌fle ? forceShuf‌fle : isShuffleEnabled
 
           if (shouldShuf‌fle) {
+            // When shuffling, ensure the starting track is the first in the queue, then shuffle the rest.
             const otherIds = allIds.filter((_, i) => i !== startIndex)
             const shuf‌fledOthers = shuffleArray(otherIds)
 
             queueIds = [currentId, ...shuf‌fledOthers]
-            currentIndex = 0
+            currentIndex = 0 // The current track is now at index 0 in the shuffled queue.
           } else {
+            // If not shuffling, the queue remains in the provided order.
             queueIds = [...allIds]
             currentIndex = startIndex
           }
 
+          // Calculate the optimal window of tracks to load into TrackPlayer.
           const { start, end } = calculateOptimalWindow(currentIndex, queueIds.length, windowSize)
           const windowIds = queueIds.slice(start, end)
 
@@ -658,6 +768,7 @@ const _usePlayerStore = create<PlayerStore>()(
           }
 
           if (!windowIds.includes(currentId)) {
+            // This is a critical check to ensure the currently playing track is always within the active TrackPlayer window.
             throw new Error(`PlayerStore: Current track ${currentId} not in calculated window`)
           }
 
@@ -665,6 +776,7 @@ const _usePlayerStore = create<PlayerStore>()(
           let playerIndex: number
 
           try {
+            // Prefetch all songs within the calculated window to ensure they are available.
             await prefetchSongs(windowIds)
 
             const windowSongs: SongWithMainRelations[] = []
@@ -676,21 +788,27 @@ const _usePlayerStore = create<PlayerStore>()(
             }
 
             if (windowSongs.length !== windowIds.length) {
+              // If not all window songs could be loaded, it indicates a data fetching issue.
               throw new Error("PlayerStore: Some window songs could not be loaded")
             }
 
+            // Update the cache with the fetched window songs.
             updateCachedSongs(set, get, windowSongs, windowIds)
 
+            // Resolve the fetched song data into TrackPlayer compatible Track objects.
             tracks = await Promise.all(windowSongs.map((song) => resolveTrack(song)))
 
+            // Reset the TrackPlayer to clear any previous queue.
             await TrackPlayer.reset()
 
             if (tracks.length === 0) {
               throw new Error("PlayerStore: No tracks to add to player")
             }
 
+            // Add the resolved tracks to TrackPlayer.
             await TrackPlayer.add(tracks)
 
+            // Determine the index for TrackPlayer to skip to, relative to the window start.
             playerIndex = currentIndex - start
             if (!isValidIndex(playerIndex, tracks.length)) {
               throw new Error(
@@ -698,11 +816,13 @@ const _usePlayerStore = create<PlayerStore>()(
               )
             }
 
+            // Skip to the correct track in TrackPlayer.
             await TrackPlayer.skip(playerIndex)
           } catch (error) {
             throw new Error(`PlayerStore: Failed to prepare tracks: ${error}`)
           }
 
+          // State integrity checks after TrackPlayer updates.
           if (currentIndex >= queueIds.length) {
             throw new Error(
               `PlayerStore: Invalid state: currentIndex ${currentIndex} >= queueIds.length ${queueIds.length}`
@@ -719,9 +839,10 @@ const _usePlayerStore = create<PlayerStore>()(
             throw new Error(`PlayerStore: Current track ${currentId} not found in window`)
           }
 
+          // Update the store's state with the new queue information.
           set({
-            trackIds: allIds,
-            queueIds,
+            trackIds: allIds, // The original, unshuffled list of track IDs
+            queueIds, // The potentially shuffled queue
             currentTrackIndex: currentIndex,
             currentTrackId: currentId,
             currentTrack: tracks[playerIndex] || null,
@@ -732,6 +853,7 @@ const _usePlayerStore = create<PlayerStore>()(
             isQueueLoading: false
           })
 
+          // Update navigation states (e.g., canPlayNext, canPlayPrevious) based on the new queue.
           get().updateNavigationStates()
         } catch (error) {
           set({ isQueueLoading: false })
@@ -841,6 +963,7 @@ const _usePlayerStore = create<PlayerStore>()(
         const isInCurrentWindow = index >= windowStartIndex && index < windowEndIndex
 
         if (isInCurrentWindow) {
+          // If the target track is already within the current TrackPlayer window, a simple skip is sufficient.
           const playerIndex = index - windowStartIndex
           await TrackPlayer.skip(playerIndex)
 
@@ -848,6 +971,8 @@ const _usePlayerStore = create<PlayerStore>()(
           const cachedSong = get().cachedSongs.get(currentTrackId)
 
           if (!cachedSong) {
+            // If the song is unexpectedly not in cache, re-ensure the window and try again.
+            // This can happen if the cache was aggressively pruned or due to race conditions.
             await get().ensureWindowForIndex(index)
             const expandedCachedSong = get().cachedSongs.get(currentTrackId)
             if (!expandedCachedSong) {
@@ -872,6 +997,8 @@ const _usePlayerStore = create<PlayerStore>()(
 
           get().updateNavigationStates()
         } else {
+          // If the target track is outside the current window, we need to load a new window into TrackPlayer.
+          // `ensureWindowForIndex` will handle resetting TrackPlayer and adding new tracks.
           await get().ensureWindowForIndex(index)
 
           const { windowStartIndex: newStart } = get()
@@ -1210,7 +1337,9 @@ const _usePlayerStore = create<PlayerStore>()(
         const start = windowStartIndex
         const end = Math.min(start + windowSize, queueIds.length)
 
+        // Check if the target index is outside the current window.
         if (index < start || index >= end) {
+          // If outside, calculate a new optimal window centered around the target index.
           const { start: newStart, end: newEnd } = calculateOptimalWindow(
             index,
             queueIds.length,
@@ -1218,6 +1347,7 @@ const _usePlayerStore = create<PlayerStore>()(
           )
           const windowIds = queueIds.slice(newStart, newEnd)
 
+          // Identify and prefetch any missing songs in the new window.
           const missingSongs = windowIds.filter((id) => !get().cachedSongs.has(id))
 
           if (missingSongs.length > 0) {
@@ -1231,6 +1361,7 @@ const _usePlayerStore = create<PlayerStore>()(
               }
             }
 
+            // Update the cache with newly fetched songs, prioritizing those in the new window.
             updateCachedSongs(set, get, fetchedSongs, windowIds)
 
             const stillMissing = windowIds.filter((id) => !get().cachedSongs.has(id))
@@ -1239,6 +1370,7 @@ const _usePlayerStore = create<PlayerStore>()(
             }
           }
 
+          // Resolve tracks for the new window and reset TrackPlayer.
           const tracks = await Promise.all(
             windowIds.map((id) => {
               const song = get().cachedSongs.get(id)
@@ -1251,9 +1383,10 @@ const _usePlayerStore = create<PlayerStore>()(
             })
           )
 
-          await TrackPlayer.reset()
-          await TrackPlayer.add(tracks)
+          await TrackPlayer.reset() // Clear the current queue
+          await TrackPlayer.add(tracks) // Add the new window of tracks
 
+          // Update store state to reflect the new window and current track.
           const newCurrentTrackIndex = index
           const newCurrentTrackId = queueIds[index]
           const newCurrentTrack = tracks[index - newStart] || null
@@ -1269,6 +1402,9 @@ const _usePlayerStore = create<PlayerStore>()(
           return
         }
 
+        // Optimized prefetching: If close to the end of the current window, prefetch the next batch of songs.
+        // This is a proactive measure to ensure smooth playback transitions.
+        // It fetches a small buffer (e.g., 10 tracks) ahead of the current position.
         if (index >= end - 5 && end < queueIds.length) {
           const toAddIds = queueIds.slice(end, Math.min(end + 10, queueIds.length))
 
@@ -1285,16 +1421,19 @@ const _usePlayerStore = create<PlayerStore>()(
               }
             }
 
+            // Update cache with newly fetched songs, ensuring current window items are still prioritized.
             const currentWindowIds = queueIds.slice(start, end)
             const priorityIds = [...currentWindowIds, ...toAddIds]
             updateCachedSongs(set, get, fetchedSongs, priorityIds)
 
             const stillMissing = missingSongs.filter((id) => !get().cachedSongs.has(id))
             if (stillMissing.length === missingSongs.length) {
+              // If no new songs were actually cached, there's no need to try adding them to TrackPlayer.
               return
             }
           }
 
+          // Resolve tracks for the prefetched IDs and add them to TrackPlayer's existing queue.
           const toAddTracks = await Promise.all(
             toAddIds.map((id) => resolveTrack(get().cachedSongs.get(id)!))
           )
@@ -1302,6 +1441,7 @@ const _usePlayerStore = create<PlayerStore>()(
           if (toAddTracks.length) {
             await TrackPlayer.add(toAddTracks)
 
+            // Update windowSize to reflect the newly added tracks.
             set({ windowSize: Math.min(windowSize + toAddTracks.length, queueIds.length) })
           }
         }
@@ -1314,15 +1454,18 @@ const _usePlayerStore = create<PlayerStore>()(
 
         if (currentTrackIndex !== null && queueIds.length > 0) {
           if (queueIds.length === 1) {
+            // If only one track, can play next/previous only if repeat mode is Queue (loops back to itself).
             canPlayNext = canPlayPrevious = repeatMode === RepeatMode.Queue
           } else {
             switch (repeatMode) {
               case RepeatMode.Queue:
+                // In Queue repeat mode, can always play next/previous as the queue loops.
                 canPlayNext = canPlayPrevious = true
                 break
               case RepeatMode.Track:
               case RepeatMode.Off:
               default:
+                // In Track repeat or Off mode, can play next/previous only if there are actual tracks in that direction.
                 canPlayNext = currentTrackIndex < queueIds.length - 1
                 canPlayPrevious = currentTrackIndex > 0
                 break
@@ -1341,18 +1484,25 @@ const _usePlayerStore = create<PlayerStore>()(
           const playerQueue = TrackPlayer.getQueue()
           const activePlayerIndex = TrackPlayer.getActiveTrackIndex()
 
-          if (!isValidIndex(activePlayerIndex, playerQueue.length)) {
+          // If no active index from TrackPlayer or it's invalid, skip synchronization.
+          if (
+            activePlayerIndex === undefined ||
+            !isValidIndex(activePlayerIndex, playerQueue.length)
+          ) {
             return
           }
 
           const activeTrack = playerQueue[activePlayerIndex]
-          if (!activeTrack) return
+          if (!activeTrack) return // No active track in player to sync with.
 
           const cachedSongs = get().cachedSongs
+          // Find the actual index of the currently active TrackPlayer track within the store's queue.
+          // This handles cases where TrackPlayer might advance to the next track automatically.
           const actualQueueIndex = queueIds.findIndex(
             (id) => cachedSongs.get(id)?.id === activeTrack.id
           )
 
+          // If the actual queue index is valid and different from the store's current index, update the store.
           if (actualQueueIndex >= 0 && actualQueueIndex !== currentTrackIndex) {
             const currentTrackId = queueIds[actualQueueIndex]
             const currentTrack = await resolveTrack(cachedSongs.get(currentTrackId)!)
@@ -1473,17 +1623,20 @@ const _usePlayerStore = create<PlayerStore>()(
 
           usePlayerStore.setState({ isRehydrating: true })
 
+          // Setup audio player and register playback listeners. This must happen before any TrackPlayer operations.
           await setupAudioPlayer()
           registerPlaybackListeners()
 
           if (state) {
             try {
+              // Set volume to 0 initially during rehydration to avoid unexpected audio playback at app startup.
               await TrackPlayer.setVolume(0)
 
               if (state.repeatMode !== undefined) {
                 await TrackPlayer.setRepeatMode(state.repeatMode)
               }
 
+              // Only attempt to restore player state if a valid queue and current track were previously persisted.
               if (
                 state.trackIds &&
                 state.trackIds.length > 0 &&
@@ -1494,7 +1647,9 @@ const _usePlayerStore = create<PlayerStore>()(
               ) {
                 const { trackIds, queueIds, currentTrackIndex, currentTrackId } = state
 
+                // Validate the integrity of the rehydrated queue data to prevent restoring a corrupted state.
                 if (!validateQueueIntegrity(trackIds, queueIds, currentTrackIndex)) {
+                  // If corrupted, clear the player state and mark as hydrated to allow normal app flow.
                   usePlayerStore.setState({
                     trackIds: [],
                     queueIds: [],
@@ -1510,6 +1665,7 @@ const _usePlayerStore = create<PlayerStore>()(
                 }
 
                 const windowSize = state.windowSize ?? DEFAULT_WINDOW_SIZE
+                // Calculate the optimal window of tracks for the rehydrated state to load into TrackPlayer.
                 const { start, end } = calculateOptimalWindow(
                   currentTrackIndex,
                   queueIds.length,
@@ -1518,6 +1674,7 @@ const _usePlayerStore = create<PlayerStore>()(
                 const windowIds = queueIds.slice(start, end)
 
                 try {
+                  // Prefetch songs for the rehydrated window to ensure they are available.
                   await prefetchSongs(windowIds)
 
                   const windowSongs: SongWithMainRelations[] = []
@@ -1529,6 +1686,7 @@ const _usePlayerStore = create<PlayerStore>()(
                   }
 
                   if (windowSongs.length !== windowIds.length) {
+                    // If not all songs in the window could be re-fetched, reset player state as data is incomplete.
                     usePlayerStore.setState({
                       trackIds: [],
                       queueIds: [],
@@ -1543,28 +1701,33 @@ const _usePlayerStore = create<PlayerStore>()(
                     return
                   }
 
+                  // Restore the cached songs map with the re-fetched window songs.
                   const cachedSongsMap = new LRUCache<number, SongWithMainRelations>(windowSize)
                   windowSongs.forEach((s) => cachedSongsMap.set(s.id, s))
 
                   usePlayerStore.setState({ cachedSongs: cachedSongsMap })
 
+                  // Resolve TrackPlayer-compatible tracks and add them to the player.
                   const tracks = await Promise.all(
                     windowIds.map((id) => resolveTrack(cachedSongsMap.get(id)!))
                   )
 
-                  await TrackPlayer.reset()
+                  await TrackPlayer.reset() // Clear any residual queue.
                   await TrackPlayer.add(tracks)
 
+                  // Skip to the correct track in the player based on the rehydrated state.
                   const playerIndex = currentTrackIndex - start
 
                   if (isValidIndex(playerIndex, tracks.length)) {
                     await TrackPlayer.skip(playerIndex)
                   }
 
+                  // Restore the playback position if it was saved and is a valid number.
                   if (typeof state.position === "number" && state.position > 0) {
                     await TrackPlayer.seekTo(state.position)
                   }
 
+                  // Update the store's state with the fully rehydrated data.
                   usePlayerStore.setState({
                     trackIds,
                     queueIds,
@@ -1578,8 +1741,10 @@ const _usePlayerStore = create<PlayerStore>()(
                     hasHydrated: true
                   })
 
+                  // Update navigation states to reflect the restored queue.
                   usePlayerStore.getState().updateNavigationStates()
                 } catch (error) {
+                  // Log any errors during the rehydration process and reset to a clean state.
                   console.error("PlayerStore: Error in onRehydrateStorage:", error)
                   usePlayerStore.setState({
                     trackIds: [],
@@ -1594,18 +1759,21 @@ const _usePlayerStore = create<PlayerStore>()(
                   })
                 }
               } else {
+                // If no valid player state was found in storage (e.g., first launch), ensure hasHydrated is true.
                 usePlayerStore.setState({
                   isRehydrating: false,
                   hasHydrated: true
                 })
               }
 
+              // Restore the volume based on persisted state, respecting the mute setting.
               if (state.volume !== undefined) {
                 await TrackPlayer.setVolume(state.isMuted ? 0 : state.volume)
               } else {
-                await TrackPlayer.setVolume(1)
+                await TrackPlayer.setVolume(1) // Default volume if not persisted.
               }
             } finally {
+              // Ensure `hasHydrated` is always set to true after the rehydration attempt, regardless of success or failure.
               state.setHasHydrated(true)
               const currentState = usePlayerStore.getState()
 
@@ -1614,6 +1782,7 @@ const _usePlayerStore = create<PlayerStore>()(
               }
             }
           } else {
+            // If no persisted state exists at all (e.g., fresh install), ensure hasHydrated is true.
             usePlayerStore.setState({
               isRehydrating: false,
               hasHydrated: true

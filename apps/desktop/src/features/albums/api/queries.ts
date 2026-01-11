@@ -17,6 +17,17 @@ import {
   type QueryAlbumParams
 } from "@repo/api"
 
+/**
+ * Retrieves a list of albums filtered by a set of artist IDs, including their main relations (songs and artists).
+ *
+ * This function queries the database for albums that are associated with any of the provided
+ * `artistIds`, applying additional filtering and ordering as specified in `params`.
+ * Each returned album object will include its associated songs and artists.
+ *
+ * @param artistIds - An array of artist IDs to filter the albums by.
+ * @param params - Optional query parameters including `limit`, `orderBy`, and `filters`.
+ * @returns A Promise that resolves to an array of `AlbumWithMainRelations` objects.
+ */
 export async function getAlbumsFilteredByArtistsWithMainRelations(
   artistIds: number[],
   params: QueryAlbumParams = {}
@@ -54,6 +65,17 @@ export async function getAlbumsFilteredByArtistsWithMainRelations(
   })
 }
 
+/**
+ * Retrieves a list of albums filtered by a set of artist IDs, including their associated artists.
+ *
+ * This function queries the database for albums that are associated with any of the provided
+ * `artistIds`, applying additional filtering and ordering as specified in `params`.
+ * Each returned album object will include its associated artists.
+ *
+ * @param artistIds - An array of artist IDs to filter the albums by.
+ * @param params - Optional query parameters including `limit`, `orderBy`, and `filters`.
+ * @returns A Promise that resolves to an array of `AlbumWithArtists` objects.
+ */
 export async function getAlbumsFilteredByArtistsWithArtists(
   artistIds: number[],
   params: QueryAlbumParams = {}
@@ -90,6 +112,21 @@ export async function getAlbumsFilteredByArtistsWithArtists(
   })
 }
 
+/**
+ * Retrieves a paginated list of albums based on provided query parameters, order, and filters.
+ *
+ * This function handles cursor-based pagination, allowing for efficient fetching
+ * of large datasets. It also applies various filters and sorting options.
+ *
+ * @param params - An object containing query parameters, including:
+ *   - `limit`: The maximum number of items to return per page (defaults to `PAGE_SIZE`).
+ *   - `cursor`: An optional cursor string for pagination (used to fetch the next/previous page).
+ *   - `orderBy`: An object specifying the column to order by and the direction ('asc' or 'desc').
+ *   - `filters`: An object containing various criteria to filter the albums (e.g., search, isFavorite, releaseYear).
+ * @returns A Promise that resolves to a `PaginatedResponse` object containing
+ *          an array of `Album` items, `nextCursor`, `prevCursor`,
+ *          `hasNextPage`, and `hasPrevPage`.
+ */
 export async function getAlbumsPaginated({
   limit = PAGE_SIZE,
   cursor,
@@ -149,6 +186,15 @@ export async function getAlbumsPaginated({
   }
 }
 
+/**
+ * Retrieves a list of all albums, optionally applying a limit, order-by clause, and filters.
+ *
+ * @param params - Optional query parameters including `limit`, `orderBy`, and `filters`.
+ *   - `limit`: The maximum number of albums to return.
+ *   - `orderBy`: An object specifying the column to order by and the direction ('asc' or 'desc').
+ *   - `filters`: An object containing various criteria to filter the albums (e.g., search, isFavorite, releaseYear).
+ * @returns A Promise that resolves to an array of `Album` objects.
+ */
 export async function getAllAlbums({ limit, orderBy, filters }: QueryAlbumParams = {}): Promise<
   Album[]
 > {
@@ -167,6 +213,12 @@ export async function getAllAlbums({ limit, orderBy, filters }: QueryAlbumParams
   return albums
 }
 
+/**
+ * Retrieves a single album from the database by its ID without any relations.
+ *
+ * @param id - The ID of the album to retrieve.
+ * @returns A Promise that resolves to the `Album` object if found, otherwise `null`.
+ */
 export async function getAlbumById(id: number): Promise<Album | null> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id)
@@ -175,6 +227,13 @@ export async function getAlbumById(id: number): Promise<Album | null> {
   return album || null
 }
 
+/**
+ * Retrieves a single album from the database by its ID, including all its relations
+ * (songs, artists, stats).
+ *
+ * @param id - The ID of the album to retrieve.
+ * @returns A Promise that resolves to the `AlbumWithAllRelations` object if found, otherwise `undefined`.
+ */
 export async function getAlbumByIdWithAllRelations(
   id: number
 ): Promise<AlbumWithAllRelations | undefined> {
@@ -194,6 +253,12 @@ export async function getAlbumByIdWithAllRelations(
   return album
 }
 
+/**
+ * Retrieves a single album from the database by its ID, including its associated artists.
+ *
+ * @param id - The ID of the album to retrieve.
+ * @returns A Promise that resolves to the `AlbumWithArtists` object if found, otherwise `undefined`.
+ */
 export async function getAlbumByIdWithArtists(id: number): Promise<AlbumWithArtists | undefined> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id),
@@ -209,6 +274,12 @@ export async function getAlbumByIdWithArtists(id: number): Promise<AlbumWithArti
   return album
 }
 
+/**
+ * Retrieves a single album from the database by its ID, including its associated songs and artists.
+ *
+ * @param id - The ID of the album to retrieve.
+ * @returns A Promise that resolves to the `AlbumWithSongsAndArtists` object if found, otherwise `undefined`.
+ */
 export async function getAlbumByIdWithSongsAndArtists(
   id: number
 ): Promise<AlbumWithSongsAndArtists | undefined> {
@@ -227,6 +298,17 @@ export async function getAlbumByIdWithSongsAndArtists(
   return album
 }
 
+/**
+ * Retrieves a list of all album IDs, optionally filtered and ordered.
+ *
+ * This function is used to fetch just the IDs of albums based on various criteria,
+ * without fetching their full details or relations.
+ *
+ * @param params - An optional object containing `orderBy` and `filters` for the query.
+ *   - `orderBy`: Specifies the column and direction for sorting.
+ *   - `filters`: An object containing various criteria to filter the album IDs (e.g., search, isFavorite, releaseYear).
+ * @returns A Promise that resolves to an array of album IDs.
+ */
 export async function getAlbumIdsOnly(params?: QueryAlbumParams): Promise<number[]> {
   const whereConditions = buildWhereConditions(params?.filters)
 
@@ -248,6 +330,12 @@ export async function getAlbumIdsOnly(params?: QueryAlbumParams): Promise<number
   return albums.map((row) => row.id)
 }
 
+/**
+ * Retrieves a list of song IDs that belong to a specific album.
+ *
+ * @param id - The ID of the album for which to retrieve song IDs.
+ * @returns A Promise that resolves to an array of song IDs.
+ */
 export async function getSongIdsByAlbumId(id: number): Promise<number[]> {
   const result = await database
     .select({ songId: schema.songs.id })
@@ -257,6 +345,16 @@ export async function getSongIdsByAlbumId(id: number): Promise<number[]> {
   return result.map((row) => row.songId)
 }
 
+/**
+ * Constructs an array of Drizzle ORM `where` conditions based on the provided album filters.
+ *
+ * This helper function dynamically builds database query conditions for filtering albums
+ * by various properties such as search term, favorite status, album type, release year,
+ * play count range, last played date range, total tracks range, and total duration range.
+ *
+ * @param filters - An optional object containing various filtering criteria for albums.
+ * @returns An array of Drizzle ORM `SQL` or `Column` conditions to be used in a `where` clause.
+ */
 function buildWhereConditions(filters?: QueryAlbumParams["filters"]) {
   const whereConditions = []
 

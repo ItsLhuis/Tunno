@@ -2,6 +2,9 @@ import { create } from "zustand"
 
 import { type SyncState, type SyncStatus } from "../types"
 
+/**
+ * Represents the actions available in the sync store.
+ */
 type SyncActions = {
   setStatus: (status: SyncStatus) => void
   setOutputPath: (path: string) => void
@@ -14,8 +17,17 @@ type SyncActions = {
   resetStore: () => void
 }
 
+/**
+ * Combines the state and actions for the sync store.
+ */
 type SyncStore = SyncState & SyncActions
 
+/**
+ * Zustand store for managing the state of the library export/synchronization process.
+ *
+ * This store tracks the status, progress, output paths, and any errors that occur
+ * during the creation of a library export bundle.
+ */
 export const useSyncStore = create<SyncStore>()((set, get) => ({
   status: "idle",
   outputPath: null,

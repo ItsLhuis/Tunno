@@ -4,6 +4,28 @@ import { listen } from "@tauri-apps/api/event"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
 
+/**
+ * Custom hook to track the visibility state of the current Tauri window.
+ *
+ * This hook leverages the Tauri API to listen for window focus and blur events,
+ * updating its state to reflect whether the window is currently visible to the user.
+ *
+ * @returns A boolean indicating whether the current window is visible (`true`) or not (`false`).
+ *
+ * @example
+ * ```tsx
+ * function MyComponent() {
+ *   const isWindowVisible = useWindowVisibility();
+ *
+ *   return (
+ *     <div>
+ *       <p>Window is currently: {isWindowVisible ? "Visible" : "Hidden"}</p>
+ *       {!isWindowVisible && <p>Content paused because window is not active.</p>}
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function useWindowVisibility() {
   const [isVisible, setIsVisible] = useState(true)
 

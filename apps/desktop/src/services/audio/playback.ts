@@ -11,14 +11,32 @@ import TrackPlayer, {
   State
 } from "@track-player/web"
 
+/**
+ * Stores functions to unsubscribe from TrackPlayer event listeners.
+ * Used for cleanup when listeners need to be re-registered or unregistered.
+ */
 let unsubscribeFns: Array<() => void> = []
 
+/**
+ * Registers a comprehensive set of event listeners for `@track-player/web`.
+ *
+ * These listeners manage playback state, update the global player store,
+ * and integrate with the statistics tracking service.
+ * Existing listeners are first unregistered to prevent duplicates.
+ *
+ * Listeners include:
+ * - `Event.PlaybackState`: Updates player store's `playbackState` and `isTrackLoading`, integrates with `Statistics` for play/pause/stop.
+ * - `Event.PlaybackTrackChanged`: Synchronizes player store with the web player, ensures window for new track, updates navigation states, and tracks new plays.
+ * - `Event.PlaybackProgressUpdated`: Updates player store's `position`, `duration`, and `buffered` states.
+ * - `Event.PlaybackError`: Resets loading states and forces statistics to end.
+ */
 export function registerPlaybackListeners() {
   if (unsubscribeFns.length > 0) {
     unsubscribeFns.forEach((fn) => fn())
     unsubscribeFns = []
   }
 
+  // Handles updates to the playback state (e.g., playing, paused, buffering).
   const onPlaybackState: EventHandler = async (data: EventData) => {
     if ((data as PlaybackStateEventData).type !== Event.PlaybackState) return
     const { state } = data as PlaybackStateEventData
@@ -47,6 +65,7 @@ export function registerPlaybackListeners() {
     }
   }
 
+  // Handles changes to the currently active track.
   const onTrackChanged = async () => {
     const {
       syncStateWithPlayer,
@@ -80,6 +99,7 @@ export function registerPlaybackListeners() {
     }
   }
 
+  // Handles updates to the playback progress (position, duration, buffered).
   const onProgress: EventHandler = (data: EventData) => {
     if ((data as PlaybackProgressEventData).type !== Event.PlaybackProgressUpdated) return
     const { position, duration, buffered } = data as PlaybackProgressEventData
@@ -91,6 +111,7 @@ export function registerPlaybackListeners() {
     })
   }
 
+  // Handles playback errors.
   const onError = () => {
     usePlayerStore.setState({ isTrackLoading: false, playbackState: State.Error })
     Statistics.forceEnd()
@@ -113,6 +134,14 @@ export function registerPlaybackListeners() {
   unsubscribeFns.push(() => TrackPlayer.removeEventListener(Event.PlaybackError, onError))
 }
 
+/**
+ * Unregisters all previously registered playback event listeners.
+ *
+ * This function is crucial for preventing memory leaks and ensuring that
+ * event handlers are properly cleaned up, especially when the audio service
+ * is being stopped or reinitialized. It also forces the statistics tracking
+ * to end any active play session.
+ */
 export function unregisterPlaybackListeners() {
   if (unsubscribeFns.length === 0) return
   unsubscribeFns.forEach((fn) => fn())

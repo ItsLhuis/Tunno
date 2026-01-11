@@ -2,6 +2,18 @@ import { clampChroma, converter, formatCss } from "culori"
 
 const toOklch = converter("oklch")
 
+/**
+ * Creates a CSS linear gradient string based on a single input color,
+ * applying subtle variations in lightness, chroma, and hue to generate a rich,
+ * perceptually smooth gradient. This function uses the Oklch color space for
+ * more consistent color manipulation.
+ *
+ * The gradient is designed to provide depth and visual interest from a single base color.
+ *
+ * @param color - The base color string (e.g., "#RRGGBB", "rgb(R,G,B)", "hsl(H,S,L)").
+ * @returns A CSS `linear-gradient` string, or the original color string if an error occurs
+ *          during color conversion or processing.
+ */
 export function createGradient(color: string): string {
   try {
     const oklch = toOklch(color)

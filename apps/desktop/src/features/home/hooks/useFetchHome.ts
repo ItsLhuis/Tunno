@@ -22,6 +22,9 @@ import {
   type YourPlaylists
 } from "@repo/api"
 
+/**
+ * Defines the options available for customizing the data fetched by {@link useFetchHome}.
+ */
 type HomeOptions = {
   jumpBackIn?: { limit?: number; hours?: number }
   onRepeat?: { days?: number; limit?: number }
@@ -31,6 +34,9 @@ type HomeOptions = {
   discover?: { limit?: number }
 }
 
+/**
+ * Represents the aggregated data structure for the home screen sections.
+ */
 type Home = {
   jumpBackIn: JumpBackIn | undefined
   onRepeat: OnRepeat | undefined
@@ -40,6 +46,9 @@ type Home = {
   discover: Discover | undefined
 }
 
+/**
+ * Represents the return type of the {@link useFetchHome} hook, combining fetched data with query states.
+ */
 export type HomeResult = {
   data: Home
   isLoading: boolean
@@ -47,6 +56,18 @@ export type HomeResult = {
   refetch: () => Promise<void>
 }
 
+/**
+ * Custom hook for fetching and aggregating data for the various sections of the home screen.
+ *
+ * This hook uses TanStack Query's `useQueries` to fetch data concurrently for different
+ * home sections like "Jump Back In", "On Repeat", "Your Playlists", "New Releases",
+ * "Favorite Artists", and "Discover". It combines the results, manages loading/error states,
+ * and provides a single `refetch` mechanism for all sections.
+ *
+ * @param options - Optional configuration for each home section, allowing customization of limits and filters.
+ * @returns A {@link HomeResult} object containing the aggregated data for all sections,
+ *          loading state, error state, and a refetch function.
+ */
 export function useFetchHome(options: HomeOptions = {}): HomeResult {
   const queries = useMemo(
     () => [

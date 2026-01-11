@@ -5,8 +5,27 @@ import { databaseName } from "./client"
 
 import { getSQLiteDatabase } from "./driver"
 
+/**
+ * A type alias for a function that takes an array of SQL migration queries
+ * and applies them to the database. This is used by Drizzle's proxy driver.
+ */
 export type ProxyMigrator = (migrationQueries: string[]) => Promise<void>
 
+/**
+ * Executes database migrations for the desktop application.
+ *
+ * This function performs the following steps:
+ * 1. Connects to the SQLite database using `databaseName`.
+ * 2. Reads SQL migration files from the `resources/migrations` directory within the Tauri application.
+ * 3. Sorts migration files based on their hash prefix to ensure correct order.
+ * 4. Creates a `__drizzle_migrations` table if it doesn't exist, to track applied migrations.
+ * 5. Iterates through the migration files, checks if each migration has already been run.
+ * 6. If a migration has not been run, it reads the SQL content and executes it against the database.
+ * 7. Records the hash and timestamp of the applied migration in the `__drizzle_migrations` table.
+ * 8. Closes the SQLite database connection.
+ *
+ * @returns A Promise that resolves when all pending migrations have been applied.
+ */
 export async function migrate(): Promise<void> {
   const sqlite = await getSQLiteDatabase(databaseName)
 

@@ -24,6 +24,34 @@ import { type EntityCache } from "../utils"
 
 import { type CLISong, type ProcessingTrack, type ProcessResult } from "../types"
 
+/**
+ * A custom hook that provides the core logic for processing a single track.
+ *
+ * This hook encapsulates the complex, multi-step process of taking a `ProcessingTrack`
+ * from the queue and fully integrating it into the database. It handles reading metadata,
+ * creating or updating artists and albums (using a shared entity cache for performance),
+ * checking for duplicates, saving files, and finally, inserting the song. It includes
+ * retry logic with exponential backoff to handle transient database errors.
+ *
+ * @returns An object containing:
+ * - `processTrack`: An asynchronous function that takes a `ProcessingTrack`, the `cachePath`,
+ *   and an optional `EntityCache` instance. It returns a `ProcessResult` object indicating
+ *   success, failure, or if the track was skipped.
+ *
+ * @example
+ * ```tsx
+ * const { processTrack } = useTrackProcessor();
+ *
+ * async function handleProcess(track, cachePath, entityCache) {
+ *   const result = await processTrack(track, cachePath, entityCache);
+ *   if (result.success) {
+ *     console.log(`Successfully processed song ID: ${result.songId}`);
+ *   } else if (result.error) {
+ *     console.error(`Failed to process track: ${result.error.message}`);
+ *   }
+ * }
+ * ```
+ */
 export function useTrackProcessor() {
   const processTrack = useCallback(
     async (

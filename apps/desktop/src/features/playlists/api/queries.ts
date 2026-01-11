@@ -15,6 +15,21 @@ import {
   type QueryPlaylistParams
 } from "@repo/api"
 
+/**
+ * Retrieves a paginated list of playlists based on provided query parameters, order, and filters.
+ *
+ * This function handles cursor-based pagination, allowing for efficient fetching
+ * of large datasets. It also applies various filters and sorting options.
+ *
+ * @param params - An object containing query parameters, including:
+ *   - `limit`: The maximum number of items to return per page (defaults to `PAGE_SIZE`).
+ *   - `cursor`: An optional cursor string for pagination (used to fetch the next/previous page).
+ *   - `orderBy`: An object specifying the column to order by and the direction ('asc' or 'desc').
+ *   - `filters`: An object containing various criteria to filter the playlists (e.g., search, isFavorite).
+ * @returns A Promise that resolves to a `PaginatedResponse` object containing
+ *          an array of `Playlist` items, `nextCursor`, `prevCursor`,
+ *          `hasNextPage`, and `hasPrevPage`.
+ */
 export async function getPlaylistsPaginated({
   limit = PAGE_SIZE,
   cursor,
@@ -74,6 +89,15 @@ export async function getPlaylistsPaginated({
   }
 }
 
+/**
+ * Retrieves a list of all playlists, optionally applying a limit, order-by clause, and filters.
+ *
+ * @param params - Optional query parameters including `limit`, `orderBy`, and `filters`.
+ *   - `limit`: The maximum number of playlists to return.
+ *   - `orderBy`: An object specifying the column to order by and the direction ('asc' or 'desc').
+ *   - `filters`: An object containing various criteria to filter the playlists (e.g., search, isFavorite).
+ * @returns A Promise that resolves to an array of `Playlist` objects.
+ */
 export async function getAllPlaylists({
   limit,
   orderBy,
@@ -94,6 +118,12 @@ export async function getAllPlaylists({
   return playlists
 }
 
+/**
+ * Retrieves a single playlist from the database by its ID without any relations.
+ *
+ * @param id - The ID of the playlist to retrieve.
+ * @returns A Promise that resolves to the `Playlist` object if found, otherwise `null`.
+ */
 export async function getPlaylistById(id: number): Promise<Playlist | null> {
   const playlist = await database.query.playlists.findFirst({
     where: eq(schema.playlists.id, id)
@@ -102,6 +132,13 @@ export async function getPlaylistById(id: number): Promise<Playlist | null> {
   return playlist || null
 }
 
+/**
+ * Retrieves a single playlist from the database by its ID, including all its relations
+ * (songs, stats).
+ *
+ * @param id - The ID of the playlist to retrieve.
+ * @returns A Promise that resolves to the `PlaylistWithAllRelations` object if found, otherwise `undefined`.
+ */
 export async function getPlaylistByIdWithAllRelations(
   id: number
 ): Promise<PlaylistWithAllRelations | undefined> {
@@ -120,6 +157,12 @@ export async function getPlaylistByIdWithAllRelations(
   return playlist
 }
 
+/**
+ * Retrieves a single playlist from the database by its ID, including its associated songs.
+ *
+ * @param id - The ID of the playlist to retrieve.
+ * @returns A Promise that resolves to the `PlaylistWithSongs` object if found, otherwise `undefined`.
+ */
 export async function getPlaylistByIdWithSongs(id: number): Promise<PlaylistWithSongs | undefined> {
   const playlist = await database.query.playlists.findFirst({
     where: eq(schema.playlists.id, id),
@@ -135,6 +178,17 @@ export async function getPlaylistByIdWithSongs(id: number): Promise<PlaylistWith
   return playlist
 }
 
+/**
+ * Retrieves a list of all playlist IDs, optionally filtered and ordered.
+ *
+ * This function is used to fetch just the IDs of playlists based on various criteria,
+ * without fetching their full details or relations.
+ *
+ * @param params - An optional object containing `orderBy` and `filters` for the query.
+ *   - `orderBy`: Specifies the column and direction for sorting.
+ *   - `filters`: An object containing various criteria to filter the playlist IDs (e.g., search, isFavorite).
+ * @returns A Promise that resolves to an array of playlist IDs.
+ */
 export async function getPlaylistIdsOnly(params?: QueryPlaylistParams): Promise<number[]> {
   const whereConditions = buildWhereConditions(params?.filters)
 
@@ -156,6 +210,12 @@ export async function getPlaylistIdsOnly(params?: QueryPlaylistParams): Promise<
   return playlists.map((row) => row.id)
 }
 
+/**
+ * Retrieves a list of song IDs that belong to a specific playlist.
+ *
+ * @param id - The ID of the playlist for which to retrieve song IDs.
+ * @returns A Promise that resolves to an array of song IDs.
+ */
 export async function getSongIdsByPlaylistId(id: number): Promise<number[]> {
   const result = await database
     .select({ songId: schema.playlistsToSongs.songId })
@@ -165,6 +225,16 @@ export async function getSongIdsByPlaylistId(id: number): Promise<number[]> {
   return result.map((row) => row.songId)
 }
 
+/**
+ * Constructs an array of Drizzle ORM `where` conditions based on the provided playlist filters.
+ *
+ * This helper function dynamically builds database query conditions for filtering playlists
+ * by various properties such as search term, favorite status, play count range,
+ * last played date range, total tracks range, and total duration range.
+ *
+ * @param filters - An optional object containing various filtering criteria for playlists.
+ * @returns An array of Drizzle ORM `SQL` or `Column` conditions to be used in a `where` clause.
+ */
 function buildWhereConditions(filters?: QueryPlaylistParams["filters"]) {
   const whereConditions = []
 
