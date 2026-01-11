@@ -24,6 +24,9 @@ import { type Song } from "../shared/types"
 
 const EXTENSIONS_WITHOUT_THUMBNAIL_SUPPORT = new Set(["wav", "opus", "aac", "ogg"])
 
+/**
+ * Represents the structure of video information extracted from YouTube (e.g., via yt-dlp).
+ */
 type YoutubeSong = {
   title: string
   thumbnail: string
@@ -34,6 +37,21 @@ type YoutubeSong = {
   upload_date: string
 }
 
+/**
+ * Downloads audio from a YouTube video, optionally enriches it with metadata from Spotify,
+ * retrieves lyrics, and embeds thumbnails.
+ *
+ * @param videoId - The YouTube video ID to download.
+ * @param options - Optional parameters for customizing the download:
+ *   - `title`: Override track title for Spotify search.
+ *   - `artist`: Override artist for Spotify search.
+ *   - `releaseYear`: Override release year for Spotify search.
+ *   - `basicDownload`: If true, performs a basic audio-only download without extensive metadata.
+ *   - `extension`: Specifies the output audio file extension (e.g., "mp3", "opus").
+ *   - `addMetadata`: If true, attempts to add metadata and embed thumbnails to the audio file.
+ *   - `spotifyId`: A Spotify track ID to directly fetch metadata, bypassing search.
+ * @returns A Promise that resolves when the download and processing are complete.
+ */
 export const download = async (
   videoId: string,
   options?: {
@@ -94,6 +112,8 @@ export const download = async (
         )
         track = await getTrack(cleanedTrackName, videoDuration, cleanedArtistName, searchYear)
 
+        // If the initial search for the track fails with the primary artist,
+        // try searching again with other artists associated with the YouTube video.
         if (!track) {
           if (videoInfo.artists && Array.isArray(videoInfo.artists)) {
             console.log("[spotify]", chalk.yellow("Trying other artists"))
@@ -117,11 +137,14 @@ export const download = async (
                 searchYear
               )
 
-              if (track) break
+              if (track) break // Stop if a track is found with an alternative artist
             }
           }
         }
 
+        // As a final fallback, try searching Spotify using only the cleaned track title.
+        // This broadens the search scope and relies on internal similarity matching
+        // and user confirmation to identify the correct track.
         if (!track) {
           console.log(
             `[spotify] Trying to search using only the track title. ${chalk.yellow(
@@ -155,6 +178,7 @@ export const download = async (
       })
 
       videoDir = path.join(downloadPath, sanitizeFilename(track.title))
+      // Ensure a clean directory for the new download; remove existing content if present.
       if (fs.existsSync(videoDir)) fs.rmSync(videoDir, { recursive: true, force: true })
       fs.mkdirSync(videoDir, { recursive: true })
 
@@ -255,19 +279,21 @@ export const download = async (
       "16K",
       "--format",
       "bestaudio",
+      "--output",
+      `"${songFilePath}"`,
+      url,
+      // Conditionally add metadata to the audio file if enabled.
       ...(shouldAddMetadata ? ["--add-metadata"] : []),
+      // Configure audio format and embed thumbnail if supported and enabled.
       ...(audioFormat === "opus"
         ? ["--audio-format", "opus"]
         : [
             "--audio-format",
             audioFormat,
             "--audio-quality",
-            "0",
+            "0", // Best quality for lossy formats
             ...(shouldAddMetadata && supportsThumbnail ? ["--embed-thumbnail"] : [])
-          ]),
-      "--output",
-      `"${songFilePath}"`,
-      url
+          ])
     ])
 
     console.log(

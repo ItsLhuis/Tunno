@@ -10,6 +10,13 @@ import { VALID_AUDIO_EXTENSIONS } from "../shared/constants"
 
 const VALID_EXTENSIONS = VALID_AUDIO_EXTENSIONS
 
+/**
+ * Registers the 'youtube' command with the Commander program.
+ * This command allows downloading audio from a YouTube video or an entire playlist,
+ * with options to customize metadata, output format, and search criteria.
+ *
+ * @param program - The Commander program instance to which the command will be added.
+ */
 export default function youtube(program: Command) {
   program
     .command("youtube")

@@ -1,9 +1,15 @@
+/**
+ * Represents an artist with their name, an optional thumbnail, and genres.
+ */
 export type Artist = {
   name: string
   thumbnail: string | null
   genres: string[] | null
 }
 
+/**
+ * Represents an album with its name, thumbnail, release year, type, and associated artists.
+ */
 export type Album = {
   name: string
   thumbnail: string
@@ -12,6 +18,9 @@ export type Album = {
   artists: Artist[]
 }
 
+/**
+ * Represents synchronized lyrics for a song, including metadata about the lyrics.
+ */
 export type Lyrics = {
   id: number
   name: string
@@ -23,6 +32,9 @@ export type Lyrics = {
   lyrics: { text: string; startTime: number }[]
 }
 
+/**
+ * Represents a complete song object with its audio file, metadata, and lyrics.
+ */
 export type Song = {
   song: string
   title: string
@@ -33,6 +45,10 @@ export type Song = {
   lyrics: { text: string; startTime: number }[] | null
 }
 
+/**
+ * Represents the manifest file for a Fast Upload bundle.
+ * This manifest contains metadata about the bundle itself and a list of tracks included.
+ */
 export type FastUploadManifest = {
   version: number
   createdAt: string
@@ -41,10 +57,15 @@ export type FastUploadManifest = {
     version: string
     os: string
   }
-  stats: { totalTracks: number }
+  stats: {
+    totalTracks: number
+  }
   tracks: FastUploadTrack[]
 }
 
+/**
+ * Represents a single track entry within the `FastUploadManifest`.
+ */
 export type FastUploadTrack = {
   dirName: string
   title: string

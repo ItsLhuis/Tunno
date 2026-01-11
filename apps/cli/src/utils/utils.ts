@@ -14,6 +14,14 @@ import natural from "natural"
 
 const TfIdf = natural.TfIdf
 
+/**
+ * Downloads an image from a given URL, resizes it, converts it to JPEG, and saves it to a specified file path.
+ *
+ * @param url - The URL of the image to download.
+ * @param filePath - The local file path where the thumbnail will be saved.
+ * @param size - The desired width and height for the square thumbnail.
+ * @returns A Promise that resolves once the thumbnail is downloaded and saved.
+ */
 export const downloadThumbnail = async (
   url: string,
   filePath: string,
@@ -32,6 +40,13 @@ export const downloadThumbnail = async (
   await fs.promises.writeFile(filePath, image)
 }
 
+/**
+ * Executes a shell command with arguments and inherits standard I/O.
+ *
+ * @param command - The command to execute (e.g., 'yt-dlp').
+ * @param args - An array of arguments to pass to the command.
+ * @returns A Promise that resolves if the command exits with code 0, and rejects otherwise.
+ */
 export const runCommand = (command: string, args: string[]): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
     const process = spawn(command, args, { stdio: "inherit", shell: true })
@@ -46,8 +61,18 @@ export const runCommand = (command: string, args: string[]): Promise<void> => {
   })
 }
 
+/**
+ * A promisified version of `child_process.exec`.
+ * Executes a command in a shell and buffers the output.
+ */
 export const execPromise = promisify(exec)
 
+/**
+ * Creates a delay for a specified number of milliseconds.
+ *
+ * @param ms - The number of milliseconds to wait.
+ * @returns A Promise that resolves after the specified delay.
+ */
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const ILLEGAL_CHARS_RE = /[\/\?<>\\:\*\|"]/g
@@ -55,6 +80,15 @@ const CONTROL_CHARS_RE = /[\x00-\x1f\x80-\x9f]/g
 const RESERVED_NAMES_RE = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i
 const TRAILING_RE = /[\. ]+$/
 
+/**
+ * Sanitizes a string to be safe for use as a filename.
+ * Removes illegal characters, control characters, reserved names, and trailing dots/spaces.
+ * Truncates the filename if it exceeds a specified maximum length.
+ *
+ * @param input - The input string to sanitize.
+ * @param maxLength - The maximum allowed length for the filename (default: 200).
+ * @returns The sanitized filename, or "Unknown" if the input is invalid or results in an empty string.
+ */
 export const sanitizeFilename = (input: string, maxLength: number = 200): string => {
   if (typeof input !== "string") return "Unknown"
 
@@ -76,6 +110,13 @@ export const sanitizeFilename = (input: string, maxLength: number = 200): string
   return sanitized || "Unknown"
 }
 
+/**
+ * Cleans an artist name by removing common extraneous words (e.g., "Vevo", "Official"),
+ * special characters, and ensures consistent spacing and capitalization.
+ *
+ * @param artistName - The artist name to clean.
+ * @returns The cleaned artist name.
+ */
 export const cleanArtistName = (artistName: string): string => {
   return artistName
     .replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -92,6 +133,13 @@ export const cleanArtistName = (artistName: string): string => {
     .replace(/\b(\w)/g, (match) => match.toUpperCase())
 }
 
+/**
+ * Cleans a track name by removing common extraneous words (e.g., "Official Video", "Lyrics"),
+ * special characters, and ensures consistent spacing.
+ *
+ * @param trackName - The track name to clean.
+ * @returns The cleaned track name.
+ */
 export const cleanTrackName = (trackName: string): string => {
   return trackName
     .toLowerCase()
@@ -107,10 +155,24 @@ export const cleanTrackName = (trackName: string): string => {
     .trim()
 }
 
+/**
+ * Splits a track name into an array of tokens (words) based on whitespace.
+ *
+ * @param trackName - The track name to tokenize.
+ * @returns An array of strings, where each string is a token from the track name.
+ */
 const tokenizeTrackName = (trackName: string): string[] => {
   return trackName.split(/\s+/)
 }
 
+/**
+ * Calculates the TF-IDF (Term Frequency-Inverse Document Frequency) similarity between two track names.
+ * This function measures how relevant words are in each track name relative to a corpus of both.
+ *
+ * @param track1 - The first track name string.
+ * @param track2 - The second track name string.
+ * @returns A numeric similarity score between 0 and 1.
+ */
 const calculateTfIdfSimilarity = (track1: string, track2: string): number => {
   if (!track1 || !track2) return 0
 
@@ -150,6 +212,16 @@ const calculateTfIdfSimilarity = (track1: string, track2: string): number => {
   return similarity
 }
 
+/**
+ * Calculates a comprehensive similarity score between two track names using a combination of:
+ * - Jaro-Winkler Distance for string similarity.
+ * - Word match score for common words.
+ * - TF-IDF similarity for semantic relevance of terms.
+ *
+ * @param track1 - The first track name string.
+ * @param track2 - The second track name string.
+ * @returns A weighted numeric similarity score between 0 and 1.
+ */
 export const calculateTrackSimilarity = (track1: string, track2: string): number => {
   const tokens1 = tokenizeTrackName(track1)
   const track2Lower = track2.toLowerCase()
@@ -164,6 +236,15 @@ export const calculateTrackSimilarity = (track1: string, track2: string): number
   return jaroScore * 0.5 + wordMatchScore * 0.2 + tfidfScore * 0.3
 }
 
+/**
+ * Calculates a proportional similarity score based on the difference between two durations.
+ * The similarity decreases exponentially as the absolute difference increases, up to a `maxDifference`.
+ *
+ * @param spotifyDuration - The duration from Spotify (in seconds).
+ * @param youtubeDuration - The duration from YouTube (in seconds).
+ * @param maxDifference - The maximum difference beyond which similarity becomes very low (default: 1000 seconds).
+ * @returns A similarity score between 0 and 1, where 1 means identical durations.
+ */
 export const proportionalSimilarity = (
   spotifyDuration: number,
   youtubeDuration: number,

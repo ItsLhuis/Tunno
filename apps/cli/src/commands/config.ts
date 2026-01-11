@@ -4,6 +4,14 @@ import chalk from "chalk"
 
 import { getDownloadPath, setDownloadPath, setEnvKey } from "../utils/config"
 
+/**
+ * Registers configuration-related commands with the Commander program.
+ *
+ * This function adds commands for getting/setting the download path and
+ * setting Spotify API credentials (client ID and client secret).
+ *
+ * @param program - The Commander program instance to which commands will be added.
+ */
 export default function path(program: Command) {
   program
     .command("get-path")

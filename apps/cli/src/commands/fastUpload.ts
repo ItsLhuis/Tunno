@@ -26,6 +26,19 @@ type ValidatedDirectory = {
   thumbnails: string[]
 }
 
+/**
+ * Validates a given directory to ensure it contains a valid track for fast upload.
+ * A valid directory must have:
+ * - A `metadata.json` file.
+ * - A valid JSON structure within `metadata.json` that can be parsed into a `Song` object.
+ * - A unique song title (checked against `seenTitles`).
+ * - An audio file referenced in `metadata.song` that exists in the directory and has a valid extension.
+ * - All thumbnail files referenced in the `metadata.json` (for song, artists, and album) must exist.
+ *
+ * @param dirPath - The absolute path to the directory to validate.
+ * @param seenTitles - A Set of song titles already encountered to ensure uniqueness.
+ * @returns A `ValidatedDirectory` object if the directory is valid, otherwise `null`.
+ */
 const isValidDirectory = (dirPath: string, seenTitles: Set<string>): ValidatedDirectory | null => {
   try {
     const entries = fs.readdirSync(dirPath)
@@ -101,6 +114,19 @@ const isValidDirectory = (dirPath: string, seenTitles: Set<string>): ValidatedDi
   }
 }
 
+/**
+ * Builds a `FastUploadManifest` from a list of validated directories.
+ * This manifest serves as a central descriptor for the entire fast upload bundle,
+ * containing version information, creation timestamp, CLI details (version and OS),
+ * overall statistics, and a list of `FastUploadTrack` objects.
+ * Each `FastUploadTrack` includes summarized information (directory name, title, artists, album, thumbnail)
+ * derived from the `metadata.json` found in each validated directory.
+ *
+ * @param validDirs - An array of `ValidatedDirectory` objects, each representing a valid track directory
+ *                    from which metadata will be extracted.
+ * @returns A `FastUploadManifest` object summarizing the content of the bundle.
+ *          Returns an empty `tracks` array in the manifest if no valid directories are provided or processed.
+ */
 const buildManifest = (validDirs: ValidatedDirectory[]): FastUploadManifest => {
   const tracks: FastUploadTrack[] = []
 
@@ -136,6 +162,21 @@ const buildManifest = (validDirs: ValidatedDirectory[]): FastUploadManifest => {
   }
 }
 
+/**
+ * Creates a ZIP archive containing all validated tracks and the generated manifest file.
+ * The archive follows a naming convention: `Tunno_FastUpload_YYYY-MM-DD_HHMMSS.zip`,
+ * and is placed in the specified `outputPath`.
+ * Each `ValidatedDirectory`'s content is added to the ZIP under a `tracks/<dirName>/` path,
+ * preserving the original directory structure within the bundle.
+ * The `manifest.json` is included at the root of the ZIP archive.
+ *
+ * @param validDirs - An array of `ValidatedDirectory` objects whose contents will be bundled.
+ * @param manifest - The `FastUploadManifest` object to be included as `manifest.json` in the bundle.
+ * @param outputPath - The absolute path to the directory where the final ZIP archive will be saved.
+ * @param spinner - An `Ora` spinner instance used for providing real-time progress and feedback to the user.
+ * @returns A Promise that resolves with `void` upon successful creation and finalization of the ZIP bundle,
+ *          or rejects with an `Error` if any issues occur during the archiving process.
+ */
 const createZipBundle = async (
   validDirs: ValidatedDirectory[],
   manifest: FastUploadManifest,
@@ -173,6 +214,13 @@ const createZipBundle = async (
   })
 }
 
+/**
+ * Registers the 'fast-upload' command with the Commander program.
+ * This command creates a portable ZIP bundle from locally downloaded tracks,
+ * including metadata, audio files, and thumbnails.
+ *
+ * @param program - The Commander program instance to which the command will be added.
+ */
 export default function fastUpload(program: Command) {
   program
     .command("fast-upload")
