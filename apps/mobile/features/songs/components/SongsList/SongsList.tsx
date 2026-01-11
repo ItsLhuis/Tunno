@@ -13,7 +13,8 @@ import { useShallow } from "zustand/shallow"
 import { useSongsStore } from "../../stores/useSongsStore"
 
 import { useFetchSongIds } from "../../hooks/useFetchSongIds"
-import { useFetchSongsWithMainRelationsInfinite } from "../../hooks/useFetchSongsWithMainRelationsInfinite"
+
+import { useFetchSongsInfiniteWithMainRelations } from "../../hooks/useFetchSongsInfiniteWithMainRelations"
 
 import {
   FlashListWithHeaders,
@@ -57,7 +58,7 @@ const SongsList = () => {
   }
 
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } =
-    useFetchSongsWithMainRelationsInfinite(queryParams)
+    useFetchSongsInfiniteWithMainRelations(queryParams)
 
   const { data: allSongIds, refetch: refetchSongIds } = useFetchSongIds(queryParams)
 

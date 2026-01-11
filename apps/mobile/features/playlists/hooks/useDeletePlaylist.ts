@@ -10,6 +10,33 @@ import { deletePlaylist } from "../api/mutations"
 
 import { toast } from "@components/ui"
 
+/**
+ * Custom hook for deleting a playlist.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * deletion of a playlist. It includes:
+ * - Optimistic query cancellation (`playlistKeys.all`).
+ * - Invalidation of relevant queries (`playlist`, `home`, `songs`, `sidebar`) to refetch data after deletion.
+ * - Error and success handling with toast notifications.
+ * - Navigation logic: if the user is currently viewing the deleted playlist, they are redirected.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ *          The `mutate` function expects an object with an `id` property as its argument.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: deletePlaylist, isLoading } = useDeletePlaylist();
+ *
+ * const handleDelete = (playlistId: number) => {
+ *   deletePlaylist({ id: playlistId });
+ * };
+ *
+ * // In a component:
+ * <Button onPress={() => handleDelete(playlist.id)} disabled={isLoading}>
+ *   Delete Playlist
+ * </Button>
+ * ```
+ */
 export function useDeletePlaylist() {
   const queryClient = useQueryClient()
 

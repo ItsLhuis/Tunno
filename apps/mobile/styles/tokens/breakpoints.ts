@@ -1,3 +1,6 @@
+/**
+ * Defines standard responsive breakpoints for the application.
+ */
 export const breakpoints = {
   xs: 0,
   sm: 640,
@@ -7,4 +10,7 @@ export const breakpoints = {
   "2xl": 1536
 } as const
 
+/**
+ * Type alias for breakpoint tokens.
+ */
 export type Breakpoint = keyof typeof breakpoints

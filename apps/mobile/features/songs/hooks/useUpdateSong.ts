@@ -18,6 +18,37 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
+/**
+ * Custom hook for updating an existing song.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * update of a song's details. It includes:
+ * - Optimistic updates: `onMutate` captures the previous song state to potentially revert on error.
+ * - Updating track metadata in the player store (`updateTrackMetadata`) if the updated song is currently playing.
+ * - Invalidating relevant queries (`songKeys.all`, `home`, `artists`, `albums` relations) to refetch data after the update.
+ *   The invalidation logic specifically checks if artists or album relationships have changed.
+ * - Error and success handling with toast notifications.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ *          The `mutate` function expects an object with `id`, `updates`, `thumbnailAction`, `thumbnailPath`, and `artists` properties.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: updateExistingSong, isLoading } = useUpdateSong();
+ *
+ * const handleUpdate = (songId: number, newTitle: string) => {
+ *   updateExistingSong({
+ *     id: songId,
+ *     updates: { name: newTitle },
+ *   });
+ * };
+ *
+ * // In a component:
+ * <Button onPress={() => handleUpdate(song.id, "New Song Title")} disabled={isLoading}>
+ *   Update Song
+ * </Button>
+ * ```
+ */
 export function useUpdateSong() {
   const queryClient = useQueryClient()
 

@@ -1,3 +1,6 @@
+/**
+ * Defines a comprehensive color palette with various shades for UI elements.
+ */
 export const colors = {
   red: {
     50: "rgb(254, 242, 242)",

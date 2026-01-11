@@ -10,6 +10,33 @@ import { toast } from "@components/ui"
 
 import { type InsertPlaylistType } from "@repo/schemas"
 
+/**
+ * Custom hook for inserting a new playlist.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * creation of a new playlist. It includes:
+ * - Invalidating relevant queries (`playlistKeys.all`) to refetch data after insertion.
+ * - Error and success handling with toast notifications.
+ * - Logic to invalidate specific related queries (`home`, `songs`) after insertion.
+ * - Robust error handling for custom errors.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ *          The `mutate` function expects an `InsertPlaylistType` object as its argument.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: insertNewPlaylist, isLoading } = useInsertPlaylist();
+ *
+ * const handleInsert = (playlistData: InsertPlaylistType) => {
+ *   insertNewPlaylist(playlistData);
+ * };
+ *
+ * // In a component:
+ * <Button onPress={() => handleInsert(newPlaylist)} disabled={isLoading}>
+ *   Add Playlist
+ * </Button>
+ * ```
+ */
 export function useInsertPlaylist() {
   const queryClient = useQueryClient()
 

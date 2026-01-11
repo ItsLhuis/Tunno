@@ -1,5 +1,11 @@
+/**
+ * Base unit for font size calculations.
+ */
 const FONT_SIZE_BASE = 16
 
+/**
+ * Defines standard font size values.
+ */
 export const fontSizeTokens = {
   xs: 12,
   sm: 14,
@@ -16,6 +22,9 @@ export const fontSizeTokens = {
   "9xl": 128
 } as const
 
+/**
+ * Defines standard line height values.
+ */
 export const lineHeightTokens = {
   none: 16,
   tight: 20,
@@ -33,6 +42,9 @@ export const lineHeightTokens = {
   10: 40
 } as const
 
+/**
+ * Defines standard font weight values.
+ */
 export const fontWeightTokens = {
   thin: "100",
   extralight: "200",
@@ -45,6 +57,9 @@ export const fontWeightTokens = {
   black: "900"
 } as const
 
+/**
+ * Defines standard letter spacing values.
+ */
 export const letterSpacingTokens = {
   tighter: -0.8,
   tight: -0.4,
@@ -54,9 +69,21 @@ export const letterSpacingTokens = {
   widest: 1.6
 } as const
 
+/**
+ * Type alias for font size tokens.
+ */
 export type FontSizeAlias = keyof typeof fontSizeTokens
+/**
+ * Type alias for line height tokens.
+ */
 export type LineHeightAlias = keyof typeof lineHeightTokens
+/**
+ * Type alias for font weight tokens.
+ */
 export type FontWeightAlias = keyof typeof fontWeightTokens
+/**
+ * Type alias for letter spacing tokens.
+ */
 export type LetterSpacingAlias = keyof typeof letterSpacingTokens
 
 export { FONT_SIZE_BASE }

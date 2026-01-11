@@ -1,3 +1,6 @@
+/**
+ * Defines standard z-index tokens for layering UI elements.
+ */
 export const zIndexTokens = {
   0: 0,
   10: 10,
@@ -16,5 +19,11 @@ export const zIndexTokens = {
   tooltip: 1070
 } as const
 
+/**
+ * Type alias for z-index tokens.
+ */
 export type ZIndexAlias = keyof typeof zIndexTokens
+/**
+ * Type for the value of z-index tokens.
+ */
 export type ZIndexValue = (typeof zIndexTokens)[ZIndexAlias]

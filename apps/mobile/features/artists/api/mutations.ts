@@ -22,6 +22,21 @@ import { type TFunction } from "@repo/i18n"
 
 import { checkArtistDeletionIntegrity } from "@features/songs/api/validations"
 
+/**
+ * Inserts a new artist into the database, handling thumbnail storage.
+ *
+ * This function performs the following operations:
+ * 1. Saves the artist's thumbnail file to storage, generating a unique name if provided.
+ * 2. Inserts the artist record into the `artists` table in the database.
+ * 3. Includes error handling for duplicate artist names.
+ *
+ * @param artist - An object containing the artist data to be inserted, excluding the `thumbnail` property.
+ * @param thumbnailPath - (Optional) The path to the artist's thumbnail image file.
+ * @param t - (Optional) The i18n translation function for error messages.
+ * @returns A Promise that resolves to the newly created `Artist` object.
+ * @throws {CustomError} If an artist with the same name already exists (ValidationErrorCode.DUPLICATE_ARTIST).
+ * @throws {Error} For other database or file storage errors.
+ */
 export async function insertArtist(
   artist: Omit<InsertArtist, "thumbnail">,
   thumbnailPath?: string | null,
@@ -52,6 +67,24 @@ export async function insertArtist(
   }
 }
 
+/**
+ * Updates an existing artist in the database, handling thumbnail storage.
+ *
+ * This function performs the following operations:
+ * 1. Fetches the existing artist to determine current thumbnail.
+ * 2. Manages the artist's thumbnail file based on `thumbnailAction` (keep, update, remove).
+ * 3. Updates the artist record in the `artists` table with the provided `updates`.
+ * 4. Includes error handling for duplicate artist names.
+ *
+ * @param id - The ID of the artist to update.
+ * @param updates - An object containing the artist data to be updated, excluding `thumbnail` property.
+ * @param thumbnailAction - (Optional) Specifies how to handle the thumbnail: 'keep', 'update', or 'remove'.
+ * @param thumbnailPath - (Optional) The path to the new thumbnail image file if `thumbnailAction` is 'update'.
+ * @param t - (Optional) The i18n translation function for error messages.
+ * @returns A Promise that resolves to the updated `Artist` object.
+ * @throws {CustomError} If an artist with the same name already exists (ValidationErrorCode.DUPLICATE_ARTIST).
+ * @throws {Error} For other database or file storage errors.
+ */
 export async function updateArtist(
   id: number,
   updates: Omit<UpdateArtist, "thumbnail">,
@@ -101,6 +134,15 @@ export async function updateArtist(
   }
 }
 
+/**
+ * Toggles the `isFavorite` status of an artist in the database.
+ *
+ * This function retrieves the current `isFavorite` status of the specified artist
+ * and then updates it to the opposite boolean value.
+ *
+ * @param id - The ID of the artist to toggle its favorite status.
+ * @returns A Promise that resolves to the updated `Artist` object.
+ */
 export async function toggleArtistFavorite(id: number): Promise<Artist> {
   const [existingArtist] = await database
     .select()
@@ -116,6 +158,23 @@ export async function toggleArtistFavorite(id: number): Promise<Artist> {
   return updatedArtist
 }
 
+/**
+ * Deletes an artist from the database, including its associated thumbnail file.
+ *
+ * This function first performs an integrity check using `checkArtistDeletionIntegrity`
+ * to ensure the artist can be safely deleted without breaking song-album-artist relationships.
+ * If a conflict is found, it throws a `CustomError`.
+ *
+ * If no conflicts, it performs the following operations:
+ * 1. Deletes the artist record from the `artists` table.
+ * 2. If a thumbnail is associated, it deletes the thumbnail file from storage.
+ *
+ * @param id - The ID of the artist to delete.
+ * @param t - (Optional) The i18n translation function for error messages.
+ * @returns A Promise that resolves to the deleted `Artist` object.
+ * @throws {CustomError} If deleting the artist would violate integrity constraints (ValidationErrorCode.INTEGRITY_ARTIST_DELETION).
+ * @throws {Error} For other database or file storage errors.
+ */
 export async function deleteArtist(id: number, t?: TFunction): Promise<Artist> {
   const hasConflict = await checkArtistDeletionIntegrity(id)
   if (hasConflict) {

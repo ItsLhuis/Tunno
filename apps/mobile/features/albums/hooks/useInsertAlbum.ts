@@ -10,6 +10,32 @@ import { toast } from "@components/ui"
 
 import { type InsertAlbumType } from "@repo/schemas"
 
+/**
+ * Custom hook for inserting a new album.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * creation of a new album. It includes:
+ * - Invalidating relevant queries (`albumKeys.all`) to refetch data after insertion.
+ * - Error and success handling with toast notifications.
+ * - Logic to invalidate specific related queries (`home`) after insertion.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ *          The `mutate` function expects an `InsertAlbumType` object as its argument.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: insertNewAlbum, isLoading } = useInsertAlbum();
+ *
+ * const handleInsert = (albumData: InsertAlbumType) => {
+ *   insertNewAlbum(albumData);
+ * };
+ *
+ * // In a component:
+ * <Button onPress={() => handleInsert(newAlbum)} disabled={isLoading}>
+ *   Add Album
+ * </Button>
+ * ```
+ */
 export function useInsertAlbum() {
   const queryClient = useQueryClient()
 

@@ -1,5 +1,8 @@
 import { type PlaySource } from "@features/player/types/playSource"
 
+/**
+ * Represents an active audio playback session for statistics tracking.
+ */
 export type PlaySession = {
   songId: number
   playSource: PlaySource

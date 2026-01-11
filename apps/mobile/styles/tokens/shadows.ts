@@ -1,3 +1,6 @@
+/**
+ * Defines standard shadow tokens for consistent elevation and depth in the UI.
+ */
 export const shadowTokens = {
   none: {
     shadowColor: "#000",
@@ -43,5 +46,11 @@ export const shadowTokens = {
   }
 } as const
 
+/**
+ * Type alias for shadow tokens.
+ */
 export type ShadowAlias = keyof typeof shadowTokens
+/**
+ * Type for the value of shadow tokens.
+ */
 export type ShadowValue = (typeof shadowTokens)[ShadowAlias]

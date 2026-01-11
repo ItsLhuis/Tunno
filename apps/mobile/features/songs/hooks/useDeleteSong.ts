@@ -11,6 +11,33 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
+/**
+ * Custom hook for deleting a song.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * deletion of a song. It includes:
+ * - Optimistic removal from the player's queue (`removeSongById`).
+ * - Invalidation of relevant queries (`songKeys.all`) to refetch data after deletion.
+ * - Error handling with toast notifications.
+ * - Navigation logic: if the user is currently viewing the deleted song, they are redirected.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ *          The `mutate` function expects an object with an `id` property as its argument.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: deleteSong, isLoading } = useDeleteSong();
+ *
+ * const handleDelete = (songId: number) => {
+ *   deleteSong({ id: songId });
+ * };
+ *
+ * // In a component:
+ * <Button onPress={() => handleDelete(song.id)} disabled={isLoading}>
+ *   Delete Song
+ * </Button>
+ * ```
+ */
 export function useDeleteSong() {
   const queryClient = useQueryClient()
 

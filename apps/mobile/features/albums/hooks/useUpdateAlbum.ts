@@ -13,8 +13,39 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
+/**
+ * Custom hook for updating an existing album.
+ *
+ * This hook leverages `@tanstack/react-query`'s `useMutation` to handle the asynchronous
+ * update of an album's details. It includes:
+ * - Optimistic query cancellation (`albumKeys.all`).
+ * - Updates track metadata in the player store if the currently playing song belongs to the updated album.
+ * - Invalidation of relevant queries (`album`, `home`, `songs`, `artists`, `sidebar`) to refetch data after the update.
+ * - Error and success handling with toast notifications.
+ *
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ *          The `mutate` function expects an object with `id`, `updates`, `thumbnailAction`, `thumbnailPath`, and `artists` properties.
+ *
+ * @example
+ * ```tsx
+ * const { mutate: updateExistingAlbum, isLoading } = useUpdateAlbum();
+ *
+ * const handleUpdate = (albumId: number, newTitle: string) => {
+ *   updateExistingAlbum({
+ *     id: albumId,
+ *     updates: { name: newTitle },
+ *   });
+ * };
+ *
+ * // In a component:
+ * <Button onPress={() => handleUpdate(album.id, "New Album Title")} disabled={isLoading}>
+ *   Update Album
+ * </Button>
+ * ```
+ */
 export function useUpdateAlbum() {
   const queryClient = useQueryClient()
+
   const { t } = useTranslation()
 
   const { currentTrackId, updateTrackMetadata } = usePlayerStore(

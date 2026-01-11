@@ -20,6 +20,9 @@ import {
 
 import { type Theme } from "../core/types"
 
+/**
+ * Defines the light theme configuration for the application, including color palette, spacing, typography, and other visual tokens.
+ */
 export const lightTheme: Theme = {
   colors: {
     background: "rgb(245, 245, 245)",

@@ -4,10 +4,28 @@ import TrackPlayer, {
   RepeatMode
 } from "react-native-track-player"
 
+/**
+ * The default repeat mode for the audio player.
+ * Tracks will repeat in a queue by default.
+ */
 export const DefaultRepeatMode = RepeatMode.Queue
+/**
+ * Defines the default behavior of the audio service when the app is killed.
+ * By default, playback will stop and the notification will be removed.
+ */
 export const DefaultAudioServiceBehaviour =
   AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification
 
+/**
+ * Configures and initializes the `react-native-track-player` instance.
+ *
+ * This function sets up the player with:
+ * - Automatic interruption handling.
+ * - Android-specific behavior for when the app is killed.
+ * - Supported playback capabilities (play, pause, skip, seek, etc.).
+ * - Notification capabilities for media controls.
+ * - A default repeat mode (`DefaultRepeatMode`).
+ */
 export const setupAudioPlayer = async () => {
   await TrackPlayer.setupPlayer({
     autoHandleInterruptions: true

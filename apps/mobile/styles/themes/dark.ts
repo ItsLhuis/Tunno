@@ -20,6 +20,9 @@ import {
 
 import { type Theme } from "../core/types"
 
+/**
+ * Defines the dark theme configuration for the application, including color palette, spacing, typography, and other visual tokens.
+ */
 export const darkTheme: Theme = {
   colors: {
     background: "rgb(23, 23, 23)",

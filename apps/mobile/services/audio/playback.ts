@@ -4,8 +4,27 @@ import { Statistics } from "@services/statistics"
 
 import TrackPlayer, { Event, State } from "react-native-track-player"
 
+/**
+ * Stores functions to unsubscribe from TrackPlayer event listeners.
+ * Used for cleanup when listeners need to be re-registered or unregistered.
+ */
 let unsubscribeFns: Array<() => void> = []
 
+/**
+ * Registers a comprehensive set of event listeners for `react-native-track-player`.
+ *
+ * These listeners manage playback state, handle remote control events (from headphones, car stereos, etc.),
+ * update the global player store, and integrate with the statistics tracking service.
+ * Existing listeners are first unregistered to prevent duplicates.
+ *
+ * Listeners include:
+ * - `Event.RemotePause`, `Event.RemotePlay`, `Event.RemoteNext`, `Event.RemotePrevious`: For basic playback control.
+ * - `Event.RemoteJumpForward`, `Event.RemoteJumpBackward`, `Event.RemoteSeek`: For seeking.
+ * - `Event.PlaybackState`: Updates player store's `playbackState` and `isTrackLoading`, integrates with `Statistics` for play/pause/stop.
+ * - `Event.PlaybackActiveTrackChanged`: Synchronizes player store with native player, ensures window for new track, updates navigation states, and tracks new plays.
+ * - `Event.PlaybackProgressUpdated`: Updates player store's `position`, `duration`, and `buffered` states.
+ * - `Event.PlaybackError`: Resets loading states and forces statistics to end.
+ */
 export async function registerPlaybackListeners() {
   if (unsubscribeFns.length > 0) {
     unsubscribeFns.forEach((fn) => fn())
@@ -138,7 +157,14 @@ export async function registerPlaybackListeners() {
   })
   unsubscribeFns.push(() => onError.remove())
 }
-
+/**
+ * Unregisters all previously registered playback event listeners.
+ *
+ * This function is crucial for preventing memory leaks and ensuring that
+ * event handlers are properly cleaned up, especially when the audio service
+ * is being stopped or reinitialized. It also forces the statistics tracking
+ * to end any active play session.
+ */
 export function unregisterPlaybackListeners() {
   if (unsubscribeFns.length === 0) return
   unsubscribeFns.forEach((fn) => fn())

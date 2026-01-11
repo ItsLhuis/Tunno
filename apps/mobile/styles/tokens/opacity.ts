@@ -1,3 +1,6 @@
+/**
+ * Defines standard opacity values.
+ */
 export const opacityTokens = {
   0: 0,
   5: 0.05,
@@ -16,4 +19,7 @@ export const opacityTokens = {
   100: 1
 } as const
 
+/**
+ * Type alias for opacity tokens.
+ */
 export type OpacityAlias = keyof typeof opacityTokens

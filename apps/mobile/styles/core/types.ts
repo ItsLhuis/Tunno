@@ -124,13 +124,10 @@ export type RuntimeValues = {
   insets: SafeAreaInsets
   dimensions: Dimensions
   platform: PlatformInfo
-
   breakpoint: Breakpoint
   breakpoints: Record<Breakpoint, boolean>
-
   orientation: "portrait" | "landscape"
   colorScheme: "light" | "dark" | null
-
   fontScale: number
   reduceMotion: boolean
   isRTL: boolean
@@ -152,30 +149,22 @@ export type ThemeColors = {
 export type Theme = {
   colors: Record<ThemeColorKey, string>
   palette: typeof colors
-
   space: (value?: SpacingAlias | number | "px" | "0") => number
   size: (value?: SizeAlias | number) => DimensionValue
-
   fontSize: (value?: FontSizeAlias) => number
   lineHeight: (value?: LineHeightAlias) => number
   fontWeight: (value?: FontWeightAlias) => FontWeightValue
   letterSpacing: (value?: LetterSpacingAlias) => number
-
   radius: (value?: BorderRadiusAlias) => number
   borderWidth: (value?: BorderWidthAlias) => number
-
   opacity: (value?: OpacityAlias) => number
   shadow: (value?: ShadowAlias) => ShadowValue
-
   duration: (value?: DurationAlias) => number
   easing: (value?: EasingAlias) => string
-
   withOpacity: (color: string, opacity: OpacityAlias | number) => string
-
   platform: {
     select: <T>(options: { ios?: T; android?: T; web?: T; default: T }) => T
   }
-
   lighten: (color: string, amount: number) => string
   darken: (color: string, amount: number) => string
   alpha: (color: string, opacity: OpacityAlias | number) => string

@@ -19,6 +19,10 @@ type ThemeContextValue = {
   setThemeMode: (mode: ThemeMode) => void
 }
 
+/**
+ * React Context for providing theme-related state across the component tree.
+ * Use `useTheme` to access this context in components.
+ */
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 
 /**
@@ -114,9 +118,7 @@ export function ThemeProvider({
 export function useTheme(): ThemeContextValue {
   const context = useContext(ThemeContext)
 
-  if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider")
-  }
+  if (!context) throw new Error("useTheme must be used within a ThemeProvider")
 
   return context
 }
@@ -133,9 +135,7 @@ export function useTheme(): ThemeContextValue {
 export function useBaseTheme(): ThemeContextValue {
   const context = useContext(BaseThemeContext)
 
-  if (!context) {
-    throw new Error("useBaseTheme must be used within a ThemeProvider")
-  }
+  if (!context) throw new Error("useBaseTheme must be used within a ThemeProvider")
 
   return context
 }

@@ -1,6 +1,15 @@
+/**
+ * Base unit for spacing calculations.
+ */
 const SPACING_BASE_UNIT = 4
+/**
+ * Base unit for size calculations.
+ */
 const SIZE_BASE_UNIT = 4
 
+/**
+ * Defines standard spacing values.
+ */
 export const spacingTokens = {
   xs: SPACING_BASE_UNIT * 1,
   sm: SPACING_BASE_UNIT * 2,
@@ -12,6 +21,9 @@ export const spacingTokens = {
   "4xl": SPACING_BASE_UNIT * 24
 } as const
 
+/**
+ * Defines standard size values.
+ */
 export const sizeTokens = {
   xs: SIZE_BASE_UNIT * 1,
   sm: SIZE_BASE_UNIT * 2,
@@ -26,7 +38,13 @@ export const sizeTokens = {
   auto: "auto"
 } as const
 
+/**
+ * Type alias for spacing tokens.
+ */
 export type SpacingAlias = keyof typeof spacingTokens
+/**
+ * Type alias for size tokens.
+ */
 export type SizeAlias = keyof typeof sizeTokens
 
 export { SPACING_BASE_UNIT, SIZE_BASE_UNIT }
