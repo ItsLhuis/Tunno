@@ -6,6 +6,8 @@ import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
+import { isCustomError } from "@repo/api"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   createInsertAlbumSchema,
@@ -182,37 +184,47 @@ const AlbumForm = ({
   }, [isOpen, asSheet])
 
   const handleFormSubmit = async (values: InsertAlbumType | UpdateAlbumType) => {
-    if (mode === "insert") {
-      await createMutation.mutateAsync(values as InsertAlbumType)
-    } else if (album?.id) {
-      const { thumbnail, artists, ...updates } = values
+    try {
+      if (mode === "insert") {
+        await createMutation.mutateAsync(values as InsertAlbumType)
+      } else if (album?.id) {
+        const { thumbnail, artists, ...updates } = values
 
-      let thumbnailAction: "keep" | "update" | "remove" = "keep"
-      let thumbnailPath: string | undefined = undefined
+        let thumbnailAction: "keep" | "update" | "remove" = "keep"
+        let thumbnailPath: string | undefined = undefined
 
-      if (thumbnail === null || thumbnail === "") {
-        thumbnailAction = "remove"
-      } else if (thumbnail && thumbnail !== album.thumbnail) {
-        thumbnailAction = "update"
-        thumbnailPath = thumbnail
+        if (thumbnail === null || thumbnail === "") {
+          thumbnailAction = "remove"
+        } else if (thumbnail && thumbnail !== album.thumbnail) {
+          thumbnailAction = "update"
+          thumbnailPath = thumbnail
+        }
+
+        await updateMutation.mutateAsync({
+          id: album.id,
+          updates: {
+            ...updates,
+            isFavorite: album.isFavorite
+          },
+          thumbnailAction,
+          thumbnailPath,
+          artists
+        })
       }
 
-      await updateMutation.mutateAsync({
-        id: album.id,
-        updates: {
-          ...updates,
-          isFavorite: album.isFavorite
-        },
-        thumbnailAction,
-        thumbnailPath,
-        artists
-      })
-    }
+      await onSubmit?.(values)
 
-    await onSubmit?.(values)
-
-    if (asSheet) {
-      setIsOpen(false)
+      if (asSheet) {
+        setIsOpen(false)
+      }
+    } catch (error: unknown) {
+      if (isCustomError(error)) {
+        form.setError(error.field as Parameters<typeof form.setError>[0], {
+          message: error.message
+        })
+      } else {
+        throw error
+      }
     }
   }
 
@@ -234,183 +246,178 @@ const AlbumForm = ({
     }))
   }, [artistsData])
 
-  const FormContent = useMemo(() => {
-    return (
-      <AsyncState
-        data={mode === "update" ? album : true}
-        isLoading={mode === "update" ? isAlbumLoading || !hasLoadedInitialDataRef.current : false}
-        isError={mode === "update" ? isAlbumError : false}
-        LoadingComponent={
-          <View style={styles.loadingContainer}>
-            <Spinner />
-          </View>
-        }
-      >
-        <Form {...form}>
-          <View style={styles.formContent}>
-            <View style={styles.section}>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.name")}</FormLabel>
-                    <FormControl>
-                      <View style={styles.nameRow}>
-                        <TextInput
-                          style={styles.nameInput}
-                          placeholder={t("form.labels.name")}
-                          value={field.value}
-                          onChangeText={field.onChange}
-                          disabled={renderProps.isSubmitting}
-                        />
-                        {mode === "insert" && (
-                          <IconButton
-                            name="Heart"
-                            variant="ghost"
-                            isFilled={form.watch("isFavorite")}
-                            iconColor={form.watch("isFavorite") ? "primary" : undefined}
-                            onPress={() =>
-                              form.setValue("isFavorite", !form.watch("isFavorite"), {
-                                shouldDirty: true
-                              })
-                            }
-                          />
-                        )}
-                      </View>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="thumbnail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
-                    <UploadPicker
-                      mode="file"
-                      value={field.value ?? undefined}
-                      onChange={field.onChange}
-                      onError={(msg) => form.setError(field.name, { message: msg })}
-                      accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
-                      storageDir="thumbnails"
-                      displayName={
-                        mode === "update" && album?.name
-                          ? `${album.name} - ${t("form.labels.thumbnail")}`
-                          : undefined
-                      }
-                      disabled={renderProps.isSubmitting}
-                    />
-                    <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </View>
-            <View style={styles.row}>
-              <View style={styles.rowItem}>
-                <FormField
-                  control={form.control}
-                  name="albumType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("albums.filters.albumType")}</FormLabel>
-                      <FormControl>
-                        <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger disabled={renderProps.isSubmitting}>
-                            <SelectValue placeholder={t("albums.filters.albumType")} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="single" title={t("albums.filters.single")} />
-                            <SelectItem value="album" title={t("albums.filters.album")} />
-                            <SelectItem
-                              value="compilation"
-                              title={t("albums.filters.compilation")}
-                            />
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </View>
-              <View style={styles.rowItem}>
-                <FormField
-                  control={form.control}
-                  name="releaseYear"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("form.labels.releaseYear")}</FormLabel>
-                      <FormControl>
-                        <NumberInput
-                          placeholder={new Date().getFullYear().toString()}
-                          value={field.value ?? undefined}
-                          onChange={field.onChange}
-                          min={1900}
-                          max={new Date().getFullYear()}
-                          step={1}
-                          disabled={renderProps.isSubmitting}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </View>
-            </View>
+  const FormContent = (
+    <AsyncState
+      data={mode === "update" ? album : true}
+      isLoading={mode === "update" ? isAlbumLoading || !hasLoadedInitialDataRef.current : false}
+      isError={mode === "update" ? isAlbumError : false}
+      LoadingComponent={
+        <View style={styles.loadingContainer}>
+          <Spinner />
+        </View>
+      }
+    >
+      <Form {...form}>
+        <View style={styles.formContent}>
+          <View style={styles.section}>
             <FormField
               control={form.control}
-              name="artists"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("form.labels.artists")}</FormLabel>
+                  <FormLabel>{t("form.labels.name")}</FormLabel>
                   <FormControl>
-                    <Select
-                      multiple
-                      value={field.value?.map(String) ?? []}
-                      onValueChange={(value) => {
-                        const newArtistIds = value.map(Number)
-                        field.onChange(newArtistIds)
-                      }}
-                    >
-                      <SelectTrigger disabled={renderProps.isSubmitting}>
-                        <SelectValue placeholder={t("form.labels.artists")} />
-                      </SelectTrigger>
-                      <SelectContent virtualized>
-                        <SelectFlashList
-                          data={artistOptions}
-                          keyExtractor={(item) => item.value}
-                          contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
-                          renderItem={({ item }) => (
-                            <SelectCheckboxItem value={item.value} title={item.label} />
-                          )}
-                          ListEmptyComponent={
-                            isArtistsLoading ? (
-                              <View style={styles.emptySelect}>
-                                <Spinner />
-                              </View>
-                            ) : (
-                              <NotFound />
-                            )
+                    <View style={styles.nameRow}>
+                      <TextInput
+                        style={styles.nameInput}
+                        placeholder={t("form.labels.name")}
+                        value={field.value}
+                        onChangeText={field.onChange}
+                        disabled={renderProps.isSubmitting}
+                      />
+                      {mode === "insert" && (
+                        <IconButton
+                          name="Heart"
+                          variant="ghost"
+                          isFilled={form.watch("isFavorite")}
+                          iconColor={form.watch("isFavorite") ? "primary" : undefined}
+                          onPress={() =>
+                            form.setValue("isFavorite", !form.watch("isFavorite"), {
+                              shouldDirty: true
+                            })
                           }
                         />
-                      </SelectContent>
-                    </Select>
+                      )}
+                    </View>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="thumbnail"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
+                  <UploadPicker
+                    mode="file"
+                    value={field.value ?? undefined}
+                    onChange={field.onChange}
+                    onError={(msg) => form.setError(field.name, { message: msg })}
+                    accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
+                    storageDir="thumbnails"
+                    displayName={
+                      mode === "update" && album?.name
+                        ? `${album.name} - ${t("form.labels.thumbnail")}`
+                        : undefined
+                    }
+                    disabled={renderProps.isSubmitting}
+                  />
+                  <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </View>
-          {children?.(renderProps)}
-        </Form>
-        <KeyboardSpacer />
-      </AsyncState>
-    )
-  }, [form, mode, renderProps, album, isAlbumLoading, isAlbumError, asSheet])
+          <View style={styles.row}>
+            <View style={styles.rowItem}>
+              <FormField
+                control={form.control}
+                name="albumType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("albums.filters.albumType")}</FormLabel>
+                    <FormControl>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger disabled={renderProps.isSubmitting}>
+                          <SelectValue placeholder={t("albums.filters.albumType")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="single" title={t("albums.filters.single")} />
+                          <SelectItem value="album" title={t("albums.filters.album")} />
+                          <SelectItem value="compilation" title={t("albums.filters.compilation")} />
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </View>
+            <View style={styles.rowItem}>
+              <FormField
+                control={form.control}
+                name="releaseYear"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("form.labels.releaseYear")}</FormLabel>
+                    <FormControl>
+                      <NumberInput
+                        placeholder={new Date().getFullYear().toString()}
+                        value={field.value ?? undefined}
+                        onChange={field.onChange}
+                        min={1900}
+                        max={new Date().getFullYear()}
+                        step={1}
+                        disabled={renderProps.isSubmitting}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </View>
+          </View>
+          <FormField
+            control={form.control}
+            name="artists"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("form.labels.artists")}</FormLabel>
+                <FormControl>
+                  <Select
+                    multiple
+                    value={field.value?.map(String) ?? []}
+                    onValueChange={(value) => {
+                      const newArtistIds = value.map(Number)
+                      field.onChange(newArtistIds)
+                    }}
+                  >
+                    <SelectTrigger disabled={renderProps.isSubmitting}>
+                      <SelectValue placeholder={t("form.labels.artists")} />
+                    </SelectTrigger>
+                    <SelectContent virtualized>
+                      <SelectFlashList
+                        data={artistOptions}
+                        keyExtractor={(item) => item.value}
+                        contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
+                        renderItem={({ item }) => (
+                          <SelectCheckboxItem value={item.value} title={item.label} />
+                        )}
+                        ListEmptyComponent={
+                          isArtistsLoading ? (
+                            <View style={styles.emptySelect}>
+                              <Spinner />
+                            </View>
+                          ) : (
+                            <NotFound />
+                          )
+                        }
+                      />
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </View>
+        {children?.(renderProps)}
+      </Form>
+      <KeyboardSpacer />
+    </AsyncState>
+  )
 
   if (!asSheet) return FormContent
 

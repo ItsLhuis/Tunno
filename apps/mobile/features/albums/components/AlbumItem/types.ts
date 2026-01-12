@@ -6,4 +6,6 @@ export type BaseAlbumItemProps = {
 
 export type AlbumItemCardProps = BaseAlbumItemProps
 
+export type AlbumItemFeaturedProps = BaseAlbumItemProps
+
 export type AlbumItemListProps = BaseAlbumItemProps

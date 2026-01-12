@@ -45,6 +45,8 @@ import {
 
 import { DeleteAlbumDialog } from "./DeleteAlbumDialog"
 
+import { AddToPlaylistForm } from "@features/playlists/forms"
+
 import { type Album, type AlbumWithSongsAndArtists } from "@repo/api"
 
 type ContextMenuRenderProps = {
@@ -65,12 +67,17 @@ type DialogType = "edit" | "delete" | "playlist" | null
 type DialogState = {
   type: DialogType
   album: AlbumWithSongsAndArtists | null
+  songIds: number[]
 }
 
 type AlbumActionsContentProps = {
   albumId?: number
   variant: "dropdown" | "context"
-  onOpenDialog: (type: DialogType, album: AlbumWithSongsAndArtists | null) => void
+  onOpenDialog: (
+    type: DialogType,
+    album: AlbumWithSongsAndArtists | null,
+    songIds: number[]
+  ) => void
 }
 
 const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActionsContentProps) => {
@@ -164,10 +171,11 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
   )
 
   const handleOpenPlaylist = useCallback(() => {
-    if (targetAlbum) {
-      onOpenDialog("playlist", targetAlbum)
+    if (targetAlbum && albumSongs.length > 0) {
+      const songIds = albumSongs.map((song) => song.id)
+      onOpenDialog("playlist", targetAlbum, songIds)
     }
-  }, [targetAlbum, onOpenDialog])
+  }, [targetAlbum, albumSongs, onOpenDialog])
 
   const handleOpenEdit = useCallback(() => {
     if (targetAlbum) {
@@ -178,7 +186,7 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
 
   const handleOpenDelete = useCallback(() => {
     if (targetAlbum) {
-      onOpenDialog("delete", targetAlbum)
+      onOpenDialog("delete", targetAlbum, [])
     }
   }, [targetAlbum, onOpenDialog])
 
@@ -312,10 +320,12 @@ const AlbumActions = memo(
     const [isOpen, setIsOpen] = useState(false)
     const [dialogState, setDialogState] = useState<DialogState>({
       type: null,
-      album: null
+      album: null,
+      songIds: []
     })
 
     const lastValidAlbumRef = useRef<AlbumWithSongsAndArtists | null>(null)
+    const lastValidSongIdsRef = useRef<number[]>([])
 
     useEffect(() => {
       if (dialogState.album) {
@@ -323,8 +333,14 @@ const AlbumActions = memo(
       }
     }, [dialogState.album])
 
+    useEffect(() => {
+      if (dialogState.songIds.length > 0) {
+        lastValidSongIdsRef.current = dialogState.songIds
+      }
+    }, [dialogState.songIds])
+
     const handleOpenDialog = useCallback(
-      (type: DialogType, album: AlbumWithSongsAndArtists | null) => {
+      (type: DialogType, album: AlbumWithSongsAndArtists | null, songIds: number[]) => {
         if (type === "edit" && onEditAlbum && album) {
           onEditAlbum(album)
           return
@@ -340,16 +356,18 @@ const AlbumActions = memo(
           return
         }
 
-        setDialogState({ type, album })
+        setDialogState({ type, album, songIds })
       },
       [onEditAlbum, onDeleteAlbum, router]
     )
 
     const closeDialog = useCallback(() => {
-      setDialogState({ type: null, album: null })
+      setDialogState({ type: null, album: null, songIds: [] })
     }, [])
 
     const dialogAlbum = dialogState.album ?? lastValidAlbumRef.current
+    const dialogSongIds =
+      dialogState.songIds.length > 0 ? dialogState.songIds : lastValidSongIdsRef.current
 
     if (variant === "context") {
       return (
@@ -373,6 +391,13 @@ const AlbumActions = memo(
               album={dialogAlbum}
               open={dialogState.type === "delete"}
               onOpenChange={(open) => !open && closeDialog()}
+            />
+          )}
+          {dialogSongIds.length > 0 && (
+            <AddToPlaylistForm
+              songIds={dialogSongIds}
+              open={dialogState.type === "playlist"}
+              onOpen={(open) => !open && closeDialog()}
             />
           )}
         </Fragment>
@@ -403,6 +428,13 @@ const AlbumActions = memo(
             album={dialogAlbum}
             open={dialogState.type === "delete"}
             onOpenChange={(open) => !open && closeDialog()}
+          />
+        )}
+        {dialogSongIds.length > 0 && (
+          <AddToPlaylistForm
+            songIds={dialogSongIds}
+            open={dialogState.type === "playlist"}
+            onOpen={(open) => !open && closeDialog()}
           />
         )}
       </Fragment>
