@@ -49,7 +49,7 @@ import {
 import { PlaylistForm } from "../forms/PlaylistForm"
 import { DeletePlaylistDialog } from "./DeletePlaylistDialog"
 
-import { AddToPlaylistForm } from "./AddToPlaylistForm"
+import { AddToPlaylistForm } from "@features/playlists/forms"
 
 import { type Playlist } from "@repo/api"
 
@@ -183,9 +183,7 @@ const PlaylistActionsContent = memo(
     }
 
     const handleToggleFavorite = async () => {
-      if (targetPlaylist) {
-        await toggleFavoriteMutation.mutateAsync(targetPlaylist.id)
-      }
+      if (targetPlaylist) await toggleFavoriteMutation.mutateAsync({ id: targetPlaylist.id })
     }
 
     const handleToggleSidebar = async () => {

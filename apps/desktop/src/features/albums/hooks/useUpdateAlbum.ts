@@ -23,12 +23,12 @@ import { toast } from "@components/ui"
  * - Invalidation of relevant queries (`album`, `home`, `songs`, `artists`, `sidebar`) to refetch data after the update.
  * - Error and success handling with toast notifications.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an object with `id`, `updates`, `thumbnailAction`, `thumbnailPath`, and `artists` properties.
  *
  * @example
  * ```tsx
- * const { mutate: updateExistingAlbum, isLoading } = useUpdateAlbum();
+ * const { mutate: updateExistingAlbum, isPending } = useUpdateAlbum();
  *
  * const handleUpdate = (albumId: number, newTitle: string) => {
  *   updateExistingAlbum({
@@ -38,7 +38,7 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onPress={() => handleUpdate(album.id, "New Album Title")} disabled={isLoading}>
+ * <Button onClick={() => handleUpdate(album.id, "New Album Title")} disabled={isPending}>
  *   Update Album
  * </Button>
  * ```

@@ -6,25 +6,10 @@ import { type FastUploadManifest } from "../types"
  * Represents the result of a bundle validation operation.
  */
 type ValidationResult = {
-  /**
-   * Indicates whether the bundle is valid.
-   */
   isValid: boolean
-  /**
-   * The parsed manifest from the bundle, present if `isValid` is true.
-   */
   manifest?: FastUploadManifest
-  /**
-   * The path to the cache directory where the bundle was extracted, present if `isValid` is true.
-   */
   cachePath?: string
-  /**
-   * A human-readable error message if `isValid` is false.
-   */
   error?: string
-  /**
-   * A machine-readable error type if `isValid` is false, for programmatic error handling.
-   */
   errorType?:
     | "corrupted_zip"
     | "missing_manifest"

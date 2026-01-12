@@ -17,19 +17,19 @@ import { toast } from "@components/ui"
  * - Invalidation of relevant queries (`home` relations) to refetch data after the update.
  * - Error and success handling with toast notifications, dynamically displaying messages based on the new favorite status.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an object with an `id` property as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: toggleFavorite, isLoading } = useToggleArtistFavorite();
+ * const { mutate: toggleFavorite, isPending } = useToggleArtistFavorite();
  *
  * const handleToggle = (artistId: number) => {
  *   toggleFavorite({ id: artistId });
  * };
  *
  * // In a component:
- * <Button onPress={() => handleToggle(artist.id)} disabled={isLoading}>
+ * <Button onClick={() => handleToggle(artist.id)} disabled={isPending}>
  *   {artist.isFavorite ? "Unfavorite Artist" : "Favorite Artist"}
  * </Button>
  * ```

@@ -20,19 +20,19 @@ import { type InsertArtistType } from "@repo/schemas"
  * - Logic to invalidate specific related queries (`home`) after insertion.
  * - Robust error handling for custom errors.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an `InsertArtistType` object as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: insertNewArtist, isLoading } = useInsertArtist();
+ * const { mutate: insertNewArtist, isPending } = useInsertArtist();
  *
  * const handleInsert = (artistData: InsertArtistType) => {
  *   insertNewArtist(artistData);
  * };
  *
  * // In a component:
- * <Button onPress={() => handleInsert(newArtist)} disabled={isLoading}>
+ * <Button onClick={() => handleInsert(newArtist)} disabled={isPending}>
  *   Add Artist
  * </Button>
  * ```

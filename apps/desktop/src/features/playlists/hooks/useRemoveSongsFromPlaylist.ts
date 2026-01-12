@@ -17,19 +17,19 @@ import { toast } from "@components/ui"
  * - Error and success handling with toast notifications.
  * - Invalidation of relevant queries (`home`, `songs` relations) to refetch data after the update.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an object with `playlistId` (number) and `songIds` (array of numbers) as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: removeSongs, isLoading } = useRemoveSongsFromPlaylist();
+ * const { mutate: removeSongs, isPending } = useRemoveSongsFromPlaylist();
  *
  * const handleRemoveSongs = (targetPlaylistId: number, songIdsToRemove: number[]) => {
  *   removeSongs({ playlistId: targetPlaylistId, songIds: songIdsToRemove });
  * };
  *
  * // In a component:
- * <Button onPress={() => handleRemoveSongs(10, [1, 2])} disabled={isLoading}>
+ * <Button onClick={() => handleRemoveSongs(10, [1, 2])} disabled={isPending}>
  *   Remove from Playlist
  * </Button>
  * ```

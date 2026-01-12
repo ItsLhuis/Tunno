@@ -27,19 +27,19 @@ import { toast } from "@components/ui"
  * - Success and error handling with toast notifications.
  * - Navigation logic: if the user is currently viewing the deleted artist, they are redirected.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an object with an `id` property as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: deleteArtist, isLoading } = useDeleteArtist();
+ * const { mutate: deleteArtist, isPending } = useDeleteArtist();
  *
  * const handleDelete = (artistId: number) => {
  *   deleteArtist({ id: artistId });
  * };
  *
  * // In a component:
- * <Button onPress={() => handleDelete(artist.id)} disabled={isLoading}>
+ * <Button onClick={() => handleDelete(artist.id)} disabled={isPending}>
  *   Delete Artist
  * </Button>
  * ```

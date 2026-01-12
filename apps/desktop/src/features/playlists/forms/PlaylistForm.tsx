@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -207,97 +207,95 @@ const PlaylistForm = ({
     reset: () => form.reset()
   } as PlaylistFormRenderProps<"insert" | "update">
 
-  const FormContent = useMemo(() => {
-    return (
-      <AsyncState
-        data={mode === "update" ? playlist : true}
-        isLoading={mode === "update" ? isPlaylistLoading : false}
-        isError={mode === "update" ? isPlaylistError : false}
-        LoadingComponent={
-          <div className="flex items-center justify-center p-8">
-            <Spinner />
-          </div>
-        }
-        ErrorComponent={
-          <div className="flex items-center justify-center p-8">{t("common.noResultsFound")}</div>
-        }
-      >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleFormSubmit)}>
-            <div className="w-full space-y-8">
-              <div className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("form.labels.name")}</FormLabel>
-                      <FormControl>
-                        <div className="flex items-center gap-2">
-                          <TextInput
-                            className="flex-1"
-                            placeholder={t("form.labels.name")}
-                            {...field}
-                            disabled={renderProps.isSubmitting}
+  const FormContent = (
+    <AsyncState
+      data={mode === "update" ? playlist : true}
+      isLoading={mode === "update" ? isPlaylistLoading : false}
+      isError={mode === "update" ? isPlaylistError : false}
+      LoadingComponent={
+        <div className="flex items-center justify-center p-8">
+          <Spinner />
+        </div>
+      }
+      ErrorComponent={
+        <div className="flex items-center justify-center p-8">{t("common.noResultsFound")}</div>
+      }
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+          <div className="w-full space-y-8">
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("form.labels.name")}</FormLabel>
+                    <FormControl>
+                      <div className="flex items-center gap-2">
+                        <TextInput
+                          className="flex-1"
+                          placeholder={t("form.labels.name")}
+                          {...field}
+                          disabled={renderProps.isSubmitting}
+                        />
+                        {mode === "insert" && (
+                          <IconButton
+                            name="Heart"
+                            variant="text"
+                            isFilled={form.watch("isFavorite")}
+                            tooltip={
+                              form.watch("isFavorite")
+                                ? t("common.unfavorite")
+                                : t("common.favorite")
+                            }
+                            className={cn(form.watch("isFavorite") && "text-primary!")}
+                            onClick={() =>
+                              form.setValue("isFavorite", !form.watch("isFavorite"), {
+                                shouldDirty: true
+                              })
+                            }
                           />
-                          {mode === "insert" && (
-                            <IconButton
-                              name="Heart"
-                              variant="text"
-                              isFilled={form.watch("isFavorite")}
-                              tooltip={
-                                form.watch("isFavorite")
-                                  ? t("common.unfavorite")
-                                  : t("common.favorite")
-                              }
-                              className={cn(form.watch("isFavorite") && "text-primary!")}
-                              onClick={() =>
-                                form.setValue("isFavorite", !form.watch("isFavorite"), {
-                                  shouldDirty: true
-                                })
-                              }
-                            />
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="thumbnail"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
-                      <UploadPicker
-                        mode="file"
-                        value={field.value ?? undefined}
-                        onChange={field.onChange}
-                        onError={(msg) => form.setError(field.name, { message: msg })}
-                        accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
-                        storageDir="thumbnails"
-                        displayName={
-                          mode === "update" && playlist?.name
-                            ? `${playlist.name} - ${t("form.labels.thumbnail")}`
-                            : undefined
-                        }
-                        disabled={renderProps.isSubmitting}
-                      />
-                      <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                        )}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="thumbnail"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
+                    <UploadPicker
+                      mode="file"
+                      value={field.value ?? undefined}
+                      onChange={field.onChange}
+                      onError={(msg) => form.setError(field.name, { message: msg })}
+                      accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
+                      storageDir="thumbnails"
+                      displayName={
+                        mode === "update" && playlist?.name
+                          ? `${playlist.name} - ${t("form.labels.thumbnail")}`
+                          : undefined
+                      }
+                      disabled={renderProps.isSubmitting}
+                    />
+                    <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-            <button type="submit" className="hidden" />
-            {children?.(renderProps)}
-          </form>
-        </Form>
-      </AsyncState>
-    )
-  }, [form, mode, renderProps, playlist, isPlaylistLoading, isPlaylistError])
+          </div>
+          <button type="submit" className="hidden" />
+          {children?.(renderProps)}
+        </form>
+      </Form>
+    </AsyncState>
+  )
 
   if (!asModal) return FormContent
 

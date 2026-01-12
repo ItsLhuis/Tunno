@@ -34,10 +34,7 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
       <AnimatePresence>
         <motion.div
           key={dominantColor}
-          className={cn(
-            "bg-secondary absolute inset-0 rounded-xl",
-            dominantColor && "border-border border"
-          )}
+          className="bg-muted absolute inset-0 rounded-xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -66,14 +63,17 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
               placeholderIcon="Disc"
               fileName={album.thumbnail}
               alt={album.name}
-              containerClassName={cn("size-full", album.thumbnail && "border-none")}
+              containerClassName="size-full border-none"
               className="size-full"
             />
           </motion.div>
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-3">
           <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <Badge variant="muted" className="w-fit">
+            <Badge
+              variant="muted"
+              className={cn("w-fit", !album.thumbnail && "bg-foreground text-background")}
+            >
               {t("common.featured")}
             </Badge>
             <Typography

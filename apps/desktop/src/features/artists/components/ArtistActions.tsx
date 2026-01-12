@@ -49,7 +49,7 @@ import {
 import { ArtistForm } from "../forms/ArtistForm"
 import { DeleteArtistDialog } from "./DeleteArtistDialog"
 
-import { AddToPlaylistForm } from "@features/playlists/components"
+import { AddToPlaylistForm } from "@features/playlists/forms"
 
 import { type Artist } from "@repo/api"
 

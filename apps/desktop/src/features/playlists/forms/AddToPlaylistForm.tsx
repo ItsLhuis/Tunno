@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -32,7 +32,7 @@ import {
   type VirtualizedListController
 } from "@components/ui"
 
-import { PlaylistItemSelect } from "./PlaylistItem"
+import { PlaylistItemSelect } from "../components/PlaylistItem"
 
 import { type Playlist } from "@repo/api"
 
@@ -133,75 +133,58 @@ const AddToPlaylistForm = ({
     reset: () => form.reset()
   } as AddToPlaylistFormRenderProps
 
-  const FormContent = useMemo(() => {
-    return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
-          <FormField
-            control={form.control}
-            name="playlistIds"
-            render={() => (
-              <FormItem>
-                <FormControl>
-                  <AsyncState
-                    data={playlists}
-                    isLoading={isPlaylistsLoading}
-                    isError={isPlaylistsError}
-                    EmptyComponent={
-                      <div className="flex h-full items-center justify-center py-8">
-                        <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
-                      </div>
-                    }
-                  >
-                    {(data) => (
-                      <VirtualizedList
-                        data={data}
-                        keyExtractor={keyExtractor}
-                        estimateItemHeight={70}
-                        gap={8}
-                        onSelectionChange={handleSelectionChange}
-                        onController={(controller) => {
-                          listControllerRef.current = controller
-                        }}
-                        scrollRef={scrollRef}
-                        containerClassName="p-2"
-                        renderItem={({ item, selected, toggle }) => (
-                          <PlaylistItemSelect
-                            playlist={item}
-                            selected={selected}
-                            onToggle={toggle}
-                          />
-                        )}
-                        ListEmptyComponent={() => (
-                          <div className="flex h-full items-center justify-center py-8">
-                            <Typography affects={["muted"]}>
-                              {t("common.noResultsFound")}
-                            </Typography>
-                          </div>
-                        )}
-                      />
-                    )}
-                  </AsyncState>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <button type="submit" className="hidden" />
-          {children?.(renderProps)}
-        </form>
-      </Form>
-    )
-  }, [
-    form,
-    renderProps,
-    playlists,
-    isPlaylistsLoading,
-    isPlaylistsError,
-    handleSelectionChange,
-    t,
-    scrollRef
-  ])
+  const FormContent = (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
+        <FormField
+          control={form.control}
+          name="playlistIds"
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <AsyncState
+                  data={playlists}
+                  isLoading={isPlaylistsLoading}
+                  isError={isPlaylistsError}
+                  EmptyComponent={
+                    <div className="flex h-full items-center justify-center py-8">
+                      <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
+                    </div>
+                  }
+                >
+                  {(data) => (
+                    <VirtualizedList
+                      data={data}
+                      keyExtractor={keyExtractor}
+                      estimateItemHeight={70}
+                      gap={8}
+                      onSelectionChange={handleSelectionChange}
+                      onController={(controller) => {
+                        listControllerRef.current = controller
+                      }}
+                      scrollRef={scrollRef}
+                      containerClassName="p-2"
+                      renderItem={({ item, selected, toggle }) => (
+                        <PlaylistItemSelect playlist={item} selected={selected} onToggle={toggle} />
+                      )}
+                      ListEmptyComponent={() => (
+                        <div className="flex h-full items-center justify-center py-8">
+                          <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
+                        </div>
+                      )}
+                    />
+                  )}
+                </AsyncState>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <button type="submit" className="hidden" />
+        {children?.(renderProps)}
+      </form>
+    </Form>
+  )
 
   if (!asModal) return FormContent
 

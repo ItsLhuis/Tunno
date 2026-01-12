@@ -48,7 +48,7 @@ import {
 import { SongForm } from "../forms/SongForm"
 import { DeleteSongDialog } from "./DeleteSongDialog"
 
-import { AddToPlaylistForm } from "@features/playlists/components"
+import { AddToPlaylistForm } from "@features/playlists/forms"
 
 import { State } from "@track-player/web"
 

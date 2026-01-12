@@ -20,19 +20,19 @@ import { type InsertPlaylistType } from "@repo/schemas"
  * - Logic to invalidate specific related queries (`home`, `songs`) after insertion.
  * - Robust error handling for custom errors.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an `InsertPlaylistType` object as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: insertNewPlaylist, isLoading } = useInsertPlaylist();
+ * const { mutate: insertNewPlaylist, isPending } = useInsertPlaylist();
  *
  * const handleInsert = (playlistData: InsertPlaylistType) => {
  *   insertNewPlaylist(playlistData);
  * };
  *
  * // In a component:
- * <Button onPress={() => handleInsert(newPlaylist)} disabled={isLoading}>
+ * <Button onClick={() => handleInsert(newPlaylist)} disabled={isPending}>
  *   Add Playlist
  * </Button>
  * ```

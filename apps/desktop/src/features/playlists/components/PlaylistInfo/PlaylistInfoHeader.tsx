@@ -47,7 +47,7 @@ const PlaylistInfoHeader = ({ playlist, list }: PlaylistInfoHeaderProps) => {
   const toggleFavoriteMutation = useTogglePlaylistFavorite()
 
   const handleToggleFavorite = () => {
-    toggleFavoriteMutation.mutate(playlist.id)
+    toggleFavoriteMutation.mutate({ id: playlist.id })
   }
 
   const hasSelectedRows = list?.hasSelection ?? false

@@ -41,12 +41,12 @@ type UpdatePlaylistParams = {
  * - Invalidation of relevant queries (`playlist`, `home`, `songs`, `sidebar`) to refetch data after the update.
  * - Error and success handling with toast notifications.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an {@link UpdatePlaylistParams} object as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: updateExistingPlaylist, isLoading } = useUpdatePlaylist();
+ * const { mutate: updateExistingPlaylist, isPending } = useUpdatePlaylist();
  *
  * const handleUpdate = (playlistId: number, newName: string) => {
  *   updateExistingPlaylist({
@@ -56,7 +56,7 @@ type UpdatePlaylistParams = {
  * };
  *
  * // In a component:
- * <Button onPress={() => handleUpdate(playlist.id, "My New Playlist")} disabled={isLoading}>
+ * <Button onClick={() => handleUpdate(playlist.id, "My New Playlist")} disabled={isPending}>
  *   Update Playlist
  * </Button>
  * ```

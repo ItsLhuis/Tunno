@@ -51,7 +51,7 @@ import {
 import { AlbumForm } from "../forms/AlbumForm"
 import { DeleteAlbumDialog } from "./DeleteAlbumDialog"
 
-import { AddToPlaylistForm } from "@features/playlists/components"
+import { AddToPlaylistForm } from "@features/playlists/forms"
 
 import { type Album, type AlbumWithSongsAndArtists } from "@repo/api"
 

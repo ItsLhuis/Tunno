@@ -74,7 +74,6 @@ export async function insertAlbum(
   } catch (error: unknown) {
     if (isUniqueConstraintError(error)) {
       const constraintInfo = extractConstraintInfo(error)
-      console.log(constraintInfo)
       if (constraintInfo?.table === "albums" && constraintInfo?.column?.includes("name")) {
         const message = t
           ? t("validation.album.duplicate")

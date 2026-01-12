@@ -19,19 +19,19 @@ import { type InsertAlbumType } from "@repo/schemas"
  * - Error and success handling with toast notifications.
  * - Logic to invalidate specific related queries (`home`) after insertion.
  *
- * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
+ * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isPending`, `isError`, etc.).
  *          The `mutate` function expects an `InsertAlbumType` object as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: insertNewAlbum, isLoading } = useInsertAlbum();
+ * const { mutate: insertNewAlbum, isPending } = useInsertAlbum();
  *
  * const handleInsert = (albumData: InsertAlbumType) => {
  *   insertNewAlbum(albumData);
  * };
  *
  * // In a component:
- * <Button onPress={() => handleInsert(newAlbum)} disabled={isLoading}>
+ * <Button onClick={() => handleInsert(newAlbum)} disabled={isPending}>
  *   Add Album
  * </Button>
  * ```
