@@ -45,6 +45,8 @@ import {
 
 import { DeleteArtistDialog } from "./DeleteArtistDialog"
 
+import { AddToPlaylistForm } from "@features/playlists/forms"
+
 import { type Artist, type ArtistWithSongs } from "@repo/api"
 
 type ContextMenuRenderProps = {
@@ -65,12 +67,13 @@ type DialogType = "edit" | "delete" | "playlist" | null
 type DialogState = {
   type: DialogType
   artist: ArtistWithSongs | null
+  songIds: number[]
 }
 
 type ArtistActionsContentProps = {
   artistId?: number
   variant: "dropdown" | "context"
-  onOpenDialog: (type: DialogType, artist: ArtistWithSongs | null) => void
+  onOpenDialog: (type: DialogType, artist: ArtistWithSongs | null, songIds: number[]) => void
 }
 
 const ArtistActionsContent = memo(
@@ -155,10 +158,11 @@ const ArtistActionsContent = memo(
     }, [targetArtist, router, pathname, playerSheetRef])
 
     const handleOpenPlaylist = useCallback(() => {
-      if (targetArtist) {
-        onOpenDialog("playlist", targetArtist)
+      if (targetArtist && artistSongs.length > 0) {
+        const songIds = artistSongs.map((song) => song.id)
+        onOpenDialog("playlist", targetArtist, songIds)
       }
-    }, [targetArtist, onOpenDialog])
+    }, [targetArtist, artistSongs, onOpenDialog])
 
     const handleOpenEdit = useCallback(() => {
       if (targetArtist) {
@@ -169,7 +173,7 @@ const ArtistActionsContent = memo(
 
     const handleOpenDelete = useCallback(() => {
       if (targetArtist) {
-        onOpenDialog("delete", targetArtist)
+        onOpenDialog("delete", targetArtist, [])
       }
     }, [targetArtist, onOpenDialog])
 
@@ -282,10 +286,12 @@ const ArtistActions = memo(
     const [isOpen, setIsOpen] = useState(false)
     const [dialogState, setDialogState] = useState<DialogState>({
       type: null,
-      artist: null
+      artist: null,
+      songIds: []
     })
 
     const lastValidArtistRef = useRef<ArtistWithSongs | null>(null)
+    const lastValidSongIdsRef = useRef<number[]>([])
 
     useEffect(() => {
       if (dialogState.artist) {
@@ -293,8 +299,14 @@ const ArtistActions = memo(
       }
     }, [dialogState.artist])
 
+    useEffect(() => {
+      if (dialogState.songIds.length > 0) {
+        lastValidSongIdsRef.current = dialogState.songIds
+      }
+    }, [dialogState.songIds])
+
     const handleOpenDialog = useCallback(
-      (type: DialogType, artist: ArtistWithSongs | null) => {
+      (type: DialogType, artist: ArtistWithSongs | null, songIds: number[]) => {
         if (type === "edit" && onEditArtist && artist) {
           onEditArtist(artist)
           return
@@ -310,16 +322,18 @@ const ArtistActions = memo(
           return
         }
 
-        setDialogState({ type, artist })
+        setDialogState({ type, artist, songIds })
       },
       [onEditArtist, onDeleteArtist, router]
     )
 
     const closeDialog = useCallback(() => {
-      setDialogState({ type: null, artist: null })
+      setDialogState({ type: null, artist: null, songIds: [] })
     }, [])
 
     const dialogArtist = dialogState.artist ?? lastValidArtistRef.current
+    const dialogSongIds =
+      dialogState.songIds.length > 0 ? dialogState.songIds : lastValidSongIdsRef.current
 
     if (variant === "context") {
       return (
@@ -343,6 +357,13 @@ const ArtistActions = memo(
               artist={dialogArtist}
               open={dialogState.type === "delete"}
               onOpenChange={(open) => !open && closeDialog()}
+            />
+          )}
+          {dialogSongIds.length > 0 && (
+            <AddToPlaylistForm
+              songIds={dialogSongIds}
+              open={dialogState.type === "playlist"}
+              onOpen={(open) => !open && closeDialog()}
             />
           )}
         </Fragment>
@@ -373,6 +394,13 @@ const ArtistActions = memo(
             artist={dialogArtist}
             open={dialogState.type === "delete"}
             onOpenChange={(open) => !open && closeDialog()}
+          />
+        )}
+        {dialogSongIds.length > 0 && (
+          <AddToPlaylistForm
+            songIds={dialogSongIds}
+            open={dialogState.type === "playlist"}
+            onOpen={(open) => !open && closeDialog()}
           />
         )}
       </Fragment>

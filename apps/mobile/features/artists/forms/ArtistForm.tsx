@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, useState, type ReactNode } from "react"
 
 import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
+
+import { isCustomError } from "@repo/api"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -161,36 +163,46 @@ const ArtistForm = ({
   }, [isOpen, asSheet])
 
   const handleFormSubmit = async (values: InsertArtistType | UpdateArtistType) => {
-    if (mode === "insert") {
-      await createMutation.mutateAsync(values as InsertArtistType)
-    } else if (artist?.id) {
-      const { thumbnail, ...updates } = values
+    try {
+      if (mode === "insert") {
+        await createMutation.mutateAsync(values as InsertArtistType)
+      } else if (artist?.id) {
+        const { thumbnail, ...updates } = values
 
-      let thumbnailAction: "keep" | "update" | "remove" = "keep"
-      let thumbnailPath: string | undefined = undefined
+        let thumbnailAction: "keep" | "update" | "remove" = "keep"
+        let thumbnailPath: string | undefined = undefined
 
-      if (thumbnail === null || thumbnail === "") {
-        thumbnailAction = "remove"
-      } else if (thumbnail && thumbnail !== artist.thumbnail) {
-        thumbnailAction = "update"
-        thumbnailPath = thumbnail
+        if (thumbnail === null || thumbnail === "") {
+          thumbnailAction = "remove"
+        } else if (thumbnail && thumbnail !== artist.thumbnail) {
+          thumbnailAction = "update"
+          thumbnailPath = thumbnail
+        }
+
+        await updateMutation.mutateAsync({
+          id: artist.id,
+          updates: {
+            ...updates,
+            isFavorite: artist.isFavorite
+          },
+          thumbnailAction,
+          thumbnailPath
+        })
       }
 
-      await updateMutation.mutateAsync({
-        id: artist.id,
-        updates: {
-          ...updates,
-          isFavorite: artist.isFavorite
-        },
-        thumbnailAction,
-        thumbnailPath
-      })
-    }
+      await onSubmit?.(values)
 
-    await onSubmit?.(values)
-
-    if (asSheet) {
-      setIsOpen(false)
+      if (asSheet) {
+        setIsOpen(false)
+      }
+    } catch (error: unknown) {
+      if (isCustomError(error)) {
+        form.setError(error.field as Parameters<typeof form.setError>[0], {
+          message: error.message
+        })
+      } else {
+        throw error
+      }
     }
   }
 
@@ -205,88 +217,86 @@ const ArtistForm = ({
     submit: () => form.handleSubmit(handleFormSubmit)()
   } as ArtistFormRenderProps<"insert" | "update">
 
-  const FormContent = useMemo(() => {
-    return (
-      <AsyncState
-        data={mode === "update" ? artist : true}
-        isLoading={mode === "update" ? isArtistLoading || !hasLoadedInitialDataRef.current : false}
-        isError={mode === "update" ? isArtistError : false}
-        LoadingComponent={
-          <View style={styles.loadingContainer}>
-            <Spinner />
-          </View>
-        }
-      >
-        <Form {...form}>
-          <View style={styles.formContent}>
-            <View style={styles.section}>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.name")}</FormLabel>
-                    <FormControl>
-                      <View style={styles.nameRow}>
-                        <TextInput
-                          style={styles.nameInput}
-                          placeholder={t("form.labels.name")}
-                          value={field.value}
-                          onChangeText={field.onChange}
-                          disabled={renderProps.isSubmitting}
+  const FormContent = (
+    <AsyncState
+      data={mode === "update" ? artist : true}
+      isLoading={mode === "update" ? isArtistLoading || !hasLoadedInitialDataRef.current : false}
+      isError={mode === "update" ? isArtistError : false}
+      LoadingComponent={
+        <View style={styles.loadingContainer}>
+          <Spinner />
+        </View>
+      }
+    >
+      <Form {...form}>
+        <View style={styles.formContent}>
+          <View style={styles.section}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("form.labels.name")}</FormLabel>
+                  <FormControl>
+                    <View style={styles.nameRow}>
+                      <TextInput
+                        style={styles.nameInput}
+                        placeholder={t("form.labels.name")}
+                        value={field.value}
+                        onChangeText={field.onChange}
+                        disabled={renderProps.isSubmitting}
+                      />
+                      {mode === "insert" && (
+                        <IconButton
+                          name="Heart"
+                          variant="ghost"
+                          isFilled={form.watch("isFavorite")}
+                          iconColor={form.watch("isFavorite") ? "primary" : undefined}
+                          onPress={() =>
+                            form.setValue("isFavorite", !form.watch("isFavorite"), {
+                              shouldDirty: true
+                            })
+                          }
                         />
-                        {mode === "insert" && (
-                          <IconButton
-                            name="Heart"
-                            variant="ghost"
-                            isFilled={form.watch("isFavorite")}
-                            iconColor={form.watch("isFavorite") ? "primary" : undefined}
-                            onPress={() =>
-                              form.setValue("isFavorite", !form.watch("isFavorite"), {
-                                shouldDirty: true
-                              })
-                            }
-                          />
-                        )}
-                      </View>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="thumbnail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
-                    <UploadPicker
-                      mode="file"
-                      value={field.value ?? undefined}
-                      onChange={field.onChange}
-                      onError={(msg) => form.setError(field.name, { message: msg })}
-                      accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
-                      storageDir="thumbnails"
-                      displayName={
-                        mode === "update" && artist?.name
-                          ? `${artist.name} - ${t("form.labels.thumbnail")}`
-                          : undefined
-                      }
-                      disabled={renderProps.isSubmitting}
-                    />
-                    <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </View>
+                      )}
+                    </View>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="thumbnail"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("form.labels.thumbnail")}</FormLabel>
+                  <UploadPicker
+                    mode="file"
+                    value={field.value ?? undefined}
+                    onChange={field.onChange}
+                    onError={(msg) => form.setError(field.name, { message: msg })}
+                    accept={VALID_THUMBNAIL_FILE_EXTENSIONS}
+                    storageDir="thumbnails"
+                    displayName={
+                      mode === "update" && artist?.name
+                        ? `${artist.name} - ${t("form.labels.thumbnail")}`
+                        : undefined
+                    }
+                    disabled={renderProps.isSubmitting}
+                  />
+                  <FormDescription>{t("form.descriptions.thumbnail")}</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </View>
-          {children?.(renderProps)}
-        </Form>
-        <KeyboardSpacer />
-      </AsyncState>
-    )
-  }, [form, mode, renderProps, artist, isArtistLoading, isArtistError, asSheet])
+        </View>
+        {children?.(renderProps)}
+      </Form>
+      <KeyboardSpacer />
+    </AsyncState>
+  )
 
   if (!asSheet) return FormContent
 
