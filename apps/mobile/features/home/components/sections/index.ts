@@ -1,0 +1,6 @@
+export { Discover } from "./Discover"
+export { FavoriteArtists } from "./FavoriteArtists"
+export { JumpBackIn } from "./JumpBackIn"
+export { NewReleases } from "./NewReleases"
+export { OnRepeat } from "./OnRepeat"
+export { YourPlaylists } from "./YourPlaylists"
