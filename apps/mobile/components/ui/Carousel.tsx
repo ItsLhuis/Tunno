@@ -305,7 +305,7 @@ function CarouselContent<T>({
   style,
   contentContainerStyle,
   insideBottomSheet = false,
-  gap: gapProp = "sm",
+  gap: gapProp = "md",
   showFade = false,
   fadeSize: fadeSizeProp = "md",
   fadeOffset: fadeOffsetProp = 0,

@@ -83,9 +83,9 @@ const Thumbnail = memo(
 
     if (!fileName) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
           <Fade style={[styles.placeholder, containerStyle]}>
-            <Icon name={placeholderIcon} size={placeholderIconSize} color="mutedForeground" />
+            <Icon name={placeholderIcon} size={placeholderIconSize} />
           </Fade>
         </View>
       )

@@ -1,17 +1,16 @@
 import { Text as RNText, type TextProps as RNTextProps, type TextStyle } from "react-native"
 
-import Animated, { useAnimatedStyle, type AnimatedStyle } from "react-native-reanimated"
-
 import {
   createColorVariants,
   createStyleSheet,
   createVariant,
   useAnimatedPaletteColor,
   useStyles,
+  type AnimatedPaletteColorKey,
   type StyleVariants
 } from "@styles"
 
-import { type AnimatedPaletteColorKey } from "@styles/core/AnimatedScopedPalette"
+import Animated, { useAnimatedStyle, type AnimatedStyle } from "react-native-reanimated"
 
 export type TextProps = RNTextProps & StyleVariants<typeof textStyles, "text">
 

@@ -1,15 +1,24 @@
 import { type ReactNode } from "react"
 
-import { View, type StyleProp, type ViewStyle } from "react-native"
+import { View, type ViewStyle } from "react-native"
 
-import { createStyleSheet, createVariant, useStyles, type StyleVariants } from "@styles"
+import {
+  createStyleSheet,
+  createVariant,
+  useAnimatedPaletteColor,
+  useStyles,
+  type AnimatedPaletteColorKey,
+  type StyleVariants
+} from "@styles"
 
-import { Text, type TextProps } from "@components/ui/Text"
+import Animated, { useAnimatedStyle, type AnimatedStyle } from "react-native-reanimated"
+
+import { AnimatedText, Text, type TextProps } from "@components/ui/Text"
 
 export type BadgeProps = StyleVariants<typeof badgeStyles, "badge"> & {
   children?: ReactNode
   title?: string
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
   textProps?: TextProps
 }
 
@@ -26,6 +35,44 @@ const Badge = ({ variant = "default", children, title, style, textProps }: Badge
         </Text>
       ) : null}
     </View>
+  )
+}
+
+export type AnimatedBadgeProps = Omit<BadgeProps, "variant" | "style" | "textProps"> & {
+  style?: AnimatedStyle<ViewStyle>
+  animatedBackgroundColor?: AnimatedPaletteColorKey
+  animatedBorderColor?: AnimatedPaletteColorKey
+  animatedTextColor?: AnimatedPaletteColorKey
+}
+
+const AnimatedBadge = ({
+  children,
+  title,
+  style,
+  animatedBackgroundColor = "primary",
+  animatedBorderColor = "primary",
+  animatedTextColor = "primaryForeground"
+}: AnimatedBadgeProps) => {
+  const styles = useStyles(badgeStyles)
+
+  const backgroundColor = useAnimatedPaletteColor(animatedBackgroundColor)
+  const borderColor = useAnimatedPaletteColor(animatedBorderColor)
+
+  const animatedContainerStyle = useAnimatedStyle(() => ({
+    backgroundColor: backgroundColor.value,
+    borderColor: borderColor.value
+  }))
+
+  return (
+    <Animated.View style={[styles.animatedBadge, animatedContainerStyle, style]}>
+      {children ? (
+        children
+      ) : title ? (
+        <AnimatedText animatedColor={animatedTextColor} size="xs" weight="medium">
+          {title}
+        </AnimatedText>
+      ) : null}
+    </Animated.View>
   )
 }
 
@@ -124,7 +171,17 @@ const badgeStyles = createStyleSheet(({ theme }) => ({
     defaultVariants: {
       variant: "default"
     }
-  })
+  }),
+  animatedBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: theme.radius("full"),
+    borderWidth: theme.borderWidth(),
+    paddingHorizontal: theme.space(2),
+    paddingVertical: theme.space(1),
+    gap: theme.space(1)
+  }
 }))
 
-export { Badge }
+export { AnimatedBadge, Badge }

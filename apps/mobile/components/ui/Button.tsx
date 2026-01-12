@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode } from "react"
+import React, { Fragment, type ReactNode } from "react"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
@@ -95,26 +95,35 @@ const Button = ({
 export type AnimatedButtonProps = Omit<PressableProps, "style" | "children"> &
   StyleVariants<typeof buttonStyles, "button"> & {
     children?: ReactNode
+    title?: string | null
+    leftIcon?: IconProps["name"]
+    rightIcon?: IconProps["name"]
     isLoading?: boolean
     disabled?: boolean
     containerStyle?: StyleProp<ViewStyle>
     style?: StyleProp<ViewStyle>
+    titleProps?: Omit<React.ComponentProps<typeof Animated.Text>, "style">
   }
 
 const AnimatedButton = ({
   variant = "default",
   size = "default",
   children,
+  title,
+  leftIcon,
+  rightIcon,
   isLoading = false,
   disabled = false,
   containerStyle,
   style,
+  titleProps,
   disableOpacityEffect = false,
   ...props
 }: AnimatedButtonProps) => {
   const styles = useStyles(buttonStyles)
 
   const primaryColor = useAnimatedPaletteColor("primary")
+  const primaryForegroundColor = useAnimatedPaletteColor("primaryForeground")
 
   const animatedBackgroundStyle = useAnimatedStyle(() => {
     if (variant !== "default") {
@@ -124,6 +133,18 @@ const AnimatedButton = ({
       backgroundColor: primaryColor.value
     }
   })
+
+  const animatedTextStyle = useAnimatedStyle(() => {
+    if (variant !== "default") {
+      return {}
+    }
+    return {
+      color: primaryForegroundColor.value
+    }
+  })
+
+  const iconColor = getButtonForegroundColor(variant)
+  const iconSize = size === "sm" ? "sm" : "base"
 
   const isDisabled = disabled || isLoading
 
@@ -137,7 +158,23 @@ const AnimatedButton = ({
       >
         <Animated.View style={[styles.animatedBackground, animatedBackgroundStyle]} />
         <Fade show={!isLoading} initial={false} unmountOnExit={false} style={styles.content}>
-          {children}
+          {children ? (
+            children
+          ) : (
+            <Fragment>
+              {leftIcon && <Icon name={leftIcon} size={iconSize} color={iconColor} />}
+              {title && (
+                <Animated.Text
+                  style={[styles.buttonText({ variant, size }), animatedTextStyle]}
+                  numberOfLines={1}
+                  {...titleProps}
+                >
+                  {title}
+                </Animated.Text>
+              )}
+              {rightIcon && <Icon name={rightIcon} size={iconSize} color={iconColor} />}
+            </Fragment>
+          )}
         </Fade>
         <Fade show={isLoading} unmountOnExit={false} style={styles.spinnerContainer}>
           <Spinner size="sm" color="primaryForeground" />
@@ -147,7 +184,7 @@ const AnimatedButton = ({
   )
 }
 
-const buttonStyles = createStyleSheet(({ theme }) => ({
+export const buttonStyles = createStyleSheet(({ theme }) => ({
   container: {
     alignSelf: "stretch"
   },
