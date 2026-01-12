@@ -45,6 +45,8 @@ import {
 
 import { DeleteSongDialog } from "./DeleteSongDialog"
 
+import { AddToPlaylistForm } from "@features/playlists/forms"
+
 import { State } from "react-native-track-player"
 
 import { type SongWithMainRelations } from "@repo/api"
@@ -69,6 +71,7 @@ type DialogType = "edit" | "delete" | "playlist" | null
 type DialogState = {
   type: DialogType
   song: SongWithMainRelations | null
+  songIds: number[]
 }
 
 type SongActionsContentProps = {
@@ -76,7 +79,7 @@ type SongActionsContentProps = {
   variant: "dropdown" | "context"
   queueIndex?: number
   playlistId?: number
-  onOpenDialog: (type: DialogType, song: SongWithMainRelations | null) => void
+  onOpenDialog: (type: DialogType, song: SongWithMainRelations | null, songIds: number[]) => void
 }
 
 const SongActionsContent = memo(
@@ -203,20 +206,20 @@ const SongActionsContent = memo(
 
     const handleOpenPlaylist = useCallback(() => {
       if (targetSong) {
-        onOpenDialog("playlist", targetSong)
+        onOpenDialog("playlist", targetSong, [targetSong.id])
       }
     }, [targetSong, onOpenDialog])
 
     const handleOpenEdit = useCallback(() => {
       if (targetSong) {
         playerSheetRef?.dismiss()
-        onOpenDialog("edit", targetSong)
+        onOpenDialog("edit", targetSong, [])
       }
     }, [targetSong, onOpenDialog, playerSheetRef])
 
     const handleOpenDelete = useCallback(() => {
       if (targetSong) {
-        onOpenDialog("delete", targetSong)
+        onOpenDialog("delete", targetSong, [])
       }
     }, [targetSong, onOpenDialog])
 
@@ -379,10 +382,12 @@ const SongActions = memo(
     const [isOpen, setIsOpen] = useState(false)
     const [dialogState, setDialogState] = useState<DialogState>({
       type: null,
-      song: null
+      song: null,
+      songIds: []
     })
 
     const lastValidSongRef = useRef<SongWithMainRelations | null>(null)
+    const lastValidSongIdsRef = useRef<number[]>([])
 
     useEffect(() => {
       if (dialogState.song) {
@@ -390,8 +395,16 @@ const SongActions = memo(
       }
     }, [dialogState.song])
 
+    useEffect(() => {
+      if (dialogState.songIds.length > 0) {
+        lastValidSongIdsRef.current = dialogState.songIds
+      } else if (dialogState.song) {
+        lastValidSongIdsRef.current = [dialogState.song.id]
+      }
+    }, [dialogState.songIds, dialogState.song])
+
     const handleOpenDialog = useCallback(
-      (type: DialogType, song: SongWithMainRelations | null) => {
+      (type: DialogType, song: SongWithMainRelations | null, songIds: number[]) => {
         if (type === "edit" && onEditSong && song) {
           onEditSong(song)
           return
@@ -407,16 +420,22 @@ const SongActions = memo(
           return
         }
 
-        setDialogState({ type, song })
+        setDialogState({ type, song, songIds })
       },
       [onEditSong, onDeleteSong, router]
     )
 
     const closeDialog = useCallback(() => {
-      setDialogState({ type: null, song: null })
+      setDialogState({ type: null, song: null, songIds: [] })
     }, [])
 
     const dialogSong = dialogState.song ?? lastValidSongRef.current
+    const dialogSongIds =
+      dialogState.songIds.length > 0
+        ? dialogState.songIds
+        : dialogSong
+          ? [dialogSong.id]
+          : lastValidSongIdsRef.current
 
     if (variant === "context") {
       return (
@@ -444,7 +463,13 @@ const SongActions = memo(
               onOpenChange={(open) => !open && closeDialog()}
             />
           )}
-          {/* AddToPlaylistForm will be added when playlists feature is implemented */}
+          {dialogSongIds.length > 0 && (
+            <AddToPlaylistForm
+              songIds={dialogSongIds}
+              open={dialogState.type === "playlist"}
+              onOpen={(open) => !open && closeDialog()}
+            />
+          )}
         </Fragment>
       )
     }
@@ -477,7 +502,13 @@ const SongActions = memo(
             onOpenChange={(open) => !open && closeDialog()}
           />
         )}
-        {/* AddToPlaylistForm will be added when playlists feature is implemented */}
+        {dialogSongIds.length > 0 && (
+          <AddToPlaylistForm
+            songIds={dialogSongIds}
+            open={dialogState.type === "playlist"}
+            onOpen={(open) => !open && closeDialog()}
+          />
+        )}
       </Fragment>
     )
   }

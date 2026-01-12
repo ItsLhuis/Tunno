@@ -14,11 +14,17 @@ import { formatTime } from "@repo/utils"
 
 import {
   AsyncState,
+  Carousel,
+  CarouselContent,
   RefreshControl,
   ScrollViewWithHeaders,
   Text,
   type ScrollHeaderProps
 } from "@components/ui"
+
+import { AlbumItemCard } from "@features/albums/components/AlbumItem"
+import { ArtistItemCard } from "@features/artists/components/ArtistItem"
+import { PlaylistItemCard } from "@features/playlists/components/PlaylistItem"
 
 import { SongItemList } from "../SongItem"
 import { SongInfoHeader } from "./SongInfoHeader"
@@ -69,37 +75,55 @@ const SongInfo = () => {
           refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
         >
           <View style={styles.content}>
-            <View style={styles.section}>
+            <View style={[styles.section, styles.sectionPadded]}>
               <SongItemList song={data} allSongIds={[data.id]} />
             </View>
-            {/* {data.album && (
-            <View style={styles.section}>
-              <Text variant="h3">{t("common.album")}</Text>
-              <AlbumItemCard album={data.album} />
-            </View>
-          )} */}
-            {/* {data.artists.length > 0 && (
-            <View style={styles.section}>
-              <Text variant="h3">{t("artists.title")}</Text>
-              <Carousel>
-                {data.artists.map((artist) => (
-                  <ArtistItemCard key={artist.artistId} artist={artist.artist} />
-                ))}
-              </Carousel>
-            </View>
-          )} */}
-            {/* {data.playlists && data.playlists.length > 0 && (
-            <View style={styles.section}>
-              <Text variant="h3">{t("common.appearsIn")}</Text>
-              <Carousel>
-                {data.playlists.map((playlist) => (
-                  <PlaylistItemCard key={playlist.playlistId} playlist={playlist.playlist} />
-                ))}
-              </Carousel>
-            </View>
-          )} */}
-            {data.lyrics && Array.isArray(data.lyrics) && data.lyrics.length > 0 && (
+            {data.album && (
+              <View style={[styles.section, styles.sectionPadded]}>
+                <Text variant="h3">{t("common.album")}</Text>
+                <View style={styles.albumContainer}>
+                  <AlbumItemCard album={data.album} />
+                </View>
+              </View>
+            )}
+            {data.artists.length > 0 && (
               <View style={styles.section}>
+                <Text variant="h3" style={styles.sectionTitle}>
+                  {t("artists.title")}
+                </Text>
+                <Carousel>
+                  <CarouselContent
+                    data={data.artists}
+                    contentContainerStyle={styles.carouselContentContainer}
+                    renderItem={({ item }) => (
+                      <View style={styles.carouselItem}>
+                        <ArtistItemCard artist={item.artist} />
+                      </View>
+                    )}
+                  />
+                </Carousel>
+              </View>
+            )}
+            {data.playlists && data.playlists.length > 0 && (
+              <View style={styles.section}>
+                <Text variant="h3" style={styles.sectionTitle}>
+                  {t("common.appearsIn")}
+                </Text>
+                <Carousel>
+                  <CarouselContent
+                    data={data.playlists}
+                    contentContainerStyle={styles.carouselContentContainer}
+                    renderItem={({ item }) => (
+                      <View style={styles.carouselItem}>
+                        <PlaylistItemCard playlist={item.playlist} />
+                      </View>
+                    )}
+                  />
+                </Carousel>
+              </View>
+            )}
+            {data.lyrics && Array.isArray(data.lyrics) && data.lyrics.length > 0 && (
+              <View style={[styles.section, styles.sectionPadded]}>
                 <Text variant="h3">{t("form.labels.lyrics")}</Text>
                 <View style={styles.lyricsContainer}>
                   {data.lyrics.map((line, index) => (
@@ -128,12 +152,26 @@ const songInfoStyles = createStyleSheet(({ theme, runtime }) => ({
     flex: 1
   },
   content: {
-    paddingHorizontal: theme.space("lg"),
     paddingBottom: theme.space("lg") + runtime.insets.bottom,
     gap: theme.space("lg")
   },
   section: {
     gap: theme.space()
+  },
+  sectionPadded: {
+    paddingHorizontal: theme.space("lg")
+  },
+  sectionTitle: {
+    paddingHorizontal: theme.space("lg")
+  },
+  albumContainer: {
+    width: 180
+  },
+  carouselContentContainer: {
+    paddingHorizontal: theme.space("lg")
+  },
+  carouselItem: {
+    width: 180
   },
   lyricsContainer: {
     gap: theme.space("sm")
