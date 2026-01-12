@@ -194,14 +194,91 @@ function extractErrorCode(error: Error): string | null {
 }
 
 /**
+ * Extracts constraint information from Expo SQLite error messages.
+ * Parses standard SQLite constraint error message formats to identify the constraint type,
+ * affected table, and column when available.
+ */
+function parseExpoSQLiteError(message: string): {
+  type: "unique" | "not_null" | "foreign_key" | "check" | null
+  table?: string
+  column?: string
+} {
+  const uniqueMatch = message.match(/UNIQUE constraint failed:\s*(\w+)\.(\w+)/i)
+  if (uniqueMatch) {
+    return {
+      type: "unique",
+      table: uniqueMatch[1],
+      column: uniqueMatch[2]
+    }
+  }
+
+  const notNullMatch = message.match(/NOT NULL constraint failed:\s*(\w+)\.(\w+)/i)
+  if (notNullMatch) {
+    return {
+      type: "not_null",
+      table: notNullMatch[1],
+      column: notNullMatch[2]
+    }
+  }
+
+  if (message.match(/FOREIGN KEY constraint failed/i)) {
+    return { type: "foreign_key" }
+  }
+
+  if (message.match(/CHECK constraint failed/i)) {
+    return { type: "check" }
+  }
+
+  return { type: null }
+}
+
+/**
  * Type guard to check if an unknown error is a DrizzleQueryError that wraps a DatabaseError with a code.
+ * Handles both Tauri and Expo SQLite error formats, extracting constraint information from error messages
+ * when a code property is not directly available.
  * @param error - The error to check.
  * @returns True if the error matches the expected DrizzleQueryError structure, false otherwise.
  */
 function isDrizzleQueryError(
   error: unknown
 ): error is DrizzleQueryError & { cause: DatabaseError & { code: string } } {
-  if (!(error instanceof DrizzleQueryError) || !error.cause) {
+  // Check if it's a plain Error with constraint info (Expo SQLite format)
+  if (!(error instanceof DrizzleQueryError)) {
+    if (isDatabaseError(error)) {
+      const expoInfo = parseExpoSQLiteError(error.message)
+
+      if (expoInfo.type) {
+        let code: string | null = null
+        switch (expoInfo.type) {
+          case "unique":
+            code = SQLiteErrorCode.UNIQUE_CONSTRAINT
+            break
+          case "not_null":
+            code = SQLiteErrorCode.NOT_NULL_CONSTRAINT
+            break
+          case "foreign_key":
+            code = SQLiteErrorCode.FOREIGN_KEY_CONSTRAINT
+            break
+          case "check":
+            code = SQLiteErrorCode.CHECK_CONSTRAINT
+            break
+        }
+
+        if (code) {
+          ;(error as DatabaseError).code = code
+          // Create a fake cause structure for compatibility
+          const fakeError = error as any
+          if (!fakeError.cause) {
+            fakeError.cause = error
+          }
+          return true as any
+        }
+      }
+    }
+    return false
+  }
+
+  if (!error.cause) {
     return false
   }
 
@@ -209,11 +286,37 @@ function isDrizzleQueryError(
     return false
   }
 
-  const code = extractErrorCode(error.cause)
+  // Try to extract code from the error
+  let code = extractErrorCode(error.cause)
+
+  // If no code found, check if it's an Expo SQLite error with constraint info in message
+  if (!code) {
+    const expoInfo = parseExpoSQLiteError(error.cause.message)
+
+    if (expoInfo.type) {
+      // Map constraint types to SQLite error codes
+      switch (expoInfo.type) {
+        case "unique":
+          code = SQLiteErrorCode.UNIQUE_CONSTRAINT
+          break
+        case "not_null":
+          code = SQLiteErrorCode.NOT_NULL_CONSTRAINT
+          break
+        case "foreign_key":
+          code = SQLiteErrorCode.FOREIGN_KEY_CONSTRAINT
+          break
+        case "check":
+          code = SQLiteErrorCode.CHECK_CONSTRAINT
+          break
+      }
+    }
+  }
+
   if (!code) {
     return false
   }
 
+  // Attach the code to the cause for future use
   if (!error.cause.code) {
     error.cause.code = code
   }
@@ -226,6 +329,7 @@ function isDrizzleQueryError(
  *
  * Checks if the error originated from Drizzle ORM and has a SQLite
  * constraint error code. Optionally filters by specific constraint type.
+ * Supports both Tauri and Expo SQLite error formats.
  *
  * @param error - Unknown error to check
  * @param constraintType - Optional specific constraint type to check for
@@ -250,7 +354,8 @@ export function isConstraintError(
     return false
   }
 
-  const code = error.cause.code
+  // Handle both DrizzleQueryError with cause and plain Error
+  const code = (error as any).cause?.code || (error as any).code
 
   if (constraintType) {
     return code === constraintType
@@ -316,7 +421,7 @@ export type ConstraintErrorInfo = {
  * Extracts structured information from SQLite constraint errors
  *
  * Parses SQLite error messages to extract constraint type, affected table,
- * and column names. Useful for displaying user-friendly error messages.
+ * and column names. Supports both Tauri and Expo SQLite error formats.
  *
  * @param error - Error to parse
  * @returns Structured constraint info or null if not a constraint error
@@ -338,7 +443,9 @@ export function extractConstraintInfo(error: unknown): ConstraintErrorInfo | nul
     return null
   }
 
-  const { code, message } = error.cause
+  // Handle both DrizzleQueryError with cause and plain Error
+  const errorObj = (error as any).cause || error
+  const { code, message } = errorObj
 
   let type: ConstraintErrorInfo["type"]
   switch (code) {
@@ -358,8 +465,21 @@ export function extractConstraintInfo(error: unknown): ConstraintErrorInfo | nul
       type = "other"
   }
 
+  // First try to parse Expo SQLite format
+  const expoInfo = parseExpoSQLiteError(message)
+  if (expoInfo.type && (expoInfo.table || expoInfo.column)) {
+    return {
+      type,
+      code,
+      message,
+      table: expoInfo.table,
+      column: expoInfo.column
+    }
+  }
+
+  // Fallback to Tauri format (table.column pattern)
   const tableColumnMatches = message.matchAll(/(\w+)\.(\w+)/g)
-  const matches = Array.from(tableColumnMatches)
+  const matches: RegExpMatchArray[] = tableColumnMatches ? Array.from(tableColumnMatches) : []
 
   let table: string | undefined
   let column: string | undefined
