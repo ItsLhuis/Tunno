@@ -1,12 +1,15 @@
 import { View } from "react-native"
 
-import { createStyleSheet, ScopedPalette, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, ScopedPalette, spacingTokens, useStyles, viewStyle } from "@styles"
 
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { useBottomPlayerLayout } from "../../contexts/BottomPlayerLayoutContext"
+import {
+  useBottomPlayerLayout,
+  useResetBottomPlayerHeight
+} from "../../contexts/BottomPlayerLayoutContext"
 
 import { useTabbarHeight } from "@contexts/TabbarContext"
 
@@ -19,6 +22,7 @@ import { useAnimatedStyle, useSharedValue } from "react-native-reanimated"
 
 import { AnimatedBackground, Fade, Pressable } from "@components/ui"
 
+import { useEffect } from "react"
 import { PlaybackControls } from "./PlaybackControls"
 import { PlaybackProgress } from "./PlaybackProgress"
 import { TrackInfo } from "./TrackInfo"
@@ -29,6 +33,8 @@ const BottomPlayer = () => {
   const onLayout = useBottomPlayerLayout()
 
   const tabbarHeight = useTabbarHeight()
+
+  const resetHeight = useResetBottomPlayerHeight()
 
   const { playerSheetRef, currentTrack } = usePlayerStore(
     useShallow((state) => ({
@@ -62,6 +68,12 @@ const BottomPlayer = () => {
     playerSheetRef?.present()
   }
 
+  useEffect(() => {
+    if (!currentTrack) {
+      resetHeight()
+    }
+  }, [currentTrack, resetHeight])
+
   if (!currentTrack) {
     return null
   }
@@ -72,7 +84,7 @@ const BottomPlayer = () => {
         disableOpacityEffect
         style={styles.pressable}
         onPress={handlePress}
-        onLayout={onLayout}
+        onLayout={(event) => onLayout(event, spacingTokens.sm)}
       >
         <ScopedPalette palette={palette}>
           <AnimatedBackground>

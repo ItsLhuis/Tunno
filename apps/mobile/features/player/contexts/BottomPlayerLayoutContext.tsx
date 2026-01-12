@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type PropsWithChildren } from "react"
+import { createContext, useCallback, useContext, useState, type PropsWithChildren } from "react"
 
 import { type LayoutChangeEvent } from "react-native"
 
@@ -6,16 +6,9 @@ import { type LayoutChangeEvent } from "react-native"
  * Represents the state managed by the {@link BottomPlayerLayoutContext}.
  */
 type BottomPlayerLayoutContextState = {
-  /**
-   * The current height of the bottom player component.
-   */
   height: number
-  /**
-   * Callback function to be invoked on layout changes of the bottom player component.
-   * It updates the `height` in the context.
-   * @param event - The layout change event from React Native.
-   */
-  onLayout: (event: LayoutChangeEvent) => void
+  onLayout: (event: LayoutChangeEvent, extraHeight?: number) => void
+  resetHeight: () => void
 }
 
 const BottomPlayerLayoutContext = createContext<BottomPlayerLayoutContextState | undefined>(
@@ -34,14 +27,19 @@ const BottomPlayerLayoutContext = createContext<BottomPlayerLayoutContextState |
 const BottomPlayerLayoutProvider = ({ children }: PropsWithChildren) => {
   const [height, setHeight] = useState(0)
 
-  const onLayout = (event: LayoutChangeEvent) => {
+  const onLayout = useCallback((event: LayoutChangeEvent, extraHeight = 0) => {
     const { height: layoutHeight } = event.nativeEvent.layout
-    setHeight(layoutHeight)
-  }
+    setHeight(layoutHeight + extraHeight)
+  }, [])
+
+  const resetHeight = useCallback(() => {
+    setHeight(0)
+  }, [])
 
   const value = {
     height,
-    onLayout
+    onLayout,
+    resetHeight
   }
 
   return (
@@ -68,6 +66,7 @@ function useBottomPlayerHeight() {
  * This callback should be attached to the bottom player component's `onLayout` prop
  * to dynamically update its height in the context.
  *
+ * @param extraHeight - Optional extra height to add to the measured height
  * @returns The `onLayout` function from the context.
  * @throws {Error} If `useBottomPlayerLayout` is used outside of a `BottomPlayerLayoutProvider`.
  */
@@ -80,4 +79,27 @@ function useBottomPlayerLayout() {
   return context.onLayout
 }
 
-export { BottomPlayerLayoutProvider, useBottomPlayerHeight, useBottomPlayerLayout }
+/**
+ * A hook to reset the bottom player height to 0.
+ *
+ * This is useful when you need to clear the player's height, for example when
+ * the player is unmounted or hidden.
+ *
+ * @returns A function to reset the height to 0.
+ * @throws {Error} If used outside of a `BottomPlayerLayoutProvider`.
+ */
+function useResetBottomPlayerHeight() {
+  const context = useContext(BottomPlayerLayoutContext)
+
+  if (!context)
+    throw new Error("useResetBottomPlayerHeight must be used within a BottomPlayerLayoutProvider")
+
+  return context.resetHeight
+}
+
+export {
+  BottomPlayerLayoutProvider,
+  useBottomPlayerHeight,
+  useBottomPlayerLayout,
+  useResetBottomPlayerHeight
+}
