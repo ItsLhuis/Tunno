@@ -75,7 +75,7 @@ const lyricsScreenStyles = createStyleSheet(({ theme }) => ({
   contentContainer: (isEmpty: boolean, bottomOffset: number) =>
     viewStyle({
       padding: theme.space("lg"),
-      paddingBottom: theme.space("lg") + theme.space("md") + bottomOffset,
+      paddingBottom: theme.space("lg") + bottomOffset,
       ...(isEmpty && {
         flex: 1
       })

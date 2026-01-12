@@ -18,14 +18,14 @@ import { toast } from "@components/ui"
  * - Error and success handling with toast notifications, dynamically displaying messages based on the new favorite status.
  *
  * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
- *          The `mutate` function expects an `id` (number) as its argument.
+ *          The `mutate` function expects an object with an `id` property as its argument.
  *
  * @example
  * ```tsx
- * const { mutate: toggleFavorite, isLoading } = useTogglePlaylistFavorite();
+ * const { mutate: toggleFavorite, isPending } = useTogglePlaylistFavorite();
  *
  * const handleToggle = (playlistId: number) => {
- *   toggleFavorite(playlistId);
+ *   toggleFavorite({ id: playlistId });
  * };
  *
  * // In a component:
@@ -40,10 +40,7 @@ export function useTogglePlaylistFavorite() {
   const { t } = useTranslation()
 
   return useMutation({
-    mutationFn: async (id: number) => {
-      const updatedPlaylist = await togglePlaylistFavorite(id)
-      return updatedPlaylist
-    },
+    mutationFn: ({ id }: { id: number }) => togglePlaylistFavorite(id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: playlistKeys.all })
     },
