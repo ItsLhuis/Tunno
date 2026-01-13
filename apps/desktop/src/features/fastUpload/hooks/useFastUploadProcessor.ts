@@ -2,15 +2,11 @@ import { useCallback, useEffect, useRef } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useQueryClient } from "@tanstack/react-query"
-
 import { useShallow } from "zustand/shallow"
 
 import { useFastUploadStore } from "../stores/useFastUploadStore"
 
 import { useTrackProcessor } from "./useTrackProcessor"
-
-import { invalidateQueries } from "@repo/api"
 
 import { toast } from "@components/ui"
 
@@ -41,8 +37,6 @@ import { EntityCache } from "../utils"
  */
 export function useFastUploadProcessor() {
   const { t } = useTranslation()
-
-  const queryClient = useQueryClient()
 
   const entityCacheRef = useRef<EntityCache | null>(null)
 
@@ -148,10 +142,6 @@ export function useFastUploadProcessor() {
 
     setStatus("completed")
 
-    invalidateQueries(queryClient, "song", { forceAll: true })
-    invalidateQueries(queryClient, "artist", { forceAll: true })
-    invalidateQueries(queryClient, "album", { forceAll: true })
-
     const finalState = useFastUploadStore.getState()
     const { successCount, errorCount, skippedCount } = finalState
 
@@ -188,7 +178,6 @@ export function useFastUploadProcessor() {
     incrementSkippedCount,
     addError,
     processTrack,
-    queryClient,
     t
   ])
 
