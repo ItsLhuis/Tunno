@@ -16,9 +16,9 @@ import {
   ValidationErrorCode
 } from "@repo/api"
 
-import { extractConstraintInfo, isUniqueConstraintError } from "@repo/database"
-
 import { checkAlbumArtistIntegrity } from "@features/songs/api/validations"
+
+import { checkDuplicateAlbum } from "./validations"
 
 import { type TFunction } from "@repo/i18n"
 
@@ -36,7 +36,7 @@ import { type TFunction } from "@repo/i18n"
  * @param artists - (Optional) An array of artist IDs to associate with the album.
  * @param t - (Optional) The i18n translation function for error messages.
  * @returns A Promise that resolves to the newly created `Album` object.
- * @throws {CustomError} If an album with the same name and type already exists (ValidationErrorCode.DUPLICATE_ALBUM).
+ * @throws {CustomError} If an album with the same name, type, and artists already exists (ValidationErrorCode.DUPLICATE_ALBUM).
  * @throws {Error} For other database or file storage errors.
  */
 export async function insertAlbum(
@@ -45,44 +45,40 @@ export async function insertAlbum(
   artists?: number[],
   t?: TFunction
 ): Promise<Album> {
-  try {
-    const thumbnailName = thumbnailPath
-      ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
-      : null
+  const isDuplicate = await checkDuplicateAlbum(album.name, album.albumType, artists ?? [])
 
-    const [createdAlbum] = await database
-      .insert(schema.albums)
-      .values({ ...album, thumbnail: thumbnailName })
-      .returning()
-
-    if (artists && artists.length > 0) {
-      await database
-        .insert(schema.albumsToArtists)
-        .values(
-          artists.map((artistId, index) => ({
-            albumId: createdAlbum.id,
-            artistId,
-            artistOrder: index
-          }))
-        )
-        .onConflictDoNothing({
-          target: [schema.albumsToArtists.albumId, schema.albumsToArtists.artistId]
-        })
-    }
-
-    return createdAlbum
-  } catch (error: unknown) {
-    if (isUniqueConstraintError(error)) {
-      const constraintInfo = extractConstraintInfo(error)
-      if (constraintInfo?.table === "albums" && constraintInfo?.column?.includes("name")) {
-        const message = t
-          ? t("validation.album.duplicate")
-          : "An album with this name and type already exists"
-        throw new CustomError(ValidationErrorCode.DUPLICATE_ALBUM, "name", message, "album")
-      }
-    }
-    throw error
+  if (isDuplicate) {
+    const message = t
+      ? t("validation.album.duplicate")
+      : "An album with this name, type, and artists already exists"
+    throw new CustomError(ValidationErrorCode.DUPLICATE_ALBUM, "name", message, "album")
   }
+
+  const thumbnailName = thumbnailPath
+    ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
+    : null
+
+  const [createdAlbum] = await database
+    .insert(schema.albums)
+    .values({ ...album, thumbnail: thumbnailName })
+    .returning()
+
+  if (artists && artists.length > 0) {
+    await database
+      .insert(schema.albumsToArtists)
+      .values(
+        artists.map((artistId, index) => ({
+          albumId: createdAlbum.id,
+          artistId,
+          artistOrder: index
+        }))
+      )
+      .onConflictDoNothing({
+        target: [schema.albumsToArtists.albumId, schema.albumsToArtists.artistId]
+      })
+  }
+
+  return createdAlbum
 }
 
 /**
@@ -98,7 +94,7 @@ export async function insertAlbum(
  * 4. Updates the album record in the `albums` table with the provided `updates`.
  * 5. If `artists` are provided and the integrity check passes, it updates the `albumsToArtists`
  *    associations, first deleting old associations and then inserting new ones.
- * 6. Includes error handling for duplicate album names.
+ * 6. Includes error handling for duplicate album names (considering artists).
  *
  * @param id - The ID of the album to update.
  * @param updates - An object containing the album data to be updated, excluding `thumbnail` property.
@@ -108,7 +104,7 @@ export async function insertAlbum(
  * @param t - (Optional) The i18n translation function for error messages.
  * @returns A Promise that resolves to the updated `Album` object.
  * @throws {CustomError} If removing artists would violate integrity (ValidationErrorCode.INTEGRITY_ALBUM_ARTIST)
- *                       or if an album with the same name and type already exists (ValidationErrorCode.DUPLICATE_ALBUM).
+ *                       or if an album with the same name, type, and artists already exists (ValidationErrorCode.DUPLICATE_ALBUM).
  * @throws {Error} For other database or file storage errors.
  */
 export async function updateAlbum(
@@ -119,87 +115,86 @@ export async function updateAlbum(
   artists?: number[],
   t?: TFunction
 ): Promise<Album> {
-  try {
-    const [existingAlbum] = await database
-      .select()
-      .from(schema.albums)
-      .where(eq(schema.albums.id, id))
+  const [existingAlbum] = await database
+    .select()
+    .from(schema.albums)
+    .where(eq(schema.albums.id, id))
 
-    let thumbnailName = existingAlbum.thumbnail
+  const currentAlbumArtists = await database
+    .select({ artistId: schema.albumsToArtists.artistId })
+    .from(schema.albumsToArtists)
+    .where(eq(schema.albumsToArtists.albumId, id))
 
-    if (thumbnailAction === "update" && thumbnailPath) {
-      thumbnailName = await updateFileWithUniqueNameFromPath(
-        "thumbnails",
-        existingAlbum.thumbnail,
-        thumbnailPath
-      )
-    } else if (thumbnailAction === "remove") {
-      if (existingAlbum.thumbnail) {
-        await deleteFile("thumbnails", existingAlbum.thumbnail)
-      }
-      thumbnailName = null
+  const currentArtistIds = currentAlbumArtists.map((a) => a.artistId)
+
+  const finalName = updates.name ?? existingAlbum.name
+  const finalAlbumType = updates.albumType ?? existingAlbum.albumType
+  const finalArtistIds = artists ?? currentArtistIds
+
+  const isDuplicate = await checkDuplicateAlbum(finalName, finalAlbumType, finalArtistIds, id)
+
+  if (isDuplicate) {
+    const message = t
+      ? t("validation.album.duplicate")
+      : "An album with this name, type, and artists already exists"
+    throw new CustomError(ValidationErrorCode.DUPLICATE_ALBUM, "name", message, "album")
+  }
+
+  let thumbnailName = existingAlbum.thumbnail
+
+  if (thumbnailAction === "update" && thumbnailPath) {
+    thumbnailName = await updateFileWithUniqueNameFromPath(
+      "thumbnails",
+      existingAlbum.thumbnail,
+      thumbnailPath
+    )
+  } else if (thumbnailAction === "remove") {
+    if (existingAlbum.thumbnail) {
+      await deleteFile("thumbnails", existingAlbum.thumbnail)
     }
+    thumbnailName = null
+  }
 
-    if (Array.isArray(artists)) {
-      const currentAlbumArtists = await database
-        .select({ artistId: schema.albumsToArtists.artistId })
-        .from(schema.albumsToArtists)
-        .where(eq(schema.albumsToArtists.albumId, id))
+  if (Array.isArray(artists)) {
+    const removedArtistIds = currentArtistIds.filter((artistId) => !artists.includes(artistId))
 
-      const currentArtistIds = currentAlbumArtists.map((a) => a.artistId)
-      const newArtistIds = artists
-
-      const removedArtistIds = currentArtistIds.filter((id) => !newArtistIds.includes(id))
-
-      if (removedArtistIds.length > 0) {
-        const hasConflict = await checkAlbumArtistIntegrity(id, removedArtistIds)
-        if (hasConflict) {
-          const message = t
-            ? t("validation.album.integrity")
-            : "Cannot remove artist from album because there are songs that belong to both this album and artist"
-          throw new CustomError(
-            ValidationErrorCode.INTEGRITY_ALBUM_ARTIST,
-            "artists",
-            message,
-            "album"
-          )
-        }
-      }
-    }
-
-    const [updatedAlbum] = await database
-      .update(schema.albums)
-      .set({ ...updates, thumbnail: thumbnailName })
-      .where(eq(schema.albums.id, id))
-      .returning()
-
-    if (Array.isArray(artists)) {
-      await database.delete(schema.albumsToArtists).where(eq(schema.albumsToArtists.albumId, id))
-
-      if (artists.length > 0) {
-        await database.insert(schema.albumsToArtists).values(
-          artists.map((artistId, index) => ({
-            albumId: id,
-            artistId,
-            artistOrder: index
-          }))
+    if (removedArtistIds.length > 0) {
+      const hasConflict = await checkAlbumArtistIntegrity(id, removedArtistIds)
+      if (hasConflict) {
+        const message = t
+          ? t("validation.album.integrity")
+          : "Cannot remove artist from album because there are songs that belong to both this album and artist"
+        throw new CustomError(
+          ValidationErrorCode.INTEGRITY_ALBUM_ARTIST,
+          "artists",
+          message,
+          "album"
         )
       }
     }
-
-    return updatedAlbum
-  } catch (error: unknown) {
-    if (isUniqueConstraintError(error)) {
-      const constraintInfo = extractConstraintInfo(error)
-      if (constraintInfo?.table === "albums" && constraintInfo?.column?.includes("name")) {
-        const message = t
-          ? t("validation.album.duplicate")
-          : "An album with this name and type already exists"
-        throw new CustomError(ValidationErrorCode.DUPLICATE_ALBUM, "name", message, "album")
-      }
-    }
-    throw error
   }
+
+  const [updatedAlbum] = await database
+    .update(schema.albums)
+    .set({ ...updates, thumbnail: thumbnailName })
+    .where(eq(schema.albums.id, id))
+    .returning()
+
+  if (Array.isArray(artists)) {
+    await database.delete(schema.albumsToArtists).where(eq(schema.albumsToArtists.albumId, id))
+
+    if (artists.length > 0) {
+      await database.insert(schema.albumsToArtists).values(
+        artists.map((artistId, index) => ({
+          albumId: id,
+          artistId,
+          artistOrder: index
+        }))
+      )
+    }
+  }
+
+  return updatedAlbum
 }
 
 /**
