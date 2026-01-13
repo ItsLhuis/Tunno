@@ -63,17 +63,20 @@ const HomePageEmpty = () => {
   ]
 
   return (
-    <div className="flex min-h-full flex-col items-center justify-center gap-3">
-      <div className="w-full max-w-lg">
-        <div className="mb-12 space-y-3 text-center">
-          <div className="bg-secondary inline-flex w-fit items-center rounded-lg p-3">
+    <div className="flex min-h-full flex-col items-center justify-center px-6">
+      <div className="flex w-full max-w-md flex-col gap-9">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <div className="bg-muted mb-3 inline-flex items-center rounded-lg p-3">
             <Icon name="Library" className="size-16" />
           </div>
           <Typography variant="h1">{t("home.empty.title")}</Typography>
           <Typography affects={["muted"]}>{t("home.empty.description")}</Typography>
         </div>
-        <div className="flex flex-col">
-          <Typography affects={["muted", "uppercase"]} className="mb-2 text-left">
+        <div className="flex flex-col gap-2">
+          <Typography
+            affects={["muted", "uppercase"]}
+            className="text-left text-xs font-bold tracking-wide"
+          >
             {t("home.empty.getStarted")}
           </Typography>
           <div className="flex flex-col gap-2">
@@ -85,7 +88,7 @@ const HomePageEmpty = () => {
                 onClick={() => handleActionClick(action.id)}
               >
                 <div className="flex w-full items-center gap-3">
-                  <div className="bg-secondary inline-flex items-center rounded-lg p-3">
+                  <div className="bg-muted inline-flex items-center rounded-lg p-3">
                     <Icon name={action.icon} className="text-foreground" />
                   </div>
                   <div className="overflow-wrap-anywhere flex w-full flex-col items-start gap-1 wrap-break-word whitespace-normal">

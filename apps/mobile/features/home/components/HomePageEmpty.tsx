@@ -27,16 +27,16 @@ const HomePageEmpty = () => {
   const handleActionPress = (id: ActionId) => {
     switch (id) {
       case "add-songs":
-        router.push("/songs")
+        router.push("/songs/insert")
         break
       case "add-albums":
-        router.push("/albums")
+        router.push("/albums/insert")
         break
       case "create-playlist":
-        router.push("/playlists")
+        router.push("/playlists/insert")
         break
       case "add-artists":
-        router.push("/artists")
+        router.push("/artists/insert")
         break
     }
   }
@@ -73,7 +73,7 @@ const HomePageEmpty = () => {
       <View style={styles.content}>
         <View style={styles.header}>
           <View style={styles.iconContainer}>
-            <Icon name="Library" size="4xl" color="mutedForeground" />
+            <Icon name="Library" size="6xl" />
           </View>
           <Text variant="h1" style={styles.title}>
             {t("home.empty.title")}
@@ -119,7 +119,8 @@ const homePageEmptyStyles = createStyleSheet(({ theme }) => ({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: theme.space("lg")
+    paddingHorizontal: theme.space("lg"),
+    paddingBottom: theme.space("lg")
   },
   content: {
     width: "100%",
@@ -131,8 +132,8 @@ const homePageEmptyStyles = createStyleSheet(({ theme }) => ({
     gap: theme.space()
   },
   iconContainer: {
-    backgroundColor: theme.colors.secondary,
-    padding: theme.space("lg"),
+    backgroundColor: theme.colors.muted,
+    padding: theme.space(),
     borderRadius: theme.radius("lg"),
     marginBottom: theme.space()
   },
@@ -162,7 +163,7 @@ const homePageEmptyStyles = createStyleSheet(({ theme }) => ({
     gap: theme.space()
   },
   actionIcon: {
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.muted,
     padding: theme.space("sm"),
     borderRadius: theme.radius()
   },
