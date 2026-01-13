@@ -1,0 +1,1 @@
+DROP INDEX `albums_name_type_unique_idx`;

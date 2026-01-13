@@ -221,7 +221,6 @@ export const albums = sqliteTable(
     index("albums_album_type_idx").on(table.albumType),
     index("albums_total_tracks_idx").on(table.totalTracks),
     index("albums_total_duration_idx").on(table.totalDuration),
-    uniqueIndex("albums_name_type_unique_idx").on(table.name, table.albumType),
     index("albums_last_played_idx").on(table.lastPlayedAt),
     index("albums_created_id_idx").on(desc(table.createdAt), table.id),
     index("albums_playcount_id_idx").on(desc(table.playCount), table.id),

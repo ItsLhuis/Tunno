@@ -15,6 +15,13 @@
       "when": 1766489345844,
       "tag": "0001_short_eternity",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1768313124662,
+      "tag": "0002_wide_felicia_hardy",
+      "breakpoints": true
     }
   ]
 }
