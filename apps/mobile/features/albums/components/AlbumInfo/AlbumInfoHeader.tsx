@@ -83,7 +83,10 @@ const AlbumInfoHeader = ({ album, songIds }: AlbumInfoHeaderProps) => {
           </Text>
           <View style={styles.metaContainer}>
             {album.artists.length > 0 ? (
-              <Pressable onPress={() => handleArtistPress(album.artists[0].artistId)}>
+              <Pressable
+                containerStyle={styles.pressableContainer}
+                onPress={() => handleArtistPress(album.artists[0].artistId)}
+              >
                 <Text size="sm" numberOfLines={1}>
                   {album.artists[0].artist.name}
                 </Text>
@@ -150,6 +153,9 @@ const albumInfoHeaderStyles = createStyleSheet(({ theme }) => ({
   },
   metaContainer: {
     gap: theme.space("xs")
+  },
+  pressableContainer: {
+    alignSelf: "flex-start"
   },
   actionsContainer: {
     flexDirection: "row",

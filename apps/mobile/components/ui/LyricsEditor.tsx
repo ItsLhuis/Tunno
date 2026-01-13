@@ -249,16 +249,13 @@ const LyricsEditor = ({
       <View style={styles.card}>
         <View style={styles.header}>
           <View style={styles.badges}>
-            <Badge variant="muted">
-              <Text size="xs">{t("form.badges.lines", { count: syncedLines.length })}</Text>
-            </Badge>
-            <Badge variant="muted">
-              <Text size="xs">
-                {t("form.badges.duration", {
-                  time: syncedLines.length > 0 ? formatTime(maxDuration) : "0:00"
-                })}
-              </Text>
-            </Badge>
+            <Badge title={t("form.badges.lines", { count: syncedLines.length })} variant="muted" />
+            <Badge
+              title={t("form.badges.duration", {
+                time: syncedLines.length > 0 ? formatTime(maxDuration) : "0:00"
+              })}
+              variant="muted"
+            />
           </View>
           <View style={styles.actions}>
             <Sheet>

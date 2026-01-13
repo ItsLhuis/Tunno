@@ -186,10 +186,11 @@ const AnimatedButton = ({
 
 export const buttonStyles = createStyleSheet(({ theme }) => ({
   container: {
-    alignSelf: "stretch"
+    alignSelf: "flex-start"
   },
   button: createVariant({
     base: {
+      width: "auto",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
