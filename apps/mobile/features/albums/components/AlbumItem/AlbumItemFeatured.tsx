@@ -109,7 +109,7 @@ const albumItemFeaturedStyles = createStyleSheet(({ theme, runtime }) => {
       width: thumbnailSize,
       aspectRatio: 1,
       borderRadius: theme.radius(),
-      borderWidth: 0
+      borderWidth: theme.borderWidth("none")
     },
     infoContainer: {
       flex: 1,

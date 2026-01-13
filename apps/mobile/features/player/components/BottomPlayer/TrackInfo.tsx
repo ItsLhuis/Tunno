@@ -57,7 +57,7 @@ const trackInfoStyles = createStyleSheet(({ theme }) => ({
   thumbnail: (hasThumbnail: boolean) =>
     imageStyle({
       ...(hasThumbnail && {
-        borderWidth: 0
+        borderWidth: theme.borderWidth("none")
       })
     }),
   infoContainer: {

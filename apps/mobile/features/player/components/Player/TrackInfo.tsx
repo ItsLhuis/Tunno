@@ -126,7 +126,7 @@ const carouselItemStyles = createStyleSheet(({ theme }) => ({
       width: "100%",
       aspectRatio: 1,
       borderRadius: theme.radius(),
-      ...(hasThumbnail && { borderWidth: 0 })
+      ...(hasThumbnail && { borderWidth: theme.borderWidth("none") })
     })
 }))
 

@@ -6,7 +6,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { useRouter } from "expo-router"
 
-import { Header, IconButton, Text, type ScrollHeaderProps } from "@components/ui"
+import { Header, IconButton, Image, Text, type ScrollHeaderProps } from "@components/ui"
 
 type HomeStickyHeaderProps = ScrollHeaderProps
 
@@ -21,6 +21,13 @@ const HomeStickyHeader = ({ scrollY, showHeader }: HomeStickyHeaderProps) => {
     <Header
       scrollY={scrollY}
       showHeader={showHeader}
+      headerLeft={
+        <Image
+          source={require("@assets/images/app/icons/primary.png")}
+          style={styles.appIcon}
+          contentFit="contain"
+        />
+      }
       headerCenter={
         <Text weight="semibold" numberOfLines={1}>
           {t("home.title")}
@@ -35,7 +42,14 @@ const HomeStickyHeader = ({ scrollY, showHeader }: HomeStickyHeaderProps) => {
   )
 }
 
-const homeStickyHeaderStyles = createStyleSheet(() => ({
+const homeStickyHeaderStyles = createStyleSheet(({ theme }) => ({
+  appIcon: {
+    width: theme.fontSize("xl"),
+    height: theme.fontSize("xl"),
+    borderRadius: theme.radius("none"),
+    backgroundColor: "trasnparent",
+    borderWidth: theme.borderWidth("none")
+  },
   headerRight: {
     flexDirection: "row",
     alignItems: "center"

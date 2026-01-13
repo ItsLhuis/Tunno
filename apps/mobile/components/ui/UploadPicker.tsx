@@ -370,7 +370,7 @@ const uploadPickerStyles = createStyleSheet(({ theme }) => ({
   },
   triggerCard: {
     padding: 0,
-    borderWidth: 0,
+    borderWidth: theme.borderWidth("none"),
     overflow: "hidden"
   },
   trigger: {

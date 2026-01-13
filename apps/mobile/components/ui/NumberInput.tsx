@@ -255,13 +255,13 @@ const numberInputStyles = createStyleSheet(({ theme }) => ({
     }
   }),
   button: {
-    borderRadius: 0
+    borderRadius: theme.radius("none")
   },
   input: {
     flex: 1,
     textAlign: "center",
-    borderWidth: 0,
-    borderRadius: 0,
+    borderWidth: theme.borderWidth("none"),
+    borderRadius: theme.radius("none"),
     backgroundColor: "transparent"
   }
 }))
