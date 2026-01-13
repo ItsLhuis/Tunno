@@ -2,7 +2,7 @@ import { memo } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, ScopedPalette, useStyles } from "@styles"
+import { createStyleSheet, responsive, ScopedPalette, useBreakpoint, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -28,6 +28,8 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
 
   const { t } = useTranslation()
 
+  const breakpoint = useBreakpoint()
+
   const thumbnailUri = useThumbnailUri({ fileName: album.thumbnail })
 
   const { palette } = useImageColorAndPalette({ imageUri: thumbnailUri })
@@ -35,6 +37,9 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
   const { songIds, isShuffling, handleShuffleAndPlay } = useAlbumPlayback(album.id)
 
   const canPlay = songIds && songIds.length > 0
+
+  const titleVariant = responsive({ xs: "h3", sm: "h2", md: "h1" } as const, breakpoint) ?? "h3"
+  const buttonSize = responsive({ xs: "sm", md: "default", xl: "lg" } as const, breakpoint) ?? "sm"
 
   return (
     <View style={styles.container}>
@@ -57,7 +62,7 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
                 animatedTextColor={thumbnailUri ? "primaryForeground" : "background"}
                 style={styles.badge}
               />
-              <AnimatedText variant="h2" numberOfLines={1}>
+              <AnimatedText variant={titleVariant} numberOfLines={1}>
                 {album.name}
               </AnimatedText>
               <AnimatedText size="sm" animatedColor="mutedForeground" numberOfLines={1}>
@@ -66,7 +71,7 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
               </AnimatedText>
               {canPlay && (
                 <AnimatedButton
-                  size="sm"
+                  size={buttonSize}
                   title={t("common.shuffleAndPlay")}
                   leftIcon="Shuffle"
                   isLoading={isShuffling}
@@ -83,36 +88,42 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
   )
 })
 
-const albumItemFeaturedStyles = createStyleSheet(({ theme }) => ({
-  container: {
-    paddingHorizontal: theme.space("lg")
-  },
-  background: {
-    borderRadius: theme.radius("lg")
-  },
-  content: {
-    flexDirection: "row",
-    padding: theme.space("lg"),
-    gap: theme.space()
-  },
-  thumbnail: {
-    width: 150,
-    height: 150,
-    borderRadius: theme.radius(),
-    borderWidth: 0
-  },
-  infoContainer: {
-    flex: 1,
-    justifyContent: "center",
-    gap: theme.space("sm")
-  },
-  badge: {
-    alignSelf: "flex-start"
-  },
-  button: {
-    marginTop: theme.space("sm"),
-    alignSelf: "flex-start"
+const albumItemFeaturedStyles = createStyleSheet(({ theme, runtime }) => {
+  const isColumnLayout = runtime.breakpoint === "xs"
+  const thumbnailSize =
+    responsive({ sm: 140, md: 250, lg: 320, xl: 400 }, runtime.breakpoint) ?? "100%"
+
+  return {
+    container: {
+      paddingHorizontal: theme.space("lg")
+    },
+    background: {
+      borderRadius: theme.radius("lg")
+    },
+    content: {
+      flexDirection: isColumnLayout ? "column" : "row",
+      padding: theme.space("lg"),
+      gap: theme.space()
+    },
+    thumbnail: {
+      width: thumbnailSize,
+      aspectRatio: 1,
+      borderRadius: theme.radius(),
+      borderWidth: 0
+    },
+    infoContainer: {
+      flex: 1,
+      justifyContent: "flex-end",
+      gap: theme.space("sm")
+    },
+    badge: {
+      alignSelf: "flex-start"
+    },
+    button: {
+      marginTop: theme.space("sm"),
+      alignSelf: "flex-start"
+    }
   }
-}))
+})
 
 export { AlbumItemFeatured }

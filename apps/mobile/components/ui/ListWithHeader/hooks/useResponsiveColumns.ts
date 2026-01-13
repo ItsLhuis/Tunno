@@ -1,5 +1,6 @@
-import { type Breakpoint, responsive, useBreakpoint } from "@styles"
 import { useMemo } from "react"
+
+import { type Breakpoint, responsive, useBreakpoint } from "@styles"
 
 export type ResponsiveColumnsConfig = Partial<Record<Breakpoint, number>>
 
