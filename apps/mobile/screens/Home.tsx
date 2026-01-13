@@ -2,14 +2,14 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import { FadingScreen } from "@components/navigation"
 
-import { HomePage } from "@features/home/components"
+import { HomeScreen } from "@features/home/components"
 
 const Home = () => {
   const styles = useStyles(homeStyles)
 
   return (
     <FadingScreen style={styles.container}>
-      <HomePage />
+      <HomeScreen />
     </FadingScreen>
   )
 }

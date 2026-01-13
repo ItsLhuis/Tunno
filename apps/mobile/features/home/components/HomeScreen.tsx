@@ -26,11 +26,11 @@ import {
   YourPlaylists
 } from "./sections"
 
-import { HomePageEmpty } from "./HomePageEmpty"
+import { HomeScreenEmpty } from "./HomeScreenEmpty"
 import { HomeStickyHeader } from "./HomeStickyHeader"
 
-const HomePage = () => {
-  const styles = useStyles(homePageStyles)
+const HomeScreen = () => {
+  const styles = useStyles(homeScreenStyles)
 
   const bottomPlayerHeight = useBottomPlayerHeight()
 
@@ -55,12 +55,13 @@ const HomePage = () => {
     <ScrollViewWithHeaders
       HeaderComponent={HeaderComponent}
       refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
+      contentContainerStyle={styles.contentContainer(isLoading || isError)}
     >
       <AsyncState
         data={home}
         isLoading={isLoading}
         isError={isError}
-        EmptyComponent={<HomePageEmpty />}
+        EmptyComponent={<HomeScreenEmpty />}
       >
         {(data) => {
           const featuredAlbum = data.newReleases?.albums?.[0]
@@ -81,7 +82,7 @@ const HomePage = () => {
             hasFavoriteArtists
 
           return (
-            <AsyncState data={hasAnySection} EmptyComponent={<HomePageEmpty />}>
+            <AsyncState data={hasAnySection} EmptyComponent={<HomeScreenEmpty />}>
               <View style={styles.content(bottomPlayerHeight)}>
                 {featuredAlbum && <AlbumItemFeatured album={featuredAlbum} />}
                 {hasJumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn!} />}
@@ -99,7 +100,13 @@ const HomePage = () => {
   )
 }
 
-const homePageStyles = createStyleSheet(({ theme }) => ({
+const homeScreenStyles = createStyleSheet(({ theme }) => ({
+  contentContainer: (isEmpty: boolean) =>
+    viewStyle({
+      ...(isEmpty && {
+        flex: 1
+      })
+    }),
   content: (bottomOffset: number) =>
     viewStyle({
       paddingBottom: theme.space("lg") + bottomOffset,
@@ -107,4 +114,4 @@ const homePageStyles = createStyleSheet(({ theme }) => ({
     })
 }))
 
-export { HomePage }
+export { HomeScreen }

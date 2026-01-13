@@ -17,8 +17,8 @@ type OnboardingAction = {
   icon: IconProps["name"]
 }
 
-const HomePageEmpty = () => {
-  const styles = useStyles(homePageEmptyStyles)
+const HomeScreenEmpty = () => {
+  const styles = useStyles(homeScreenEmptyStyles)
 
   const { t } = useTranslation()
 
@@ -114,7 +114,7 @@ const HomePageEmpty = () => {
   )
 }
 
-const homePageEmptyStyles = createStyleSheet(({ theme }) => ({
+const homeScreenEmptyStyles = createStyleSheet(({ theme }) => ({
   container: {
     flex: 1,
     justifyContent: "center",
@@ -173,4 +173,4 @@ const homePageEmptyStyles = createStyleSheet(({ theme }) => ({
   }
 }))
 
-export { HomePageEmpty }
+export { HomeScreenEmpty }
