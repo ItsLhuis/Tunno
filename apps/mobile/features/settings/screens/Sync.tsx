@@ -416,7 +416,13 @@ const Sync = () => {
             description="Select your favorite music genres for recommendations"
             renderLeft={() => <Icon name="Music" size="lg" color="mutedForeground" />}
           >
-            <Select multiple value={selectedGenres} onValueChange={setSelectedGenres} maxCount={2}>
+            <Select
+              multiple
+              value={selectedGenres}
+              onValueChange={setSelectedGenres}
+              maxCount={2}
+              getDisplayValue={(val) => GENRES.find((g) => g.value === val)?.label}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select genres" />
               </SelectTrigger>
@@ -453,6 +459,7 @@ const Sync = () => {
               value={selectedPlaylists}
               onValueChange={setSelectedPlaylists}
               maxCount={3}
+              getDisplayValue={(val) => PLAYLISTS.find((p) => p.value === val)?.label}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select playlists" />
@@ -517,7 +524,12 @@ const Sync = () => {
               description={`Scenario: ${testScenario} | Status: ${isTestLoading ? "loading" : testData ? "loaded" : "idle"}`}
               renderLeft={() => <Icon name="FlaskConical" size="lg" color="mutedForeground" />}
             >
-              <Select multiple value={selectedTestArtists} onValueChange={setSelectedTestArtists}>
+              <Select
+                multiple
+                value={selectedTestArtists}
+                onValueChange={setSelectedTestArtists}
+                getDisplayValue={(val) => testArtistOptions.find((a) => a.value === val)?.label}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select artists" />
                 </SelectTrigger>

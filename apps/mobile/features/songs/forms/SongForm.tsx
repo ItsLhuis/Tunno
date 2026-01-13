@@ -44,6 +44,7 @@ import {
   SelectCheckboxItem,
   SelectContent,
   SelectFlashList,
+  SelectGroupHeader,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -60,6 +61,14 @@ import {
 } from "@components/ui"
 
 import { VALID_SONG_FILE_EXTENSIONS, VALID_THUMBNAIL_FILE_EXTENSIONS } from "@repo/shared/constants"
+
+type AlbumOption = {
+  label: string
+  value: string
+  group?: string
+}
+
+type GroupedAlbumItem = { type: "group"; title: string } | { type: "item"; data: AlbumOption }
 
 export type SongFormRenderProps<T extends "insert" | "update"> = {
   isSubmitting: boolean
@@ -273,6 +282,28 @@ const SongForm = ({
     }))
   }, [albumsData])
 
+  const groupedAlbumOptions = useMemo((): GroupedAlbumItem[] => {
+    const groups: Record<string, AlbumOption[]> = {}
+
+    albumOptions.forEach((album) => {
+      const group = album.group ?? "Other"
+      if (!groups[group]) {
+        groups[group] = []
+      }
+      groups[group].push(album)
+    })
+
+    const items: GroupedAlbumItem[] = []
+    Object.entries(groups).forEach(([groupName, albums]) => {
+      items.push({ type: "group", title: groupName })
+      albums.forEach((album) => {
+        items.push({ type: "item", data: album })
+      })
+    })
+
+    return items
+  }, [albumOptions])
+
   const FormContent = (
     <AsyncState
       data={mode === "update" ? song : true}
@@ -417,6 +448,7 @@ const SongForm = ({
                   <Select
                     multiple
                     value={field.value?.map(String) ?? []}
+                    getDisplayValue={(id) => artistOptions.find((o) => o.value === id)?.label}
                     onValueChange={(value) => {
                       const newArtistIds = value.map(Number)
                       field.onChange(newArtistIds)
@@ -489,18 +521,27 @@ const SongForm = ({
                   <Select
                     value={field.value !== null ? String(field.value) : ""}
                     onValueChange={(value) => field.onChange(value ? Number(value) : null)}
+                    getDisplayValue={(id) => albumOptions.find((o) => o.value === id)?.label}
                   >
                     <SelectTrigger disabled={renderProps.isSubmitting}>
                       <SelectValue placeholder={t("form.labels.album")} />
                     </SelectTrigger>
                     <SelectContent virtualized>
                       <SelectFlashList
-                        data={albumOptions}
-                        keyExtractor={(item) => item.value}
-                        contentContainerStyle={styles.selectContent(albumOptions.length === 0)}
-                        renderItem={({ item }) => (
-                          <SelectItem value={item.value} title={item.label} />
+                        data={groupedAlbumOptions}
+                        keyExtractor={(item, index) =>
+                          item.type === "group" ? `group-${index}` : item.data.value
+                        }
+                        contentContainerStyle={styles.selectContent(
+                          groupedAlbumOptions.length === 0
                         )}
+                        renderItem={({ item }) =>
+                          item.type === "group" ? (
+                            <SelectGroupHeader title={item.title} />
+                          ) : (
+                            <SelectItem value={item.data.value} title={item.data.label} />
+                          )
+                        }
                         ListEmptyComponent={
                           isAlbumsLoading ? (
                             <View style={styles.emptySelect}>

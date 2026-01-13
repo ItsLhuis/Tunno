@@ -379,6 +379,7 @@ const AlbumForm = ({
                   <Select
                     multiple
                     value={field.value?.map(String) ?? []}
+                    getDisplayValue={(id) => artistOptions.find((o) => o.value === id)?.label}
                     onValueChange={(value) => {
                       const newArtistIds = value.map(Number)
                       field.onChange(newArtistIds)
