@@ -7,6 +7,7 @@ import {
   useContext,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -56,6 +57,7 @@ type SelectContextValue = {
   toggleValue: (value: string, closeOnSelect?: boolean) => void
   displayValues: Map<string, ReactNode>
   registerDisplayValue: (value: string, display: ReactNode) => void
+  getDisplayValue?: (value: string) => ReactNode | undefined
 }
 
 const SelectContext = createContext<SelectContextValue | undefined>(undefined)
@@ -94,10 +96,11 @@ export type SelectProps = (SelectSingleProps | SelectMultipleProps) & {
   onOpenChange?: (open: boolean) => void
   children: ReactNode
   ref?: React.Ref<BottomSheetRef>
+  getDisplayValue?: (value: string) => ReactNode | undefined
 }
 
 const Select = (props: SelectProps) => {
-  const { open: controlledOpen, onOpenChange, children, ref } = props
+  const { open: controlledOpen, onOpenChange, children, ref, getDisplayValue } = props
 
   const multiple = props.multiple === true
   const maxCount = multiple && "maxCount" in props ? (props.maxCount ?? 3) : 3
@@ -192,7 +195,8 @@ const Select = (props: SelectProps) => {
       isSelected,
       toggleValue,
       displayValues,
-      registerDisplayValue
+      registerDisplayValue,
+      getDisplayValue
     }),
     [
       open,
@@ -203,7 +207,8 @@ const Select = (props: SelectProps) => {
       isSelected,
       toggleValue,
       displayValues,
-      registerDisplayValue
+      registerDisplayValue,
+      getDisplayValue
     ]
   )
 
@@ -235,6 +240,7 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
   const value = selectContext?.value
   const maxCount = selectContext?.maxCount ?? 3
   const displayValues = selectContext?.displayValues
+  const getDisplayValue = selectContext?.getDisplayValue
 
   if (multiple && Array.isArray(value) && value.length > 0) {
     const visibleValues = value.slice(0, maxCount)
@@ -243,7 +249,7 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
     return (
       <View style={[styles.valueBadges, style]}>
         {visibleValues.map((val) => {
-          const displayContent = displayValues?.get(val)
+          const displayContent = displayValues?.get(val) ?? getDisplayValue?.(val)
           const title = typeof displayContent === "string" ? displayContent : val
 
           return (
@@ -268,7 +274,9 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
   }
 
   const singleDisplayValue =
-    !multiple && typeof value === "string" ? displayValues?.get(value) : undefined
+    !multiple && typeof value === "string"
+      ? (displayValues?.get(value) ?? getDisplayValue?.(value))
+      : undefined
   const displayContent = singleDisplayValue ?? placeholder
   const isTextContent = typeof displayContent === "string"
 
@@ -308,6 +316,9 @@ const SelectTrigger = ({
 
   const selectContext = useSelect()
 
+  const hasMultipleValues =
+    selectContext?.multiple && Array.isArray(selectContext.value) && selectContext.value.length > 0
+
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       selectContext?.onOpenChange(true)
@@ -326,7 +337,11 @@ const SelectTrigger = ({
   }
 
   return (
-    <Pressable style={[styles.trigger({ size }), style]} onPress={handlePress} {...props}>
+    <Pressable
+      style={[styles.trigger({ size, hasMultipleValues }), style]}
+      onPress={handlePress}
+      {...props}
+    >
       <View style={styles.triggerContent}>{children}</View>
       <Icon name="ChevronDown" size="sm" color="mutedForeground" />
     </Pressable>
@@ -414,7 +429,7 @@ const SelectItem = ({
     progress.value = withTiming(isSelected ? 1 : 0, { duration: durationTokens[150] })
   }, [isSelected, progress])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (displayContent !== undefined) selectContext?.registerDisplayValue(value, displayContent)
   }, [displayContent, value, selectContext])
 
@@ -471,7 +486,7 @@ const SelectCheckboxItem = ({
 
   const displayContent = children ?? title
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (displayContent !== undefined) selectContext?.registerDisplayValue(value, displayContent)
   }, [displayContent, value, selectContext])
 
@@ -566,14 +581,21 @@ const selectStyles = createStyleSheet(({ theme, runtime }) => ({
       borderRadius: theme.radius(),
       borderWidth: theme.borderWidth(),
       borderColor: theme.colors.input,
-      backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
-      paddingHorizontal: theme.space(3),
-      paddingVertical: theme.space(2)
+      backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75))
     },
     variants: {
-      size: { default: { minHeight: theme.space(9) }, sm: { minHeight: theme.space(8) } }
+      size: { default: { minHeight: theme.space(9) }, sm: { minHeight: theme.space(8) } },
+      hasMultipleValues: {
+        true: {
+          minHeight: "auto",
+          paddingVertical: theme.space(0.5),
+          paddingLeft: theme.space(0.5),
+          paddingRight: theme.space(3)
+        },
+        false: { paddingHorizontal: theme.space(3), paddingVertical: theme.space(2) }
+      }
     },
-    defaultVariants: { size: "default" }
+    defaultVariants: { size: "default", hasMultipleValues: false }
   }),
   triggerContent: { flex: 1, flexDirection: "row", alignItems: "center", gap: theme.space(2) },
   value: { flex: 1 },
