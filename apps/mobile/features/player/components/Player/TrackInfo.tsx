@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef } from "react"
 
 import { View } from "react-native"
 
@@ -35,22 +35,29 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler"
 
 import { AnimatedIconButton, AnimatedText, Thumbnail } from "@components/ui"
 
+import { type LRUCache } from "@repo/utils"
+
 import { type SongWithMainRelations } from "@repo/api"
+
+const ITEM_WIDTH_RATIO = 0.75
+const ITEM_GAP = spacingTokens.lg
+
+const SIDE_SCALE = 0.75
+const SIDE_OPACITY = 1
+
+const WINDOW_OFFSET = 4
+
+const ANIMATION_DURATION = durationTokens[300]
+
+const SWIPE_VELOCITY_THRESHOLD_PX_S = durationTokens[500]
+const SWIPE_DISTANCE_THRESHOLD = 0.25
+
+const OVERSCROLL_RATIO = 0.2
 
 type VisibleTrack = {
   song: SongWithMainRelations
   queueIndex: number
 }
-
-const ITEM_WIDTH_RATIO = 0.75
-const ITEM_GAP = spacingTokens.lg
-const SIDE_SCALE = 0.75
-const SIDE_OPACITY = 1
-
-const WINDOW_OFFSET = 4
-const ANIMATION_DURATION = durationTokens[300]
-const SWIPE_VELOCITY_THRESHOLD = durationTokens[500]
-const SWIPE_DISTANCE_THRESHOLD = 0.25
 
 type CarouselDimensions = {
   itemWidth: number
@@ -66,54 +73,116 @@ const calculateDimensions = (screenWidth: number): CarouselDimensions => {
   return { itemWidth, snapInterval, containerPadding }
 }
 
+const calculateVisibleTracks = (
+  currentTrackIndex: number | null,
+  queueIds: number[],
+  cachedSongs: LRUCache<number, SongWithMainRelations>
+): { visibleTracks: VisibleTrack[]; currentVisualIndex: number } => {
+  if (currentTrackIndex === null || queueIds.length === 0) {
+    return { visibleTracks: [], currentVisualIndex: 0 }
+  }
+
+  const items: VisibleTrack[] = []
+  let currentIdx = -1
+
+  for (let offset = -WINDOW_OFFSET; offset <= WINDOW_OFFSET; offset++) {
+    const queueIdx = currentTrackIndex + offset
+
+    if (queueIdx < 0 || queueIdx >= queueIds.length) {
+      continue
+    }
+
+    const songId = queueIds[queueIdx]
+    const song = cachedSongs.get(songId)
+
+    if (song) {
+      if (offset === 0) {
+        currentIdx = items.length
+      }
+      items.push({ song, queueIndex: queueIdx })
+    }
+  }
+
+  if (currentIdx === -1 && items.length > 0) {
+    currentIdx = Math.floor(items.length / 2)
+  }
+
+  return {
+    visibleTracks: items,
+    currentVisualIndex: Math.max(0, currentIdx)
+  }
+}
+
 type CarouselItemProps = {
   item: VisibleTrack
   visualIndex: number
   offsetX: SharedValue<number>
   dimensions: CarouselDimensions
-  onPress: (visualIndex: number) => void
+  onTap: (visualIndex: number) => void
 }
 
-const CarouselItem = ({ item, visualIndex, offsetX, dimensions, onPress }: CarouselItemProps) => {
-  const styles = useStyles(carouselItemStyles)
+const CarouselItem = memo(
+  ({ item, visualIndex, offsetX, dimensions, onTap }: CarouselItemProps) => {
+    const styles = useStyles(carouselItemStyles)
 
-  const { itemWidth, snapInterval } = dimensions
+    const { itemWidth, snapInterval } = dimensions
 
-  const animatedStyle = useAnimatedStyle(() => {
-    const itemCenter = visualIndex * snapInterval
-    const distance = offsetX.value - itemCenter
-    const normalizedDistance = Math.abs(distance) / snapInterval
+    const animatedStyle = useAnimatedStyle(() => {
+      const itemCenter = visualIndex * snapInterval
+      const distance = offsetX.value - itemCenter
+      const normalizedDistance = Math.abs(distance) / snapInterval
 
-    const scale = interpolate(normalizedDistance, [0, 1], [1, SIDE_SCALE], Extrapolation.CLAMP)
+      const scale = interpolate(normalizedDistance, [0, 1], [1, SIDE_SCALE], Extrapolation.CLAMP)
 
-    const opacity = interpolate(normalizedDistance, [0, 1], [1, SIDE_OPACITY], Extrapolation.CLAMP)
+      const opacity = interpolate(
+        normalizedDistance,
+        [0, 1],
+        [1, SIDE_OPACITY],
+        Extrapolation.CLAMP
+      )
 
-    const scaleOffset = (itemWidth * (1 - scale)) / 2
-    const translateX = distance > 0 ? scaleOffset : -scaleOffset
+      const scaleOffset = (itemWidth * (1 - scale)) / 2
+      const translateX = distance > 0 ? scaleOffset : -scaleOffset
 
-    return {
-      transform: [{ translateX }, { scale }],
-      opacity
-    }
-  })
+      return {
+        transform: [{ translateX }, { scale }],
+        opacity
+      }
+    }, [visualIndex, snapInterval, itemWidth])
 
-  const tapGesture = Gesture.Tap().onEnd(() => {
-    "worklet"
-    scheduleOnRN(onPress, visualIndex)
-  })
+    const tapGesture = useMemo(
+      () =>
+        Gesture.Tap().onEnd(() => {
+          "worklet"
+          scheduleOnRN(onTap, visualIndex)
+        }),
+      [onTap, visualIndex]
+    )
 
-  return (
-    <GestureDetector gesture={tapGesture}>
-      <Animated.View style={[styles.itemContainer(itemWidth), animatedStyle]}>
-        <Thumbnail
-          fileName={item.song.thumbnail}
-          placeholderIcon="Music"
-          containerStyle={styles.thumbnail(!!item.song.thumbnail)}
-        />
-      </Animated.View>
-    </GestureDetector>
-  )
-}
+    return (
+      <GestureDetector gesture={tapGesture}>
+        <Animated.View style={[styles.itemContainer(itemWidth), animatedStyle]}>
+          <Thumbnail
+            fileName={item.song.thumbnail}
+            placeholderIcon="Music"
+            containerStyle={styles.thumbnail(!!item.song.thumbnail)}
+          />
+        </Animated.View>
+      </GestureDetector>
+    )
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.item.song.id === nextProps.item.song.id &&
+      prevProps.item.song.thumbnail === nextProps.item.song.thumbnail &&
+      prevProps.item.queueIndex === nextProps.item.queueIndex &&
+      prevProps.visualIndex === nextProps.visualIndex &&
+      prevProps.dimensions.itemWidth === nextProps.dimensions.itemWidth &&
+      prevProps.dimensions.snapInterval === nextProps.dimensions.snapInterval &&
+      prevProps.onTap === nextProps.onTap
+    )
+  }
+)
 
 const carouselItemStyles = createStyleSheet(({ theme }) => ({
   itemContainer: (width: number) => ({
@@ -142,7 +211,11 @@ const TrackInfo = () => {
   const offsetX = useSharedValue(0)
   const gestureStartOffset = useSharedValue(0)
   const isGestureActive = useSharedValue(false)
+
   const isInitialized = useRef(false)
+  const isGestureActiveRef = useRef(false)
+  const pendingVisualIndex = useRef<number | null>(null)
+
   const lastSyncedQueueIndex = useRef<number | null>(null)
 
   const { currentTrack, queueIds, currentTrackIndex, cachedSongs, isQueueLoading, skipToTrack } =
@@ -159,103 +232,45 @@ const TrackInfo = () => {
 
   const toggleFavoriteMutation = useToggleSongFavorite()
 
+  const dimensions = useMemo(() => calculateDimensions(screenWidth), [screenWidth])
+
+  const { itemWidth, snapInterval, containerPadding } = dimensions
+
+  const { visibleTracks, currentVisualIndex } = useMemo(
+    () => calculateVisibleTracks(currentTrackIndex, queueIds, cachedSongs),
+    [currentTrackIndex, queueIds, cachedSongs]
+  )
+
+  const maxVisualIndex = Math.max(0, visibleTracks.length - 1)
+
   const handleToggleFavorite = async () => {
     if (currentTrack?.id) {
       await toggleFavoriteMutation.mutateAsync({ id: currentTrack.id })
     }
   }
 
-  const { visibleTracks, currentVisualIndex } = useMemo(() => {
-    if (currentTrackIndex === null || queueIds.length === 0) {
-      return { visibleTracks: [], currentVisualIndex: 0 }
-    }
-
-    const items: VisibleTrack[] = []
-    let currentIdx = -1
-
-    for (let offset = -WINDOW_OFFSET; offset <= WINDOW_OFFSET; offset++) {
-      const queueIdx = currentTrackIndex + offset
-
-      if (queueIdx < 0 || queueIdx >= queueIds.length) {
-        continue
-      }
-
-      const songId = queueIds[queueIdx]
-      const song = cachedSongs.get(songId)
-
-      if (song) {
-        if (offset === 0) {
-          currentIdx = items.length
-        }
-
-        items.push({
-          song,
-          queueIndex: queueIdx
-        })
-      }
-    }
-
-    if (currentIdx === -1 && items.length > 0) {
-      currentIdx = Math.floor(items.length / 2)
-    }
-
-    return {
-      visibleTracks: items,
-      currentVisualIndex: Math.max(0, currentIdx)
-    }
-  }, [currentTrackIndex, queueIds, cachedSongs])
-
-  const dimensions = useMemo(() => calculateDimensions(screenWidth), [screenWidth])
-
-  const { itemWidth, snapInterval, containerPadding } = dimensions
-
-  const maxVisualIndex = Math.max(0, visibleTracks.length - 1)
-
   const handleTrackChange = useCallback(
-    (visualIndex: number) => {
+    async (visualIndex: number) => {
       const track = visibleTracks[visualIndex]
-
       if (!track) return
 
-      if (track.queueIndex !== currentTrackIndex) {
-        lastSyncedQueueIndex.current = track.queueIndex
-        skipToTrack(track.queueIndex)
+      const previousQueueIndex = lastSyncedQueueIndex.current
+      lastSyncedQueueIndex.current = track.queueIndex
+
+      if (track.queueIndex === currentTrackIndex) {
+        return
+      }
+
+      try {
+        await skipToTrack(track.queueIndex)
+      } catch {
+        lastSyncedQueueIndex.current = previousQueueIndex
+        const revertOffset = currentVisualIndex * snapInterval
+        offsetX.value = withTiming(revertOffset, { duration: ANIMATION_DURATION })
       }
     },
-    [visibleTracks, currentTrackIndex, skipToTrack]
+    [visibleTracks, currentTrackIndex, currentVisualIndex, snapInterval, skipToTrack, offsetX]
   )
-
-  useEffect(() => {
-    if (visibleTracks.length > 0 && !isInitialized.current) {
-      const initialOffset = currentVisualIndex * snapInterval
-
-      offsetX.value = initialOffset
-      lastSyncedQueueIndex.current = currentTrackIndex
-      isInitialized.current = true
-    }
-  }, [visibleTracks.length, currentVisualIndex, snapInterval, currentTrackIndex])
-
-  useEffect(() => {
-    if (
-      isInitialized.current &&
-      visibleTracks.length > 0 &&
-      lastSyncedQueueIndex.current !== currentTrackIndex &&
-      !isGestureActive.value
-    ) {
-      const targetOffset = currentVisualIndex * snapInterval
-
-      offsetX.value = withTiming(targetOffset, { duration: ANIMATION_DURATION })
-      lastSyncedQueueIndex.current = currentTrackIndex
-    }
-  }, [currentVisualIndex, visibleTracks.length, currentTrackIndex, snapInterval])
-
-  useEffect(() => {
-    if (queueIds.length === 0) {
-      isInitialized.current = false
-      lastSyncedQueueIndex.current = null
-      offsetX.value = 0
-    }
-  }, [queueIds.length])
 
   const snapToIndex = useCallback(
     (targetIndex: number) => {
@@ -272,14 +287,66 @@ const TrackInfo = () => {
     [maxVisualIndex, snapInterval, handleTrackChange]
   )
 
-  const handleItemPress = useCallback(
+  const handleItemTap = useCallback(
     (visualIndex: number) => {
-      if (visualIndex !== currentVisualIndex && !isQueueLoading) {
-        snapToIndex(visualIndex)
+      if (visualIndex === currentVisualIndex || isQueueLoading) {
+        return
       }
+      snapToIndex(visualIndex)
     },
     [currentVisualIndex, isQueueLoading, snapToIndex]
   )
+
+  useEffect(() => {
+    if (visibleTracks.length > 0 && !isInitialized.current) {
+      const initialOffset = currentVisualIndex * snapInterval
+      offsetX.value = initialOffset
+      lastSyncedQueueIndex.current = currentTrackIndex
+      isInitialized.current = true
+    }
+  }, [visibleTracks.length, currentVisualIndex, snapInterval, currentTrackIndex, offsetX])
+
+  useEffect(() => {
+    if (
+      !isInitialized.current ||
+      visibleTracks.length === 0 ||
+      lastSyncedQueueIndex.current === currentTrackIndex
+    ) {
+      return
+    }
+
+    if (isGestureActiveRef.current) {
+      pendingVisualIndex.current = currentVisualIndex
+      return
+    }
+
+    const targetOffset = currentVisualIndex * snapInterval
+    offsetX.value = withTiming(targetOffset, { duration: ANIMATION_DURATION })
+    lastSyncedQueueIndex.current = currentTrackIndex
+  }, [currentVisualIndex, visibleTracks.length, currentTrackIndex, snapInterval, offsetX])
+
+  useEffect(() => {
+    if (queueIds.length === 0) {
+      isInitialized.current = false
+      lastSyncedQueueIndex.current = null
+      offsetX.value = 0
+    }
+  }, [queueIds.length, offsetX])
+
+  const setGestureActiveRef = useCallback((value: boolean) => {
+    isGestureActiveRef.current = value
+  }, [])
+
+  const handleGestureEnd = useCallback(() => {
+    isGestureActiveRef.current = false
+
+    if (pendingVisualIndex.current === null) return
+
+    const targetOffset = pendingVisualIndex.current * snapInterval
+    offsetX.value = withTiming(targetOffset, { duration: ANIMATION_DURATION })
+    lastSyncedQueueIndex.current = currentTrackIndex
+    pendingVisualIndex.current = null
+  }, [snapInterval, currentTrackIndex, offsetX])
 
   const panGesture = Gesture.Pan()
     .enabled(!isQueueLoading && visibleTracks.length > 1)
@@ -288,28 +355,26 @@ const TrackInfo = () => {
       "worklet"
       isGestureActive.value = true
       gestureStartOffset.value = offsetX.value
+      scheduleOnRN(setGestureActiveRef, true)
     })
     .onUpdate((event) => {
       "worklet"
       const newOffset = gestureStartOffset.value - event.translationX
       const maxOffset = maxVisualIndex * snapInterval
-      const overscrollLimit = itemWidth * 0.2
+      const overscrollLimit = itemWidth * OVERSCROLL_RATIO
 
       offsetX.value = Math.max(-overscrollLimit, Math.min(newOffset, maxOffset + overscrollLimit))
     })
     .onEnd((event) => {
       "worklet"
-      isGestureActive.value = false
-
       const velocity = -event.velocityX
       const translation = -event.translationX
-
       const currentOffset = offsetX.value
       const nearestIndex = Math.round(currentOffset / snapInterval)
 
       let targetIndex = nearestIndex
 
-      if (Math.abs(velocity) > SWIPE_VELOCITY_THRESHOLD) {
+      if (Math.abs(velocity) > SWIPE_VELOCITY_THRESHOLD_PX_S) {
         targetIndex = velocity > 0 ? nearestIndex + 1 : nearestIndex - 1
       } else if (Math.abs(translation) > itemWidth * SWIPE_DISTANCE_THRESHOLD) {
         targetIndex = translation > 0 ? nearestIndex + 1 : nearestIndex - 1
@@ -322,6 +387,7 @@ const TrackInfo = () => {
     .onFinalize(() => {
       "worklet"
       isGestureActive.value = false
+      scheduleOnRN(handleGestureEnd)
     })
 
   const carouselAnimatedStyle = useAnimatedStyle(() => ({
@@ -348,7 +414,7 @@ const TrackInfo = () => {
                   visualIndex={index}
                   offsetX={offsetX}
                   dimensions={dimensions}
-                  onPress={handleItemPress}
+                  onTap={handleItemTap}
                 />
               ))}
             </Animated.View>
