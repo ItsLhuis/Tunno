@@ -17,7 +17,7 @@ import { type Palette } from "@repo/utils"
  * @example
  * ```tsx
  * function DynamicThemedComponent({ imageSrc }) {
- *   const { palette } = useImagePalette({ imageSrc });
+ *   const { palette } = useImageColorAndPalette({ imageSrc });
  *   const cssVariables = usePaletteCssVariables(palette);
  *
  *   return (
