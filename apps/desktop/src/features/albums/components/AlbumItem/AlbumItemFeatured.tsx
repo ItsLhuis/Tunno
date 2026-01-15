@@ -3,7 +3,7 @@ import { type CSSProperties, memo } from "react"
 import { useTranslation } from "@repo/i18n"
 
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
-import { useImageSrc } from "@hooks/useImageSrc"
+import { useThumbnailSrc } from "@hooks/useThumbnailSrc"
 import { usePaletteCssVariables } from "@hooks/usePaletteCssVariables"
 
 import { useAlbumPlayback } from "./hooks"
@@ -21,9 +21,9 @@ import { type AlbumItemFeaturedProps } from "./types"
 const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
   const { t } = useTranslation()
 
-  const imageSrc = useImageSrc({ thumbnail: album.thumbnail })
+  const thumbnailSrc = useThumbnailSrc({ fileName: album.thumbnail })
 
-  const { dominantColor, palette, imageRef } = useImageColorAndPalette({ imageSrc })
+  const { dominantColor, palette } = useImageColorAndPalette({ imageSrc: thumbnailSrc })
 
   const cssVariables = usePaletteCssVariables(palette)
 
@@ -44,9 +44,6 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
           }}
         />
       </AnimatePresence>
-      {imageSrc && (
-        <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
-      )}
       <div className="relative flex flex-col gap-6 p-9 md:flex-row md:items-end">
         <div className="aspect-square w-full shrink-0 md:w-100">
           <motion.div
@@ -72,7 +69,7 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
           <div className="flex min-w-0 flex-1 flex-col gap-2">
             <Badge
               variant="muted"
-              className={cn("w-fit", !album.thumbnail && "bg-foreground text-background")}
+              className={cn("w-fit", !dominantColor && "bg-foreground text-background")}
             >
               {t("common.featured")}
             </Badge>
