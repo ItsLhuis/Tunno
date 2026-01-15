@@ -5,7 +5,7 @@ import { useShallow } from "zustand/shallow"
 import { usePlayerStore } from "../../../stores/usePlayerStore"
 
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
-import { useImageSrc } from "@hooks/useImageSrc"
+import { useThumbnailSrc } from "@hooks/useThumbnailSrc"
 import { usePaletteCssVariables } from "@hooks/usePaletteCssVariables"
 
 import { PlaybackControls } from "./PlaybackControls"
@@ -21,17 +21,14 @@ const CompactLayout = () => {
     }))
   )
 
-  const imageSrc = useImageSrc({ thumbnail: currentTrack?.thumbnail })
+  const thumbnailSrc = useThumbnailSrc({ fileName: currentTrack?.thumbnail })
 
-  const { dominantColor, palette, imageRef } = useImageColorAndPalette({ imageSrc })
+  const { dominantColor, palette } = useImageColorAndPalette({ imageSrc: thumbnailSrc })
 
   const cssVariables = usePaletteCssVariables(palette)
 
   return (
     <Fragment>
-      {imageSrc && (
-        <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
-      )}
       <motion.div
         className="grid size-full grid-cols-[auto_1fr_auto]"
         animate={{

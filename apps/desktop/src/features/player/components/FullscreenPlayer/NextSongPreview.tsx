@@ -6,8 +6,8 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
-import { useImagePalette } from "@hooks/useImagePalette"
-import { useImageSrc } from "@hooks/useImageSrc"
+import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
+import { useThumbnailSrc } from "@hooks/useThumbnailSrc"
 import { usePaletteCssVariables } from "@hooks/usePaletteCssVariables"
 
 import { cn } from "@lib/utils"
@@ -86,12 +86,12 @@ const NextSongPreview = () => {
     }
   }, [queueIds, currentTrackIndex, cachedSongs, duration, position, repeatMode])
 
-  const imageSrc = useImageSrc({
-    thumbnail: nextSong?.thumbnail,
+  const thumbnailSrc = useThumbnailSrc({ fileName: nextSong?.thumbnail })
+
+  const { palette } = useImageColorAndPalette({
+    imageSrc: thumbnailSrc,
     enabled: shouldShow && !!nextSong
   })
-
-  const { palette, imageRef } = useImagePalette({ imageSrc, enabled: shouldShow && !!nextSong })
 
   const cssVariables = usePaletteCssVariables(palette)
 
@@ -111,14 +111,6 @@ const NextSongPreview = () => {
           className="bg-background absolute right-[2vh] bottom-[2vh] z-10 flex max-w-[25vw] items-center gap-[1vh] rounded p-[1.5vh] shadow-lg backdrop-blur-md"
           style={cssVariables as CSSProperties}
         >
-          {imageSrc && (
-            <img
-              ref={imageRef}
-              src={imageSrc}
-              style={{ display: "none" }}
-              crossOrigin="anonymous"
-            />
-          )}
           <div className="shrink-0">
             <Thumbnail
               placeholderIcon="Music"

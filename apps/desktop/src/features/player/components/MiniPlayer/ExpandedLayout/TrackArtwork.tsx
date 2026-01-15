@@ -2,8 +2,8 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../../stores/usePlayerStore"
 
-import { useImageColor } from "@hooks/useImageColor"
-import { useImageSrc } from "@hooks/useImageSrc"
+import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
+import { useThumbnailSrc } from "@hooks/useThumbnailSrc"
 
 import { cn } from "@lib/utils"
 
@@ -20,9 +20,9 @@ const TrackArtwork = () => {
     }))
   )
 
-  const imageSrc = useImageSrc({ thumbnail: currentTrack?.thumbnail })
+  const thumbnailSrc = useThumbnailSrc({ fileName: currentTrack?.thumbnail })
 
-  const { dominantColor, imageRef } = useImageColor({ imageSrc })
+  const { dominantColor } = useImageColorAndPalette({ imageSrc: thumbnailSrc })
 
   return (
     <div className="group relative flex size-full items-center justify-center overflow-hidden p-1">
@@ -36,9 +36,6 @@ const TrackArtwork = () => {
           ease: "easeInOut"
         }}
       >
-        {imageSrc && (
-          <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
-        )}
         <div className="aspect-square h-full w-fit p-6">
           <Thumbnail
             placeholderIcon="Music"

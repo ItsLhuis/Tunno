@@ -5,7 +5,7 @@ import { useShallow } from "zustand/shallow"
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
-import { useImageSrc } from "@hooks/useImageSrc"
+import { useThumbnailSrc } from "@hooks/useThumbnailSrc"
 
 import { cn } from "@lib/utils"
 
@@ -27,9 +27,9 @@ const TrackArtwork = ({ onPaletteChange, onDominantColorChange }: TrackArtworkPr
     }))
   )
 
-  const imageSrc = useImageSrc({ thumbnail: currentTrack?.thumbnail })
+  const thumbnailSrc = useThumbnailSrc({ fileName: currentTrack?.thumbnail })
 
-  const { dominantColor, palette, imageRef } = useImageColorAndPalette({ imageSrc })
+  const { dominantColor, palette } = useImageColorAndPalette({ imageSrc: thumbnailSrc })
 
   useEffect(() => {
     onPaletteChange(palette)
@@ -51,9 +51,6 @@ const TrackArtwork = ({ onPaletteChange, onDominantColorChange }: TrackArtworkPr
           ease: "easeInOut"
         }}
       >
-        {imageSrc && (
-          <img ref={imageRef} src={imageSrc} style={{ display: "none" }} crossOrigin="anonymous" />
-        )}
         <div className="aspect-square size-full">
           <Thumbnail
             placeholderIcon="Music"
