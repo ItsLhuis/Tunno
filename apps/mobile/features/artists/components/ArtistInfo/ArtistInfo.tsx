@@ -1,8 +1,8 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, spacingTokens, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { useLocalSearchParams } from "expo-router"
 
@@ -31,8 +31,6 @@ const ArtistInfo = () => {
   const styles = useStyles(artistInfoStyles)
 
   const { id } = useLocalSearchParams<{ id: string }>()
-
-  const gap = spacingTokens.sm
 
   const bottomPlayerHeight = useBottomPlayerHeight()
 
@@ -99,31 +97,37 @@ const ArtistInfo = () => {
     return <NotFound />
   }, [isSongsLoading, styles.centered])
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: SongWithMainRelations; index: number }): ReactElement => {
+      const isLastItem = index === songs.length - 1
+
+      return (
+        <View style={styles.listItemWrapper(isLastItem)}>
+          <SongItemList
+            song={item}
+            allSongIds={allSongIds}
+            playSource="artist"
+            sourceContextId={artist?.id}
+          />
+        </View>
+      )
+    },
+    [songs.length, styles, allSongIds, artist?.id]
+  )
+
   return (
     <AsyncState data={artist} isLoading={isArtistLoading} isError={isArtistError}>
-      {(data) => (
+      {() => (
         <FlashListWithHeaders
           HeaderComponent={HeaderComponent}
           LargeHeaderComponent={LargeHeaderComponent}
+          disableAutoFixScroll
           data={songs}
           keyExtractor={keyExtractor}
           ListEmptyComponent={ListEmptyComponent}
-          contentContainerStyle={styles.contentContainer(songs.length === 0, bottomPlayerHeight)}
+          contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
           refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-          renderItem={({ item, index }) => {
-            const isLastItem = index === songs.length - 1
-
-            return (
-              <View style={styles.listItemWrapper(isLastItem ? 0 : gap)}>
-                <SongItemList
-                  song={item}
-                  allSongIds={allSongIds}
-                  playSource="artist"
-                  sourceContextId={data.id}
-                />
-              </View>
-            )
-          }}
+          renderItem={renderItem}
         />
       )}
     </AsyncState>
@@ -137,16 +141,14 @@ const artistInfoStyles = createStyleSheet(({ theme, runtime }) => ({
     justifyContent: "center",
     padding: theme.space(4)
   },
-  contentContainer: (isEmpty: boolean, bottomOffset: number) =>
+  contentContainer: (bottomOffset: number) =>
     viewStyle({
-      paddingBottom: theme.space("lg") + runtime.insets.bottom + bottomOffset,
-      ...(isEmpty && {
-        flex: 1
-      })
+      flexGrow: 1,
+      paddingBottom: theme.space("lg") + runtime.insets.bottom + bottomOffset
     }),
-  listItemWrapper: (marginBottom: number) =>
+  listItemWrapper: (isLastItem: boolean) =>
     viewStyle({
-      marginBottom,
+      marginBottom: isLastItem ? 0 : theme.space(),
       paddingHorizontal: theme.space("lg")
     })
 }))

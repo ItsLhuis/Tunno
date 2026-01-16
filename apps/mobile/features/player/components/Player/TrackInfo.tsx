@@ -49,7 +49,7 @@ const WINDOW_OFFSET = 4
 
 const ANIMATION_DURATION = durationTokens[300]
 
-const SWIPE_VELOCITY_THRESHOLD_PX_S = durationTokens[500]
+const SWIPE_VELOCITY_THRESHOLD = durationTokens[500]
 const SWIPE_DISTANCE_THRESHOLD = 0.25
 
 const OVERSCROLL_RATIO = 0.2
@@ -175,11 +175,8 @@ const CarouselItem = memo(
     return (
       prevProps.item.song.id === nextProps.item.song.id &&
       prevProps.item.song.thumbnail === nextProps.item.song.thumbnail &&
-      prevProps.item.queueIndex === nextProps.item.queueIndex &&
       prevProps.visualIndex === nextProps.visualIndex &&
-      prevProps.dimensions.itemWidth === nextProps.dimensions.itemWidth &&
-      prevProps.dimensions.snapInterval === nextProps.dimensions.snapInterval &&
-      prevProps.onTap === nextProps.onTap
+      prevProps.dimensions.snapInterval === nextProps.dimensions.snapInterval
     )
   }
 )
@@ -213,9 +210,6 @@ const TrackInfo = () => {
   const isGestureActive = useSharedValue(false)
 
   const isInitialized = useRef(false)
-  const isGestureActiveRef = useRef(false)
-  const pendingVisualIndex = useRef<number | null>(null)
-
   const lastSyncedQueueIndex = useRef<number | null>(null)
 
   const { currentTrack, queueIds, currentTrackIndex, cachedSongs, isQueueLoading, skipToTrack } =
@@ -250,26 +244,18 @@ const TrackInfo = () => {
   }
 
   const handleTrackChange = useCallback(
-    async (visualIndex: number) => {
+    (visualIndex: number) => {
       const track = visibleTracks[visualIndex]
       if (!track) return
-
-      const previousQueueIndex = lastSyncedQueueIndex.current
-      lastSyncedQueueIndex.current = track.queueIndex
 
       if (track.queueIndex === currentTrackIndex) {
         return
       }
 
-      try {
-        await skipToTrack(track.queueIndex)
-      } catch {
-        lastSyncedQueueIndex.current = previousQueueIndex
-        const revertOffset = currentVisualIndex * snapInterval
-        offsetX.value = withTiming(revertOffset, { duration: ANIMATION_DURATION })
-      }
+      lastSyncedQueueIndex.current = track.queueIndex
+      skipToTrack(track.queueIndex)
     },
-    [visibleTracks, currentTrackIndex, currentVisualIndex, snapInterval, skipToTrack, offsetX]
+    [visibleTracks, currentTrackIndex, skipToTrack]
   )
 
   const snapToIndex = useCallback(
@@ -284,18 +270,20 @@ const TrackInfo = () => {
         }
       })
     },
-    [maxVisualIndex, snapInterval, handleTrackChange]
+    [maxVisualIndex, snapInterval, handleTrackChange, offsetX]
   )
 
-  const handleItemTap = useCallback(
-    (visualIndex: number) => {
-      if (visualIndex === currentVisualIndex || isQueueLoading) {
-        return
-      }
-      snapToIndex(visualIndex)
-    },
-    [currentVisualIndex, isQueueLoading, snapToIndex]
-  )
+  const handleItemTapRef = useRef<(index: number) => void>(() => {})
+  handleItemTapRef.current = (visualIndex: number) => {
+    if (visualIndex === currentVisualIndex || isQueueLoading) {
+      return
+    }
+    snapToIndex(visualIndex)
+  }
+
+  const handleItemTap = useCallback((visualIndex: number) => {
+    handleItemTapRef.current(visualIndex)
+  }, [])
 
   useEffect(() => {
     if (visibleTracks.length > 0 && !isInitialized.current) {
@@ -307,23 +295,29 @@ const TrackInfo = () => {
   }, [visibleTracks.length, currentVisualIndex, snapInterval, currentTrackIndex, offsetX])
 
   useEffect(() => {
-    if (
-      !isInitialized.current ||
-      visibleTracks.length === 0 ||
-      lastSyncedQueueIndex.current === currentTrackIndex
-    ) {
+    if (!isInitialized.current || visibleTracks.length === 0) {
       return
     }
 
-    if (isGestureActiveRef.current) {
-      pendingVisualIndex.current = currentVisualIndex
+    if (lastSyncedQueueIndex.current === currentTrackIndex) {
+      return
+    }
+
+    if (isGestureActive.value) {
       return
     }
 
     const targetOffset = currentVisualIndex * snapInterval
     offsetX.value = withTiming(targetOffset, { duration: ANIMATION_DURATION })
     lastSyncedQueueIndex.current = currentTrackIndex
-  }, [currentVisualIndex, visibleTracks.length, currentTrackIndex, snapInterval, offsetX])
+  }, [
+    currentVisualIndex,
+    visibleTracks.length,
+    currentTrackIndex,
+    snapInterval,
+    offsetX,
+    isGestureActive
+  ])
 
   useEffect(() => {
     if (queueIds.length === 0) {
@@ -333,21 +327,6 @@ const TrackInfo = () => {
     }
   }, [queueIds.length, offsetX])
 
-  const setGestureActiveRef = useCallback((value: boolean) => {
-    isGestureActiveRef.current = value
-  }, [])
-
-  const handleGestureEnd = useCallback(() => {
-    isGestureActiveRef.current = false
-
-    if (pendingVisualIndex.current === null) return
-
-    const targetOffset = pendingVisualIndex.current * snapInterval
-    offsetX.value = withTiming(targetOffset, { duration: ANIMATION_DURATION })
-    lastSyncedQueueIndex.current = currentTrackIndex
-    pendingVisualIndex.current = null
-  }, [snapInterval, currentTrackIndex, offsetX])
-
   const panGesture = Gesture.Pan()
     .enabled(!isQueueLoading && visibleTracks.length > 1)
     .activeOffsetX([-10, 10])
@@ -355,7 +334,6 @@ const TrackInfo = () => {
       "worklet"
       isGestureActive.value = true
       gestureStartOffset.value = offsetX.value
-      scheduleOnRN(setGestureActiveRef, true)
     })
     .onUpdate((event) => {
       "worklet"
@@ -367,6 +345,8 @@ const TrackInfo = () => {
     })
     .onEnd((event) => {
       "worklet"
+      isGestureActive.value = false
+
       const velocity = -event.velocityX
       const translation = -event.translationX
       const currentOffset = offsetX.value
@@ -374,7 +354,7 @@ const TrackInfo = () => {
 
       let targetIndex = nearestIndex
 
-      if (Math.abs(velocity) > SWIPE_VELOCITY_THRESHOLD_PX_S) {
+      if (Math.abs(velocity) > SWIPE_VELOCITY_THRESHOLD) {
         targetIndex = velocity > 0 ? nearestIndex + 1 : nearestIndex - 1
       } else if (Math.abs(translation) > itemWidth * SWIPE_DISTANCE_THRESHOLD) {
         targetIndex = translation > 0 ? nearestIndex + 1 : nearestIndex - 1
@@ -387,7 +367,6 @@ const TrackInfo = () => {
     .onFinalize(() => {
       "worklet"
       isGestureActive.value = false
-      scheduleOnRN(handleGestureEnd)
     })
 
   const carouselAnimatedStyle = useAnimatedStyle(() => ({

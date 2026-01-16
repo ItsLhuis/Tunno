@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useMemo, useState } from "react"
+import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
@@ -136,6 +136,32 @@ const PlaylistsList = () => {
     []
   )
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: Playlist; index: number }): ReactElement => {
+      if (viewMode === "grid") {
+        const itemGap = (gap * (numColumns - 1)) / numColumns
+        const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
+        const marginRight = itemGap - marginLeft
+        const isLastRow = index >= playlists.length - (playlists.length % numColumns || numColumns)
+
+        return (
+          <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+            <PlaylistItemCard playlist={item} />
+          </View>
+        )
+      }
+
+      const isLastItem = index === playlists.length - 1
+
+      return (
+        <View style={styles.listItemWrapper(isLastItem)}>
+          <PlaylistItemList playlist={item} />
+        </View>
+      )
+    },
+    [viewMode, numColumns, playlists.length, gap, styles]
+  )
+
   return (
     <Fragment>
       <FlashListWithHeaders
@@ -150,33 +176,9 @@ const PlaylistsList = () => {
         onEndReachedThreshold={0.5}
         ListEmptyComponent={ListEmptyComponent}
         ListFooterComponent={ListFooterComponent}
-        contentContainerStyle={styles.contentContainer(playlists.length === 0, bottomPlayerHeight)}
+        contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-        renderItem={({ item, index }) => {
-          const isLastItem = index === playlists.length - 1
-
-          if (viewMode === "grid") {
-            const itemGap = (gap * (numColumns - 1)) / numColumns
-
-            const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-            const marginRight = itemGap - marginLeft
-
-            const isLastRow =
-              index >= playlists.length - (playlists.length % numColumns || numColumns)
-
-            return (
-              <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow ? 0 : gap)}>
-                <PlaylistItemCard playlist={item} />
-              </View>
-            )
-          }
-
-          return (
-            <View style={styles.listItemWrapper(isLastItem ? 0 : gap)}>
-              <PlaylistItemList playlist={item} />
-            </View>
-          )
-        }}
+        renderItem={renderItem}
       />
       <KeyboardSpacer />
     </Fragment>
@@ -197,24 +199,22 @@ const playlistsListStyles = createStyleSheet(({ theme }) => ({
     alignItems: "center",
     paddingVertical: theme.space()
   },
-  contentContainer: (isEmpty: boolean, bottomOffset: number) =>
+  contentContainer: (bottomOffset: number) =>
     viewStyle({
+      flexGrow: 1,
       padding: theme.space("lg"),
-      paddingBottom: theme.space("lg") + bottomOffset,
-      ...(isEmpty && {
-        flex: 1
-      })
+      paddingBottom: theme.space("lg") + bottomOffset
     }),
-  gridItemWrapper: (marginLeft: number, marginRight: number, marginBottom: number) =>
+  gridItemWrapper: (marginLeft: number, marginRight: number, isLastRow: boolean) =>
     viewStyle({
       flexGrow: 1,
       marginLeft,
       marginRight,
-      marginBottom
+      marginBottom: isLastRow ? 0 : theme.space()
     }),
-  listItemWrapper: (marginBottom: number) =>
+  listItemWrapper: (isLastItem: boolean) =>
     viewStyle({
-      marginBottom
+      marginBottom: isLastItem ? 0 : theme.space()
     })
 }))
 

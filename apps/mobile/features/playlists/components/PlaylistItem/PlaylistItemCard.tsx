@@ -35,6 +35,7 @@ const PlaylistItemCard = memo(({ playlist }: PlaylistItemCardProps) => {
             fileName={playlist.thumbnail}
             placeholderIcon="ListMusic"
             containerStyle={styles.thumbnail}
+            recyclingKey={String(playlist.id)}
           />
           <View style={styles.infoRow}>
             <View style={styles.infoContainer}>

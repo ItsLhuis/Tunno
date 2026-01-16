@@ -32,7 +32,7 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
 
   const thumbnailUri = useThumbnailUri({ fileName: album.thumbnail })
 
-  const { palette } = useImageColorAndPalette({ imageUri: thumbnailUri })
+  const { dominantColor, palette } = useImageColorAndPalette({ imageUri: thumbnailUri })
 
   const { songIds, isShuffling, handleShuffleAndPlay } = useAlbumPlayback(album.id)
 
@@ -46,23 +46,28 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
       <ScopedPalette palette={palette}>
         <AnimatedBackground
           style={styles.background}
-          colorKey={thumbnailUri ? "background" : "muted"}
+          colorKey={dominantColor ? "background" : "muted"}
         >
           <View style={styles.content}>
             <Thumbnail
               fileName={album.thumbnail}
               placeholderIcon="Disc"
               containerStyle={styles.thumbnail}
+              recyclingKey={String(album.id)}
             />
             <View style={styles.infoContainer}>
               <AnimatedBadge
                 title={t("common.featured")}
-                animatedBackgroundColor={thumbnailUri ? "primary" : "foreground"}
-                animatedBorderColor={thumbnailUri ? "primary" : "foreground"}
-                animatedTextColor={thumbnailUri ? "primaryForeground" : "background"}
+                animatedBackgroundColor={dominantColor ? "muted" : "foreground"}
+                animatedBorderColor={dominantColor ? "muted" : "foreground"}
+                animatedTextColor={dominantColor ? "mutedForeground" : "background"}
                 style={styles.badge}
               />
-              <AnimatedText variant={titleVariant} numberOfLines={1}>
+              <AnimatedText
+                variant={titleVariant}
+                animatedColor={dominantColor ? "primary" : "foreground"}
+                numberOfLines={1}
+              >
                 {album.name}
               </AnimatedText>
               <AnimatedText size="sm" animatedColor="mutedForeground" numberOfLines={1}>
@@ -91,7 +96,7 @@ const AlbumItemFeatured = memo(({ album }: AlbumItemFeaturedProps) => {
 const albumItemFeaturedStyles = createStyleSheet(({ theme, runtime }) => {
   const isColumnLayout = runtime.breakpoint === "xs"
   const thumbnailSize =
-    responsive({ sm: 140, md: 250, lg: 320, xl: 400 }, runtime.breakpoint) ?? "100%"
+    responsive({ sm: 200, md: 240, lg: 320, xl: 400 }, runtime.breakpoint) ?? "100%"
 
   return {
     container: {

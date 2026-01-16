@@ -287,6 +287,7 @@ const SongsListFilters = () => {
                                 ? formatFilterDate(filters.playedAfter, i18n.language)
                                 : t("songs.filters.selectDate")
                             }
+                            containerStyle={styles.calendarButton}
                           />
                         </PopoverTrigger>
                         <PopoverContent>
@@ -316,6 +317,7 @@ const SongsListFilters = () => {
                                 ? formatFilterDate(filters.playedBefore, i18n.language)
                                 : t("songs.filters.selectDate")
                             }
+                            containerStyle={styles.calendarButton}
                           />
                         </PopoverTrigger>
                         <PopoverContent>
@@ -400,6 +402,9 @@ const songsListFiltersStyles = createStyleSheet(({ theme, runtime }) => ({
   rangeInput: {
     flex: 1,
     gap: theme.space("xs")
+  },
+  calendarButton: {
+    alignSelf: "stretch"
   },
   footer: {
     paddingBottom: theme.space("lg") + runtime.insets.bottom

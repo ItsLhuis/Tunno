@@ -60,7 +60,11 @@ const SongItemList = memo(
       >
         {({ onLongPress }) => (
           <Pressable style={styles.container} onPress={handlePress} onLongPress={onLongPress}>
-            <Thumbnail fileName={song.thumbnail} placeholderIcon="Music" />
+            <Thumbnail
+              fileName={song.thumbnail}
+              placeholderIcon="Music"
+              recyclingKey={String(song.id)}
+            />
             <View style={styles.infoContainer}>
               <Text weight="medium" numberOfLines={1}>
                 {song.name}

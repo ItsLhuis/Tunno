@@ -1,8 +1,8 @@
-import { useCallback, useMemo } from "react"
+import { useCallback, useMemo, type ReactElement } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, spacingTokens, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -55,8 +55,6 @@ const QueueSheet = () => {
   const styles = useStyles(queueSheetStyles)
 
   const { t } = useTranslation()
-
-  const gap = spacingTokens.md
 
   const { queueIds, currentTrackIndex, cachedSongs, clearQueue } = usePlayerStore(
     useShallow((state) => ({
@@ -161,6 +159,30 @@ const QueueSheet = () => {
     [t]
   )
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: QueueListItem; index: number }): ReactElement => {
+      if (item.type === "header") {
+        return (
+          <View style={index === 0 ? styles.sectionHeaderFirst : styles.sectionHeader}>
+            <Text size="sm" color="mutedForeground">
+              {getSectionTitle(item.section)}
+            </Text>
+          </View>
+        )
+      }
+
+      const nextItem = listItems[index + 1]
+      const isLastInSection = !nextItem || nextItem.type === "header"
+
+      return (
+        <View style={isLastInSection ? undefined : styles.itemContainer}>
+          <SongItemList song={item.song} queueIndex={item.originalIndex} queuePlayback />
+        </View>
+      )
+    },
+    [styles, getSectionTitle, listItems]
+  )
+
   const handleClearQueue = useCallback(async () => {
     await clearQueue()
   }, [clearQueue])
@@ -194,28 +216,8 @@ const QueueSheet = () => {
             keyExtractor={keyExtractor}
             getItemType={getItemType}
             ListEmptyComponent={<NotFound />}
-            contentContainerStyle={styles.contentContainer(listItems.length === 0)}
-            renderItem={({ item, index }) => {
-              if (item.type === "header") {
-                const isFirst = index === 0
-                return (
-                  <View style={styles.sectionHeader(isFirst)}>
-                    <Text size="sm" color="mutedForeground">
-                      {getSectionTitle(item.section)}
-                    </Text>
-                  </View>
-                )
-              }
-
-              const nextItem = listItems[index + 1]
-              const isLastInSection = !nextItem || nextItem.type === "header"
-
-              return (
-                <View style={styles.itemContainer(isLastInSection ? 0 : gap)}>
-                  <SongItemList song={item.song} queueIndex={item.originalIndex} queuePlayback />
-                </View>
-              )
-            }}
+            contentContainerStyle={styles.contentContainer}
+            renderItem={renderItem}
           />
           {songCount > 0 && (
             <Fade style={styles.footer}>
@@ -240,22 +242,20 @@ const queueSheetStyles = createStyleSheet(({ theme, runtime }) => ({
   sheetContainer: {
     flex: 1
   },
-  sectionHeader: (isFirst: boolean) =>
-    viewStyle({
-      paddingTop: isFirst ? 0 : theme.space("lg"),
-      paddingBottom: theme.space("sm")
-    }),
-  itemContainer: (marginBottom: number) =>
-    viewStyle({
-      marginBottom
-    }),
-  contentContainer: (isEmpty: boolean) =>
-    viewStyle({
-      padding: theme.space("lg"),
-      ...(isEmpty && {
-        flex: 1
-      })
-    }),
+  sectionHeader: {
+    paddingTop: theme.space("lg"),
+    paddingBottom: theme.space("sm")
+  },
+  sectionHeaderFirst: {
+    paddingBottom: theme.space("sm")
+  },
+  itemContainer: {
+    marginBottom: theme.space("md")
+  },
+  contentContainer: {
+    flexGrow: 1,
+    padding: theme.space("lg")
+  },
   footer: {
     paddingBottom: theme.space("lg") + runtime.insets.bottom
   }

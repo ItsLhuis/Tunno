@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useMemo, useState } from "react"
+import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
@@ -125,6 +125,32 @@ const AlbumsList = () => {
     []
   )
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: Album; index: number }): ReactElement => {
+      if (viewMode === "grid") {
+        const itemGap = (gap * (numColumns - 1)) / numColumns
+        const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
+        const marginRight = itemGap - marginLeft
+        const isLastRow = index >= albums.length - (albums.length % numColumns || numColumns)
+
+        return (
+          <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+            <AlbumItemCard album={item} />
+          </View>
+        )
+      }
+
+      const isLastItem = index === albums.length - 1
+
+      return (
+        <View style={styles.listItemWrapper(isLastItem)}>
+          <AlbumItemList album={item} />
+        </View>
+      )
+    },
+    [viewMode, numColumns, albums.length, gap, styles]
+  )
+
   return (
     <Fragment>
       <FlashListWithHeaders
@@ -139,32 +165,9 @@ const AlbumsList = () => {
         onEndReachedThreshold={0.5}
         ListEmptyComponent={ListEmptyComponent}
         ListFooterComponent={ListFooterComponent}
-        contentContainerStyle={styles.contentContainer(albums.length === 0, bottomPlayerHeight)}
+        contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-        renderItem={({ item, index }) => {
-          const isLastItem = index === albums.length - 1
-
-          if (viewMode === "grid") {
-            const itemGap = (gap * (numColumns - 1)) / numColumns
-
-            const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-            const marginRight = itemGap - marginLeft
-
-            const isLastRow = index >= albums.length - (albums.length % numColumns || numColumns)
-
-            return (
-              <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow ? 0 : gap)}>
-                <AlbumItemCard album={item} />
-              </View>
-            )
-          }
-
-          return (
-            <View style={styles.listItemWrapper(isLastItem ? 0 : gap)}>
-              <AlbumItemList album={item} />
-            </View>
-          )
-        }}
+        renderItem={renderItem}
       />
       <KeyboardSpacer />
     </Fragment>
@@ -185,24 +188,22 @@ const albumsListStyles = createStyleSheet(({ theme }) => ({
     alignItems: "center",
     paddingVertical: theme.space()
   },
-  contentContainer: (isEmpty: boolean, bottomOffset: number) =>
+  contentContainer: (bottomOffset: number) =>
     viewStyle({
+      flexGrow: 1,
       padding: theme.space("lg"),
-      paddingBottom: theme.space("lg") + bottomOffset,
-      ...(isEmpty && {
-        flex: 1
-      })
+      paddingBottom: theme.space("lg") + bottomOffset
     }),
-  gridItemWrapper: (marginLeft: number, marginRight: number, marginBottom: number) =>
+  gridItemWrapper: (marginLeft: number, marginRight: number, isLastRow: boolean) =>
     viewStyle({
       flexGrow: 1,
       marginLeft,
       marginRight,
-      marginBottom
+      marginBottom: isLastRow ? 0 : theme.space()
     }),
-  listItemWrapper: (marginBottom: number) =>
+  listItemWrapper: (isLastItem: boolean) =>
     viewStyle({
-      marginBottom
+      marginBottom: isLastItem ? 0 : theme.space()
     })
 }))
 

@@ -41,6 +41,7 @@ const PlaylistItemCompact = memo(({ playlist }: PlaylistItemCompactProps) => {
             fileName={playlist.thumbnail}
             placeholderIcon="ListMusic"
             containerStyle={styles.thumbnail}
+            recyclingKey={String(playlist.id)}
           />
           <View style={styles.infoContainer}>
             <Text weight="medium" numberOfLines={1}>

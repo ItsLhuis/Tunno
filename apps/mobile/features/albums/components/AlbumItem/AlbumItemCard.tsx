@@ -35,6 +35,7 @@ const AlbumItemCard = memo(({ album }: AlbumItemCardProps) => {
             fileName={album.thumbnail}
             placeholderIcon="Disc"
             containerStyle={styles.thumbnail}
+            recyclingKey={String(album.id)}
           />
           <View style={styles.infoRow}>
             <View style={styles.infoContainer}>

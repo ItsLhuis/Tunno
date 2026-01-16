@@ -31,7 +31,11 @@ const PlaylistItemList = memo(({ playlist }: PlaylistItemListProps) => {
     <PlaylistActions variant="context" playlistId={playlist.id}>
       {({ onLongPress }) => (
         <Pressable style={styles.container} onPress={handlePress} onLongPress={onLongPress}>
-          <Thumbnail fileName={playlist.thumbnail} placeholderIcon="ListMusic" />
+          <Thumbnail
+            fileName={playlist.thumbnail}
+            placeholderIcon="ListMusic"
+            recyclingKey={String(playlist.id)}
+          />
           <View style={styles.infoContainer}>
             <Text weight="medium" numberOfLines={1}>
               {playlist.name}

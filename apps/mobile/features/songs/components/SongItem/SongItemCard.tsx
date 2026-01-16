@@ -62,6 +62,7 @@ const SongItemCard = memo(
               fileName={song.thumbnail}
               placeholderIcon="Music"
               containerStyle={styles.thumbnail}
+              recyclingKey={String(song.id)}
             />
             <View style={styles.infoRow}>
               <View style={styles.infoContainer}>

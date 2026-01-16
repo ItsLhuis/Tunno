@@ -32,7 +32,11 @@ const PlaylistItemSelect = memo(
           <View style={styles.checkboxContainer}>
             <Checkbox checked={selected} onCheckedChange={onToggle} />
           </View>
-          <Thumbnail fileName={playlist.thumbnail} placeholderIcon="ListMusic" />
+          <Thumbnail
+            fileName={playlist.thumbnail}
+            placeholderIcon="ListMusic"
+            recyclingKey={String(playlist.id)}
+          />
           <View style={styles.infoContainer}>
             <Text weight="medium" numberOfLines={1}>
               {playlist.name}

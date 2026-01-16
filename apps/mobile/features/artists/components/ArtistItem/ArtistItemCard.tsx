@@ -35,6 +35,7 @@ const ArtistItemCard = memo(({ artist }: ArtistItemCardProps) => {
             fileName={artist.thumbnail}
             placeholderIcon="User"
             containerStyle={styles.thumbnail}
+            recyclingKey={String(artist.id)}
           />
           <View style={styles.infoRow}>
             <View style={styles.infoContainer}>

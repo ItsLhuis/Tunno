@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useMemo, useState } from "react"
+import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
@@ -126,6 +126,32 @@ const SongsList = () => {
     []
   )
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: SongWithMainRelations; index: number }): ReactElement => {
+      if (viewMode === "grid") {
+        const itemGap = (gap * (numColumns - 1)) / numColumns
+        const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
+        const marginRight = itemGap - marginLeft
+        const isLastRow = index >= songs.length - (songs.length % numColumns || numColumns)
+
+        return (
+          <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+            <SongItemCard song={item} allSongIds={songIds} />
+          </View>
+        )
+      }
+
+      const isLastItem = index === songs.length - 1
+
+      return (
+        <View style={styles.listItemWrapper(isLastItem)}>
+          <SongItemList song={item} allSongIds={songIds} />
+        </View>
+      )
+    },
+    [viewMode, numColumns, songs.length, gap, styles, songIds]
+  )
+
   return (
     <Fragment>
       <FlashListWithHeaders
@@ -140,32 +166,9 @@ const SongsList = () => {
         onEndReachedThreshold={0.5}
         ListEmptyComponent={ListEmptyComponent}
         ListFooterComponent={ListFooterComponent}
-        contentContainerStyle={styles.contentContainer(songs.length === 0, bottomPlayerHeight)}
+        contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-        renderItem={({ item, index }) => {
-          const isLastItem = index === songs.length - 1
-
-          if (viewMode === "grid") {
-            const itemGap = (gap * (numColumns - 1)) / numColumns
-
-            const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-            const marginRight = itemGap - marginLeft
-
-            const isLastRow = index >= songs.length - (songs.length % numColumns || numColumns)
-
-            return (
-              <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow ? 0 : gap)}>
-                <SongItemCard song={item} allSongIds={songIds} />
-              </View>
-            )
-          }
-
-          return (
-            <View style={styles.listItemWrapper(isLastItem ? 0 : gap)}>
-              <SongItemList song={item} allSongIds={songIds} />
-            </View>
-          )
-        }}
+        renderItem={renderItem}
       />
       <KeyboardSpacer />
     </Fragment>
@@ -186,24 +189,22 @@ const songsListStyles = createStyleSheet(({ theme }) => ({
     alignItems: "center",
     paddingVertical: theme.space()
   },
-  contentContainer: (isEmpty: boolean, bottomOffset: number) =>
+  contentContainer: (bottomOffset: number) =>
     viewStyle({
+      flexGrow: 1,
       padding: theme.space("lg"),
-      paddingBottom: theme.space("lg") + bottomOffset,
-      ...(isEmpty && {
-        flex: 1
-      })
+      paddingBottom: theme.space("lg") + bottomOffset
     }),
-  gridItemWrapper: (marginLeft: number, marginRight: number, marginBottom: number) =>
+  gridItemWrapper: (marginLeft: number, marginRight: number, isLastRow: boolean) =>
     viewStyle({
       flexGrow: 1,
       marginLeft,
       marginRight,
-      marginBottom
+      marginBottom: isLastRow ? 0 : theme.space()
     }),
-  listItemWrapper: (marginBottom: number) =>
+  listItemWrapper: (isLastItem: boolean) =>
     viewStyle({
-      marginBottom
+      marginBottom: isLastItem ? 0 : theme.space()
     })
 }))
 

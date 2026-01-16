@@ -31,7 +31,11 @@ const AlbumItemList = memo(({ album }: AlbumItemListProps) => {
     <AlbumActions variant="context" albumId={album.id}>
       {({ onLongPress }) => (
         <Pressable style={styles.container} onPress={handlePress} onLongPress={onLongPress}>
-          <Thumbnail fileName={album.thumbnail} placeholderIcon="Disc" />
+          <Thumbnail
+            fileName={album.thumbnail}
+            placeholderIcon="Disc"
+            recyclingKey={String(album.id)}
+          />
           <View style={styles.infoContainer}>
             <Text weight="medium" numberOfLines={1}>
               {album.name}
