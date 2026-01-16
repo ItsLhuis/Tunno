@@ -27,10 +27,11 @@ export async function getAppPaths(): Promise<AppPaths> {
   if (cachedPaths) return cachedPaths
 
   const appDir = Paths.document
+  const baseUri = appDir.uri.endsWith("/") ? appDir.uri.slice(0, -1) : appDir.uri
 
   cachedPaths = {
-    songs: `${appDir.uri}/songs`,
-    thumbnails: `${appDir.uri}/thumbnails`
+    songs: `${baseUri}/songs`,
+    thumbnails: `${baseUri}/thumbnails`
   }
 
   return cachedPaths
