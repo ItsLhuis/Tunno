@@ -1,126 +1,340 @@
-import { getColors, ImageColorsResult } from "react-native-image-colors"
+import { Skia } from "@shopify/react-native-skia"
+import { converter, formatHex } from "culori"
 
 import { generateColorPalette, type Palette } from "@repo/utils"
 
 /**
- * Re-export of `ImageColorsResult` type from `react-native-image-colors`.
- * This type describes the structure of the color data extracted from an image.
+ * Maximum dimension for image analysis. Images are scaled down to this size
+ * for performance while maintaining color accuracy.
  */
-export type { ImageColorsResult }
+const MAX_ANALYSIS_SIZE = 100
 
 /**
- * A tuple representing an RGB color with three numerical components: red, green, and blue.
- * Each component is typically between 0 and 255.
+ * Color bin size for quantization. Lower values = more precision but slower.
+ * 16 gives good granularity for accurate color extraction.
  */
-type RGBTuple = [number, number, number]
+const COLOR_BIN_SIZE = 16
 
 /**
- * Converts a hexadecimal color string to an RGB tuple.
- *
- * @param hex - The hexadecimal color string (e.g., "#RRGGBB" or "RRGGBB").
- * @returns An RGB tuple `[R, G, B]` if the conversion is successful, otherwise `null`.
+ * Minimum saturation threshold. Colors below this are considered "gray" and deprioritized.
  */
-/**
- * Converts a hexadecimal color string to an RGB tuple.
- *
- * This function parses a hex color string (with or without a leading '#')
- * and returns its corresponding RGB components as an array.
- *
- * @param hex - The hexadecimal color string (e.g., "#RRGGBB" or "RRGGBB").
- * @returns An RGB tuple `[R, G, B]` if the conversion is successful, otherwise `null`.
- */
-function hexToRgb(hex: string): RGBTuple | null {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-
-  if (!result) return null
-
-  return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
-}
+const MIN_SATURATION = 0.15
 
 /**
- * Extracts a dominant or prominent color from an `ImageColorsResult` object.
- * Prioritizes dominant, vibrant, or primary colors depending on the platform.
- *
- * @param result - The `ImageColorsResult` object obtained from `react-native-image-colors`.
- * @returns A color string (e.g., hex or RGB) representing the dominant color, or `null` if none can be extracted.
+ * Percentage of edges to ignore. Focuses analysis on the center of the image.
  */
-function getDominantColorFromResult(result: ImageColorsResult): string | null {
-  switch (result.platform) {
-    case "android":
-      return result.dominant ?? result.vibrant ?? result.muted ?? null
-    case "ios":
-      return result.primary ?? result.secondary ?? result.background ?? null
-    case "web":
-      return result.dominant ?? result.vibrant ?? result.muted ?? null
-    default:
-      return null
+const EDGE_CROP_PERCENT = 0.1
+
+/**
+ * Pixel sampling step. Higher values = faster but less accurate.
+ * 2 means we sample every other pixel in both dimensions.
+ */
+const PIXEL_SAMPLE_STEP = 2
+
+/**
+ * Represents an RGB color tuple.
+ */
+type RGB = [number, number, number]
+
+const toRgb = converter("rgb")
+
+/**
+ * Calculates the scaled dimensions maintaining aspect ratio.
+ */
+function getScaledDimensions(
+  width: number,
+  height: number,
+  maxSize: number
+): { width: number; height: number } {
+  if (width <= maxSize && height <= maxSize) {
+    return { width, height }
+  }
+
+  const ratio = Math.min(maxSize / width, maxSize / height)
+
+  return {
+    width: Math.round(width * ratio),
+    height: Math.round(height * ratio)
   }
 }
 
 /**
- * Extracts a single dominant color from an image URI.
- *
- * @param imageUri - The URI of the image (e.g., local path or remote URL).
- * @returns A promise that resolves to a dominant color string (e.g., hex) or `null` if extraction fails.
+ * Checks if a pixel is in the edge crop area.
  */
-export async function extractColorFromImage(imageUri: string): Promise<string | null> {
-  try {
-    const result = await getColors(imageUri, {
-      fallback: "#000000",
-      cache: true,
-      key: imageUri
-    })
+function isInCropArea(x: number, y: number, width: number, height: number): boolean {
+  const cropX = width * EDGE_CROP_PERCENT
+  const cropY = height * EDGE_CROP_PERCENT
 
-    return getDominantColorFromResult(result)
+  return x < cropX || x > width - cropX || y < cropY || y > height - cropY
+}
+
+/**
+ * Quantizes an RGB color to a bin for grouping similar colors.
+ */
+function quantizeColor(r: number, g: number, b: number): string {
+  const qr = Math.floor(r / COLOR_BIN_SIZE) * COLOR_BIN_SIZE
+  const qg = Math.floor(g / COLOR_BIN_SIZE) * COLOR_BIN_SIZE
+  const qb = Math.floor(b / COLOR_BIN_SIZE) * COLOR_BIN_SIZE
+
+  return `${qr},${qg},${qb}`
+}
+
+/**
+ * Fast inline RGB to HSL conversion.
+ * Returns [h (0-360), s (0-1), l (0-1)]
+ */
+function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
+  const rNorm = r / 255
+  const gNorm = g / 255
+  const bNorm = b / 255
+
+  const max = Math.max(rNorm, gNorm, bNorm)
+  const min = Math.min(rNorm, gNorm, bNorm)
+  const l = (max + min) / 2
+
+  if (max === min) {
+    return [0, 0, l]
+  }
+
+  const d = max - min
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+
+  let h = 0
+  if (max === rNorm) {
+    h = ((gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0)) * 60
+  } else if (max === gNorm) {
+    h = ((bNorm - rNorm) / d + 2) * 60
+  } else {
+    h = ((rNorm - gNorm) / d + 4) * 60
+  }
+
+  return [h, s, l]
+}
+
+/**
+ * Calculates a score for a color based on population, saturation, and lightness.
+ * Approximates the Android Palette algorithm for better color extraction.
+ */
+function calculateColorScore(
+  count: number,
+  r: number,
+  g: number,
+  b: number,
+  totalPixels: number
+): number {
+  const [h, s, l] = rgbToHsl(r, g, b)
+
+  // Population weight (relative to total valid pixels)
+  const populationWeight = count / totalPixels
+
+  // Saturation score (prefer saturated colors, penalize grays)
+  let saturationScore = 1
+  if (s < MIN_SATURATION) {
+    saturationScore = 0.2
+  } else if (s < 0.3) {
+    saturationScore = 0.6
+  } else {
+    saturationScore = 1 + (s - 0.3) * 1.5
+  }
+
+  // Lightness score (avoid extremes)
+  let lightnessScore = 1
+  if (l < 0.15 || l > 0.85) {
+    lightnessScore = 0.3
+  } else if (l < 0.25 || l > 0.75) {
+    lightnessScore = 0.7
+  }
+
+  // Penalize skin tones (common in album covers with people)
+  let skinTonePenalty = 1
+  if (h >= 15 && h <= 50 && s >= 0.2 && s <= 0.6 && l >= 0.3 && l <= 0.7) {
+    skinTonePenalty = 0.5
+  }
+
+  return populationWeight * saturationScore * lightnessScore * skinTonePenalty * 100
+}
+
+/**
+ * Extracts the dominant color from pixel data using color quantization.
+ * Uses pixel sampling for better performance.
+ */
+function extractDominantFromPixels(
+  pixels: Uint8Array | Float32Array,
+  width: number,
+  height: number
+): RGB | null {
+  const colorBins = new Map<string, { count: number; r: number; g: number; b: number }>()
+
+  let totalValidPixels = 0
+
+  // Sample pixels with step for better performance
+  for (let y = 0; y < height; y += PIXEL_SAMPLE_STEP) {
+    for (let x = 0; x < width; x += PIXEL_SAMPLE_STEP) {
+      const i = (y * width + x) * 4
+      const r = pixels[i]
+      const g = pixels[i + 1]
+      const b = pixels[i + 2]
+      const a = pixels[i + 3]
+
+      // Skip transparent pixels
+      if (a < 200) continue
+
+      // Skip edge pixels (focus on center of image)
+      if (isInCropArea(x, y, width, height)) continue
+
+      // Skip very dark or very light pixels
+      const brightness = (r + g + b) / 3
+      if (brightness < 20 || brightness > 235) continue
+
+      totalValidPixels++
+
+      const key = quantizeColor(r, g, b)
+      const existing = colorBins.get(key)
+
+      if (existing) {
+        existing.count++
+        existing.r += r
+        existing.g += g
+        existing.b += b
+      } else {
+        colorBins.set(key, { count: 1, r, g, b })
+      }
+    }
+  }
+
+  if (colorBins.size === 0 || totalValidPixels === 0) return null
+
+  // Find the color with the highest score
+  let bestColor: RGB | null = null
+  let bestScore = -1
+
+  for (const bin of colorBins.values()) {
+    const avgR = Math.round(bin.r / bin.count)
+    const avgG = Math.round(bin.g / bin.count)
+    const avgB = Math.round(bin.b / bin.count)
+
+    const score = calculateColorScore(bin.count, avgR, avgG, avgB, totalValidPixels)
+
+    if (score > bestScore) {
+      bestScore = score
+      bestColor = [avgR, avgG, avgB]
+    }
+  }
+
+  return bestColor
+}
+
+/**
+ * Loads image data from a URI using Skia.
+ */
+async function loadImageData(uri: string): Promise<{
+  pixels: Uint8Array | Float32Array
+  width: number
+  height: number
+} | null> {
+  try {
+    // Fetch the image data
+    const response = await fetch(uri)
+    const arrayBuffer = await response.arrayBuffer()
+    const data = Skia.Data.fromBytes(new Uint8Array(arrayBuffer))
+
+    // Decode the image
+    const image = Skia.Image.MakeImageFromEncoded(data)
+    if (!image) return null
+
+    const originalWidth = image.width()
+    const originalHeight = image.height()
+
+    // Calculate scaled dimensions
+    const { width, height } = getScaledDimensions(originalWidth, originalHeight, MAX_ANALYSIS_SIZE)
+
+    // Create an offscreen surface at the scaled size
+    const surface = Skia.Surface.MakeOffscreen(width, height)
+    if (!surface) return null
+
+    const canvas = surface.getCanvas()
+
+    // Draw the image scaled down
+    const srcRect = { x: 0, y: 0, width: originalWidth, height: originalHeight }
+    const dstRect = { x: 0, y: 0, width, height }
+    const paint = Skia.Paint()
+
+    canvas.drawImageRect(image, srcRect, dstRect, paint)
+    surface.flush()
+
+    // Get the snapshot and read pixels
+    const snapshot = surface.makeImageSnapshot()
+    if (!snapshot) return null
+
+    const pixels = snapshot.readPixels()
+    if (!pixels) return null
+
+    return { pixels, width, height }
   } catch {
     return null
   }
 }
 
 /**
- * Extracts a dominant color from an image and generates a full color palette (shades) from it.
- * This is useful for theming or dynamic styling based on album art, etc.
- *
- * @param imageUri - The URI of the image (e.g., local path or remote URL).
- * @returns A promise that resolves to a `Palette` object (containing various shades) or `null` if extraction or palette generation fails.
+ * Extracts the dominant color from an image source using Skia.
  */
-export async function extractPaletteFromImage(imageUri: string): Promise<Palette | null> {
-  try {
-    const result = await getColors(imageUri, {
-      fallback: "#000000",
-      cache: true,
-      key: imageUri
-    })
+async function extractDominantColor(src: string): Promise<string | null> {
+  const imageData = await loadImageData(src)
+  if (!imageData) return null
 
-    const dominantColor = getDominantColorFromResult(result)
+  const { pixels, width, height } = imageData
+  const dominant = extractDominantFromPixels(pixels, width, height)
+
+  if (!dominant) return null
+
+  const [r, g, b] = dominant
+
+  return formatHex({ mode: "rgb", r: r / 255, g: g / 255, b: b / 255 })
+}
+
+/**
+ * Converts any CSS color string to RGB tuple using culori.
+ */
+function colorToRgb(color: string): RGB | null {
+  const rgb = toRgb(color)
+  if (!rgb) return null
+
+  return [
+    Math.round((rgb.r ?? 0) * 255),
+    Math.round((rgb.g ?? 0) * 255),
+    Math.round((rgb.b ?? 0) * 255)
+  ]
+}
+
+/**
+ * Extracts a single dominant color from an image source.
+ *
+ * @param imageSrc - The source URL of the image.
+ * @returns A promise resolving to a hex color string or `null` if extraction fails.
+ */
+export async function extractColorFromImage(imageSrc: string): Promise<string | null> {
+  try {
+    return await extractDominantColor(imageSrc)
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Extracts a dominant color from an image source and generates a full color palette from it.
+ *
+ * @param imageSrc - The source URL of the image.
+ * @returns A promise resolving to a `Palette` object or `null` if extraction fails.
+ */
+export async function extractPaletteFromImage(imageSrc: string): Promise<Palette | null> {
+  try {
+    const dominantColor = await extractDominantColor(imageSrc)
     if (!dominantColor) return null
 
-    const rgb = hexToRgb(dominantColor)
+    const rgb = colorToRgb(dominantColor)
     if (!rgb) return null
 
-    // generateColorPalette expects an RGB tuple and a format string.
     return generateColorPalette(rgb, "rgb")
-  } catch {
-    return null
-  }
-}
-
-/**
- * Extracts all available color information from an image URI, returning the raw result from `react-native-image-colors`.
- * This can include dominant, vibrant, muted, light/dark variations depending on the platform's image color extraction capabilities.
- *
- * @param imageUri - The URI of the image (e.g., local path or remote URL).
- * @returns A promise that resolves to an `ImageColorsResult` object or `null` if extraction fails.
- */
-export async function extractAllColorsFromImage(
-  imageUri: string
-): Promise<ImageColorsResult | null> {
-  try {
-    return await getColors(imageUri, {
-      fallback: "#000000",
-      cache: true,
-      key: imageUri
-    })
   } catch {
     return null
   }
