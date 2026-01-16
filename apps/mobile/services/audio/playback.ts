@@ -1,5 +1,10 @@
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
+import {
+  clearWidgetColorCache,
+  triggerWidgetUpdate
+} from "@features/player/components/Widget/widgetUpdate"
+
 import { Statistics } from "@services/statistics"
 
 import TrackPlayer, { Event, State } from "react-native-track-player"
@@ -86,12 +91,15 @@ export async function registerPlaybackListeners() {
         if (currentTrackId && typeof currentTrackId === "number") {
           await Statistics.startPlay(currentTrackId, playSource, sourceContextId ?? undefined)
         }
+        triggerWidgetUpdate()
         break
       case State.Paused:
         Statistics.pausePlay()
+        triggerWidgetUpdate()
         break
       case State.Stopped:
         await Statistics.endPlay()
+        triggerWidgetUpdate()
         break
       case State.Error:
         await Statistics.forceEnd()
@@ -108,10 +116,11 @@ export async function registerPlaybackListeners() {
         ensureWindowForIndex,
         updateNavigationStates,
         validateAndUpdateState,
-        isRehydrating
+        isRehydrating,
+        isQueueLoading
       } = usePlayerStore.getState()
 
-      if (isRehydrating) return
+      if (isRehydrating || isQueueLoading) return
 
       try {
         await syncStateWithPlayer()
@@ -132,6 +141,9 @@ export async function registerPlaybackListeners() {
         ) {
           await Statistics.startPlay(currentTrackId, playSource, sourceContextId ?? undefined)
         }
+
+        clearWidgetColorCache()
+        triggerWidgetUpdate()
       } catch (error) {
         console.error("Playback: Error in onTrackChanged:", error)
         await validateAndUpdateState()
@@ -157,6 +169,7 @@ export async function registerPlaybackListeners() {
   })
   unsubscribeFns.push(() => onError.remove())
 }
+
 /**
  * Unregisters all previously registered playback event listeners.
  *
