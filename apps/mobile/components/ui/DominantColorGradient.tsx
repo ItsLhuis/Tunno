@@ -61,7 +61,7 @@ const DominantColorGradient = memo(({ thumbnail, style }: DominantColorGradientP
 const dominantColorGradientStyles = createStyleSheet(() => ({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: "100%"
+    height: "50%"
   },
   gradient: {
     ...StyleSheet.absoluteFillObject

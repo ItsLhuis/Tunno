@@ -64,7 +64,7 @@ const LyricsScreen = () => {
         currentTime={position}
         onSeek={seekTo}
         isPlaying={playbackState === State.Playing}
-        contentContainerStyle={styles.contentContainer(lyrics.length === 0, bottomPlayerHeight)}
+        contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
       />
       <KeyboardSpacer />
     </Fragment>
@@ -72,13 +72,11 @@ const LyricsScreen = () => {
 }
 
 const lyricsScreenStyles = createStyleSheet(({ theme }) => ({
-  contentContainer: (isEmpty: boolean, bottomOffset: number) =>
+  contentContainer: (bottomOffset: number) =>
     viewStyle({
+      flexGrow: 1,
       padding: theme.space("lg"),
-      paddingBottom: theme.space("lg") + bottomOffset,
-      ...(isEmpty && {
-        flex: 1
-      })
+      paddingBottom: theme.space("lg") + bottomOffset
     })
 }))
 

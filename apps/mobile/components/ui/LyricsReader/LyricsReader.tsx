@@ -19,6 +19,7 @@ const LyricsReader = ({
   onSeek,
   isPlaying,
   contentContainerStyle,
+  disableAutoFixScroll = true,
   ...props
 }: LyricsReaderProps) => {
   const styles = useStyles(lyricsReaderStyles)

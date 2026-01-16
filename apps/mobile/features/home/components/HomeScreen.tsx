@@ -55,7 +55,7 @@ const HomeScreen = () => {
     <ScrollViewWithHeaders
       HeaderComponent={HeaderComponent}
       refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-      contentContainerStyle={styles.contentContainer(isLoading || isError)}
+      contentContainerStyle={styles.contentContainer}
     >
       <AsyncState
         data={home}
@@ -101,12 +101,9 @@ const HomeScreen = () => {
 }
 
 const homeScreenStyles = createStyleSheet(({ theme }) => ({
-  contentContainer: (isEmpty: boolean) =>
-    viewStyle({
-      ...(isEmpty && {
-        flex: 1
-      })
-    }),
+  contentContainer: {
+    flexGrow: 1
+  },
   content: (bottomOffset: number) =>
     viewStyle({
       paddingBottom: theme.space("lg") + bottomOffset,
