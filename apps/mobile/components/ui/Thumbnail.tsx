@@ -38,18 +38,35 @@ const Thumbnail = memo(
   }: ThumbnailProps) => {
     const styles = useStyles(thumbnailStyles)
 
-    const [src, setSrc] = useState<string | null>(() => {
-      if (typeof fileName === "string") {
-        return thumbnailCache.get(getCacheKey(sourceDir, fileName)) ?? null
+    const [srcState, setSrcState] = useState<{ src: string | null; fileName: string | null }>(
+      () => {
+        if (typeof fileName === "string") {
+          const cached = thumbnailCache.get(getCacheKey(sourceDir, fileName))
+          return { src: cached ?? null, fileName: cached ? fileName : null }
+        }
+        return { src: null, fileName: null }
       }
-      return null
-    })
+    )
+
+    const currentFileName = typeof fileName === "string" ? fileName : null
+    const src = srcState.fileName === currentFileName ? srcState.src : null
 
     useEffect(() => {
       if (!fileName) {
-        setSrc(null)
+        setSrcState({ src: null, fileName: null })
         return
       }
+
+      if (typeof fileName === "string") {
+        const cacheKey = getCacheKey(sourceDir, fileName)
+        const cached = thumbnailCache.get(cacheKey)
+        if (cached) {
+          setSrcState({ src: cached, fileName })
+          return
+        }
+      }
+
+      setSrcState({ src: null, fileName: null })
 
       let cancelled = false
 
@@ -62,7 +79,7 @@ const Thumbnail = memo(
         const cached = thumbnailCache.get(cacheKey)
 
         if (cached) {
-          setSrc(cached)
+          setSrcState({ src: cached, fileName: resolvedFileName })
           return
         }
 
@@ -71,7 +88,7 @@ const Thumbnail = memo(
         if (cancelled) return
 
         thumbnailCache.set(cacheKey, url)
-        setSrc(url)
+        setSrcState({ src: url, fileName: resolvedFileName })
       }
 
       load()
