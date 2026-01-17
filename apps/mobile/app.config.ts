@@ -15,12 +15,12 @@ const widgetConfig: WithAndroidWidgetsParams = {
       label: "Tunno Player",
       description: "Control your music from the home screen",
       previewImage: "./assets/images/app/icon.png",
-      minWidth: "140dp",
-      minHeight: "70dp",
+      minWidth: "110dp",
+      minHeight: "40dp",
       targetCellWidth: 2,
       targetCellHeight: 2,
-      maxResizeWidth: "400dp",
-      maxResizeHeight: "180dp",
+      maxResizeWidth: "260dp",
+      maxResizeHeight: "110dp",
       resizeMode: "horizontal|vertical",
       updatePeriodMillis: 1800000
     }

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react"
 
 import { Appearance, View } from "react-native"
-import { RepeatMode } from "react-native-track-player"
 
 import { useShallow } from "zustand/shallow"
 
 import { createStyleSheet, useStyles } from "@styles"
 
 import { BackButton } from "@components/navigation"
-import { Button, Header, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
+import { Header, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
 
 import { WidgetPreview } from "react-native-android-widget"
 
@@ -37,23 +36,13 @@ const Sync = () => {
   const [clickedAction, setClickedAction] = useState<string>("")
   const [thumbnailUri, setThumbnailUri] = useState<MiniPlayerWidgetProps["thumbnailUri"]>(null)
   const [dominantColor, setDominantColor] = useState<string | null>(null)
-  const [refreshKey, setRefreshKey] = useState(0)
 
-  const {
-    currentTrack,
-    playbackState,
-    canPlayPrevious,
-    canPlayNext,
-    isShuffleEnabled,
-    repeatMode
-  } = usePlayerStore(
+  const { currentTrack, playbackState, canPlayPrevious, canPlayNext } = usePlayerStore(
     useShallow((state) => ({
       currentTrack: state.currentTrack,
       playbackState: state.playbackState,
       canPlayPrevious: state.canPlayPrevious,
-      canPlayNext: state.canPlayNext,
-      isShuffleEnabled: state.isShuffleEnabled,
-      repeatMode: state.repeatMode
+      canPlayNext: state.canPlayNext
     }))
   )
 
@@ -72,7 +61,6 @@ const Sync = () => {
   const isPlaying = playbackState === "playing"
 
   const resolvedTheme = resolveTheme(theme)
-  const repeatModeNum = repeatMode === RepeatMode.Off ? 0 : repeatMode === RepeatMode.Queue ? 1 : 2
 
   useEffect(() => {
     const loadThumbnail = async () => {
@@ -99,10 +87,6 @@ const Sync = () => {
 
     loadThumbnail()
   }, [currentTrack?.artwork])
-
-  const handleRefresh = () => {
-    setRefreshKey((prev) => prev + 1)
-  }
 
   return (
     <View style={styles.container}>
@@ -134,9 +118,8 @@ const Sync = () => {
           </Text>
           <View>
             <View>
-              <Text style={{ marginBottom: 8, fontWeight: "bold" }}>Small (4x1)</Text>
+              <Text style={{ marginBottom: 8, fontWeight: "bold" }}>Tiny (2x1)</Text>
               <WidgetPreview
-                key={`${refreshKey}-small`}
                 renderWidget={() => (
                   <MiniPlayerWidget
                     title={title}
@@ -146,11 +129,35 @@ const Sync = () => {
                     isPlaying={isPlaying}
                     canPlayPrevious={canPlayPrevious}
                     canPlayNext={canPlayNext}
-                    isShuffleEnabled={isShuffleEnabled}
-                    repeatMode={repeatModeNum}
+                    theme={resolvedTheme}
+                    language={language}
+                    size="tiny"
+                    isPlayerActive
+                  />
+                )}
+                onClick={({ clickAction }) => {
+                  setClickedAction(clickAction ?? "unknown")
+                }}
+                height={70}
+                width={160}
+              />
+            </View>
+            <View>
+              <Text style={{ marginBottom: 8, fontWeight: "bold" }}>Small (4x1)</Text>
+              <WidgetPreview
+                renderWidget={() => (
+                  <MiniPlayerWidget
+                    title={title}
+                    artists={artists}
+                    thumbnailUri={thumbnailUri}
+                    dominantColor={dominantColor}
+                    isPlaying={isPlaying}
+                    canPlayPrevious={canPlayPrevious}
+                    canPlayNext={canPlayNext}
                     theme={resolvedTheme}
                     language={language}
                     size="small"
+                    isPlayerActive
                   />
                 )}
                 onClick={({ clickAction }) => {
@@ -163,7 +170,6 @@ const Sync = () => {
             <View>
               <Text style={{ marginBottom: 8, fontWeight: "bold" }}>Medium (2x2)</Text>
               <WidgetPreview
-                key={`${refreshKey}-medium`}
                 renderWidget={() => (
                   <MiniPlayerWidget
                     title={title}
@@ -173,11 +179,10 @@ const Sync = () => {
                     isPlaying={isPlaying}
                     canPlayPrevious={canPlayPrevious}
                     canPlayNext={canPlayNext}
-                    isShuffleEnabled={isShuffleEnabled}
-                    repeatMode={repeatModeNum}
                     theme={resolvedTheme}
                     language={language}
                     size="medium"
+                    isPlayerActive
                   />
                 )}
                 onClick={({ clickAction }) => {
@@ -190,7 +195,6 @@ const Sync = () => {
             <View>
               <Text style={{ marginBottom: 8, fontWeight: "bold" }}>Large (4x2)</Text>
               <WidgetPreview
-                key={`${refreshKey}-large`}
                 renderWidget={() => (
                   <MiniPlayerWidget
                     title={title}
@@ -200,11 +204,10 @@ const Sync = () => {
                     isPlaying={isPlaying}
                     canPlayPrevious={canPlayPrevious}
                     canPlayNext={canPlayNext}
-                    isShuffleEnabled={isShuffleEnabled}
-                    repeatMode={repeatModeNum}
                     theme={resolvedTheme}
                     language={language}
                     size="large"
+                    isPlayerActive
                   />
                 )}
                 onClick={({ clickAction }) => {
@@ -220,7 +223,6 @@ const Sync = () => {
               Last click: {clickedAction}
             </Text>
           ) : null}
-          <Button title="Refresh" onPress={handleRefresh} style={styles.refreshButton} />
         </View>
         <View style={styles.infoContainer}>
           <Text size="sm" color="mutedForeground">

@@ -1,103 +1,75 @@
 "use no memo"
 
-import { usePlayerStore } from "../../stores/usePlayerStore"
+import TrackPlayer, { State } from "react-native-track-player"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
-
-import TrackPlayer, { RepeatMode, State } from "react-native-track-player"
 
 import { fileToBase64DataUri } from "@services/storage"
 
 import { extractColorFromImage } from "@utils/colors"
 
-import { MiniPlayerWidget, type MiniPlayerWidgetProps, type WidgetSize } from "./MiniPlayerWidget"
+import { getWidgetSize } from "./widgetUtils"
+
+import { MiniPlayerWidget, type MiniPlayerWidgetProps } from "./MiniPlayerWidget"
 
 import { type WidgetTaskHandlerProps } from "react-native-android-widget"
 
 /**
- * Determines the widget size based on its dimensions.
- *
- * Based on real device measurements:
- * - 2 cols ≈ 162dp, 3 cols ≈ 257dp, 4 cols ≈ 352dp
- * - 1 row ≈ 80dp, 2 rows ≈ 174dp
- *
- * Small: 1 row (any columns)
- * Medium: 2 rows with up to 3 columns (2x2, 2x3)
- * Large: 2 rows with 4+ columns (2x4+)
+ * Returns empty widget data for when the player is not active.
  */
-function getWidgetSize(width: number, height: number): WidgetSize {
-  const isOneRow = height < 120
-  const hasFourOrMoreColumns = width >= 300
+function getEmptyWidgetData(
+  widgetWidth: number,
+  widgetHeight: number,
+  language: string
+): Omit<MiniPlayerWidgetProps, "theme"> {
+  const size = getWidgetSize(widgetWidth, widgetHeight)
 
-  // Small: single row widget
-  if (isOneRow) return "small"
-
-  // Large: 2 rows with 4+ columns
-  if (hasFourOrMoreColumns) return "large"
-
-  // Medium: 2 rows with up to 3 columns
-  return "medium"
+  return {
+    title: "",
+    artists: "",
+    thumbnailUri: null,
+    dominantColor: null,
+    isPlaying: false,
+    canPlayPrevious: false,
+    canPlayNext: false,
+    language,
+    size,
+    isPlayerActive: false
+  }
 }
 
 /**
- * Gathers all data needed to render the widget.
- * This function accesses stores directly since widgets cannot use React hooks.
+ * Gathers all data needed to render the widget from TrackPlayer.
  */
 async function getWidgetData(
   widgetWidth: number,
   widgetHeight: number
 ): Promise<Omit<MiniPlayerWidgetProps, "theme">> {
-  const playerState = usePlayerStore.getState()
   const settingsState = useSettingsStore.getState()
-
-  const { currentTrack, canPlayPrevious, canPlayNext, isShuffleEnabled, repeatMode } = playerState
   const { language } = settingsState
 
-  // Get playback state - only if player is active
-  let isPlaying = false
-  const playerActive = await isPlayerActive()
-  if (playerActive) {
-    try {
-      const playbackState = await TrackPlayer.getPlaybackState()
-      isPlaying = playbackState.state === State.Playing
-    } catch {
-      // TrackPlayer might not be initialized in some contexts
-    }
-  }
+  const [playbackState, queue, activeTrack, activeTrackIndex] = await Promise.all([
+    TrackPlayer.getPlaybackState(),
+    TrackPlayer.getQueue(),
+    TrackPlayer.getActiveTrack(),
+    TrackPlayer.getActiveTrackIndex()
+  ])
 
-  // Calculate widget size based on dimensions
+  const isPlaying = playbackState.state === State.Playing
   const size = getWidgetSize(widgetWidth, widgetHeight)
 
-  // No current track - return empty state
-  if (!currentTrack) {
-    return {
-      title: "",
-      artists: "",
-      thumbnailUri: null,
-      dominantColor: null,
-      isPlaying: false,
-      canPlayPrevious: false,
-      canPlayNext: false,
-      isShuffleEnabled: false,
-      repeatMode: 0,
-      language,
-      size
-    }
+  if (!activeTrack) {
+    return getEmptyWidgetData(widgetWidth, widgetHeight, language)
   }
 
-  // Get track info
-  const title = currentTrack.title ?? currentTrack.name ?? ""
-  const artists =
-    currentTrack.artists && currentTrack.artists.length > 0
-      ? currentTrack.artists.map((a) => a.artist.name).join(", ")
-      : ""
+  const title = activeTrack.title ?? ""
+  const artists = activeTrack.artist ?? ""
 
-  // Convert artwork to base64 data URI for widget
   let thumbnailUri: MiniPlayerWidgetProps["thumbnailUri"] = null
   let dominantColor: string | null = null
 
-  if (currentTrack.artwork) {
-    const artworkPath = currentTrack.artwork.toString()
+  if (activeTrack.artwork) {
+    const artworkPath = activeTrack.artwork.toString()
 
     try {
       const base64Uri = await fileToBase64DataUri(artworkPath)
@@ -105,16 +77,14 @@ async function getWidgetData(
         thumbnailUri = base64Uri as `data:image${string}`
       }
 
-      // Extract dominant color using Skia
-      // This may fail in background context, so we handle it gracefully
       dominantColor = await extractColorFromImage(artworkPath)
     } catch {
-      // Color extraction failed - continue without it
+      // Continue without artwork/color
     }
   }
 
-  // Convert RepeatMode enum to number for widget
-  const repeatModeNum = repeatMode === RepeatMode.Off ? 0 : repeatMode === RepeatMode.Queue ? 1 : 2
+  const canPlayPrevious = activeTrackIndex !== undefined && activeTrackIndex > 0
+  const canPlayNext = activeTrackIndex !== undefined && activeTrackIndex < queue.length - 1
 
   return {
     title,
@@ -124,102 +94,64 @@ async function getWidgetData(
     isPlaying,
     canPlayPrevious,
     canPlayNext,
-    isShuffleEnabled,
-    repeatMode: repeatModeNum,
     language,
-    size
+    size,
+    isPlayerActive: true
   }
 }
 
 /**
- * Checks if the TrackPlayer service is active and ready.
- * Returns false if the app was killed and the player is not initialized.
+ * Checks if the player has an active playback session.
  */
 async function isPlayerActive(): Promise<boolean> {
   try {
-    const playbackState = await TrackPlayer.getPlaybackState()
-    // If we can get the state and it's not "none", the player is active
-    return playbackState.state !== State.None
+    const [playbackState, queue, activeTrack] = await Promise.all([
+      TrackPlayer.getPlaybackState(),
+      TrackPlayer.getQueue(),
+      TrackPlayer.getActiveTrack()
+    ])
+
+    return playbackState.state !== State.None && queue.length > 0 && activeTrack !== null
   } catch {
     return false
   }
 }
 
 /**
- * Handles click actions from the widget.
- * Only executes if the player is active.
+ * Handles click actions from the widget using TrackPlayer directly.
  */
 async function handleWidgetClick(clickAction: string): Promise<void> {
-  // Check if player is active before trying to control it
-  const playerActive = await isPlayerActive()
-  if (!playerActive) {
-    // Player not active (app was killed) - don't try to control
-    return
-  }
-
-  const playerState = usePlayerStore.getState()
-
   switch (clickAction) {
     case "playPause": {
       try {
         const playbackState = await TrackPlayer.getPlaybackState()
         if (playbackState.state === State.Playing) {
-          await playerState.pause()
+          await TrackPlayer.pause()
         } else {
-          await playerState.play()
+          await TrackPlayer.play()
         }
-      } catch (error) {
-        console.error("Widget: Error handling playPause:", error)
+      } catch {
+        // Player not available
       }
       break
     }
     case "skipPrevious": {
-      if (playerState.canPlayPrevious) {
-        try {
-          await playerState.playPrevious()
-        } catch (error) {
-          console.error("Widget: Error handling skipPrevious:", error)
-        }
+      try {
+        await TrackPlayer.skipToPrevious()
+      } catch {
+        // Cannot skip
       }
       break
     }
     case "skipNext": {
-      if (playerState.canPlayNext) {
-        try {
-          await playerState.playNext()
-        } catch (error) {
-          console.error("Widget: Error handling skipNext:", error)
-        }
-      }
-      break
-    }
-    case "toggleShuffle": {
       try {
-        await playerState.toggleShuffle()
-      } catch (error) {
-        console.error("Widget: Error handling toggleShuffle:", error)
-      }
-      break
-    }
-    case "toggleRepeat": {
-      try {
-        const currentMode = playerState.repeatMode
-        // Cycle: Off -> Queue -> Track -> Off
-        const nextMode =
-          currentMode === RepeatMode.Off
-            ? RepeatMode.Queue
-            : currentMode === RepeatMode.Queue
-              ? RepeatMode.Track
-              : RepeatMode.Off
-
-        await playerState.setRepeatMode(nextMode)
-      } catch (error) {
-        console.error("Widget: Error handling toggleRepeat:", error)
+        await TrackPlayer.skipToNext()
+      } catch {
+        // Cannot skip
       }
       break
     }
     default:
-      // Unknown action - ignore
       break
   }
 }
@@ -231,20 +163,23 @@ async function handleWidgetClick(clickAction: string): Promise<void> {
 export async function widgetTaskHandler(props: WidgetTaskHandlerProps): Promise<void> {
   const { widgetInfo, widgetAction, clickAction, renderWidget } = props
 
-  // Only handle MiniPlayer widget
   if (widgetInfo.widgetName !== "MiniPlayer") {
     return
   }
 
   const { width, height } = widgetInfo
 
+  const playerActive = await isPlayerActive()
+  const language = useSettingsStore.getState().language ?? "en"
+
   switch (widgetAction) {
     case "WIDGET_ADDED":
     case "WIDGET_UPDATE":
     case "WIDGET_RESIZED": {
-      const data = await getWidgetData(width, height)
+      const data = playerActive
+        ? await getWidgetData(width, height)
+        : getEmptyWidgetData(width, height, language)
 
-      // Render both light and dark variants for system theme support
       renderWidget({
         light: <MiniPlayerWidget {...data} theme="light" />,
         dark: <MiniPlayerWidget {...data} theme="dark" />
@@ -252,13 +187,13 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps): Promise<
       break
     }
     case "WIDGET_CLICK": {
-      // Handle the click action
-      if (clickAction && clickAction !== "OPEN_APP") {
+      if (playerActive && clickAction && clickAction !== "OPEN_APP") {
         await handleWidgetClick(clickAction)
       }
 
-      // Re-fetch data and re-render after action
-      const data = await getWidgetData(width, height)
+      const data = playerActive
+        ? await getWidgetData(width, height)
+        : getEmptyWidgetData(width, height, language)
 
       renderWidget({
         light: <MiniPlayerWidget {...data} theme="light" />,
@@ -267,7 +202,6 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps): Promise<
       break
     }
     case "WIDGET_DELETED": {
-      // Cleanup if needed - currently no cleanup required
       break
     }
     default:

@@ -2,25 +2,19 @@
 
 import { Platform } from "react-native"
 
-import { requestWidgetUpdate } from "react-native-android-widget"
-
-import { usePlayerStore } from "../../stores/usePlayerStore"
+import { requestWidgetUpdate, type WidgetInfo } from "react-native-android-widget"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
 
-import TrackPlayer, { RepeatMode, State } from "react-native-track-player"
+import TrackPlayer, { State } from "react-native-track-player"
 
 import { fileToBase64DataUri } from "@services/storage"
 
 import { extractColorFromImage } from "@utils/colors"
 
-import { MiniPlayerWidget, type MiniPlayerWidgetProps, type WidgetSize } from "./MiniPlayerWidget"
+import { getWidgetSize } from "./widgetUtils"
 
-/**
- * Default widget size for updates.
- * The actual size will be determined by the task handler on resize events.
- */
-const DEFAULT_WIDGET_SIZE: WidgetSize = "medium"
+import { MiniPlayerWidget, type MiniPlayerWidgetProps } from "./MiniPlayerWidget"
 
 /**
  * Cached dominant color to avoid repeated extraction for the same artwork.
@@ -28,24 +22,28 @@ const DEFAULT_WIDGET_SIZE: WidgetSize = "medium"
 let cachedDominantColor: { artworkPath: string; color: string | null } | null = null
 
 /**
- * Gathers widget data from current app state.
+ * Gathers widget data from TrackPlayer state.
  */
-async function getWidgetData(): Promise<Omit<MiniPlayerWidgetProps, "theme">> {
-  const playerState = usePlayerStore.getState()
+async function getWidgetData(
+  widgetWidth: number,
+  widgetHeight: number
+): Promise<Omit<MiniPlayerWidgetProps, "theme">> {
   const settingsState = useSettingsStore.getState()
-
-  const { currentTrack, canPlayPrevious, canPlayNext, isShuffleEnabled, repeatMode } = playerState
   const { language } = settingsState
 
-  let isPlaying = false
-  try {
-    const playbackState = await TrackPlayer.getPlaybackState()
-    isPlaying = playbackState.state === State.Playing
-  } catch {
-    // TrackPlayer might not be initialized
-  }
+  const size = getWidgetSize(widgetWidth, widgetHeight)
 
-  if (!currentTrack) {
+  const [playbackState, queue, activeTrack, activeTrackIndex] = await Promise.all([
+    TrackPlayer.getPlaybackState(),
+    TrackPlayer.getQueue(),
+    TrackPlayer.getActiveTrack(),
+    TrackPlayer.getActiveTrackIndex()
+  ])
+
+  const isPlaying = playbackState.state === State.Playing
+
+  if (!activeTrack) {
+    cachedDominantColor = null
     return {
       title: "",
       artists: "",
@@ -54,24 +52,20 @@ async function getWidgetData(): Promise<Omit<MiniPlayerWidgetProps, "theme">> {
       isPlaying: false,
       canPlayPrevious: false,
       canPlayNext: false,
-      isShuffleEnabled: false,
-      repeatMode: 0,
       language,
-      size: DEFAULT_WIDGET_SIZE
+      size,
+      isPlayerActive: false
     }
   }
 
-  const title = currentTrack.title ?? currentTrack.name ?? ""
-  const artists =
-    currentTrack.artists && currentTrack.artists.length > 0
-      ? currentTrack.artists.map((a) => a.artist.name).join(", ")
-      : ""
+  const title = activeTrack.title ?? ""
+  const artists = activeTrack.artist ?? ""
 
   let thumbnailUri: MiniPlayerWidgetProps["thumbnailUri"] = null
   let dominantColor: string | null = null
 
-  if (currentTrack.artwork) {
-    const artworkPath = currentTrack.artwork.toString()
+  if (activeTrack.artwork) {
+    const artworkPath = activeTrack.artwork.toString()
 
     try {
       const base64Uri = await fileToBase64DataUri(artworkPath)
@@ -79,7 +73,6 @@ async function getWidgetData(): Promise<Omit<MiniPlayerWidgetProps, "theme">> {
         thumbnailUri = base64Uri as `data:image${string}`
       }
 
-      // Use cached color if same artwork
       if (cachedDominantColor?.artworkPath === artworkPath) {
         dominantColor = cachedDominantColor.color
       } else {
@@ -93,7 +86,8 @@ async function getWidgetData(): Promise<Omit<MiniPlayerWidgetProps, "theme">> {
     cachedDominantColor = null
   }
 
-  const repeatModeNum = repeatMode === RepeatMode.Off ? 0 : repeatMode === RepeatMode.Queue ? 1 : 2
+  const canPlayPrevious = activeTrackIndex !== undefined && activeTrackIndex > 0
+  const canPlayNext = activeTrackIndex !== undefined && activeTrackIndex < queue.length - 1
 
   return {
     title,
@@ -103,10 +97,9 @@ async function getWidgetData(): Promise<Omit<MiniPlayerWidgetProps, "theme">> {
     isPlaying,
     canPlayPrevious,
     canPlayNext,
-    isShuffleEnabled,
-    repeatMode: repeatModeNum,
     language,
-    size: DEFAULT_WIDGET_SIZE
+    size,
+    isPlayerActive: true
   }
 }
 
@@ -118,16 +111,19 @@ export async function triggerWidgetUpdate(): Promise<void> {
   if (Platform.OS !== "android") return
 
   try {
-    const data = await getWidgetData()
-
     await requestWidgetUpdate({
       widgetName: "MiniPlayer",
-      renderWidget: () => ({
-        light: <MiniPlayerWidget {...data} theme="light" />,
-        dark: <MiniPlayerWidget {...data} theme="dark" />
-      })
+      renderWidget: async (widgetInfo: WidgetInfo) => {
+        const data = await getWidgetData(widgetInfo.width, widgetInfo.height)
+        return {
+          light: <MiniPlayerWidget {...data} theme="light" />,
+          dark: <MiniPlayerWidget {...data} theme="dark" />
+        }
+      }
     })
-  } catch {}
+  } catch {
+    // Widget update failed
+  }
 }
 
 /**

@@ -5,6 +5,8 @@ import { persistStorage } from "./config/persist"
 
 import { i18n, type LocaleKeys } from "@repo/i18n"
 
+import { triggerWidgetUpdate } from "@features/player/components/Widget/widgetUpdate"
+
 const SETTINGS_STORE_NAME = "settings"
 
 /**
@@ -74,6 +76,8 @@ export const useSettingsStore = create<SettingsStore>()(
         set({ language: code })
         // Dynamically change the i18n language when the setting is updated.
         i18n.changeLanguage(code)
+        // Update widget with new language
+        triggerWidgetUpdate()
       },
       setHasHydrated: (hasHydrated) => {
         set({ hasHydrated })
