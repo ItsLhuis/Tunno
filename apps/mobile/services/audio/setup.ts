@@ -32,7 +32,8 @@ export const setupAudioPlayer = async () => {
   })
   await TrackPlayer.updateOptions({
     android: {
-      appKilledPlaybackBehavior: DefaultAudioServiceBehaviour
+      appKilledPlaybackBehavior: DefaultAudioServiceBehaviour,
+      stopForegroundGracePeriod: 0
     },
     capabilities: [
       Capability.Play,
