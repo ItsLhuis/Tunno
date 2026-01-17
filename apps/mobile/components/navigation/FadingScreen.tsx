@@ -4,9 +4,11 @@ import { type StyleProp, type ViewStyle } from "react-native"
 
 import { useFocusEffect } from "expo-router"
 
-import { Fade, type FadeDirection } from "@components/ui/Fade"
+import { useDelayedMount } from "@hooks/useDelayedMount"
 
 import { Easing } from "react-native-reanimated"
+
+import { Fade, type FadeDirection } from "@components/ui/Fade"
 
 export type FadingScreenProps = {
   children: ReactNode
@@ -14,6 +16,7 @@ export type FadingScreenProps = {
   direction?: FadeDirection
   offset?: number
   style?: StyleProp<ViewStyle>
+  delay?: number
 }
 
 const FadingScreen = ({
@@ -21,26 +24,30 @@ const FadingScreen = ({
   direction = "none",
   offset,
   children,
-  style
+  style,
+  delay = 0
 }: FadingScreenProps) => {
-  const [show, setShow] = useState(false)
-
-  const bezier = Easing.bezier(0.33, 1, 0.68, 1).factory()
-  const easing = Easing.out(bezier)
+  const [isFocused, setIsFocused] = useState(false)
 
   useFocusEffect(
     useCallback(() => {
-      setShow(true)
+      setIsFocused(true)
       return () => {
-        setShow(false)
+        setIsFocused(false)
       }
     }, [])
   )
 
+  const shouldRender = useDelayedMount(isFocused, delay)
+
+  const bezier = Easing.bezier(0.33, 1, 0.68, 1).factory()
+  const easing = Easing.out(bezier)
+
+  if (!shouldRender) return null
+
   return (
     <Fade
-      key={String(show)}
-      show={show}
+      show={shouldRender}
       duration={duration}
       direction={direction}
       offset={offset}
