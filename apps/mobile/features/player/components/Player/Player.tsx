@@ -137,7 +137,7 @@ const playerStyles = createStyleSheet(({ theme, runtime }) => ({
   },
   topSection: {
     width: "100%",
-    gap: theme.space("lg")
+    gap: theme.space("md")
   }
 }))
 
