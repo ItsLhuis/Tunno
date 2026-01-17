@@ -8,6 +8,10 @@ import { useCallback, useEffect, useLayoutEffect, useState } from "react"
 
 import { Linking, View } from "react-native"
 
+import { createStyleSheet, ThemeProvider, useStyles, useTheme, type ThemeMode } from "@styles"
+
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin"
+
 import { useFonts } from "expo-font"
 
 import { useAllStoresHydrated } from "@utils/stores"
@@ -18,8 +22,6 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
-import { type ThemeMode } from "@styles"
-
 import "@repo/i18n"
 import { useTranslation } from "@repo/i18n"
 
@@ -27,7 +29,7 @@ import * as Updates from "expo-updates"
 
 import { initializeStorage } from "@services/storage"
 
-import { databaseName } from "@database/client"
+import { expoDatabase, databaseName } from "@database/client"
 import migrations from "@migrations/migrations"
 import { drizzle } from "drizzle-orm/expo-sqlite"
 import { migrate } from "drizzle-orm/expo-sqlite/migrator"
@@ -41,8 +43,6 @@ import * as SplashScreen from "expo-splash-screen"
 
 import { queryClient } from "@lib/queryClient"
 import { QueryClientProvider } from "@tanstack/react-query"
-
-import { createStyleSheet, ThemeProvider, useStyles, useTheme } from "@styles"
 
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
@@ -69,6 +69,8 @@ function Main() {
   const styles = useStyles(mainStyles)
 
   const { theme } = useTheme()
+
+  useDrizzleStudio(expoDatabase)
 
   const [isAppReady, setIsAppReady] = useState(false)
 

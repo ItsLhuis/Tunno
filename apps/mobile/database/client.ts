@@ -6,6 +6,8 @@ import { schema, type InferQueryModel } from "@repo/database"
 const databaseName = "database.db"
 
 const expoDatabase = openDatabaseSync(databaseName, { enableChangeListener: true })
+expoDatabase.execSync("PRAGMA foreign_keys = ON;")
+
 const database = drizzle(expoDatabase, { schema })
 
-export { database, databaseName, schema, type InferQueryModel }
+export { database, databaseName, expoDatabase, schema, type InferQueryModel }
