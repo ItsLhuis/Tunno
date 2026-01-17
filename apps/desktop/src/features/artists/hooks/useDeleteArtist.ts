@@ -91,7 +91,11 @@ export function useDeleteArtist() {
         toast.error(t("artists.deletedFailedTitle"))
       }
     },
-    onSettled: () => {
+    onSettled: (artist) => {
+      if (artist) {
+        queryClient.removeQueries({ queryKey: artistKeys.details(artist.id) })
+      }
+
       invalidateQueries(queryClient, "artist", {
         relations: ["home", "songs", "albums", "sidebar"]
       })

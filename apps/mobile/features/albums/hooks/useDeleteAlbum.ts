@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { useRouter, usePathname } from "expo-router"
+import { usePathname, useRouter } from "expo-router"
 
 import { useTranslation } from "@repo/i18n"
+
+import { useShallow } from "zustand/shallow"
+
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { albumKeys, invalidateQueries } from "@repo/api"
 
 import { getSongByIdWithMainRelations } from "../../songs/api/queries"
 import { deleteAlbum } from "../api/mutations"
-
-import { useShallow } from "zustand/shallow"
-
-import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
@@ -84,7 +84,11 @@ export function useDeleteAlbum() {
     onError: () => {
       toast.error(t("albums.deletedFailedTitle"))
     },
-    onSettled: () => {
+    onSettled: (album) => {
+      if (album) {
+        queryClient.removeQueries({ queryKey: albumKeys.details(album.id) })
+      }
+
       invalidateQueries(queryClient, "album", {
         relations: ["home", "songs", "artists", "sidebar"]
       })

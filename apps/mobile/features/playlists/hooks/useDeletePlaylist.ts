@@ -72,7 +72,11 @@ export function useDeletePlaylist() {
       toast.error(t("playlists.deletedFailedTitle"))
     },
 
-    onSettled: () => {
+    onSettled: (playlist) => {
+      if (playlist) {
+        queryClient.removeQueries({ queryKey: playlistKeys.details(playlist.id) })
+      }
+
       invalidateQueries(queryClient, "playlist", {
         relations: ["home", "songs", "sidebar"]
       })

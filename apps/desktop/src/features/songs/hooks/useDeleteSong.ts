@@ -4,10 +4,11 @@ import { useRouter } from "@tanstack/react-router"
 
 import { useTranslation } from "@repo/i18n"
 
+import { usePlayerStore } from "@features/player/stores/usePlayerStore"
+
 import { invalidateQueries, songKeys } from "@repo/api"
 
 import { deleteSong } from "../api/mutations"
-import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
 
@@ -69,7 +70,11 @@ export function useDeleteSong() {
     onError: () => {
       toast.error(t("songs.deletedFailedTitle"))
     },
-    onSettled: () => {
+    onSettled: (song) => {
+      if (song) {
+        queryClient.removeQueries({ queryKey: songKeys.details(song.id) })
+      }
+
       invalidateQueries(queryClient, "song", {
         relations: ["home", "artists", "albums", "playlists"]
       })
