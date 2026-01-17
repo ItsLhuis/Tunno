@@ -94,7 +94,8 @@ export const polish: Language = {
       addToSidebar: "Dodaj do paska bocznego",
       removeFromSidebar: "Usuń z paska bocznego",
       featured: "Wyróżnione",
-      stats: "Statystyki"
+      stats: "Statystyki",
+      openToStart: "Otwórz Tunno, aby rozpocząć"
     },
     form: {
       titles: {

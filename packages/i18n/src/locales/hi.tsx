@@ -94,7 +94,8 @@ export const hindi: Language = {
       addToSidebar: "साइडबार में जोड़ें",
       removeFromSidebar: "साइडबार से हटाएँ",
       featured: "विशेष रुप से प्रदर्शित",
-      stats: "आंकड़े"
+      stats: "आंकड़े",
+      openToStart: "शुरू करने के लिए Tunno खोलें"
     },
     form: {
       titles: {

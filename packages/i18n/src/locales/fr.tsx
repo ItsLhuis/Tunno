@@ -94,7 +94,8 @@ export const french: Language = {
       addToSidebar: "Ajouter à la barre latérale",
       removeFromSidebar: "Retirer de la barre latérale",
       featured: "En vedette",
-      stats: "Statistiques"
+      stats: "Statistiques",
+      openToStart: "Ouvrir Tunno pour commencer"
     },
     form: {
       titles: {

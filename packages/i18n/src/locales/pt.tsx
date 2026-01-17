@@ -94,7 +94,8 @@ export const portuguese: Language = {
       addToSidebar: "Adicionar à barra lateral",
       removeFromSidebar: "Remover da barra lateral",
       featured: "Em destaque",
-      stats: "Estatísticas"
+      stats: "Estatísticas",
+      openToStart: "Abrir Tunno para começar"
     },
     form: {
       titles: {

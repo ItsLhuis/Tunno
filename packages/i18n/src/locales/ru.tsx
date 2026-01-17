@@ -94,7 +94,8 @@ export const russian: Language = {
       addToSidebar: "Добавить на боковую панель",
       removeFromSidebar: "Удалить с боковой панели",
       featured: "Рекомендуемое",
-      stats: "Статистика"
+      stats: "Статистика",
+      openToStart: "Открыть Tunno для начала"
     },
     form: {
       titles: {

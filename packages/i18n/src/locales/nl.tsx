@@ -94,7 +94,8 @@ export const dutch: Language = {
       addToSidebar: "Toevoegen aan zijbalk",
       removeFromSidebar: "Verwijderen uit zijbalk",
       featured: "Uitgelicht",
-      stats: "Statistieken"
+      stats: "Statistieken",
+      openToStart: "Open Tunno om te beginnen"
     },
     form: {
       titles: {

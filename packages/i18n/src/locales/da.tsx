@@ -94,7 +94,8 @@ export const danish: Language = {
       addToSidebar: "Føj til sidepanel",
       removeFromSidebar: "Fjern fra sidepanel",
       featured: "Fremhævet",
-      stats: "Statistik"
+      stats: "Statistik",
+      openToStart: "Åbn Tunno for at starte"
     },
     form: {
       titles: {

@@ -94,7 +94,8 @@ export const norwegian: Language = {
       addToSidebar: "Legg til i sidefelt",
       removeFromSidebar: "Fjern fra sidefelt",
       featured: "Fremhevet",
-      stats: "Statistikk"
+      stats: "Statistikk",
+      openToStart: "Åpne Tunno for å starte"
     },
     form: {
       titles: {

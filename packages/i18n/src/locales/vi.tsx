@@ -94,7 +94,8 @@ export const vietnamese: Language = {
       addToSidebar: "Thêm vào thanh bên",
       removeFromSidebar: "Xóa khỏi thanh bên",
       featured: "Nổi bật",
-      stats: "Thống kê"
+      stats: "Thống kê",
+      openToStart: "Mở Tunno để bắt đầu"
     },
     form: {
       titles: {

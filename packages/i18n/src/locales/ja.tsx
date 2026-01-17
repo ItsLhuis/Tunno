@@ -94,7 +94,8 @@ export const japanese: Language = {
       addToSidebar: "サイドバーに追加",
       removeFromSidebar: "サイドバーから削除",
       featured: "注目",
-      stats: "統計"
+      stats: "統計",
+      openToStart: "開始するにはTunnoを開く"
     },
     form: {
       titles: {

@@ -103,6 +103,7 @@ export type Translations = {
     removeFromSidebar: string
     featured: string
     stats: string
+    openToStart: string
   }
   form: {
     titles: {

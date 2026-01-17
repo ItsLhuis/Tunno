@@ -94,7 +94,8 @@ export const german: Language = {
       addToSidebar: "Zur Seitenleiste hinzufügen",
       removeFromSidebar: "Aus der Seitenleiste entfernen",
       featured: "Vorgestellt",
-      stats: "Statistiken"
+      stats: "Statistiken",
+      openToStart: "Öffne Tunno, um zu starten"
     },
     form: {
       titles: {

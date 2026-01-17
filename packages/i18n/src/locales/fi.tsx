@@ -94,7 +94,8 @@ export const finnish: Language = {
       addToSidebar: "Lisää sivupalkkiin",
       removeFromSidebar: "Poista sivupalkista",
       featured: "Esittelyssä",
-      stats: "Tilastot"
+      stats: "Tilastot",
+      openToStart: "Avaa Tunno aloittaaksesi"
     },
     form: {
       titles: {

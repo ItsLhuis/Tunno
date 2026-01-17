@@ -94,7 +94,8 @@ export const italian: Language = {
       addToSidebar: "Aggiungi alla barra laterale",
       removeFromSidebar: "Rimuovi dalla barra laterale",
       featured: "In primo piano",
-      stats: "Statistiche"
+      stats: "Statistiche",
+      openToStart: "Apri Tunno per iniziare"
     },
     form: {
       titles: {

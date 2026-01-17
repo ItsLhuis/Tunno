@@ -94,7 +94,8 @@ export const chinese: Language = {
       addToSidebar: "添加到侧边栏",
       removeFromSidebar: "从侧边栏移除",
       featured: "精选",
-      stats: "统计"
+      stats: "统计",
+      openToStart: "打开 Tunno 开始"
     },
     form: {
       titles: {

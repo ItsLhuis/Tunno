@@ -94,7 +94,8 @@ export const turkish: Language = {
       addToSidebar: "Kenar çubuğuna ekle",
       removeFromSidebar: "Kenar çubuğundan kaldır",
       featured: "Öne Çıkanlar",
-      stats: "İstatistikler"
+      stats: "İstatistikler",
+      openToStart: "Başlamak için Tunno'yu aç"
     },
     form: {
       titles: {

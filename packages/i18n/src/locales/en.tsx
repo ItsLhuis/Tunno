@@ -94,7 +94,8 @@ export const english: Language = {
       addToSidebar: "Add to sidebar",
       removeFromSidebar: "Remove from sidebar",
       featured: "Featured",
-      stats: "Stats"
+      stats: "Stats",
+      openToStart: "Open Tunno to start"
     },
     form: {
       titles: {

@@ -94,7 +94,8 @@ export const swedish: Language = {
       addToSidebar: "Lägg till i sidofältet",
       removeFromSidebar: "Ta bort från sidofältet",
       featured: "Utvalda",
-      stats: "Statistik"
+      stats: "Statistik",
+      openToStart: "Öppna Tunno för att börja"
     },
     form: {
       titles: {

@@ -94,7 +94,8 @@ export const korean: Language = {
       addToSidebar: "사이드바에 추가",
       removeFromSidebar: "사이드바에서 제거",
       featured: "주요",
-      stats: "통계"
+      stats: "통계",
+      openToStart: "시작하려면 Tunno 열기"
     },
     form: {
       titles: {

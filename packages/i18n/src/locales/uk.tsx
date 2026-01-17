@@ -94,7 +94,8 @@ export const ukrainian: Language = {
       addToSidebar: "Додати до бічної панелі",
       removeFromSidebar: "Видалити з бічної панелі",
       featured: "Рекомендовані",
-      stats: "Статистика"
+      stats: "Статистика",
+      openToStart: "Відкрити Tunno для початку"
     },
     form: {
       titles: {
