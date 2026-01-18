@@ -101,7 +101,7 @@ const ArtistActionsContent = memo(
 
     const {
       data: fetchedArtist,
-      isLoading,
+      isPending,
       isError
     } = useFetchArtistByIdWithSongs(shouldFetchArtist ? resolvedArtistId : null)
 
@@ -205,7 +205,7 @@ const ArtistActionsContent = memo(
       onOpenDialog("playlist", targetArtist ?? null, ids)
     }
 
-    if (shouldFetchArtist && isLoading) {
+    if (shouldFetchArtist && isPending) {
       return (
         <div className="flex items-center justify-center p-4">
           <Spinner />

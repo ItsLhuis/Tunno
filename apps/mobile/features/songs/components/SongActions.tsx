@@ -123,7 +123,7 @@ const SongActionsContent = memo(
 
     const {
       data: fetchedSong,
-      isLoading,
+      isPending,
       isError
     } = useFetchSongByIdWithMainRelations(shouldFetchSong ? resolvedSongId : null)
 
@@ -227,7 +227,7 @@ const SongActionsContent = memo(
       ? currentTrack?.id === targetSong.id && playbackState === State.Playing
       : false
 
-    if (shouldFetchSong && isLoading) {
+    if (shouldFetchSong && isPending) {
       return <Spinner />
     }
 

@@ -102,7 +102,7 @@ const PlaylistActionsContent = memo(
 
     const {
       data: fetchedPlaylist,
-      isLoading,
+      isPending,
       isError
     } = useFetchPlaylistByIdWithSongs(shouldFetchPlaylist ? resolvedPlaylistId : null)
 
@@ -177,7 +177,7 @@ const PlaylistActionsContent = memo(
       }
     }, [targetPlaylist, onOpenDialog])
 
-    if (shouldFetchPlaylist && isLoading) {
+    if (shouldFetchPlaylist && isPending) {
       return <Spinner />
     }
 

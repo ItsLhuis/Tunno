@@ -105,7 +105,7 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
 
   const {
     data: fetchedAlbum,
-    isLoading,
+    isPending,
     isError
   } = useFetchAlbumByIdWithSongsAndArtists(shouldFetchAlbum ? resolvedAlbumId : null)
 
@@ -190,7 +190,7 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
     }
   }, [targetAlbum, onOpenDialog])
 
-  if (shouldFetchAlbum && isLoading) {
+  if (shouldFetchAlbum && isPending) {
     return <Spinner />
   }
 

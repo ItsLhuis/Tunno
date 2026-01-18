@@ -102,7 +102,7 @@ const ArtistActionsContent = memo(
 
     const {
       data: fetchedArtist,
-      isLoading,
+      isPending,
       isError
     } = useFetchArtistByIdWithSongs(shouldFetchArtist ? resolvedArtistId : null)
 
@@ -177,7 +177,7 @@ const ArtistActionsContent = memo(
       }
     }, [targetArtist, onOpenDialog])
 
-    if (shouldFetchArtist && isLoading) {
+    if (shouldFetchArtist && isPending) {
       return <Spinner />
     }
 
