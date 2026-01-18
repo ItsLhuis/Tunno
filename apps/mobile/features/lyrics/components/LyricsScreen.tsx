@@ -13,20 +13,17 @@ import { KeyboardSpacer, LyricsReader, NotFound, type ScrollHeaderProps } from "
 import { LyricsHeader } from "./LyricsHeader"
 import { LyricsStickyHeader } from "./LyricsStickyHeader"
 
-import { State } from "react-native-track-player"
-
 const LyricsScreen = () => {
   const styles = useStyles(lyricsScreenStyles)
 
   const bottomPlayerHeight = useBottomPlayerHeight()
 
-  const { currentTrackId, seekTo, cachedSongs, position, playbackState } = usePlayerStore(
+  const { currentTrackId, seekTo, cachedSongs, position } = usePlayerStore(
     useShallow((state) => ({
       currentTrackId: state.currentTrackId,
       seekTo: state.seekTo,
       cachedSongs: state.cachedSongs,
-      position: state.position,
-      playbackState: state.playbackState
+      position: state.position
     }))
   )
 
@@ -63,7 +60,6 @@ const LyricsScreen = () => {
         lyrics={lyrics}
         currentTime={position}
         onSeek={seekTo}
-        isPlaying={playbackState === State.Playing}
         contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
       />
       <KeyboardSpacer />

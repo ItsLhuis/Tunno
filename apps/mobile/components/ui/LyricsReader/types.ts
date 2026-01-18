@@ -12,7 +12,6 @@ export type LyricsReaderProps = Omit<
   lyrics: Lyric[]
   currentTime: number
   onSeek: (time: number) => void
-  isPlaying: boolean
 }
 
 export type LyricLineProps = {
