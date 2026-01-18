@@ -7,20 +7,15 @@ import { type Virtualizer } from "@tanstack/react-virtual"
  */
 export type StickToIndexOptions = {
   targetIndex: number
-  behavior?: ScrollBehavior
-  enabled?: boolean
-  block?: ScrollLogicalPosition
-  inline?: ScrollLogicalPosition
   selector: (index: number) => string
-  resumeDelay?: number
-  resumeOnSignificantChange?: boolean
+  enabled?: boolean
+  behavior?: ScrollBehavior
+  block?: ScrollLogicalPosition
   scrollRef?: RefObject<HTMLElement | null>
   initialScroll?: boolean
-  initialBehavior?: ScrollBehavior
-  gap?: number
-  preventUserScroll?: boolean
-  effectiveColumns?: number
   virtualizer?: Virtualizer<any, any> | RefObject<Virtualizer<any, any> | null>
+  effectiveColumns?: number
+  preventUserScroll?: boolean
 }
 
 /**
@@ -29,515 +24,216 @@ export type StickToIndexOptions = {
 export type StickToIndexReturn = {
   scrollRef: RefObject<HTMLElement | null>
   isStuck: boolean
-  isUserScrolling: boolean
   stick: () => void
+  enableStick: () => void
   unstick: () => void
 }
 
 /**
- * Custom hook for managing "stick-to-index" behavior in a scrollable container.
+ * Hook for managing "stick-to-index" behavior in a scrollable container.
  *
- * This hook automatically scrolls a designated `targetIndex` into view and attempts to keep
- * it visible. It gracefully handles user scrolling, temporarily "unstucking" the view
- * to allow free navigation, and can optionally resume sticking after a delay or a significant
- * change in the target index. It supports various scrolling strategies including direct element
- * scrolling, precise pixel calculation, and integration with `@tanstack/react-virtual` for virtualized lists.
- *
- * @param options - Configuration options for the hook, as defined in {@link StickToIndexOptions}.
- * @returns An object containing the `scrollRef`, current status (`isStuck`, `isUserScrolling`),
- *          and control functions (`stick`, `unstick`), as defined in {@link StickToIndexReturn}.
- *
- * @example
- * ```tsx
- * function MyScrollableList({ items, activeIndex }) {
- *   const { scrollRef, isStuck, isUserScrolling, stick, unstick } = useStickToIndex({
- *     targetIndex: activeIndex,
- *     selector: (idx) => `#item-${idx}`,
- *     resumeDelay: 2000,
- *     initialScroll: true,
- *   });
- *
- *   return (
- *     <div ref={scrollRef} style={{ height: '300px', overflowY: 'auto', border: '1px solid gray' }}>
- *       {items.map((item, index) => (
- *         <div key={item.id} id={`item-${index}`} style={{ height: '50px', lineHeight: '50px', background: activeIndex === index ? 'lightblue' : 'white' }}>
- *           {item.name} {activeIndex === index && '(Active)'}
- *         </div>
- *       ))}
- *     </div>
- *   );
- * }
- * ```
+ * - When stuck, automatically scrolls to keep targetIndex in view
+ * - Any user scroll immediately unsticks (no auto-resume)
+ * - Call stick() to re-enable auto-scrolling
  */
 export function useStickToIndex({
   targetIndex,
-  behavior = "smooth",
-  enabled = true,
-  block = "center",
-  inline = "nearest",
   selector,
-  resumeDelay = 3000,
-  resumeOnSignificantChange = true,
+  enabled = true,
+  behavior = "smooth",
+  block = "center",
   scrollRef: externalScrollRef,
   initialScroll = true,
-  initialBehavior = "instant",
-  gap = 0,
-  preventUserScroll = false,
+  virtualizer,
   effectiveColumns = 1,
-  virtualizer
+  preventUserScroll = false
 }: StickToIndexOptions): StickToIndexReturn {
   const internalScrollRef = useRef<HTMLElement | null>(null)
   const scrollRef = externalScrollRef ?? internalScrollRef
 
-  const [isUserScrolling, setIsUserScrolling] = useState(false)
   const [isStuck, setIsStuck] = useState(true)
 
   const isAutoScrollingRef = useRef(false)
-
   const lastTargetIndexRef = useRef(targetIndex)
-
-  const resumeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
-
-  const lastUserInteractionRef = useRef<number>(0)
-
-  const isFirstRenderRef = useRef(true)
-
-  const itemHeightCacheRef = useRef<Map<number, number>>(new Map())
-
-  const scrollAnimationFrameRef = useRef<number | undefined>(undefined)
+  const hasInitialScrolledRef = useRef(false)
 
   const getVirtualizer = useCallback(() => {
     if (!virtualizer) return null
-    if ("current" in virtualizer) {
-      return virtualizer.current
-    }
+
+    if ("current" in virtualizer) return virtualizer.current
+
     return virtualizer
   }, [virtualizer])
 
-  const measureItemHeight = useCallback(
-    (index: number): number | null => {
-      const container = scrollRef.current
-      if (!container) return null
-
-      if (itemHeightCacheRef.current.has(index)) {
-        return itemHeightCacheRef.current.get(index) ?? null
-      }
-
-      const element = container.querySelector(selector(index)) as HTMLElement
-      if (!element) return null
-
-      const height = element.getBoundingClientRect().height
-      itemHeightCacheRef.current.set(index, height)
-      return height
-    },
-    [scrollRef, selector]
-  )
-
-  const calculateScrollPosition = useCallback(
-    (index: number): number | null => {
-      const v = getVirtualizer()
-      const container = scrollRef.current
-      if (!container) return null
-
-      // First, try to find the element directly in the DOM
-      const targetElement = container.querySelector(selector(index)) as HTMLElement
-      if (targetElement) {
-        const containerRect = container.getBoundingClientRect()
-        const elementRect = targetElement.getBoundingClientRect()
-
-        const currentScrollTop = container.scrollTop
-        const elementTopRelativeToContainer = elementRect.top - containerRect.top + currentScrollTop
-
-        let scrollTop = elementTopRelativeToContainer
-
-        if (block === "center") {
-          const containerHeight = containerRect.height
-          const elementHeight = elementRect.height
-          scrollTop = scrollTop - containerHeight / 2 + elementHeight / 2
-        } else if (block === "end") {
-          const containerHeight = containerRect.height
-          const elementHeight = elementRect.height
-          scrollTop = scrollTop - containerHeight + elementHeight
-        }
-
-        return Math.max(0, scrollTop)
-      }
-
-      // Fallback for virtualized lists if direct element not found or virtualizer is used
-      let scrollTop = 0
-
-      if (v) {
-        // If a virtualizer is provided, try to use its precise positioning
-        const rowIndex = Math.floor(index / effectiveColumns)
-        const virtualItems = v.getVirtualItems()
-
-        const virtualItem = virtualItems.find((item) => item.index === rowIndex)
-
-        if (virtualItem) {
-          scrollTop = virtualItem.start
-
-          if (gap > 0 && rowIndex > 0) {
-            scrollTop += rowIndex * gap
-          }
-
-          const itemHeight = virtualItem.size || measureItemHeight(index) || 0
-
-          const containerRect = container.getBoundingClientRect()
-          const containerHeight = containerRect.height
-
-          if (block === "center") {
-            scrollTop = scrollTop - containerHeight / 2 + itemHeight / 2
-          } else if (block === "end") {
-            scrollTop = scrollTop - containerHeight + itemHeight
-          }
-
-          return Math.max(0, scrollTop)
-        }
-
-        // If virtual item not found, try to estimate with virtualizer's total size and item count
-        try {
-          const totalSize = v.getTotalSize()
-          const itemCount = v.options.count
-
-          if (itemCount > 0 && rowIndex < itemCount) {
-            const avgSize = totalSize / itemCount
-            scrollTop = rowIndex * avgSize
-
-            if (gap > 0 && rowIndex > 0) {
-              scrollTop += rowIndex * gap
-            }
-
-            const containerRect = container.getBoundingClientRect()
-            const containerHeight = containerRect.height
-
-            if (block === "center") {
-              scrollTop = scrollTop - containerHeight / 2 + avgSize / 2
-            } else if (block === "end") {
-              scrollTop = scrollTop - containerHeight + avgSize
-            }
-
-            return Math.max(0, scrollTop)
-          }
-        } catch {}
-      }
-
-      // Last resort: manual calculation based on cached or estimated item heights
-      let measuredHeight: number | null = null
-
-      for (let i = 0; i < index; i++) {
-        const height = measureItemHeight(i)
-        if (height !== null) {
-          measuredHeight = height
-          scrollTop += height
-          if (gap > 0) {
-            scrollTop += gap
-          }
-        } else {
-          const cached = itemHeightCacheRef.current.get(i)
-          if (cached) {
-            scrollTop += cached
-            if (gap > 0) {
-              scrollTop += gap
-            }
-          }
-        }
-      }
-
-      const targetHeight = measureItemHeight(index) || measuredHeight || 0
-
-      if (block === "center" || block === "end") {
-        const containerRect = container.getBoundingClientRect()
-        const containerHeight = containerRect.height
-
-        if (block === "center") {
-          scrollTop = scrollTop - containerHeight / 2 + targetHeight / 2
-        } else {
-          scrollTop = scrollTop - containerHeight + targetHeight
-        }
-      }
-
-      return Math.max(0, scrollTop)
-    },
-    [getVirtualizer, scrollRef, gap, effectiveColumns, block, measureItemHeight, selector]
-  )
-
-  const scrollWithPreciseCalculation = useCallback(
+  const scrollToElement = useCallback(
     (index: number, scrollBehavior: ScrollBehavior) => {
       const container = scrollRef.current
-      if (!container) return false
 
-      const scrollPosition = calculateScrollPosition(index)
-      if (scrollPosition === null) return false
-
-      isAutoScrollingRef.current = true
-
-      if (scrollAnimationFrameRef.current) {
-        cancelAnimationFrame(scrollAnimationFrameRef.current)
-      }
-
-      scrollAnimationFrameRef.current = requestAnimationFrame(() => {
-        container.scrollTo({
-          top: scrollPosition,
-          behavior: scrollBehavior
-        })
-
-        const scrollDuration = scrollBehavior === "smooth" ? 500 : 0
-        setTimeout(() => {
-          isAutoScrollingRef.current = false
-        }, scrollDuration)
-      })
-
-      return true
-    },
-    [scrollRef, calculateScrollPosition]
-  )
-
-  const scrollWithVirtualizer = useCallback(
-    (index: number, scrollBehavior: ScrollBehavior) => {
-      const v = getVirtualizer()
-      if (!v) return false
-
-      const rowIndex = Math.floor(index / effectiveColumns)
-
-      isAutoScrollingRef.current = true
-
-      const align = block as "start" | "center" | "end" | "auto"
-
-      v.scrollToIndex(rowIndex, {
-        align,
-        behavior: scrollBehavior === "smooth" ? "smooth" : "auto"
-      })
-
-      const scrollDuration = scrollBehavior === "smooth" ? 500 : 0
-      setTimeout(() => {
-        isAutoScrollingRef.current = false
-      }, scrollDuration)
-
-      return true
-    },
-    [getVirtualizer, block, effectiveColumns]
-  )
-
-  const scrollWithElement = useCallback(
-    (index: number, scrollBehavior: ScrollBehavior) => {
-      const container = scrollRef.current
       if (!container) return false
 
       const targetElement = container.querySelector(selector(index)) as HTMLElement
 
       if (!targetElement) return false
 
-      isAutoScrollingRef.current = true
+      const containerRect = container.getBoundingClientRect()
+      const elementRect = targetElement.getBoundingClientRect()
 
-      targetElement.scrollIntoView({
-        behavior: scrollBehavior,
-        block,
-        inline
+      const elementTop = elementRect.top - containerRect.top + container.scrollTop
+      const elementHeight = elementRect.height
+      const containerHeight = containerRect.height
+
+      let scrollTop: number
+
+      if (block === "center") {
+        scrollTop = elementTop - containerHeight / 2 + elementHeight / 2
+      } else if (block === "end") {
+        scrollTop = elementTop - containerHeight + elementHeight
+      } else {
+        scrollTop = elementTop
+      }
+
+      const maxScroll = container.scrollHeight - containerHeight
+      scrollTop = Math.max(0, Math.min(scrollTop, maxScroll))
+
+      container.scrollTo({
+        top: scrollTop,
+        behavior: scrollBehavior
       })
-
-      const scrollDuration = scrollBehavior === "smooth" ? 500 : 0
-      setTimeout(() => {
-        isAutoScrollingRef.current = false
-      }, scrollDuration)
 
       return true
     },
-    [scrollRef, selector, block, inline]
+    [scrollRef, selector, block]
   )
 
   const scrollToIndex = useCallback(
-    (index: number, scrollBehavior: ScrollBehavior = behavior) => {
-      if (gap > 0 || (gap === 0 && getVirtualizer())) {
-        const success = scrollWithPreciseCalculation(index, scrollBehavior)
-        if (success) return
+    (index: number, scrollBehavior: ScrollBehavior) => {
+      if (index < 0) return
+
+      isAutoScrollingRef.current = true
+
+      const duration = scrollBehavior === "smooth" ? 300 : 50
+
+      const finishScroll = () => {
+        setTimeout(() => {
+          isAutoScrollingRef.current = false
+        }, duration)
       }
 
-      if (getVirtualizer() && gap === 0) {
-        const success = scrollWithVirtualizer(index, scrollBehavior)
-        if (success) return
+      if (scrollToElement(index, scrollBehavior)) {
+        finishScroll()
+        return
       }
 
-      scrollWithElement(index, scrollBehavior)
+      const v = getVirtualizer()
+
+      if (v) {
+        const rowIndex = Math.floor(index / effectiveColumns)
+
+        v.scrollToIndex(rowIndex, {
+          align: block as "start" | "center" | "end" | "auto",
+          behavior: scrollBehavior === "smooth" ? "smooth" : "auto"
+        })
+
+        setTimeout(() => {
+          scrollToElement(index, scrollBehavior)
+          finishScroll()
+        }, 50)
+      } else {
+        isAutoScrollingRef.current = false
+      }
     },
-    [
-      behavior,
-      gap,
-      getVirtualizer,
-      scrollWithPreciseCalculation,
-      scrollWithVirtualizer,
-      scrollWithElement
-    ]
+    [scrollToElement, getVirtualizer, effectiveColumns, block]
   )
 
   const stick = useCallback(() => {
     setIsStuck(true)
-    setIsUserScrolling(false)
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current)
-      resumeTimeoutRef.current = undefined
-    }
+
     if (targetIndex >= 0) {
-      scrollToIndex(targetIndex)
+      scrollToIndex(targetIndex, behavior)
     }
-  }, [targetIndex, scrollToIndex])
+  }, [targetIndex, scrollToIndex, behavior])
+
+  const enableStick = useCallback(() => {
+    setIsStuck(true)
+  }, [])
 
   const unstick = useCallback(() => {
     setIsStuck(false)
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current)
-      resumeTimeoutRef.current = undefined
-    }
   }, [])
-
-  const handleUserInteraction = useCallback(() => {
-    if (isAutoScrollingRef.current) return
-
-    lastUserInteractionRef.current = Date.now()
-    setIsUserScrolling(true)
-    setIsStuck(false)
-
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current)
-    }
-
-    if (resumeDelay > 0) {
-      resumeTimeoutRef.current = setTimeout(() => {
-        setIsUserScrolling(false)
-        setIsStuck(true)
-      }, resumeDelay)
-    } else {
-      setIsUserScrolling(false)
-    }
-  }, [resumeDelay])
-
-  const preventScroll = useCallback(
-    (event: Event) => {
-      if (!isStuck || !preventUserScroll) return
-      event.preventDefault()
-      event.stopPropagation()
-    },
-    [isStuck, preventUserScroll]
-  )
 
   useEffect(() => {
     const container = scrollRef.current
+
     if (!container || !enabled) return
 
-    const handleWheel = (event: WheelEvent) => {
-      if (preventUserScroll && isStuck) {
-        preventScroll(event)
-      } else {
-        handleUserInteraction()
+    const handleUserScroll = (e: Event) => {
+      if (isAutoScrollingRef.current) return
+
+      if (preventUserScroll) {
+        e.preventDefault()
+        e.stopPropagation()
+        return
       }
+
+      setIsStuck(false)
     }
 
-    const handleTouchStart = (event: TouchEvent) => {
-      if (preventUserScroll && isStuck) {
-        preventScroll(event)
-      } else {
-        handleUserInteraction()
-      }
-    }
+    const eventOptions = preventUserScroll ? { passive: false } : { passive: true }
 
-    const handleTouchMove = (event: TouchEvent) => {
-      if (preventUserScroll && isStuck) {
-        preventScroll(event)
-      } else {
-        handleUserInteraction()
-      }
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const navigationKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "]
-      if (navigationKeys.includes(event.key)) {
-        if (preventUserScroll && isStuck) {
-          preventScroll(event)
-        } else {
-          handleUserInteraction()
-        }
-      }
-    }
-
-    const handleScroll = (event: Event) => {
-      if (preventUserScroll && isStuck && !isAutoScrollingRef.current) {
-        preventScroll(event)
-      } else if (!isAutoScrollingRef.current) {
-        handleUserInteraction()
-      }
-    }
-
-    const wheelOptions = preventUserScroll && isStuck ? { passive: false } : { passive: true }
-    const touchOptions = preventUserScroll && isStuck ? { passive: false } : { passive: true }
-    const scrollOptions = preventUserScroll && isStuck ? { passive: false } : { passive: true }
-
-    container.addEventListener("wheel", handleWheel, wheelOptions)
-    container.addEventListener("touchstart", handleTouchStart, touchOptions)
-    container.addEventListener("touchmove", handleTouchMove, touchOptions)
-    container.addEventListener("keydown", handleKeyDown, { passive: true })
-    container.addEventListener("scroll", handleScroll, scrollOptions)
+    container.addEventListener("wheel", handleUserScroll, eventOptions)
+    container.addEventListener("touchmove", handleUserScroll, eventOptions)
+    container.addEventListener("keydown", (e) => {
+      const navKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "]
+      if (navKeys.includes(e.key)) handleUserScroll(e)
+    })
 
     return () => {
-      container.removeEventListener("wheel", handleWheel)
-      container.removeEventListener("touchstart", handleTouchStart)
-      container.removeEventListener("touchmove", handleTouchMove)
-      container.removeEventListener("keydown", handleKeyDown)
-      container.removeEventListener("scroll", handleScroll)
-
-      if (resumeTimeoutRef.current) {
-        clearTimeout(resumeTimeoutRef.current)
-      }
-      if (scrollAnimationFrameRef.current) {
-        cancelAnimationFrame(scrollAnimationFrameRef.current)
-      }
+      container.removeEventListener("wheel", handleUserScroll)
+      container.removeEventListener("touchmove", handleUserScroll)
+      container.removeEventListener("keydown", handleUserScroll as any)
     }
-  }, [enabled, handleUserInteraction, preventScroll, preventUserScroll, isStuck, scrollRef])
+  }, [enabled, scrollRef, preventUserScroll])
 
   useEffect(() => {
     if (!enabled || targetIndex < 0) return
 
-    const isFirstRender = isFirstRenderRef.current
     const indexChanged = lastTargetIndexRef.current !== targetIndex
-    const significantChange =
-      resumeOnSignificantChange && Math.abs(lastTargetIndexRef.current - targetIndex) > 2
-
     lastTargetIndexRef.current = targetIndex
 
-    if (isFirstRender) {
-      isFirstRenderRef.current = false
+    if (!hasInitialScrolledRef.current && initialScroll) {
+      hasInitialScrolledRef.current = true
 
-      if (initialScroll) {
-        scrollToIndex(targetIndex, initialBehavior)
-      }
+      requestAnimationFrame(() => {
+        scrollToIndex(targetIndex, behavior)
+      })
+
       return
     }
 
-    if (significantChange && !isStuck) {
-      setIsStuck(true)
-      setIsUserScrolling(false)
-      if (resumeTimeoutRef.current) {
-        clearTimeout(resumeTimeoutRef.current)
-        resumeTimeoutRef.current = undefined
-      }
-    }
-
     if (isStuck && indexChanged) {
-      scrollToIndex(targetIndex)
+      scrollToIndex(targetIndex, behavior)
     }
-  }, [
-    targetIndex,
-    enabled,
-    isStuck,
-    resumeOnSignificantChange,
-    scrollToIndex,
-    initialScroll,
-    initialBehavior
-  ])
+  }, [targetIndex, enabled, isStuck, initialScroll, scrollToIndex, behavior])
+
+  const prevEnabledRef = useRef(enabled)
+
+  useEffect(() => {
+    const wasEnabled = prevEnabledRef.current
+
+    prevEnabledRef.current = enabled
+
+    if (!enabled) {
+      hasInitialScrolledRef.current = false
+    } else if (!wasEnabled && enabled) {
+      setIsStuck(true)
+    }
+  }, [enabled])
 
   return {
     scrollRef: scrollRef as RefObject<HTMLElement | null>,
     isStuck,
-    isUserScrolling,
     stick,
+    enableStick,
     unstick
   }
 }
