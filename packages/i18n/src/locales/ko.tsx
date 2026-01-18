@@ -341,6 +341,8 @@ export const korean: Language = {
       updatedTitle: "플레이리스트가 성공적으로 업데이트되었습니다",
       updatedDescription: "{name} 이(가) 업데이트되었습니다",
       updatedFailedTitle: "플레이리스트 업데이트 실패",
+      songsAddedTitle: "노래가 성공적으로 추가되었습니다",
+      songsAddedFailedTitle: "노래 추가 실패",
       deletedTitle: "플레이리스트가 성공적으로 삭제되었습니다",
       deletedDescription: "{name} 이(가) 삭제되었습니다",
       deletedFailedTitle: "플레이리스트 삭제 실패",
@@ -624,7 +626,7 @@ export const korean: Language = {
       },
       completed: {
         allSuccess: {
-          title: "가져오기 완료!",
+          title: "가져오기 완료",
           description: "{count}개 트랙이 성공적으로 가져와졌습니다"
         },
         withErrors: {

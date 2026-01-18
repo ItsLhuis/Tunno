@@ -16,8 +16,8 @@ export const italian: Language = {
       lessThanAnHourAgo: "Meno di un'ora fa",
       hoursAgo: "{count} ora{count, plural, one {} other{s}} fa",
       today: "Oggi",
-      thisWeek: "Questa Settimana",
-      thisMonth: "Questo Mese",
+      thisWeek: "Questa settimana",
+      thisMonth: "Questo mese",
       yesterday: "Ieri",
       years: "{count} anno{count, plural, one {} other{i}}",
       weeks: "{count} settimana{count, plural, one {} other{e}}",
@@ -58,7 +58,7 @@ export const italian: Language = {
       playback: "Riproduzione",
       playNext: "Riproduci successivo",
       removeFromQueue: "Rimuovi dalla coda",
-      removeFromPlaylist: "Rimuovi dalla Playlist",
+      removeFromPlaylist: "Rimuovi dalla playlist",
       nowPlaying: "In riproduzione",
       noSongPlaying: "Niente in riproduzione",
       upNext: "Prossimo",
@@ -99,22 +99,22 @@ export const italian: Language = {
     },
     form: {
       titles: {
-        createSong: "Crea Canzone",
-        updateSong: "Aggiorna Canzone",
-        deleteSong: "Elimina Canzone",
-        createArtist: "Crea Artista",
-        updateArtist: "Aggiorna Artista",
-        deleteArtist: "Elimina Artista",
-        createAlbum: "Crea Album",
-        updateAlbum: "Aggiorna Album",
-        deleteAlbum: "Elimina Album",
-        createPlaylist: "Crea Playlist",
-        updatePlaylist: "Aggiorna Playlist",
-        deletePlaylist: "Elimina Playlist",
-        addToPlaylist: "Aggiungi alla Playlist",
+        createSong: "Crea canzone",
+        updateSong: "Aggiorna canzone",
+        deleteSong: "Elimina canzone",
+        createArtist: "Crea artista",
+        updateArtist: "Aggiorna artista",
+        deleteArtist: "Elimina artista",
+        createAlbum: "Crea album",
+        updateAlbum: "Aggiorna album",
+        deleteAlbum: "Elimina album",
+        createPlaylist: "Crea playlist",
+        updatePlaylist: "Aggiorna playlist",
+        deletePlaylist: "Elimina playlist",
+        addToPlaylist: "Aggiungi alla playlist",
         confirmation: "Conferma",
         warning: "Avviso",
-        lyricsPreview: "Anteprima Testo"
+        lyricsPreview: "Anteprima testo"
       },
       labels: {
         name: "Nome",
@@ -250,19 +250,19 @@ export const italian: Language = {
         description: "Riprendi da dove hai lasciato"
       },
       yourPlaylists: {
-        title: "Fatto Per Te",
+        title: "Fatto per te",
         description: "Le tue playlist personali"
       },
       onRepeat: {
-        title: "In Ripetizione",
+        title: "In ripetizione",
         description: "Canzoni che non riesci a smettere di ascoltare"
       },
       newReleases: {
-        title: "Nuove Uscite",
+        title: "Nuove uscite",
         description: "Musica fresca dagli artisti che segui"
       },
       favoriteArtists: {
-        title: "I Tuoi Artisti",
+        title: "I tuoi artisti",
         description: "Artisti che ami di più"
       },
       discover: {
@@ -343,6 +343,8 @@ export const italian: Language = {
       updatedTitle: "Playlist aggiornata con successo",
       updatedDescription: "{name} è stata aggiornata",
       updatedFailedTitle: "Aggiornamento playlist fallito",
+      songsAddedTitle: "Brani aggiunti con successo",
+      songsAddedFailedTitle: "Impossibile aggiungere brani",
       deletedTitle: "Playlist eliminata con successo",
       deletedDescription: "{name} è stata eliminata",
       deletedFailedTitle: "Eliminazione playlist fallita",
@@ -509,13 +511,13 @@ export const italian: Language = {
       equalizer: {
         title: "Equalizzatore",
         enable: {
-          title: "Attiva Equalizzatore",
+          title: "Attiva equalizzatore",
           description: "Attiva o disattiva l'equalizzatore audio",
           enabled: "Attivato",
           disabled: "Disattivato"
         },
         presets: {
-          title: "Preimpostazioni Equalizzatore",
+          title: "Preimpostazioni equalizzatore",
           description: "Scegli tra impostazioni predefinite dell'equalizzatore",
           flat: {
             label: "Piatto",
@@ -555,13 +557,13 @@ export const italian: Language = {
           }
         },
         bands: {
-          title: "Bande di Frequenza",
+          title: "Bande di frequenza",
           description: "Regola le singole bande di frequenza"
         },
         reset: {
-          title: "Reimposta Equalizzatore",
+          title: "Reimposta equalizzatore",
           description: "Reimposta tutte le bande a piatto (0 dB)",
-          button: "Reimposta a Piatto"
+          button: "Reimposta a piatto"
         }
       },
       sync: {
@@ -599,12 +601,12 @@ export const italian: Language = {
           viewChangelog: "Visualizza changelog"
         },
         storage: {
-          title: "Archiviazione e Dati",
+          title: "Archiviazione e dati",
           description: "Gestisci dati dell'applicazione e impostazioni",
           openDataFolder: "Apri cartella dati"
         },
         legal: {
-          title: "Legale e Copyright",
+          title: "Legale e copyright",
           description: "Informazioni sulla licenza e documenti legali",
           copyright: "Copyright",
           licensed: "Concesso in licenza sotto licenza MIT",
@@ -628,16 +630,16 @@ export const italian: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Importazione Completata!",
+          title: "Importazione completata",
           description:
             "{count} traccia{count, plural, one {} other{s}} importata{count, plural, one {} other{s}} con successo"
         },
         withErrors: {
-          title: "Importazione Completata con Errori",
+          title: "Importazione completata con errori",
           description: "{successCount} importate, {errorCount} fallite, {skippedCount} saltate"
         },
         withSkipped: {
-          title: "Importazione Completata",
+          title: "Importazione completata",
           description: "{successCount} importate, {skippedCount} saltate"
         }
       }

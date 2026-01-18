@@ -58,7 +58,7 @@ export const ukrainian: Language = {
       playback: "Відтворення",
       playNext: "Відтворити наступний",
       removeFromQueue: "Видалити з черги",
-      removeFromPlaylist: "Видалити з Плейлисту",
+      removeFromPlaylist: "Видалити з плейлисту",
       nowPlaying: "Зараз відтворюється",
       noSongPlaying: "Нічого не відтворюється",
       upNext: "Далі",
@@ -111,7 +111,7 @@ export const ukrainian: Language = {
         createPlaylist: "Створити плейлист",
         updatePlaylist: "Оновити плейлист",
         deletePlaylist: "Видалити плейлист",
-        addToPlaylist: "Додати до Плейлисту",
+        addToPlaylist: "Додати до плейлисту",
         confirmation: "Підтвердження",
         warning: "Попередження",
         lyricsPreview: "Попередній перегляд тексту"
@@ -249,19 +249,19 @@ export const ukrainian: Language = {
         description: "Продовжіть з того місця, де зупинилися"
       },
       yourPlaylists: {
-        title: "Створено Для Вас",
+        title: "Створено для вас",
         description: "Ваші персональні плейлисти"
       },
       onRepeat: {
-        title: "На Повторі",
+        title: "На повторі",
         description: "Пісні, які ви не можете перестати слухати"
       },
       newReleases: {
-        title: "Нові Релізи",
+        title: "Нові релізи",
         description: "Свіжа музика від виконавців, на яких ви підписані"
       },
       favoriteArtists: {
-        title: "Ваші Виконавці",
+        title: "Ваші виконавці",
         description: "Виконавці, яких ви любите найбільше"
       },
       discover: {
@@ -342,6 +342,8 @@ export const ukrainian: Language = {
       updatedTitle: "Плейлист успішно оновлено",
       updatedDescription: "{name} оновлено",
       updatedFailedTitle: "Не вдалося оновити плейлист",
+      songsAddedTitle: "Пісні успішно додано",
+      songsAddedFailedTitle: "Не вдалося додати пісні",
       deletedTitle: "Плейлист успішно видалено",
       deletedDescription: "{name} видалено",
       deletedFailedTitle: "Не вдалося видалити плейлист",
@@ -508,13 +510,13 @@ export const ukrainian: Language = {
       equalizer: {
         title: "Еквалайзер",
         enable: {
-          title: "Увімкнути Еквалайзер",
+          title: "Увімкнути еквалайзер",
           description: "Увімкнути або вимкнути аудіо еквалайзер",
           enabled: "Увімкнено",
           disabled: "Вимкнено"
         },
         presets: {
-          title: "Пресети Еквалайзера",
+          title: "Пресети еквалайзера",
           description: "Оберіть з попередньо визначених налаштувань еквалайзера",
           flat: {
             label: "Плоский",
@@ -554,13 +556,13 @@ export const ukrainian: Language = {
           }
         },
         bands: {
-          title: "Частотні Смуги",
+          title: "Частотні смуги",
           description: "Налаштування окремих частотних смуг"
         },
         reset: {
-          title: "Скинути Еквалайзер",
+          title: "Скинути еквалайзер",
           description: "Скинути всі смуги до плоского (0 дБ)",
-          button: "Скинути до Плоского"
+          button: "Скинути до плоского"
         }
       },
       sync: {
@@ -598,12 +600,12 @@ export const ukrainian: Language = {
           viewChangelog: "Переглянути changelog"
         },
         storage: {
-          title: "Сховище та Дані",
+          title: "Сховище та дані",
           description: "Керування даними програми та налаштуваннями",
           openDataFolder: "Відкрити папку з даними"
         },
         legal: {
-          title: "Юридична інформація та Авторські права",
+          title: "Юридична інформація та авторські права",
           description: "Інформація про ліцензію та юридичні документи",
           copyright: "Авторські права",
           licensed: "Ліцензовано під ліцензією MIT",
@@ -627,7 +629,7 @@ export const ukrainian: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Імпорт завершено!",
+          title: "Імпорт завершено",
           description: "{count} трек{count, plural, one {} other{s}} успішно імпортовано"
         },
         withErrors: {

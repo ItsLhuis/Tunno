@@ -338,6 +338,8 @@ export const chinese: Language = {
       updatedTitle: "歌单更新成功",
       updatedDescription: "{name} 已更新",
       updatedFailedTitle: "更新歌单失败",
+      songsAddedTitle: "歌曲添加成功",
+      songsAddedFailedTitle: "添加歌曲失败",
       deletedTitle: "歌单删除成功",
       deletedDescription: "{name} 已删除",
       deletedFailedTitle: "删除歌单失败",
@@ -621,7 +623,7 @@ export const chinese: Language = {
       },
       completed: {
         allSuccess: {
-          title: "导入完成！",
+          title: "导入完成",
           description: "成功导入 {count} 首歌曲"
         },
         withErrors: {

@@ -58,13 +58,13 @@ export const vietnamese: Language = {
       playback: "Phát lại",
       playNext: "Phát tiếp theo",
       removeFromQueue: "Xóa khỏi hàng đợi",
-      removeFromPlaylist: "Xóa khỏi Danh Sách Phát",
+      removeFromPlaylist: "Xóa khỏi danh sách phát",
       nowPlaying: "Đang phát",
       noSongPlaying: "Không có gì đang phát",
       upNext: "Tiếp theo",
       actions: "Hành động",
       addTo: "Thêm vào",
-      playlist: "Playlist",
+      playlist: "playlist",
       song: "Bài hát",
       lyrics: "Lời bài hát",
       openMiniplayer: "Mở trình phát nhỏ",
@@ -249,19 +249,19 @@ export const vietnamese: Language = {
         description: "Tiếp tục từ nơi bạn đã dừng lại"
       },
       yourPlaylists: {
-        title: "Dành Cho Bạn",
+        title: "Dành cho bạn",
         description: "Danh sách phát cá nhân của bạn"
       },
       onRepeat: {
-        title: "Đang Lặp Lại",
+        title: "Đang lặp lại",
         description: "Những bài hát bạn không thể ngừng phát"
       },
       newReleases: {
-        title: "Phát Hành Mới",
+        title: "Phát hành mới",
         description: "Âm nhạc mới từ các nghệ sĩ bạn theo dõi"
       },
       favoriteArtists: {
-        title: "Nghệ Sĩ Của Bạn",
+        title: "Nghệ sĩ của bạn",
         description: "Những nghệ sĩ bạn yêu thích nhất"
       },
       discover: {
@@ -341,6 +341,8 @@ export const vietnamese: Language = {
       updatedTitle: "Cập nhật playlist thành công",
       updatedDescription: "{name} đã được cập nhật",
       updatedFailedTitle: "Cập nhật playlist thất bại",
+      songsAddedTitle: "Các bài hát đã được thêm thành công",
+      songsAddedFailedTitle: "Thêm bài hát thất bại",
       deletedTitle: "Xóa playlist thành công",
       deletedDescription: "{name} đã bị xóa",
       deletedFailedTitle: "Xóa playlist thất bại",
@@ -477,10 +479,10 @@ export const vietnamese: Language = {
       deletedFailedTitle: "Xóa khỏi yêu thích thất bại"
     },
     sidebar: {
-      addedTitle: "Đã thêm vào Thanh bên",
+      addedTitle: "Đã thêm vào thanh bên",
       addedDescription: "{name} đã được thêm vào thanh bên",
-      addedFailedTitle: "Thêm vào Thanh bên thất bại",
-      removedTitle: "Đã xóa khỏi Thanh bên",
+      addedFailedTitle: "Thêm vào thanh bên thất bại",
+      removedTitle: "Đã xóa khỏi thanh bên",
       removedDescription: "{name} đã bị xóa khỏi thanh bên"
     },
     settings: {
@@ -507,13 +509,13 @@ export const vietnamese: Language = {
       equalizer: {
         title: "Bộ cân bằng",
         enable: {
-          title: "Bật Bộ cân bằng",
+          title: "Bật bộ cân bằng",
           description: "Bật hoặc tắt bộ cân bằng âm thanh",
           enabled: "Đã bật",
           disabled: "Đã tắt"
         },
         presets: {
-          title: "Cài đặt sẵn Bộ cân bằng",
+          title: "Cài đặt sẵn bộ cân bằng",
           description: "Chọn từ các cài đặt bộ cân bằng được định sẵn",
           flat: {
             label: "Phẳng",
@@ -553,13 +555,13 @@ export const vietnamese: Language = {
           }
         },
         bands: {
-          title: "Dải Tần số",
+          title: "Dải tần số",
           description: "Điều chỉnh các dải tần số riêng lẻ"
         },
         reset: {
-          title: "Đặt lại Bộ cân bằng",
+          title: "Đặt lại bộ cân bằng",
           description: "Đặt lại tất cả dải về phẳng (0 dB)",
-          button: "Đặt lại về Phẳng"
+          button: "Đặt lại về phẳng"
         }
       },
       sync: {
@@ -596,12 +598,12 @@ export const vietnamese: Language = {
           viewChangelog: "Xem changelog"
         },
         storage: {
-          title: "Lưu trữ và Dữ liệu",
+          title: "Lưu trữ và dữ liệu",
           description: "Quản lý dữ liệu ứng dụng và cài đặt",
           openDataFolder: "Mở thư mục dữ liệu"
         },
         legal: {
-          title: "Pháp lý và Bản quyền",
+          title: "Pháp lý và bản quyền",
           description: "Thông tin giấy phép và tài liệu pháp lý",
           copyright: "Bản quyền",
           licensed: "Cấp phép theo giấy phép MIT",
@@ -625,7 +627,7 @@ export const vietnamese: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Nhập khẩu hoàn thành!",
+          title: "Nhập khẩu hoàn thành",
           description: "{count} bài hát đã được nhập khẩu thành công"
         },
         withErrors: {

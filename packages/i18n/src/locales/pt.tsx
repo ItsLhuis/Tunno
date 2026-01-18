@@ -16,8 +16,8 @@ export const portuguese: Language = {
       lessThanAnHourAgo: "Há menos de uma hora",
       hoursAgo: "há {count} hora{count, plural, one {} other{s}}",
       today: "Hoje",
-      thisWeek: "Esta Semana",
-      thisMonth: "Este Mês",
+      thisWeek: "Esta semana",
+      thisMonth: "Este mês",
       yesterday: "Ontem",
       years: "{count} ano{count, plural, one {} other{s}}",
       weeks: "{count} semana{count, plural, one {} other{s}}",
@@ -58,11 +58,11 @@ export const portuguese: Language = {
       playback: "Reprodução",
       playNext: "Reproduzir a seguir",
       removeFromQueue: "Remover da fila",
-      removeFromPlaylist: "Remover da Playlist",
+      removeFromPlaylist: "Remover da playlist",
       nowPlaying: "A tocar agora",
       noSongPlaying: "Nada a tocar",
       upNext: "A seguir",
-      actions: "Acções",
+      actions: "Ações",
       addTo: "Adicionar a",
       playlist: "Playlist",
       song: "Música",
@@ -99,22 +99,22 @@ export const portuguese: Language = {
     },
     form: {
       titles: {
-        createSong: "Criar Música",
-        updateSong: "Atualizar Música",
-        deleteSong: "Eliminar Música",
-        createArtist: "Criar Artista",
-        updateArtist: "Atualizar Artista",
-        deleteArtist: "Eliminar Artista",
-        createAlbum: "Criar Álbum",
-        updateAlbum: "Atualizar Álbum",
-        deleteAlbum: "Eliminar Álbum",
-        createPlaylist: "Criar Playlist",
-        updatePlaylist: "Atualizar Playlist",
-        deletePlaylist: "Eliminar Playlist",
-        addToPlaylist: "Adicionar à Playlist",
+        createSong: "Criar música",
+        updateSong: "Atualizar música",
+        deleteSong: "Eliminar música",
+        createArtist: "Criar artista",
+        updateArtist: "Atualizar artista",
+        deleteArtist: "Eliminar artista",
+        createAlbum: "Criar álbum",
+        updateAlbum: "Atualizar álbum",
+        deleteAlbum: "Eliminar álbum",
+        createPlaylist: "Criar playlist",
+        updatePlaylist: "Atualizar playlist",
+        deletePlaylist: "Eliminar playlist",
+        addToPlaylist: "Adicionar à playlist",
         confirmation: "Confirmação",
         warning: "Aviso",
-        lyricsPreview: "Pré-visualização da Letra"
+        lyricsPreview: "Pré-visualização da letra"
       },
       labels: {
         name: "Nome",
@@ -219,7 +219,7 @@ export const portuguese: Language = {
         title: "Artistas"
       },
       fastUpload: {
-        title: "Upload Rápido"
+        title: "Upload rápido"
       },
       settings: {
         title: "Definições",
@@ -250,19 +250,19 @@ export const portuguese: Language = {
         description: "Continua de onde paraste"
       },
       yourPlaylists: {
-        title: "Feito Para Ti",
+        title: "Feito para ti",
         description: "As tuas playlists pessoais"
       },
       onRepeat: {
-        title: "Em Repetição",
+        title: "Em repetição",
         description: "Músicas que não consegues parar de ouvir"
       },
       newReleases: {
-        title: "Novos Lançamentos",
+        title: "Novos lançamentos",
         description: "Música nova dos artistas que segues"
       },
       favoriteArtists: {
-        title: "Os Teus Artistas",
+        title: "Os teus artistas",
         description: "Artistas que mais amas"
       },
       discover: {
@@ -344,6 +344,8 @@ export const portuguese: Language = {
       updatedTitle: "Playlist atualizada com sucesso",
       updatedDescription: "{name} foi atualizada",
       updatedFailedTitle: "Falha ao atualizar playlist",
+      songsAddedTitle: "Músicas adicionadas com sucesso",
+      songsAddedFailedTitle: "Falha ao adicionar músicas",
       deletedTitle: "Playlist eliminada com sucesso",
       deletedDescription: "{name} foi eliminada",
       deletedFailedTitle: "Falha ao eliminar playlist",
@@ -472,10 +474,10 @@ export const portuguese: Language = {
       }
     },
     favorites: {
-      createdTitle: "Adicionado aos Favoritos",
+      createdTitle: "Adicionado aos favoritos",
       createdDescription: "{name} foi adicionado aos favoritos",
       createdFailedTitle: "Falha ao adicionar aos favoritos",
-      deletedTitle: "Removido dos Favoritos",
+      deletedTitle: "Removido dos favoritos",
       deletedDescription: "{name} foi removido dos favoritos",
       deletedFailedTitle: "Falha ao remover dos favoritos"
     },
@@ -510,13 +512,13 @@ export const portuguese: Language = {
       equalizer: {
         title: "Equalizador",
         enable: {
-          title: "Ativar Equalizador",
+          title: "Ativar equalizador",
           description: "Ativar ou desativar o equalizador de áudio",
           enabled: "Ativado",
           disabled: "Desativado"
         },
         presets: {
-          title: "Predefinições do Equalizador",
+          title: "Predefinições do equalizador",
           description: "Escolha entre configurações predefinidas do equalizador",
           flat: {
             label: "Plano",
@@ -556,13 +558,13 @@ export const portuguese: Language = {
           }
         },
         bands: {
-          title: "Bandas de Frequência",
+          title: "Bandas de frequência",
           description: "Ajustar bandas de frequência individuais"
         },
         reset: {
-          title: "Redefinir Equalizador",
+          title: "Redefinir equalizador",
           description: "Redefinir todas as bandas para plano (0 dB)",
-          button: "Redefinir para Plano"
+          button: "Redefinir para plano"
         }
       },
       sync: {
@@ -600,12 +602,12 @@ export const portuguese: Language = {
           viewChangelog: "Ver changelog"
         },
         storage: {
-          title: "Armazenamento e Dados",
+          title: "Armazenamento e dados",
           description: "Gerir dados da aplicação e configurações",
           openDataFolder: "Abrir pasta de dados"
         },
         legal: {
-          title: "Legal e Direitos de Autor",
+          title: "Legal e direitos de autor",
           description: "Informações de licença e documentos legais",
           copyright: "Direitos de Autor",
           licensed: "Licenciado sob licença MIT",
@@ -615,7 +617,7 @@ export const portuguese: Language = {
       }
     },
     fastUpload: {
-      title: "Upload Rápido",
+      title: "Upload rápido",
       description: "Importa pacotes do CLI ou exportados de",
       cliTooltip: "Abrir documentação do Tunno CLI",
       selectBundle: "Selecionar pacote",
@@ -629,16 +631,16 @@ export const portuguese: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Importação Concluída!",
+          title: "Importação concluída",
           description:
             "{count} música{count, plural, one {} other{s}} importada{count, plural, one {} other{s}} com sucesso"
         },
         withErrors: {
-          title: "Importação Concluída com Erros",
+          title: "Importação concluída com erros",
           description: "{successCount} importadas, {errorCount} falharam, {skippedCount} ignoradas"
         },
         withSkipped: {
-          title: "Importação Concluída",
+          title: "Importação concluída",
           description: "{successCount} importadas, {skippedCount} ignoradas"
         }
       }

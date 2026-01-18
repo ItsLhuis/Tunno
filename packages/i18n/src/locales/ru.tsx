@@ -58,7 +58,7 @@ export const russian: Language = {
       playback: "Воспроизведение",
       playNext: "Воспроизвести следующий",
       removeFromQueue: "Удалить из очереди",
-      removeFromPlaylist: "Удалить из Плейлиста",
+      removeFromPlaylist: "Удалить из плейлиста",
       nowPlaying: "Сейчас играет",
       noSongPlaying: "Ничего не играет",
       upNext: "Далее",
@@ -111,7 +111,7 @@ export const russian: Language = {
         createPlaylist: "Создать плейлист",
         updatePlaylist: "Обновить плейлист",
         deletePlaylist: "Удалить плейлист",
-        addToPlaylist: "Добавить в Плейлист",
+        addToPlaylist: "Добавить в плейлист",
         confirmation: "Подтверждение",
         warning: "Предупреждение",
         lyricsPreview: "Предпросмотр текста"
@@ -249,19 +249,19 @@ export const russian: Language = {
         description: "Продолжите с того места, где остановились"
       },
       yourPlaylists: {
-        title: "Создано Для Вас",
+        title: "Создано для вас",
         description: "Ваши персональные плейлисты"
       },
       onRepeat: {
-        title: "На Повторе",
+        title: "На повторе",
         description: "Песни, которые вы не можете перестать слушать"
       },
       newReleases: {
-        title: "Новые Релизы",
+        title: "Новые релизы",
         description: "Свежая музыка от исполнителей, на которых вы подписаны"
       },
       favoriteArtists: {
-        title: "Ваши Исполнители",
+        title: "Ваши исполнители",
         description: "Исполнители, которых вы любите больше всего"
       },
       discover: {
@@ -343,6 +343,8 @@ export const russian: Language = {
       updatedTitle: "Плейлист успешно обновлён",
       updatedDescription: "{name} обновлён",
       updatedFailedTitle: "Не удалось обновить плейлист",
+      songsAddedTitle: "Песни добавлены успешно",
+      songsAddedFailedTitle: "Не удалось добавить песни",
       deletedTitle: "Плейлист успешно удалён",
       deletedDescription: "{name} удалён",
       deletedFailedTitle: "Не удалось удалить плейлист",
@@ -509,13 +511,13 @@ export const russian: Language = {
       equalizer: {
         title: "Эквалайзер",
         enable: {
-          title: "Включить Эквалайзер",
+          title: "Включить эквалайзер",
           description: "Включить или отключить аудио эквалайзер",
           enabled: "Включен",
           disabled: "Отключен"
         },
         presets: {
-          title: "Предустановки Эквалайзера",
+          title: "Предустановки эквалайзера",
           description: "Выберите из предустановленных настроек эквалайзера",
           flat: {
             label: "Плоский",
@@ -555,13 +557,13 @@ export const russian: Language = {
           }
         },
         bands: {
-          title: "Частотные Полосы",
+          title: "Частотные полосы",
           description: "Настройка отдельных частотных полос"
         },
         reset: {
-          title: "Сбросить Эквалайзер",
+          title: "Сбросить эквалайзер",
           description: "Сбросить все полосы к плоскому (0 дБ)",
-          button: "Сбросить к Плоскому"
+          button: "Сбросить к плоскому"
         }
       },
       sync: {
@@ -599,12 +601,12 @@ export const russian: Language = {
           viewChangelog: "Посмотреть changelog"
         },
         storage: {
-          title: "Хранилище и Данные",
+          title: "Хранилище и данные",
           description: "Управление данными приложения и настройками",
           openDataFolder: "Открыть папку с данными"
         },
         legal: {
-          title: "Правовая информация и Авторские права",
+          title: "Правовая информация и авторские права",
           description: "Информация о лицензии и правовые документы",
           copyright: "Авторские права",
           licensed: "Лицензировано под лицензией MIT",
@@ -628,7 +630,7 @@ export const russian: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Импорт завершен!",
+          title: "Импорт завершен",
           description:
             "{count} трек{count, plural, one {} other{s}} успешно импортирован{count, plural, one {} other{s}}"
         },

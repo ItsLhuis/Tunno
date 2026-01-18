@@ -16,8 +16,8 @@ export const french: Language = {
       lessThanAnHourAgo: "Il y a moins d'une heure",
       hoursAgo: "il y a {count} heure{count, plural, one {} other{s}}",
       today: "Aujourd'hui",
-      thisWeek: "Cette Semaine",
-      thisMonth: "Ce Mois",
+      thisWeek: "Cette semaine",
+      thisMonth: "Ce mois",
       yesterday: "Hier",
       years: "{count} an{count, plural, one {} other{s}}",
       weeks: "{count} semaine{count, plural, one {} other{s}}",
@@ -58,7 +58,7 @@ export const french: Language = {
       playback: "Lecture",
       playNext: "Lire suivant",
       removeFromQueue: "Retirer de la file",
-      removeFromPlaylist: "Retirer de la Playlist",
+      removeFromPlaylist: "Retirer de la playlist",
       nowPlaying: "En cours de lecture",
       noSongPlaying: "Rien en lecture",
       upNext: "À suivre",
@@ -99,22 +99,22 @@ export const french: Language = {
     },
     form: {
       titles: {
-        createSong: "Créer une Chanson",
-        updateSong: "Mettre à jour la Chanson",
-        deleteSong: "Supprimer la Chanson",
-        createArtist: "Créer un Artiste",
-        updateArtist: "Mettre à jour l'Artiste",
-        deleteArtist: "Supprimer l'Artiste",
-        createAlbum: "Créer un Album",
-        updateAlbum: "Mettre à jour l'Album",
-        deleteAlbum: "Supprimer l'Album",
-        createPlaylist: "Créer une Playlist",
-        updatePlaylist: "Mettre à jour la Playlist",
-        deletePlaylist: "Supprimer la Playlist",
-        addToPlaylist: "Ajouter à la Playlist",
+        createSong: "Créer une chanson",
+        updateSong: "Mettre à jour la chanson",
+        deleteSong: "Supprimer la chanson",
+        createArtist: "Créer un artiste",
+        updateArtist: "Mettre à jour l'artiste",
+        deleteArtist: "Supprimer l'artiste",
+        createAlbum: "Créer un album",
+        updateAlbum: "Mettre à jour l'album",
+        deleteAlbum: "Supprimer l'album",
+        createPlaylist: "Créer une playlist",
+        updatePlaylist: "Mettre à jour la playlist",
+        deletePlaylist: "Supprimer la playlist",
+        addToPlaylist: "Ajouter à la playlist",
         confirmation: "Confirmation",
         warning: "Avertissement",
-        lyricsPreview: "Aperçu des Paroles"
+        lyricsPreview: "Aperçu des paroles"
       },
       labels: {
         name: "Nom",
@@ -250,11 +250,11 @@ export const french: Language = {
         description: "Reprenez où vous vous êtes arrêté"
       },
       yourPlaylists: {
-        title: "Fait Pour Vous",
+        title: "Fait pour vous",
         description: "Vos playlists personnelles"
       },
       onRepeat: {
-        title: "En Répétition",
+        title: "En répétition",
         description: "Chansons que vous ne pouvez pas arrêter de jouer"
       },
       newReleases: {
@@ -262,7 +262,7 @@ export const french: Language = {
         description: "Musique fraîche des artistes que vous suivez"
       },
       favoriteArtists: {
-        title: "Vos Artistes",
+        title: "Vos artistes",
         description: "Artistes que vous aimez le plus"
       },
       discover: {
@@ -344,6 +344,8 @@ export const french: Language = {
       updatedTitle: "Playlist mise à jour avec succès",
       updatedDescription: "{name} a été mise à jour",
       updatedFailedTitle: "Échec de la mise à jour de la playlist",
+      songsAddedTitle: "Chansons ajoutées avec succès",
+      songsAddedFailedTitle: "Échec de l'ajout des chansons",
       deletedTitle: "Playlist supprimée avec succès",
       deletedDescription: "{name} a été supprimée",
       deletedFailedTitle: "Échec de la suppression de la playlist",
@@ -510,13 +512,13 @@ export const french: Language = {
       equalizer: {
         title: "Égaliseur",
         enable: {
-          title: "Activer l'Égaliseur",
+          title: "Activer l'égaliseur",
           description: "Activer ou désactiver l'égaliseur audio",
           enabled: "Activé",
           disabled: "Désactivé"
         },
         presets: {
-          title: "Préréglages de l'Égaliseur",
+          title: "Préréglages de l'égaliseur",
           description: "Choisissez parmi les paramètres prédéfinis de l'égaliseur",
           flat: {
             label: "Plat",
@@ -556,13 +558,13 @@ export const french: Language = {
           }
         },
         bands: {
-          title: "Bandes de Fréquence",
+          title: "Bandes de fréquence",
           description: "Ajuster les bandes de fréquence individuelles"
         },
         reset: {
-          title: "Réinitialiser l'Égaliseur",
+          title: "Réinitialiser l'égaliseur",
           description: "Réinitialiser toutes les bandes à plat (0 dB)",
-          button: "Réinitialiser à Plat"
+          button: "Réinitialiser à plat"
         }
       },
       sync: {
@@ -629,16 +631,16 @@ export const french: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Importation Terminée !",
+          title: "Importation terminée",
           description:
             "{count} piste{count, plural, one {} other{s}} importée{count, plural, one {} other{s}} avec succès"
         },
         withErrors: {
-          title: "Importation Terminée avec des Erreurs",
+          title: "Importation terminée avec des erreurs",
           description: "{successCount} importées, {errorCount} échouées, {skippedCount} ignorées"
         },
         withSkipped: {
-          title: "Importation Terminée",
+          title: "Importation terminée",
           description: "{successCount} importées, {skippedCount} ignorées"
         }
       }

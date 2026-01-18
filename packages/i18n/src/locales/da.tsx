@@ -58,7 +58,7 @@ export const danish: Language = {
       playback: "Afspilning",
       playNext: "Afspil næste",
       removeFromQueue: "Fjern fra kø",
-      removeFromPlaylist: "Fjern fra Spilleliste",
+      removeFromPlaylist: "Fjern fra spilleliste",
       nowPlaying: "Afspiller nu",
       noSongPlaying: "Intet afspiller",
       upNext: "Næste",
@@ -99,22 +99,22 @@ export const danish: Language = {
     },
     form: {
       titles: {
-        createSong: "Opret Sang",
-        updateSong: "Opdatér Sang",
-        deleteSong: "Slet Sang",
-        createArtist: "Opret Kunstner",
-        updateArtist: "Opdatér Kunstner",
-        deleteArtist: "Slet Kunstner",
-        createAlbum: "Opret Album",
-        updateAlbum: "Opdatér Album",
-        deleteAlbum: "Slet Album",
-        createPlaylist: "Opret Playlist",
-        updatePlaylist: "Opdatér Playlist",
-        deletePlaylist: "Slet Playlist",
-        addToPlaylist: "Tilføj til Playlist",
+        createSong: "Opret sang",
+        updateSong: "Opdatér sang",
+        deleteSong: "Slet sang",
+        createArtist: "Opret kunstner",
+        updateArtist: "Opdatér kunstner",
+        deleteArtist: "Slet kunstner",
+        createAlbum: "Opret album",
+        updateAlbum: "Opdatér album",
+        deleteAlbum: "Slet album",
+        createPlaylist: "Opret playlist",
+        updatePlaylist: "Opdatér playlist",
+        deletePlaylist: "Slet playlist",
+        addToPlaylist: "Tilføj til playlist",
         confirmation: "Bekræftelse",
         warning: "Advarsel",
-        lyricsPreview: "Forhåndsvisning Af Sangtekster"
+        lyricsPreview: "Forhåndsvisning af sangtekster"
       },
       labels: {
         name: "Navn",
@@ -218,7 +218,7 @@ export const danish: Language = {
         title: "Kunstnere"
       },
       fastUpload: {
-        title: "Hurtig Upload"
+        title: "Hurtig upload"
       },
       settings: {
         title: "Indstillinger",
@@ -245,23 +245,23 @@ export const danish: Language = {
     home: {
       title: "Hjem",
       jumpBackIn: {
-        title: "Fortsæt Afspilning",
+        title: "Fortsæt afspilning",
         description: "Fortsæt hvor du slap"
       },
       yourPlaylists: {
-        title: "Lavet Til Dig",
+        title: "Lavet til dig",
         description: "Dine personlige afspilningslister"
       },
       onRepeat: {
-        title: "På Gentagelse",
+        title: "På gentagelse",
         description: "Sange du ikke kan stoppe med at spille"
       },
       newReleases: {
-        title: "Nye Udgivelser",
+        title: "Nye udgivelser",
         description: "Frisk musik fra kunstnere du følger"
       },
       favoriteArtists: {
-        title: "Dine Kunstnere",
+        title: "Dine kunstnere",
         description: "Kunstnere du elsker mest"
       },
       discover: {
@@ -293,15 +293,15 @@ export const danish: Language = {
     },
     songs: {
       title: "Sange",
-      createdTitle: "Sang Oprettet Succesfuldt",
+      createdTitle: "Sang oprettet succesfuldt",
       createdDescription: "{name} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Sang",
-      updatedTitle: "Sang Opdateret Succesfuldt",
+      createdFailedTitle: "Kunne ikke oprette sang",
+      updatedTitle: "Sang opdateret succesfuldt",
       updatedDescription: "{name} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Sang",
-      deletedTitle: "Sang Slettet Succesfuldt",
+      updatedFailedTitle: "Kunne ikke opdatere sang",
+      deletedTitle: "Sang slettet succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Sang",
+      deletedFailedTitle: "Kunne ikke slette sang",
       filters: {
         title: "Filtre",
         clear: "Ryd aktive filtre",
@@ -335,15 +335,17 @@ export const danish: Language = {
     },
     playlists: {
       title: "Playlists",
-      createdTitle: "Playlist Oprettet Succesfuldt",
+      createdTitle: "Playlist oprettet succesfuldt",
       createdDescription: "{name} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Playlist",
-      updatedTitle: "Playlist Opdateret Succesfuldt",
+      createdFailedTitle: "Kunne ikke oprette playlist",
+      updatedTitle: "Playlist opdateret succesfuldt",
       updatedDescription: "{name} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Playlist",
-      deletedTitle: "Playlist Slettet Succesfuldt",
+      updatedFailedTitle: "Kunne ikke opdatere playlist",
+      songsAddedTitle: "Sange tilføjet succesfuldt",
+      songsAddedFailedTitle: "Kunne ikke tilføje sange",
+      deletedTitle: "Playlist slettet succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Playlist",
+      deletedFailedTitle: "Kunne ikke slette playlist",
       filters: {
         title: "Filtre",
         clear: "Ryd aktive filtre",
@@ -377,15 +379,15 @@ export const danish: Language = {
     },
     albums: {
       title: "Albums",
-      createdTitle: "Album Oprettet Succesfuldt",
+      createdTitle: "Album oprettet succesfuldt",
       createdDescription: "{name} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Album",
-      updatedTitle: "Album Opdateret Succesfuldt",
+      createdFailedTitle: "Kunne ikke oprette album",
+      updatedTitle: "Album opdateret succesfuldt",
       updatedDescription: "{name} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Album",
-      deletedTitle: "Album Slettet Succesfuldt",
+      updatedFailedTitle: "Kunne ikke opdatere album",
+      deletedTitle: "Album slettet succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Album",
+      deletedFailedTitle: "Kunne ikke slette album",
       filters: {
         title: "Filtre",
         clear: "Ryd aktive filtre",
@@ -428,15 +430,15 @@ export const danish: Language = {
     },
     artists: {
       title: "Kunstnere",
-      createdTitle: "Kunstner Oprettet Succesfuldt",
+      createdTitle: "Kunstner oprettet succesfuldt",
       createdDescription: "{name} er blevet oprettet",
-      createdFailedTitle: "Kunne Ikke Oprette Kunstner",
-      updatedTitle: "Kunstner Opdateret Succesfuldt",
+      createdFailedTitle: "Kunne ikke oprette kunstner",
+      updatedTitle: "Kunstner opdateret succesfuldt",
       updatedDescription: "{name} er blevet opdateret",
-      updatedFailedTitle: "Kunne Ikke Opdatere Kunstner",
-      deletedTitle: "Kunstner Slettet Succesfuldt",
+      updatedFailedTitle: "Kunne ikke opdatere kunstner",
+      deletedTitle: "Kunstner slettet succesfuldt",
       deletedDescription: "{name} er blevet slettet",
-      deletedFailedTitle: "Kunne Ikke Slette Kunstner",
+      deletedFailedTitle: "Kunne ikke slette kunstner",
       filters: {
         title: "Filtre",
         clear: "Ryd aktive filtre",
@@ -469,12 +471,12 @@ export const danish: Language = {
       }
     },
     favorites: {
-      createdTitle: "Tilføjet Til Favoritter",
+      createdTitle: "Tilføjet til favoritter",
       createdDescription: "{name} er blevet tilføjet til favoritter",
-      createdFailedTitle: "Kunne Ikke Tilføje Til Favoritter",
-      deletedTitle: "Fjernet Fra Favoritter",
+      createdFailedTitle: "Kunne ikke tilføje til favoritter",
+      deletedTitle: "Fjernet fra favoritter",
       deletedDescription: "{name} er blevet fjernet fra favoritter",
-      deletedFailedTitle: "Kunne Ikke Fjerne Fra Favoritter"
+      deletedFailedTitle: "Kunne ikke fjerne fra favoritter"
     },
     sidebar: {
       addedTitle: "Føjet til sidepanel",
@@ -507,13 +509,13 @@ export const danish: Language = {
       equalizer: {
         title: "Equalizer",
         enable: {
-          title: "Aktivér Equalizer",
+          title: "Aktivér equalizer",
           description: "Aktivér eller deaktivér audio-equalizer",
           enabled: "Aktiveret",
           disabled: "Deaktiveret"
         },
         presets: {
-          title: "Equalizer Forudindstillinger",
+          title: "Equalizer forudindstillinger",
           description: "Vælg fra foruddefinerede equalizer-indstillinger",
           flat: {
             label: "Flad",
@@ -557,9 +559,9 @@ export const danish: Language = {
           description: "Juster individuelle frekvensbånd"
         },
         reset: {
-          title: "Nulstil Equalizer",
+          title: "Nulstil equalizer",
           description: "Nulstil alle bånd til flad (0 dB)",
-          button: "Nulstil til Flad"
+          button: "Nulstil til flad"
         }
       },
       sync: {
@@ -596,12 +598,12 @@ export const danish: Language = {
           viewChangelog: "Se changelog"
         },
         storage: {
-          title: "Lager & Data",
+          title: "Lager & data",
           description: "Administrer applikationsdata og indstillinger",
           openDataFolder: "Åbn datamappe"
         },
         legal: {
-          title: "Juridisk & Ophavsret",
+          title: "Juridisk & ophavsret",
           description: "Licensinformation og juridiske dokumenter",
           copyright: "Ophavsret",
           licensed: "Licenseret under MIT licens",
@@ -611,7 +613,7 @@ export const danish: Language = {
       }
     },
     fastUpload: {
-      title: "Hurtig Upload",
+      title: "Hurtig upload",
       description: "Importer pakker fra CLI eller eksporteret fra",
       cliTooltip: "Åbn Tunno CLI-dokumentation",
       selectBundle: "Vælg pakke",
@@ -625,7 +627,7 @@ export const danish: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Import fuldført!",
+          title: "Import fuldført",
           description: "{count} spor importeret succesfuldt"
         },
         withErrors: {

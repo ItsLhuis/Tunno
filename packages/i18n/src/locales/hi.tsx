@@ -93,7 +93,7 @@ export const hindi: Language = {
       appearsIn: "में दिखाई देता है",
       addToSidebar: "साइडबार में जोड़ें",
       removeFromSidebar: "साइडबार से हटाएँ",
-      featured: "विशेष रुप से प्रदर्शित",
+      featured: "विशेष रूप से प्रदर्शित",
       stats: "आंकड़े",
       openToStart: "शुरू करने के लिए Tunno खोलें"
     },
@@ -342,6 +342,8 @@ export const hindi: Language = {
       updatedTitle: "गानों की सूची सफलतापूर्वक अपडेट हुई",
       updatedDescription: "{name} अपडेट की गई है",
       updatedFailedTitle: "गानों की सूची अपडेट करने में विफल",
+      songsAddedTitle: "गाने सफलतापूर्वक जोड़े गए",
+      songsAddedFailedTitle: "गाने जोड़ने में विफल",
       deletedTitle: "गानों की सूची सफलतापूर्वक हटाई गई",
       deletedDescription: "{name} हटाई गई है",
       deletedFailedTitle: "गानों की सूची हटाने में विफल",
@@ -627,7 +629,7 @@ export const hindi: Language = {
       },
       completed: {
         allSuccess: {
-          title: "आयात पूरा!",
+          title: "आयात पूरा",
           description: "{count} ट्रैक सफलतापूर्वक आयात किया गया"
         },
         withErrors: {

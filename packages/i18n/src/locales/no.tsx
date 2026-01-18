@@ -58,7 +58,7 @@ export const norwegian: Language = {
       playback: "Avspilling",
       playNext: "Spill neste",
       removeFromQueue: "Fjern fra kø",
-      removeFromPlaylist: "Fjern fra Spilleliste",
+      removeFromPlaylist: "Fjern fra spilleliste",
       nowPlaying: "Spiller nå",
       noSongPlaying: "Ingen spiller",
       upNext: "Neste",
@@ -111,7 +111,7 @@ export const norwegian: Language = {
         createPlaylist: "Opprett playlist",
         updatePlaylist: "Oppdater playlist",
         deletePlaylist: "Slett playlist",
-        addToPlaylist: "Legg til i Playlist",
+        addToPlaylist: "Legg til i playlist",
         confirmation: "Bekreftelse",
         warning: "Advarsel",
         lyricsPreview: "Tekstforhåndsvisning"
@@ -245,23 +245,23 @@ export const norwegian: Language = {
     home: {
       title: "Hjem",
       jumpBackIn: {
-        title: "Fortsett Spilling",
+        title: "Fortsett spilling",
         description: "Fortsett der du slapp"
       },
       yourPlaylists: {
-        title: "Laget For Deg",
+        title: "Laget for deg",
         description: "Dine personlige spillelister"
       },
       onRepeat: {
-        title: "På Gjentakelse",
+        title: "På gjentakelse",
         description: "Låter du ikke kan slutte å spille"
       },
       newReleases: {
-        title: "Nye Utgivelser",
+        title: "Nye utgivelser",
         description: "Frisk musikk fra artister du følger"
       },
       favoriteArtists: {
-        title: "Dine Artister",
+        title: "Dine artister",
         description: "Artister du elsker mest"
       },
       discover: {
@@ -341,6 +341,8 @@ export const norwegian: Language = {
       updatedTitle: "Playlist oppdatert",
       updatedDescription: "{name} er oppdatert",
       updatedFailedTitle: "Kunne ikke oppdatere playlist",
+      songsAddedTitle: "Sanger lagt til vellykket",
+      songsAddedFailedTitle: "Mislyktes med å legge til sanger",
       deletedTitle: "Playlist slettet",
       deletedDescription: "{name} er slettet",
       deletedFailedTitle: "Kunne ikke slette playlist",
@@ -507,13 +509,13 @@ export const norwegian: Language = {
       equalizer: {
         title: "Equalizer",
         enable: {
-          title: "Aktiver Equalizer",
+          title: "Aktiver equalizer",
           description: "Aktiver eller deaktiver lyd-equalizer",
           enabled: "Aktivert",
           disabled: "Deaktivert"
         },
         presets: {
-          title: "Equalizer Forhåndsinnstillinger",
+          title: "Equalizer forhåndsinnstillinger",
           description: "Velg fra forhåndsdefinerte equalizer-innstillinger",
           flat: {
             label: "Flat",
@@ -557,9 +559,9 @@ export const norwegian: Language = {
           description: "Juster individuelle frekvensbånd"
         },
         reset: {
-          title: "Tilbakestill Equalizer",
+          title: "Tilbakestill equalizer",
           description: "Tilbakestill alle bånd til flat (0 dB)",
-          button: "Tilbakestill til Flat"
+          button: "Tilbakestill til flat"
         }
       },
       sync: {
@@ -596,12 +598,12 @@ export const norwegian: Language = {
           viewChangelog: "Se changelog"
         },
         storage: {
-          title: "Lagring & Data",
+          title: "Lagring & data",
           description: "Administrer applikasjonsdata og innstillinger",
           openDataFolder: "Åpne datamappe"
         },
         legal: {
-          title: "Juridisk & Opphavsrett",
+          title: "Juridisk & opphavsrett",
           description: "Lisensinformasjon og juridiske dokumenter",
           copyright: "Opphavsrett",
           licensed: "Lisensiert under MIT-lisens",
@@ -625,7 +627,7 @@ export const norwegian: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Import fullført!",
+          title: "Import fullført",
           description: "{count} spor importert vellykket"
         },
         withErrors: {

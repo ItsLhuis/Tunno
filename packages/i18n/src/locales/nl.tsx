@@ -16,8 +16,8 @@ export const dutch: Language = {
       lessThanAnHourAgo: "Minder dan een uur geleden",
       hoursAgo: "{count} uur geleden",
       today: "Vandaag",
-      thisWeek: "Deze Week",
-      thisMonth: "Deze Maand",
+      thisWeek: "Deze week",
+      thisMonth: "Deze maand",
       yesterday: "Gisteren",
       years: "{count} jaar",
       weeks: "{count} week{count, plural, one {} other{en}}",
@@ -58,7 +58,7 @@ export const dutch: Language = {
       playback: "Afspelen",
       playNext: "Volgende afspelen",
       removeFromQueue: "Verwijder uit wachtrij",
-      removeFromPlaylist: "Verwijderen uit Afspeellijst",
+      removeFromPlaylist: "Verwijderen uit afspeellijst",
       nowPlaying: "Nu aan het spelen",
       noSongPlaying: "Niets aan het spelen",
       upNext: "Hierna",
@@ -246,23 +246,23 @@ export const dutch: Language = {
     home: {
       title: "Startpagina",
       jumpBackIn: {
-        title: "Verder Afspelen",
+        title: "Verder afspelen",
         description: "Ga verder waar je was gebleven"
       },
       yourPlaylists: {
-        title: "Voor Jou Gemaakt",
+        title: "Voor jou gemaakt",
         description: "Jouw persoonlijke afspeellijsten"
       },
       onRepeat: {
-        title: "Op Herhaling",
+        title: "Op herhaling",
         description: "Nummers die je niet kunt stoppen met luisteren"
       },
       newReleases: {
-        title: "Nieuwe Releases",
+        title: "Nieuwe releases",
         description: "Verse muziek van artiesten die je volgt"
       },
       favoriteArtists: {
-        title: "Jouw Artiesten",
+        title: "Jouw artiesten",
         description: "Artiesten waar je het meest van houdt"
       },
       discover: {
@@ -342,6 +342,8 @@ export const dutch: Language = {
       updatedTitle: "Playlist succesvol bijgewerkt",
       updatedDescription: "{name} is bijgewerkt",
       updatedFailedTitle: "Playlist bijwerken mislukt",
+      songsAddedTitle: "Nummers succesvol toegevoegd",
+      songsAddedFailedTitle: "Mislukt om nummers toe te voegen",
       deletedTitle: "Playlist succesvol verwijderd",
       deletedDescription: "{name} is verwijderd",
       deletedFailedTitle: "Playlist verwijderen mislukt",
@@ -508,13 +510,13 @@ export const dutch: Language = {
       equalizer: {
         title: "Equalizer",
         enable: {
-          title: "Equalizer Inschakelen",
+          title: "Equalizer inschakelen",
           description: "Audio-equalizer in- of uitschakelen",
           enabled: "Ingeschakeld",
           disabled: "Uitgeschakeld"
         },
         presets: {
-          title: "Equalizer Voorinstellingen",
+          title: "Equalizer voorinstellingen",
           description: "Kies uit vooraf gedefinieerde equalizer-instellingen",
           flat: {
             label: "Vlak",
@@ -558,9 +560,9 @@ export const dutch: Language = {
           description: "Individuele frequentiebanden aanpassen"
         },
         reset: {
-          title: "Equalizer Resetten",
+          title: "Equalizer resetten",
           description: "Alle banden resetten naar vlak (0 dB)",
-          button: "Resetten naar Vlak"
+          button: "Resetten naar vlak"
         }
       },
       sync: {
@@ -597,12 +599,12 @@ export const dutch: Language = {
           viewChangelog: "Changelog bekijken"
         },
         storage: {
-          title: "Opslag & Gegevens",
+          title: "Opslag & gegevens",
           description: "Beheer applicatiegegevens en instellingen",
           openDataFolder: "Gegevensmap openen"
         },
         legal: {
-          title: "Juridisch & Auteursrecht",
+          title: "Juridisch & auteursrecht",
           description: "Licentie-informatie en juridische documenten",
           copyright: "Auteursrecht",
           licensed: "Gelicentieerd onder MIT-licentie",
@@ -626,7 +628,7 @@ export const dutch: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Importeren voltooid!",
+          title: "Importeren voltooid",
           description: "{count} track{count, plural, one {} other{s}} succesvol geïmporteerd"
         },
         withErrors: {

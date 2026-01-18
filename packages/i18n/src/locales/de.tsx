@@ -58,7 +58,7 @@ export const german: Language = {
       playback: "Wiedergabe",
       playNext: "Als nächstes abspielen",
       removeFromQueue: "Aus Warteschlange entfernen",
-      removeFromPlaylist: "Aus Playlist Entfernen",
+      removeFromPlaylist: "Aus playlist entfernen",
       nowPlaying: "Wird abgespielt",
       noSongPlaying: "Nichts wird abgespielt",
       upNext: "Als nächstes",
@@ -99,22 +99,22 @@ export const german: Language = {
     },
     form: {
       titles: {
-        createSong: "Song Erstellen",
-        updateSong: "Song Aktualisieren",
-        deleteSong: "Song Löschen",
-        createArtist: "Künstler Erstellen",
-        updateArtist: "Künstler Aktualisieren",
-        deleteArtist: "Künstler Löschen",
-        createAlbum: "Album Erstellen",
-        updateAlbum: "Album Aktualisieren",
-        deleteAlbum: "Album Löschen",
-        createPlaylist: "Playlist Erstellen",
-        updatePlaylist: "Playlist Aktualisieren",
-        deletePlaylist: "Playlist Löschen",
-        addToPlaylist: "Zu Playlist Hinzufügen",
+        createSong: "Song erstellen",
+        updateSong: "Song aktualisieren",
+        deleteSong: "Song löschen",
+        createArtist: "Künstler erstellen",
+        updateArtist: "Künstler aktualisieren",
+        deleteArtist: "Künstler löschen",
+        createAlbum: "Album erstellen",
+        updateAlbum: "Album aktualisieren",
+        deleteAlbum: "Album löschen",
+        createPlaylist: "Playlist erstellen",
+        updatePlaylist: "Playlist aktualisieren",
+        deletePlaylist: "Playlist löschen",
+        addToPlaylist: "Zu playlist hinzufügen",
         confirmation: "Bestätigung",
         warning: "Warnung",
-        lyricsPreview: "Songtexte Vorschau"
+        lyricsPreview: "Songtexte vorschau"
       },
       labels: {
         name: "Name",
@@ -249,19 +249,19 @@ export const german: Language = {
         description: "Setzen Sie dort fort, wo Sie aufgehört haben"
       },
       yourPlaylists: {
-        title: "Für Sie Erstellt",
+        title: "Für sie erstellt",
         description: "Ihre persönlichen Playlists"
       },
       onRepeat: {
-        title: "Im Wiederholungsmodus",
+        title: "Im wiederholungsmodus",
         description: "Songs, die Sie nicht aufhören können zu spielen"
       },
       newReleases: {
-        title: "Neue Veröffentlichungen",
+        title: "Neue veröffentlichungen",
         description: "Frische Musik von Künstlern, denen Sie folgen"
       },
       favoriteArtists: {
-        title: "Ihre Künstler",
+        title: "Ihre künstler",
         description: "Künstler, die Sie am meisten lieben"
       },
       discover: {
@@ -293,15 +293,15 @@ export const german: Language = {
     },
     songs: {
       title: "Songs",
-      createdTitle: "Song Erfolgreich Erstellt",
+      createdTitle: "Song erfolgreich erstellt",
       createdDescription: "{name} wurde erstellt",
-      createdFailedTitle: "Song Erstellung Fehlgeschlagen",
-      updatedTitle: "Song Erfolgreich Aktualisiert",
+      createdFailedTitle: "Song erstellung fehlgeschlagen",
+      updatedTitle: "Song erfolgreich aktualisiert",
       updatedDescription: "{name} wurde aktualisiert",
-      updatedFailedTitle: "Song Aktualisierung Fehlgeschlagen",
-      deletedTitle: "Song Erfolgreich Gelöscht",
+      updatedFailedTitle: "Song aktualisierung fehlgeschlagen",
+      deletedTitle: "Song erfolgreich gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Song Löschung Fehlgeschlagen",
+      deletedFailedTitle: "Song löschung fehlgeschlagen",
       filters: {
         title: "Filter",
         clear: "Aktive Filter löschen",
@@ -335,15 +335,17 @@ export const german: Language = {
     },
     playlists: {
       title: "Playlists",
-      createdTitle: "Playlist Erfolgreich Erstellt",
+      createdTitle: "Playlist erfolgreich erstellt",
       createdDescription: "{name} wurde erstellt",
-      createdFailedTitle: "Playlist Erstellung Fehlgeschlagen",
-      updatedTitle: "Playlist Erfolgreich Aktualisiert",
+      createdFailedTitle: "Playlist erstellung fehlgeschlagen",
+      updatedTitle: "Playlist erfolgreich aktualisiert",
       updatedDescription: "{name} wurde aktualisiert",
-      updatedFailedTitle: "Playlist Aktualisierung Fehlgeschlagen",
-      deletedTitle: "Playlist Erfolgreich Gelöscht",
+      updatedFailedTitle: "Playlist aktualisierung fehlgeschlagen",
+      songsAddedTitle: "Lieder erfolgreich hinzugefügt",
+      songsAddedFailedTitle: "Fehler beim hinzufügen von liedern",
+      deletedTitle: "Playlist erfolgreich gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Playlist Löschung Fehlgeschlagen",
+      deletedFailedTitle: "Playlist löschung fehlgeschlagen",
       filters: {
         title: "Filter",
         clear: "Aktive Filter löschen",
@@ -377,15 +379,15 @@ export const german: Language = {
     },
     albums: {
       title: "Alben",
-      createdTitle: "Album Erfolgreich Erstellt",
+      createdTitle: "Album erfolgreich erstellt",
       createdDescription: "{name} wurde erstellt",
-      createdFailedTitle: "Album Erstellung Fehlgeschlagen",
-      updatedTitle: "Album Erfolgreich Aktualisiert",
+      createdFailedTitle: "Album erstellung fehlgeschlagen",
+      updatedTitle: "Album erfolgreich aktualisiert",
       updatedDescription: "{name} wurde aktualisiert",
-      updatedFailedTitle: "Album Aktualisierung Fehlgeschlagen",
-      deletedTitle: "Album Erfolgreich Gelöscht",
+      updatedFailedTitle: "Album aktualisierung fehlgeschlagen",
+      deletedTitle: "Album erfolgreich gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Album Löschung Fehlgeschlagen",
+      deletedFailedTitle: "Album löschung fehlgeschlagen",
       filters: {
         title: "Filter",
         clear: "Aktive Filter löschen",
@@ -428,15 +430,15 @@ export const german: Language = {
     },
     artists: {
       title: "Künstler",
-      createdTitle: "Künstler Erfolgreich Erstellt",
+      createdTitle: "Künstler erfolgreich erstellt",
       createdDescription: "{name} wurde erstellt",
-      createdFailedTitle: "Künstler Erstellung Fehlgeschlagen",
-      updatedTitle: "Künstler Erfolgreich Aktualisiert",
+      createdFailedTitle: "Künstler erstellung fehlgeschlagen",
+      updatedTitle: "Künstler erfolgreich aktualisiert",
       updatedDescription: "{name} wurde aktualisiert",
-      updatedFailedTitle: "Künstler Aktualisierung Fehlgeschlagen",
-      deletedTitle: "Künstler Erfolgreich Gelöscht",
+      updatedFailedTitle: "Künstler aktualisierung fehlgeschlagen",
+      deletedTitle: "Künstler erfolgreich gelöscht",
       deletedDescription: "{name} wurde gelöscht",
-      deletedFailedTitle: "Künstler Löschung Fehlgeschlagen",
+      deletedFailedTitle: "Künstler löschung fehlgeschlagen",
       filters: {
         title: "Filter",
         clear: "Aktive Filter löschen",
@@ -469,12 +471,12 @@ export const german: Language = {
       }
     },
     favorites: {
-      createdTitle: "Zu Favoriten Hinzugefügt",
+      createdTitle: "Zu favoriten hinzugefügt",
       createdDescription: "{name} wurde zu den Favoriten hinzugefügt",
-      createdFailedTitle: "Hinzufügung Zu Favoriten Fehlgeschlagen",
-      deletedTitle: "Von Favoriten Entfernt",
+      createdFailedTitle: "Hinzufügung zu favoriten fehlgeschlagen",
+      deletedTitle: "Von favoriten entfernt",
       deletedDescription: "{name} wurde von den Favoriten entfernt",
-      deletedFailedTitle: "Entfernung Von Favoriten Fehlgeschlagen"
+      deletedFailedTitle: "Entfernung von favoriten fehlgeschlagen"
     },
     sidebar: {
       addedTitle: "Zur Seitenleiste hinzugefügt",
@@ -507,13 +509,13 @@ export const german: Language = {
       equalizer: {
         title: "Equalizer",
         enable: {
-          title: "Equalizer Aktivieren",
+          title: "Equalizer aktivieren",
           description: "Audio-Equalizer aktivieren oder deaktivieren",
           enabled: "Aktiviert",
           disabled: "Deaktiviert"
         },
         presets: {
-          title: "Equalizer-Voreinstellungen",
+          title: "Equalizer-voreinstellungen",
           description: "Wählen Sie aus vordefinierten Equalizer-Einstellungen",
           flat: {
             label: "Flach",
@@ -553,13 +555,13 @@ export const german: Language = {
           }
         },
         bands: {
-          title: "Frequenzbänder",
+          title: "frequenzbänder",
           description: "Einzelne Frequenzbänder anpassen"
         },
         reset: {
-          title: "Equalizer Zurücksetzen",
+          title: "Equalizer zurücksetzen",
           description: "Alle Bänder auf flach zurücksetzen (0 dB)",
-          button: "Auf Flach Zurücksetzen"
+          button: "Auf flach zurücksetzen"
         }
       },
       sync: {
@@ -596,12 +598,12 @@ export const german: Language = {
           viewChangelog: "Changelog ansehen"
         },
         storage: {
-          title: "Speicher & Daten",
+          title: "Speicher & daten",
           description: "Verwaltung von Anwendungsdaten und Einstellungen",
           openDataFolder: "Datenordner öffnen"
         },
         legal: {
-          title: "Rechtliches & Copyright",
+          title: "Rechtliches & copyright",
           description: "Lizenzinformationen und rechtliche Dokumente",
           copyright: "Copyright",
           licensed: "Lizenziert unter MIT-Lizenz",
@@ -625,16 +627,16 @@ export const german: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Import Abgeschlossen!",
+          title: "Import abgeschlossen",
           description: "{count} Track{count, plural, one {} other{s}} erfolgreich importiert"
         },
         withErrors: {
-          title: "Import mit Fehlern Abgeschlossen",
+          title: "Import mit fehlern abgeschlossen",
           description:
             "{successCount} importiert, {errorCount} fehlgeschlagen, {skippedCount} übersprungen"
         },
         withSkipped: {
-          title: "Import Abgeschlossen",
+          title: "Import abgeschlossen",
           description: "{successCount} importiert, {skippedCount} übersprungen"
         }
       }

@@ -16,8 +16,8 @@ export const spanish: Language = {
       lessThanAnHourAgo: "Hace menos de una hora",
       hoursAgo: "hace {count} hora{count, plural, one {} other{s}}",
       today: "Hoy",
-      thisWeek: "Esta Semana",
-      thisMonth: "Este Mes",
+      thisWeek: "Esta semana",
+      thisMonth: "Este mes",
       yesterday: "Ayer",
       years: "{count} año{count, plural, one {} other{s}}",
       weeks: "{count} semana{count, plural, one {} other{s}}",
@@ -58,7 +58,7 @@ export const spanish: Language = {
       playback: "Reproducción",
       playNext: "Reproducir siguiente",
       removeFromQueue: "Eliminar de la cola",
-      removeFromPlaylist: "Quitar de la Lista de Reproducción",
+      removeFromPlaylist: "Quitar de la lista de reproducción",
       nowPlaying: "Reproduciendo ahora",
       noSongPlaying: "Nada reproduciendo",
       upNext: "A continuación",
@@ -99,22 +99,22 @@ export const spanish: Language = {
     },
     form: {
       titles: {
-        createSong: "Crear Canción",
-        updateSong: "Actualizar Canción",
-        deleteSong: "Eliminar Canción",
-        createArtist: "Crear Artista",
-        updateArtist: "Actualizar Artista",
-        deleteArtist: "Eliminar Artista",
-        createAlbum: "Crear Álbum",
-        updateAlbum: "Actualizar Álbum",
-        deleteAlbum: "Eliminar Álbum",
-        createPlaylist: "Crear Playlist",
-        updatePlaylist: "Actualizar Playlist",
-        deletePlaylist: "Eliminar Playlist",
-        addToPlaylist: "Agregar a Playlist",
+        createSong: "Crear canción",
+        updateSong: "Actualizar canción",
+        deleteSong: "Eliminar canción",
+        createArtist: "Crear artista",
+        updateArtist: "Actualizar artista",
+        deleteArtist: "Eliminar artista",
+        createAlbum: "Crear álbum",
+        updateAlbum: "Actualizar álbum",
+        deleteAlbum: "Eliminar álbum",
+        createPlaylist: "Crear playlist",
+        updatePlaylist: "Actualizar playlist",
+        deletePlaylist: "Eliminar playlist",
+        addToPlaylist: "Agregar a playlist",
         confirmation: "Confirmación",
         warning: "Advertencia",
-        lyricsPreview: "Vista Previa de Letras"
+        lyricsPreview: "Vista previa de letras"
       },
       labels: {
         name: "Nombre",
@@ -250,19 +250,19 @@ export const spanish: Language = {
         description: "Continúa donde lo dejaste"
       },
       yourPlaylists: {
-        title: "Hecho Para Ti",
+        title: "Hecho para ti",
         description: "Tus listas de reproducción personales"
       },
       onRepeat: {
-        title: "En Repetición",
+        title: "En repetición",
         description: "Canciones que no puedes dejar de reproducir"
       },
       newReleases: {
-        title: "Nuevos Lanzamientos",
+        title: "Nuevos lanzamientos",
         description: "Música nueva de artistas que sigues"
       },
       favoriteArtists: {
-        title: "Tus Artistas",
+        title: "Tus artistas",
         description: "Artistas que más amas"
       },
       discover: {
@@ -343,6 +343,8 @@ export const spanish: Language = {
       updatedTitle: "Playlist actualizada con éxito",
       updatedDescription: "{name} ha sido actualizada",
       updatedFailedTitle: "Error al actualizar la playlist",
+      songsAddedTitle: "Canciones añadidas con éxito",
+      songsAddedFailedTitle: "Fallo al añadir canciones",
       deletedTitle: "Playlist eliminada con éxito",
       deletedDescription: "{name} ha sido eliminada",
       deletedFailedTitle: "Error al eliminar la playlist",
@@ -509,13 +511,13 @@ export const spanish: Language = {
       equalizer: {
         title: "Ecualizador",
         enable: {
-          title: "Activar Ecualizador",
+          title: "Activar ecualizador",
           description: "Activar o desactivar el ecualizador de audio",
           enabled: "Activado",
           disabled: "Desactivado"
         },
         presets: {
-          title: "Preajustes del Ecualizador",
+          title: "Preajustes del ecualizador",
           description: "Elija entre configuraciones predefinidas del ecualizador",
           flat: {
             label: "Plano",
@@ -555,13 +557,13 @@ export const spanish: Language = {
           }
         },
         bands: {
-          title: "Bandas de Frecuencia",
+          title: "Bandas de frecuencia",
           description: "Ajustar bandas de frecuencia individuales"
         },
         reset: {
-          title: "Restablecer Ecualizador",
+          title: "Restablecer ecualizador",
           description: "Restablecer todas las bandas a plano (0 dB)",
-          button: "Restablecer a Plano"
+          button: "Restablecer a plano"
         }
       },
       sync: {
@@ -599,12 +601,12 @@ export const spanish: Language = {
           viewChangelog: "Ver changelog"
         },
         storage: {
-          title: "Almacenamiento y Datos",
+          title: "Almacenamiento y datos",
           description: "Gestionar datos de la aplicación y configuración",
           openDataFolder: "Abrir carpeta de datos"
         },
         legal: {
-          title: "Legal y Derechos de Autor",
+          title: "Legal y derechos de autor",
           description: "Información de licencia y documentos legales",
           copyright: "Derechos de Autor",
           licensed: "Licenciado bajo licencia MIT",
@@ -628,16 +630,16 @@ export const spanish: Language = {
       },
       completed: {
         allSuccess: {
-          title: "¡Importación Completada!",
+          title: "Importación completada",
           description:
             "{count} canción{count, plural, one {} other{s}} importada{count, plural, one {} other{s}} exitosamente"
         },
         withErrors: {
-          title: "Importación Completada con Errores",
+          title: "Importación completada con errores",
           description: "{successCount} importadas, {errorCount} fallaron, {skippedCount} omitidas"
         },
         withSkipped: {
-          title: "Importación Completada",
+          title: "Importación completada",
           description: "{successCount} importadas, {skippedCount} omitidas"
         }
       }

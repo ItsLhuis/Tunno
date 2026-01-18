@@ -16,8 +16,8 @@ export const turkish: Language = {
       lessThanAnHourAgo: "Bir saatten az önce",
       hoursAgo: "{count} saat önce",
       today: "Bugün",
-      thisWeek: "Bu Hafta",
-      thisMonth: "Bu Ay",
+      thisWeek: "Bu hafta",
+      thisMonth: "Bu ay",
       yesterday: "Dün",
       years: "{count} yıl{count, plural, one {} other{}}",
       weeks: "{count} hafta{count, plural, one {} other{}}",
@@ -58,7 +58,7 @@ export const turkish: Language = {
       playback: "Oynatma",
       playNext: "Sonrakini çal",
       removeFromQueue: "Kuyruktan kaldır",
-      removeFromPlaylist: "Çalma Listesinden Kaldır",
+      removeFromPlaylist: "Çalma listesinden kaldır",
       nowPlaying: "Şimdi çalıyor",
       noSongPlaying: "Hiçbir şey çalmıyor",
       upNext: "Sırada",
@@ -93,39 +93,39 @@ export const turkish: Language = {
       appearsIn: "Yer aldığı",
       addToSidebar: "Kenar çubuğuna ekle",
       removeFromSidebar: "Kenar çubuğundan kaldır",
-      featured: "Öne Çıkanlar",
+      featured: "Öne çıkanlar",
       stats: "İstatistikler",
       openToStart: "Başlamak için Tunno'yu aç"
     },
     form: {
       titles: {
-        createSong: "Şarkı Oluştur",
-        updateSong: "Şarkıyı Güncelle",
-        deleteSong: "Şarkıyı Sil",
-        createArtist: "Sanatçı Oluştur",
-        updateArtist: "Sanatçıyı Güncelle",
-        deleteArtist: "Sanatçıyı Sil",
-        createAlbum: "Albüm Oluştur",
-        updateAlbum: "Albümü Güncelle",
-        deleteAlbum: "Albümü Sil",
-        createPlaylist: "Playlist Oluştur",
-        updatePlaylist: "Playlist'i Güncelle",
-        deletePlaylist: "Playlist'i Sil",
-        addToPlaylist: "Çalma Listelerine Ekle",
+        createSong: "Şarkı oluştur",
+        updateSong: "Şarkıyı güncelle",
+        deleteSong: "Şarkıyı sil",
+        createArtist: "Sanatçı oluştur",
+        updateArtist: "Sanatçıyı güncelle",
+        deleteArtist: "Sanatçıyı sil",
+        createAlbum: "Albüm oluştur",
+        updateAlbum: "Albümü güncelle",
+        deleteAlbum: "Albümü sil",
+        createPlaylist: "Playlist oluştur",
+        updatePlaylist: "Playlist'i güncelle",
+        deletePlaylist: "Playlist'i sil",
+        addToPlaylist: "Çalma listelerine ekle",
         confirmation: "Onay",
         warning: "Uyarı",
-        lyricsPreview: "Şarkı Sözleri Önizlemesi"
+        lyricsPreview: "Şarkı sözleri önizlemesi"
       },
       labels: {
         name: "İsim",
         thumbnail: "Küçük Resim",
         file: "Dosya",
-        releaseYear: "Yayın Yılı",
+        releaseYear: "Yayın yılı",
         album: "Albüm",
-        albumType: "Albüm Türü",
+        albumType: "Albüm türü",
         artists: "Sanatçılar",
         folder: "Klasör",
-        lyrics: "Şarkı Sözleri"
+        lyrics: "Şarkı sözleri"
       },
       buttons: {
         cancel: "İptal",
@@ -203,7 +203,7 @@ export const turkish: Language = {
     },
     breadcrumbs: {
       home: {
-        title: "Ana Sayfa"
+        title: "Ana sayfa"
       },
       songs: {
         title: "Şarkılar"
@@ -218,7 +218,7 @@ export const turkish: Language = {
         title: "Sanatçılar"
       },
       fastUpload: {
-        title: "Hızlı Yükleme"
+        title: "Hızlı yükleme"
       },
       settings: {
         title: "Ayarlar",
@@ -243,13 +243,13 @@ export const turkish: Language = {
       }
     },
     home: {
-      title: "Ana Sayfa",
+      title: "Ana sayfa",
       jumpBackIn: {
-        title: "Devam Et",
+        title: "Devam et",
         description: "Kaldığın yerden devam et"
       },
       yourPlaylists: {
-        title: "Senin İçin Yapıldı",
+        title: "Senin için yapıldı",
         description: "Kişisel çalma listelerin"
       },
       onRepeat: {
@@ -257,11 +257,11 @@ export const turkish: Language = {
         description: "Çalmayı bırakamadığın şarkılar"
       },
       newReleases: {
-        title: "Yeni Çıkışlar",
+        title: "Yeni çıkışlar",
         description: "Takip ettiğin sanatçılardan taze müzik"
       },
       favoriteArtists: {
-        title: "Sanatçıların",
+        title: "sanatçıların",
         description: "En çok sevdiğin sanatçılar"
       },
       discover: {
@@ -342,6 +342,8 @@ export const turkish: Language = {
       updatedTitle: "Playlist başarıyla güncellendi",
       updatedDescription: "{name} güncellendi",
       updatedFailedTitle: "Playlist güncellenemedi",
+      songsAddedTitle: "Şarkılar başarıyla eklendi",
+      songsAddedFailedTitle: "Şarkılar eklenemedi",
       deletedTitle: "Playlist başarıyla silindi",
       deletedDescription: "{name} silindi",
       deletedFailedTitle: "Playlist silinemedi",
@@ -393,12 +395,12 @@ export const turkish: Language = {
         sortBy: "Sırala",
         favorites: "Sadece favoriler",
         favoritesDescription: "Sadece favori albümleri göster",
-        albumType: "Albüm Türü",
+        albumType: "Albüm türü",
         all: "Tüm türler",
         single: "Tekli",
         album: "Albüm",
         compilation: "Derleme",
-        releaseYear: "Yayın Yılı",
+        releaseYear: "Yayın yılı",
         releaseYearMin: "Minimum yıl",
         releaseYearMax: "Maksimum yıl",
         playCount: "Çalma sayısı",
@@ -508,13 +510,13 @@ export const turkish: Language = {
       equalizer: {
         title: "Ekolayzır",
         enable: {
-          title: "Ekolayzırı Etkinleştir",
+          title: "Ekolayzırı etkinleştir",
           description: "Ses ekolayzırını etkinleştirin veya devre dışı bırakın",
           enabled: "Etkin",
-          disabled: "Devre Dışı"
+          disabled: "Devre dışı"
         },
         presets: {
-          title: "Ekolayzır Ön Ayarları",
+          title: "Ekolayzır ön ayarları",
           description: "Önceden tanımlanmış ekolayzır ayarlarından seçin",
           flat: {
             label: "Düz",
@@ -554,13 +556,13 @@ export const turkish: Language = {
           }
         },
         bands: {
-          title: "Frekans Bantları",
+          title: "Frekans bantları",
           description: "Bireysel frekans bantlarını ayarlayın"
         },
         reset: {
-          title: "Ekolayzırı Sıfırla",
+          title: "Ekolayzırı sıfırla",
           description: "Tüm bantları düze sıfırla (0 dB)",
-          button: "Düze Sıfırla"
+          button: "Düze sıfırla"
         }
       },
       sync: {
@@ -597,14 +599,14 @@ export const turkish: Language = {
           viewChangelog: "Değişiklik listesini görüntüle"
         },
         storage: {
-          title: "Depolama ve Veri",
+          title: "Depolama ve veri",
           description: "Uygulama verilerini ve ayarlarını yönet",
           openDataFolder: "Veri klasörünü aç"
         },
         legal: {
-          title: "Yasal ve Telif Hakkı",
+          title: "Yasal ve telif hakkı",
           description: "Lisans bilgileri ve yasal belgeler",
-          copyright: "Telif Hakkı",
+          copyright: "Telif hakkı",
           licensed: "MIT lisansı altında lisanslıdır",
           viewLicense: "Lisansı görüntüle",
           viewOnGitHub: "GitHub'da görüntüle"
@@ -612,7 +614,7 @@ export const turkish: Language = {
       }
     },
     fastUpload: {
-      title: "Hızlı Yükleme",
+      title: "Hızlı yükleme",
       description: "CLI'dan veya dışa aktarılan paketleri içe aktar",
       cliTooltip: "Tunno CLI belgelerini aç",
       selectBundle: "Paket seç",
@@ -626,16 +628,16 @@ export const turkish: Language = {
       },
       completed: {
         allSuccess: {
-          title: "İçe Aktarma Tamamlandı!",
+          title: "İçe aktarma tamamlandı",
           description: "{count} parça başarıyla içe aktarıldı"
         },
         withErrors: {
-          title: "Hatalarla İçe Aktarma Tamamlandı",
+          title: "Hatalarla içe aktarma tamamlandı",
           description:
             "{successCount} içe aktarıldı, {errorCount} başarısız, {skippedCount} atlandı"
         },
         withSkipped: {
-          title: "İçe Aktarma Tamamlandı",
+          title: "İçe aktarma tamamlandı",
           description: "{successCount} içe aktarıldı, {skippedCount} atlandı"
         }
       }

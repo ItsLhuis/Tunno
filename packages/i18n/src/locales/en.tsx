@@ -16,8 +16,8 @@ export const english: Language = {
       lessThanAnHourAgo: "Less than an hour ago",
       hoursAgo: "{count} hour{count, plural, one {} other{s}} ago",
       today: "Today",
-      thisWeek: "This Week",
-      thisMonth: "This Month",
+      thisWeek: "This week",
+      thisMonth: "This month",
       yesterday: "Yesterday",
       years: "{count} year{count, plural, one {} other{s}}",
       weeks: "{count} week{count, plural, one {} other{s}}",
@@ -58,7 +58,7 @@ export const english: Language = {
       playback: "Playback",
       playNext: "Play next",
       removeFromQueue: "Remove from queue",
-      removeFromPlaylist: "Remove from Playlist",
+      removeFromPlaylist: "Remove from playlist",
       nowPlaying: "Now playing",
       noSongPlaying: "Nothing playing",
       upNext: "Up next",
@@ -99,22 +99,22 @@ export const english: Language = {
     },
     form: {
       titles: {
-        createSong: "Create Song",
-        updateSong: "Update Song",
-        deleteSong: "Delete Song",
-        createArtist: "Create Artist",
-        updateArtist: "Update Artist",
-        deleteArtist: "Delete Artist",
-        createAlbum: "Create Album",
-        updateAlbum: "Update Album",
-        deleteAlbum: "Delete Album",
-        createPlaylist: "Create Playlist",
-        updatePlaylist: "Update Playlist",
-        deletePlaylist: "Delete Playlist",
-        addToPlaylist: "Add to Playlist",
+        createSong: "Create song",
+        updateSong: "Update song",
+        deleteSong: "Delete song",
+        createArtist: "Create artist",
+        updateArtist: "Update artist",
+        deleteArtist: "Delete artist",
+        createAlbum: "Create album",
+        updateAlbum: "Update album",
+        deleteAlbum: "Delete album",
+        createPlaylist: "Create playlist",
+        updatePlaylist: "Update playlist",
+        deletePlaylist: "Delete playlist",
+        addToPlaylist: "Add to playlist",
         confirmation: "Confirmation",
         warning: "Warning",
-        lyricsPreview: "Lyrics Preview"
+        lyricsPreview: "Lyrics preview"
       },
       labels: {
         name: "Name",
@@ -218,7 +218,7 @@ export const english: Language = {
         title: "Artists"
       },
       fastUpload: {
-        title: "Fast Upload"
+        title: "Fast upload"
       },
       settings: {
         title: "Settings",
@@ -245,23 +245,23 @@ export const english: Language = {
     home: {
       title: "Home",
       jumpBackIn: {
-        title: "Jump Back In",
+        title: "Jump back in",
         description: "Pick up where you left off"
       },
       yourPlaylists: {
-        title: "Made For You",
+        title: "Made for you",
         description: "Your personal playlists"
       },
       onRepeat: {
-        title: "On Repeat",
+        title: "On repeat",
         description: "Songs you can't stop playing"
       },
       newReleases: {
-        title: "New Releases",
+        title: "New releases",
         description: "Fresh music from artists you follow"
       },
       favoriteArtists: {
-        title: "Your Artists",
+        title: "Your artists",
         description: "Artists you love most"
       },
       discover: {
@@ -274,34 +274,34 @@ export const english: Language = {
           "Welcome to Tunno. To get started, you'll need to add some music to your personal library.",
         getStarted: "Get started",
         songs: {
-          title: "Import Songs",
+          title: "Import songs",
           description: "Add music files from your device to start building your library"
         },
         albums: {
-          title: "Create Albums",
+          title: "Create albums",
           description: "Organize your music by creating albums with artwork and details"
         },
         playlists: {
-          title: "Create Playlist",
+          title: "Create playlist",
           description: "Curate your own mixes for any mood or activity"
         },
         artists: {
-          title: "Add Artists",
+          title: "Add artists",
           description: "Create artist profiles to organize and manage their music"
         }
       }
     },
     songs: {
       title: "Songs",
-      createdTitle: "Song Created Successfully",
+      createdTitle: "Song created successfully",
       createdDescription: "{name} has been created",
-      createdFailedTitle: "Failed to Create Song",
-      updatedTitle: "Song Updated Successfully",
+      createdFailedTitle: "Failed to create song",
+      updatedTitle: "Song updated successfully",
       updatedDescription: "{name} has been updated",
-      updatedFailedTitle: "Failed to Update Song",
-      deletedTitle: "Song Deleted Successfully",
+      updatedFailedTitle: "Failed to update song",
+      deletedTitle: "Song deleted successfully",
       deletedDescription: "{name} has been deleted",
-      deletedFailedTitle: "Failed to Delete Song",
+      deletedFailedTitle: "Failed to delete song",
       filters: {
         title: "Filters",
         clear: "Clear active filters",
@@ -335,15 +335,17 @@ export const english: Language = {
     },
     playlists: {
       title: "Playlists",
-      createdTitle: "Playlist Created Successfully",
+      createdTitle: "Playlist created successfully",
       createdDescription: "{name} has been created",
-      createdFailedTitle: "Failed to Create Playlist",
-      updatedTitle: "Playlist Updated Successfully",
+      createdFailedTitle: "Failed to create playlist",
+      updatedTitle: "Playlist updated successfully",
       updatedDescription: "{name} has been updated",
-      updatedFailedTitle: "Failed to Update Playlist",
-      deletedTitle: "Playlist Deleted Successfully",
+      updatedFailedTitle: "Failed to update playlist",
+      songsAddedTitle: "Songs added successfully",
+      songsAddedFailedTitle: "Failed to add songs",
+      deletedTitle: "Playlist deleted successfully",
       deletedDescription: "{name} has been deleted",
-      deletedFailedTitle: "Failed to Delete Playlist",
+      deletedFailedTitle: "Failed to delete playlist",
       filters: {
         title: "Filters",
         clear: "Clear active filters",
@@ -377,15 +379,15 @@ export const english: Language = {
     },
     albums: {
       title: "Albums",
-      createdTitle: "Album Created Successfully",
+      createdTitle: "Album created successfully",
       createdDescription: "{name} has been created",
-      createdFailedTitle: "Failed to Create Album",
-      updatedTitle: "Album Updated Successfully",
+      createdFailedTitle: "Failed to create album",
+      updatedTitle: "Album updated successfully",
       updatedDescription: "{name} has been updated",
-      updatedFailedTitle: "Failed to Update Album",
-      deletedTitle: "Album Deleted Successfully",
+      updatedFailedTitle: "Failed to update album",
+      deletedTitle: "Album deleted successfully",
       deletedDescription: "{name} has been deleted",
-      deletedFailedTitle: "Failed to Delete Album",
+      deletedFailedTitle: "Failed to delete album",
       filters: {
         title: "Filters",
         clear: "Clear active filters",
@@ -393,7 +395,7 @@ export const english: Language = {
         favorites: "Favorites only",
         favoritesDescription: "Show only favorite albums",
         albumType: "Album type",
-        all: "All Types",
+        all: "All types",
         single: "Single",
         album: "Album",
         compilation: "Compilation",
@@ -428,15 +430,15 @@ export const english: Language = {
     },
     artists: {
       title: "Artists",
-      createdTitle: "Artist Created Successfully",
+      createdTitle: "Artist created successfully",
       createdDescription: "{name} has been created",
-      createdFailedTitle: "Failed to Create Artist",
-      updatedTitle: "Artist Updated Successfully",
+      createdFailedTitle: "Failed to create artist",
+      updatedTitle: "Artist updated successfully",
       updatedDescription: "{name} has been updated",
-      updatedFailedTitle: "Failed to Update Artist",
-      deletedTitle: "Artist Deleted Successfully",
+      updatedFailedTitle: "Failed to update artist",
+      deletedTitle: "Artist deleted successfully",
       deletedDescription: "{name} has been deleted",
-      deletedFailedTitle: "Failed to Delete Artist",
+      deletedFailedTitle: "Failed to delete artist",
       filters: {
         title: "Filters",
         clear: "Clear active filters",
@@ -469,18 +471,18 @@ export const english: Language = {
       }
     },
     favorites: {
-      createdTitle: "Added to Favorites",
+      createdTitle: "Added to favorites",
       createdDescription: "{name} has been added to favorites",
-      createdFailedTitle: "Failed to Add to Favorites",
-      deletedTitle: "Removed from Favorites",
+      createdFailedTitle: "Failed to add to favorites",
+      deletedTitle: "Removed from favorites",
       deletedDescription: "{name} has been removed from favorites",
-      deletedFailedTitle: "Failed to Remove from Favorites"
+      deletedFailedTitle: "Failed to remove from favorites"
     },
     sidebar: {
-      addedTitle: "Added to Sidebar",
+      addedTitle: "Added to sidebar",
       addedDescription: "{name} has been added to sidebar",
-      addedFailedTitle: "Failed to Add to Sidebar",
-      removedTitle: "Removed from Sidebar",
+      addedFailedTitle: "Failed to add to sidebar",
+      removedTitle: "Removed from sidebar",
       removedDescription: "{name} has been removed from sidebar"
     },
     settings: {
@@ -507,13 +509,13 @@ export const english: Language = {
       equalizer: {
         title: "Equalizer",
         enable: {
-          title: "Enable Equalizer",
+          title: "Enable equalizer",
           description: "Enable or disable the audio equalizer",
           enabled: "Enabled",
           disabled: "Disabled"
         },
         presets: {
-          title: "Equalizer Presets",
+          title: "Equalizer presets",
           description: "Choose from predefined equalizer settings",
           flat: {
             label: "Flat",
@@ -553,20 +555,20 @@ export const english: Language = {
           }
         },
         bands: {
-          title: "Frequency Bands",
+          title: "Frequency bands",
           description: "Adjust individual frequency bands"
         },
         reset: {
-          title: "Reset Equalizer",
+          title: "Reset equalizer",
           description: "Reset all bands to flat (0 dB)",
-          button: "Reset to Flat"
+          button: "Reset to flat"
         }
       },
       sync: {
         title: "Sync",
         description: "Synchronize your data across devices",
         export: {
-          title: "Export Library",
+          title: "Export library",
           description:
             "Export your library as a bundle file for backup or to use on another device",
           selectDestination: "Select destination",
@@ -590,18 +592,18 @@ export const english: Language = {
         description: "Application information and version details",
         version: "Version",
         whatsNew: {
-          title: "What's New",
+          title: "What's new",
           description: "Check out the latest features and improvements",
           newRelease: "New release",
           viewChangelog: "View changelog"
         },
         storage: {
-          title: "Storage & Data",
+          title: "Storage & data",
           description: "Manage application data and settings",
           openDataFolder: "Open data folder"
         },
         legal: {
-          title: "Legal & Copyright",
+          title: "Legal & copyright",
           description: "License information and legal documents",
           copyright: "Copyright",
           licensed: "Licensed under MIT license",
@@ -611,7 +613,7 @@ export const english: Language = {
       }
     },
     fastUpload: {
-      title: "Fast Upload",
+      title: "Fast upload",
       description: "Import bundles from the CLI or exported from",
       cliTooltip: "Open Tunno CLI documentation",
       selectBundle: "Select bundle",

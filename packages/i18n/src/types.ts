@@ -346,6 +346,8 @@ export type Translations = {
     updatedTitle: string
     updatedDescription: string
     updatedFailedTitle: string
+    songsAddedTitle: string
+    songsAddedFailedTitle: string
     deletedTitle: string
     deletedDescription: string
     deletedFailedTitle: string

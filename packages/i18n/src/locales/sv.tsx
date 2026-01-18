@@ -58,7 +58,7 @@ export const swedish: Language = {
       playback: "Uppspelning",
       playNext: "Spela nästa",
       removeFromQueue: "Ta bort från kö",
-      removeFromPlaylist: "Ta bort från Spellista",
+      removeFromPlaylist: "Ta bort från spellista",
       nowPlaying: "Spelar nu",
       noSongPlaying: "Inget spelar",
       upNext: "Nästa",
@@ -111,7 +111,7 @@ export const swedish: Language = {
         createPlaylist: "Skapa playlist",
         updatePlaylist: "Uppdatera playlist",
         deletePlaylist: "Ta bort playlist",
-        addToPlaylist: "Lägg till i Playlist",
+        addToPlaylist: "Lägg till i playlist",
         confirmation: "Bekräftelse",
         warning: "Varning",
         lyricsPreview: "Textförhandsvisning"
@@ -245,23 +245,23 @@ export const swedish: Language = {
     home: {
       title: "Hem",
       jumpBackIn: {
-        title: "Fortsätt Spela",
+        title: "Fortsätt spela",
         description: "Fortsätt där du slutade"
       },
       yourPlaylists: {
-        title: "Skapad För Dig",
+        title: "Skapad för dig",
         description: "Dina personliga spellistor"
       },
       onRepeat: {
-        title: "På Upprepning",
+        title: "På upprepning",
         description: "Låtar du inte kan sluta spela"
       },
       newReleases: {
-        title: "Nya Utgivningar",
+        title: "Nya utgivningar",
         description: "Färsk musik från artister du följer"
       },
       favoriteArtists: {
-        title: "Dina Artister",
+        title: "Dina artister",
         description: "Artister du älskar mest"
       },
       discover: {
@@ -341,6 +341,8 @@ export const swedish: Language = {
       updatedTitle: "Playlist uppdaterad",
       updatedDescription: "{name} har uppdaterats",
       updatedFailedTitle: "Misslyckades att uppdatera playlist",
+      songsAddedTitle: "Låtar tillagda framgångsrikt",
+      songsAddedFailedTitle: "Misslyckades med att lägga till låtar",
       deletedTitle: "Playlist borttagen",
       deletedDescription: "{name} har tagits bort",
       deletedFailedTitle: "Misslyckades att ta bort playlist",
@@ -507,13 +509,13 @@ export const swedish: Language = {
       equalizer: {
         title: "Equalizer",
         enable: {
-          title: "Aktivera Equalizer",
+          title: "Aktivera equalizer",
           description: "Aktivera eller inaktivera audio-equalizer",
           enabled: "Aktiverad",
           disabled: "Inaktiverad"
         },
         presets: {
-          title: "Equalizer Förinställningar",
+          title: "Equalizer förinställningar",
           description: "Välj från fördefinierade equalizer-inställningar",
           flat: {
             label: "Platt",
@@ -557,9 +559,9 @@ export const swedish: Language = {
           description: "Justera individuella frekvensband"
         },
         reset: {
-          title: "Återställ Equalizer",
+          title: "Återställ equalizer",
           description: "Återställ alla band till platt (0 dB)",
-          button: "Återställ till Platt"
+          button: "Återställ till platt"
         }
       },
       sync: {
@@ -597,12 +599,12 @@ export const swedish: Language = {
           viewChangelog: "Visa changelog"
         },
         storage: {
-          title: "Lagring & Data",
+          title: "Lagring & data",
           description: "Hantera applikationsdata och inställningar",
           openDataFolder: "Öppna datamapp"
         },
         legal: {
-          title: "Juridisk & Upphovsrätt",
+          title: "Juridisk & upphovsrätt",
           description: "Licensinformation och juridiska dokument",
           copyright: "Upphovsrätt",
           licensed: "Licensierad under MIT-licens",
@@ -626,7 +628,7 @@ export const swedish: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Import slutförd!",
+          title: "Import slutförd",
           description: "{count} spår importerade framgångsrikt"
         },
         withErrors: {

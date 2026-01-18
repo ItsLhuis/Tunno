@@ -58,7 +58,7 @@ export const finnish: Language = {
       playback: "Toisto",
       playNext: "Toista seuraava",
       removeFromQueue: "Poista jonosta",
-      removeFromPlaylist: "Poista Soittolistasta",
+      removeFromPlaylist: "Poista soittolistasta",
       nowPlaying: "Nyt soi",
       noSongPlaying: "Ei mitään soi",
       upNext: "Seuraavaksi",
@@ -99,22 +99,22 @@ export const finnish: Language = {
     },
     form: {
       titles: {
-        createSong: "Luo Kappale",
-        updateSong: "Päivitä Kappale",
-        deleteSong: "Poista Kappale",
-        createArtist: "Luo Artisti",
-        updateArtist: "Päivitä Artisti",
-        deleteArtist: "Poista Artisti",
-        createAlbum: "Luo Albumi",
-        updateAlbum: "Päivitä Albumi",
-        deleteAlbum: "Poista Albumi",
-        createPlaylist: "Luo Playlist",
-        updatePlaylist: "Päivitä Playlist",
-        deletePlaylist: "Poista Playlist",
-        addToPlaylist: "Lisää Playlistiin",
+        createSong: "Luo kappale",
+        updateSong: "Päivitä kappale",
+        deleteSong: "Poista kappale",
+        createArtist: "Luo artisti",
+        updateArtist: "Päivitä artisti",
+        deleteArtist: "Poista artisti",
+        createAlbum: "Luo albumi",
+        updateAlbum: "Päivitä albumi",
+        deleteAlbum: "Poista albumi",
+        createPlaylist: "Luo playlist",
+        updatePlaylist: "Päivitä playlist",
+        deletePlaylist: "Poista playlist",
+        addToPlaylist: "Lisää playlistiin",
         confirmation: "Vahvistus",
         warning: "Varoitus",
-        lyricsPreview: "Sanoitusten Esikatselu"
+        lyricsPreview: "Sanoitusten esikatselu"
       },
       labels: {
         name: "Nimi",
@@ -245,23 +245,23 @@ export const finnish: Language = {
     home: {
       title: "Koti",
       jumpBackIn: {
-        title: "Jatka Toistoa",
+        title: "Jatka toistoa",
         description: "Jatka siitä mihin jäit"
       },
       yourPlaylists: {
-        title: "Sinulle Tehty",
+        title: "Sinulle tehty",
         description: "Henkilökohtaiset soittolistasi"
       },
       onRepeat: {
-        title: "Toistossa",
+        title: "toistossa",
         description: "Kappaleet joita et voi lopettaa soittamasta"
       },
       newReleases: {
-        title: "Uudet Julkaisut",
+        title: "Uudet julkaisut",
         description: "Tuoretta musiikkia seuraamiltasi artisteilta"
       },
       favoriteArtists: {
-        title: "Sinun Artistisi",
+        title: "Sinun artistisi",
         description: "Artistit joita rakastat eniten"
       },
       discover: {
@@ -341,6 +341,8 @@ export const finnish: Language = {
       updatedTitle: "Playlist päivitetty onnistuneesti",
       updatedDescription: "{name} on päivitetty",
       updatedFailedTitle: "Playlistin päivitys epäonnistui",
+      songsAddedTitle: "Kappaleet lisätty onnistuneesti",
+      songsAddedFailedTitle: "Kappaleiden lisääminen epäonnistui",
       deletedTitle: "Playlist poistettu onnistuneesti",
       deletedDescription: "{name} on poistettu",
       deletedFailedTitle: "Playlistin poisto epäonnistui",
@@ -507,13 +509,13 @@ export const finnish: Language = {
       equalizer: {
         title: "Ekvalisaattori",
         enable: {
-          title: "Ota Ekvalisaattori Käyttöön",
+          title: "Ota ekvalisaattori käyttöön",
           description: "Ota ääni-ekvalisaattori käyttöön tai pois käytöstä",
           enabled: "Käytössä",
           disabled: "Pois käytöstä"
         },
         presets: {
-          title: "Ekvalisaattori Esiasetukset",
+          title: "Ekvalisaattori esiasetukset",
           description: "Valitse esimääritellyistä ekvalisaattori-asetuksista",
           flat: {
             label: "Tasainen",
@@ -557,9 +559,9 @@ export const finnish: Language = {
           description: "Säädä yksittäisiä taajuuskaistoja"
         },
         reset: {
-          title: "Nollaa Ekvalisaattori",
+          title: "Nollaa ekvalisaattori",
           description: "Nollaa kaikki kaistat tasaisiksi (0 dB)",
-          button: "Nollaa Tasaisiksi"
+          button: "Nollaa tasaisiksi"
         }
       },
       sync: {
@@ -596,12 +598,12 @@ export const finnish: Language = {
           viewChangelog: "Näytä muutosloki"
         },
         storage: {
-          title: "Tallennustila ja Tiedot",
+          title: "Tallennustila ja tiedot",
           description: "Hallitse sovelluksen tietoja ja asetuksia",
           openDataFolder: "Avaa datakansio"
         },
         legal: {
-          title: "Juridinen ja Tekijänoikeudet",
+          title: "Juridinen ja tekijänoikeudet",
           description: "Lisenssitiedot ja juridiset dokumentit",
           copyright: "Tekijänoikeudet",
           licensed: "Lisensoitu MIT-lisenssillä",
@@ -625,7 +627,7 @@ export const finnish: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Tuonti valmis!",
+          title: "Tuonti valmis",
           description: "{count} kappaletta tuotu onnistuneesti"
         },
         withErrors: {

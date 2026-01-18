@@ -341,6 +341,8 @@ export const japanese: Language = {
       updatedTitle: "再生リストが正常に更新されました",
       updatedDescription: "{name} が更新されました",
       updatedFailedTitle: "再生リストの更新に失敗しました",
+      songsAddedTitle: "曲が正常に追加されました",
+      songsAddedFailedTitle: "曲の追加に失敗しました",
       deletedTitle: "再生リストが正常に削除されました",
       deletedDescription: "{name} が削除されました",
       deletedFailedTitle: "再生リストの削除に失敗しました",
@@ -625,7 +627,7 @@ export const japanese: Language = {
       },
       completed: {
         allSuccess: {
-          title: "インポート完了！",
+          title: "インポート完了",
           description: "{count}曲が正常にインポートされました"
         },
         withErrors: {

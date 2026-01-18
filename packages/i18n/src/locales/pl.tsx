@@ -58,7 +58,7 @@ export const polish: Language = {
       playback: "Odtwarzanie",
       playNext: "Odtwórz następny",
       removeFromQueue: "Usuń z kolejki",
-      removeFromPlaylist: "Usuń z Listy Odtwarzania",
+      removeFromPlaylist: "Usuń z listy odtwarzania",
       nowPlaying: "Teraz odtwarzane",
       noSongPlaying: "Nic nie odtwarzane",
       upNext: "Następne",
@@ -111,7 +111,7 @@ export const polish: Language = {
         createPlaylist: "Utwórz playlist",
         updatePlaylist: "Aktualizuj playlist",
         deletePlaylist: "Usuń playlist",
-        addToPlaylist: "Dodaj do Playlist",
+        addToPlaylist: "Dodaj do playlist",
         confirmation: "Potwierdzenie",
         warning: "Ostrzeżenie",
         lyricsPreview: "Podgląd tekstu"
@@ -235,7 +235,7 @@ export const polish: Language = {
           title: "Synchronizacja"
         },
         about: {
-          title: "O Aplikacji"
+          title: "O aplikacji"
         }
       },
       lyrics: {
@@ -249,19 +249,19 @@ export const polish: Language = {
         description: "Kontynuuj tam gdzie skończyłeś"
       },
       yourPlaylists: {
-        title: "Stworzone Dla Ciebie",
+        title: "Stworzone dla ciebie",
         description: "Twoje osobiste playlisty"
       },
       onRepeat: {
-        title: "Na Powtórce",
+        title: "Na powtórce",
         description: "Utwory których nie możesz przestać słuchać"
       },
       newReleases: {
-        title: "Nowe Wydania",
+        title: "Nowe wydania",
         description: "Świeża muzyka od artystów których obserwujesz"
       },
       favoriteArtists: {
-        title: "Twoi Artyści",
+        title: "Twoi artyści",
         description: "Artyści których kochasz najbardziej"
       },
       discover: {
@@ -342,6 +342,8 @@ export const polish: Language = {
       updatedTitle: "Playlista została pomyślnie zaktualizowana",
       updatedDescription: "{name} została zaktualizowana",
       updatedFailedTitle: "Nie udało się zaktualizować playlisty",
+      songsAddedTitle: "Utwory dodane pomyślnie",
+      songsAddedFailedTitle: "Nie udało się dodać utworów",
       deletedTitle: "Playlista została pomyślnie usunięta",
       deletedDescription: "{name} została usunięta",
       deletedFailedTitle: "Nie udało się usunąć playlisty",
@@ -508,13 +510,13 @@ export const polish: Language = {
       equalizer: {
         title: "Korektor",
         enable: {
-          title: "Włącz Korektor",
+          title: "Włącz korektor",
           description: "Włącz lub wyłącz korektor audio",
           enabled: "Włączony",
           disabled: "Wyłączony"
         },
         presets: {
-          title: "Predefiniowane Korektory",
+          title: "Predefiniowane korektory",
           description: "Wybierz z predefiniowanych ustawień korektora",
           flat: {
             label: "Płaski",
@@ -554,13 +556,13 @@ export const polish: Language = {
           }
         },
         bands: {
-          title: "Pasma Częstotliwości",
+          title: "Pasma częstotliwości",
           description: "Reguluj poszczególne pasma częstotliwości"
         },
         reset: {
-          title: "Resetuj Korektor",
+          title: "Resetuj korektor",
           description: "Resetuj wszystkie pasma do płaskiego (0 dB)",
-          button: "Resetuj do Płaskiego"
+          button: "Resetuj do płaskiego"
         }
       },
       sync: {
@@ -588,7 +590,7 @@ export const polish: Language = {
         }
       },
       about: {
-        title: "O Aplikacji",
+        title: "O aplikacji",
         description: "Informacje o aplikacji i szczegóły wersji",
         version: "Wersja",
         whatsNew: {
@@ -598,14 +600,14 @@ export const polish: Language = {
           viewChangelog: "Zobacz changelog"
         },
         storage: {
-          title: "Pamięć i Dane",
+          title: "Pamięć i dane",
           description: "Zarządzaj danymi aplikacji i ustawieniami",
           openDataFolder: "Otwórz folder danych"
         },
         legal: {
-          title: "Prawne i Prawa Autorskie",
+          title: "Prawne i prawa autorskie",
           description: "Informacje o licencji i dokumenty prawne",
-          copyright: "Prawa Autorskie",
+          copyright: "Prawa autorskie",
           licensed: "Na licencji MIT",
           viewLicense: "Zobacz licencję",
           viewOnGitHub: "Zobacz na GitHubie"
@@ -627,7 +629,7 @@ export const polish: Language = {
       },
       completed: {
         allSuccess: {
-          title: "Import zakończony!",
+          title: "Import zakończony",
           description:
             "{count} utwór{count, plural, one {} other{s}} zaimportowany{count, plural, one {} other{s}} pomyślnie"
         },
