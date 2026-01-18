@@ -35,6 +35,8 @@ export function useFetchArtistByIdWithSongs(id: number | null | undefined) {
   return useQuery({
     queryKey: artistKeys.detailsWithSongs(id!),
     queryFn: () => getArtistByIdWithSongs(id!),
-    enabled: !!id
+    enabled: !!id,
+    retry: 3,
+    staleTime: 0
   })
 }

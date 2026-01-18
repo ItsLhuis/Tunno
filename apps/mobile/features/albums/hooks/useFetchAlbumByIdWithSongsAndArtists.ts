@@ -35,6 +35,8 @@ export function useFetchAlbumByIdWithSongsAndArtists(id: number | null | undefin
   return useQuery({
     queryKey: albumKeys.detailsWithSongsAndArtists(id!),
     queryFn: () => getAlbumByIdWithSongsAndArtists(id!),
-    enabled: !!id
+    enabled: !!id,
+    retry: 3,
+    staleTime: 0
   })
 }

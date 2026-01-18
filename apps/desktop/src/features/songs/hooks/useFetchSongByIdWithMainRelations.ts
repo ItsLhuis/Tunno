@@ -30,6 +30,8 @@ export function useFetchSongByIdWithMainRelations(id: number | null | undefined)
   return useQuery({
     queryKey: songKeys.detailsWithMainRelations(id!),
     queryFn: () => getSongByIdWithMainRelations(id!),
-    enabled: !!id
+    enabled: !!id,
+    retry: 3,
+    staleTime: 0
   })
 }

@@ -47,10 +47,10 @@ export function useAddSongsToPlaylist() {
       await queryClient.cancelQueries({ queryKey: playlistKeys.all })
     },
     onSuccess: () => {
-      toast.success(t("playlists.updatedTitle"))
+      toast.success(t("playlists.songsAddedTitle"))
     },
     onError: () => {
-      toast.error(t("playlists.updatedFailedTitle"))
+      toast.error(t("playlists.songsAddedFailedTitle"))
     },
     onSettled: () => {
       invalidateQueries(queryClient, "playlist", {
