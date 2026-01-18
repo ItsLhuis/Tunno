@@ -137,11 +137,12 @@ export async function getPlaylistById(id: number): Promise<Playlist | null> {
  * (songs, stats).
  *
  * @param id - The ID of the playlist to retrieve.
- * @returns A Promise that resolves to the `PlaylistWithAllRelations` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `PlaylistWithAllRelations` object.
+ * @throws Error if the playlist is not found.
  */
 export async function getPlaylistByIdWithAllRelations(
   id: number
-): Promise<PlaylistWithAllRelations | undefined> {
+): Promise<PlaylistWithAllRelations> {
   const playlist = await database.query.playlists.findFirst({
     where: eq(schema.playlists.id, id),
     with: {
@@ -154,6 +155,10 @@ export async function getPlaylistByIdWithAllRelations(
     }
   })
 
+  if (!playlist) {
+    throw new Error(`Playlist with id ${id} not found`)
+  }
+
   return playlist
 }
 
@@ -161,9 +166,10 @@ export async function getPlaylistByIdWithAllRelations(
  * Retrieves a single playlist from the database by its ID, including its associated songs.
  *
  * @param id - The ID of the playlist to retrieve.
- * @returns A Promise that resolves to the `PlaylistWithSongs` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `PlaylistWithSongs` object.
+ * @throws Error if the playlist is not found.
  */
-export async function getPlaylistByIdWithSongs(id: number): Promise<PlaylistWithSongs | undefined> {
+export async function getPlaylistByIdWithSongs(id: number): Promise<PlaylistWithSongs> {
   const playlist = await database.query.playlists.findFirst({
     where: eq(schema.playlists.id, id),
     with: {
@@ -174,6 +180,10 @@ export async function getPlaylistByIdWithSongs(id: number): Promise<PlaylistWith
       }
     }
   })
+
+  if (!playlist) {
+    throw new Error(`Playlist with id ${id} not found`)
+  }
 
   return playlist
 }

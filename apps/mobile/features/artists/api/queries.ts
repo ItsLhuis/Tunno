@@ -135,11 +135,10 @@ export async function getArtistById(id: number): Promise<Artist | null> {
  * (songs, albums, stats).
  *
  * @param id - The ID of the artist to retrieve.
- * @returns A Promise that resolves to the `ArtistWithAllRelations` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `ArtistWithAllRelations` object.
+ * @throws Error if the artist is not found.
  */
-export async function getArtistByIdWithAllRelations(
-  id: number
-): Promise<ArtistWithAllRelations | undefined> {
+export async function getArtistByIdWithAllRelations(id: number): Promise<ArtistWithAllRelations> {
   const artist = await database.query.artists.findFirst({
     where: eq(schema.artists.id, id),
     with: {
@@ -157,6 +156,10 @@ export async function getArtistByIdWithAllRelations(
     }
   })
 
+  if (!artist) {
+    throw new Error(`Artist with id ${id} not found`)
+  }
+
   return artist
 }
 
@@ -164,9 +167,10 @@ export async function getArtistByIdWithAllRelations(
  * Retrieves a single artist from the database by its ID, including its associated songs.
  *
  * @param id - The ID of the artist to retrieve.
- * @returns A Promise that resolves to the `ArtistWithSongs` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `ArtistWithSongs` object.
+ * @throws Error if the artist is not found.
  */
-export async function getArtistByIdWithSongs(id: number): Promise<ArtistWithSongs | undefined> {
+export async function getArtistByIdWithSongs(id: number): Promise<ArtistWithSongs> {
   const artist = await database.query.artists.findFirst({
     where: eq(schema.artists.id, id),
     with: {
@@ -177,6 +181,10 @@ export async function getArtistByIdWithSongs(id: number): Promise<ArtistWithSong
       }
     }
   })
+
+  if (!artist) {
+    throw new Error(`Artist with id ${id} not found`)
+  }
 
   return artist
 }

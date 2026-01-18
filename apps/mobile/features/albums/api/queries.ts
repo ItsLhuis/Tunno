@@ -232,11 +232,10 @@ export async function getAlbumById(id: number): Promise<Album | null> {
  * (songs, artists, stats).
  *
  * @param id - The ID of the album to retrieve.
- * @returns A Promise that resolves to the `AlbumWithAllRelations` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `AlbumWithAllRelations` object.
+ * @throws Error if the album is not found.
  */
-export async function getAlbumByIdWithAllRelations(
-  id: number
-): Promise<AlbumWithAllRelations | undefined> {
+export async function getAlbumByIdWithAllRelations(id: number): Promise<AlbumWithAllRelations> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id),
     with: {
@@ -250,6 +249,10 @@ export async function getAlbumByIdWithAllRelations(
     }
   })
 
+  if (!album) {
+    throw new Error(`Album with id ${id} not found`)
+  }
+
   return album
 }
 
@@ -257,9 +260,10 @@ export async function getAlbumByIdWithAllRelations(
  * Retrieves a single album from the database by its ID, including its associated artists.
  *
  * @param id - The ID of the album to retrieve.
- * @returns A Promise that resolves to the `AlbumWithArtists` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `AlbumWithArtists` object.
+ * @throws Error if the album is not found.
  */
-export async function getAlbumByIdWithArtists(id: number): Promise<AlbumWithArtists | undefined> {
+export async function getAlbumByIdWithArtists(id: number): Promise<AlbumWithArtists> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id),
     with: {
@@ -271,6 +275,10 @@ export async function getAlbumByIdWithArtists(id: number): Promise<AlbumWithArti
     }
   })
 
+  if (!album) {
+    throw new Error(`Album with id ${id} not found`)
+  }
+
   return album
 }
 
@@ -278,11 +286,12 @@ export async function getAlbumByIdWithArtists(id: number): Promise<AlbumWithArti
  * Retrieves a single album from the database by its ID, including its associated songs and artists.
  *
  * @param id - The ID of the album to retrieve.
- * @returns A Promise that resolves to the `AlbumWithSongsAndArtists` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `AlbumWithSongsAndArtists` object.
+ * @throws Error if the album is not found.
  */
 export async function getAlbumByIdWithSongsAndArtists(
   id: number
-): Promise<AlbumWithSongsAndArtists | undefined> {
+): Promise<AlbumWithSongsAndArtists> {
   const album = await database.query.albums.findFirst({
     where: eq(schema.albums.id, id),
     with: {
@@ -294,6 +303,10 @@ export async function getAlbumByIdWithSongsAndArtists(
       }
     }
   })
+
+  if (!album) {
+    throw new Error(`Album with id ${id} not found`)
+  }
 
   return album
 }

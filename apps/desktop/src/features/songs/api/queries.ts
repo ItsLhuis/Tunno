@@ -131,11 +131,10 @@ export async function getSongById(id: number): Promise<Song | null> {
  * Retrieves a single song from the database by its ID, including its main relations (album and artists).
  *
  * @param id - The ID of the song to retrieve.
- * @returns A Promise that resolves to the `SongWithMainRelations` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `SongWithMainRelations` object.
+ * @throws Error if the song is not found.
  */
-export async function getSongByIdWithMainRelations(
-  id: number
-): Promise<SongWithMainRelations | undefined> {
+export async function getSongByIdWithMainRelations(id: number): Promise<SongWithMainRelations> {
   const song = await database.query.songs.findFirst({
     where: eq(schema.songs.id, id),
     with: {
@@ -149,6 +148,10 @@ export async function getSongByIdWithMainRelations(
     }
   })
 
+  if (!song) {
+    throw new Error(`Song with id ${id} not found`)
+  }
+
   return song
 }
 
@@ -157,11 +160,10 @@ export async function getSongByIdWithMainRelations(
  * (album, artists, playlists, stats, playHistory).
  *
  * @param id - The ID of the song to retrieve.
- * @returns A Promise that resolves to the `SongWithAllRelations` object if found, otherwise `undefined`.
+ * @returns A Promise that resolves to the `SongWithAllRelations` object.
+ * @throws Error if the song is not found.
  */
-export async function getSongByIdWithAllRelations(
-  id: number
-): Promise<SongWithAllRelations | undefined> {
+export async function getSongByIdWithAllRelations(id: number): Promise<SongWithAllRelations> {
   const song = await database.query.songs.findFirst({
     where: eq(schema.songs.id, id),
     with: {
@@ -181,6 +183,10 @@ export async function getSongByIdWithAllRelations(
       playHistory: true
     }
   })
+
+  if (!song) {
+    throw new Error(`Song with id ${id} not found`)
+  }
 
   return song
 }
