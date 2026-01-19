@@ -15,11 +15,11 @@ import { useAddSongsToPlaylist } from "../hooks/useAddSongsToPlaylist"
 
 import { useFetchPlaylists } from "../hooks/useFetchPlaylists"
 
-import { FlashList, type ListRenderItemInfo } from "@shopify/flash-list"
+import { FlashList } from "@shopify/flash-list"
 
 import {
   AsyncState,
-  BottomSheetFlashList,
+  BottomSheetLegendList,
   Button,
   Form,
   FormControl,
@@ -166,7 +166,7 @@ const AddToPlaylistForm = ({
   const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
 
   const renderItem = useCallback(
-    ({ item, index }: ListRenderItemInfo<Playlist>) => {
+    ({ item, index }: { item: Playlist; index: number }) => {
       const isSelected = selectedIds.has(item.id)
       const isLastItem = index === (playlists?.length ?? 0) - 1
 
@@ -217,10 +217,12 @@ const AddToPlaylistForm = ({
                   <FormControl style={styles.fill}>
                     <View style={styles.fill}>
                       {asSheet ? (
-                        <BottomSheetFlashList
+                        <BottomSheetLegendList
                           data={data}
+                          extraData={selectedIds}
                           keyExtractor={keyExtractor}
                           renderItem={renderItem}
+                          estimatedItemSize={75}
                           ListEmptyComponent={ListEmptyComponent}
                           showsVerticalScrollIndicator={false}
                           contentContainerStyle={styles.listContent(data.length === 0)}

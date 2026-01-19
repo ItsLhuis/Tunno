@@ -20,9 +20,9 @@ import {
   Separator,
   Sheet,
   SheetContent,
-  SheetFlashList,
   SheetFooter,
   SheetHeader,
+  SheetLegendList,
   SheetTitle,
   SheetTrigger,
   Text
@@ -175,7 +175,10 @@ const QueueSheet = () => {
       const isLastInSection = !nextItem || nextItem.type === "header"
 
       return (
-        <View style={isLastInSection ? undefined : styles.itemContainer}>
+        <View
+          style={isLastInSection ? undefined : styles.itemContainer}
+          onLayout={(e) => console.log("MenuItem height:", e.nativeEvent.layout.height)}
+        >
           <SongItemList song={item.song} queueIndex={item.originalIndex} queuePlayback />
         </View>
       )
@@ -211,13 +214,14 @@ const QueueSheet = () => {
             </Text>
           </SheetHeader>
           <Separator />
-          <SheetFlashList
+          <SheetLegendList
             data={listItems}
             keyExtractor={keyExtractor}
             getItemType={getItemType}
             ListEmptyComponent={<NotFound />}
             contentContainerStyle={styles.contentContainer}
             renderItem={renderItem}
+            estimatedItemSize={56}
           />
           {songCount > 0 && (
             <Fade style={styles.footer}>

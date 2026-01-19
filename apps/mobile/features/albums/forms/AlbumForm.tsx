@@ -41,8 +41,8 @@ import {
   Select,
   SelectCheckboxItem,
   SelectContent,
-  SelectFlashList,
   SelectItem,
+  SelectLegendList,
   SelectTrigger,
   SelectValue,
   Sheet,
@@ -389,13 +389,20 @@ const AlbumForm = ({
                       <SelectValue placeholder={t("form.labels.artists")} />
                     </SelectTrigger>
                     <SelectContent virtualized>
-                      <SelectFlashList
+                      <SelectLegendList
                         data={artistOptions}
                         keyExtractor={(item) => item.value}
                         contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
                         renderItem={({ item }) => (
-                          <SelectCheckboxItem value={item.value} title={item.label} />
+                          <SelectCheckboxItem
+                            onLayout={(e) =>
+                              console.log("MenuItem height:", e.nativeEvent.layout.height)
+                            }
+                            value={item.value}
+                            title={item.label}
+                          />
                         )}
+                        estimatedItemSize={36}
                         ListEmptyComponent={
                           isArtistsLoading ? (
                             <View style={styles.emptySelect}>

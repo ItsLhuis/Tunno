@@ -21,6 +21,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuLegendList,
   ContextMenuSeparator,
   ContextMenuSub,
   ContextMenuSubContent,
@@ -30,6 +31,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuLegendList,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -135,6 +137,7 @@ const SongActionsContent = memo(
     const MenuSub = variant === "context" ? ContextMenuSub : DropdownMenuSub
     const MenuSubTrigger = variant === "context" ? ContextMenuSubTrigger : DropdownMenuSubTrigger
     const MenuSubContent = variant === "context" ? ContextMenuSubContent : DropdownMenuSubContent
+    const MenuLegendList = variant === "context" ? ContextMenuLegendList : DropdownMenuLegendList
 
     const handlePlaySong = useCallback(async () => {
       if (targetSong) {
@@ -321,18 +324,23 @@ const SongActionsContent = memo(
                   <Icon name="User" size="sm" />
                   <Text size="sm">{t("common.goToArtist")}</Text>
                 </MenuSubTrigger>
-                <MenuSubContent>
-                  {targetSong.artists.map((artist) => (
-                    <MenuItem
-                      key={artist.artistId}
-                      onPress={() => handleGoToArtist(artist.artistId)}
-                    >
-                      <Icon name="User" size="sm" />
-                      <Text size="sm" numberOfLines={1}>
-                        {artist.artist.name}
-                      </Text>
-                    </MenuItem>
-                  ))}
+                <MenuSubContent virtualized>
+                  <MenuLegendList
+                    data={targetSong.artists}
+                    keyExtractor={(item) => item.artistId.toString()}
+                    renderItem={({ item: artist }) => (
+                      <MenuItem
+                        key={artist.artistId}
+                        onPress={() => handleGoToArtist(artist.artistId)}
+                      >
+                        <Icon name="User" size="sm" />
+                        <Text size="sm" numberOfLines={1}>
+                          {artist.artist.name}
+                        </Text>
+                      </MenuItem>
+                    )}
+                    estimatedItemSize={30}
+                  />
                 </MenuSubContent>
               </MenuSub>
             )}

@@ -43,9 +43,9 @@ import {
   Select,
   SelectCheckboxItem,
   SelectContent,
-  SelectFlashList,
   SelectGroupHeader,
   SelectItem,
+  SelectLegendList,
   SelectTrigger,
   SelectValue,
   Sheet,
@@ -487,13 +487,14 @@ const SongForm = ({
                       <SelectValue placeholder={t("form.labels.artists")} />
                     </SelectTrigger>
                     <SelectContent virtualized>
-                      <SelectFlashList
+                      <SelectLegendList
                         data={artistOptions}
                         keyExtractor={(item) => item.value}
                         contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
                         renderItem={({ item }) => (
                           <SelectCheckboxItem value={item.value} title={item.label} />
                         )}
+                        estimatedItemSize={36}
                         ListEmptyComponent={
                           isArtistsLoading ? (
                             <View style={styles.emptySelect}>
@@ -527,7 +528,7 @@ const SongForm = ({
                       <SelectValue placeholder={t("form.labels.album")} />
                     </SelectTrigger>
                     <SelectContent virtualized>
-                      <SelectFlashList
+                      <SelectLegendList
                         data={groupedAlbumOptions}
                         keyExtractor={(item, index) =>
                           item.type === "group" ? `group-${index}` : item.data.value
@@ -542,6 +543,7 @@ const SongForm = ({
                             <SelectItem value={item.data.value} title={item.data.label} />
                           )
                         }
+                        estimatedItemSize={30}
                         ListEmptyComponent={
                           isAlbumsLoading ? (
                             <View style={styles.emptySelect}>
