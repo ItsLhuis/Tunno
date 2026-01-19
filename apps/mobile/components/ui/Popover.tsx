@@ -22,6 +22,7 @@ import { createStyleSheet, useStyles } from "@styles"
 import {
   BottomSheet,
   BottomSheetFlashList,
+  BottomSheetLegendList,
   BottomSheetScrollView,
   BottomSheetView,
   type BottomSheetProps,
@@ -31,6 +32,8 @@ import {
 import { Button, type ButtonProps } from "@components/ui/Button"
 
 import { type FlashListProps } from "@shopify/flash-list"
+
+import { type LegendListProps } from "@legendapp/list"
 
 type PopoverContextValue = {
   open: boolean
@@ -238,6 +241,12 @@ function PopoverFlashList<T>(props: PopoverFlashListProps<T>) {
   return <BottomSheetFlashList<T> {...props} />
 }
 
+export type PopoverLegendListProps<T> = LegendListProps<T>
+
+function PopoverLegendList<T>(props: PopoverLegendListProps<T>) {
+  return <BottomSheetLegendList<T> {...props} />
+}
+
 const popoverStyles = createStyleSheet(({ theme, runtime }) => ({
   view: {
     flex: 1,
@@ -259,6 +268,7 @@ export {
   PopoverClose,
   PopoverContent,
   PopoverFlashList,
+  PopoverLegendList,
   PopoverScrollView,
   PopoverTrigger,
   PopoverView

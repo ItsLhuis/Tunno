@@ -22,6 +22,7 @@ import { createStyleSheet, useStyles } from "@styles"
 import {
   BottomSheet,
   BottomSheetFlashList,
+  BottomSheetLegendList,
   BottomSheetScrollView,
   BottomSheetView,
   type BottomSheetProps,
@@ -32,6 +33,8 @@ import { Button, type ButtonProps } from "@components/ui/Button"
 import { Text, type TextProps } from "@components/ui/Text"
 
 import { type FlashListProps } from "@shopify/flash-list"
+
+import { type LegendListProps } from "@legendapp/list"
 
 type SheetContextValue = {
   open: boolean
@@ -250,6 +253,12 @@ function SheetFlashList<T>(props: SheetFlashListProps<T>) {
   return <BottomSheetFlashList<T> {...props} />
 }
 
+export type SheetLegendListProps<T> = LegendListProps<T>
+
+function SheetLegendList<T>(props: SheetLegendListProps<T>) {
+  return <BottomSheetLegendList<T> {...props} />
+}
+
 const SheetHeader = ({ style, ...props }: ViewProps) => {
   const styles = useStyles(sheetStyles)
 
@@ -305,6 +314,7 @@ export {
   SheetFlashList,
   SheetFooter,
   SheetHeader,
+  SheetLegendList,
   SheetPortal,
   SheetScrollView,
   SheetTitle,

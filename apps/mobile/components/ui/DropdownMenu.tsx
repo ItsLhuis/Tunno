@@ -28,6 +28,8 @@ import Animated, {
 
 import {
   BottomSheet,
+  BottomSheetFlashList,
+  BottomSheetLegendList,
   BottomSheetScrollView,
   type BottomSheetProps,
   type BottomSheetRef,
@@ -38,6 +40,10 @@ import { Icon } from "@components/ui/Icon"
 import { Pressable, type PressableProps } from "@components/ui/Pressable"
 import { Separator } from "@components/ui/Separator"
 import { Text, type TextProps } from "@components/ui/Text"
+
+import { type FlashListProps } from "@shopify/flash-list"
+
+import { type LegendListProps } from "@legendapp/list"
 
 type DropdownMenuContextValue = {
   open: boolean
@@ -288,9 +294,16 @@ const DropdownMenuSubTrigger = ({
   )
 }
 
-export type DropdownMenuSubContentProps = Omit<BottomSheetProps, "ref">
+export type DropdownMenuSubContentProps = Omit<BottomSheetProps, "ref"> & {
+  virtualized?: boolean
+}
 
-const DropdownMenuSubContent = ({ children, onChange, ...props }: DropdownMenuSubContentProps) => {
+const DropdownMenuSubContent = ({
+  children,
+  onChange,
+  virtualized = false,
+  ...props
+}: DropdownMenuSubContentProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
   const subContext = useDropdownMenuSubRequired()
@@ -323,18 +336,31 @@ const DropdownMenuSubContent = ({ children, onChange, ...props }: DropdownMenuSu
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetScrollView contentContainerStyle={styles.content}>
+      {virtualized ? (
         <DropdownMenuContext.Provider value={subContextValue}>
           {children}
         </DropdownMenuContext.Provider>
-      </BottomSheetScrollView>
+      ) : (
+        <BottomSheetScrollView contentContainerStyle={styles.content}>
+          <DropdownMenuContext.Provider value={subContextValue}>
+            {children}
+          </DropdownMenuContext.Provider>
+        </BottomSheetScrollView>
+      )}
     </BottomSheet>
   )
 }
 
-export type DropdownMenuContentProps = Omit<BottomSheetProps, "ref">
+export type DropdownMenuContentProps = Omit<BottomSheetProps, "ref"> & {
+  virtualized?: boolean
+}
 
-const DropdownMenuContent = ({ children, onChange, ...props }: DropdownMenuContentProps) => {
+const DropdownMenuContent = ({
+  children,
+  onChange,
+  virtualized = false,
+  ...props
+}: DropdownMenuContentProps) => {
   const styles = useStyles(dropdownMenuStyles)
 
   const dropdownContext = useDropdownMenuRequired()
@@ -353,11 +379,17 @@ const DropdownMenuContent = ({ children, onChange, ...props }: DropdownMenuConte
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetScrollView contentContainerStyle={styles.content}>
+      {virtualized ? (
         <DropdownMenuContext.Provider value={dropdownContext}>
           {children}
         </DropdownMenuContext.Provider>
-      </BottomSheetScrollView>
+      ) : (
+        <BottomSheetScrollView contentContainerStyle={styles.content}>
+          <DropdownMenuContext.Provider value={dropdownContext}>
+            {children}
+          </DropdownMenuContext.Provider>
+        </BottomSheetScrollView>
+      )}
     </BottomSheet>
   )
 }
@@ -586,6 +618,18 @@ const DropdownMenuShortcut = ({ style, ...props }: DropdownMenuShortcutProps) =>
   return <Text size="xs" color="mutedForeground" style={[styles.shortcut, style]} {...props} />
 }
 
+export type DropdownMenuFlashListProps<T> = FlashListProps<T>
+
+function DropdownMenuFlashList<T>(props: DropdownMenuFlashListProps<T>) {
+  return <BottomSheetFlashList<T> {...props} />
+}
+
+export type DropdownMenuLegendListProps<T> = LegendListProps<T>
+
+function DropdownMenuLegendList<T>(props: DropdownMenuLegendListProps<T>) {
+  return <BottomSheetLegendList<T> {...props} />
+}
+
 const dropdownMenuStyles = createStyleSheet(({ theme, runtime }) => ({
   content: {
     paddingVertical: theme.space(1),
@@ -637,9 +681,11 @@ export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuFlashList,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuLegendList,
   DropdownMenuPortal,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,

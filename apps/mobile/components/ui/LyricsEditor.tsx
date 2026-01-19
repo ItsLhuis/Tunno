@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useState } from "react"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
-import { FlashList, type ListRenderItemInfo } from "@shopify/flash-list"
+import { FlashList } from "@shopify/flash-list"
 
 import { createStyleSheet, useBreakpoints, useStyles, viewStyle } from "@styles"
 
@@ -11,7 +11,7 @@ import { useTranslation } from "@repo/i18n"
 import { formatTime, parseTime } from "@repo/utils"
 
 import { Badge } from "@components/ui/Badge"
-import { BottomSheetFlashList } from "@components/ui/BottomSheet"
+import { BottomSheetLegendList } from "@components/ui/BottomSheet"
 import { IconButton } from "@components/ui/IconButton"
 import { NumberInput } from "@components/ui/NumberInput"
 import { Separator } from "@components/ui/Separator"
@@ -19,8 +19,8 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFlashList,
   SheetHeader,
+  SheetLegendList,
   SheetTitle,
   SheetTrigger
 } from "@components/ui/Sheet"
@@ -194,7 +194,7 @@ const LyricsEditor = ({
   const keyExtractor = useCallback((_: Lyric, index: number) => index.toString(), [])
 
   const renderItem = useCallback(
-    ({ item, index }: ListRenderItemInfo<Lyric>) => (
+    ({ item, index }: { item: Lyric; index: number }) => (
       <LyricLine
         line={item}
         index={index}
@@ -221,7 +221,7 @@ const LyricsEditor = ({
   )
 
   const renderPreviewItem = useCallback(
-    ({ item, index }: ListRenderItemInfo<Lyric>) => (
+    ({ item, index }: { item: Lyric; index: number }) => (
       <View style={styles.previewLine(index)}>
         <Text size="sm" color="mutedForeground" style={styles.previewTime}>
           [{formatTime(item.startTime)}]
@@ -269,12 +269,12 @@ const LyricsEditor = ({
                     <SheetDescription>{t("form.descriptions.lyricsPreview")}</SheetDescription>
                   </SheetHeader>
                   <View style={styles.previewContainer}>
-                    <SheetFlashList
+                    <SheetLegendList
                       data={syncedLines}
                       keyExtractor={keyExtractor}
                       renderItem={renderPreviewItem}
+                      estimatedItemSize={20}
                       ListEmptyComponent={ListEmptyComponent}
-                      showsVerticalScrollIndicator={false}
                       contentContainerStyle={styles.previewList(syncedLines.length === 0)}
                     />
                   </View>
@@ -287,12 +287,12 @@ const LyricsEditor = ({
         <Separator />
         <View style={styles.list}>
           {insideBottomSheet ? (
-            <BottomSheetFlashList
+            <BottomSheetLegendList
               data={syncedLines}
               keyExtractor={keyExtractor}
               renderItem={renderItem}
+              estimatedItemSize={120}
               ListEmptyComponent={ListEmptyComponent}
-              showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.listContent(syncedLines.length === 0)}
               keyboardShouldPersistTaps="handled"
               nestedScrollEnabled

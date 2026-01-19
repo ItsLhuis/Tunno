@@ -35,6 +35,8 @@ import Animated, {
 
 import {
   BottomSheet,
+  BottomSheetFlashList,
+  BottomSheetLegendList,
   BottomSheetScrollView,
   type BottomSheetProps,
   type BottomSheetRef,
@@ -44,6 +46,10 @@ import { Icon } from "@components/ui/Icon"
 import { Pressable, type PressableProps } from "@components/ui/Pressable"
 import { Separator } from "@components/ui/Separator"
 import { Text, type TextProps } from "@components/ui/Text"
+
+import { type FlashListProps } from "@shopify/flash-list"
+
+import { type LegendListProps } from "@legendapp/list"
 
 type ContextMenuContextValue = {
   open: boolean
@@ -292,9 +298,16 @@ const ContextMenuSubTrigger = ({
   )
 }
 
-export type ContextMenuSubContentProps = Omit<BottomSheetProps, "ref">
+export type ContextMenuSubContentProps = Omit<BottomSheetProps, "ref"> & {
+  virtualized?: boolean
+}
 
-const ContextMenuSubContent = ({ children, onChange, ...props }: ContextMenuSubContentProps) => {
+const ContextMenuSubContent = ({
+  children,
+  onChange,
+  virtualized = false,
+  ...props
+}: ContextMenuSubContentProps) => {
   const styles = useStyles(contextMenuStyles)
 
   const subContext = useContextMenuSubRequired()
@@ -327,18 +340,31 @@ const ContextMenuSubContent = ({ children, onChange, ...props }: ContextMenuSubC
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetScrollView contentContainerStyle={styles.content}>
+      {virtualized ? (
         <ContextMenuContext.Provider value={subContextValue}>
           {children}
         </ContextMenuContext.Provider>
-      </BottomSheetScrollView>
+      ) : (
+        <BottomSheetScrollView contentContainerStyle={styles.content}>
+          <ContextMenuContext.Provider value={subContextValue}>
+            {children}
+          </ContextMenuContext.Provider>
+        </BottomSheetScrollView>
+      )}
     </BottomSheet>
   )
 }
 
-export type ContextMenuContentProps = Omit<BottomSheetProps, "ref">
+export type ContextMenuContentProps = Omit<BottomSheetProps, "ref"> & {
+  virtualized?: boolean
+}
 
-const ContextMenuContent = ({ children, onChange, ...props }: ContextMenuContentProps) => {
+const ContextMenuContent = ({
+  children,
+  onChange,
+  virtualized = false,
+  ...props
+}: ContextMenuContentProps) => {
   const styles = useStyles(contextMenuStyles)
 
   const contextMenuContext = useContextMenuRequired()
@@ -357,11 +383,17 @@ const ContextMenuContent = ({ children, onChange, ...props }: ContextMenuContent
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      <BottomSheetScrollView contentContainerStyle={styles.content}>
+      {virtualized ? (
         <ContextMenuContext.Provider value={contextMenuContext}>
           {children}
         </ContextMenuContext.Provider>
-      </BottomSheetScrollView>
+      ) : (
+        <BottomSheetScrollView contentContainerStyle={styles.content}>
+          <ContextMenuContext.Provider value={contextMenuContext}>
+            {children}
+          </ContextMenuContext.Provider>
+        </BottomSheetScrollView>
+      )}
     </BottomSheet>
   )
 }
@@ -590,6 +622,18 @@ const ContextMenuShortcut = ({ style, ...props }: ContextMenuShortcutProps) => {
   return <Text size="xs" color="mutedForeground" style={[styles.shortcut, style]} {...props} />
 }
 
+export type ContextMenuFlashListProps<T> = FlashListProps<T>
+
+function ContextMenuFlashList<T>(props: ContextMenuFlashListProps<T>) {
+  return <BottomSheetFlashList<T> {...props} />
+}
+
+export type ContextMenuLegendListProps<T> = LegendListProps<T>
+
+function ContextMenuLegendList<T>(props: ContextMenuLegendListProps<T>) {
+  return <BottomSheetLegendList<T> {...props} />
+}
+
 const contextMenuStyles = createStyleSheet(({ theme, runtime }) => ({
   content: {
     paddingVertical: theme.space(1),
@@ -641,9 +685,11 @@ export {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
+  ContextMenuFlashList,
   ContextMenuGroup,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuLegendList,
   ContextMenuPortal,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,

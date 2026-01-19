@@ -19,6 +19,8 @@ import {
   useTheme
 } from "@styles"
 
+import { Easing } from "react-native-reanimated"
+
 import {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
@@ -34,7 +36,7 @@ import {
 
 import { FlashList, type FlashListProps } from "@shopify/flash-list"
 
-import { Easing } from "react-native-reanimated"
+import { LegendList, type LegendListProps } from "@legendapp/list"
 
 export type BottomSheetRef = BottomSheetModal
 
@@ -193,9 +195,25 @@ function BottomSheetFlashList<T>(props: FlashListProps<T>) {
   )
 }
 
+function BottomSheetLegendList<T>(props: LegendListProps<T>) {
+  const ScrollComponent = useBottomSheetScrollableCreator()
+
+  return (
+    <LegendList
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      recycleItems
+      {...props}
+      style={[{ height: 0.1 }, props.style]}
+      renderScrollComponent={ScrollComponent}
+    />
+  )
+}
+
 export {
   BottomSheet,
   BottomSheetFlashList,
+  BottomSheetLegendList,
   BottomSheetScrollView,
   BottomSheetView,
   useBottomSheetModal

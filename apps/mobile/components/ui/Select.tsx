@@ -33,6 +33,7 @@ import { Badge } from "@components/ui/Badge"
 import {
   BottomSheet,
   BottomSheetFlashList,
+  BottomSheetLegendList,
   BottomSheetScrollView,
   type BottomSheetProps,
   type BottomSheetRef,
@@ -45,6 +46,8 @@ import { Separator } from "@components/ui/Separator"
 import { Text, type TextProps } from "@components/ui/Text"
 
 import { type FlashListProps } from "@shopify/flash-list"
+
+import { type LegendListProps } from "@legendapp/list"
 
 type SelectContextValue = {
   open: boolean
@@ -554,6 +557,19 @@ function SelectFlashList<T>({ contentContainerStyle, ...props }: SelectFlashList
   )
 }
 
+export type SelectLegendListProps<T> = LegendListProps<T>
+
+function SelectLegendList<T>({ contentContainerStyle, ...props }: SelectLegendListProps<T>) {
+  const styles = useStyles(selectStyles)
+
+  return (
+    <BottomSheetLegendList<T>
+      contentContainerStyle={[styles.content, contentContainerStyle]}
+      {...props}
+    />
+  )
+}
+
 export type SelectSeparatorProps = {
   style?: StyleProp<ViewStyle>
 }
@@ -664,6 +680,7 @@ export {
   SelectGroupHeader,
   SelectItem,
   SelectLabel,
+  SelectLegendList,
   SelectSeparator,
   SelectTrigger,
   SelectValue
