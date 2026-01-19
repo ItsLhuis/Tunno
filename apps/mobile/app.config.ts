@@ -14,7 +14,7 @@ const widgetConfig: WithAndroidWidgetsParams = {
       name: "MiniPlayer",
       label: "Tunno Player",
       description: "Control your music from the home screen",
-      previewImage: "./assets/images/app/icon.png",
+      previewImage: "./assets/images/android/widget-preview.jpg",
       minWidth: "110dp",
       minHeight: "40dp",
       targetCellWidth: 2,
