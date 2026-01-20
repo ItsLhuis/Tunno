@@ -8,7 +8,7 @@ import {
   useState
 } from "react"
 
-import { BackHandler, type StyleProp, type ViewStyle } from "react-native"
+import { BackHandler, type StyleProp, type ViewStyle, StyleSheet } from "react-native"
 
 import {
   createStyleSheet,
@@ -183,6 +183,8 @@ const BottomSheetScrollView = (props: BottomSheetScrollViewProps) => {
 }
 
 function BottomSheetFlashList<T>(props: FlashListProps<T>) {
+  const styles = useStyles(bottomSheetLegendListStyles)
+
   const ScrollComponent = useBottomSheetScrollableCreator()
 
   return (
@@ -190,12 +192,15 @@ function BottomSheetFlashList<T>(props: FlashListProps<T>) {
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       {...props}
+      style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
     />
   )
 }
 
 function BottomSheetLegendList<T>(props: LegendListProps<T>) {
+  const styles = useStyles(bottomSheetLegendListStyles)
+
   const ScrollComponent = useBottomSheetScrollableCreator()
 
   return (
@@ -204,11 +209,18 @@ function BottomSheetLegendList<T>(props: LegendListProps<T>) {
       showsHorizontalScrollIndicator={false}
       recycleItems
       {...props}
-      style={[{ height: 0.1 }, props.style]}
+      style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
     />
   )
 }
+
+const bottomSheetLegendListStyles = createStyleSheet(() => ({
+  container: {
+    flex: 1,
+    height: 0.1
+  }
+}))
 
 export {
   BottomSheet,
