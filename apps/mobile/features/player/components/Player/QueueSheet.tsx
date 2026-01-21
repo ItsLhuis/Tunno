@@ -175,10 +175,7 @@ const QueueSheet = () => {
       const isLastInSection = !nextItem || nextItem.type === "header"
 
       return (
-        <View
-          style={isLastInSection ? undefined : styles.itemContainer}
-          onLayout={(e) => console.log("MenuItem height:", e.nativeEvent.layout.height)}
-        >
+        <View style={isLastInSection ? undefined : styles.itemContainer}>
           <SongItemList song={item.song} queueIndex={item.originalIndex} queuePlayback />
         </View>
       )

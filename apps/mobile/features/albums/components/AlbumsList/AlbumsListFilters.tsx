@@ -95,6 +95,22 @@ const AlbumsListFilters = () => {
                             direction: orderBy?.direction || "desc"
                           })
                         }
+                        getDisplayValue={(value) => {
+                          const values = {
+                            name: t("albums.filters.sortOptions.name"),
+                            isFavorite: t("albums.filters.sortOptions.favorites"),
+                            playCount: t("albums.filters.sortOptions.playCount"),
+                            lastPlayedAt: t("albums.filters.sortOptions.lastPlayed"),
+                            createdAt: t("albums.filters.sortOptions.createdAt"),
+                            updatedAt: t("albums.filters.sortOptions.updatedAt"),
+                            totalTracks: t("albums.filters.sortOptions.totalTracks"),
+                            totalDuration: t("albums.filters.sortOptions.totalDuration"),
+                            releaseYear: t("albums.filters.sortOptions.releaseYear"),
+                            albumType: t("albums.filters.albumType")
+                          }
+
+                          return values[value as keyof typeof values] || value
+                        }}
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -146,6 +162,9 @@ const AlbumsListFilters = () => {
                             direction: direction as "asc" | "desc"
                           })
                         }
+                        getDisplayValue={(value) => (
+                          <Icon name={value === "asc" ? "ArrowUp" : "ArrowDown"} size="sm" />
+                        )}
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -186,6 +205,16 @@ const AlbumsListFilters = () => {
                             : (value as "single" | "album" | "compilation")
                       })
                     }
+                    getDisplayValue={(value) => {
+                      const values = {
+                        all: t("albums.filters.all"),
+                        single: t("albums.filters.single"),
+                        album: t("albums.filters.album"),
+                        compilation: t("albums.filters.compilation")
+                      }
+
+                      return values[value as keyof typeof values] || value
+                    }}
                   >
                     <SelectTrigger>
                       <SelectValue />

@@ -107,6 +107,20 @@ const SongsListFilters = () => {
                             direction: orderBy?.direction || "desc"
                           })
                         }
+                        getDisplayValue={(value) => {
+                          const values = {
+                            name: t("songs.filters.sortOptions.name"),
+                            duration: t("songs.filters.sortOptions.duration"),
+                            isFavorite: t("songs.filters.sortOptions.favorites"),
+                            releaseYear: t("songs.filters.sortOptions.year"),
+                            playCount: t("songs.filters.sortOptions.playCount"),
+                            lastPlayedAt: t("songs.filters.sortOptions.lastPlayed"),
+                            createdAt: t("songs.filters.sortOptions.createdAt"),
+                            updatedAt: t("songs.filters.sortOptions.updatedAt")
+                          }
+
+                          return values[value as keyof typeof values] || value
+                        }}
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -153,6 +167,9 @@ const SongsListFilters = () => {
                             direction: direction as "asc" | "desc"
                           })
                         }
+                        getDisplayValue={(value) => (
+                          <Icon name={value === "asc" ? "ArrowUp" : "ArrowDown"} size="sm" />
+                        )}
                       >
                         <SelectTrigger>
                           <SelectValue />
