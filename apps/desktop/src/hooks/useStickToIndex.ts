@@ -166,12 +166,12 @@ export function useStickToIndex({
 
     if (!container || !enabled) return
 
-    const handleUserScroll = (e: Event) => {
+    const handleUserScroll = (event: Event) => {
       if (isAutoScrollingRef.current) return
 
       if (preventUserScroll) {
-        e.preventDefault()
-        e.stopPropagation()
+        event.preventDefault()
+        event.stopPropagation()
         return
       }
 

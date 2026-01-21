@@ -1,4 +1,4 @@
-import { Fragment } from "react"
+import { Fragment, type ReactNode } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -120,7 +120,7 @@ const SidebarSheet = () => {
   return (
     <SheetContent
       side="left"
-      className="bg-sidebar flex w-[280px] flex-col gap-0 p-0"
+      className="bg-sidebar flex w-70 flex-col gap-0 p-0"
       aria-describedby={undefined}
     >
       <SheetHeader className="p-6">
@@ -143,7 +143,7 @@ const SidebarDesktop = () => {
     <aside className="flex h-full flex-row border-r">
       <ScrollAreaWithHeaders
         containerClassName="bg-sidebar"
-        className="min-w-[250px]"
+        className="min-w-62.5"
         HeaderComponent={() => (
           <Header className="flex items-center gap-3 pb-3">
             <Typography variant="h1" className="truncate">
@@ -166,7 +166,7 @@ const SidebarDesktop = () => {
 }
 
 type SidebarProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const SidebarLayout = ({ children }: SidebarProps) => {

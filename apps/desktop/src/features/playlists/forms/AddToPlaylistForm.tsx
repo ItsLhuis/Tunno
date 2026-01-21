@@ -134,25 +134,16 @@ const AddToPlaylistForm = ({
   } as AddToPlaylistFormRenderProps
 
   const FormContent = (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
-        <FormField
-          control={form.control}
-          name="playlistIds"
-          render={() => (
-            <FormItem>
-              <FormControl>
-                <AsyncState
-                  data={playlists}
-                  isLoading={isPlaylistsLoading}
-                  isError={isPlaylistsError}
-                  EmptyComponent={
-                    <div className="flex h-full items-center justify-center py-8">
-                      <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
-                    </div>
-                  }
-                >
-                  {(data) => (
+    <AsyncState data={playlists} isLoading={isPlaylistsLoading} isError={isPlaylistsError}>
+      {(data) => (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
+            <FormField
+              control={form.control}
+              name="playlistIds"
+              render={() => (
+                <FormItem>
+                  <FormControl>
                     <VirtualizedList
                       data={data}
                       keyExtractor={keyExtractor}
@@ -173,17 +164,17 @@ const AddToPlaylistForm = ({
                         </div>
                       )}
                     />
-                  )}
-                </AsyncState>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <button type="submit" className="hidden" />
-        {children?.(renderProps)}
-      </form>
-    </Form>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <button type="submit" className="hidden" />
+            {children?.(renderProps)}
+          </form>
+        </Form>
+      )}
+    </AsyncState>
   )
 
   if (!asModal) return FormContent

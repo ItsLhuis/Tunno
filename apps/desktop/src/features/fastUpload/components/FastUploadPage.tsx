@@ -6,9 +6,7 @@ import { useFastUploadStore } from "../stores/useFastUploadStore"
 
 import { useStickToIndex } from "@hooks/useStickToIndex"
 
-import { NotFound, Spinner, VirtualizedListWithHeaders } from "@components/ui"
-import { Button } from "@components/ui/Button"
-import { Icon } from "@components/ui/Icon"
+import { IconButton, NotFound, Spinner, VirtualizedListWithHeaders } from "@components/ui"
 import { Fade } from "@components/ui/Fade"
 
 import { FastUploadHeader } from "./FastUploadHeader"
@@ -79,10 +77,7 @@ const FastUploadPage = () => {
         }}
       />
       <Fade show={isProcessing && !isStuck} className="absolute right-6 bottom-6 z-50">
-        <Button variant="secondary" size="sm" onClick={stick} className="shadow-lg">
-          <Icon name="ListEnd" className="mr-2 size-4" />
-          Sync
-        </Button>
+        <IconButton name="ListEnd" variant="outline" className="rounded-full" onClick={stick} />
       </Fade>
     </div>
   )

@@ -105,8 +105,10 @@ const VirtualizedList = <TItem,>({
 
   const containerStyle = useMemo(
     () => ({
-      height: `${totalSize}px`,
+      height: `${totalSize}px` as const,
       position: "relative" as const,
+      willChange: "transform" as const,
+      transform: "translateZ(0)" as const,
       contain: "layout style paint" as const,
       backfaceVisibility: "hidden" as const,
       WebkitBackfaceVisibility: "hidden" as const
@@ -136,7 +138,7 @@ const VirtualizedList = <TItem,>({
 
     let mounted = true
     let retryCount = 0
-    const maxRetries = 5
+    const maxRetries = 3
     let timeoutId: NodeJS.Timeout | null = null
 
     const checkAndMeasure = () => {
@@ -167,7 +169,7 @@ const VirtualizedList = <TItem,>({
 
       if (retryCount < maxRetries) {
         retryCount++
-        const delay = Math.min(50 * retryCount, 200)
+        const delay = Math.min(25 * retryCount, 100)
         timeoutId = setTimeout(checkAndMeasure, delay)
       }
     }
@@ -194,7 +196,10 @@ const VirtualizedList = <TItem,>({
       style={{
         contain: "layout style paint",
         backfaceVisibility: "hidden",
-        WebkitBackfaceVisibility: "hidden"
+        WebkitBackfaceVisibility: "hidden",
+        transform: "translateZ(0)",
+        WebkitOverflowScrolling: "touch",
+        touchAction: "pan-y"
       }}
       {...props}
     >

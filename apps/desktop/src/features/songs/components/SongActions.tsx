@@ -302,7 +302,6 @@ const SongActionsContent = memo(
                       renderItem={({ item: artist }) => (
                         <MenuItem asChild>
                           <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
-                            <Icon name="User" />
                             <Typography className="line-clamp-none truncate">
                               {artist.artist.name}
                             </Typography>

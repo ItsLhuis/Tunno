@@ -78,16 +78,16 @@ export function useZoom() {
   }, [zoomLevel, applyZoom])
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        if (e.key === "=" || e.key === "+") {
-          e.preventDefault()
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey) {
+        if (event.key === "=" || event.key === "+") {
+          event.preventDefault()
           zoomIn()
-        } else if (e.key === "-") {
-          e.preventDefault()
+        } else if (event.key === "-") {
+          event.preventDefault()
           zoomOut()
-        } else if (e.key === "0") {
-          e.preventDefault()
+        } else if (event.key === "0") {
+          event.preventDefault()
           resetZoom()
         }
       }

@@ -17,18 +17,17 @@ const NotFound = ({ className, ...props }: NotFoundProps) => {
   const { t } = useTranslation()
 
   return (
-    <div
-      className={cn("flex size-full flex-col items-center justify-center", className)}
-      {...props}
-    >
-      <Lottie
-        animationData={NotFoundLottie}
-        className="size-60"
-        style={{
-          marginTop: "-90px",
-          marginBottom: "-70px"
-        }}
-      />
+    <div className={cn("relative flex flex-col items-center justify-center", className)} {...props}>
+      <div className="relative -mt-8 -mb-4 size-40 overflow-hidden">
+        <Lottie
+          animationData={NotFoundLottie}
+          className="absolute inset-0 h-full w-full"
+          style={{
+            transform: "scale(1.5)",
+            transformOrigin: "center"
+          }}
+        />
+      </div>
       <Typography affects={"muted"}>{t("common.noResultsFound")}</Typography>
     </div>
   )
