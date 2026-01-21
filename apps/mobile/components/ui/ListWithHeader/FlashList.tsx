@@ -104,7 +104,6 @@ const FlashListWithHeaders = <ItemT extends any = any>({
         showsHorizontalScrollIndicator={false}
         onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
-        keyboardShouldPersistTaps="handled"
         removeClippedSubviews
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel()

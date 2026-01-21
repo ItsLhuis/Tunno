@@ -125,21 +125,24 @@ const AlbumsList = () => {
     []
   )
 
-  const renderItem = useCallback(
+  const renderGridItem = useCallback(
     ({ item, index }: { item: Album; index: number }): ReactElement => {
-      if (viewMode === "grid") {
-        const itemGap = (gap * (numColumns - 1)) / numColumns
-        const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-        const marginRight = itemGap - marginLeft
-        const isLastRow = index >= albums.length - (albums.length % numColumns || numColumns)
+      const itemGap = (gap * (numColumns - 1)) / numColumns
+      const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
+      const marginRight = itemGap - marginLeft
+      const isLastRow = index >= albums.length - (albums.length % numColumns || numColumns)
 
-        return (
-          <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-            <AlbumItemCard album={item} />
-          </View>
-        )
-      }
+      return (
+        <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+          <AlbumItemCard album={item} />
+        </View>
+      )
+    },
+    [numColumns, albums.length]
+  )
 
+  const renderListItem = useCallback(
+    ({ item, index }: { item: Album; index: number }): ReactElement => {
       const isLastItem = index === albums.length - 1
 
       return (
@@ -148,8 +151,21 @@ const AlbumsList = () => {
         </View>
       )
     },
-    [viewMode, numColumns, albums.length, gap, styles]
+    [albums.length]
   )
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: Album; index: number }): ReactElement => {
+      if (viewMode === "grid") {
+        return renderGridItem({ item, index })
+      }
+
+      return renderListItem({ item, index })
+    },
+    [viewMode]
+  )
+
+  const getItemType = useCallback(() => (viewMode === "grid" ? "grid" : "list"), [viewMode])
 
   return (
     <Fragment>
@@ -168,6 +184,7 @@ const AlbumsList = () => {
         contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
         renderItem={renderItem}
+        getItemType={getItemType}
       />
       <KeyboardSpacer />
     </Fragment>

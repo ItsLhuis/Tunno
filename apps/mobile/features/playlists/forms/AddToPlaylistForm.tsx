@@ -27,7 +27,6 @@ import {
   FormItem,
   FormMessage,
   KeyboardSpacer,
-  NotFound,
   Separator,
   Sheet,
   SheetContent,
@@ -183,18 +182,6 @@ const AddToPlaylistForm = ({
     [selectedIds, handleToggle, playlists?.length, styles]
   )
 
-  const ListEmptyComponent = useCallback(
-    () =>
-      isPlaylistsLoading ? (
-        <View style={styles.emptyContainer}>
-          <Spinner />
-        </View>
-      ) : (
-        <NotFound />
-      ),
-    [isPlaylistsLoading, styles]
-  )
-
   const FormContent = (
     <AsyncState
       data={playlists}
@@ -223,20 +210,15 @@ const AddToPlaylistForm = ({
                           keyExtractor={keyExtractor}
                           renderItem={renderItem}
                           estimatedItemSize={75}
-                          ListEmptyComponent={ListEmptyComponent}
-                          showsVerticalScrollIndicator={false}
                           contentContainerStyle={styles.listContent(data.length === 0)}
-                          keyboardShouldPersistTaps="handled"
                         />
                       ) : (
                         <FlashList
                           data={data}
                           keyExtractor={keyExtractor}
                           renderItem={renderItem}
-                          ListEmptyComponent={ListEmptyComponent}
                           showsVerticalScrollIndicator={false}
                           contentContainerStyle={styles.listContent(data.length === 0)}
-                          keyboardShouldPersistTaps="handled"
                         />
                       )}
                     </View>
@@ -315,12 +297,6 @@ const addToPlaylistFormStyles = createStyleSheet(({ theme, runtime }) => ({
     alignItems: "center",
     justifyContent: "center",
     padding: theme.space(8)
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: theme.space("lg")
   }
 }))
 

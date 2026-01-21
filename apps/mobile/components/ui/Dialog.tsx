@@ -10,7 +10,8 @@ import {
   useMemo,
   useState,
   type ReactElement,
-  type ReactNode
+  type ReactNode,
+  type Ref
 } from "react"
 
 import {
@@ -69,7 +70,7 @@ function useDialogRequired() {
 }
 
 export type DialogProps = {
-  ref?: React.Ref<DialogRef>
+  ref?: Ref<DialogRef>
   open?: boolean
   onOpenChange?: (open: boolean) => void
   inheritPalette?: boolean
@@ -125,7 +126,7 @@ const Dialog = ({
 }
 
 type DialogTriggerRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type DialogTriggerProps = ButtonProps & {
@@ -166,7 +167,7 @@ const DialogPortal = ({ children }: { children: ReactNode }) => {
 }
 
 type DialogCloseRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type DialogCloseProps = ButtonProps & {

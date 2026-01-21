@@ -104,7 +104,6 @@ const LegendListWithHeaders = <ItemT extends any = any>({
         showsHorizontalScrollIndicator={false}
         onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
-        keyboardShouldPersistTaps="handled"
         recycleItems
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel()

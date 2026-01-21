@@ -7,12 +7,12 @@ import {
   useContext,
   useEffect,
   useImperativeHandle,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type ReactElement,
   type ReactNode,
+  type Ref,
   type RefObject
 } from "react"
 
@@ -58,8 +58,6 @@ type SelectContextValue = {
   maxCount: number
   isSelected: (value: string) => boolean
   toggleValue: (value: string, closeOnSelect?: boolean) => void
-  displayValues: Map<string, ReactNode>
-  registerDisplayValue: (value: string, display: ReactNode) => void
   getDisplayValue?: (value: string) => ReactNode | undefined
 }
 
@@ -98,7 +96,7 @@ export type SelectProps = (SelectSingleProps | SelectMultipleProps) & {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
-  ref?: React.Ref<BottomSheetRef>
+  ref?: Ref<BottomSheetRef>
   getDisplayValue?: (value: string) => ReactNode | undefined
 }
 
@@ -116,13 +114,19 @@ const Select = (props: SelectProps) => {
   const [internalValue, setInternalValue] = useState<string | string[] | undefined>(
     props.defaultValue
   )
-  const [displayValues, setDisplayValues] = useState<Map<string, ReactNode>>(() => new Map())
 
   const isOpenControlled = controlledOpen !== undefined
   const isValueControlled = props.value !== undefined
 
   const open = isOpenControlled ? controlledOpen : internalOpen
   const value = isValueControlled ? props.value : internalValue
+
+  const selectedSet = useMemo(() => {
+    if (multiple && Array.isArray(value)) {
+      return new Set(value)
+    }
+    return new Set(value ? [value] : [])
+  }, [multiple, value])
 
   const handleOpenChange = useCallback(
     (isOpen: boolean) => {
@@ -136,12 +140,9 @@ const Select = (props: SelectProps) => {
 
   const isSelected = useCallback(
     (itemValue: string): boolean => {
-      if (multiple) {
-        return Array.isArray(value) && value.includes(itemValue)
-      }
-      return value === itemValue
+      return selectedSet.has(itemValue)
     },
-    [multiple, value]
+    [selectedSet]
   )
 
   const toggleValue = useCallback(
@@ -170,15 +171,6 @@ const Select = (props: SelectProps) => {
     [multiple, value, isValueControlled, props, handleOpenChange]
   )
 
-  const registerDisplayValue = useCallback((itemValue: string, display: ReactNode) => {
-    setDisplayValues((prev) => {
-      if (prev.get(itemValue) === display) return prev
-      const next = new Map(prev)
-      next.set(itemValue, display)
-      return next
-    })
-  }, [])
-
   useEffect(() => {
     if (open) {
       internalSheetRef.current?.present()
@@ -197,22 +189,9 @@ const Select = (props: SelectProps) => {
       maxCount,
       isSelected,
       toggleValue,
-      displayValues,
-      registerDisplayValue,
       getDisplayValue
     }),
-    [
-      open,
-      handleOpenChange,
-      multiple,
-      value,
-      maxCount,
-      isSelected,
-      toggleValue,
-      displayValues,
-      registerDisplayValue,
-      getDisplayValue
-    ]
+    [open, handleOpenChange, multiple, value, maxCount, isSelected, toggleValue, getDisplayValue]
   )
 
   return <SelectContext.Provider value={contextValue}>{children}</SelectContext.Provider>
@@ -242,7 +221,6 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
   const multiple = selectContext?.multiple
   const value = selectContext?.value
   const maxCount = selectContext?.maxCount ?? 3
-  const displayValues = selectContext?.displayValues
   const getDisplayValue = selectContext?.getDisplayValue
 
   if (multiple && Array.isArray(value) && value.length > 0) {
@@ -252,7 +230,7 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
     return (
       <View style={[styles.valueBadges, style]}>
         {visibleValues.map((val) => {
-          const displayContent = displayValues?.get(val) ?? getDisplayValue?.(val)
+          const displayContent = getDisplayValue?.(val)
           const title = typeof displayContent === "string" ? displayContent : val
 
           return (
@@ -277,9 +255,7 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
   }
 
   const singleDisplayValue =
-    !multiple && typeof value === "string"
-      ? (displayValues?.get(value) ?? getDisplayValue?.(value))
-      : undefined
+    !multiple && typeof value === "string" ? getDisplayValue?.(value) : undefined
   const displayContent = singleDisplayValue ?? placeholder
   const isTextContent = typeof displayContent === "string"
 
@@ -299,7 +275,7 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
 }
 
 type SelectTriggerRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type SelectTriggerProps = Omit<PressableProps, "children"> & {
@@ -351,12 +327,12 @@ const SelectTrigger = ({
   )
 }
 
-export type SelectContentProps = Omit<BottomSheetProps, "ref"> & { virtualized?: boolean }
+export type SelectContentProps = Omit<BottomSheetProps, "ref"> & { scrollable?: boolean }
 
 const SelectContent = ({
   children,
   onChange,
-  virtualized = false,
+  scrollable = false,
   ...props
 }: SelectContentProps) => {
   const styles = useStyles(selectStyles)
@@ -374,22 +350,15 @@ const SelectContent = ({
   )
 
   return (
-    <Fragment>
-      {!virtualized && (
-        <View style={styles.hiddenRegistration}>
+    <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
+      {scrollable ? (
+        <SelectContext.Provider value={selectContext}>{children}</SelectContext.Provider>
+      ) : (
+        <BottomSheetScrollView contentContainerStyle={styles.content}>
           <SelectContext.Provider value={selectContext}>{children}</SelectContext.Provider>
-        </View>
+        </BottomSheetScrollView>
       )}
-      <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-        {virtualized ? (
-          <SelectContext.Provider value={selectContext}>{children}</SelectContext.Provider>
-        ) : (
-          <BottomSheetScrollView contentContainerStyle={styles.content}>
-            <SelectContext.Provider value={selectContext}>{children}</SelectContext.Provider>
-          </BottomSheetScrollView>
-        )}
-      </BottomSheet>
-    </Fragment>
+    </BottomSheet>
   )
 }
 
@@ -431,10 +400,6 @@ const SelectItem = ({
   useEffect(() => {
     progress.value = withTiming(isSelected ? 1 : 0, { duration: durationTokens[150] })
   }, [isSelected, progress])
-
-  useLayoutEffect(() => {
-    if (displayContent !== undefined) selectContext?.registerDisplayValue(value, displayContent)
-  }, [displayContent, value, selectContext])
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
@@ -489,10 +454,6 @@ const SelectCheckboxItem = ({
 
   const displayContent = children ?? title
 
-  useLayoutEffect(() => {
-    if (displayContent !== undefined) selectContext?.registerDisplayValue(value, displayContent)
-  }, [displayContent, value, selectContext])
-
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       selectContext?.toggleValue(value, false)
@@ -508,7 +469,11 @@ const SelectCheckboxItem = ({
       disabled={disabled}
       {...props}
     >
-      <Checkbox checked={isSelected} disabled={disabled ?? undefined} />
+      <Checkbox
+        checked={isSelected}
+        disabled={disabled ?? undefined}
+        onCheckedChange={() => selectContext?.toggleValue(value, false)}
+      />
       <View style={styles.checkboxItemContent}>
         {typeof displayContent === "string" ? (
           <Text size="sm">{displayContent}</Text>
@@ -552,6 +517,7 @@ function SelectFlashList<T>({ contentContainerStyle, ...props }: SelectFlashList
   return (
     <BottomSheetFlashList<T>
       contentContainerStyle={[styles.content, contentContainerStyle]}
+      removeClippedSubviews
       {...props}
     />
   )
@@ -581,13 +547,6 @@ const SelectSeparator = ({ style }: SelectSeparatorProps) => {
 }
 
 const selectStyles = createStyleSheet(({ theme, runtime }) => ({
-  hiddenRegistration: {
-    position: "absolute",
-    opacity: 0,
-    pointerEvents: "none",
-    height: 0,
-    overflow: "hidden"
-  },
   trigger: createVariant({
     base: {
       flexDirection: "row",

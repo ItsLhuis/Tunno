@@ -12,6 +12,7 @@ import {
   useState,
   type ReactElement,
   type ReactNode,
+  type Ref,
   type RefObject
 } from "react"
 
@@ -83,7 +84,7 @@ export type DropdownMenuProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
-  ref?: React.Ref<BottomSheetRef>
+  ref?: Ref<BottomSheetRef>
 }
 
 const DropdownMenu = ({ open: controlledOpen, onOpenChange, children, ref }: DropdownMenuProps) => {
@@ -132,7 +133,7 @@ const DropdownMenu = ({ open: controlledOpen, onOpenChange, children, ref }: Dro
 }
 
 type DropdownMenuTriggerRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type DropdownMenuTriggerProps = ButtonProps & {
@@ -295,13 +296,13 @@ const DropdownMenuSubTrigger = ({
 }
 
 export type DropdownMenuSubContentProps = Omit<BottomSheetProps, "ref"> & {
-  virtualized?: boolean
+  scrollable?: boolean
 }
 
 const DropdownMenuSubContent = ({
   children,
   onChange,
-  virtualized = false,
+  scrollable = false,
   ...props
 }: DropdownMenuSubContentProps) => {
   const styles = useStyles(dropdownMenuStyles)
@@ -336,7 +337,7 @@ const DropdownMenuSubContent = ({
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      {virtualized ? (
+      {scrollable ? (
         <DropdownMenuContext.Provider value={subContextValue}>
           {children}
         </DropdownMenuContext.Provider>
@@ -352,13 +353,13 @@ const DropdownMenuSubContent = ({
 }
 
 export type DropdownMenuContentProps = Omit<BottomSheetProps, "ref"> & {
-  virtualized?: boolean
+  scrollable?: boolean
 }
 
 const DropdownMenuContent = ({
   children,
   onChange,
-  virtualized = false,
+  scrollable = false,
   ...props
 }: DropdownMenuContentProps) => {
   const styles = useStyles(dropdownMenuStyles)
@@ -379,7 +380,7 @@ const DropdownMenuContent = ({
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      {virtualized ? (
+      {scrollable ? (
         <DropdownMenuContext.Provider value={dropdownContext}>
           {children}
         </DropdownMenuContext.Provider>

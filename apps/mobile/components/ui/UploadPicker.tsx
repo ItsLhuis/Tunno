@@ -41,7 +41,7 @@ type FolderItem = {
 }
 
 export type UploadPickerTriggerProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
   disabled: boolean
   isLoading: boolean
 }

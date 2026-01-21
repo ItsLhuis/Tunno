@@ -226,6 +226,20 @@ const SongActionsContent = memo(
       }
     }, [targetSong, onOpenDialog])
 
+    const artistKeyExtractor = useCallback(
+      (item: NonNullable<typeof targetSong>["artists"][0]) => item.artistId.toString(),
+      []
+    )
+
+    const artistGetFixedItemSize = useCallback(() => 30, [])
+
+    const renderArtistItem = useCallback(
+      ({ item: artist }: { item: NonNullable<typeof targetSong>["artists"][0] }) => (
+        <MenuItem title={artist.artist.name} onPress={() => handleGoToArtist(artist.artistId)} />
+      ),
+      []
+    )
+
     const isCurrentlyPlaying = targetSong
       ? currentTrack?.id === targetSong.id && playbackState === State.Playing
       : false
@@ -324,22 +338,13 @@ const SongActionsContent = memo(
                   <Icon name="User" size="sm" />
                   <Text size="sm">{t("common.goToArtist")}</Text>
                 </MenuSubTrigger>
-                <MenuSubContent virtualized>
+                <MenuSubContent scrollable>
                   <MenuLegendList
                     data={targetSong.artists}
-                    keyExtractor={(item) => item.artistId.toString()}
-                    renderItem={({ item: artist }) => (
-                      <MenuItem
-                        key={artist.artistId}
-                        onPress={() => handleGoToArtist(artist.artistId)}
-                      >
-                        <Icon name="User" size="sm" />
-                        <Text size="sm" numberOfLines={1}>
-                          {artist.artist.name}
-                        </Text>
-                      </MenuItem>
-                    )}
+                    keyExtractor={artistKeyExtractor}
+                    renderItem={renderArtistItem}
                     estimatedItemSize={30}
+                    getFixedItemSize={artistGetFixedItemSize}
                   />
                 </MenuSubContent>
               </MenuSub>

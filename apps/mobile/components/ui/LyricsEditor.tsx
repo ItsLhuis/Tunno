@@ -2,13 +2,13 @@ import { memo, useCallback, useEffect, useState } from "react"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
-import { FlashList } from "@shopify/flash-list"
-
 import { createStyleSheet, useBreakpoints, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
 import { formatTime, parseTime } from "@repo/utils"
+
+import { FlashList } from "@shopify/flash-list"
 
 import { Badge } from "@components/ui/Badge"
 import { BottomSheetLegendList } from "@components/ui/BottomSheet"
@@ -26,7 +26,7 @@ import {
 } from "@components/ui/Sheet"
 import { Text } from "@components/ui/Text"
 import { TextInput } from "@components/ui/TextInput"
-import { NotFound } from "./NotFound"
+import { NotFound } from "@components/ui/NotFound"
 
 export type Lyric = {
   text: string
@@ -294,7 +294,6 @@ const LyricsEditor = ({
               estimatedItemSize={120}
               ListEmptyComponent={ListEmptyComponent}
               contentContainerStyle={styles.listContent(syncedLines.length === 0)}
-              keyboardShouldPersistTaps="handled"
               nestedScrollEnabled
             />
           ) : (
@@ -305,7 +304,6 @@ const LyricsEditor = ({
               ListEmptyComponent={ListEmptyComponent}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.listContent(syncedLines.length === 0)}
-              keyboardShouldPersistTaps="handled"
               nestedScrollEnabled
             />
           )}

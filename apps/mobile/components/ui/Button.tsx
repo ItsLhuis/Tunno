@@ -1,4 +1,4 @@
-import React, { Fragment, type ReactNode } from "react"
+import React, { Fragment, type ComponentProps, type ReactNode } from "react"
 
 import { View, type StyleProp, type ViewStyle } from "react-native"
 
@@ -102,7 +102,7 @@ export type AnimatedButtonProps = Omit<PressableProps, "style" | "children"> &
     disabled?: boolean
     containerStyle?: StyleProp<ViewStyle>
     style?: StyleProp<ViewStyle>
-    titleProps?: Omit<React.ComponentProps<typeof Animated.Text>, "style">
+    titleProps?: Omit<ComponentProps<typeof Animated.Text>, "style">
   }
 
 const AnimatedButton = ({

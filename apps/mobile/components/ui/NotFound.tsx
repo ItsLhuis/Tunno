@@ -21,7 +21,9 @@ const NotFound = ({ style, message }: NotFoundProps) => {
 
   return (
     <View style={[styles.container, style]} pointerEvents="none">
-      <LottieView source={NotFoundLottie} autoPlay loop style={styles.lottie} />
+      <View style={styles.lottieContainer}>
+        <LottieView source={NotFoundLottie} autoPlay loop style={styles.lottie} />
+      </View>
       <Text color="mutedForeground" size="sm">
         {message ?? t("common.noResultsFound")}
       </Text>
@@ -32,14 +34,27 @@ const NotFound = ({ style, message }: NotFoundProps) => {
 const notFoundStyles = createStyleSheet(() => ({
   container: {
     flex: 1,
+    position: "relative",
     alignItems: "center",
     justifyContent: "center"
   },
+  lottieContainer: {
+    position: "relative",
+    width: 160,
+    height: 160,
+    overflow: "hidden",
+    marginTop: -32,
+    marginBottom: -16
+  },
   lottie: {
-    width: 240,
-    height: 240,
-    marginTop: -90,
-    marginBottom: -70
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    transform: [{ scale: 1.5 }]
   }
 }))
 

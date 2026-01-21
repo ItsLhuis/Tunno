@@ -125,21 +125,24 @@ const ArtistsList = () => {
     []
   )
 
-  const renderItem = useCallback(
+  const renderGridItem = useCallback(
     ({ item, index }: { item: Artist; index: number }): ReactElement => {
-      if (viewMode === "grid") {
-        const itemGap = (gap * (numColumns - 1)) / numColumns
-        const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-        const marginRight = itemGap - marginLeft
-        const isLastRow = index >= artists.length - (artists.length % numColumns || numColumns)
+      const itemGap = (gap * (numColumns - 1)) / numColumns
+      const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
+      const marginRight = itemGap - marginLeft
+      const isLastRow = index >= artists.length - (artists.length % numColumns || numColumns)
 
-        return (
-          <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-            <ArtistItemCard artist={item} />
-          </View>
-        )
-      }
+      return (
+        <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+          <ArtistItemCard artist={item} />
+        </View>
+      )
+    },
+    [numColumns, artists.length]
+  )
 
+  const renderListItem = useCallback(
+    ({ item, index }: { item: Artist; index: number }): ReactElement => {
       const isLastItem = index === artists.length - 1
 
       return (
@@ -148,8 +151,21 @@ const ArtistsList = () => {
         </View>
       )
     },
-    [viewMode, numColumns, artists.length, gap, styles]
+    [artists.length]
   )
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: Artist; index: number }): ReactElement => {
+      if (viewMode === "grid") {
+        return renderGridItem({ item, index })
+      }
+
+      return renderListItem({ item, index })
+    },
+    [viewMode]
+  )
+
+  const getItemType = useCallback(() => (viewMode === "grid" ? "grid" : "list"), [viewMode])
 
   return (
     <Fragment>
@@ -168,6 +184,7 @@ const ArtistsList = () => {
         contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
         renderItem={renderItem}
+        getItemType={getItemType}
       />
       <KeyboardSpacer />
     </Fragment>

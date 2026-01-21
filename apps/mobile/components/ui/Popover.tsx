@@ -12,6 +12,7 @@ import {
   useState,
   type ReactElement,
   type ReactNode,
+  type Ref,
   type RefObject
 } from "react"
 
@@ -61,7 +62,7 @@ export type PopoverProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
-  ref?: React.Ref<BottomSheetRef>
+  ref?: Ref<BottomSheetRef>
 }
 
 const Popover = ({ open: controlledOpen, onOpenChange, children, ref }: PopoverProps) => {
@@ -105,7 +106,7 @@ const Popover = ({ open: controlledOpen, onOpenChange, children, ref }: PopoverP
 }
 
 type PopoverTriggerRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type PopoverTriggerProps = ButtonProps & {
@@ -146,7 +147,7 @@ const PopoverAnchor = ({ children }: { children: ReactNode }) => {
 }
 
 type PopoverCloseRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type PopoverCloseProps = ButtonProps & {

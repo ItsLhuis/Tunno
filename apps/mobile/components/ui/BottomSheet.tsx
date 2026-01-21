@@ -8,7 +8,7 @@ import {
   useState
 } from "react"
 
-import { BackHandler, type StyleProp, type ViewStyle, StyleSheet } from "react-native"
+import { BackHandler, type StyleProp, StyleSheet, type ViewStyle } from "react-native"
 
 import {
   createStyleSheet,

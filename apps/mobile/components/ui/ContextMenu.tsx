@@ -12,6 +12,7 @@ import {
   useState,
   type ReactElement,
   type ReactNode,
+  type Ref,
   type RefObject
 } from "react"
 
@@ -89,7 +90,7 @@ export type ContextMenuProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
-  ref?: React.Ref<BottomSheetRef>
+  ref?: Ref<BottomSheetRef>
 }
 
 const ContextMenu = ({ open: controlledOpen, onOpenChange, children, ref }: ContextMenuProps) => {
@@ -138,7 +139,7 @@ const ContextMenu = ({ open: controlledOpen, onOpenChange, children, ref }: Cont
 }
 
 type ContextMenuTriggerRenderProps = {
-  onLongPress: (e: GestureResponderEvent) => void
+  onLongPress: (event: GestureResponderEvent) => void
 }
 
 export type ContextMenuTriggerProps = Omit<RNPressableProps, "onLongPress" | "children"> & {
@@ -299,13 +300,13 @@ const ContextMenuSubTrigger = ({
 }
 
 export type ContextMenuSubContentProps = Omit<BottomSheetProps, "ref"> & {
-  virtualized?: boolean
+  scrollable?: boolean
 }
 
 const ContextMenuSubContent = ({
   children,
   onChange,
-  virtualized = false,
+  scrollable = false,
   ...props
 }: ContextMenuSubContentProps) => {
   const styles = useStyles(contextMenuStyles)
@@ -340,7 +341,7 @@ const ContextMenuSubContent = ({
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      {virtualized ? (
+      {scrollable ? (
         <ContextMenuContext.Provider value={subContextValue}>
           {children}
         </ContextMenuContext.Provider>
@@ -356,13 +357,13 @@ const ContextMenuSubContent = ({
 }
 
 export type ContextMenuContentProps = Omit<BottomSheetProps, "ref"> & {
-  virtualized?: boolean
+  scrollable?: boolean
 }
 
 const ContextMenuContent = ({
   children,
   onChange,
-  virtualized = false,
+  scrollable = false,
   ...props
 }: ContextMenuContentProps) => {
   const styles = useStyles(contextMenuStyles)
@@ -383,7 +384,7 @@ const ContextMenuContent = ({
 
   return (
     <BottomSheet ref={sheetRef} onChange={handleChange} {...props}>
-      {virtualized ? (
+      {scrollable ? (
         <ContextMenuContext.Provider value={contextMenuContext}>
           {children}
         </ContextMenuContext.Provider>

@@ -126,21 +126,24 @@ const SongsList = () => {
     []
   )
 
-  const renderItem = useCallback(
+  const renderGridItem = useCallback(
     ({ item, index }: { item: SongWithMainRelations; index: number }): ReactElement => {
-      if (viewMode === "grid") {
-        const itemGap = (gap * (numColumns - 1)) / numColumns
-        const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-        const marginRight = itemGap - marginLeft
-        const isLastRow = index >= songs.length - (songs.length % numColumns || numColumns)
+      const itemGap = (gap * (numColumns - 1)) / numColumns
+      const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
+      const marginRight = itemGap - marginLeft
+      const isLastRow = index >= songs.length - (songs.length % numColumns || numColumns)
 
-        return (
-          <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-            <SongItemCard song={item} allSongIds={songIds} />
-          </View>
-        )
-      }
+      return (
+        <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+          <SongItemCard song={item} allSongIds={songIds} />
+        </View>
+      )
+    },
+    [numColumns, songs.length, songIds]
+  )
 
+  const renderListItem = useCallback(
+    ({ item, index }: { item: SongWithMainRelations; index: number }): ReactElement => {
       const isLastItem = index === songs.length - 1
 
       return (
@@ -149,8 +152,21 @@ const SongsList = () => {
         </View>
       )
     },
-    [viewMode, numColumns, songs.length, gap, styles, songIds]
+    [songs.length, songIds]
   )
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: SongWithMainRelations; index: number }): ReactElement => {
+      if (viewMode === "grid") {
+        return renderGridItem({ item, index })
+      }
+
+      return renderListItem({ item, index })
+    },
+    [viewMode]
+  )
+
+  const getItemType = useCallback(() => (viewMode === "grid" ? "grid" : "list"), [viewMode])
 
   return (
     <Fragment>
@@ -169,6 +185,7 @@ const SongsList = () => {
         contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
         renderItem={renderItem}
+        getItemType={getItemType}
       />
       <KeyboardSpacer />
     </Fragment>

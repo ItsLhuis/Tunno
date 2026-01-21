@@ -21,6 +21,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuLegendList,
   ContextMenuSeparator,
   ContextMenuSub,
   ContextMenuSubContent,
@@ -30,6 +31,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuLegendList,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -120,6 +122,7 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
   const MenuSub = variant === "context" ? ContextMenuSub : DropdownMenuSub
   const MenuSubTrigger = variant === "context" ? ContextMenuSubTrigger : DropdownMenuSubTrigger
   const MenuSubContent = variant === "context" ? ContextMenuSubContent : DropdownMenuSubContent
+  const MenuLegendList = variant === "context" ? ContextMenuLegendList : DropdownMenuLegendList
 
   const handlePlayAlbum = useCallback(async () => {
     if (albumSongs.length > 0) {
@@ -189,6 +192,20 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
       onOpenDialog("delete", targetAlbum, [])
     }
   }, [targetAlbum, onOpenDialog])
+
+  const artistKeyExtractor = useCallback(
+    (item: NonNullable<typeof targetAlbum>["artists"][0]) => item.artistId.toString(),
+    []
+  )
+
+  const artistGetFixedItemSize = useCallback(() => 30, [])
+
+  const renderArtistItem = useCallback(
+    ({ item: artist }: { item: NonNullable<typeof targetAlbum>["artists"][0] }) => (
+      <MenuItem title={artist.artist.name} onPress={() => handleGoToArtist(artist.artistId)} />
+    ),
+    [handleGoToArtist]
+  )
 
   if (shouldFetchAlbum && isPending) {
     return <Spinner />
@@ -280,15 +297,14 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
                 <Icon name="User" size="sm" />
                 <Text size="sm">{t("common.goToArtist")}</Text>
               </MenuSubTrigger>
-              <MenuSubContent>
-                {targetAlbum.artists.map((artist) => (
-                  <MenuItem key={artist.artistId} onPress={() => handleGoToArtist(artist.artistId)}>
-                    <Icon name="User" size="sm" />
-                    <Text size="sm" numberOfLines={1}>
-                      {artist.artist.name}
-                    </Text>
-                  </MenuItem>
-                ))}
+              <MenuSubContent scrollable>
+                <MenuLegendList
+                  data={targetAlbum.artists}
+                  keyExtractor={artistKeyExtractor}
+                  renderItem={renderArtistItem}
+                  estimatedItemSize={30}
+                  getFixedItemSize={artistGetFixedItemSize}
+                />
               </MenuSubContent>
             </MenuSub>
           )}

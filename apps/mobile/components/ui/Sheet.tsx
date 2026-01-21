@@ -12,6 +12,7 @@ import {
   useState,
   type ReactElement,
   type ReactNode,
+  type Ref,
   type RefObject
 } from "react"
 
@@ -61,7 +62,7 @@ export type SheetProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: ReactNode
-  ref?: React.Ref<BottomSheetRef>
+  ref?: Ref<BottomSheetRef>
 }
 
 const Sheet = ({ open: controlledOpen, onOpenChange, children, ref }: SheetProps) => {
@@ -104,7 +105,7 @@ const Sheet = ({ open: controlledOpen, onOpenChange, children, ref }: SheetProps
 }
 
 type SheetTriggerRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type SheetTriggerProps = ButtonProps & {
@@ -145,7 +146,7 @@ const SheetPortal = ({ children }: { children: ReactNode }) => {
 }
 
 type SheetCloseRenderProps = {
-  onPress: (e: GestureResponderEvent) => void
+  onPress: (event: GestureResponderEvent) => void
 }
 
 export type SheetCloseProps = ButtonProps & {

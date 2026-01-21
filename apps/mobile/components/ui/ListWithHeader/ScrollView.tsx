@@ -102,7 +102,6 @@ const ScrollViewWithHeaders = ({
         showsHorizontalScrollIndicator={false}
         onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
-        keyboardShouldPersistTaps="handled"
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel()
           if (onScrollBeginDrag) onScrollBeginDrag(e)

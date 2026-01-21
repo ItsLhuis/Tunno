@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { View } from "react-native"
 
@@ -130,6 +130,10 @@ const SongForm = ({
     isError: isSongError
   } = useFetchSongByIdWithMainRelations(mode === "update" ? songId : null)
 
+  const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
+    orderBy: { column: "name", direction: "asc" }
+  })
+
   const createMutation = useInsertSong()
   const updateMutation = useUpdateSong()
 
@@ -155,100 +159,12 @@ const SongForm = ({
 
   const selectedArtistIds = form.watch("artists")
 
-  const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
-    orderBy: { column: "name", direction: "asc" }
-  })
-
   const { data: albumsData, isLoading: isAlbumsLoading } = useFetchAlbumsByArtistsWithArtists(
     selectedArtistIds?.length ? selectedArtistIds : [],
     {
       orderBy: { column: "name", direction: "asc" }
     }
   )
-
-  useEffect(() => {
-    if (mode === "insert") {
-      hasResetFormRef.current = false
-    }
-  }, [mode])
-
-  useEffect(() => {
-    if (
-      !isSongLoading &&
-      !isAlbumsLoading &&
-      song &&
-      mode === "update" &&
-      !hasResetFormRef.current
-    ) {
-      form.reset({
-        name: song.name,
-        thumbnail: song.thumbnail ?? null,
-        duration: song.duration,
-        file: song.file,
-        isFavorite: song.isFavorite,
-        releaseYear: song.releaseYear ?? null,
-        albumId: song.albumId ?? null,
-        artists: song.artists?.map((a) => a.artistId) ?? [],
-        lyrics: song.lyrics ?? null
-      })
-      hasResetFormRef.current = true
-      hasLoadedInitialDataRef.current = true
-    }
-  }, [isSongLoading, isAlbumsLoading, song, mode, form])
-
-  useEffect(() => {
-    if (
-      form.formState.isSubmitted &&
-      form.formState.isSubmitSuccessful &&
-      form.formState.isValid &&
-      mode === "insert"
-    ) {
-      form.reset()
-    }
-  }, [form.formState.isSubmitted, form.formState.isSubmitSuccessful, form.formState.isValid, mode])
-
-  useEffect(() => {
-    if (!isOpen && asSheet && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
-      form.reset()
-      hasResetFormRef.current = false
-      hasLoadedInitialDataRef.current = false
-    }
-  }, [isOpen, asSheet])
-
-  const handleFormSubmit = async (values: InsertSongType | UpdateSongType) => {
-    if (mode === "insert") {
-      await createMutation.mutateAsync(values as InsertSongType)
-    } else if (song?.id) {
-      const { thumbnail, artists, ...updates } = values
-
-      let thumbnailAction: "keep" | "update" | "remove" = "keep"
-      let thumbnailPath: string | undefined = undefined
-
-      if (thumbnail === null || thumbnail === "") {
-        thumbnailAction = "remove"
-      } else if (thumbnail && thumbnail !== song.thumbnail) {
-        thumbnailAction = "update"
-        thumbnailPath = thumbnail
-      }
-
-      await updateMutation.mutateAsync({
-        id: song.id,
-        updates: {
-          ...updates,
-          isFavorite: song.isFavorite
-        },
-        thumbnailAction,
-        thumbnailPath,
-        artists
-      })
-    }
-
-    await onSubmit?.(values)
-
-    if (asSheet) {
-      setIsOpen(false)
-    }
-  }
 
   const { isSubmitting, isDirty, isValid, errors } = form.formState
 
@@ -304,6 +220,206 @@ const SongForm = ({
     return items
   }, [albumOptions])
 
+  const artistKeyExtractor = useCallback((item: (typeof artistOptions)[0]) => item.value, [])
+
+  const artistGetFixedItemSize = useCallback(() => 36, [])
+
+  const renderArtistItem = useCallback(
+    ({ item }: { item: (typeof artistOptions)[0] }) => (
+      <SelectCheckboxItem value={item.value} title={item.label} />
+    ),
+    []
+  )
+
+  const ArtistListEmptyComponent = useMemo(
+    () =>
+      isArtistsLoading ? (
+        <View style={styles.emptySelect}>
+          <Spinner />
+        </View>
+      ) : (
+        <NotFound />
+      ),
+    [isArtistsLoading]
+  )
+
+  const albumKeyExtractor = useCallback(
+    (item: GroupedAlbumItem, index: number) =>
+      item.type === "group" ? `group-${index}` : item.data.value,
+    []
+  )
+
+  const albumGetFixedItemSize = useCallback((_: number, item: GroupedAlbumItem) => {
+    return item.type === "group" ? 35 : 30
+  }, [])
+
+  const renderAlbumItem = useCallback(
+    ({ item }: { item: GroupedAlbumItem }) =>
+      item.type === "group" ? (
+        <SelectGroupHeader title={item.title} />
+      ) : (
+        <SelectItem value={item.data.value} title={item.data.label} />
+      ),
+    []
+  )
+
+  const AlbumListEmptyComponent = useMemo(
+    () =>
+      isAlbumsLoading ? (
+        <View style={styles.emptySelect}>
+          <Spinner />
+        </View>
+      ) : (
+        <NotFound />
+      ),
+    [isAlbumsLoading]
+  )
+
+  const handleFormSubmit = useCallback(
+    async (values: InsertSongType | UpdateSongType) => {
+      if (mode === "insert") {
+        await createMutation.mutateAsync(values as InsertSongType)
+      } else if (song?.id) {
+        const { thumbnail, artists, ...updates } = values
+
+        let thumbnailAction: "keep" | "update" | "remove" = "keep"
+        let thumbnailPath: string | undefined = undefined
+
+        if (thumbnail === null || thumbnail === "") {
+          thumbnailAction = "remove"
+        } else if (thumbnail && thumbnail !== song.thumbnail) {
+          thumbnailAction = "update"
+          thumbnailPath = thumbnail
+        }
+
+        await updateMutation.mutateAsync({
+          id: song.id,
+          updates: {
+            ...updates,
+            isFavorite: song.isFavorite
+          },
+          thumbnailAction,
+          thumbnailPath,
+          artists
+        })
+      }
+
+      await onSubmit?.(values)
+
+      if (asSheet) {
+        setIsOpen(false)
+      }
+    },
+    [mode, song, createMutation, updateMutation, onSubmit, asSheet, setIsOpen]
+  )
+
+  const handleArtistsChange = useCallback(
+    (value: string[]) => {
+      const newArtistIds = value.map(Number)
+      form.setValue("artists", newArtistIds, { shouldDirty: true })
+
+      const currentAlbumId = form.getValues("albumId")
+
+      if (currentAlbumId && newArtistIds.length > 0) {
+        const currentAlbum = albumsData?.find((album) => album.id === currentAlbumId)
+
+        if (currentAlbum) {
+          const albumArtistIds =
+            currentAlbum.artists?.map((link) => link.artist?.id).filter(Boolean) || []
+          const hasMatchingArtist = albumArtistIds.some((artistId) =>
+            newArtistIds.includes(artistId as number)
+          )
+
+          if (!hasMatchingArtist) {
+            form.setValue("albumId", null, {
+              shouldValidate: true,
+              shouldDirty: true
+            })
+          }
+        }
+      } else if (currentAlbumId && newArtistIds.length === 0) {
+        form.setValue("albumId", null, {
+          shouldValidate: true,
+          shouldDirty: true
+        })
+      }
+    },
+    [form, albumsData]
+  )
+
+  const handleBeforeFileSelect = useCallback(
+    async (filePath: string) => {
+      const durationSeconds = await getAudioDuration(filePath)
+      if (durationSeconds === 0) {
+        form.setError("file", {
+          type: "manual",
+          message: t("validation.file.invalid")
+        })
+        return false
+      }
+      form.setValue("duration", Math.round(durationSeconds), {
+        shouldValidate: true
+      })
+      return true
+    },
+    [form, t]
+  )
+
+  const toggleFavorite = useCallback(() => {
+    form.setValue("isFavorite", !form.watch("isFavorite"), {
+      shouldDirty: true
+    })
+  }, [form])
+
+  useEffect(() => {
+    if (mode === "insert") {
+      hasResetFormRef.current = false
+    }
+  }, [mode])
+
+  useEffect(() => {
+    if (
+      !isSongLoading &&
+      !isAlbumsLoading &&
+      song &&
+      mode === "update" &&
+      !hasResetFormRef.current
+    ) {
+      form.reset({
+        name: song.name,
+        thumbnail: song.thumbnail ?? null,
+        duration: song.duration,
+        file: song.file,
+        isFavorite: song.isFavorite,
+        releaseYear: song.releaseYear ?? null,
+        albumId: song.albumId ?? null,
+        artists: song.artists?.map((a) => a.artistId) ?? [],
+        lyrics: song.lyrics ?? null
+      })
+      hasResetFormRef.current = true
+      hasLoadedInitialDataRef.current = true
+    }
+  }, [isSongLoading, isAlbumsLoading, song, mode, form])
+
+  useEffect(() => {
+    if (
+      form.formState.isSubmitted &&
+      form.formState.isSubmitSuccessful &&
+      form.formState.isValid &&
+      mode === "insert"
+    ) {
+      form.reset()
+    }
+  }, [form, mode])
+
+  useEffect(() => {
+    if (!isOpen && asSheet && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
+      form.reset()
+      hasResetFormRef.current = false
+      hasLoadedInitialDataRef.current = false
+    }
+  }, [isOpen, asSheet, form])
+
   const FormContent = (
     <AsyncState
       data={mode === "update" ? song : true}
@@ -343,11 +459,7 @@ const SongForm = ({
                           variant="ghost"
                           isFilled={form.watch("isFavorite")}
                           iconColor={form.watch("isFavorite") ? "primary" : undefined}
-                          onPress={() =>
-                            form.setValue("isFavorite", !form.watch("isFavorite"), {
-                              shouldDirty: true
-                            })
-                          }
+                          onPress={toggleFavorite}
                         />
                       )}
                     </View>
@@ -366,20 +478,7 @@ const SongForm = ({
                     <UploadPicker
                       mode="file"
                       value={field.value}
-                      onBeforeSelect={async (filePath) => {
-                        const durationSeconds = await getAudioDuration(filePath)
-                        if (durationSeconds === 0) {
-                          form.setError("file", {
-                            type: "manual",
-                            message: t("validation.file.invalid")
-                          })
-                          return false
-                        }
-                        form.setValue("duration", Math.round(durationSeconds), {
-                          shouldValidate: true
-                        })
-                        return true
-                      }}
+                      onBeforeSelect={handleBeforeFileSelect}
                       onChange={field.onChange}
                       onError={(msg) => form.setError(field.name, { message: msg })}
                       accept={VALID_SONG_FILE_EXTENSIONS}
@@ -449,61 +548,20 @@ const SongForm = ({
                     multiple
                     value={field.value?.map(String) ?? []}
                     getDisplayValue={(id) => artistOptions.find((o) => o.value === id)?.label}
-                    onValueChange={(value) => {
-                      const newArtistIds = value.map(Number)
-                      field.onChange(newArtistIds)
-
-                      const currentAlbumId = form.getValues("albumId")
-
-                      if (currentAlbumId && newArtistIds.length > 0) {
-                        const currentAlbum = albumsData?.find(
-                          (album) => album.id === currentAlbumId
-                        )
-
-                        if (currentAlbum) {
-                          const albumArtistIds =
-                            currentAlbum.artists?.map((link) => link.artist?.id).filter(Boolean) ||
-                            []
-                          const hasMatchingArtist = albumArtistIds.some((artistId) =>
-                            newArtistIds.includes(artistId as number)
-                          )
-
-                          if (!hasMatchingArtist) {
-                            form.setValue("albumId", null, {
-                              shouldValidate: true,
-                              shouldDirty: true
-                            })
-                          }
-                        }
-                      } else if (currentAlbumId && newArtistIds.length === 0) {
-                        form.setValue("albumId", null, {
-                          shouldValidate: true,
-                          shouldDirty: true
-                        })
-                      }
-                    }}
+                    onValueChange={handleArtistsChange}
                   >
                     <SelectTrigger disabled={renderProps.isSubmitting}>
                       <SelectValue placeholder={t("form.labels.artists")} />
                     </SelectTrigger>
-                    <SelectContent virtualized>
+                    <SelectContent scrollable>
                       <SelectLegendList
                         data={artistOptions}
-                        keyExtractor={(item) => item.value}
+                        keyExtractor={artistKeyExtractor}
                         contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
-                        renderItem={({ item }) => (
-                          <SelectCheckboxItem value={item.value} title={item.label} />
-                        )}
+                        renderItem={renderArtistItem}
                         estimatedItemSize={36}
-                        ListEmptyComponent={
-                          isArtistsLoading ? (
-                            <View style={styles.emptySelect}>
-                              <Spinner />
-                            </View>
-                          ) : (
-                            <NotFound />
-                          )
-                        }
+                        getFixedItemSize={artistGetFixedItemSize}
+                        ListEmptyComponent={ArtistListEmptyComponent}
                       />
                     </SelectContent>
                   </Select>
@@ -527,32 +585,17 @@ const SongForm = ({
                     <SelectTrigger disabled={renderProps.isSubmitting}>
                       <SelectValue placeholder={t("form.labels.album")} />
                     </SelectTrigger>
-                    <SelectContent virtualized>
+                    <SelectContent scrollable>
                       <SelectLegendList
                         data={groupedAlbumOptions}
-                        keyExtractor={(item, index) =>
-                          item.type === "group" ? `group-${index}` : item.data.value
-                        }
+                        keyExtractor={albumKeyExtractor}
                         contentContainerStyle={styles.selectContent(
                           groupedAlbumOptions.length === 0
                         )}
-                        renderItem={({ item }) =>
-                          item.type === "group" ? (
-                            <SelectGroupHeader title={item.title} />
-                          ) : (
-                            <SelectItem value={item.data.value} title={item.data.label} />
-                          )
-                        }
-                        estimatedItemSize={30}
-                        ListEmptyComponent={
-                          isAlbumsLoading ? (
-                            <View style={styles.emptySelect}>
-                              <Spinner />
-                            </View>
-                          ) : (
-                            <NotFound />
-                          )
-                        }
+                        renderItem={renderAlbumItem}
+                        estimatedItemSize={32}
+                        getFixedItemSize={albumGetFixedItemSize}
+                        ListEmptyComponent={AlbumListEmptyComponent}
                       />
                     </SelectContent>
                   </Select>
