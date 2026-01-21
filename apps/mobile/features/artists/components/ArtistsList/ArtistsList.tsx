@@ -154,19 +154,6 @@ const ArtistsList = () => {
     [artists.length]
   )
 
-  const renderItem = useCallback(
-    ({ item, index }: { item: Artist; index: number }): ReactElement => {
-      if (viewMode === "grid") {
-        return renderGridItem({ item, index })
-      }
-
-      return renderListItem({ item, index })
-    },
-    [viewMode]
-  )
-
-  const getItemType = useCallback(() => (viewMode === "grid" ? "grid" : "list"), [viewMode])
-
   return (
     <Fragment>
       <FlashListWithHeaders
@@ -183,8 +170,13 @@ const ArtistsList = () => {
         ListFooterComponent={ListFooterComponent}
         contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-        renderItem={renderItem}
-        getItemType={getItemType}
+        renderItem={({ item, index }) => {
+          if (viewMode === "grid") {
+            return renderGridItem({ item, index })
+          }
+
+          return renderListItem({ item, index })
+        }}
       />
       <KeyboardSpacer />
     </Fragment>
