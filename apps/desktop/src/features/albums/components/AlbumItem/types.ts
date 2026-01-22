@@ -12,7 +12,9 @@ export type AlbumItemCardProps = BaseAlbumItemProps & {
   index?: number
 }
 
-export type AlbumItemFeaturedProps = BaseAlbumItemProps
+export type AlbumItemCompactProps = BaseAlbumItemProps & {
+  index?: number
+}
 
 export type AlbumItemListProps = BaseAlbumItemProps & {
   index?: number
