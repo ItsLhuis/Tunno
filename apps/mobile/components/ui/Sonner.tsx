@@ -38,7 +38,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         cancelButtonStyle: styles.cancelButton,
         cancelButtonTextStyle: styles.cancelButtonText
       }}
-      position="bottom-center"
+      position="top-center"
       closeButton
       {...props}
     />
