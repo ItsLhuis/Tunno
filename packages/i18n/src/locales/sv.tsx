@@ -248,25 +248,33 @@ export const swedish: Language = {
         title: "Fortsätt spela",
         description: "Fortsätt där du slutade"
       },
-      yourPlaylists: {
-        title: "Skapad för dig",
-        description: "Dina personliga spellistor"
+      newReleases: {
+        title: "Nya utgivningar",
+        description: "Nya tillägg till din samling"
       },
       onRepeat: {
         title: "På upprepning",
         description: "Låtar du inte kan sluta spela"
       },
-      newReleases: {
-        title: "Nya utgivningar",
-        description: "Färsk musik från artister du följer"
+      discover: {
+        title: "Upptäck",
+        description: "Nya musikrekommendationer för dig"
       },
       favoriteArtists: {
         title: "Dina artister",
         description: "Artister du älskar mest"
       },
-      discover: {
-        title: "Upptäck",
-        description: "Nya musikrekommendationer för dig"
+      yourPlaylists: {
+        title: "Skapad för dig",
+        description: "Dina personliga spellistor"
+      },
+      topAlbums: {
+        title: "Toppalbum",
+        description: "Dina mest spelade album"
+      },
+      recentlyAdded: {
+        title: "Nyligen tillagt",
+        description: "Nya tillägg till ditt bibliotek"
       },
       empty: {
         title: "Ditt bibliotek är tomt",

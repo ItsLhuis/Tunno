@@ -248,25 +248,33 @@ export const hindi: Language = {
         title: "जारी रखें",
         description: "जहाँ आपने छोड़ा था वहाँ से जारी रखें"
       },
-      yourPlaylists: {
-        title: "आपके लिए बनाया गया",
-        description: "आपकी व्यक्तिगत प्लेलिस्ट"
+      newReleases: {
+        title: "नए रिलीज़",
+        description: "आपके संग्रह में नए जोड़े गए"
       },
       onRepeat: {
         title: "दोहराव पर",
         description: "गाने जिन्हें आप बजाना बंद नहीं कर सकते"
       },
-      newReleases: {
-        title: "नए रिलीज़",
-        description: "आपके फॉलो किए गए कलाकारों से ताजा संगीत"
+      discover: {
+        title: "खोजें",
+        description: "आपके लिए नए संगीत सुझाव"
       },
       favoriteArtists: {
         title: "आपके कलाकार",
         description: "कलाकार जिन्हें आप सबसे अधिक प्यार करते हैं"
       },
-      discover: {
-        title: "खोजें",
-        description: "आपके लिए नए संगीत सुझाव"
+      yourPlaylists: {
+        title: "आपके लिए बनाया गया",
+        description: "आपकी व्यक्तिगत प्लेलिस्ट"
+      },
+      topAlbums: {
+        title: "शीर्ष एल्बम",
+        description: "आपके सबसे अधिक चलाए गए एल्बम"
+      },
+      recentlyAdded: {
+        title: "हाल ही में जोड़े गए",
+        description: "आपकी लाइब्रेरी में नए जोड़े गए"
       },
       empty: {
         title: "आपकी लाइब्रेरी खाली है",

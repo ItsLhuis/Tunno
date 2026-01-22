@@ -248,25 +248,33 @@ export const polish: Language = {
         title: "Kontynuuj",
         description: "Kontynuuj tam gdzie skończyłeś"
       },
-      yourPlaylists: {
-        title: "Stworzone dla ciebie",
-        description: "Twoje osobiste playlisty"
+      newReleases: {
+        title: "Nowe wydania",
+        description: "Nowe dodatki do twojej kolekcji"
       },
       onRepeat: {
         title: "Na powtórce",
         description: "Utwory których nie możesz przestać słuchać"
       },
-      newReleases: {
-        title: "Nowe wydania",
-        description: "Świeża muzyka od artystów których obserwujesz"
+      discover: {
+        title: "Odkryj",
+        description: "Nowe rekomendacje muzyczne dla ciebie"
       },
       favoriteArtists: {
         title: "Twoi artyści",
         description: "Artyści których kochasz najbardziej"
       },
-      discover: {
-        title: "Odkryj",
-        description: "Nowe rekomendacje muzyczne dla ciebie"
+      yourPlaylists: {
+        title: "Stworzone dla ciebie",
+        description: "Twoje osobiste playlisty"
+      },
+      topAlbums: {
+        title: "Najlepsze albumy",
+        description: "Twoje najczęściej odtwarzane albumy"
+      },
+      recentlyAdded: {
+        title: "Ostatnio dodane",
+        description: "Nowe dodatki do twojej biblioteki"
       },
       empty: {
         title: "Twoja biblioteka jest pusta",

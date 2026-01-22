@@ -248,25 +248,33 @@ export const norwegian: Language = {
         title: "Fortsett spilling",
         description: "Fortsett der du slapp"
       },
-      yourPlaylists: {
-        title: "Laget for deg",
-        description: "Dine personlige spillelister"
+      newReleases: {
+        title: "Nye utgivelser",
+        description: "Nye tillegg til samlingen din"
       },
       onRepeat: {
         title: "På gjentakelse",
         description: "Låter du ikke kan slutte å spille"
       },
-      newReleases: {
-        title: "Nye utgivelser",
-        description: "Frisk musikk fra artister du følger"
+      discover: {
+        title: "Oppdag",
+        description: "Nye musikanbefalinger for deg"
       },
       favoriteArtists: {
         title: "Dine artister",
         description: "Artister du elsker mest"
       },
-      discover: {
-        title: "Oppdag",
-        description: "Nye musikanbefalinger for deg"
+      yourPlaylists: {
+        title: "Laget for deg",
+        description: "Dine personlige spillelister"
+      },
+      topAlbums: {
+        title: "Toppalbum",
+        description: "Dine mest spilte album"
+      },
+      recentlyAdded: {
+        title: "Nylig lagt til",
+        description: "Nye tillegg til biblioteket ditt"
       },
       empty: {
         title: "Biblioteket ditt er tomt",

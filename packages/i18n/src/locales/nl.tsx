@@ -249,25 +249,33 @@ export const dutch: Language = {
         title: "Verder afspelen",
         description: "Ga verder waar je was gebleven"
       },
-      yourPlaylists: {
-        title: "Voor jou gemaakt",
-        description: "Jouw persoonlijke afspeellijsten"
+      newReleases: {
+        title: "Nieuwe releases",
+        description: "Nieuwe toevoegingen aan je collectie"
       },
       onRepeat: {
         title: "Op herhaling",
         description: "Nummers die je niet kunt stoppen met luisteren"
       },
-      newReleases: {
-        title: "Nieuwe releases",
-        description: "Verse muziek van artiesten die je volgt"
+      discover: {
+        title: "Ontdekken",
+        description: "Nieuwe muziekaanbevelingen voor jou"
       },
       favoriteArtists: {
         title: "Jouw artiesten",
         description: "Artiesten waar je het meest van houdt"
       },
-      discover: {
-        title: "Ontdekken",
-        description: "Nieuwe muziekaanbevelingen voor jou"
+      yourPlaylists: {
+        title: "Voor jou gemaakt",
+        description: "Jouw persoonlijke afspeellijsten"
+      },
+      topAlbums: {
+        title: "Topalbums",
+        description: "Je meest afgespeelde albums"
+      },
+      recentlyAdded: {
+        title: "Recent toegevoegd",
+        description: "Nieuwe toevoegingen aan je bibliotheek"
       },
       empty: {
         title: "Je bibliotheek is leeg",

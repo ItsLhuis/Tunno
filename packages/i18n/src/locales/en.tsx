@@ -248,25 +248,33 @@ export const english: Language = {
         title: "Jump back in",
         description: "Pick up where you left off"
       },
-      yourPlaylists: {
-        title: "Made for you",
-        description: "Your personal playlists"
+      newReleases: {
+        title: "New releases",
+        description: "Fresh additions to your collection"
       },
       onRepeat: {
         title: "On repeat",
         description: "Songs you can't stop playing"
       },
-      newReleases: {
-        title: "New releases",
-        description: "Fresh music from artists you follow"
+      discover: {
+        title: "Discover",
+        description: "New music recommendations for you"
       },
       favoriteArtists: {
         title: "Your artists",
         description: "Artists you love most"
       },
-      discover: {
-        title: "Discover",
-        description: "New music recommendations for you"
+      yourPlaylists: {
+        title: "Made for you",
+        description: "Your personal playlists"
+      },
+      topAlbums: {
+        title: "Top albums",
+        description: "Your most played albums"
+      },
+      recentlyAdded: {
+        title: "Recently added",
+        description: "New additions to your library"
       },
       empty: {
         title: "Your library is empty",

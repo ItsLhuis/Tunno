@@ -248,25 +248,33 @@ export const vietnamese: Language = {
         title: "Tiếp tục",
         description: "Tiếp tục từ nơi bạn đã dừng lại"
       },
-      yourPlaylists: {
-        title: "Dành cho bạn",
-        description: "Danh sách phát cá nhân của bạn"
+      newReleases: {
+        title: "Phát hành mới",
+        description: "Các bổ sung mới vào bộ sưu tập của bạn"
       },
       onRepeat: {
         title: "Đang lặp lại",
         description: "Những bài hát bạn không thể ngừng phát"
       },
-      newReleases: {
-        title: "Phát hành mới",
-        description: "Âm nhạc mới từ các nghệ sĩ bạn theo dõi"
+      discover: {
+        title: "Khám Phá",
+        description: "Những gợi ý âm nhạc mới dành cho bạn"
       },
       favoriteArtists: {
         title: "Nghệ sĩ của bạn",
         description: "Những nghệ sĩ bạn yêu thích nhất"
       },
-      discover: {
-        title: "Khám Phá",
-        description: "Những gợi ý âm nhạc mới dành cho bạn"
+      yourPlaylists: {
+        title: "Dành cho bạn",
+        description: "Danh sách phát cá nhân của bạn"
+      },
+      topAlbums: {
+        title: "Album hàng đầu",
+        description: "Các album bạn phát nhiều nhất"
+      },
+      recentlyAdded: {
+        title: "Mới thêm gần đây",
+        description: "Các bổ sung mới vào thư viện của bạn"
       },
       empty: {
         title: "Thư viện của bạn trống",

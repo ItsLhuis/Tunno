@@ -246,25 +246,33 @@ export const chinese: Language = {
         title: "继续播放",
         description: "从上次停止的地方继续"
       },
-      yourPlaylists: {
-        title: "为你推荐",
-        description: "你的个人播放列表"
+      newReleases: {
+        title: "新歌发布",
+        description: "你的收藏中的新添加"
       },
       onRepeat: {
         title: "循环播放",
         description: "你停不下来的歌曲"
       },
-      newReleases: {
-        title: "新歌发布",
-        description: "你关注的艺术家发布的新歌"
+      discover: {
+        title: "发现",
+        description: "为你推荐的新音乐"
       },
       favoriteArtists: {
         title: "你的艺术家",
         description: "你最喜爱的艺术家"
       },
-      discover: {
-        title: "发现",
-        description: "为你推荐的新音乐"
+      yourPlaylists: {
+        title: "为你推荐",
+        description: "你的个人播放列表"
+      },
+      topAlbums: {
+        title: "热门专辑",
+        description: "你播放最多的专辑"
+      },
+      recentlyAdded: {
+        title: "最近添加",
+        description: "你的音乐库中的新添加"
       },
       empty: {
         title: "您的音乐库为空",

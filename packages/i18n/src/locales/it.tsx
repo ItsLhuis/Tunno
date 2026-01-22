@@ -249,25 +249,33 @@ export const italian: Language = {
         title: "Riprendi",
         description: "Riprendi da dove hai lasciato"
       },
-      yourPlaylists: {
-        title: "Fatto per te",
-        description: "Le tue playlist personali"
+      newReleases: {
+        title: "Nuove uscite",
+        description: "Nuove aggiunte alla tua collezione"
       },
       onRepeat: {
         title: "In ripetizione",
         description: "Canzoni che non riesci a smettere di ascoltare"
       },
-      newReleases: {
-        title: "Nuove uscite",
-        description: "Musica fresca dagli artisti che segui"
+      discover: {
+        title: "Scopri",
+        description: "Nuove raccomandazioni musicali per te"
       },
       favoriteArtists: {
         title: "I tuoi artisti",
         description: "Artisti che ami di più"
       },
-      discover: {
-        title: "Scopri",
-        description: "Nuove raccomandazioni musicali per te"
+      yourPlaylists: {
+        title: "Fatto per te",
+        description: "Le tue playlist personali"
+      },
+      topAlbums: {
+        title: "I tuoi album migliori",
+        description: "I tuoi album più riprodotti"
+      },
+      recentlyAdded: {
+        title: "Aggiunti di recente",
+        description: "Nuove aggiunte alla tua libreria"
       },
       empty: {
         title: "La tua libreria è vuota",

@@ -248,25 +248,33 @@ export const russian: Language = {
         title: "Продолжить",
         description: "Продолжите с того места, где остановились"
       },
-      yourPlaylists: {
-        title: "Создано для вас",
-        description: "Ваши персональные плейлисты"
+      newReleases: {
+        title: "Новые релизы",
+        description: "Новые добавления в вашу коллекцию"
       },
       onRepeat: {
         title: "На повторе",
         description: "Песни, которые вы не можете перестать слушать"
       },
-      newReleases: {
-        title: "Новые релизы",
-        description: "Свежая музыка от исполнителей, на которых вы подписаны"
+      discover: {
+        title: "Открыть",
+        description: "Новые музыкальные рекомендации для вас"
       },
       favoriteArtists: {
         title: "Ваши исполнители",
         description: "Исполнители, которых вы любите больше всего"
       },
-      discover: {
-        title: "Открыть",
-        description: "Новые музыкальные рекомендации для вас"
+      yourPlaylists: {
+        title: "Создано для вас",
+        description: "Ваши персональные плейлисты"
+      },
+      topAlbums: {
+        title: "Популярные альбомы",
+        description: "Ваши самые прослушиваемые альбомы"
+      },
+      recentlyAdded: {
+        title: "Недавно добавленные",
+        description: "Новые добавления в вашу библиотеку"
       },
       empty: {
         title: "Ваша библиотека пуста",

@@ -249,25 +249,33 @@ export const spanish: Language = {
         title: "Retomar",
         description: "Continúa donde lo dejaste"
       },
-      yourPlaylists: {
-        title: "Hecho para ti",
-        description: "Tus listas de reproducción personales"
+      newReleases: {
+        title: "Nuevos lanzamientos",
+        description: "Nuevas adiciones a tu colección"
       },
       onRepeat: {
         title: "En repetición",
         description: "Canciones que no puedes dejar de reproducir"
       },
-      newReleases: {
-        title: "Nuevos lanzamientos",
-        description: "Música nueva de artistas que sigues"
+      discover: {
+        title: "Descubrir",
+        description: "Nuevas recomendaciones musicales para ti"
       },
       favoriteArtists: {
         title: "Tus artistas",
         description: "Artistas que más amas"
       },
-      discover: {
-        title: "Descubrir",
-        description: "Nuevas recomendaciones musicales para ti"
+      yourPlaylists: {
+        title: "Hecho para ti",
+        description: "Tus listas de reproducción personales"
+      },
+      topAlbums: {
+        title: "Álbumes principales",
+        description: "Tus álbumes más reproducidos"
+      },
+      recentlyAdded: {
+        title: "Añadido recientemente",
+        description: "Nuevas adiciones a tu biblioteca"
       },
       empty: {
         title: "Tu biblioteca está vacía",

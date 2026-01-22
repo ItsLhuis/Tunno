@@ -248,25 +248,33 @@ export const japanese: Language = {
         title: "続きを再生",
         description: "中断したところから再開"
       },
-      yourPlaylists: {
-        title: "あなたのために作成",
-        description: "あなたの個人プレイリスト"
+      newReleases: {
+        title: "新着リリース",
+        description: "コレクションへの新しい追加"
       },
       onRepeat: {
         title: "リピート中",
         description: "止められない楽曲"
       },
-      newReleases: {
-        title: "新着リリース",
-        description: "フォロー中のアーティストの新曲"
+      discover: {
+        title: "発見",
+        description: "あなたのための新しい音楽レコメンデーション"
       },
       favoriteArtists: {
         title: "あなたのアーティスト",
         description: "最も愛するアーティスト"
       },
-      discover: {
-        title: "発見",
-        description: "あなたのための新しい音楽レコメンデーション"
+      yourPlaylists: {
+        title: "あなたのために作成",
+        description: "あなたの個人プレイリスト"
+      },
+      topAlbums: {
+        title: "トップアルバム",
+        description: "最も再生されたアルバム"
+      },
+      recentlyAdded: {
+        title: "最近追加されたもの",
+        description: "ライブラリへの新しい追加"
       },
       empty: {
         title: "あなたのライブラリは空です",

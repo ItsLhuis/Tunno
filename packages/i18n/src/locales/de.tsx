@@ -248,25 +248,33 @@ export const german: Language = {
         title: "Weitermachen",
         description: "Setzen Sie dort fort, wo Sie aufgehört haben"
       },
-      yourPlaylists: {
-        title: "Für sie erstellt",
-        description: "Ihre persönlichen Playlists"
+      newReleases: {
+        title: "Neue veröffentlichungen",
+        description: "Frische Neuzugänge in deiner Sammlung"
       },
       onRepeat: {
         title: "Im wiederholungsmodus",
         description: "Songs, die Sie nicht aufhören können zu spielen"
       },
-      newReleases: {
-        title: "Neue veröffentlichungen",
-        description: "Frische Musik von Künstlern, denen Sie folgen"
+      discover: {
+        title: "Entdecken",
+        description: "Neue Musikeempfehlungen für Sie"
       },
       favoriteArtists: {
         title: "Ihre künstler",
         description: "Künstler, die Sie am meisten lieben"
       },
-      discover: {
-        title: "Entdecken",
-        description: "Neue Musikeempfehlungen für Sie"
+      yourPlaylists: {
+        title: "Für sie erstellt",
+        description: "Ihre persönlichen Playlists"
+      },
+      topAlbums: {
+        title: "Top-Alben",
+        description: "Deine meistgespielten Alben"
+      },
+      recentlyAdded: {
+        title: "Kürzlich hinzugefügt",
+        description: "Neuzugänge in deiner Bibliothek"
       },
       empty: {
         title: "Deine Bibliothek ist leer",

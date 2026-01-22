@@ -254,7 +254,7 @@ export type Translations = {
       title: string
       description: string
     }
-    yourPlaylists: {
+    newReleases: {
       title: string
       description: string
     }
@@ -262,7 +262,7 @@ export type Translations = {
       title: string
       description: string
     }
-    newReleases: {
+    discover: {
       title: string
       description: string
     }
@@ -270,7 +270,15 @@ export type Translations = {
       title: string
       description: string
     }
-    discover: {
+    yourPlaylists: {
+      title: string
+      description: string
+    }
+    topAlbums: {
+      title: string
+      description: string
+    }
+    recentlyAdded: {
       title: string
       description: string
     }

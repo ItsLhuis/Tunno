@@ -248,25 +248,33 @@ export const finnish: Language = {
         title: "Jatka toistoa",
         description: "Jatka siitä mihin jäit"
       },
-      yourPlaylists: {
-        title: "Sinulle tehty",
-        description: "Henkilökohtaiset soittolistasi"
+      newReleases: {
+        title: "Uudet julkaisut",
+        description: "Uusia lisäyksiä kokoelmaasi"
       },
       onRepeat: {
         title: "toistossa",
         description: "Kappaleet joita et voi lopettaa soittamasta"
       },
-      newReleases: {
-        title: "Uudet julkaisut",
-        description: "Tuoretta musiikkia seuraamiltasi artisteilta"
+      discover: {
+        title: "Löydä",
+        description: "Uusia musiikkisuosituksia sinulle"
       },
       favoriteArtists: {
         title: "Sinun artistisi",
         description: "Artistit joita rakastat eniten"
       },
-      discover: {
-        title: "Löydä",
-        description: "Uusia musiikkisuosituksia sinulle"
+      yourPlaylists: {
+        title: "Sinulle tehty",
+        description: "Henkilökohtaiset soittolistasi"
+      },
+      topAlbums: {
+        title: "Parhaat albumit",
+        description: "Eniten soitetut albumisi"
+      },
+      recentlyAdded: {
+        title: "Äskettäin lisätyt",
+        description: "Uusia lisäyksiä kirjastoosi"
       },
       empty: {
         title: "Kirjastosi on tyhjä",

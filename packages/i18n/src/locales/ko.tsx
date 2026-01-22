@@ -248,25 +248,33 @@ export const korean: Language = {
         title: "이어서 재생",
         description: "중단한 지점부터 계속하기"
       },
-      yourPlaylists: {
-        title: "당신을 위해 만들어진",
-        description: "개인 플레이리스트"
+      newReleases: {
+        title: "신곡",
+        description: "컬렉션에 새로 추가된 항목"
       },
       onRepeat: {
         title: "반복 재생",
         description: "멈출 수 없는 곡들"
       },
-      newReleases: {
-        title: "신곡",
-        description: "팔로우하는 아티스트의 신곡"
+      discover: {
+        title: "발견",
+        description: "당신을 위한 새로운 음악 추천"
       },
       favoriteArtists: {
         title: "당신의 아티스트",
         description: "가장 사랑하는 아티스트"
       },
-      discover: {
-        title: "발견",
-        description: "당신을 위한 새로운 음악 추천"
+      yourPlaylists: {
+        title: "당신을 위해 만들어진",
+        description: "개인 플레이리스트"
+      },
+      topAlbums: {
+        title: "인기 앨범",
+        description: "가장 많이 재생한 앨범"
+      },
+      recentlyAdded: {
+        title: "최근 추가됨",
+        description: "라이브러리에 새로 추가된 항목"
       },
       empty: {
         title: "라이브러리가 비어 있습니다",

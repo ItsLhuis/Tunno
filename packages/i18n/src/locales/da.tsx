@@ -248,25 +248,33 @@ export const danish: Language = {
         title: "Fortsæt afspilning",
         description: "Fortsæt hvor du slap"
       },
-      yourPlaylists: {
-        title: "Lavet til dig",
-        description: "Dine personlige afspilningslister"
+      newReleases: {
+        title: "Nye udgivelser",
+        description: "Friske tilføjelser til din samling"
       },
       onRepeat: {
         title: "På gentagelse",
         description: "Sange du ikke kan stoppe med at spille"
       },
-      newReleases: {
-        title: "Nye udgivelser",
-        description: "Frisk musik fra kunstnere du følger"
+      discover: {
+        title: "Opdag",
+        description: "Nye musikkanbefalinger til dig"
       },
       favoriteArtists: {
         title: "Dine kunstnere",
         description: "Kunstnere du elsker mest"
       },
-      discover: {
-        title: "Opdag",
-        description: "Nye musikkanbefalinger til dig"
+      yourPlaylists: {
+        title: "Lavet til dig",
+        description: "Dine personlige afspilningslister"
+      },
+      topAlbums: {
+        title: "Topalbum",
+        description: "Dine mest afspillede album"
+      },
+      recentlyAdded: {
+        title: "Nyligt tilføjet",
+        description: "Nye tilføjelser til dit bibliotek"
       },
       empty: {
         title: "Dit bibliotek er tomt",

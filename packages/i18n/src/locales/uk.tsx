@@ -248,25 +248,33 @@ export const ukrainian: Language = {
         title: "Продовжити",
         description: "Продовжіть з того місця, де зупинилися"
       },
-      yourPlaylists: {
-        title: "Створено для вас",
-        description: "Ваші персональні плейлисти"
+      newReleases: {
+        title: "Нові релізи",
+        description: "Нові додавання до вашої колекції"
       },
       onRepeat: {
         title: "На повторі",
         description: "Пісні, які ви не можете перестати слухати"
       },
-      newReleases: {
-        title: "Нові релізи",
-        description: "Свіжа музика від виконавців, на яких ви підписані"
+      discover: {
+        title: "Відкрити",
+        description: "Нові музичні рекомендації для вас"
       },
       favoriteArtists: {
         title: "Ваші виконавці",
         description: "Виконавці, яких ви любите найбільше"
       },
-      discover: {
-        title: "Відкрити",
-        description: "Нові музичні рекомендації для вас"
+      yourPlaylists: {
+        title: "Створено для вас",
+        description: "Ваші персональні плейлисти"
+      },
+      topAlbums: {
+        title: "Популярні альбоми",
+        description: "Ваші найбільш відтворювані альбоми"
+      },
+      recentlyAdded: {
+        title: "Нещодавно додані",
+        description: "Нові додавання до вашої бібліотеки"
       },
       empty: {
         title: "Ваша бібліотека порожня",

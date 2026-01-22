@@ -248,25 +248,33 @@ export const turkish: Language = {
         title: "Devam et",
         description: "Kaldığın yerden devam et"
       },
-      yourPlaylists: {
-        title: "Senin için yapıldı",
-        description: "Kişisel çalma listelerin"
+      newReleases: {
+        title: "Yeni çıkışlar",
+        description: "Koleksiyonunuza yeni eklenenler"
       },
       onRepeat: {
         title: "Tekrarda",
         description: "Çalmayı bırakamadığın şarkılar"
       },
-      newReleases: {
-        title: "Yeni çıkışlar",
-        description: "Takip ettiğin sanatçılardan taze müzik"
+      discover: {
+        title: "Keşfet",
+        description: "Senin için yeni müzik önerileri"
       },
       favoriteArtists: {
         title: "sanatçıların",
         description: "En çok sevdiğin sanatçılar"
       },
-      discover: {
-        title: "Keşfet",
-        description: "Senin için yeni müzik önerileri"
+      yourPlaylists: {
+        title: "Senin için yapıldı",
+        description: "Kişisel çalma listelerin"
+      },
+      topAlbums: {
+        title: "En çok dinlenen albümler",
+        description: "En çok çalınan albümleriniz"
+      },
+      recentlyAdded: {
+        title: "Son eklenenler",
+        description: "Kütüphanenize yeni eklenenler"
       },
       empty: {
         title: "Kütüphanen boş",

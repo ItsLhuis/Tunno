@@ -249,25 +249,33 @@ export const french: Language = {
         title: "Reprendre",
         description: "Reprenez où vous vous êtes arrêté"
       },
-      yourPlaylists: {
-        title: "Fait pour vous",
-        description: "Vos playlists personnelles"
+      newReleases: {
+        title: "Nouveautés",
+        description: "Nouveaux ajouts à votre collection"
       },
       onRepeat: {
         title: "En répétition",
         description: "Chansons que vous ne pouvez pas arrêter de jouer"
       },
-      newReleases: {
-        title: "Nouveautés",
-        description: "Musique fraîche des artistes que vous suivez"
+      discover: {
+        title: "Découvrir",
+        description: "Nouvelles recommandations musicales pour vous"
       },
       favoriteArtists: {
         title: "Vos artistes",
         description: "Artistes que vous aimez le plus"
       },
-      discover: {
-        title: "Découvrir",
-        description: "Nouvelles recommandations musicales pour vous"
+      yourPlaylists: {
+        title: "Fait pour vous",
+        description: "Vos playlists personnelles"
+      },
+      topAlbums: {
+        title: "Top albums",
+        description: "Vos albums les plus écoutés"
+      },
+      recentlyAdded: {
+        title: "Récemment ajouté",
+        description: "Nouveaux ajouts à votre bibliothèque"
       },
       empty: {
         title: "Votre bibliothèque est vide",
