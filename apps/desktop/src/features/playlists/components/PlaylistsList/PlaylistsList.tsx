@@ -141,7 +141,7 @@ const PlaylistsList = () => {
       onEndReachedThreshold={1}
       renderItem={({ item, index, selected, toggle }) =>
         viewMode === "grid" ? (
-          <PlaylistItemCard playlist={item} />
+          <PlaylistItemCard playlist={item} index={index} />
         ) : (
           <PlaylistItemList playlist={item} index={index} selected={selected} onToggle={toggle} />
         )

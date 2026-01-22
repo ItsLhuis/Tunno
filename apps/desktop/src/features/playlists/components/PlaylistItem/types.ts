@@ -8,11 +8,16 @@ export type PlaylistItemHeroProps = BasePlaylistItemProps & {
   heroLabel?: string
 }
 
-export type PlaylistItemCardProps = BasePlaylistItemProps
+export type PlaylistItemCardProps = BasePlaylistItemProps & {
+  index?: number
+}
 
-export type PlaylistItemCompactProps = BasePlaylistItemProps
+export type PlaylistItemCompactProps = BasePlaylistItemProps & {
+  index?: number
+}
 
 export type PlaylistItemSelectProps = BasePlaylistItemProps & {
+  index?: number
   selected?: boolean
   onToggle?: () => void
 }

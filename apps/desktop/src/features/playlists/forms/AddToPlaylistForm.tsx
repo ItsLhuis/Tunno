@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 
+import { cn } from "@lib/utils"
+
 import { useTranslation } from "@repo/i18n"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -155,8 +157,13 @@ const AddToPlaylistForm = ({
                       }}
                       scrollRef={scrollRef}
                       containerClassName="p-2"
-                      renderItem={({ item, selected, toggle }) => (
-                        <PlaylistItemSelect playlist={item} selected={selected} onToggle={toggle} />
+                      renderItem={({ item, index, selected, toggle }) => (
+                        <PlaylistItemSelect
+                          playlist={item}
+                          index={index}
+                          selected={selected}
+                          onToggle={toggle}
+                        />
                       )}
                       ListEmptyComponent={() => (
                         <div className="flex h-full items-center justify-center py-8">
@@ -192,7 +199,7 @@ const AddToPlaylistForm = ({
           <DialogTitle>{title ?? t("form.titles.addToPlaylist")}</DialogTitle>
         </DialogHeader>
         <ScrollArea ref={scrollRef} className="flex max-h-full flex-col">
-          <div className="p-3">{FormContent}</div>
+          <div className={cn("p-3", playlists?.length === 0 && "p-9")}>{FormContent}</div>
         </ScrollArea>
         <DialogFooter className="shrink-0 border-t p-6">
           <DialogClose asChild>

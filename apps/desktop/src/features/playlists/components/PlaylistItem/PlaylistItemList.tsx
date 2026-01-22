@@ -4,17 +4,62 @@ import { useTranslation } from "@repo/i18n"
 
 import { useBreakpoint } from "@hooks/useBreakpoint"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { usePlaylistPlayback } from "./hooks"
 
 import { cn } from "@lib/utils"
 
-import { Checkbox, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import {
+  Checkbox,
+  IconButton,
+  Marquee,
+  SafeLink,
+  Skeleton,
+  Thumbnail,
+  Typography
+} from "@components/ui"
 
 import { PlaylistActions } from "../PlaylistActions"
 
 import { formatDuration, formatNumber, formatRelativeDate } from "@repo/utils"
 
 import { type PlaylistItemListProps } from "./types"
+
+const PlaylistItemListPlaceholder = ({
+  gridTemplateColumns,
+  showCheckboxColumn,
+  showPlayCountColumn,
+  showLastPlayedColumn,
+  showDateColumn
+}: {
+  gridTemplateColumns: string
+  showCheckboxColumn: boolean
+  showPlayCountColumn: boolean
+  showLastPlayedColumn: boolean
+  showDateColumn: boolean
+}) => (
+  <div className="grid w-full items-center gap-3 rounded p-2" style={{ gridTemplateColumns }}>
+    {showCheckboxColumn && (
+      <div className="flex items-center justify-center">
+        <Skeleton className="border-foreground/30 bg-sidebar/75 size-4 rounded-sm border" />
+      </div>
+    )}
+    <div className="flex items-center justify-center">
+      <Skeleton className="h-3.25 w-8 rounded" />
+    </div>
+    <div className="flex flex-1 items-center gap-3">
+      <Skeleton className="aspect-square size-14 rounded" />
+      <div className="flex w-full flex-col gap-2">
+        <Skeleton className="h-3.5 w-32 rounded" />
+        <Skeleton className="h-3.25 w-24 rounded" />
+      </div>
+    </div>
+    {showPlayCountColumn && <Skeleton className="h-3.5 w-8 rounded" />}
+    {showLastPlayedColumn && <Skeleton className="h-3.5 w-32 rounded" />}
+    {showDateColumn && <Skeleton className="h-3.5 w-32 rounded" />}
+  </div>
+)
 
 const PlaylistItemList = memo(
   ({ playlist, index = 0, selected = false, onToggle }: PlaylistItemListProps) => {
@@ -48,6 +93,22 @@ const PlaylistItemList = memo(
 
       return cols.join(" ")
     }, [showCheckboxColumn, showPlayCountColumn, showLastPlayedColumn, showDateColumn])
+
+    const { shouldRender } = useDelayedRender({
+      index
+    })
+
+    if (!shouldRender) {
+      return (
+        <PlaylistItemListPlaceholder
+          gridTemplateColumns={gridTemplateColumns}
+          showCheckboxColumn={showCheckboxColumn}
+          showPlayCountColumn={showPlayCountColumn}
+          showLastPlayedColumn={showLastPlayedColumn}
+          showDateColumn={showDateColumn}
+        />
+      )
+    }
 
     return (
       <PlaylistActions variant="context" playlistId={playlist.id}>

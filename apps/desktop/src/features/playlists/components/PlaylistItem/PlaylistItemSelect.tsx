@@ -2,17 +2,36 @@ import { memo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { cn } from "@lib/utils"
 
-import { buttonVariants, Checkbox, Marquee, Thumbnail, Typography } from "@components/ui"
+import { buttonVariants, Checkbox, Marquee, Skeleton, Thumbnail, Typography } from "@components/ui"
 
 import { formatDuration } from "@repo/utils"
 
 import { type PlaylistItemSelectProps } from "./types"
 
+const PlaylistItemSelectPlaceholder = () => (
+  <div className="bg-sidebar/75 flex h-auto w-full flex-row items-center gap-3 rounded border p-3">
+    <Skeleton className="border-foreground/30 bg-sidebar/75 size-4 rounded-sm border" />
+    <Skeleton className="size-14 rounded" />
+    <div className="flex flex-col gap-2">
+      <Skeleton className="h-3.5 w-32 rounded" />
+      <Skeleton className="h-3.25 w-24 rounded" />
+    </div>
+  </div>
+)
+
 const PlaylistItemSelect = memo(
-  ({ playlist, selected = false, onToggle }: PlaylistItemSelectProps) => {
+  ({ playlist, index = 0, selected = false, onToggle }: PlaylistItemSelectProps) => {
     const { t } = useTranslation()
+
+    const { shouldRender } = useDelayedRender({ index })
+
+    if (!shouldRender) {
+      return <PlaylistItemSelectPlaceholder />
+    }
 
     return (
       <button

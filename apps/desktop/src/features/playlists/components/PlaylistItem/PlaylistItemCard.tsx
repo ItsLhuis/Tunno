@@ -2,9 +2,11 @@ import { memo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { usePlaylistPlayback } from "./hooks"
 
-import { IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import { IconButton, Marquee, SafeLink, Skeleton, Thumbnail, Typography } from "@components/ui"
 
 import { PlaylistActions } from "../PlaylistActions"
 
@@ -12,7 +14,17 @@ import { formatDuration } from "@repo/utils"
 
 import { type PlaylistItemCardProps } from "./types"
 
-const PlaylistItemCard = memo(({ playlist }: PlaylistItemCardProps) => {
+const PlaylistItemCardPlaceholder = () => (
+  <div className="flex size-full flex-col gap-3 rounded p-2">
+    <Skeleton className="aspect-square w-full rounded" />
+    <div className="flex w-full flex-col gap-2">
+      <Skeleton className="h-3.5 w-32 rounded" />
+      <Skeleton className="h-3.25 w-24 rounded" />
+    </div>
+  </div>
+)
+
+const PlaylistItemCard = memo(({ playlist, index = 0 }: PlaylistItemCardProps) => {
   const { t } = useTranslation()
 
   const { isLoading, isTrackLoading, handlePlayPlaylist } = usePlaylistPlayback(
@@ -21,6 +33,14 @@ const PlaylistItemCard = memo(({ playlist }: PlaylistItemCardProps) => {
   )
 
   const canPlay = playlist.totalTracks > 0
+
+  const { shouldRender } = useDelayedRender({
+    index
+  })
+
+  if (!shouldRender) {
+    return <PlaylistItemCardPlaceholder />
+  }
 
   return (
     <PlaylistActions variant="context" playlistId={playlist.id}>

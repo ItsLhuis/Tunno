@@ -2,9 +2,19 @@ import { Fragment, memo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { usePlaylistPlayback } from "./hooks"
 
-import { IconButton, Marquee, SafeLink, ScopedTheme, Thumbnail, Typography } from "@components/ui"
+import {
+  IconButton,
+  Marquee,
+  SafeLink,
+  ScopedTheme,
+  Skeleton,
+  Thumbnail,
+  Typography
+} from "@components/ui"
 
 import { PlaylistActions } from "../PlaylistActions"
 
@@ -12,8 +22,20 @@ import { formatDuration } from "@repo/utils"
 
 import { type PlaylistItemCompactProps } from "./types"
 
-const PlaylistItemCompact = memo(({ playlist }: PlaylistItemCompactProps) => {
+const PlaylistItemCompactPlaceholder = () => (
+  <div className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 rounded p-2">
+    <Skeleton className="size-14 rounded" />
+    <div className="flex flex-col gap-2">
+      <Skeleton className="h-3.5 w-32 rounded" />
+      <Skeleton className="h-3.25 w-24 rounded" />
+    </div>
+  </div>
+)
+
+const PlaylistItemCompact = memo(({ playlist, index = 0 }: PlaylistItemCompactProps) => {
   const { t } = useTranslation()
+
+  const { shouldRender } = useDelayedRender({ index })
 
   const { isLoading, isTrackLoading, handlePlayPlaylist } = usePlaylistPlayback(
     playlist.id,
@@ -21,6 +43,10 @@ const PlaylistItemCompact = memo(({ playlist }: PlaylistItemCompactProps) => {
   )
 
   const canPlay = playlist.totalTracks > 0
+
+  if (!shouldRender) {
+    return <PlaylistItemCompactPlaceholder />
+  }
 
   return (
     <PlaylistActions variant="context" playlistId={playlist.id}>
