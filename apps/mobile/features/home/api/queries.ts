@@ -8,20 +8,70 @@ import {
   type JumpBackIn,
   type NewReleases,
   type OnRepeat,
+  type QuickAccess,
+  type QuickAccessItem,
+  type RecentlyAdded,
+  type RecentlyAddedItem,
+  type TopAlbums,
   type YourPlaylists
 } from "@repo/api"
 
 /**
- * Retrieves a list of recently played songs, allowing users to "jump back in" to their listening history.
- *
- * This function queries the play history to find songs played within a specified timeframe,
- * ordered by the most recent plays. It also calculates aggregated statistics like total
- * time listened and average time per session for the retrieved items.
- *
- * @param limit - The maximum number of recent plays to retrieve. Defaults to 8.
- * @param hours - The number of hours back from the current time to consider for recent plays. Defaults to 48.
- * @returns A Promise that resolves to a {@link JumpBackIn} object containing the list of recent plays
- *          and aggregated statistics.
+ * Retrieves data for the "Quick access" section, showing recently played
+ * playlists, albums, and artists for quick navigation.
+ */
+export async function getQuickAccess(limit: number = 12): Promise<QuickAccess> {
+  const itemsPerType = Math.ceil(limit / 3)
+
+  const [playlists, albums, artists] = await Promise.all([
+    database.query.playlists.findMany({
+      limit: itemsPerType,
+      where: sql`${schema.playlists.lastPlayedAt} IS NOT NULL`,
+      orderBy: desc(schema.playlists.lastPlayedAt)
+    }),
+    database.query.albums.findMany({
+      limit: itemsPerType,
+      where: sql`${schema.albums.lastPlayedAt} IS NOT NULL`,
+      orderBy: desc(schema.albums.lastPlayedAt)
+    }),
+    database.query.artists.findMany({
+      limit: itemsPerType,
+      where: sql`${schema.artists.lastPlayedAt} IS NOT NULL`,
+      orderBy: desc(schema.artists.lastPlayedAt)
+    })
+  ])
+
+  const allItems: Array<QuickAccessItem & { lastPlayedAt: Date | null }> = [
+    ...playlists.map((playlist) => ({
+      type: "playlist" as const,
+      data: playlist,
+      lastPlayedAt: playlist.lastPlayedAt
+    })),
+    ...albums.map((album) => ({
+      type: "album" as const,
+      data: album,
+      lastPlayedAt: album.lastPlayedAt
+    })),
+    ...artists.map((artist) => ({
+      type: "artist" as const,
+      data: artist,
+      lastPlayedAt: artist.lastPlayedAt
+    }))
+  ]
+
+  const items: QuickAccessItem[] = allItems
+    .sort((a, b) => (b.lastPlayedAt?.getTime() ?? 0) - (a.lastPlayedAt?.getTime() ?? 0))
+    .slice(0, limit)
+    .map(({ lastPlayedAt, ...item }) => item)
+
+  return {
+    items,
+    totalItems: items.length
+  }
+}
+
+/**
+ * Retrieves data for the "Jump back in" section, showing recently played songs.
  */
 export async function getJumpBackIn(limit: number = 8, hours: number = 48): Promise<JumpBackIn> {
   const hoursAgo = new Date(Date.now() - hours * 60 * 60 * 1000)
@@ -62,121 +112,7 @@ export async function getJumpBackIn(limit: number = 8, hours: number = 48): Prom
 }
 
 /**
- * Retrieves a list of songs that are currently "on repeat" for the user, based on recent play counts.
- *
- * This function identifies songs that have been played frequently within a specified number of days.
- * It also calculates aggregated statistics like total recent plays and average plays per song.
- *
- * @param limit - The maximum number of "on repeat" songs to retrieve. Defaults to 8.
- * @param days - The number of days back from the current time to consider for frequent plays. Defaults to 14.
- * @returns A Promise that resolves to an {@link OnRepeat} object containing the list of "on repeat" songs
- *          and aggregated statistics.
- */
-export async function getOnRepeat(limit: number = 8, days: number = 14): Promise<OnRepeat> {
-  const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
-
-  const topSongIds = await database
-    .select({
-      songId: schema.playHistory.songId,
-      recentPlayCount: sql<number>`count(*)`.as("recentPlayCount"),
-      daysActive: sql<number>`count(distinct date(${schema.playHistory.playedAt}))`.as("daysActive")
-    })
-    .from(schema.playHistory)
-    .where(gte(schema.playHistory.playedAt, daysAgo))
-    .groupBy(schema.playHistory.songId)
-    .having(sql`count(*) >= 3`)
-    .orderBy(desc(sql`count(*)`))
-    .limit(limit)
-
-  if (topSongIds.length === 0) {
-    return {
-      songs: [],
-      totalSongs: 0,
-      totalRecentPlays: 0,
-      averagePlaysPerSong: 0
-    }
-  }
-
-  const songIds = topSongIds.map((songStat) => songStat.songId)
-  const songs = await database.query.songs.findMany({
-    where: inArray(schema.songs.id, songIds),
-    with: {
-      album: true,
-      artists: { with: { artist: true }, orderBy: asc(schema.songsToArtists.artistOrder) }
-    }
-  })
-
-  const songMap = new Map(songs.map((song) => [song.id, song]))
-  const songsWithStats = topSongIds
-    .map((songStat) => {
-      const song = songMap.get(songStat.songId)
-      if (!song) return null
-      return { ...song, recentPlayCount: songStat.recentPlayCount, daysActive: songStat.daysActive }
-    })
-    .filter((song): song is NonNullable<typeof song> => song !== null)
-
-  const totalRecentPlays = songsWithStats.reduce((total, song) => total + song.recentPlayCount, 0)
-  const averagePlaysPerSong =
-    songsWithStats.length > 0 ? totalRecentPlays / songsWithStats.length : 0
-  const mostPlayedSong = songsWithStats.reduce(
-    (max, song) => (song.recentPlayCount > (max?.recentPlayCount || 0) ? song : max),
-    songsWithStats[0] || undefined
-  )
-
-  return {
-    songs: songsWithStats,
-    totalSongs: songsWithStats.length,
-    totalRecentPlays,
-    averagePlaysPerSong,
-    mostPlayedSong
-  }
-}
-
-/**
- * Retrieves a list of the user's playlists, with optional filtering for favorites.
- *
- * This function fetches a limited number of playlists, calculates their total tracks and duration,
- * and identifies the number of favorite playlists among them.
- *
- * @param limit - The maximum number of playlists to retrieve. Defaults to 6.
- * @param favoritesOnly - If `true`, only favorite playlists will be returned. Defaults to `false`.
- * @returns A Promise that resolves to a {@link YourPlaylists} object containing the list of playlists
- *          and aggregated statistics.
- */
-export async function getYourPlaylists(
-  limit: number = 6,
-  favoritesOnly: boolean = false
-): Promise<YourPlaylists> {
-  const playlists = await database.query.playlists.findMany({
-    limit,
-    where: favoritesOnly ? eq(schema.playlists.isFavorite, true) : undefined,
-    orderBy: desc(schema.playlists.playCount)
-  })
-
-  const totalTracks = playlists.reduce((total, playlist) => total + playlist.totalTracks, 0)
-  const totalDuration = playlists.reduce((total, playlist) => total + playlist.totalDuration, 0)
-  const favoritePlaylists = playlists.filter((playlist) => playlist.isFavorite).length
-
-  return {
-    playlists,
-    totalPlaylists: playlists.length,
-    totalTracks,
-    totalDuration,
-    favoritePlaylists
-  }
-}
-
-/**
- * Retrieves a list of recently added albums, representing new releases.
- *
- * This function fetches albums that were created within a specified number of days,
- * ordered by their creation date. It also calculates aggregated statistics like
- * total tracks, total duration, and the release date range of the retrieved albums.
- *
- * @param limit - The maximum number of new releases to retrieve. Defaults to 8.
- * @param days - The number of days back from the current time to consider for new releases. Defaults to 30.
- * @returns A Promise that resolves to a {@link NewReleases} object containing the list of new release albums
- *          and aggregated statistics.
+ * Retrieves data for the "New releases" section, showing recently added albums.
  */
 export async function getNewReleases(limit: number = 8, days: number = 30): Promise<NewReleases> {
   const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
@@ -184,10 +120,7 @@ export async function getNewReleases(limit: number = 8, days: number = 30): Prom
   const albums = await database.query.albums.findMany({
     limit,
     where: gte(schema.albums.createdAt, daysAgo),
-    orderBy: desc(schema.albums.createdAt),
-    with: {
-      artists: { with: { artist: true }, orderBy: asc(schema.albumsToArtists.artistOrder) }
-    }
+    orderBy: desc(schema.albums.createdAt)
   })
 
   const totalTracks = albums.reduce((total, album) => total + album.totalTracks, 0)
@@ -215,15 +148,67 @@ export async function getNewReleases(limit: number = 8, days: number = 30): Prom
 }
 
 /**
- * Retrieves a list of "discover" songs, identified by a custom discovery score.
- *
- * This function uses a heuristic to find songs with lower play counts that are
- * associated with popular artists or albums, suggesting they might be "hidden gems".
- * It calculates a discovery score for each song and returns a limited list.
- *
- * @param limit - The maximum number of discover songs to retrieve. Defaults to 12.
- * @returns A Promise that resolves to a {@link Discover} object containing the list of discover songs
- *          and aggregated statistics like average and highest discovery score.
+ * Retrieves data for the "On repeat" section, highlighting frequently played songs.
+ */
+export async function getOnRepeat(limit: number = 8, days: number = 14): Promise<OnRepeat> {
+  const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+
+  const topSongIds = await database
+    .select({
+      songId: schema.playHistory.songId,
+      recentPlayCount: sql<number>`count(*)`.as("recentPlayCount"),
+      daysActive: sql<number>`count(distinct date(${schema.playHistory.playedAt}))`.as("daysActive")
+    })
+    .from(schema.playHistory)
+    .where(gte(schema.playHistory.playedAt, daysAgo))
+    .groupBy(schema.playHistory.songId)
+    .having(sql`count(*) >= 3`)
+    .orderBy(desc(sql`count(*)`))
+    .limit(limit)
+
+  if (topSongIds.length === 0) {
+    return {
+      songs: [],
+      totalSongs: 0,
+      totalRecentPlays: 0,
+      averagePlaysPerSong: 0
+    }
+  }
+
+  const songIds = topSongIds.map((s) => s.songId)
+  const songs = await database.query.songs.findMany({
+    where: inArray(schema.songs.id, songIds),
+    with: {
+      album: true,
+      artists: { with: { artist: true }, orderBy: asc(schema.songsToArtists.artistOrder) }
+    }
+  })
+
+  const songMap = new Map(songs.map((song) => [song.id, song]))
+  const songsWithStats = topSongIds
+    .map((stat) => {
+      const song = songMap.get(stat.songId)
+      if (!song) return null
+      return { ...song, recentPlayCount: stat.recentPlayCount, daysActive: stat.daysActive }
+    })
+    .filter((song): song is NonNullable<typeof song> => song !== null)
+
+  const totalRecentPlays = songsWithStats.reduce((total, song) => total + song.recentPlayCount, 0)
+  const averagePlaysPerSong =
+    songsWithStats.length > 0 ? totalRecentPlays / songsWithStats.length : 0
+  const mostPlayedSong = songsWithStats[0]
+
+  return {
+    songs: songsWithStats,
+    totalSongs: songsWithStats.length,
+    totalRecentPlays,
+    averagePlaysPerSong,
+    mostPlayedSong
+  }
+}
+
+/**
+ * Retrieves data for the "Discover" section, showing new music recommendations.
  */
 export async function getDiscover(limit: number = 12): Promise<Discover> {
   const discoverResults = await database
@@ -262,8 +247,7 @@ export async function getDiscover(limit: number = 12): Promise<Discover> {
     }
   }
 
-  const songIds = discoverResults.map((discoverResult) => discoverResult.songId)
-
+  const songIds = discoverResults.map((r) => r.songId)
   const songs = await database.query.songs.findMany({
     where: inArray(schema.songs.id, songIds),
     with: {
@@ -274,10 +258,10 @@ export async function getDiscover(limit: number = 12): Promise<Discover> {
 
   const songMap = new Map(songs.map((song) => [song.id, song]))
   const songsWithScores = discoverResults
-    .map((discoverResult) => {
-      const song = songMap.get(discoverResult.songId)
+    .map((r) => {
+      const song = songMap.get(r.songId)
       if (!song) return null
-      return { ...song, discoveryScore: discoverResult.discoveryScore }
+      return { ...song, discoveryScore: r.discoveryScore }
     })
     .filter((song): song is NonNullable<typeof song> => song !== null)
 
@@ -300,77 +284,175 @@ export async function getDiscover(limit: number = 12): Promise<Discover> {
 }
 
 /**
- * Retrieves a list of artists based on their play count and favorite status,
- * intended for a "Favorite Artists" section.
- *
- * This function queries artists with play counts, orders them by play count,
- * and fetches a limited number. It also calculates aggregated statistics
- * like total recent plays and total play time for these artists.
- *
- * @param limit - The maximum number of favorite artists to retrieve. Defaults to 12.
- * @returns A Promise that resolves to a {@link FavoriteArtists} object containing the list of artists
- *          and aggregated statistics.
+ * Retrieves data for the "Favorite artists" section, showing most played artists.
  */
 export async function getFavoriteArtists(limit: number = 12): Promise<FavoriteArtists> {
-  const artistsWithStats = await database
-    .select({
-      id: schema.artists.id,
-      uuid: schema.artists.uuid,
-      name: schema.artists.name,
-      thumbnail: schema.artists.thumbnail,
-      playCount: schema.artists.playCount,
-      lastPlayedAt: schema.artists.lastPlayedAt,
-      isFavorite: schema.artists.isFavorite,
-      totalTracks: schema.artists.totalTracks,
-      totalDuration: schema.artists.totalDuration,
-      createdAt: schema.artists.createdAt,
-      updatedAt: schema.artists.updatedAt,
-      recentPlayCount: sql<number>`count(${schema.playHistory.id})`.as("recentPlayCount"),
-      totalPlayTime: sql<number>`coalesce(sum(${schema.playHistory.timeListened}), 0)`.as(
-        "totalPlayTime"
-      )
-    })
-    .from(schema.artists)
-    .leftJoin(schema.songsToArtists, eq(schema.artists.id, schema.songsToArtists.artistId))
-    .leftJoin(schema.playHistory, eq(schema.songsToArtists.songId, schema.playHistory.songId))
-    .where(sql`${schema.artists.playCount} > 0`)
-    .groupBy(schema.artists.id)
-    .orderBy(desc(schema.artists.playCount))
-    .limit(limit)
+  const artists = await database.query.artists.findMany({
+    limit,
+    where: sql`${schema.artists.playCount} > 0`,
+    orderBy: desc(schema.artists.playCount)
+  })
 
-  if (artistsWithStats.length === 0) {
+  if (artists.length === 0) {
     return {
       artists: [],
       totalArtists: 0,
-      totalRecentPlays: 0,
-      totalPlayTime: 0
+      totalPlayCount: 0
     }
   }
 
-  const artists = artistsWithStats.map(({ recentPlayCount, totalPlayTime, ...artist }) => ({
-    ...artist,
-    stats: {
-      artistId: artist.id,
-      totalPlayTime: Number(totalPlayTime) || 0,
-      lastCalculatedAt: new Date()
-    }
-  }))
-
-  const totalRecentPlays = artistsWithStats.reduce(
-    (total, artist) => total + (Number(artist.recentPlayCount) || 0),
-    0
-  )
-  const totalPlayTime = artistsWithStats.reduce(
-    (total, artist) => total + (Number(artist.totalPlayTime) || 0),
-    0
-  )
+  const totalPlayCount = artists.reduce((total, artist) => total + artist.playCount, 0)
   const topArtist = artists[0]
 
   return {
     artists,
     totalArtists: artists.length,
-    totalRecentPlays,
-    totalPlayTime,
+    totalPlayCount,
     topArtist
+  }
+}
+
+/**
+ * Retrieves data for the "Your playlists" section, showing user's playlists.
+ */
+export async function getYourPlaylists(
+  limit: number = 6,
+  favoritesOnly: boolean = false
+): Promise<YourPlaylists> {
+  const playlists = await database.query.playlists.findMany({
+    limit,
+    where: favoritesOnly ? eq(schema.playlists.isFavorite, true) : undefined,
+    orderBy: desc(schema.playlists.playCount)
+  })
+
+  const totalTracks = playlists.reduce((total, playlist) => total + playlist.totalTracks, 0)
+  const totalDuration = playlists.reduce((total, playlist) => total + playlist.totalDuration, 0)
+  const favoritePlaylists = playlists.filter((playlist) => playlist.isFavorite).length
+
+  return {
+    playlists,
+    totalPlaylists: playlists.length,
+    totalTracks,
+    totalDuration,
+    favoritePlaylists
+  }
+}
+
+/**
+ * Retrieves data for the "Top albums" section, showing most played albums.
+ */
+export async function getTopAlbums(limit: number = 12): Promise<TopAlbums> {
+  const albums = await database.query.albums.findMany({
+    limit,
+    where: sql`${schema.albums.playCount} > 0`,
+    orderBy: desc(schema.albums.playCount)
+  })
+
+  if (albums.length === 0) {
+    return {
+      albums: [],
+      totalAlbums: 0,
+      totalTracks: 0,
+      totalDuration: 0,
+      totalPlayCount: 0
+    }
+  }
+
+  const totalTracks = albums.reduce((total, album) => total + album.totalTracks, 0)
+  const totalDuration = albums.reduce((total, album) => total + album.totalDuration, 0)
+  const totalPlayCount = albums.reduce((total, album) => total + album.playCount, 0)
+
+  return {
+    albums,
+    totalAlbums: albums.length,
+    totalTracks,
+    totalDuration,
+    totalPlayCount
+  }
+}
+
+/**
+ * Retrieves data for the "Recently added" section, showing newly added
+ * songs, albums, artists, and playlists.
+ */
+export async function getRecentlyAdded(
+  limit: number = 12,
+  days: number = 30
+): Promise<RecentlyAdded> {
+  const itemsPerType = Math.ceil(limit / 4)
+  const daysAgo = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+
+  const [songs, albums, artists, playlists] = await Promise.all([
+    database.query.songs.findMany({
+      limit: itemsPerType,
+      where: gte(schema.songs.createdAt, daysAgo),
+      orderBy: desc(schema.songs.createdAt),
+      with: {
+        album: true,
+        artists: { with: { artist: true }, orderBy: asc(schema.songsToArtists.artistOrder) }
+      }
+    }),
+    database.query.albums.findMany({
+      limit: itemsPerType,
+      where: gte(schema.albums.createdAt, daysAgo),
+      orderBy: desc(schema.albums.createdAt)
+    }),
+    database.query.artists.findMany({
+      limit: itemsPerType,
+      where: gte(schema.artists.createdAt, daysAgo),
+      orderBy: desc(schema.artists.createdAt)
+    }),
+    database.query.playlists.findMany({
+      limit: itemsPerType,
+      where: gte(schema.playlists.createdAt, daysAgo),
+      orderBy: desc(schema.playlists.createdAt)
+    })
+  ])
+
+  const allItems: Array<RecentlyAddedItem & { createdAt: Date }> = [
+    ...songs.map((song) => ({
+      type: "song" as const,
+      data: song,
+      createdAt: song.createdAt
+    })),
+    ...albums.map((album) => ({
+      type: "album" as const,
+      data: album,
+      createdAt: album.createdAt
+    })),
+    ...artists.map((artist) => ({
+      type: "artist" as const,
+      data: artist,
+      createdAt: artist.createdAt
+    })),
+    ...playlists.map((playlist) => ({
+      type: "playlist" as const,
+      data: playlist,
+      createdAt: playlist.createdAt
+    }))
+  ]
+
+  const sortedItems = allItems
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+    .slice(0, limit)
+
+  const items: RecentlyAddedItem[] = sortedItems.map(({ createdAt, ...item }) => item)
+
+  const dates = sortedItems.map((item) => item.createdAt)
+  const addedDateRange =
+    dates.length > 0
+      ? {
+          earliest: new Date(Math.min(...dates.map((d) => d.getTime()))),
+          latest: new Date(Math.max(...dates.map((d) => d.getTime())))
+        }
+      : {
+          earliest: new Date(),
+          latest: new Date()
+        }
+
+  return {
+    items,
+    totalItems: items.length,
+    addedDateRange
   }
 }
