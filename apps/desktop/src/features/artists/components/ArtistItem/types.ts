@@ -8,7 +8,9 @@ export type ArtistItemHeroProps = BaseArtistItemProps & {
   heroLabel?: string
 }
 
-export type ArtistItemCardProps = BaseArtistItemProps
+export type ArtistItemCardProps = BaseArtistItemProps & {
+  index?: number
+}
 
 export type ArtistItemListProps = BaseArtistItemProps & {
   index?: number

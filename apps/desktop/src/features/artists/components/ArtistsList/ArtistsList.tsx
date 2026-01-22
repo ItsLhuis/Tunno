@@ -137,7 +137,7 @@ const ArtistsList = () => {
       onEndReachedThreshold={1}
       renderItem={({ item, index, selected, toggle }) =>
         viewMode === "grid" ? (
-          <ArtistItemCard artist={item} />
+          <ArtistItemCard artist={item} index={index} />
         ) : (
           <ArtistItemList artist={item} index={index} selected={selected} onToggle={toggle} />
         )
