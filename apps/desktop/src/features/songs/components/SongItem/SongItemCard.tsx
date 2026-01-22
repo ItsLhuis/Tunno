@@ -2,21 +2,42 @@ import { memo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { useSongPlayback } from "./hooks"
 
 import PlayingLottie from "@assets/lotties/Playing.json"
 import Lottie from "lottie-react"
 
-import { Fade, IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import {
+  Fade,
+  IconButton,
+  Marquee,
+  SafeLink,
+  Skeleton,
+  Thumbnail,
+  Typography
+} from "@components/ui"
 
 import { SongActions } from "../SongActions"
 
 import { type SongItemCardProps } from "./types"
 
+const SongItemCardPlaceholder = () => (
+  <div className="flex size-full flex-col gap-3 rounded p-2">
+    <Skeleton className="aspect-square w-full rounded" />
+    <div className="flex w-full flex-col gap-2">
+      <Skeleton className="h-3.5 w-32 rounded" />
+      <Skeleton className="h-3.25 w-24 rounded" />
+    </div>
+  </div>
+)
+
 const SongItemCard = memo(
   ({
     song,
     allSongIds,
+    index = 0,
     playSource = "songs",
     sourceContextId,
     queueIndex,
@@ -30,6 +51,14 @@ const SongItemCard = memo(
       playSource,
       sourceContextId
     )
+
+    const { shouldRender } = useDelayedRender({
+      index
+    })
+
+    if (!shouldRender) {
+      return <SongItemCardPlaceholder />
+    }
 
     return (
       <SongActions

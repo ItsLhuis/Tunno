@@ -4,6 +4,8 @@ import { useTranslation } from "@repo/i18n"
 
 import { useBreakpoint } from "@hooks/useBreakpoint"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { useSongPlayback } from "./hooks"
 
 import { cn } from "@lib/utils"
@@ -17,6 +19,7 @@ import {
   IconButton,
   Marquee,
   SafeLink,
+  Skeleton,
   Thumbnail,
   Typography
 } from "@components/ui"
@@ -28,6 +31,49 @@ import { formatRelativeDate, formatTime } from "@repo/utils"
 import { type ColumnKey, type SongItemListProps } from "./types"
 
 const ALL_COLUMNS: ColumnKey[] = ["checkbox", "title", "album", "date", "duration"]
+
+const SongItemPlaceholder = ({
+  gridTemplateColumns,
+  showCheckboxColumn,
+  showTitleColumn,
+  showAlbumColumn,
+  showDateColumn,
+  showDurationColumn
+}: {
+  gridTemplateColumns: string
+  showCheckboxColumn: boolean
+  showTitleColumn: boolean
+  showAlbumColumn: boolean
+  showDateColumn: boolean
+  showDurationColumn: boolean
+}) => (
+  <div className="grid w-full items-center gap-3 rounded p-2" style={{ gridTemplateColumns }}>
+    {showCheckboxColumn && (
+      <div className="flex items-center justify-center">
+        <Skeleton className="border-foreground/30 bg-sidebar/75 size-4 rounded-sm border" />
+      </div>
+    )}
+    <div className="flex items-center justify-center">
+      <Skeleton className="h-3.25 w-8 rounded" />
+    </div>
+    {showTitleColumn && (
+      <div className="flex flex-1 items-center gap-3">
+        <Skeleton className="aspect-square size-14 rounded" />
+        <div className="flex w-full flex-col gap-2">
+          <Skeleton className="h-3.5 w-32 rounded" />
+          <Skeleton className="h-3.25 w-24 rounded" />
+        </div>
+      </div>
+    )}
+    {showAlbumColumn && <Skeleton className="h-3.5 w-32 rounded" />}
+    {showDateColumn && <Skeleton className="h-3.5 w-32 rounded" />}
+    {showDurationColumn && (
+      <div className="flex items-center justify-center">
+        <Skeleton className="h-3.5 w-12 rounded" />
+      </div>
+    )}
+  </div>
+)
 
 const SongItemList = memo(
   ({
@@ -77,6 +123,23 @@ const SongItemList = memo(
 
       return cols.join(" ")
     }, [showCheckboxColumn, showTitleColumn, showAlbumColumn, showDateColumn, showDurationColumn])
+
+    const { shouldRender } = useDelayedRender({
+      index
+    })
+
+    if (!shouldRender) {
+      return (
+        <SongItemPlaceholder
+          gridTemplateColumns={gridTemplateColumns}
+          showCheckboxColumn={showCheckboxColumn}
+          showTitleColumn={showTitleColumn}
+          showAlbumColumn={showAlbumColumn}
+          showDateColumn={showDateColumn}
+          showDurationColumn={showDurationColumn}
+        />
+      )
+    }
 
     return (
       <SongActions
