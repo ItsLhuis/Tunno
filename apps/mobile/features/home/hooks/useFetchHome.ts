@@ -10,6 +10,9 @@ import {
   getJumpBackIn,
   getNewReleases,
   getOnRepeat,
+  getQuickAccess,
+  getRecentlyAdded,
+  getTopAlbums,
   getYourPlaylists
 } from "../api/queries"
 
@@ -19,6 +22,9 @@ import {
   type JumpBackIn,
   type NewReleases,
   type OnRepeat,
+  type QuickAccess,
+  type RecentlyAdded,
+  type TopAlbums,
   type YourPlaylists
 } from "@repo/api"
 
@@ -26,24 +32,30 @@ import {
  * Defines the options available for customizing the data fetched by {@link useFetchHome}.
  */
 type HomeOptions = {
+  quickAccess?: { limit?: number }
   jumpBackIn?: { limit?: number; hours?: number }
-  onRepeat?: { days?: number; limit?: number }
-  yourPlaylists?: { limit?: number; favoritesOnly?: boolean }
   newReleases?: { limit?: number; days?: number }
-  favoriteArtists?: { limit?: number }
+  onRepeat?: { days?: number; limit?: number }
   discover?: { limit?: number }
+  favoriteArtists?: { limit?: number }
+  yourPlaylists?: { limit?: number; favoritesOnly?: boolean }
+  topAlbums?: { limit?: number }
+  recentlyAdded?: { limit?: number; days?: number }
 }
 
 /**
  * Represents the aggregated data structure for the home screen sections.
  */
 type Home = {
+  quickAccess: QuickAccess | undefined
   jumpBackIn: JumpBackIn | undefined
-  onRepeat: OnRepeat | undefined
-  yourPlaylists: YourPlaylists | undefined
   newReleases: NewReleases | undefined
-  favoriteArtists: FavoriteArtists | undefined
+  onRepeat: OnRepeat | undefined
   discover: Discover | undefined
+  favoriteArtists: FavoriteArtists | undefined
+  yourPlaylists: YourPlaylists | undefined
+  topAlbums: TopAlbums | undefined
+  recentlyAdded: RecentlyAdded | undefined
 }
 
 /**
@@ -60,17 +72,18 @@ export type HomeResult = {
  * Custom hook for fetching and aggregating data for the various sections of the home screen.
  *
  * This hook uses TanStack Query's `useQueries` to fetch data concurrently for different
- * home sections like "Jump Back In", "On Repeat", "Your Playlists", "New Releases",
- * "Favorite Artists", and "Discover". It combines the results, manages loading/error states,
+ * home sections. It combines the results, manages loading/error states,
  * and provides a single `refetch` mechanism for all sections.
- *
- * @param options - Optional configuration for each home section, allowing customization of limits and filters.
- * @returns A {@link HomeResult} object containing the aggregated data for all sections,
- *          loading state, error state, and a refetch function.
  */
 export function useFetchHome(options: HomeOptions = {}): HomeResult {
   const queries = useMemo(
     () => [
+      {
+        queryKey: homeKeys.listQuickAccess({
+          limit: options.quickAccess?.limit ?? 12
+        }),
+        queryFn: () => getQuickAccess(options.quickAccess?.limit ?? 12)
+      },
       {
         queryKey: homeKeys.listJumpBackIn({
           limit: options.jumpBackIn?.limit ?? 16,
@@ -80,11 +93,31 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
           getJumpBackIn(options.jumpBackIn?.limit ?? 16, options.jumpBackIn?.hours ?? 48)
       },
       {
+        queryKey: homeKeys.listNewReleases({
+          limit: options.newReleases?.limit ?? 16,
+          days: options.newReleases?.days ?? 30
+        }),
+        queryFn: () =>
+          getNewReleases(options.newReleases?.limit ?? 16, options.newReleases?.days ?? 30)
+      },
+      {
         queryKey: homeKeys.listOnRepeat({
           days: options.onRepeat?.days ?? 16,
           limit: options.onRepeat?.limit ?? 5
         }),
         queryFn: () => getOnRepeat(options.onRepeat?.limit ?? 5, options.onRepeat?.days ?? 16)
+      },
+      {
+        queryKey: homeKeys.listDiscover({
+          limit: options.discover?.limit ?? 16
+        }),
+        queryFn: () => getDiscover(options.discover?.limit ?? 16)
+      },
+      {
+        queryKey: homeKeys.listFavoriteArtists({
+          limit: options.favoriteArtists?.limit ?? 16
+        }),
+        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 16)
       },
       {
         queryKey: homeKeys.listYourPlaylists({
@@ -98,57 +131,61 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
           )
       },
       {
-        queryKey: homeKeys.listNewReleases({
-          limit: options.newReleases?.limit ?? 16,
-          days: options.newReleases?.days ?? 30
+        queryKey: homeKeys.listTopAlbums({
+          limit: options.topAlbums?.limit ?? 16
+        }),
+        queryFn: () => getTopAlbums(options.topAlbums?.limit ?? 16)
+      },
+      {
+        queryKey: homeKeys.listRecentlyAdded({
+          limit: options.recentlyAdded?.limit ?? 16,
+          days: options.recentlyAdded?.days ?? 30
         }),
         queryFn: () =>
-          getNewReleases(options.newReleases?.limit ?? 16, options.newReleases?.days ?? 30)
-      },
-      {
-        queryKey: homeKeys.listFavoriteArtists({
-          limit: options.favoriteArtists?.limit ?? 16
-        }),
-        queryFn: () => getFavoriteArtists(options.favoriteArtists?.limit ?? 16)
-      },
-      {
-        queryKey: homeKeys.listDiscover({
-          limit: options.discover?.limit ?? 16
-        }),
-        queryFn: () => getDiscover(options.discover?.limit ?? 16)
+          getRecentlyAdded(options.recentlyAdded?.limit ?? 16, options.recentlyAdded?.days ?? 30)
       }
     ],
     [
+      options.quickAccess?.limit,
       options.jumpBackIn?.limit,
       options.jumpBackIn?.hours,
-      options.onRepeat?.days,
-      options.onRepeat?.limit,
-      options.yourPlaylists?.limit,
-      options.yourPlaylists?.favoritesOnly,
       options.newReleases?.limit,
       options.newReleases?.days,
+      options.onRepeat?.days,
+      options.onRepeat?.limit,
+      options.discover?.limit,
       options.favoriteArtists?.limit,
-      options.discover?.limit
+      options.yourPlaylists?.limit,
+      options.yourPlaylists?.favoritesOnly,
+      options.topAlbums?.limit,
+      options.recentlyAdded?.limit,
+      options.recentlyAdded?.days
     ]
   )
 
   const combineFunction = useCallback((queryResults: any[]) => {
     const [
+      quickAccessResult,
       jumpBackInResult,
-      onRepeatResult,
-      yourPlaylistsResult,
       newReleasesResult,
+      onRepeatResult,
+      discoverResult,
       favoriteArtistsResult,
-      discoverResult
+      yourPlaylistsResult,
+      topAlbumsResult,
+      recentlyAddedResult
     ] = queryResults
 
     const home: Home = {
+      quickAccess: quickAccessResult.data as QuickAccess | undefined,
       jumpBackIn: jumpBackInResult.data as JumpBackIn | undefined,
-      onRepeat: onRepeatResult.data as OnRepeat | undefined,
-      yourPlaylists: yourPlaylistsResult.data as YourPlaylists | undefined,
       newReleases: newReleasesResult.data as NewReleases | undefined,
+      onRepeat: onRepeatResult.data as OnRepeat | undefined,
+      discover: discoverResult.data as Discover | undefined,
       favoriteArtists: favoriteArtistsResult.data as FavoriteArtists | undefined,
-      discover: discoverResult.data as Discover | undefined
+      yourPlaylists: yourPlaylistsResult.data as YourPlaylists | undefined,
+      topAlbums: topAlbumsResult.data as TopAlbums | undefined,
+      recentlyAdded: recentlyAddedResult.data as RecentlyAdded | undefined
     }
 
     return {
