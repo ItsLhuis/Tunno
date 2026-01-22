@@ -2,9 +2,11 @@ import { memo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { useAlbumPlayback } from "./hooks"
 
-import { IconButton, Marquee, SafeLink, Thumbnail, Typography } from "@components/ui"
+import { IconButton, Marquee, SafeLink, Skeleton, Thumbnail, Typography } from "@components/ui"
 
 import { AlbumActions } from "../AlbumActions"
 
@@ -12,12 +14,30 @@ import { formatDuration } from "@repo/utils"
 
 import { type AlbumItemCardProps } from "./types"
 
-const AlbumItemCard = memo(({ album }: AlbumItemCardProps) => {
+const AlbumItemCardPlaceholder = () => (
+  <div className="flex size-full flex-col gap-3 rounded p-2">
+    <Skeleton className="aspect-square w-full rounded" />
+    <div className="flex w-full flex-col gap-2">
+      <Skeleton className="h-3.5 w-32 rounded" />
+      <Skeleton className="h-3.25 w-24 rounded" />
+    </div>
+  </div>
+)
+
+const AlbumItemCard = memo(({ album, index = 0 }: AlbumItemCardProps) => {
   const { t } = useTranslation()
 
   const { isLoading, isTrackLoading, handlePlayAlbum } = useAlbumPlayback(album.id)
 
   const canPlay = album.totalTracks > 0
+
+  const { shouldRender } = useDelayedRender({
+    index
+  })
+
+  if (!shouldRender) {
+    return <AlbumItemCardPlaceholder />
+  }
 
   return (
     <AlbumActions variant="context" albumId={album.id}>

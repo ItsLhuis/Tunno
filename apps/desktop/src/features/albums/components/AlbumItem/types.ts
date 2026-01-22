@@ -8,7 +8,9 @@ export type AlbumItemHeroProps = BaseAlbumItemProps & {
   heroLabel?: string
 }
 
-export type AlbumItemCardProps = BaseAlbumItemProps
+export type AlbumItemCardProps = BaseAlbumItemProps & {
+  index?: number
+}
 
 export type AlbumItemFeaturedProps = BaseAlbumItemProps
 

@@ -141,7 +141,7 @@ const AlbumsList = () => {
       onEndReachedThreshold={1}
       renderItem={({ item, index, selected, toggle }) =>
         viewMode === "grid" ? (
-          <AlbumItemCard album={item} />
+          <AlbumItemCard album={item} index={index} />
         ) : (
           <AlbumItemList album={item} index={index} selected={selected} onToggle={toggle} />
         )
