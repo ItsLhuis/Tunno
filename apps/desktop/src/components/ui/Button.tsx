@@ -25,14 +25,13 @@ const buttonVariants = cva(
           "bg-primary text-primary-foreground hover:text-primary-foreground/90 hover:bg-primary/80 focus-visible:bg-primary/80",
         text: "font-bold text-primary hover:bg-accent/50 focus-visible:bg-accent/50",
         destructive:
-          "bg-destructive text-destructive-foreground hover:text-destructive-foreground/90 hover:bg-destructive/80 focus-visible:bg-destructive/80 bg-destructive/60",
+          "bg-destructive text-destructive-foreground hover:text-destructive-foreground/90 hover:bg-destructive/80 focus-visible:bg-destructive/80",
         outline:
-          "hover:text-accent-foreground hover:bg-accent bg-sidebar/75 border-input hover:bg-input/75 focus-visible:bg-accent border border-input focus-visible:border-primary!",
+          "hover:text-accent-foreground bg-sidebar/75 hover:bg-input/75 focus-visible:bg-accent border border-input focus-visible:border-primary!",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-visible:bg-secondary/80",
-        ghost:
-          "hover:text-accent-foreground hover:bg-accent hover:bg-accent/50 focus-visible:bg-accent",
-        link: "inline text-xs cursor-default leading-none border-0 hover:text-primary focus:outline-none focus-visible:text-primary focus-visible:border-0 [&>*]:hover:text-primary [&>*]:focus-visible:text-primary !h-auto !p-0"
+        ghost: "hover:text-accent-foreground hover:bg-accent/50 focus-visible:bg-accent",
+        link: "inline text-xs cursor-default leading-none border-0 hover:text-primary focus:outline-none focus-visible:text-primary focus-visible:border-0 *:hover:text-primary *:focus-visible:text-primary h-auto! p-0!"
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

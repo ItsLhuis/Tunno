@@ -14,38 +14,39 @@ export type ImageProps = {
 }
 
 const Image = ({ src, className, containerClassName, onLoad, ref, ...props }: ImageProps) => {
-  const [displaySrc, setDisplaySrc] = useState<string | null>(src ?? null)
+  const [displaySrc, setDisplaySrc] = useState<string | null>(null)
+
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const preloadRef = useRef<HTMLImageElement | null>(null)
 
   useEffect(() => {
-    if (src && src !== displaySrc) {
-      const preloadImage = new window.Image()
-      preloadRef.current = preloadImage
-      preloadImage.src = src
-
-      preloadImage.onload = () => {
-        setDisplaySrc(src)
-        preloadRef.current = null
-      }
-
-      preloadImage.onerror = () => {
-        preloadRef.current = null
-      }
-
-      return () => {
-        if (preloadRef.current) {
-          preloadRef.current.onload = null
-          preloadRef.current.onerror = null
-          preloadRef.current = null
-        }
-      }
-    } else if (!src && displaySrc !== null) {
+    if (!src) {
       setDisplaySrc(null)
+      setIsLoaded(false)
+      return
     }
-  }, [src, displaySrc])
 
-  useEffect(() => {
+    if (src === displaySrc && isLoaded) {
+      return
+    }
+
+    setIsLoaded(false)
+    const preloadImage = new window.Image()
+    preloadRef.current = preloadImage
+    preloadImage.src = src
+
+    preloadImage.onload = () => {
+      setDisplaySrc(src)
+      setIsLoaded(true)
+      preloadRef.current = null
+    }
+
+    preloadImage.onerror = () => {
+      preloadRef.current = null
+      setIsLoaded(false)
+    }
+
     return () => {
       if (preloadRef.current) {
         preloadRef.current.onload = null
@@ -53,7 +54,11 @@ const Image = ({ src, className, containerClassName, onLoad, ref, ...props }: Im
         preloadRef.current = null
       }
     }
-  }, [])
+  }, [src])
+
+  const handleImageLoad = () => {
+    onLoad?.()
+  }
 
   return (
     <div
@@ -64,7 +69,7 @@ const Image = ({ src, className, containerClassName, onLoad, ref, ...props }: Im
       )}
     >
       <AnimatePresence mode="popLayout">
-        {displaySrc && (
+        {displaySrc && isLoaded && (
           <motion.img
             ref={ref}
             key={displaySrc}
@@ -73,8 +78,8 @@ const Image = ({ src, className, containerClassName, onLoad, ref, ...props }: Im
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            onLoad={onLoad}
-            className={cn("aspect-auto w-12", className, "transition-opacity")}
+            onLoad={handleImageLoad}
+            className={cn("aspect-auto w-12", className)}
             {...props}
           />
         )}
