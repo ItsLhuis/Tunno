@@ -1,3 +1,5 @@
+import { useCallback } from "react"
+
 import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
@@ -14,10 +16,23 @@ type DiscoverProps = {
   discover: DiscoverData
 }
 
+type DiscoverSong = DiscoverData["songs"][number]
+
 const Discover = ({ discover }: DiscoverProps) => {
   const styles = useStyles(discoverStyles)
 
   const { t } = useTranslation()
+
+  const keyExtractor = useCallback((item: DiscoverSong, index: number) => `${item.id}-${index}`, [])
+
+  const renderItem = useCallback(
+    ({ item }: { item: DiscoverSong }) => (
+      <View style={styles.carouselItem}>
+        <SongItemCard song={item} />
+      </View>
+    ),
+    [styles.carouselItem]
+  )
 
   if (discover.totalSongs === 0) {
     return null
@@ -34,12 +49,9 @@ const Discover = ({ discover }: DiscoverProps) => {
       <Carousel>
         <CarouselContent
           data={discover.songs}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
           contentContainerStyle={styles.carouselContentContainer}
-          renderItem={({ item, index }) => (
-            <View style={styles.carouselItem}>
-              <SongItemCard key={`${item.id}-${index}`} song={item} />
-            </View>
-          )}
         />
       </Carousel>
     </View>

@@ -1,3 +1,5 @@
+import { useCallback } from "react"
+
 import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
@@ -8,7 +10,7 @@ import { Carousel, CarouselContent, Text } from "@components/ui"
 
 import { AlbumItemCard } from "@features/albums/components"
 
-import { type NewReleases as NewReleasesData } from "@repo/api"
+import { type Album, type NewReleases as NewReleasesData } from "@repo/api"
 
 type NewReleasesProps = {
   newReleases: NewReleasesData
@@ -19,7 +21,18 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
 
   const { t } = useTranslation()
 
-  const albums = newReleases.albums.slice(1)
+  const albums = newReleases.albums
+
+  const keyExtractor = useCallback((item: Album, index: number) => `${item.id}-${index}`, [])
+
+  const renderItem = useCallback(
+    ({ item }: { item: Album }) => (
+      <View style={styles.carouselItem}>
+        <AlbumItemCard album={item} />
+      </View>
+    ),
+    [styles.carouselItem]
+  )
 
   if (albums.length === 0) {
     return null
@@ -36,12 +49,9 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
       <Carousel>
         <CarouselContent
           data={albums}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
           contentContainerStyle={styles.carouselContentContainer}
-          renderItem={({ item, index }) => (
-            <View style={styles.carouselItem}>
-              <AlbumItemCard key={`${item.id}-${index}`} album={item} />
-            </View>
-          )}
         />
       </Carousel>
     </View>

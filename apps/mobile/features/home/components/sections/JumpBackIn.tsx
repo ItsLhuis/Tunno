@@ -1,3 +1,5 @@
+import { useCallback } from "react"
+
 import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
@@ -14,10 +16,26 @@ type JumpBackInProps = {
   jumpBackIn: JumpBackInData
 }
 
+type JumpBackInItem = JumpBackInData["items"][number]
+
 const JumpBackIn = ({ jumpBackIn }: JumpBackInProps) => {
   const styles = useStyles(jumpBackInStyles)
 
   const { t } = useTranslation()
+
+  const keyExtractor = useCallback(
+    (item: JumpBackInItem, index: number) => `${item.song.id}-${index}`,
+    []
+  )
+
+  const renderItem = useCallback(
+    ({ item }: { item: JumpBackInItem }) => (
+      <View style={styles.carouselItem}>
+        <SongItemCard song={item.song} />
+      </View>
+    ),
+    [styles.carouselItem]
+  )
 
   if (jumpBackIn.totalItems === 0) {
     return null
@@ -34,12 +52,9 @@ const JumpBackIn = ({ jumpBackIn }: JumpBackInProps) => {
       <Carousel>
         <CarouselContent
           data={jumpBackIn.items}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
           contentContainerStyle={styles.carouselContentContainer}
-          renderItem={({ item, index }) => (
-            <View style={styles.carouselItem}>
-              <SongItemCard key={`${item.song.id}-${index}`} song={item.song} />
-            </View>
-          )}
         />
       </Carousel>
     </View>

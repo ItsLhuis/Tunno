@@ -42,7 +42,7 @@ const YourPlaylists = ({ yourPlaylists }: YourPlaylistsProps) => {
         <CarouselContent className="gap-2">
           {organizedPlaylists.map((pair, columnIndex) => (
             <CarouselItem key={`column-${columnIndex}`}>
-              <div className="flex w-100 flex-col gap-2">
+              <div className="flex w-80 flex-col gap-2">
                 <PlaylistItemCompact playlist={pair[0]} index={columnIndex * 2} />
                 {pair[1] && <PlaylistItemCompact playlist={pair[1]} index={columnIndex * 2 + 1} />}
               </div>

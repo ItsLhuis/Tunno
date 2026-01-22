@@ -20,7 +20,7 @@ type NewReleasesProps = {
 const NewReleases = ({ newReleases }: NewReleasesProps) => {
   const { t } = useTranslation()
 
-  const albums = newReleases.albums.slice(1)
+  const albums = newReleases.albums
 
   if (albums.length === 0) {
     return null

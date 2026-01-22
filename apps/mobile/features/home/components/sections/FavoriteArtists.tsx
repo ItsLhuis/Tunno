@@ -1,3 +1,5 @@
+import { useCallback } from "react"
+
 import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
@@ -8,7 +10,7 @@ import { Carousel, CarouselContent, Text } from "@components/ui"
 
 import { ArtistItemCard } from "@features/artists/components"
 
-import { type FavoriteArtists as FavoriteArtistsData } from "@repo/api"
+import { type Artist, type FavoriteArtists as FavoriteArtistsData } from "@repo/api"
 
 type FavoriteArtistsProps = {
   favoriteArtists: FavoriteArtistsData
@@ -18,6 +20,17 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
   const styles = useStyles(favoriteArtistsStyles)
 
   const { t } = useTranslation()
+
+  const keyExtractor = useCallback((item: Artist, index: number) => `${item.id}-${index}`, [])
+
+  const renderItem = useCallback(
+    ({ item }: { item: Artist }) => (
+      <View style={styles.carouselItem}>
+        <ArtistItemCard artist={item} />
+      </View>
+    ),
+    [styles.carouselItem]
+  )
 
   if (favoriteArtists.totalArtists === 0) {
     return null
@@ -34,12 +47,9 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
       <Carousel>
         <CarouselContent
           data={favoriteArtists.artists}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
           contentContainerStyle={styles.carouselContentContainer}
-          renderItem={({ item, index }) => (
-            <View style={styles.carouselItem}>
-              <ArtistItemCard key={`${item.id}-${index}`} artist={item} />
-            </View>
-          )}
         />
       </Carousel>
     </View>
