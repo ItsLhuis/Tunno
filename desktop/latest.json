@@ -1,15 +1,15 @@
 {
-  "version": "1.4.5",
-  "notes": "### Added\n\n- ✨ **Empty Home Page**: The home page now features a welcoming empty state with a call-to-action\n  to get started.",
-  "pub_date": "2026-01-07T17:54:16.297Z",
+  "version": "1.5.0",
+  "notes": "### Added\n\n- 🏠 **Home Page Redesign**: Complete overhaul of the home page\n- 🎬 **Staggered Rendering**: Items now render progressively with a staggered animation effect for\n  improved perceived performance in home and fast upload pages\n\n### Changed\n\n- 🎨 **Color Extraction**: Replaced ColorThief with a custom Canvas API-based color extraction for\n  better performance and smaller bundle size\n- ⚡ **Performance Improvements**:\n  - Optimized menu and list components for faster rendering\n  - Reduced unnecessary re-renders throughout the application\n- 🔧 **Error Handling**: Enhanced API error handling with automatic retry logic\n- 🎨 **UI Polish**:\n  - Refined component styles and spacing across the application\n  - Adjusted icon sizes in headers and playback controls for better consistency\n  - Polished empty home page state",
+  "pub_date": "2026-01-22T22:50:30.119Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTNwdWRvbFhsRXFONTk3R29FOGZDaTkwRFZFZ0diaWlEZnlHWXQzQTRtNDNlQ2hRQ3NpRDhMTURwbW1mdStTUENGOERHREV5Q1dUY3pLdlhtei93N2dFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY3ODA4NDU0CWZpbGU6VHVubm9fMS40LjVfeDY0X2VuLVVTLm1zaQpuVU5uMEVsNSt2S29lSTREWGRrTnZ0S0Q5bDVRQ3VZSGZLczlXT0lJWXUxZXd3YWIvalBhOTdLdERHTHppWlVFbWNlK3hPWGlZM0xUTlh1UW5sSWZEZz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.4.5/Tunno_1.4.5_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTZKK01LZEprV3lON3NVc21KZ0RzYXFITytOSnlJWHhsWGl6N3lxazk4Wnlmb3VzWEUrSEN2N2NmQnRnRHVJdkpvNkw0VlZYTUMzM1gzdHd5U0FJVmdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTIyMjI2CWZpbGU6VHVubm9fMS41LjBfeDY0X2VuLVVTLm1zaQp1TWwzL0UxaXlaRkVNM1RPN21MeEdTQmFNcnRrMXdIaG9TYktBOUNReE9zVEpwa2tIaVVUVm1oU2FRQWZtNWJKQktiT2xXclI2bEhibHF4djdmZXFEZz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.0/Tunno_1.5.0_x64_en-US.msi"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTNwdWRvbFhsRXFONTk3R29FOGZDaTkwRFZFZ0diaWlEZnlHWXQzQTRtNDNlQ2hRQ3NpRDhMTURwbW1mdStTUENGOERHREV5Q1dUY3pLdlhtei93N2dFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY3ODA4NDU0CWZpbGU6VHVubm9fMS40LjVfeDY0X2VuLVVTLm1zaQpuVU5uMEVsNSt2S29lSTREWGRrTnZ0S0Q5bDVRQ3VZSGZLczlXT0lJWXUxZXd3YWIvalBhOTdLdERHTHppWlVFbWNlK3hPWGlZM0xUTlh1UW5sSWZEZz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.4.5/Tunno_1.4.5_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTZKK01LZEprV3lON3NVc21KZ0RzYXFITytOSnlJWHhsWGl6N3lxazk4Wnlmb3VzWEUrSEN2N2NmQnRnRHVJdkpvNkw0VlZYTUMzM1gzdHd5U0FJVmdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTIyMjI2CWZpbGU6VHVubm9fMS41LjBfeDY0X2VuLVVTLm1zaQp1TWwzL0UxaXlaRkVNM1RPN21MeEdTQmFNcnRrMXdIaG9TYktBOUNReE9zVEpwa2tIaVVUVm1oU2FRQWZtNWJKQktiT2xXclI2bEhibHF4djdmZXFEZz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.0/Tunno_1.5.0_x64_en-US.msi"
     }
   }
 }
