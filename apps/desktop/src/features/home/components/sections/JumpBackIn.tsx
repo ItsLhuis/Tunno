@@ -34,7 +34,7 @@ const JumpBackIn = ({ jumpBackIn }: JumpBackInProps) => {
         <CarouselContent>
           {jumpBackIn.items.map((item, index) => (
             <CarouselItem key={`${item.song.id}-${index}`} className="w-50">
-              <SongItemCard song={item.song} />
+              <SongItemCard song={item.song} index={index} />
             </CarouselItem>
           ))}
         </CarouselContent>

@@ -36,7 +36,7 @@ const NewReleases = ({ newReleases }: NewReleasesProps) => {
         <CarouselContent>
           {albums.map((album, index) => (
             <CarouselItem key={`${album.id}-${index}`} className="w-50">
-              <AlbumItemCard album={album} />
+              <AlbumItemCard album={album} index={index} />
             </CarouselItem>
           ))}
         </CarouselContent>

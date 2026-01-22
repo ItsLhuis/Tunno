@@ -4,12 +4,15 @@ import { useTranslation } from "@repo/i18n"
 
 import { useBreakpoint } from "@hooks/useBreakpoint"
 
+import { useDelayedRender } from "@hooks/useDelayedRender"
+
 import { join } from "@tauri-apps/api/path"
 
 import {
   Badge,
   Icon,
   Marquee,
+  Skeleton,
   Spinner,
   Thumbnail,
   Typography,
@@ -19,6 +22,7 @@ import {
 import { type ProcessingTrack, type TrackStatus } from "../types"
 
 type TrackItemProps = {
+  index?: number
   track: ProcessingTrack
   processId: string | null
 }
@@ -41,7 +45,31 @@ type StatusConfig = {
   }
 }
 
-const TrackItem = memo(({ track, processId }: TrackItemProps) => {
+const TrackItemPlaceholder = ({
+  gridTemplateColumns,
+  showAlbumColumn
+}: {
+  gridTemplateColumns: string
+  showAlbumColumn: boolean
+}) => (
+  <div className="grid w-full items-center gap-3 rounded p-2" style={{ gridTemplateColumns }}>
+    <div className="flex items-center justify-center">
+      <Skeleton className="aspect-square size-14 rounded" />
+    </div>
+    <div className="flex flex-1 items-center gap-3">
+      <div className="flex w-full flex-col gap-2">
+        <Skeleton className="h-3.5 w-32 rounded" />
+        <Skeleton className="h-3.25 w-24 rounded" />
+      </div>
+    </div>
+    {showAlbumColumn && <Skeleton className="h-3.5 w-32 rounded" />}
+    <div className="flex items-center justify-center">
+      <Skeleton className="h-5 w-24 rounded-full" />
+    </div>
+  </div>
+)
+
+const TrackItem = memo(({ index = 0, track, processId }: TrackItemProps) => {
   const { t } = useTranslation()
 
   const { isBelow } = useBreakpoint()
@@ -60,6 +88,17 @@ const TrackItem = memo(({ track, processId }: TrackItemProps) => {
 
     return cols.join(" ")
   }, [showAlbumColumn])
+
+  const { shouldRender } = useDelayedRender({ index })
+
+  if (!shouldRender) {
+    return (
+      <TrackItemPlaceholder
+        gridTemplateColumns={gridTemplateColumns}
+        showAlbumColumn={showAlbumColumn}
+      />
+    )
+  }
 
   const statusConfig: StatusConfig = {
     pending: {

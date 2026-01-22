@@ -65,7 +65,7 @@ const FastUploadPage = () => {
         gap={8}
         renderItem={({ item, index }) => (
           <div data-track-index={index}>
-            <TrackItem track={item} processId={processId} />
+            <TrackItem index={index} track={item} processId={processId} />
           </div>
         )}
         layout="list"
