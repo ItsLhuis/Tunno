@@ -8,14 +8,15 @@ import { cn } from "@lib/utils"
 
 import { AsyncState, ScrollAreaWithHeaders } from "@components/ui"
 
-import { AlbumItemFeatured } from "@features/albums/components"
-
 import {
   Discover,
   FavoriteArtists,
   JumpBackIn,
   NewReleases,
   OnRepeat,
+  QuickAccess,
+  RecentlyAdded,
+  TopAlbums,
   YourPlaylists
 } from "./sections"
 
@@ -51,22 +52,26 @@ const HomePage = () => {
         className={cn("flex w-full flex-1 flex-col gap-9", (isLoading || isError) && "min-h-44")}
       >
         {(data) => {
-          const featuredAlbum = data.newReleases?.albums?.[0]
+          const hasQuickAccess = (data.quickAccess?.totalItems ?? 0) > 0
           const hasJumpBackIn = (data.jumpBackIn?.totalItems ?? 0) > 0
+          const hasNewReleases = (data.newReleases?.totalAlbums ?? 0) > 0
           const hasOnRepeat = (data.onRepeat?.totalSongs ?? 0) > 0
-          const hasNewReleases = (data.newReleases?.totalAlbums ?? 0) > 1
-          const hasYourPlaylists = (data.yourPlaylists?.totalPlaylists ?? 0) > 0
           const hasDiscover = (data.discover?.totalSongs ?? 0) > 0
           const hasFavoriteArtists = (data.favoriteArtists?.totalArtists ?? 0) > 0
+          const hasYourPlaylists = (data.yourPlaylists?.totalPlaylists ?? 0) > 0
+          const hasTopAlbums = (data.topAlbums?.totalAlbums ?? 0) > 0
+          const hasRecentlyAdded = (data.recentlyAdded?.totalItems ?? 0) > 0
 
           const hasAnySection =
-            featuredAlbum ||
+            hasQuickAccess ||
             hasJumpBackIn ||
-            hasOnRepeat ||
-            hasYourPlaylists ||
             hasNewReleases ||
+            hasOnRepeat ||
             hasDiscover ||
-            hasFavoriteArtists
+            hasFavoriteArtists ||
+            hasYourPlaylists ||
+            hasTopAlbums ||
+            hasRecentlyAdded
 
           return (
             <AsyncState
@@ -74,13 +79,15 @@ const HomePage = () => {
               EmptyComponent={<HomePageEmpty />}
               className="flex w-full flex-1 flex-col gap-9"
             >
-              {featuredAlbum && <AlbumItemFeatured album={featuredAlbum} />}
+              {hasQuickAccess && <QuickAccess quickAccess={data.quickAccess!} />}
               {hasJumpBackIn && <JumpBackIn jumpBackIn={data.jumpBackIn!} />}
-              {hasOnRepeat && <OnRepeat onRepeat={data.onRepeat!} />}
               {hasNewReleases && <NewReleases newReleases={data.newReleases!} />}
-              {hasYourPlaylists && <YourPlaylists yourPlaylists={data.yourPlaylists!} />}
+              {hasOnRepeat && <OnRepeat onRepeat={data.onRepeat!} />}
               {hasDiscover && <Discover discover={data.discover!} />}
               {hasFavoriteArtists && <FavoriteArtists favoriteArtists={data.favoriteArtists!} />}
+              {hasYourPlaylists && <YourPlaylists yourPlaylists={data.yourPlaylists!} />}
+              {hasTopAlbums && <TopAlbums topAlbums={data.topAlbums!} />}
+              {hasRecentlyAdded && <RecentlyAdded recentlyAdded={data.recentlyAdded!} />}
             </AsyncState>
           )
         }}
