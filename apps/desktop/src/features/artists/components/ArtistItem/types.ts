@@ -12,6 +12,10 @@ export type ArtistItemCardProps = BaseArtistItemProps & {
   index?: number
 }
 
+export type ArtistItemCompactProps = BaseArtistItemProps & {
+  index?: number
+}
+
 export type ArtistItemListProps = BaseArtistItemProps & {
   index?: number
   selected?: boolean

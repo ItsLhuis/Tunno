@@ -6,4 +6,6 @@ export type BaseArtistItemProps = {
 
 export type ArtistItemCardProps = BaseArtistItemProps
 
+export type ArtistItemCompactProps = BaseArtistItemProps
+
 export type ArtistItemListProps = BaseArtistItemProps
