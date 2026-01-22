@@ -2,6 +2,27 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.5.0] - 2026-01-22
+
+### Added
+
+- 🏠 **Home Page Redesign**: Complete overhaul of the home page
+- 🎬 **Staggered Rendering**: Items now render progressively with a staggered animation effect for
+  improved perceived performance in home and fast upload pages
+
+### Changed
+
+- 🎨 **Color Extraction**: Replaced ColorThief with a custom Canvas API-based color extraction for
+  better performance and smaller bundle size
+- ⚡ **Performance Improvements**:
+  - Optimized menu and list components for faster rendering
+  - Reduced unnecessary re-renders throughout the application
+- 🔧 **Error Handling**: Enhanced API error handling with automatic retry logic
+- 🎨 **UI Polish**:
+  - Refined component styles and spacing across the application
+  - Adjusted icon sizes in headers and playback controls for better consistency
+  - Polished empty home page state
+
 ## [1.4.5] - 2026-01-07
 
 ### Added
