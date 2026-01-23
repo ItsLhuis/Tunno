@@ -2,6 +2,9 @@ import { memo, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
+
 import { useBreakpoint } from "@hooks/useBreakpoint"
 
 import { useDelayedRender } from "@hooks/useDelayedRender"
@@ -87,7 +90,8 @@ const SongItemList = memo(
     visibleColumns,
     queueIndex,
     playlistId,
-    queuePlayback = false
+    queuePlayback = false,
+    sortableId
   }: SongItemListProps) => {
     const { t, i18n } = useTranslation()
 
@@ -100,6 +104,19 @@ const SongItemList = memo(
       sourceContextId,
       { queuePlayback, queueIndex }
     )
+
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+      id: sortableId ?? "",
+      disabled: !sortableId
+    })
+
+    const sortableStyle = sortableId
+      ? {
+          transform: CSS.Transform.toString(transform),
+          transition,
+          zIndex: isDragging ? 9999 : undefined
+        }
+      : {}
 
     const showCheckbox = !!onToggle
     const columnsToShow = visibleColumns || ALL_COLUMNS
@@ -149,11 +166,13 @@ const SongItemList = memo(
         playlistId={playlistId}
       >
         <div
+          ref={sortableId ? setNodeRef : undefined}
           className={cn(
             "group focus-within:bg-accent hover:bg-accent grid w-full items-center gap-3 rounded p-2 transition-colors",
             selected && "bg-accent"
           )}
-          style={{ gridTemplateColumns }}
+          style={{ gridTemplateColumns, ...sortableStyle }}
+          {...(sortableId ? { ...attributes, ...listeners } : {})}
         >
           {showCheckboxColumn && (
             <div className="flex items-center justify-center">

@@ -2,6 +2,16 @@ import { useCallback, useMemo, useRef } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import {
+  closestCenter,
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent
+} from "@dnd-kit/core"
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+
 import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "../../stores/usePlayerStore"
@@ -22,8 +32,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  Typography,
-  VirtualizedList
+  Typography
 } from "@components/ui"
 
 import { SongItemList } from "@features/songs/components/SongItem"
@@ -45,13 +54,22 @@ const MAX_PREVIOUS_SONGS = 100
 const QueueSheet = () => {
   const { t } = useTranslation()
 
-  const { queueIds, currentTrackIndex, cachedSongs, clearQueue } = usePlayerStore(
+  const { queueIds, currentTrackIndex, cachedSongs, clearQueue, moveInQueue } = usePlayerStore(
     useShallow((state) => ({
       queueIds: state.queueIds,
       currentTrackIndex: state.currentTrackIndex,
       cachedSongs: state.cachedSongs,
-      clearQueue: state.clearQueue
+      clearQueue: state.clearQueue,
+      moveInQueue: state.moveInQueue
     }))
+  )
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8
+      }
+    })
   )
 
   const queueSongs = useMemo(() => {
@@ -123,16 +141,42 @@ const QueueSheet = () => {
     }))
   }, [queueIds, cachedSongs, currentTrackIndex])
 
+  const sortableItems = useMemo(
+    () => queueSongs.filter((item) => item.section !== "current"),
+    [queueSongs]
+  )
+
+  const sortableIds = useMemo(
+    () => sortableItems.map((item) => `${item.song.id}-${item.originalIndex}`),
+    [sortableItems]
+  )
+
+  const itemsMap = useMemo(
+    () => new Map(sortableItems.map((item) => [`${item.song.id}-${item.originalIndex}`, item])),
+    [sortableItems]
+  )
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event
+
+      if (!over || active.id === over.id) return
+
+      const activeItemData = itemsMap.get(String(active.id))
+      const overItemData = itemsMap.get(String(over.id))
+
+      if (!activeItemData || !overItemData) return
+
+      moveInQueue(activeItemData.originalIndex, overItemData.originalIndex)
+    },
+    [moveInQueue, itemsMap]
+  )
+
   const totalInQueue = queueIds.length
   const visibleCount = queueSongs.length
   const isLoading = queueIds.length > 0 && cachedSongs.size === 0
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
-
-  const keyExtractor = useCallback(
-    (item: QueueSongItem) => `${item.song.id}-${item.originalIndex}`,
-    []
-  )
 
   const getSectionTitle = useCallback(
     (section: SectionType): string => {
@@ -178,39 +222,45 @@ const QueueSheet = () => {
         <ScrollArea ref={scrollRef} className="h-full">
           <AsyncState data={queueSongs} isLoading={isLoading} className="h-full">
             {(songs) => (
-              <VirtualizedList
-                data={songs}
-                keyExtractor={keyExtractor}
-                estimateItemHeight={70}
-                gap={8}
-                scrollRef={scrollRef}
-                containerClassName="p-6"
-                renderItem={({ item, index }) => {
-                  const showSectionHeader = index === 0 || songs[index - 1].section !== item.section
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
+                  <div className="space-y-2 p-6">
+                    {songs.map((item, index) => {
+                      const showSectionHeader =
+                        index === 0 || songs[index - 1].section !== item.section
 
-                  return (
-                    <div className="flex flex-col gap-2">
-                      {showSectionHeader && (
-                        <Typography affects={["small", "muted"]} className="mt-2 first:mt-0">
-                          {getSectionTitle(item.section)}
-                        </Typography>
-                      )}
-                      <SongItemList
-                        song={item.song}
-                        index={item.displayIndex}
-                        visibleColumns={["title"]}
-                        queueIndex={item.originalIndex}
-                        queuePlayback
-                      />
-                    </div>
-                  )
-                }}
-                ListEmptyComponent={() => (
-                  <div className="flex h-full items-center justify-center py-8">
-                    <Typography affects={["muted"]}>{t("common.noResultsFound")}</Typography>
+                      return (
+                        <div
+                          key={`${item.song.id}-${item.originalIndex}`}
+                          className="flex flex-col gap-2"
+                        >
+                          {showSectionHeader && (
+                            <Typography affects={["small", "muted"]} className="mt-2 first:mt-0">
+                              {getSectionTitle(item.section)}
+                            </Typography>
+                          )}
+                          <SongItemList
+                            song={item.song}
+                            index={item.displayIndex}
+                            visibleColumns={["title"]}
+                            queueIndex={item.originalIndex}
+                            queuePlayback
+                            sortableId={
+                              item.section !== "current"
+                                ? `${item.song.id}-${item.originalIndex}`
+                                : undefined
+                            }
+                          />
+                        </div>
+                      )
+                    })}
                   </div>
-                )}
-              />
+                </SortableContext>
+              </DndContext>
             )}
           </AsyncState>
         </ScrollArea>
