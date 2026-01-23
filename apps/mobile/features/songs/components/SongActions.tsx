@@ -19,9 +19,9 @@ import { useToggleSongFavorite } from "../hooks/useToggleSongFavorite"
 import {
   ContextMenu,
   ContextMenuContent,
+  ContextMenuFlashList,
   ContextMenuItem,
   ContextMenuLabel,
-  ContextMenuLegendList,
   ContextMenuSeparator,
   ContextMenuSub,
   ContextMenuSubContent,
@@ -29,9 +29,9 @@ import {
   ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuFlashList,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuLegendList,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -137,7 +137,7 @@ const SongActionsContent = memo(
     const MenuSub = variant === "context" ? ContextMenuSub : DropdownMenuSub
     const MenuSubTrigger = variant === "context" ? ContextMenuSubTrigger : DropdownMenuSubTrigger
     const MenuSubContent = variant === "context" ? ContextMenuSubContent : DropdownMenuSubContent
-    const MenuLegendList = variant === "context" ? ContextMenuLegendList : DropdownMenuLegendList
+    const MenuFlashList = variant === "context" ? ContextMenuFlashList : DropdownMenuFlashList
 
     const handlePlaySong = useCallback(async () => {
       if (targetSong) {
@@ -230,8 +230,6 @@ const SongActionsContent = memo(
       (item: NonNullable<typeof targetSong>["artists"][0]) => item.artistId.toString(),
       []
     )
-
-    const artistGetFixedItemSize = useCallback(() => 30, [])
 
     const renderArtistItem = useCallback(
       ({ item: artist }: { item: NonNullable<typeof targetSong>["artists"][0] }) => (
@@ -339,12 +337,10 @@ const SongActionsContent = memo(
                   <Text size="sm">{t("common.goToArtist")}</Text>
                 </MenuSubTrigger>
                 <MenuSubContent scrollable>
-                  <MenuLegendList
+                  <MenuFlashList
                     data={targetSong.artists}
                     keyExtractor={artistKeyExtractor}
                     renderItem={renderArtistItem}
-                    estimatedItemSize={30}
-                    getFixedItemSize={artistGetFixedItemSize}
                   />
                 </MenuSubContent>
               </MenuSub>

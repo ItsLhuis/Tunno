@@ -19,9 +19,9 @@ import { useToggleAlbumFavorite } from "../hooks/useToggleAlbumFavorite"
 import {
   ContextMenu,
   ContextMenuContent,
+  ContextMenuFlashList,
   ContextMenuItem,
   ContextMenuLabel,
-  ContextMenuLegendList,
   ContextMenuSeparator,
   ContextMenuSub,
   ContextMenuSubContent,
@@ -29,9 +29,9 @@ import {
   ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuFlashList,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuLegendList,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -122,7 +122,7 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
   const MenuSub = variant === "context" ? ContextMenuSub : DropdownMenuSub
   const MenuSubTrigger = variant === "context" ? ContextMenuSubTrigger : DropdownMenuSubTrigger
   const MenuSubContent = variant === "context" ? ContextMenuSubContent : DropdownMenuSubContent
-  const MenuLegendList = variant === "context" ? ContextMenuLegendList : DropdownMenuLegendList
+  const MenuFlashList = variant === "context" ? ContextMenuFlashList : DropdownMenuFlashList
 
   const handlePlayAlbum = useCallback(async () => {
     if (albumSongs.length > 0) {
@@ -197,8 +197,6 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
     (item: NonNullable<typeof targetAlbum>["artists"][0]) => item.artistId.toString(),
     []
   )
-
-  const artistGetFixedItemSize = useCallback(() => 30, [])
 
   const renderArtistItem = useCallback(
     ({ item: artist }: { item: NonNullable<typeof targetAlbum>["artists"][0] }) => (
@@ -298,12 +296,10 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
                 <Text size="sm">{t("common.goToArtist")}</Text>
               </MenuSubTrigger>
               <MenuSubContent scrollable>
-                <MenuLegendList
+                <MenuFlashList
                   data={targetAlbum.artists}
                   keyExtractor={artistKeyExtractor}
                   renderItem={renderArtistItem}
-                  estimatedItemSize={30}
-                  getFixedItemSize={artistGetFixedItemSize}
                 />
               </MenuSubContent>
             </MenuSub>

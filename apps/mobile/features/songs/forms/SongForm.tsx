@@ -43,9 +43,9 @@ import {
   Select,
   SelectCheckboxItem,
   SelectContent,
+  SelectFlashList,
   SelectGroupHeader,
   SelectItem,
-  SelectLegendList,
   SelectTrigger,
   SelectValue,
   Sheet,
@@ -222,8 +222,6 @@ const SongForm = ({
 
   const artistKeyExtractor = useCallback((item: (typeof artistOptions)[0]) => item.value, [])
 
-  const artistGetFixedItemSize = useCallback(() => 36, [])
-
   const renderArtistItem = useCallback(
     ({ item }: { item: (typeof artistOptions)[0] }) => (
       <SelectCheckboxItem value={item.value} title={item.label} />
@@ -248,10 +246,6 @@ const SongForm = ({
       item.type === "group" ? `group-${index}` : item.data.value,
     []
   )
-
-  const albumGetFixedItemSize = useCallback((_: number, item: GroupedAlbumItem) => {
-    return item.type === "group" ? 35 : 30
-  }, [])
 
   const renderAlbumItem = useCallback(
     ({ item }: { item: GroupedAlbumItem }) =>
@@ -554,13 +548,11 @@ const SongForm = ({
                       <SelectValue placeholder={t("form.labels.artists")} />
                     </SelectTrigger>
                     <SelectContent scrollable>
-                      <SelectLegendList
+                      <SelectFlashList
                         data={artistOptions}
                         keyExtractor={artistKeyExtractor}
                         contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
                         renderItem={renderArtistItem}
-                        estimatedItemSize={36}
-                        getFixedItemSize={artistGetFixedItemSize}
                         ListEmptyComponent={ArtistListEmptyComponent}
                       />
                     </SelectContent>
@@ -586,15 +578,13 @@ const SongForm = ({
                       <SelectValue placeholder={t("form.labels.album")} />
                     </SelectTrigger>
                     <SelectContent scrollable>
-                      <SelectLegendList
+                      <SelectFlashList
                         data={groupedAlbumOptions}
                         keyExtractor={albumKeyExtractor}
                         contentContainerStyle={styles.selectContent(
                           groupedAlbumOptions.length === 0
                         )}
                         renderItem={renderAlbumItem}
-                        estimatedItemSize={32}
-                        getFixedItemSize={albumGetFixedItemSize}
                         ListEmptyComponent={AlbumListEmptyComponent}
                       />
                     </SelectContent>

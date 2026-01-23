@@ -11,22 +11,22 @@ import { formatTime, parseTime } from "@repo/utils"
 import { FlashList } from "@shopify/flash-list"
 
 import { Badge } from "@components/ui/Badge"
-import { BottomSheetLegendList } from "@components/ui/BottomSheet"
+import { BottomSheetFlashList } from "@components/ui/BottomSheet"
 import { IconButton } from "@components/ui/IconButton"
+import { NotFound } from "@components/ui/NotFound"
 import { NumberInput } from "@components/ui/NumberInput"
 import { Separator } from "@components/ui/Separator"
 import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFlashList,
   SheetHeader,
-  SheetLegendList,
   SheetTitle,
   SheetTrigger
 } from "@components/ui/Sheet"
 import { Text } from "@components/ui/Text"
 import { TextInput } from "@components/ui/TextInput"
-import { NotFound } from "@components/ui/NotFound"
 
 export type Lyric = {
   text: string
@@ -269,11 +269,10 @@ const LyricsEditor = ({
                     <SheetDescription>{t("form.descriptions.lyricsPreview")}</SheetDescription>
                   </SheetHeader>
                   <View style={styles.previewContainer}>
-                    <SheetLegendList
+                    <SheetFlashList
                       data={syncedLines}
                       keyExtractor={keyExtractor}
                       renderItem={renderPreviewItem}
-                      estimatedItemSize={20}
                       ListEmptyComponent={ListEmptyComponent}
                       contentContainerStyle={styles.previewList(syncedLines.length === 0)}
                     />
@@ -287,11 +286,10 @@ const LyricsEditor = ({
         <Separator />
         <View style={styles.list}>
           {insideBottomSheet ? (
-            <BottomSheetLegendList
+            <BottomSheetFlashList
               data={syncedLines}
               keyExtractor={keyExtractor}
               renderItem={renderItem}
-              estimatedItemSize={120}
               ListEmptyComponent={ListEmptyComponent}
               contentContainerStyle={styles.listContent(syncedLines.length === 0)}
               nestedScrollEnabled

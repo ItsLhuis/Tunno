@@ -20,9 +20,9 @@ import {
   Separator,
   Sheet,
   SheetContent,
+  SheetFlatList,
   SheetFooter,
   SheetHeader,
-  SheetLegendList,
   SheetTitle,
   SheetTrigger,
   Text
@@ -141,10 +141,6 @@ const QueueSheet = () => {
     return `${item.song.id}-${item.originalIndex}`
   }, [])
 
-  const getItemType = useCallback((item: QueueListItem) => {
-    return item.type === "header" ? "sectionHeader" : "row"
-  }, [])
-
   const getSectionTitle = useCallback(
     (section: SectionType): string => {
       switch (section) {
@@ -211,14 +207,15 @@ const QueueSheet = () => {
             </Text>
           </SheetHeader>
           <Separator />
-          <SheetLegendList
+          <SheetFlatList
             data={listItems}
             keyExtractor={keyExtractor}
-            getItemType={getItemType}
             ListEmptyComponent={<NotFound />}
             contentContainerStyle={styles.contentContainer}
+            removeClippedSubviews
+            windowSize={7}
+            initialNumToRender={20}
             renderItem={renderItem}
-            estimatedItemSize={56}
           />
           {songCount > 0 && (
             <Fade style={styles.footer}>

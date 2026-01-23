@@ -41,8 +41,8 @@ import {
   Select,
   SelectCheckboxItem,
   SelectContent,
+  SelectFlashList,
   SelectItem,
-  SelectLegendList,
   SelectTrigger,
   SelectValue,
   Sheet,
@@ -248,8 +248,6 @@ const AlbumForm = ({
 
   const artistKeyExtractor = useCallback((item: (typeof artistOptions)[0]) => item.value, [])
 
-  const artistGetFixedItemSize = useCallback(() => 36, [])
-
   const renderArtistItem = useCallback(
     ({ item }: { item: (typeof artistOptions)[0] }) => (
       <SelectCheckboxItem value={item.value} title={item.label} />
@@ -412,13 +410,11 @@ const AlbumForm = ({
                       <SelectValue placeholder={t("form.labels.artists")} />
                     </SelectTrigger>
                     <SelectContent scrollable>
-                      <SelectLegendList
+                      <SelectFlashList
                         data={artistOptions}
                         keyExtractor={artistKeyExtractor}
                         contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
                         renderItem={renderArtistItem}
-                        estimatedItemSize={36}
-                        getFixedItemSize={artistGetFixedItemSize}
                         ListEmptyComponent={ArtistListEmptyComponent}
                       />
                     </SelectContent>

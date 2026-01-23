@@ -19,7 +19,7 @@ import { FlashList } from "@shopify/flash-list"
 
 import {
   AsyncState,
-  BottomSheetLegendList,
+  BottomSheetFlashList,
   Button,
   Form,
   FormControl,
@@ -204,12 +204,11 @@ const AddToPlaylistForm = ({
                   <FormControl style={styles.fill}>
                     <View style={styles.fill}>
                       {asSheet ? (
-                        <BottomSheetLegendList
+                        <BottomSheetFlashList
                           data={data}
                           extraData={selectedIds}
                           keyExtractor={keyExtractor}
                           renderItem={renderItem}
-                          estimatedItemSize={75}
                           contentContainerStyle={styles.listContent(data.length === 0)}
                         />
                       ) : (
