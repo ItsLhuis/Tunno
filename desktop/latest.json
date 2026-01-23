@@ -1,15 +1,15 @@
 {
-  "version": "1.5.1",
-  "notes": "### Fixed\n\n- 🐛 **Titlebar Navigation**: Fixed back/forward button states not updating reactively by using\n  TanStack Router's `useCanGoBack` hook and adding fallback for undefined history index",
-  "pub_date": "2026-01-23T09:51:23.485Z",
+  "version": "1.5.2",
+  "notes": "### Added\n\n- 🎵 **Queue Reordering**: Drag and drop songs in the queue to reorder them",
+  "pub_date": "2026-01-23T13:42:36.460Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTBjZnM5WVE3dldvMTMrODRoMjJuWGJSQ3prRjNuV1hFdGtwMmdPUVQreER3RVcvM1o3dDZ0eDgxbUZVMm5uU2NPU2RZZ3ZnR3VaNm1wRVhHT0ZCTmdnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTYxODgwCWZpbGU6VHVubm9fMS41LjFfeDY0X2VuLVVTLm1zaQpETVkzYjFkaC8ySzY2L3d4SS9Bc1M4cWtNYVB0Ly9TVU9HS3NaK2hCYlpDaUp2Mkg0STliOHB4WWc0cWVCRVpCOGpGZFJjdEVIYzBtSU5zSkRLT0RDZz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.1/Tunno_1.5.1_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS93RDNoYnNpbC92SXlZWEwxQ2pjYzFOdVlyL1J3d1N5UmliTlc3cFJXZ1RMZVR3UjRRemhqbGNhZmhCREJqaUpFQ091WndSNEhwMDM2VWJUbkRWdmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTc1NzUyCWZpbGU6VHVubm9fMS41LjJfeDY0X2VuLVVTLm1zaQpBdmFqeC9BQzVJZmMrVmtwYXBDZnZMN21ZOENBWURlSGFFWStodHZYRWF3WFVKS1gwekJKRDAvajVjMlJrYzc2NTFGbm1pVDlldnhqaVlHdWdYOEJBdz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.2/Tunno_1.5.2_x64_en-US.msi"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTBjZnM5WVE3dldvMTMrODRoMjJuWGJSQ3prRjNuV1hFdGtwMmdPUVQreER3RVcvM1o3dDZ0eDgxbUZVMm5uU2NPU2RZZ3ZnR3VaNm1wRVhHT0ZCTmdnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTYxODgwCWZpbGU6VHVubm9fMS41LjFfeDY0X2VuLVVTLm1zaQpETVkzYjFkaC8ySzY2L3d4SS9Bc1M4cWtNYVB0Ly9TVU9HS3NaK2hCYlpDaUp2Mkg0STliOHB4WWc0cWVCRVpCOGpGZFJjdEVIYzBtSU5zSkRLT0RDZz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.1/Tunno_1.5.1_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS93RDNoYnNpbC92SXlZWEwxQ2pjYzFOdVlyL1J3d1N5UmliTlc3cFJXZ1RMZVR3UjRRemhqbGNhZmhCREJqaUpFQ091WndSNEhwMDM2VWJUbkRWdmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTc1NzUyCWZpbGU6VHVubm9fMS41LjJfeDY0X2VuLVVTLm1zaQpBdmFqeC9BQzVJZmMrVmtwYXBDZnZMN21ZOENBWURlSGFFWStodHZYRWF3WFVKS1gwekJKRDAvajVjMlJrYzc2NTFGbm1pVDlldnhqaVlHdWdYOEJBdz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.2/Tunno_1.5.2_x64_en-US.msi"
     }
   }
 }
