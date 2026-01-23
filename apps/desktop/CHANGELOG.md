@@ -2,6 +2,12 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.5.2] - 2026-01-23
+
+### Added
+
+- 🎵 **Queue Reordering**: Drag and drop songs in the queue to reorder them
+
 ## [1.5.1] - 2026-01-23
 
 ### Fixed
