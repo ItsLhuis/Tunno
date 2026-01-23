@@ -20,6 +20,9 @@ env:
   NODE_VERSION: "lts/*"
   PNPM_VERSION: "10.23.0"
   JAVA_VERSION: "17"
+  GRADLE_OPTS:
+    "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError
+    -Dfile.encoding=UTF-8"
 
 jobs:
   build:
@@ -59,6 +62,17 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Configure Gradle Memory
+        run: |
+          mkdir -p android
+          cat >> android/gradle.properties << 'EOF'
+          org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+          org.gradle.daemon=true
+          org.gradle.parallel=true
+          org.gradle.configureondemand=true
+          org.gradle.caching=true
+          EOF
+
       - name: Install dependencies & build monorepo
         run: |
           cd ../../
@@ -76,6 +90,7 @@ jobs:
             --output ./tunno-${{ github.event.inputs.profile }}.apk
         env:
           CI: true
+          NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
