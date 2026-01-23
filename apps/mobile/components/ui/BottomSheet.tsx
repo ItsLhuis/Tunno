@@ -191,6 +191,7 @@ function BottomSheetFlashList<T>(props: FlashListProps<T>) {
     <FlashList
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
+      bounces={false}
       {...props}
       style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
@@ -207,6 +208,7 @@ function BottomSheetLegendList<T>(props: LegendListProps<T>) {
     <LegendList
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
+      bounces={false}
       recycleItems
       {...props}
       style={StyleSheet.flatten([styles.container, props.style])}
@@ -228,7 +230,6 @@ export {
   BottomSheetLegendList,
   BottomSheetScrollView,
   BottomSheetView,
-  useBottomSheetModal
+  useBottomSheetModal,
+  type SNAP_POINT_TYPE
 }
-
-export type { SNAP_POINT_TYPE }

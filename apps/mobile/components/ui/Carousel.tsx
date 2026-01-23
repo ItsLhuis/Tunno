@@ -428,6 +428,7 @@ function CarouselContent<T>({
     horizontal: isHorizontal,
     showsHorizontalScrollIndicator: false,
     showsVerticalScrollIndicator: false,
+    bounces: false,
     onScroll: handleScroll,
     scrollEventThrottle: 16,
     onViewableItemsChanged: handleViewableItemsChanged,

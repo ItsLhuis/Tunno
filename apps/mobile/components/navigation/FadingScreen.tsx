@@ -25,7 +25,7 @@ const FadingScreen = ({
   offset,
   children,
   style,
-  delay = 0
+  delay = 50
 }: FadingScreenProps) => {
   const [isFocused, setIsFocused] = useState(false)
 
