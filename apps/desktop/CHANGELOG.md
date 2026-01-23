@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.5.1] - 2026-01-23
+
+### Fixed
+
+- 🐛 **Titlebar Navigation**: Fixed back/forward button states not updating reactively by using
+  TanStack Router's `useCanGoBack` hook and adding fallback for undefined history index
+
 ## [1.5.0] - 2026-01-22
 
 ### Added
