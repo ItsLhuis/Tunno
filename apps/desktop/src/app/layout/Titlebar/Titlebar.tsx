@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 
-import { useRouter, useRouterState } from "@tanstack/react-router"
+import { useRouter, useRouterState, useCanGoBack } from "@tanstack/react-router"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -50,8 +50,9 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
   const { isBelow } = useBreakpoint()
   const isCompact = isBelow("sm")
 
-  const canGoBack = router.history.canGoBack()
-  const canGoForward = router.history.length > routerState.location.state.__TSR_index + 1
+  const canGoBack = useCanGoBack()
+  const historyIndex = routerState.location.state.__TSR_index ?? 0
+  const canGoForward = router.history.length > historyIndex + 1
 
   const { breadcrumbs } = useBreadcrumbs()
 
