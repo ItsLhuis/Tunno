@@ -16,12 +16,13 @@ import {
   type RefObject
 } from "react"
 
-import { View, type GestureResponderEvent, type ViewProps } from "react-native"
+import { View, type FlatListProps, type GestureResponderEvent, type ViewProps } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
 import {
   BottomSheet,
+  BottomSheetFlatList,
   BottomSheetFlashList,
   BottomSheetLegendList,
   BottomSheetScrollView,
@@ -248,6 +249,12 @@ const SheetScrollView = ({ children, style, contentContainerStyle }: SheetScroll
   )
 }
 
+export type SheetFlatListProps<T> = FlatListProps<T>
+
+function SheetFlatList<T>(props: SheetFlatListProps<T>) {
+  return <BottomSheetFlatList<T> {...props} />
+}
+
 export type SheetFlashListProps<T> = FlashListProps<T>
 
 function SheetFlashList<T>(props: SheetFlashListProps<T>) {
@@ -312,6 +319,7 @@ export {
   SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFlatList,
   SheetFlashList,
   SheetFooter,
   SheetHeader,

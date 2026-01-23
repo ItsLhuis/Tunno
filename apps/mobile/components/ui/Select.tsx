@@ -16,7 +16,13 @@ import {
   type RefObject
 } from "react"
 
-import { View, type GestureResponderEvent, type StyleProp, type ViewStyle } from "react-native"
+import {
+  View,
+  type FlatListProps,
+  type GestureResponderEvent,
+  type StyleProp,
+  type ViewStyle
+} from "react-native"
 
 import { createStyleSheet, createVariant, durationTokens, useStyles } from "@styles"
 
@@ -32,6 +38,7 @@ import { useTranslation } from "@repo/i18n"
 import { Badge } from "@components/ui/Badge"
 import {
   BottomSheet,
+  BottomSheetFlatList,
   BottomSheetFlashList,
   BottomSheetLegendList,
   BottomSheetScrollView,
@@ -509,6 +516,32 @@ const SelectGroupHeader = ({ children, title, style }: SelectGroupHeaderProps) =
   )
 }
 
+export type SelectScrollViewProps = React.ComponentProps<typeof BottomSheetScrollView>
+
+const SelectScrollView = ({ contentContainerStyle, ...props }: SelectScrollViewProps) => {
+  const styles = useStyles(selectStyles)
+
+  return (
+    <BottomSheetScrollView
+      contentContainerStyle={[styles.content, contentContainerStyle]}
+      {...props}
+    />
+  )
+}
+
+export type SelectFlatListProps<T> = FlatListProps<T>
+
+function SelectFlatList<T>({ contentContainerStyle, ...props }: SelectFlatListProps<T>) {
+  const styles = useStyles(selectStyles)
+
+  return (
+    <BottomSheetFlatList<T>
+      contentContainerStyle={[styles.content, contentContainerStyle]}
+      {...props}
+    />
+  )
+}
+
 export type SelectFlashListProps<T> = FlashListProps<T>
 
 function SelectFlashList<T>({ contentContainerStyle, ...props }: SelectFlashListProps<T>) {
@@ -634,12 +667,14 @@ export {
   Select,
   SelectCheckboxItem,
   SelectContent,
+  SelectFlatList,
   SelectFlashList,
   SelectGroup,
   SelectGroupHeader,
   SelectItem,
   SelectLabel,
   SelectLegendList,
+  SelectScrollView,
   SelectSeparator,
   SelectTrigger,
   SelectValue

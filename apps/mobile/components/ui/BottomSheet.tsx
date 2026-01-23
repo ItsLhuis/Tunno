@@ -8,7 +8,14 @@ import {
   useState
 } from "react"
 
-import { BackHandler, type StyleProp, StyleSheet, type ViewStyle } from "react-native"
+import {
+  BackHandler,
+  FlatList,
+  type FlatListProps,
+  type StyleProp,
+  StyleSheet,
+  type ViewStyle
+} from "react-native"
 
 import {
   createStyleSheet,
@@ -217,6 +224,24 @@ function BottomSheetLegendList<T>(props: LegendListProps<T>) {
   )
 }
 
+function BottomSheetFlatList<T>(props: FlatListProps<T>) {
+  const styles = useStyles(bottomSheetLegendListStyles)
+
+  const ScrollComponent = useBottomSheetScrollableCreator()
+
+  return (
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
+      overScrollMode="never"
+      {...props}
+      style={StyleSheet.flatten([styles.container, props.style])}
+      renderScrollComponent={ScrollComponent}
+    />
+  )
+}
+
 const bottomSheetLegendListStyles = createStyleSheet(() => ({
   container: {
     flex: 1,
@@ -226,6 +251,7 @@ const bottomSheetLegendListStyles = createStyleSheet(() => ({
 
 export {
   BottomSheet,
+  BottomSheetFlatList,
   BottomSheetFlashList,
   BottomSheetLegendList,
   BottomSheetScrollView,

@@ -16,12 +16,13 @@ import {
   type RefObject
 } from "react"
 
-import { type GestureResponderEvent, type ViewProps } from "react-native"
+import { type FlatListProps, type GestureResponderEvent, type ViewProps } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
 import {
   BottomSheet,
+  BottomSheetFlatList,
   BottomSheetFlashList,
   BottomSheetLegendList,
   BottomSheetScrollView,
@@ -236,6 +237,12 @@ const PopoverScrollView = ({ children, style, contentContainerStyle }: PopoverSc
   )
 }
 
+export type PopoverFlatListProps<T> = FlatListProps<T>
+
+function PopoverFlatList<T>(props: PopoverFlatListProps<T>) {
+  return <BottomSheetFlatList<T> {...props} />
+}
+
 export type PopoverFlashListProps<T> = FlashListProps<T>
 
 function PopoverFlashList<T>(props: PopoverFlashListProps<T>) {
@@ -268,6 +275,7 @@ export {
   PopoverAnchor,
   PopoverClose,
   PopoverContent,
+  PopoverFlatList,
   PopoverFlashList,
   PopoverLegendList,
   PopoverScrollView,

@@ -16,7 +16,13 @@ import {
   type RefObject
 } from "react"
 
-import { View, type GestureResponderEvent, type StyleProp, type ViewStyle } from "react-native"
+import {
+  View,
+  type FlatListProps,
+  type GestureResponderEvent,
+  type StyleProp,
+  type ViewStyle
+} from "react-native"
 
 import { createStyleSheet, durationTokens, useStyles } from "@styles"
 
@@ -29,6 +35,7 @@ import Animated, {
 
 import {
   BottomSheet,
+  BottomSheetFlatList,
   BottomSheetFlashList,
   BottomSheetLegendList,
   BottomSheetScrollView,
@@ -619,6 +626,18 @@ const DropdownMenuShortcut = ({ style, ...props }: DropdownMenuShortcutProps) =>
   return <Text size="xs" color="mutedForeground" style={[styles.shortcut, style]} {...props} />
 }
 
+export type DropdownMenuScrollViewProps = React.ComponentProps<typeof BottomSheetScrollView>
+
+const DropdownMenuScrollView = (props: DropdownMenuScrollViewProps) => {
+  return <BottomSheetScrollView {...props} />
+}
+
+export type DropdownMenuFlatListProps<T> = FlatListProps<T>
+
+function DropdownMenuFlatList<T>(props: DropdownMenuFlatListProps<T>) {
+  return <BottomSheetFlatList<T> {...props} />
+}
+
 export type DropdownMenuFlashListProps<T> = FlashListProps<T>
 
 function DropdownMenuFlashList<T>(props: DropdownMenuFlashListProps<T>) {
@@ -682,6 +701,7 @@ export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuFlatList,
   DropdownMenuFlashList,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -690,6 +710,7 @@ export {
   DropdownMenuPortal,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuScrollView,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuSub,

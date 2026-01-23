@@ -19,6 +19,7 @@ import {
 import {
   Pressable as RNPressable,
   View,
+  type FlatListProps,
   type GestureResponderEvent,
   type PressableProps as RNPressableProps,
   type StyleProp,
@@ -36,6 +37,7 @@ import Animated, {
 
 import {
   BottomSheet,
+  BottomSheetFlatList,
   BottomSheetFlashList,
   BottomSheetLegendList,
   BottomSheetScrollView,
@@ -623,6 +625,18 @@ const ContextMenuShortcut = ({ style, ...props }: ContextMenuShortcutProps) => {
   return <Text size="xs" color="mutedForeground" style={[styles.shortcut, style]} {...props} />
 }
 
+export type ContextMenuScrollViewProps = React.ComponentProps<typeof BottomSheetScrollView>
+
+const ContextMenuScrollView = (props: ContextMenuScrollViewProps) => {
+  return <BottomSheetScrollView {...props} />
+}
+
+export type ContextMenuFlatListProps<T> = FlatListProps<T>
+
+function ContextMenuFlatList<T>(props: ContextMenuFlatListProps<T>) {
+  return <BottomSheetFlatList<T> {...props} />
+}
+
 export type ContextMenuFlashListProps<T> = FlashListProps<T>
 
 function ContextMenuFlashList<T>(props: ContextMenuFlashListProps<T>) {
@@ -686,6 +700,7 @@ export {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
+  ContextMenuFlatList,
   ContextMenuFlashList,
   ContextMenuGroup,
   ContextMenuItem,
@@ -694,6 +709,7 @@ export {
   ContextMenuPortal,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
+  ContextMenuScrollView,
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuSub,
