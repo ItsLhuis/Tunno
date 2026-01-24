@@ -93,7 +93,7 @@ const SongInfoStickyHeader = ({
       <Header
         scrollY={scrollY}
         showHeader={showHeader}
-        headerBackgroundAnimation={!dominantColor}
+        headerBackgroundAnimation={!song.thumbnail}
         bottomBorder={!dominantColor}
         headerStyle={{
           backgroundColor: dominantColor || undefined

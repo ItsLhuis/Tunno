@@ -74,7 +74,7 @@ const AlbumInfoStickyHeader = ({
       <Header
         scrollY={scrollY}
         showHeader={showHeader}
-        headerBackgroundAnimation={!dominantColor}
+        headerBackgroundAnimation={!album.thumbnail}
         bottomBorder={!dominantColor}
         headerStyle={{
           backgroundColor: dominantColor || undefined

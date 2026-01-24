@@ -49,7 +49,7 @@ const PlaylistInfoStickyHeader = ({
       <Header
         scrollY={scrollY}
         showHeader={showHeader}
-        headerBackgroundAnimation={!dominantColor}
+        headerBackgroundAnimation={!playlist.thumbnail}
         bottomBorder={!dominantColor}
         headerStyle={{
           backgroundColor: dominantColor || undefined

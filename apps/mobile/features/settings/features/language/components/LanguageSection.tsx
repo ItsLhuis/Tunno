@@ -1,3 +1,5 @@
+import { createStyleSheet, useStyles } from "@styles"
+
 import { useShallow } from "zustand/shallow"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
@@ -15,8 +17,6 @@ import {
   Icon,
   Image
 } from "@components/ui"
-
-import { createStyleSheet, useStyles } from "@styles"
 
 import { SettingButton, type SettingButtonProps } from "@features/settings/components"
 

@@ -2,11 +2,11 @@ import { Fragment } from "react"
 
 import { Linking, View } from "react-native"
 
+import { createStyleSheet, useStyles } from "@styles"
+
 import { useTranslation } from "@repo/i18n"
 
 import Constants from "@constants/expo"
-
-import { createStyleSheet, useStyles } from "@styles"
 
 import { Button, Icon, Image, Text } from "@components/ui"
 

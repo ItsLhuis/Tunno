@@ -53,7 +53,7 @@ const ArtistInfoStickyHeader = ({
       <Header
         scrollY={scrollY}
         showHeader={showHeader}
-        headerBackgroundAnimation={!dominantColor}
+        headerBackgroundAnimation={!artist.thumbnail}
         bottomBorder={!dominantColor}
         headerStyle={{
           backgroundColor: dominantColor || undefined
