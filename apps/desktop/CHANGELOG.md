@@ -2,6 +2,14 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.5.3] - 2026-01-24
+
+### Changed
+
+- 🎵 **Queue Reordering**: Drag and drop is now limited to upcoming songs only for a more intuitive
+  experience
+- ⚡ **Queue Performance**: Reduced maximum displayed queue items for improved performance
+
 ## [1.5.2] - 2026-01-23
 
 ### Added
