@@ -1,6 +1,6 @@
 import { useCallback, useMemo, type ReactElement } from "react"
 
-import { View } from "react-native"
+import { FlatList, View, type ListRenderItem } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
@@ -12,6 +12,8 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { formatNumber } from "@repo/utils"
 
+import { type DragEndParams, type RenderItemParams } from "react-native-draggable-flatlist"
+
 import {
   AnimatedIconButton,
   Button,
@@ -20,7 +22,7 @@ import {
   Separator,
   Sheet,
   SheetContent,
-  SheetFlatList,
+  SheetDraggableFlatList,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -32,45 +34,35 @@ import { SongItemList } from "@features/songs/components/SongItem"
 
 import { type SongWithMainRelations } from "@repo/api"
 
-type SectionType = "current" | "upcoming" | "previous"
-
-type SectionHeader = {
-  type: "header"
-  section: SectionType
-}
-
 type QueueSongItem = {
-  type: "song"
   song: SongWithMainRelations
   originalIndex: number
-  section: SectionType
 }
 
-type QueueListItem = SectionHeader | QueueSongItem
-
-const MAX_UPCOMING_SONGS = 100
-const MAX_PREVIOUS_SONGS = 100
+const MAX_UPCOMING_SONGS = 25
+const MAX_PREVIOUS_SONGS = 25
 
 const QueueSheet = () => {
   const styles = useStyles(queueSheetStyles)
 
   const { t } = useTranslation()
 
-  const { queueIds, currentTrackIndex, cachedSongs, clearQueue } = usePlayerStore(
+  const { queueIds, currentTrackIndex, cachedSongs, clearQueue, moveInQueue } = usePlayerStore(
     useShallow((state) => ({
       queueIds: state.queueIds,
       currentTrackIndex: state.currentTrackIndex,
       cachedSongs: state.cachedSongs,
-      clearQueue: state.clearQueue
+      clearQueue: state.clearQueue,
+      moveInQueue: state.moveInQueue
     }))
   )
 
-  const { listItems, songCount } = useMemo(() => {
+  const { currentSong, upcomingItems, previousItems } = useMemo(() => {
     if (queueIds.length === 0 || cachedSongs.size === 0) {
-      return { listItems: [], songCount: 0 }
+      return { currentSong: null, upcomingItems: [], previousItems: [] }
     }
 
-    const current: QueueSongItem[] = []
+    let currentSong: QueueSongItem | null = null
     const upcoming: QueueSongItem[] = []
     const previous: QueueSongItem[] = []
 
@@ -78,18 +70,16 @@ const QueueSheet = () => {
       for (let i = 0; i < queueIds.length && upcoming.length < MAX_UPCOMING_SONGS; i++) {
         const song = cachedSongs.get(queueIds[i])
         if (song) {
-          upcoming.push({ type: "song", song, originalIndex: i, section: "upcoming" })
+          upcoming.push({ song, originalIndex: i })
         }
       }
     } else {
       const currentSongItem = cachedSongs.get(queueIds[currentTrackIndex])
       if (currentSongItem) {
-        current.push({
-          type: "song",
+        currentSong = {
           song: currentSongItem,
-          originalIndex: currentTrackIndex,
-          section: "current"
-        })
+          originalIndex: currentTrackIndex
+        }
       }
 
       for (
@@ -99,89 +89,128 @@ const QueueSheet = () => {
       ) {
         const song = cachedSongs.get(queueIds[i])
         if (song) {
-          upcoming.push({ type: "song", song, originalIndex: i, section: "upcoming" })
+          upcoming.push({ song, originalIndex: i })
         }
       }
 
       for (let i = currentTrackIndex - 1; i >= 0 && previous.length < MAX_PREVIOUS_SONGS; i--) {
         const song = cachedSongs.get(queueIds[i])
         if (song) {
-          previous.push({ type: "song", song, originalIndex: i, section: "previous" })
+          previous.push({ song, originalIndex: i })
         }
       }
     }
 
-    const items: QueueListItem[] = []
-    const totalSongs = current.length + upcoming.length + previous.length
-
-    if (current.length > 0) {
-      items.push({ type: "header", section: "current" })
-      items.push(...current)
-    }
-
-    if (upcoming.length > 0) {
-      items.push({ type: "header", section: "upcoming" })
-      items.push(...upcoming)
-    }
-
-    if (previous.length > 0) {
-      items.push({ type: "header", section: "previous" })
-      items.push(...previous)
-    }
-
-    return { listItems: items, songCount: totalSongs }
+    return { currentSong, upcomingItems: upcoming, previousItems: previous }
   }, [queueIds, cachedSongs, currentTrackIndex])
+
+  const songCount = upcomingItems.length + previousItems.length + (currentSong ? 1 : 0)
 
   const totalInQueue = queueIds.length
 
-  const keyExtractor = useCallback((item: QueueListItem) => {
-    if (item.type === "header") {
-      return `header-${item.section}`
-    }
-    return `${item.song.id}-${item.originalIndex}`
-  }, [])
-
-  const getSectionTitle = useCallback(
-    (section: SectionType): string => {
-      switch (section) {
-        case "current":
-          return t("common.nowPlaying")
-        case "upcoming":
-          return t("common.upNext")
-        case "previous":
-          return t("common.previous")
-      }
-    },
-    [t]
+  const keyExtractor = useCallback(
+    (item: QueueSongItem) => `${item.song.id}-${item.originalIndex}`,
+    []
   )
 
   const renderItem = useCallback(
-    ({ item, index }: { item: QueueListItem; index: number }): ReactElement => {
-      if (item.type === "header") {
-        return (
-          <View style={index === 0 ? styles.sectionHeaderFirst : styles.sectionHeader}>
-            <Text size="sm" color="mutedForeground">
-              {getSectionTitle(item.section)}
-            </Text>
-          </View>
-        )
-      }
-
-      const nextItem = listItems[index + 1]
-      const isLastInSection = !nextItem || nextItem.type === "header"
+    ({ item, drag, isActive, getIndex }: RenderItemParams<QueueSongItem>): ReactElement => {
+      const index = getIndex() ?? 0
+      const isLastInSection = index === upcomingItems.length - 1
 
       return (
         <View style={isLastInSection ? undefined : styles.itemContainer}>
-          <SongItemList song={item.song} queueIndex={item.originalIndex} queuePlayback />
+          <SongItemList
+            song={item.song}
+            queueIndex={item.originalIndex}
+            queuePlayback
+            drag={drag}
+            isActive={isActive}
+          />
         </View>
       )
     },
-    [styles, getSectionTitle, listItems]
+    [upcomingItems.length]
+  )
+
+  const renderPreviousItem: ListRenderItem<QueueSongItem> = useCallback(
+    ({ item, index }) => (
+      <View style={index === previousItems.length - 1 ? undefined : styles.itemContainer}>
+        <SongItemList song={item.song} queueIndex={item.originalIndex} queuePlayback />
+      </View>
+    ),
+    [previousItems.length]
+  )
+
+  const handleDragEnd = useCallback(
+    ({ from, to }: DragEndParams<QueueSongItem>) => {
+      if (from === to) return
+
+      const fromItem = upcomingItems[from]
+      const toItem = upcomingItems[to]
+
+      if (!fromItem || !toItem) return
+
+      moveInQueue(fromItem.originalIndex, toItem.originalIndex)
+    },
+    [upcomingItems, moveInQueue]
   )
 
   const handleClearQueue = useCallback(async () => {
     await clearQueue()
   }, [clearQueue])
+
+  const listHeaderComponent = useMemo(() => {
+    if (!currentSong && upcomingItems.length === 0) return null
+
+    return (
+      <View>
+        {currentSong && (
+          <View style={styles.itemContainer}>
+            <View style={styles.sectionHeaderFirst}>
+              <Text size="sm" color="mutedForeground">
+                {t("common.nowPlaying")}
+              </Text>
+            </View>
+            <SongItemList
+              song={currentSong.song}
+              queueIndex={currentSong.originalIndex}
+              queuePlayback
+            />
+          </View>
+        )}
+        {upcomingItems.length > 0 && (
+          <View style={currentSong ? styles.sectionHeader : styles.sectionHeaderFirst}>
+            <Text size="sm" color="mutedForeground">
+              {t("common.upNext")}
+            </Text>
+          </View>
+        )}
+      </View>
+    )
+  }, [currentSong, upcomingItems.length, t])
+
+  const listFooterComponent = useMemo(() => {
+    if (previousItems.length === 0) return null
+
+    return (
+      <View>
+        <View style={styles.sectionHeader}>
+          <Text size="sm" color="mutedForeground">
+            {t("common.previous")}
+          </Text>
+        </View>
+        <FlatList
+          data={previousItems}
+          keyExtractor={keyExtractor}
+          renderItem={renderPreviousItem}
+          scrollEnabled={false}
+        />
+      </View>
+    )
+  }, [previousItems, styles, t, keyExtractor, renderPreviousItem])
+
+  const hasContent = songCount > 0
 
   return (
     <Sheet>
@@ -207,17 +236,22 @@ const QueueSheet = () => {
             </Text>
           </SheetHeader>
           <Separator />
-          <SheetFlatList
-            data={listItems}
-            keyExtractor={keyExtractor}
-            ListEmptyComponent={<NotFound />}
-            contentContainerStyle={styles.contentContainer}
-            removeClippedSubviews
-            windowSize={7}
-            initialNumToRender={20}
-            renderItem={renderItem}
-          />
-          {songCount > 0 && (
+          <View style={styles.listContainer}>
+            {hasContent ? (
+              <SheetDraggableFlatList
+                data={upcomingItems}
+                keyExtractor={keyExtractor}
+                renderItem={renderItem}
+                ListHeaderComponent={listHeaderComponent}
+                ListFooterComponent={listFooterComponent}
+                contentContainerStyle={styles.contentContainer}
+                onDragEnd={handleDragEnd}
+              />
+            ) : (
+              <NotFound />
+            )}
+          </View>
+          {hasContent && (
             <Fade style={styles.footer}>
               <Separator />
               <SheetFooter>
@@ -249,6 +283,9 @@ const queueSheetStyles = createStyleSheet(({ theme, runtime }) => ({
   },
   itemContainer: {
     marginBottom: theme.space("md")
+  },
+  listContainer: {
+    flex: 1
   },
   contentContainer: {
     flexGrow: 1,
