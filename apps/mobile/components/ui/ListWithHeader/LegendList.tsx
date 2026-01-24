@@ -6,11 +6,11 @@ import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { LegendList, type LegendListProps, type LegendListRef } from "@legendapp/list"
 
-import { FadingView } from "./components"
-
 import Animated, { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
 
 import { useScroll } from "./hooks"
+
+import { FadingView } from "./components"
 
 import { type SharedScrollContainerProps } from "./types"
 

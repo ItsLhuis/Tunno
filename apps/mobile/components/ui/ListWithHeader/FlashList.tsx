@@ -6,11 +6,11 @@ import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { FlashList, type FlashListProps, type FlashListRef } from "@shopify/flash-list"
 
-import { FadingView } from "./components"
-
 import Animated, { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
 
 import { useScroll } from "./hooks"
+
+import { FadingView } from "./components"
 
 import { type SharedScrollContainerProps } from "./types"
 

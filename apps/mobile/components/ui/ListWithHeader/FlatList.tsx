@@ -1,6 +1,6 @@
-import { useImperativeHandle, type ReactNode, type Ref } from "react"
+import { useImperativeHandle, type Ref } from "react"
 
-import { View, type ScrollViewProps } from "react-native"
+import { View, type FlatListProps } from "react-native"
 
 import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
@@ -12,16 +12,13 @@ import { FadingView } from "./components"
 
 import { type SharedScrollContainerProps } from "./types"
 
-type AnimatedScrollViewProps = AnimatedProps<ScrollViewProps> &
-  SharedScrollContainerProps & {
-    children?: ReactNode
-  }
+type AnimatedFlatListProps<ItemT> = AnimatedProps<FlatListProps<ItemT>> & SharedScrollContainerProps
 
-export type ScrollViewWithHeadersProps = Omit<AnimatedScrollViewProps, "onScroll"> & {
-  ref?: Ref<Animated.ScrollView>
+export type FlatListWithHeadersProps<ItemT> = Omit<AnimatedFlatListProps<ItemT>, "onScroll"> & {
+  ref?: Ref<Animated.FlatList<ItemT>>
 }
 
-const ScrollViewWithHeaders = ({
+const FlatListWithHeaders = <ItemT extends any = any>({
   largeHeaderShown,
   containerStyle,
   LargeHeaderSubtitleComponent,
@@ -46,20 +43,20 @@ const ScrollViewWithHeaders = ({
   headerFadeInThreshold = 1,
   disableLargeHeaderFadeAnim = false,
   scrollIndicatorInsets = {},
-  children,
+  data,
   ref,
   ...props
-}: ScrollViewWithHeadersProps) => {
+}: FlatListWithHeadersProps<ItemT>) => {
   if (_unusedOnScroll) {
     throw new Error(
       "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
     )
   }
 
-  const styles = useStyles(scrollViewStyles)
+  const styles = useStyles(flatListStyles)
 
-  const scrollRef = useAnimatedRef<Animated.ScrollView>()
-  useImperativeHandle(ref, () => scrollRef.current as Animated.ScrollView)
+  const scrollRef = useAnimatedRef<Animated.FlatList<ItemT>>()
+  useImperativeHandle(ref, () => scrollRef.current as Animated.FlatList<ItemT>)
 
   const {
     scrollY,
@@ -71,6 +68,7 @@ const ScrollViewWithHeaders = ({
     onAbsoluteHeaderLayout,
     scrollViewAdjustments
   } = useScroll({
+    // @ts-expect-error - FlatList ref is compatible with scroll operations
     scrollRef,
     largeHeaderShown,
     disableAutoFixScroll,
@@ -89,14 +87,17 @@ const ScrollViewWithHeaders = ({
       ]}
     >
       {!absoluteHeader && HeaderComponent({ showHeader, scrollY })}
-      <Animated.ScrollView
+      {/* @ts-expect-error - FlatList props are compatible at runtime */}
+      <Animated.FlatList<ItemT>
         ref={scrollRef}
+        data={data}
         scrollEventThrottle={16}
         overScrollMode="never"
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
+        removeClippedSubviews
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel()
           if (onScrollBeginDrag) onScrollBeginDrag(e)
@@ -123,30 +124,32 @@ const ScrollViewWithHeaders = ({
           ...scrollViewAdjustments.scrollIndicatorInsets,
           ...scrollIndicatorInsets
         }}
-        {...props}
-      >
-        {LargeHeaderComponent && (
-          <View
-            onLayout={(event) => {
-              largeHeaderHeight.value = event.nativeEvent.layout.height
+        ListHeaderComponent={
+          <View>
+            {LargeHeaderComponent && (
+              <View
+                onLayout={(event) => {
+                  largeHeaderHeight.value = event.nativeEvent.layout.height
 
-              if (onLargeHeaderLayout) onLargeHeaderLayout(event.nativeEvent.layout)
-            }}
-          >
-            {!disableLargeHeaderFadeAnim ? (
-              <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                {LargeHeaderComponent({ scrollY, showHeader })}
-              </FadingView>
-            ) : (
-              <View style={largeHeaderContainerStyle}>
-                {LargeHeaderComponent({ scrollY, showHeader })}
+                  if (onLargeHeaderLayout) onLargeHeaderLayout(event.nativeEvent.layout)
+                }}
+              >
+                {!disableLargeHeaderFadeAnim ? (
+                  <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showHeader })}
+                  </FadingView>
+                ) : (
+                  <View style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showHeader })}
+                  </View>
+                )}
               </View>
             )}
+            {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showHeader, scrollY })}
           </View>
-        )}
-        {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showHeader, scrollY })}
-        {children}
-      </Animated.ScrollView>
+        }
+        {...props}
+      />
       {absoluteHeader && (
         <View style={styles.absoluteHeader} onLayout={onAbsoluteHeaderLayout}>
           {HeaderComponent({ showHeader, scrollY })}
@@ -156,7 +159,7 @@ const ScrollViewWithHeaders = ({
   )
 }
 
-const scrollViewStyles = createStyleSheet(({ runtime }) => ({
+const flatListStyles = createStyleSheet(({ runtime }) => ({
   container: (ignoreLeftSafeArea: boolean, ignoreRightSafeArea: boolean) =>
     viewStyle({
       flex: 1,
@@ -171,4 +174,4 @@ const scrollViewStyles = createStyleSheet(({ runtime }) => ({
   }
 }))
 
-export { ScrollViewWithHeaders }
+export { FlatListWithHeaders }
