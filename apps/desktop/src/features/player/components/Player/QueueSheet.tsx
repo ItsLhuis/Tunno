@@ -2,6 +2,12 @@ import { useCallback, useMemo, useRef } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
+import { useShallow } from "zustand/shallow"
+
+import { usePlayerStore } from "../../stores/usePlayerStore"
+
+import { formatNumber } from "@repo/utils"
+
 import {
   closestCenter,
   DndContext,
@@ -11,12 +17,6 @@ import {
   type DragEndEvent
 } from "@dnd-kit/core"
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
-
-import { useShallow } from "zustand/shallow"
-
-import { usePlayerStore } from "../../stores/usePlayerStore"
-
-import { formatNumber } from "@repo/utils"
 
 import {
   AsyncState,
@@ -48,8 +48,8 @@ type QueueSongItem = {
   displayIndex: number
 }
 
-const MAX_UPCOMING_SONGS = 100
-const MAX_PREVIOUS_SONGS = 100
+const MAX_UPCOMING_SONGS = 50
+const MAX_PREVIOUS_SONGS = 50
 
 const QueueSheet = () => {
   const { t } = useTranslation()
@@ -142,7 +142,7 @@ const QueueSheet = () => {
   }, [queueIds, cachedSongs, currentTrackIndex])
 
   const sortableItems = useMemo(
-    () => queueSongs.filter((item) => item.section !== "current"),
+    () => queueSongs.filter((item) => item.section === "upcoming"),
     [queueSongs]
   )
 
@@ -250,7 +250,7 @@ const QueueSheet = () => {
                             queueIndex={item.originalIndex}
                             queuePlayback
                             sortableId={
-                              item.section !== "current"
+                              item.section === "upcoming"
                                 ? `${item.song.id}-${item.originalIndex}`
                                 : undefined
                             }
