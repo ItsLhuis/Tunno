@@ -1,15 +1,15 @@
 {
-  "version": "1.5.2",
-  "notes": "### Added\n\n- 🎵 **Queue Reordering**: Drag and drop songs in the queue to reorder them",
-  "pub_date": "2026-01-23T13:42:36.460Z",
+  "version": "1.5.3",
+  "notes": "### Changed\n\n- 🎵 **Queue Reordering**: Drag and drop is now limited to upcoming songs only for a more intuitive\n  experience\n- ⚡ **Queue Performance**: Reduced maximum displayed queue items for improved performance",
+  "pub_date": "2026-01-24T11:27:40.611Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS93RDNoYnNpbC92SXlZWEwxQ2pjYzFOdVlyL1J3d1N5UmliTlc3cFJXZ1RMZVR3UjRRemhqbGNhZmhCREJqaUpFQ091WndSNEhwMDM2VWJUbkRWdmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTc1NzUyCWZpbGU6VHVubm9fMS41LjJfeDY0X2VuLVVTLm1zaQpBdmFqeC9BQzVJZmMrVmtwYXBDZnZMN21ZOENBWURlSGFFWStodHZYRWF3WFVKS1gwekJKRDAvajVjMlJrYzc2NTFGbm1pVDlldnhqaVlHdWdYOEJBdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.2/Tunno_1.5.2_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTRQR3ZnbDVTaWtjVnZjWitvajFZcllPNWlINUR0ZWczN1VFdE5US0FoMDFyU2tFSUowUGI2VGZCYTBpREU2TkNoa1lhRjNCSDVaRGFXNDFPWGpVWVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MjU0MDU4CWZpbGU6VHVubm9fMS41LjNfeDY0X2VuLVVTLm1zaQpIV1lKOFVlNDdNRURJdzJhcmZkMHRvd3BpU3dVWHRiU1FxdnBLS3l3REMwL1d4VTNWR0xHVWV4dTJ1ZldIVVF1ZUVNWWZPYmExZXM3Njh3ZjN2MlZBdz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.3/Tunno_1.5.3_x64_en-US.msi"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNS93RDNoYnNpbC92SXlZWEwxQ2pjYzFOdVlyL1J3d1N5UmliTlc3cFJXZ1RMZVR3UjRRemhqbGNhZmhCREJqaUpFQ091WndSNEhwMDM2VWJUbkRWdmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MTc1NzUyCWZpbGU6VHVubm9fMS41LjJfeDY0X2VuLVVTLm1zaQpBdmFqeC9BQzVJZmMrVmtwYXBDZnZMN21ZOENBWURlSGFFWStodHZYRWF3WFVKS1gwekJKRDAvajVjMlJrYzc2NTFGbm1pVDlldnhqaVlHdWdYOEJBdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.2/Tunno_1.5.2_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTRQR3ZnbDVTaWtjVnZjWitvajFZcllPNWlINUR0ZWczN1VFdE5US0FoMDFyU2tFSUowUGI2VGZCYTBpREU2TkNoa1lhRjNCSDVaRGFXNDFPWGpVWVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5MjU0MDU4CWZpbGU6VHVubm9fMS41LjNfeDY0X2VuLVVTLm1zaQpIV1lKOFVlNDdNRURJdzJhcmZkMHRvd3BpU3dVWHRiU1FxdnBLS3l3REMwL1d4VTNWR0xHVWV4dTJ1ZldIVVF1ZUVNWWZPYmExZXM3Njh3ZjN2MlZBdz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.5.3/Tunno_1.5.3_x64_en-US.msi"
     }
   }
 }
