@@ -13,7 +13,6 @@ import {
   FlatList,
   type FlatListProps,
   type StyleProp,
-  StyleSheet,
   type ViewStyle
 } from "react-native"
 
@@ -44,6 +43,8 @@ import {
 import { FlashList, type FlashListProps } from "@shopify/flash-list"
 
 import { LegendList, type LegendListProps } from "@legendapp/list"
+
+import DraggableFlatList, { type DraggableFlatListProps } from "react-native-draggable-flatlist"
 
 export type BottomSheetRef = BottomSheetModal
 
@@ -190,8 +191,6 @@ const BottomSheetScrollView = (props: BottomSheetScrollViewProps) => {
 }
 
 function BottomSheetFlashList<T>(props: FlashListProps<T>) {
-  const styles = useStyles(bottomSheetLegendListStyles)
-
   const ScrollComponent = useBottomSheetScrollableCreator()
 
   return (
@@ -200,15 +199,12 @@ function BottomSheetFlashList<T>(props: FlashListProps<T>) {
       showsHorizontalScrollIndicator={false}
       bounces={false}
       {...props}
-      style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
     />
   )
 }
 
 function BottomSheetLegendList<T>(props: LegendListProps<T>) {
-  const styles = useStyles(bottomSheetLegendListStyles)
-
   const ScrollComponent = useBottomSheetScrollableCreator()
 
   return (
@@ -218,15 +214,12 @@ function BottomSheetLegendList<T>(props: LegendListProps<T>) {
       bounces={false}
       recycleItems
       {...props}
-      style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
     />
   )
 }
 
 function BottomSheetFlatList<T>(props: FlatListProps<T>) {
-  const styles = useStyles(bottomSheetLegendListStyles)
-
   const ScrollComponent = useBottomSheetScrollableCreator()
 
   return (
@@ -236,23 +229,31 @@ function BottomSheetFlatList<T>(props: FlatListProps<T>) {
       bounces={false}
       overScrollMode="never"
       {...props}
-      style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
     />
   )
 }
 
-const bottomSheetLegendListStyles = createStyleSheet(() => ({
-  container: {
-    flex: 1,
-    height: 0.1
-  }
-}))
+function BottomSheetDraggableFlatList<T>(props: DraggableFlatListProps<T>) {
+  const ScrollComponent = useBottomSheetScrollableCreator()
+
+  return (
+    <DraggableFlatList
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
+      overScrollMode="never"
+      {...props}
+      renderScrollComponent={ScrollComponent}
+    />
+  )
+}
 
 export {
   BottomSheet,
-  BottomSheetFlatList,
+  BottomSheetDraggableFlatList,
   BottomSheetFlashList,
+  BottomSheetFlatList,
   BottomSheetLegendList,
   BottomSheetScrollView,
   BottomSheetView,
