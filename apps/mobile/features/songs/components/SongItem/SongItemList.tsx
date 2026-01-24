@@ -11,7 +11,7 @@ import { useSongPlayback } from "./hooks"
 import PlayingLottie from "@assets/lotties/Playing.json"
 import LottieView from "lottie-react-native"
 
-import { Fade, Pressable, Text, Thumbnail } from "@components/ui"
+import { Fade, IconButton, Pressable, Text, Thumbnail } from "@components/ui"
 
 import { SongActions } from "../SongActions"
 
@@ -25,7 +25,9 @@ const SongItemList = memo(
     sourceContextId,
     queueIndex,
     playlistId,
-    queuePlayback = false
+    queuePlayback = false,
+    drag,
+    isActive
   }: SongItemListProps) => {
     const styles = useStyles(songItemListStyles)
 
@@ -59,7 +61,11 @@ const SongItemList = memo(
         playlistId={playlistId}
       >
         {({ onLongPress }) => (
-          <Pressable style={styles.container} onPress={handlePress} onLongPress={onLongPress}>
+          <Pressable
+            style={[styles.container, isActive && styles.activeContainer]}
+            onPress={handlePress}
+            onLongPress={onLongPress}
+          >
             <Thumbnail
               fileName={song.thumbnail}
               placeholderIcon="Music"
@@ -77,6 +83,15 @@ const SongItemList = memo(
               <LottieView source={PlayingLottie} autoPlay loop style={styles.lottie} />
             </Fade>
             <SongActions songId={song.id} queueIndex={queueIndex} playlistId={playlistId} />
+            {drag && (
+              <IconButton
+                name="GripVertical"
+                variant="text"
+                iconColor="mutedForeground"
+                onLongPress={drag}
+                delayLongPress={100}
+              />
+            )}
           </Pressable>
         )}
       </SongActions>
@@ -89,6 +104,11 @@ const songItemListStyles = createStyleSheet(({ theme }) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: theme.space("sm")
+  },
+  activeContainer: {
+    backgroundColor: theme.colors.muted,
+    borderRadius: theme.radius("lg"),
+    padding: 1
   },
   indexText: {
     textAlign: "center"

@@ -19,4 +19,6 @@ export type SongItemCardProps = BaseSongItemProps & {
 export type SongItemListProps = BaseSongItemProps & {
   allSongIds?: number[]
   queuePlayback?: boolean
+  drag?: () => void
+  isActive?: boolean
 }
