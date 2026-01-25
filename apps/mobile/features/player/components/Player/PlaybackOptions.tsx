@@ -9,7 +9,6 @@ import { usePlayerStore } from "../../stores/usePlayerStore"
 import { useRouter } from "expo-router"
 
 import { AnimatedIconButton } from "@components/ui"
-import { QueueSheet } from "./QueueSheet"
 
 const PlaybackOptions = () => {
   const styles = useStyles(playbackOptionsStyles)
@@ -28,6 +27,11 @@ const PlaybackOptions = () => {
     router.push("/lyrics")
   }
 
+  const handleQueuePress = () => {
+    playerSheetRef?.dismiss()
+    router.push("/queue")
+  }
+
   return (
     <View style={styles.container}>
       <AnimatedIconButton
@@ -38,7 +42,13 @@ const PlaybackOptions = () => {
         onPress={handleLyricsPress}
         disabled={!currentTrack}
       />
-      <QueueSheet />
+      <AnimatedIconButton
+        name="ListMusic"
+        variant="text"
+        animatedIconColor="foreground"
+        iconSize="2xl"
+        onPress={handleQueuePress}
+      />
     </View>
   )
 }
