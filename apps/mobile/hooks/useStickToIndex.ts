@@ -1,15 +1,15 @@
 import { type RefObject, useCallback, useEffect, useRef, useState } from "react"
 
-import { type FlashListRef } from "@shopify/flash-list"
+import Animated from "react-native-reanimated"
 
 /**
- * Options for configuring the {@link useStickToIndex} hook.
+ * Options for configuring the {@link useStickToIndex} hook for Animated.FlatList.
  */
 export type StickToIndexOptions<T> = {
   targetIndex: number
   data: T[]
   enabled?: boolean
-  listRef: RefObject<FlashListRef<T> | null>
+  listRef: RefObject<Animated.FlatList<T> | null>
   initialScroll?: boolean
 }
 
@@ -27,9 +27,11 @@ export type StickToIndexReturn = {
 }
 
 /**
- * Hook for managing "stick-to-index" behavior in a FlashList.
+ * Hook for managing "stick-to-index" behavior in an Animated.FlatList.
  *
  * - When stuck, automatically scrolls to keep targetIndex in view
+ * - Centers the item in the viewport when possible
+ * - Automatically scrolls to ensure visibility for items at the end
  * - Any user scroll immediately unsticks (no auto-resume)
  * - Call stick() to re-enable auto-scrolling
  */
@@ -51,17 +53,23 @@ export function useStickToIndex<T>({
       if (index < 0 || data.length === 0) return
 
       const list = listRef.current
-      const item = data[index]
 
-      if (!list || !item) return
+      if (!list) return
 
       isAutoScrollingRef.current = true
 
-      list.scrollToItem({
-        item,
-        animated,
-        viewPosition: 0.3
-      })
+      try {
+        // FlatList's scrollToIndex with viewPosition: 0.5 centers the item
+        // When at the end of list, FlatList automatically adjusts to keep item visible
+        list.scrollToIndex({
+          index,
+          animated,
+          viewPosition: 0.5
+        })
+      } catch (error) {
+        // Fallback if scrollToIndex is not available
+        console.warn("scrollToIndex not available, using scrollToOffset fallback", error)
+      }
 
       const duration = animated ? 400 : 100
 

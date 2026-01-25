@@ -4,16 +4,16 @@ import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
+import Animated from "react-native-reanimated"
+
 import { useStickToIndex } from "@hooks/useStickToIndex"
 
 import { IconButton } from "@components/ui"
 import { Fade } from "@components/ui/Fade"
-import { FlashListWithHeaders } from "@components/ui/ListWithHeader"
+import { FlatListWithHeaders } from "@components/ui/ListWithHeader"
 import { NotFound } from "@components/ui/NotFound"
 
 import { LyricLine } from "./LyricLine"
-
-import { type FlashListRef } from "@shopify/flash-list"
 
 import { type Lyric, type LyricsReaderProps } from "./types"
 
@@ -26,7 +26,7 @@ const LyricsReader = ({
 }: LyricsReaderProps) => {
   const styles = useStyles(lyricsReaderStyles)
 
-  const listRef = useRef<FlashListRef<Lyric>>(null)
+  const listRef = useRef<Animated.FlatList<Lyric> | null>(null)
 
   const [enabled, setEnabled] = useState(false)
 
@@ -91,7 +91,7 @@ const LyricsReader = ({
 
   return (
     <View style={styles.container}>
-      <FlashListWithHeaders
+      <FlatListWithHeaders
         ref={listRef}
         data={filteredLyrics}
         keyExtractor={keyExtractor}

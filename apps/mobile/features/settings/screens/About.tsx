@@ -4,7 +4,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { BackButton, FadingScreen } from "@components/navigation"
+import { BackButton } from "@components/navigation"
 import { Header, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
 
 import { AboutSection } from "@features/settings/features/about/components"
@@ -15,7 +15,7 @@ const About = () => {
   const { t } = useTranslation()
 
   return (
-    <FadingScreen style={styles.container}>
+    <View style={styles.container}>
       <ScrollViewWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
@@ -42,7 +42,7 @@ const About = () => {
           <AboutSection />
         </View>
       </ScrollViewWithHeaders>
-    </FadingScreen>
+    </View>
   )
 }
 

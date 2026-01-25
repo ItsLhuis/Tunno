@@ -6,7 +6,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { BackButton, FadingScreen } from "@components/navigation"
+import { BackButton } from "@components/navigation"
 import {
   Header,
   Icon,
@@ -67,7 +67,7 @@ const Settings = () => {
   const router = useRouter()
 
   return (
-    <FadingScreen style={styles.container}>
+    <View style={styles.container}>
       <ScrollViewWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
@@ -105,7 +105,7 @@ const Settings = () => {
           ))}
         </View>
       </ScrollViewWithHeaders>
-    </FadingScreen>
+    </View>
   )
 }
 

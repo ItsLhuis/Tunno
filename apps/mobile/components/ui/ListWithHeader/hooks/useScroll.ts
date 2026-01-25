@@ -18,8 +18,10 @@ import { debounce } from "lodash"
 
 import { SharedScrollContainerProps } from "../types"
 
-type UseScrollProps = {
-  scrollRef: AnimatedRef<Animated.ScrollView>
+type ScrollableRef<T = any> = AnimatedRef<Animated.ScrollView> | AnimatedRef<Animated.FlatList<T>>
+
+type UseScrollProps<T = any> = {
+  scrollRef: ScrollableRef<T>
   adjustmentOffset?: number
   largeHeaderShown: SharedScrollContainerProps["largeHeaderShown"]
   largeHeaderExists: boolean
@@ -31,7 +33,7 @@ type UseScrollProps = {
   onScrollWorklet?: (evt: NativeScrollEvent) => void
 }
 
-export function useScroll({
+export function useScroll<T = any>({
   scrollRef,
   largeHeaderShown,
   largeHeaderExists,
@@ -42,7 +44,7 @@ export function useScroll({
   headerFadeInThreshold = 1,
   inverted,
   onScrollWorklet
-}: UseScrollProps) {
+}: UseScrollProps<T>) {
   const scrollY = useSharedValue<number>(0)
 
   const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState<number>(
@@ -82,6 +84,24 @@ export function useScroll({
     return interpolate(showHeader.value, [0, 1], [1, 0])
   })
 
+  const scrollToPosition = useCallback(
+    (targetY: number, animated: boolean) => {
+      if (!scrollRef.current) return
+
+      const ref = scrollRef.current
+
+      if ("scrollToOffset" in ref && typeof ref.scrollToOffset === "function") {
+        ref.scrollToOffset({ offset: targetY, animated })
+      } else {
+        scheduleOnUI(() => {
+          "worklet"
+          scrollTo(scrollRef as AnimatedRef<Animated.ScrollView>, 0, targetY, animated)
+        })
+      }
+    },
+    [scrollRef]
+  )
+
   const debouncedFixScroll = useMemo(() => {
     return debounce(() => {
       if (disableAutoFixScroll) return
@@ -91,19 +111,13 @@ export function useScroll({
           scrollY.value >= largeHeaderHeight.value / 2 &&
           scrollY.value < largeHeaderHeight.value
         ) {
-          scheduleOnUI(() => {
-            "worklet"
-            scrollTo(scrollRef, 0, largeHeaderHeight.value, true)
-          })
+          scrollToPosition(largeHeaderHeight.value, true)
         } else if (scrollY.value >= 0 && scrollY.value < largeHeaderHeight.value / 2) {
-          scheduleOnUI(() => {
-            "worklet"
-            scrollTo(scrollRef, 0, 0, true)
-          })
+          scrollToPosition(0, true)
         }
       }
     }, 50)
-  }, [disableAutoFixScroll, largeHeaderHeight, scrollY, scrollRef])
+  }, [disableAutoFixScroll, largeHeaderHeight, scrollY, scrollRef, scrollToPosition])
 
   const onAbsoluteHeaderLayout = useCallback(
     (event: LayoutChangeEvent) => {

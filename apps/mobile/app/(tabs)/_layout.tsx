@@ -152,6 +152,7 @@ function TabLayoutContent() {
           headerShown: false,
           lazy: true,
           freezeOnBlur: true,
+          animation: "fade",
           sceneStyle: {
             backgroundColor: theme.colors.background
           }

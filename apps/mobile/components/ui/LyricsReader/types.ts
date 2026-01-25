@@ -1,4 +1,4 @@
-import { type FlashListWithHeadersProps } from "@components/ui/ListWithHeader/FlashList"
+import { type FlatListWithHeadersProps } from "@components/ui/ListWithHeader/FlatList"
 
 export type Lyric = {
   text: string
@@ -6,7 +6,7 @@ export type Lyric = {
 }
 
 export type LyricsReaderProps = Omit<
-  FlashListWithHeadersProps<Lyric>,
+  FlatListWithHeadersProps<Lyric>,
   "data" | "keyExtractor" | "renderItem"
 > & {
   lyrics: Lyric[]

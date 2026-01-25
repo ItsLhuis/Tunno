@@ -6,7 +6,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { BackButton, FadingScreen } from "@components/navigation"
+import { BackButton } from "@components/navigation"
 import { Button, Header, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
 
 import { ArtistForm } from "@features/artists/forms"
@@ -23,7 +23,7 @@ const UpdateArtist = () => {
   const artistId = Number(id)
 
   return (
-    <FadingScreen style={styles.container}>
+    <View style={styles.container}>
       <ScrollViewWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
@@ -72,7 +72,7 @@ const UpdateArtist = () => {
           )}
         </ArtistForm>
       </ScrollViewWithHeaders>
-    </FadingScreen>
+    </View>
   )
 }
 

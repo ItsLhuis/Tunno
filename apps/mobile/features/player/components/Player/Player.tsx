@@ -64,8 +64,6 @@ const Player = () => {
   return (
     <Sheet ref={sheetRef}>
       <SheetContent
-        activeOffsetY={[-1, 1]}
-        failOffsetX={[-5, 5]}
         topInset={0}
         handleStyle={styles.handle}
         enableDynamicSizing={false}

@@ -22,9 +22,8 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import {
   BottomSheet,
-  BottomSheetDraggableFlatList,
-  BottomSheetFlatList,
   BottomSheetFlashList,
+  BottomSheetFlatList,
   BottomSheetLegendList,
   BottomSheetScrollView,
   BottomSheetView,
@@ -38,8 +37,6 @@ import { Text, type TextProps } from "@components/ui/Text"
 import { type FlashListProps } from "@shopify/flash-list"
 
 import { type LegendListProps } from "@legendapp/list"
-
-import { type DraggableFlatListProps } from "react-native-draggable-flatlist"
 
 type SheetContextValue = {
   open: boolean
@@ -270,12 +267,6 @@ function SheetLegendList<T>(props: SheetLegendListProps<T>) {
   return <BottomSheetLegendList<T> {...props} />
 }
 
-export type SheetDraggableFlatListProps<T> = DraggableFlatListProps<T>
-
-function SheetDraggableFlatList<T>(props: SheetDraggableFlatListProps<T>) {
-  return <BottomSheetDraggableFlatList<T> {...props} />
-}
-
 const SheetHeader = ({ style, ...props }: ViewProps) => {
   const styles = useStyles(sheetStyles)
 
@@ -328,9 +319,8 @@ export {
   SheetClose,
   SheetContent,
   SheetDescription,
-  SheetDraggableFlatList,
-  SheetFlatList,
   SheetFlashList,
+  SheetFlatList,
   SheetFooter,
   SheetHeader,
   SheetLegendList,

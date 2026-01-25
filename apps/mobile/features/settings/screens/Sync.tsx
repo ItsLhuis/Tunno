@@ -4,7 +4,7 @@ import { useTranslation } from "@repo/i18n"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { BackButton, FadingScreen } from "@components/navigation"
+import { BackButton } from "@components/navigation"
 import { Header, LargeHeader, ScrollViewWithHeaders, Text } from "@components/ui"
 
 const Sync = () => {
@@ -13,7 +13,7 @@ const Sync = () => {
   const { t } = useTranslation()
 
   return (
-    <FadingScreen style={styles.container}>
+    <View style={styles.container}>
       <ScrollViewWithHeaders
         HeaderComponent={({ scrollY, showHeader }) => (
           <Header
@@ -38,7 +38,7 @@ const Sync = () => {
       >
         <View style={styles.sectionsContainer}></View>
       </ScrollViewWithHeaders>
-    </FadingScreen>
+    </View>
   )
 }
 

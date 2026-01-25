@@ -15,7 +15,6 @@
         "dark": "./assets/images/ios/icons/default.png",
         "tinted": "./assets/images/ios/icons/tinted.png"
       },
-      "jsEngine": "jsc",
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": ["audio", "audio"]

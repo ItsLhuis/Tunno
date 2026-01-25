@@ -14,7 +14,10 @@ import { type SharedScrollContainerProps } from "./types"
 
 type AnimatedFlatListProps<ItemT> = AnimatedProps<FlatListProps<ItemT>> & SharedScrollContainerProps
 
-export type FlatListWithHeadersProps<ItemT> = Omit<AnimatedFlatListProps<ItemT>, "onScroll"> & {
+export type FlatListWithHeadersProps<ItemT> = Omit<
+  AnimatedFlatListProps<ItemT>,
+  "onScroll" | "CellRendererComponent"
+> & {
   ref?: Ref<Animated.FlatList<ItemT>>
 }
 
@@ -68,7 +71,6 @@ const FlatListWithHeaders = <ItemT extends any = any>({
     onAbsoluteHeaderLayout,
     scrollViewAdjustments
   } = useScroll({
-    // @ts-expect-error - FlatList ref is compatible with scroll operations
     scrollRef,
     largeHeaderShown,
     disableAutoFixScroll,
@@ -87,7 +89,6 @@ const FlatListWithHeaders = <ItemT extends any = any>({
       ]}
     >
       {!absoluteHeader && HeaderComponent({ showHeader, scrollY })}
-      {/* @ts-expect-error - FlatList props are compatible at runtime */}
       <Animated.FlatList<ItemT>
         ref={scrollRef}
         data={data}
