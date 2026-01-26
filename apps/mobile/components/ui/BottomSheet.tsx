@@ -252,7 +252,7 @@ function BottomSheetFlatList<T>(props: FlatListProps<T>) {
 const bottomSheetListStyles = createStyleSheet(() => ({
   container: {
     flex: 1,
-    height: 0.1
+    minHeight: 0.1
   }
 }))
 
