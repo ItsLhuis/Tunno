@@ -48,18 +48,16 @@ const VirtualRow = memo(function VirtualRow<TItem>({
       const index = fromIndex + idx
       const item = data[index]
       const id = keyExtractor(item, index)
-      const isSelected = selectedIds.has(id)
 
       result.push({
         key: id,
         item,
         index,
-        id,
-        isSelected
+        id
       })
     }
     return result
-  }, [fromIndex, toIndex, data, keyExtractor, selectedIds])
+  }, [fromIndex, toIndex, data, keyExtractor])
 
   return (
     <div
@@ -77,7 +75,7 @@ const VirtualRow = memo(function VirtualRow<TItem>({
             index={item.index}
             id={item.id}
             renderItem={renderItem}
-            isSelected={item.isSelected}
+            isSelected={selectedIds.has(item.id)}
             onToggle={onToggleItem}
             itemId={item.id}
           />

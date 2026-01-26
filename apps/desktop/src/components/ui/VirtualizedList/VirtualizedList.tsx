@@ -55,7 +55,6 @@ const VirtualizedList = <TItem,>({
   const isGridLayout = layout === "grid"
 
   const keyExtractorRef = useRef(keyExtractor)
-
   keyExtractorRef.current = keyExtractor
 
   const selectionManager = useMemo(
@@ -87,11 +86,16 @@ const VirtualizedList = <TItem,>({
 
   const estimateSize = useCallback(() => estimateItemHeight + gap, [estimateItemHeight, gap])
 
+  const overscan = useMemo(() => {
+    if (isGridLayout) return 1
+    return 5
+  }, [isGridLayout, effectiveColumns])
+
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement,
     estimateSize,
-    overscan: 10,
+    overscan,
     measureElement:
       typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
         ? (element) => element?.getBoundingClientRect().height
@@ -114,6 +118,18 @@ const VirtualizedList = <TItem,>({
       WebkitBackfaceVisibility: "hidden" as const
     }),
     [totalSize]
+  )
+
+  const scrollContainerStyle = useMemo(
+    () => ({
+      contain: "layout style paint" as const,
+      backfaceVisibility: "hidden" as const,
+      WebkitBackfaceVisibility: "hidden" as const,
+      transform: "translateZ(0)" as const,
+      WebkitOverflowScrolling: "touch" as const,
+      touchAction: "pan-y" as const
+    }),
+    []
   )
 
   useLayoutEffect(() => {
@@ -193,14 +209,7 @@ const VirtualizedList = <TItem,>({
     <div
       ref={externalScrollRef ? undefined : internalScrollRef}
       className={containerClassName}
-      style={{
-        contain: "layout style paint",
-        backfaceVisibility: "hidden",
-        WebkitBackfaceVisibility: "hidden",
-        transform: "translateZ(0)",
-        WebkitOverflowScrolling: "touch",
-        touchAction: "pan-y"
-      }}
+      style={scrollContainerStyle}
       {...props}
     >
       <Fade
