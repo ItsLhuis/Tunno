@@ -16,6 +16,7 @@ import {
   DialogTrigger
 } from "@components/ui/Dialog"
 import { IconButton } from "@components/ui/IconButton"
+import { NotFound } from "@components/ui/NotFound"
 import { NumberInput } from "@components/ui/NumberInput"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { TextInput } from "@components/ui/TextInput"
@@ -194,11 +195,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className, disabled }: Lyr
                       gap={8}
                       scrollRef={previewScrollRef}
                       containerClassName="p-3 h-full"
-                      ListEmptyComponent={() => (
-                        <div className="flex h-full items-center justify-center py-8">
-                          <Typography affects={["muted"]}>{t("form.messages.noLyrics")}</Typography>
-                        </div>
-                      )}
+                      ListEmptyComponent={() => <NotFound message={t("form.messages.noLyrics")} />}
                       renderItem={({ item: line }) => (
                         <div className="mb-2 flex w-full gap-2">
                           <Typography affects="muted" className="shrink-0">
@@ -231,11 +228,7 @@ const LyricsEditor = ({ value, onChange, placeholder, className, disabled }: Lyr
               gap={8}
               scrollRef={editorScrollRef}
               containerClassName="p-3 h-full"
-              ListEmptyComponent={() => (
-                <div className="flex h-full items-center justify-center py-8">
-                  <Typography affects={["muted"]}>{t("form.messages.noLyrics")}</Typography>
-                </div>
-              )}
+              ListEmptyComponent={() => <NotFound message={t("form.messages.noLyrics")} />}
               renderItem={({ item: line, index }) => (
                 <LyricLine
                   line={line}
