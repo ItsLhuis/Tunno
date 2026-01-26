@@ -2,6 +2,17 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.5.4] - 2026-01-26
+
+### Changed
+
+- ⚡ **Statistics Manager Performance**: Optimized play count recording with transaction-based
+  database writes to minimize disk syncs, song metadata caching to eliminate redundant queries, and
+  batch artist updates using WHERE IN instead of loops
+
+- ⚡ **Virtualization Performance**: Improved grid rendering with dynamic overscan calculation (1
+  for grid, 5 for list)
+
 ## [1.5.3] - 2026-01-24
 
 ### Changed
