@@ -11,9 +11,11 @@ import { Typography } from "@components/ui/Typography"
 
 import { type ComponentProps } from "react"
 
-export type NotFoundProps = ComponentProps<"div">
+export type NotFoundProps = ComponentProps<"div"> & {
+  message?: string
+}
 
-const NotFound = ({ className, ...props }: NotFoundProps) => {
+const NotFound = ({ className, message, ...props }: NotFoundProps) => {
   const { t } = useTranslation()
 
   return (
@@ -31,7 +33,7 @@ const NotFound = ({ className, ...props }: NotFoundProps) => {
           }}
         />
       </div>
-      <Typography affects={"muted"}>{t("common.noResultsFound")}</Typography>
+      <Typography affects={"muted"}>{message ?? t("common.noResultsFound")}</Typography>
     </div>
   )
 }
