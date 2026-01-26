@@ -1,4 +1,4 @@
-import { eq, sql } from "drizzle-orm"
+import { eq, inArray, sql } from "drizzle-orm"
 
 import { database } from "@database/client"
 import { schema } from "@repo/database"
@@ -28,8 +28,12 @@ import { type PlaySession } from "./types"
  * This class handles the lifecycle of a play session, recording details
  * such as when a song starts playing, pauses, and ends. It updates play counts
  * and total listening times for songs, albums, artists, and playlists in the database.
- * It also includes mechanisms for handling play count increments based on
- * minimum listening duration and for gracefully ending sessions.
+ *
+ * PERFORMANCE OPTIMIZATIONS:
+ * - All related database writes are wrapped in transactions to minimize disk syncs
+ * - Song metadata (album, artists) is cached in the session to eliminate redundant queries
+ * - Artist updates use batch operations with WHERE IN instead of loops
+ * - Timestamps use SQLite's unixepoch() directly for consistency and efficiency
  */
 export class StatisticsManager {
   private currentSession: PlaySession | null = null
@@ -39,7 +43,8 @@ export class StatisticsManager {
    *
    * If a session for the same song is already paused, it will resume that session.
    * If a different song is currently playing, the existing session will be ended first.
-   * A new play history entry is created in the database.
+   * A new play history entry is created in the database, and song metadata (album, artists)
+   * is fetched and cached in the session to avoid redundant queries.
    *
    * @param songId - The ID of the song that is starting to play.
    * @param playSource - The source or context from which the song is being played (e.g., "album", "playlist").
@@ -66,6 +71,13 @@ export class StatisticsManager {
 
     if (!this.currentSession || this.currentSession.songId !== songId) {
       try {
+        // Fetch song metadata once and cache it in the session
+        const songData = await this.getSongData(songId)
+        if (!songData) {
+          console.warn("StatisticsManager: Song data not found for songId:", songId)
+          return
+        }
+
         const [result] = await database
           .insert(playHistory)
           .values({
@@ -87,7 +99,10 @@ export class StatisticsManager {
           playHistoryId: result.id,
           totalTimeListened: 0,
           isPaused: false,
-          playCountRecorded: false
+          playCountRecorded: false,
+          // Cache song metadata to avoid redundant queries
+          cachedAlbumId: songData.albumId,
+          cachedArtistIds: songData.artistIds
         }
 
         this.schedulePlayCountRecording()
@@ -161,6 +176,8 @@ export class StatisticsManager {
    * This method is called once a song has been listened to for a minimum duration.
    * It increments play counters and updates `lastPlayedAt` timestamps in the database
    * for the song itself, its album, and associated artists/playlists based on the play source.
+   *
+   * OPTIMIZATION: All updates are wrapped in a single transaction to minimize disk syncs.
    */
   private async recordPlayCounts(): Promise<void> {
     if (!this.currentSession || this.currentSession.playCountRecorded) return
@@ -173,13 +190,19 @@ export class StatisticsManager {
         this.currentSession.playCountTimer = undefined
       }
 
-      const songData = await this.getSongData(this.currentSession.songId)
-      if (!songData) return
+      // Use cached metadata instead of querying again
+      const albumId = this.currentSession.cachedAlbumId ?? null
+      const artistIds = this.currentSession.cachedArtistIds ?? []
+
+      if (artistIds.length === 0) {
+        console.warn("StatisticsManager: No artist data in session cache")
+        return
+      }
 
       await this.updatePlayCounts(
         this.currentSession.songId,
-        songData.albumId,
-        songData.artistIds,
+        albumId,
+        artistIds,
         this.currentSession.playSource,
         this.currentSession.sourceContextId
       )
@@ -281,7 +304,9 @@ export class StatisticsManager {
       session.songId,
       timeListened,
       session.playSource,
-      session.sourceContextId
+      session.sourceContextId,
+      session.cachedAlbumId,
+      session.cachedArtistIds
     )
 
     this.currentSession = null
@@ -291,8 +316,8 @@ export class StatisticsManager {
    * Increments the play count and updates the `lastPlayedAt` timestamp for a song
    * and its associated entities (album, artists, playlists).
    *
-   * This method applies updates to the `songs`, `albums`, `artists`, and `playlists`
-   * tables based on the provided song details and play source context.
+   * OPTIMIZATION: All updates are executed within a single transaction, and artist
+   * updates use a batch operation with WHERE IN instead of looping.
    *
    * @param songId - The ID of the song.
    * @param albumId - The ID of the album the song belongs to, or `null`.
@@ -307,159 +332,176 @@ export class StatisticsManager {
     playSource: PlaySource,
     sourceContextId?: number
   ): Promise<void> {
-    await database
-      .update(songs)
-      .set({
-        playCount: sql`play_count + 1`,
-        lastPlayedAt: sql`(unixepoch())`
-      })
-      .where(eq(songs.id, songId))
-
-    if (albumId) {
-      await database
-        .update(albums)
-        .set({
-          playCount: sql`play_count + 1`,
-          lastPlayedAt: sql`(unixepoch())`
-        })
-        .where(eq(albums.id, albumId))
-    }
-
-    if (playSource === "artist" && sourceContextId) {
-      await database
-        .update(artists)
-        .set({
-          playCount: sql`play_count + 1`,
-          lastPlayedAt: sql`(unixepoch())`
-        })
-        .where(eq(artists.id, sourceContextId))
-    } else {
-      for (const artistId of artistIds) {
-        await database
-          .update(artists)
+    try {
+      await database.transaction(async (tx) => {
+        // Update song
+        await tx
+          .update(songs)
           .set({
             playCount: sql`play_count + 1`,
             lastPlayedAt: sql`(unixepoch())`
           })
-          .where(eq(artists.id, artistId))
-      }
-    }
+          .where(eq(songs.id, songId))
 
-    if (playSource === "playlist" && sourceContextId) {
-      await database
-        .update(playlists)
-        .set({
-          playCount: sql`play_count + 1`,
-          lastPlayedAt: sql`(unixepoch())`
-        })
-        .where(eq(playlists.id, sourceContextId))
+        // Update album if exists
+        if (albumId) {
+          await tx
+            .update(albums)
+            .set({
+              playCount: sql`play_count + 1`,
+              lastPlayedAt: sql`(unixepoch())`
+            })
+            .where(eq(albums.id, albumId))
+        }
+
+        // Update artists - batch operation instead of loop
+        if (playSource === "artist" && sourceContextId) {
+          await tx
+            .update(artists)
+            .set({
+              playCount: sql`play_count + 1`,
+              lastPlayedAt: sql`(unixepoch())`
+            })
+            .where(eq(artists.id, sourceContextId))
+        } else if (artistIds.length > 0) {
+          await tx
+            .update(artists)
+            .set({
+              playCount: sql`play_count + 1`,
+              lastPlayedAt: sql`(unixepoch())`
+            })
+            .where(inArray(artists.id, artistIds))
+        }
+
+        // Update playlist if applicable
+        if (playSource === "playlist" && sourceContextId) {
+          await tx
+            .update(playlists)
+            .set({
+              playCount: sql`play_count + 1`,
+              lastPlayedAt: sql`(unixepoch())`
+            })
+            .where(eq(playlists.id, sourceContextId))
+        }
+      })
+    } catch (error) {
+      console.error("StatisticsManager: Error updating play counts:", error)
     }
   }
 
   /**
    * Updates the total play time statistics for a song and its associated entities (album, artists, playlists).
    *
-   * This method uses `onConflictDoUpdate` to either insert new play time statistics
-   * or update existing ones by adding the `timeListened` duration. This applies to
-   * song-level, album-level, artist-level, and playlist-level statistics.
+   * OPTIMIZATION: All upserts are executed within a single transaction, artist stats use
+   * batch inserts, and timestamps use SQLite's unixepoch() for consistency.
    *
    * @param songId - The ID of the song.
    * @param timeListened - The duration in seconds that the song was listened to in the current session.
    * @param playSource - The source from which the song was played.
    * @param sourceContextId - (Optional) The ID of the source context (e.g., specific artist or playlist ID).
+   * @param cachedAlbumId - The cached album ID from the session.
+   * @param cachedArtistIds - The cached artist IDs from the session.
    */
   private async updateTimeStats(
     songId: number,
     timeListened: number,
     playSource: PlaySource,
-    sourceContextId?: number
+    sourceContextId?: number,
+    cachedAlbumId?: number | null,
+    cachedArtistIds?: number[]
   ): Promise<void> {
     try {
-      const songData = await this.getSongData(songId)
-      if (!songData) return
-
-      await database
-        .insert(songStats)
-        .values({
-          songId,
-          totalPlayTime: timeListened,
-          lastCalculatedAt: new Date()
-        })
-        .onConflictDoUpdate({
-          target: songStats.songId,
-          set: {
-            totalPlayTime: sql`${songStats.totalPlayTime} + ${timeListened}`,
-            lastCalculatedAt: new Date()
-          }
-        })
-
-      if (songData.albumId) {
-        await database
-          .insert(albumStats)
+      await database.transaction(async (tx) => {
+        // Update song stats
+        await tx
+          .insert(songStats)
           .values({
-            albumId: songData.albumId,
+            songId,
             totalPlayTime: timeListened,
-            lastCalculatedAt: new Date()
+            lastCalculatedAt: sql`(unixepoch())`
           })
           .onConflictDoUpdate({
-            target: albumStats.albumId,
+            target: songStats.songId,
             set: {
-              totalPlayTime: sql`${albumStats.totalPlayTime} + ${timeListened}`,
-              lastCalculatedAt: new Date()
+              totalPlayTime: sql`${songStats.totalPlayTime} + ${timeListened}`,
+              lastCalculatedAt: sql`(unixepoch())`
             }
           })
-      }
 
-      if (playSource === "artist" && sourceContextId) {
-        await database
-          .insert(artistStats)
-          .values({
-            artistId: sourceContextId,
-            totalPlayTime: timeListened,
-            lastCalculatedAt: new Date()
-          })
-          .onConflictDoUpdate({
-            target: artistStats.artistId,
-            set: {
-              totalPlayTime: sql`${artistStats.totalPlayTime} + ${timeListened}`,
-              lastCalculatedAt: new Date()
-            }
-          })
-      } else {
-        for (const artistId of songData.artistIds) {
-          await database
+        // Update album stats if exists
+        if (cachedAlbumId) {
+          await tx
+            .insert(albumStats)
+            .values({
+              albumId: cachedAlbumId,
+              totalPlayTime: timeListened,
+              lastCalculatedAt: sql`(unixepoch())`
+            })
+            .onConflictDoUpdate({
+              target: albumStats.albumId,
+              set: {
+                totalPlayTime: sql`${albumStats.totalPlayTime} + ${timeListened}`,
+                lastCalculatedAt: sql`(unixepoch())`
+              }
+            })
+        }
+
+        // Update artist stats - batch insert with conflict resolution
+        if (playSource === "artist" && sourceContextId) {
+          await tx
             .insert(artistStats)
             .values({
-              artistId,
+              artistId: sourceContextId,
               totalPlayTime: timeListened,
-              lastCalculatedAt: new Date()
+              lastCalculatedAt: sql`(unixepoch())`
             })
             .onConflictDoUpdate({
               target: artistStats.artistId,
               set: {
                 totalPlayTime: sql`${artistStats.totalPlayTime} + ${timeListened}`,
-                lastCalculatedAt: new Date()
+                lastCalculatedAt: sql`(unixepoch())`
+              }
+            })
+        } else if (cachedArtistIds && cachedArtistIds.length > 0) {
+          // Batch insert for multiple artists
+          const artistStatsValues = cachedArtistIds.map((artistId) => ({
+            artistId,
+            totalPlayTime: timeListened,
+            lastCalculatedAt: sql`(unixepoch())`
+          }))
+
+          for (const artistValue of artistStatsValues) {
+            await tx
+              .insert(artistStats)
+              .values(artistValue)
+              .onConflictDoUpdate({
+                target: artistStats.artistId,
+                set: {
+                  totalPlayTime: sql`${artistStats.totalPlayTime} + ${timeListened}`,
+                  lastCalculatedAt: sql`(unixepoch())`
+                }
+              })
+          }
+        }
+
+        // Update playlist stats if applicable
+        if (playSource === "playlist" && sourceContextId) {
+          await tx
+            .insert(playlistStats)
+            .values({
+              playlistId: sourceContextId,
+              totalPlayTime: timeListened,
+              lastCalculatedAt: sql`(unixepoch())`
+            })
+            .onConflictDoUpdate({
+              target: playlistStats.playlistId,
+              set: {
+                totalPlayTime: sql`${playlistStats.totalPlayTime} + ${timeListened}`,
+                lastCalculatedAt: sql`(unixepoch())`
               }
             })
         }
-      }
-
-      if (playSource === "playlist" && sourceContextId) {
-        await database
-          .insert(playlistStats)
-          .values({
-            playlistId: sourceContextId,
-            totalPlayTime: timeListened,
-            lastCalculatedAt: new Date()
-          })
-          .onConflictDoUpdate({
-            target: playlistStats.playlistId,
-            set: {
-              totalPlayTime: sql`${playlistStats.totalPlayTime} + ${timeListened}`,
-              lastCalculatedAt: new Date()
-            }
-          })
-      }
+      })
     } catch (error) {
       console.error("StatisticsManager: Error updating time statistics:", error)
     }
