@@ -22,27 +22,18 @@ export function useSongPlayback(
 ) {
   const { queuePlayback = false, queueIndex } = options ?? {}
 
-  const {
-    playerSheetRef,
-    loadTracks,
-    play,
-    pause,
-    skipToTrack,
-    currentTrackId,
-    playbackState,
-    isTrackLoading
-  } = usePlayerStore(
-    useShallow((state) => ({
-      playerSheetRef: state.playerSheetRef,
-      loadTracks: state.loadTracks,
-      play: state.play,
-      pause: state.pause,
-      skipToTrack: state.skipToTrack,
-      currentTrackId: state.currentTrackId,
-      playbackState: state.playbackState,
-      isTrackLoading: state.isTrackLoading
-    }))
-  )
+  const { loadTracks, play, pause, skipToTrack, currentTrackId, playbackState, isTrackLoading } =
+    usePlayerStore(
+      useShallow((state) => ({
+        loadTracks: state.loadTracks,
+        play: state.play,
+        pause: state.pause,
+        skipToTrack: state.skipToTrack,
+        currentTrackId: state.currentTrackId,
+        playbackState: state.playbackState,
+        isTrackLoading: state.isTrackLoading
+      }))
+    )
 
   const isCurrentlyPlaying = currentTrackId === songId && playbackState === State.Playing
 
@@ -76,7 +67,6 @@ export function useSongPlayback(
       await play()
     }
   }, [
-    playerSheetRef,
     currentTrackId,
     songId,
     playbackState,
@@ -92,7 +82,6 @@ export function useSongPlayback(
   ])
 
   return {
-    playerSheetRef,
     isCurrentlyPlaying,
     isTrackLoading,
     handlePlaySong
