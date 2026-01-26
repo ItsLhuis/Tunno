@@ -13,4 +13,6 @@ export type PlaySession = {
   isPaused: boolean
   playCountRecorded: boolean
   playCountTimer?: ReturnType<typeof setTimeout>
+  cachedAlbumId?: number | null
+  cachedArtistIds?: number[]
 }
