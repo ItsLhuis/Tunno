@@ -24,7 +24,6 @@ import { AnimatedBackground, Fade, Pressable } from "@components/ui"
 
 import { useEffect } from "react"
 import { PlaybackControls } from "./PlaybackControls"
-import { PlaybackProgress } from "./PlaybackProgress"
 import { TrackInfo } from "./TrackInfo"
 
 const BottomPlayer = () => {
@@ -92,7 +91,6 @@ const BottomPlayer = () => {
               <TrackInfo />
               <PlaybackControls />
             </View>
-            <PlaybackProgress />
           </AnimatedBackground>
         </ScopedPalette>
       </Pressable>
