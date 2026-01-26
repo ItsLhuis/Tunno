@@ -2,7 +2,7 @@ import { useCallback, useMemo, type ReactElement } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, useStyles } from "@styles"
+import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -10,10 +10,12 @@ import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
+import { useBottomPlayerHeight } from "@features/player/contexts/BottomPlayerLayoutContext"
+
 import {
   Button,
   Fade,
-  FlatListWithHeaders,
+  FlashListWithHeaders,
   KeyboardSpacer,
   NotFound,
   Separator,
@@ -44,13 +46,15 @@ type QueueSongItem = {
 
 type QueueListItem = SectionHeader | QueueSongItem
 
-const MAX_UPCOMING_SONGS = 25
-const MAX_PREVIOUS_SONGS = 25
+const MAX_UPCOMING_SONGS = 50
+const MAX_PREVIOUS_SONGS = 50
 
 const QueueScreen = () => {
   const styles = useStyles(queueScreenStyles)
 
   const { t } = useTranslation()
+
+  const bottomPlayerHeight = useBottomPlayerHeight()
 
   const { queueIds, currentTrackIndex, cachedSongs, clearQueue } = usePlayerStore(
     useShallow((state) => ({
@@ -191,16 +195,18 @@ const QueueScreen = () => {
     [songCount, totalInQueue]
   )
 
+  const ListEmptyComponent = useMemo(() => <NotFound />, [])
+
   return (
     <View style={styles.container}>
-      <FlatListWithHeaders
+      <FlashListWithHeaders
         data={listItems}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         HeaderComponent={HeaderComponent}
         LargeHeaderComponent={LargeHeaderComponent}
-        ListEmptyComponent={<NotFound />}
-        contentContainerStyle={styles.contentContainer}
+        ListEmptyComponent={ListEmptyComponent}
+        contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
       />
       {songCount > 0 && (
         <Fade style={styles.footer}>
@@ -235,11 +241,12 @@ const queueScreenStyles = createStyleSheet(({ theme, runtime }) => ({
   itemContainer: {
     marginBottom: theme.space("md")
   },
-  contentContainer: {
-    flexGrow: 1,
-    padding: theme.space("lg"),
-    paddingBottom: theme.space("lg")
-  },
+  contentContainer: (bottomOffset: number) =>
+    viewStyle({
+      flexGrow: 1,
+      padding: theme.space("lg"),
+      paddingBottom: theme.space("lg") + bottomOffset
+    }),
   footer: {
     paddingBottom: theme.space("lg") + runtime.insets.bottom
   },
