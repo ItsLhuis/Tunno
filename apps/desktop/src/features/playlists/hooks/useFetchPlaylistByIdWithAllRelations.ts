@@ -20,10 +20,10 @@ import { getPlaylistByIdWithAllRelations } from "../api/queries"
  * ```tsx
  * const { data: playlist, isLoading, isError } = useFetchPlaylistByIdWithAllRelations(456);
  *
- * if (isLoading) return <Text>Loading detailed playlist...</Text>;
- * if (isError) return <Text>Error loading detailed playlist!</Text>;
+ * if (isLoading) return <p>Loading detailed playlist...</p>;
+ * if (isError) return <p>Error loading detailed playlist!</p>;
  *
- * return <Text>{playlist?.name} with {playlist?.songs?.length} songs</Text>;
+ * return <p>{playlist?.name} with {playlist?.songs?.length} songs</p>;
  * ```
  */
 export function useFetchPlaylistByIdWithAllRelations(id: number | null | undefined) {

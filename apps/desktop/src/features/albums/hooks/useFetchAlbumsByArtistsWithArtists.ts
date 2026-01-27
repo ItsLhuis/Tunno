@@ -23,12 +23,12 @@ import { getAlbumsFilteredByArtistsWithArtists } from "../api/queries"
  * // Fetch albums by artists with IDs 1 and 2
  * const { data: albums, isLoading } = useFetchAlbumsByArtistsWithArtists([1, 2]);
  *
- * if (isLoading) return <Text>Loading albums...</Text>;
+ * if (isLoading) return <p>Loading albums...</p>;
  *
  * return (
- *   <View>
- *     {albums?.map((album) => <Text key={album.id}>{album.name} by {album.artists[0]?.name}</Text>)}
- *   </View>
+ *   <div>
+ *     {albums?.map((album) => <p key={album.id}>{album.name} by {album.artists[0]?.name}</p>)}
+ *   </div>
  * );
  * ```
  */

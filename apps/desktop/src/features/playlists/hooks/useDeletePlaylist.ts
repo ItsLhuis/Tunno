@@ -32,9 +32,9 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleDelete(playlist.id)} disabled={isPending}>
+ * <button onClick={() => handleDelete(playlist.id)} disabled={isPending}>
  *   Delete Playlist
- * </Button>
+ * </button>
  * ```
  */
 export function useDeletePlaylist() {

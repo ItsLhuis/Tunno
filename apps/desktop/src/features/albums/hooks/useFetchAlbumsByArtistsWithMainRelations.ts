@@ -23,16 +23,16 @@ import { getAlbumsFilteredByArtistsWithMainRelations } from "../api/queries"
  * // Fetch albums by artists with IDs 1 and 2, including main relations
  * const { data: albums, isLoading } = useFetchAlbumsByArtistsWithMainRelations([1, 2]);
  *
- * if (isLoading) return <Text>Loading albums with main relations...</Text>;
+ * if (isLoading) return <p>Loading albums with main relations...</p>;
  *
  * return (
- *   <View>
+ *   <div>
  *     {albums?.map((album) => (
- *       <Text key={album.id}>
+ *       <p key={album.id}>
  *         {album.name} by {album.artists[0]?.name} ({album.songs.length} songs)
- *       </Text>
+ *       </p>
  *     ))}
- *   </View>
+ *   </div>
  * );
  * ```
  */

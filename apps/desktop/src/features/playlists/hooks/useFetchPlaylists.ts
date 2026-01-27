@@ -20,15 +20,12 @@ import { getAllPlaylists } from "../api/queries"
  * // Fetch all playlists
  * const { data: allPlaylists, isLoading: isLoadingAll } = useFetchPlaylists();
  *
- * // Fetch public playlists
- * const { data: publicPlaylists, isLoading: isLoadingPublic } = useFetchPlaylists({ isPublic: true });
- *
- * if (isLoadingAll) return <Text>Loading all playlists...</Text>;
+ * if (isLoadingAll) return <p>Loading all playlists...</p>;
  *
  * return (
- *   <View>
- *     {allPlaylists?.map((playlist) => <Text key={playlist.id}>{playlist.name}</Text>)}
- *   </View>
+ *   <div>
+ *     {allPlaylists?.map((playlist) => <p key={playlist.id}>{playlist.name}</p>)}
+ *   </div>
  * );
  * ```
  */

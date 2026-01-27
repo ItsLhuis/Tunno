@@ -31,9 +31,9 @@ import { toast } from "@components/ui"
  * };
  *
  * return (
- *   <Button onClick={() => handlePinClick(album)} disabled={isLoading}>
+ *   <button onClick={() => handlePinClick(album)} disabled={isLoading}>
  *     Pin to Sidebar
- *   </Button>
+ *   </button>
  * );
  * ```
  */

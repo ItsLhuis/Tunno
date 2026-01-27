@@ -182,9 +182,9 @@ export function useStickToIndex({
 
     container.addEventListener("wheel", handleUserScroll, eventOptions)
     container.addEventListener("touchmove", handleUserScroll, eventOptions)
-    container.addEventListener("keydown", (e) => {
+    container.addEventListener("keydown", (event) => {
       const navKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "]
-      if (navKeys.includes(e.key)) handleUserScroll(e)
+      if (navKeys.includes(event.key)) handleUserScroll(event)
     })
 
     return () => {

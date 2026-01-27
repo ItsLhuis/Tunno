@@ -31,9 +31,9 @@ import { type InsertAlbumType } from "@repo/schemas"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleInsert(newAlbum)} disabled={isPending}>
+ * <button onClick={() => handleInsert(newAlbum)} disabled={isPending}>
  *   Add Album
- * </Button>
+ * </button>
  * ```
  */
 export function useInsertAlbum() {

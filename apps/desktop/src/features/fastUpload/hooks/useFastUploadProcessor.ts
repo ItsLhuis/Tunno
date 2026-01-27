@@ -30,9 +30,9 @@ import { EntityCache } from "../utils"
  * const { startProcessing, isProcessing } = useFastUploadProcessor();
  *
  * // In a component:
- * <Button onClick={startProcessing} disabled={isProcessing}>
+ * <button onClick={startProcessing} disabled={isProcessing}>
  *   {isProcessing ? "Processing..." : "Start Upload"}
- * </Button>
+ * </button>
  * ```
  */
 export function useFastUploadProcessor() {

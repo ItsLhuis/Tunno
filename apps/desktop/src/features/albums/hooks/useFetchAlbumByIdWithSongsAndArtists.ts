@@ -20,14 +20,14 @@ import { getAlbumByIdWithSongsAndArtists } from "../api/queries"
  * ```tsx
  * const { data: album, isLoading, isError } = useFetchAlbumByIdWithSongsAndArtists(101);
  *
- * if (isLoading) return <Text>Loading album details...</Text>;
- * if (isError) return <Text>Error loading album!</Text>;
+ * if (isLoading) return <p>Loading album details...</p>;
+ * if (isError) return <p>Error loading album!</p>;
  *
  * return (
- *   <View>
- *     <Text>{album?.name}</Text>
- *     {album?.songs?.map(song => <Text key={song.id}>{song.name}</Text>)}
- *   </View>
+ *   <div>
+ *     <p>{album?.name}</p>
+ *     {album?.songs?.map(song => <p key={song.id}>{song.name}</p>)}
+ *   </div>
  * );
  * ```
  */

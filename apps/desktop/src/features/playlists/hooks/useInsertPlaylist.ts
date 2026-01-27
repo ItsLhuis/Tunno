@@ -32,9 +32,9 @@ import { type InsertPlaylistType } from "@repo/schemas"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleInsert(newPlaylist)} disabled={isPending}>
+ * <button onClick={() => handleInsert(newPlaylist)} disabled={isPending}>
  *   Add Playlist
- * </Button>
+ * </button>
  * ```
  */
 export function useInsertPlaylist() {

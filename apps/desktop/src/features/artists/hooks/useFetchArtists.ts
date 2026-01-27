@@ -20,15 +20,12 @@ import { getAllArtists } from "../api/queries"
  * // Fetch all artists
  * const { data: allArtists, isLoading: isLoadingAll } = useFetchArtists();
  *
- * // Fetch artists filtered by a search term
- * const { data: searchedArtists, isLoading: isLoadingSearch } = useFetchArtists({ search: "Pop" });
- *
- * if (isLoadingAll) return <Text>Loading all artists...</Text>;
+ * if (isLoadingAll) return <p>Loading all artists...</p>;
  *
  * return (
- *   <View>
- *     {allArtists?.map((artist) => <Text key={artist.id}>{artist.name}</Text>)}
- *   </View>
+ *   <div>
+ *     {allArtists?.map((artist) => <p key={artist.id}>{artist.name}</p>)}
+ *   </div>
  * );
  * ```
  */

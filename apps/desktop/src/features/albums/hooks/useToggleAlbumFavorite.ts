@@ -29,9 +29,9 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleToggle(album.id)} disabled={isPending}>
+ * <button onClick={() => handleToggle(album.id)} disabled={isPending}>
  *   {album.isFavorite ? "Unfavorite Album" : "Favorite Album"}
- * </Button>
+ * </button>
  * ```
  */
 export function useToggleAlbumFavorite() {

@@ -44,9 +44,9 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleUpdate(song.id, "New Song Title")} disabled={isPending}>
+ * <button onClick={() => handleUpdate(song.id, "New Song Title")} disabled={isPending}>
  *   Update Song
- * </Button>
+ * </button>
  * ```
  */
 export function useUpdateSong() {

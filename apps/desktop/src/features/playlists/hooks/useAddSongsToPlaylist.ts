@@ -29,9 +29,9 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleAddSongs([1, 2], [10, 11])} disabled={isPending}>
+ * <button onClick={() => handleAddSongs([1, 2], [10, 11])} disabled={isPending}>
  *   Add to Playlists
- * </Button>
+ * </button>
  * ```
  */
 export function useAddSongsToPlaylist() {

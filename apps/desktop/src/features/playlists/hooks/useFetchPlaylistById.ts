@@ -19,10 +19,10 @@ import { getPlaylistById } from "../api/queries"
  * ```tsx
  * const { data: playlist, isLoading, isError } = useFetchPlaylistById(123);
  *
- * if (isLoading) return <Text>Loading playlist...</Text>;
- * if (isError) return <Text>Error loading playlist!</Text>;
+ * if (isLoading) return <p>Loading playlist...</p>;
+ * if (isError) return <p>Error loading playlist!</p>;
  *
- * return <Text>{playlist?.name}</Text>;
+ * return <p>{playlist?.name}</p>;
  * ```
  */
 export function useFetchPlaylistById(id: number | null | undefined) {

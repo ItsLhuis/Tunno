@@ -19,10 +19,10 @@ import { getArtistById } from "../api/queries"
  * ```tsx
  * const { data: artist, isLoading, isError } = useFetchArtistById(123);
  *
- * if (isLoading) return <Text>Loading artist...</Text>;
- * if (isError) return <Text>Error loading artist!</Text>;
+ * if (isLoading) return <p>Loading artist...</p>;
+ * if (isError) return <p>Error loading artist!</p>;
  *
- * return <Text>{artist?.name}</Text>;
+ * return <p>{artist?.name}</p>;
  * ```
  */
 export function useFetchArtistById(id: number | null | undefined) {

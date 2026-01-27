@@ -39,9 +39,9 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleDelete(artist.id)} disabled={isPending}>
+ * <button onClick={() => handleDelete(artist.id)} disabled={isPending}>
  *   Delete Artist
- * </Button>
+ * </button>
  * ```
  */
 export function useDeleteArtist() {

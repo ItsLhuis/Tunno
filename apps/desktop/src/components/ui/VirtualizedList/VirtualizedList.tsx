@@ -88,7 +88,7 @@ const VirtualizedList = <TItem,>({
 
   const overscan = useMemo(() => {
     if (isGridLayout) return 1
-    return 5
+    return 8
   }, [isGridLayout, effectiveColumns])
 
   const rowVirtualizer = useVirtualizer({

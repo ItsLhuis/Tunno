@@ -20,14 +20,14 @@ import { getPlaylistByIdWithSongs } from "../api/queries"
  * ```tsx
  * const { data: playlist, isLoading, isError } = useFetchPlaylistByIdWithSongs(789);
  *
- * if (isLoading) return <Text>Loading playlist with songs...</Text>;
- * if (isError) return <Text>Error loading playlist!</Text>;
+ * if (isLoading) return <p>Loading playlist with songs...</p>;
+ * if (isError) return <p>Error loading playlist!</p>;
  *
  * return (
- *   <View>
- *     <Text>{playlist?.name}</Text>
- *     {playlist?.songs?.map(song => <Text key={song.id}>{song.name}</Text>)}
- *   </View>
+ *   <div>
+ *     <p>{playlist?.name}</p>
+ *     {playlist?.songs?.map(song => <p key={song.id}>{song.name}</p>)}
+ *   </div>
  * );
  * ```
  */

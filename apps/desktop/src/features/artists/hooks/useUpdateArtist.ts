@@ -38,9 +38,9 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleUpdate(artist.id, "New Artist Name")} disabled={isPending}>
+ * <button onClick={() => handleUpdate(artist.id, "New Artist Name")} disabled={isPending}>
  *   Update Artist
- * </Button>
+ * </button>
  * ```
  */
 export function useUpdateArtist() {

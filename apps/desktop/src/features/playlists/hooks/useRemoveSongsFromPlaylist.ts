@@ -29,9 +29,9 @@ import { toast } from "@components/ui"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleRemoveSongs(10, [1, 2])} disabled={isPending}>
+ * <button onClick={() => handleRemoveSongs(10, [1, 2])} disabled={isPending}>
  *   Remove from Playlist
- * </Button>
+ * </button>
  * ```
  */
 export function useRemoveSongsFromPlaylist() {

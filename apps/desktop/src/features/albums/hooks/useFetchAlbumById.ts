@@ -19,10 +19,10 @@ import { getAlbumById } from "../api/queries"
  * ```tsx
  * const { data: album, isLoading, isError } = useFetchAlbumById(123);
  *
- * if (isLoading) return <Text>Loading album...</Text>;
- * if (isError) return <Text>Error loading album!</Text>;
+ * if (isLoading) return <p>Loading album...</p>;
+ * if (isError) return <p>Error loading album!</p>;
  *
- * return <Text>{album?.name}</Text>;
+ * return <p>{album?.name}</p>;
  * ```
  */
 export function useFetchAlbumById(id: number | null | undefined) {

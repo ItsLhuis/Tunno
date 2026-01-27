@@ -20,10 +20,10 @@ import { getAlbumByIdWithArtists } from "../api/queries"
  * ```tsx
  * const { data: album, isLoading, isError } = useFetchAlbumByIdWithArtists(789);
  *
- * if (isLoading) return <Text>Loading album with artists...</Text>;
- * if (isError) return <Text>Error loading album!</Text>;
+ * if (isLoading) return <p>Loading album with artists...</p>;
+ * if (isError) return <p>Error loading album!</p>;
  *
- * return <Text>{album?.name} by {album?.artists?.[0]?.name}</Text>;
+ * return <p>{album?.name} by {album?.artists?.[0]?.name}</p>;
  * ```
  */
 export function useFetchAlbumByIdWithArtists(id: number | null | undefined) {

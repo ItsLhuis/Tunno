@@ -216,7 +216,7 @@ const VirtualizedSelect = ({
   const scrollRef = useRef<HTMLDivElement | null>(null)
 
   const enabledValues = useMemo(
-    () => options.filter((o) => !o.disabled).map((o) => o.value),
+    () => options.filter((options) => !options.disabled).map((option) => option.value),
     [options]
   )
 
@@ -306,8 +306,8 @@ const VirtualizedSelect = ({
             key={option.value}
             disabled={option.disabled}
             className="w-full"
-            onSelect={(e) => {
-              e.preventDefault()
+            onSelect={(event) => {
+              event.preventDefault()
               toggleOption(option.value)
             }}
           >
@@ -420,8 +420,8 @@ const VirtualizedSelect = ({
                 <Fragment>
                   <DropdownMenuItem
                     className="w-full"
-                    onSelect={(e) => {
-                      e.preventDefault()
+                    onSelect={(event) => {
+                      event.preventDefault()
                       handleSelectAll()
                     }}
                   >
@@ -469,8 +469,8 @@ const VirtualizedSelect = ({
               <DropdownMenuSeparator />
               <div className="flex items-center justify-between px-1">
                 <DropdownMenuItem
-                  onSelect={(e) => {
-                    e.preventDefault()
+                  onSelect={(event) => {
+                    event.preventDefault()
                     setIsPopoverOpen(false)
                   }}
                   className="max-w-full flex-1 justify-center"
@@ -481,8 +481,8 @@ const VirtualizedSelect = ({
                   <Fragment>
                     <Separator orientation="vertical" className="mx-1 flex h-full min-h-6" />
                     <DropdownMenuItem
-                      onSelect={(e) => {
-                        e.preventDefault()
+                      onSelect={(event) => {
+                        event.preventDefault()
                         handleClear()
                       }}
                       className="flex-1 justify-center"

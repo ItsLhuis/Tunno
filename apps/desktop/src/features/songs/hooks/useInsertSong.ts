@@ -31,9 +31,9 @@ import { type InsertSongType } from "@repo/schemas"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleInsert(newSong)} disabled={isPending}>
+ * <button onClick={() => handleInsert(newSong)} disabled={isPending}>
  *   Add Song
- * </Button>
+ * </button>
  * ```
  */
 export function useInsertSong() {

@@ -168,7 +168,7 @@ function collectThumbnails(song: SongForExport): string[] {
  *   return <p>Exporting {exportedCount} of {totalSongs}...</p>;
  * }
  *
- * return <Button onClick={() => handleExport('/path/to/export')}>Start Export</Button>;
+ * return <button onClick={() => handleExport('/path/to/export')}>Start Export</button>;
  * ```
  */
 export function useSyncProcessor() {

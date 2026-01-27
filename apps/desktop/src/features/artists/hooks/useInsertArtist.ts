@@ -32,9 +32,9 @@ import { type InsertArtistType } from "@repo/schemas"
  * };
  *
  * // In a component:
- * <Button onClick={() => handleInsert(newArtist)} disabled={isPending}>
+ * <button onClick={() => handleInsert(newArtist)} disabled={isPending}>
  *   Add Artist
- * </Button>
+ * </button>
  * ```
  */
 export function useInsertArtist() {

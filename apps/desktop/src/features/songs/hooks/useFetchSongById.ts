@@ -19,10 +19,10 @@ import { getSongById } from "../api/queries"
  * ```tsx
  * const { data: song, isLoading, isError } = useFetchSongById(123);
  *
- * if (isLoading) return <Text>Loading song...</Text>;
- * if (isError) return <Text>Error loading song!</Text>;
+ * if (isLoading) return <p>Loading song...</p>;
+ * if (isError) return <p>Error loading song!</p>;
  *
- * return <Text>{song?.name}</Text>;
+ * return <p>{song?.name}</p>;
  * ```
  */
 export function useFetchSongById(id: number | null | undefined) {

@@ -20,15 +20,12 @@ import { getAllAlbums } from "../api/queries"
  * // Fetch all albums
  * const { data: allAlbums, isLoading: isLoadingAll } = useFetchAlbums();
  *
- * // Fetch albums filtered by an artist
- * const { data: artistAlbums, isLoading: isLoadingArtist } = useFetchAlbums({ artistId: 1 });
- *
- * if (isLoadingAll) return <Text>Loading all albums...</Text>;
+ * if (isLoadingAll) return <p>Loading all albums...</p>;
  *
  * return (
- *   <View>
- *     {allAlbums?.map((album) => <Text key={album.id}>{album.name}</Text>)}
- *   </View>
+ *   <div>
+ *     {allAlbums?.map((album) => <p key={album.id}>{album.name}</p>)}
+ *   </div>
  * );
  * ```
  */
