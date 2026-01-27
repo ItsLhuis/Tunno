@@ -97,21 +97,21 @@ const ScrollViewWithHeaders = ({
         showsHorizontalScrollIndicator={false}
         onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
-        onScrollBeginDrag={(e) => {
+        onScrollBeginDrag={(event) => {
           debouncedFixScroll.cancel()
-          if (onScrollBeginDrag) onScrollBeginDrag(e)
+          if (onScrollBeginDrag) onScrollBeginDrag(event)
         }}
-        onScrollEndDrag={(e) => {
+        onScrollEndDrag={(event) => {
           debouncedFixScroll()
-          if (onScrollEndDrag) onScrollEndDrag(e)
+          if (onScrollEndDrag) onScrollEndDrag(event)
         }}
-        onMomentumScrollBegin={(e) => {
+        onMomentumScrollBegin={(event) => {
           debouncedFixScroll.cancel()
-          if (onMomentumScrollBegin) onMomentumScrollBegin(e)
+          if (onMomentumScrollBegin) onMomentumScrollBegin(event)
         }}
-        onMomentumScrollEnd={(e) => {
+        onMomentumScrollEnd={(event) => {
           debouncedFixScroll()
-          if (onMomentumScrollEnd) onMomentumScrollEnd(e)
+          if (onMomentumScrollEnd) onMomentumScrollEnd(event)
         }}
         contentContainerStyle={[scrollViewAdjustments.contentContainerStyle, contentContainerStyle]}
         automaticallyAdjustsScrollIndicatorInsets={
