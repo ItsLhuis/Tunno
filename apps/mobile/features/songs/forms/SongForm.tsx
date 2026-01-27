@@ -25,8 +25,11 @@ import { useFetchSongByIdWithMainRelations } from "../hooks/useFetchSongByIdWith
 import { useFetchAlbumsByArtistsWithArtists } from "@features/albums/hooks/useFetchAlbumsByArtistsWithArtists"
 import { useFetchArtists } from "@features/artists/hooks/useFetchArtists"
 
+import { debounce } from "lodash"
+
 import {
   AsyncState,
+  BottomSheetTextInput,
   Button,
   Form,
   FormControl,
@@ -40,6 +43,7 @@ import {
   LyricsEditor,
   NotFound,
   NumberInput,
+  Pagination,
   Select,
   SelectCheckboxItem,
   SelectContent,
@@ -121,6 +125,17 @@ const SongForm = ({
   const hasResetFormRef = useRef(false)
   const hasLoadedInitialDataRef = useRef(false)
 
+  const [artistSearchTerm, setArtistSearchTerm] = useState("")
+  const [debouncedArtistSearchTerm, setDebouncedArtistSearchTerm] = useState("")
+  const [artistCurrentPage, setArtistCurrentPage] = useState(1)
+
+  const [albumSearchTerm, setAlbumSearchTerm] = useState("")
+  const [debouncedAlbumSearchTerm, setDebouncedAlbumSearchTerm] = useState("")
+  const [albumCurrentPage, setAlbumCurrentPage] = useState(1)
+
+  const artistsPerPage = 25
+  const albumsPerPage = 25
+
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
 
@@ -131,6 +146,7 @@ const SongForm = ({
   } = useFetchSongByIdWithMainRelations(mode === "update" ? songId : null)
 
   const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
+    filters: debouncedArtistSearchTerm ? { search: debouncedArtistSearchTerm } : undefined,
     orderBy: { column: "name", direction: "asc" }
   })
 
@@ -162,9 +178,36 @@ const SongForm = ({
   const { data: albumsData, isLoading: isAlbumsLoading } = useFetchAlbumsByArtistsWithArtists(
     selectedArtistIds?.length ? selectedArtistIds : [],
     {
+      filters: debouncedAlbumSearchTerm ? { search: debouncedAlbumSearchTerm } : undefined,
       orderBy: { column: "name", direction: "asc" }
     }
   )
+
+  useEffect(() => {
+    const debouncedUpdate = debounce(() => {
+      setDebouncedArtistSearchTerm(artistSearchTerm)
+      setArtistCurrentPage(1)
+    }, 300)
+
+    debouncedUpdate()
+
+    return () => {
+      debouncedUpdate.cancel()
+    }
+  }, [artistSearchTerm])
+
+  useEffect(() => {
+    const debouncedUpdate = debounce(() => {
+      setDebouncedAlbumSearchTerm(albumSearchTerm)
+      setAlbumCurrentPage(1)
+    }, 300)
+
+    debouncedUpdate()
+
+    return () => {
+      debouncedUpdate.cancel()
+    }
+  }, [albumSearchTerm])
 
   const { isSubmitting, isDirty, isValid, errors } = form.formState
 
@@ -219,6 +262,22 @@ const SongForm = ({
 
     return items
   }, [albumOptions])
+
+  const paginatedArtists = useMemo(() => {
+    const startIndex = (artistCurrentPage - 1) * artistsPerPage
+    const endIndex = startIndex + artistsPerPage
+    return artistOptions.slice(startIndex, endIndex)
+  }, [artistOptions, artistCurrentPage, artistsPerPage])
+
+  const artistTotalPages = Math.ceil(artistOptions.length / artistsPerPage)
+
+  const paginatedAlbums = useMemo(() => {
+    const startIndex = (albumCurrentPage - 1) * albumsPerPage
+    const endIndex = startIndex + albumsPerPage
+    return groupedAlbumOptions.slice(startIndex, endIndex)
+  }, [groupedAlbumOptions, albumCurrentPage, albumsPerPage])
+
+  const albumTotalPages = Math.ceil(groupedAlbumOptions.length / albumsPerPage)
 
   const artistKeyExtractor = useCallback((item: (typeof artistOptions)[0]) => item.value, [])
 
@@ -411,8 +470,16 @@ const SongForm = ({
       form.reset()
       hasResetFormRef.current = false
       hasLoadedInitialDataRef.current = false
+      setArtistSearchTerm("")
+      setDebouncedArtistSearchTerm("")
+      setArtistCurrentPage(1)
+      setAlbumSearchTerm("")
+      setDebouncedAlbumSearchTerm("")
+      setAlbumCurrentPage(1)
     }
   }, [isOpen, asSheet, form])
+
+  const Input = asSheet ? BottomSheetTextInput : TextInput
 
   const FormContent = (
     <AsyncState
@@ -440,7 +507,7 @@ const SongForm = ({
                   <FormLabel>{t("form.labels.name")}</FormLabel>
                   <FormControl>
                     <View style={styles.nameRow}>
-                      <TextInput
+                      <Input
                         style={styles.nameInput}
                         placeholder={t("form.labels.name")}
                         value={field.value}
@@ -525,6 +592,7 @@ const SongForm = ({
                     max={new Date().getFullYear()}
                     step={1}
                     disabled={renderProps.isSubmitting}
+                    insideBottomSheet={asSheet}
                   />
                 </FormControl>
                 <FormMessage />
@@ -541,20 +609,38 @@ const SongForm = ({
                   <Select
                     multiple
                     value={field.value?.map(String) ?? []}
-                    getDisplayValue={(id) => artistOptions.find((o) => o.value === id)?.label}
+                    getDisplayValue={(id) =>
+                      artistOptions.find((option) => option.value === id)?.label
+                    }
                     onValueChange={handleArtistsChange}
                   >
                     <SelectTrigger disabled={renderProps.isSubmitting}>
                       <SelectValue placeholder={t("form.labels.artists")} />
                     </SelectTrigger>
-                    <SelectContent scrollable>
+                    <SelectContent enableDynamicSizing={false} snapPoints={["100%"]} scrollable>
+                      <View style={styles.searchContainer}>
+                        <BottomSheetTextInput
+                          placeholder={t("common.search")}
+                          value={albumSearchTerm}
+                          onChangeText={setAlbumSearchTerm}
+                        />
+                      </View>
                       <SelectFlashList
-                        data={artistOptions}
+                        data={paginatedArtists}
                         keyExtractor={artistKeyExtractor}
-                        contentContainerStyle={styles.selectContent(artistOptions.length === 0)}
+                        contentContainerStyle={styles.selectContent(paginatedArtists.length === 0)}
                         renderItem={renderArtistItem}
                         ListEmptyComponent={ArtistListEmptyComponent}
                       />
+                      {artistTotalPages > 1 && (
+                        <View style={styles.paginationContainer}>
+                          <Pagination
+                            currentPage={artistCurrentPage}
+                            totalPages={artistTotalPages}
+                            onPageChange={setArtistCurrentPage}
+                          />
+                        </View>
+                      )}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -572,21 +658,37 @@ const SongForm = ({
                   <Select
                     value={field.value !== null ? String(field.value) : ""}
                     onValueChange={(value) => field.onChange(value ? Number(value) : null)}
-                    getDisplayValue={(id) => albumOptions.find((o) => o.value === id)?.label}
+                    getDisplayValue={(id) =>
+                      albumOptions.find((option) => option.value === id)?.label
+                    }
                   >
                     <SelectTrigger disabled={renderProps.isSubmitting}>
                       <SelectValue placeholder={t("form.labels.album")} />
                     </SelectTrigger>
-                    <SelectContent scrollable>
+                    <SelectContent enableDynamicSizing={false} snapPoints={["100%"]} scrollable>
+                      <View style={styles.searchContainer}>
+                        <BottomSheetTextInput
+                          placeholder={t("common.search")}
+                          value={albumSearchTerm}
+                          onChangeText={setAlbumSearchTerm}
+                        />
+                      </View>
                       <SelectFlashList
-                        data={groupedAlbumOptions}
+                        data={paginatedAlbums}
                         keyExtractor={albumKeyExtractor}
-                        contentContainerStyle={styles.selectContent(
-                          groupedAlbumOptions.length === 0
-                        )}
+                        contentContainerStyle={styles.selectContent(paginatedAlbums.length === 0)}
                         renderItem={renderAlbumItem}
                         ListEmptyComponent={AlbumListEmptyComponent}
                       />
+                      {albumTotalPages > 1 && (
+                        <View style={styles.paginationContainer}>
+                          <Pagination
+                            currentPage={albumCurrentPage}
+                            totalPages={albumTotalPages}
+                            onPageChange={setAlbumCurrentPage}
+                          />
+                        </View>
+                      )}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -616,7 +718,7 @@ const SongForm = ({
         </View>
         {children?.(renderProps)}
       </Form>
-      <KeyboardSpacer />
+      {!asSheet && <KeyboardSpacer />}
     </AsyncState>
   )
 
@@ -702,12 +804,27 @@ const songFormStyles = createStyleSheet(({ theme, runtime }) => ({
   },
   selectContent: (isEmpty: boolean) =>
     viewStyle({
+      paddingBottom: theme.space(1),
       ...(isEmpty && {
         flex: 1,
         paddingVertical: theme.space("lg"),
         paddingBottom: runtime.insets.bottom + theme.space("lg")
       })
-    })
+    }),
+  searchContainer: {
+    paddingHorizontal: theme.space(3),
+    paddingTop: theme.space(3),
+    paddingBottom: theme.space(3),
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border
+  },
+  paginationContainer: {
+    paddingVertical: theme.space(3),
+    paddingHorizontal: theme.space(3),
+    paddingBottom: runtime.insets.bottom + theme.space(1),
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border
+  }
 }))
 
 export { SongForm }

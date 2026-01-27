@@ -24,6 +24,7 @@ import { useFetchPlaylistById } from "../hooks/useFetchPlaylistById"
 
 import {
   AsyncState,
+  BottomSheetTextInput,
   Button,
   Form,
   FormControl,
@@ -218,6 +219,8 @@ const PlaylistForm = ({
     submit: () => form.handleSubmit(handleFormSubmit)()
   } as PlaylistFormRenderProps<"insert" | "update">
 
+  const Input = asSheet ? BottomSheetTextInput : TextInput
+
   const FormContent = (
     <AsyncState
       data={mode === "update" ? playlist : true}
@@ -240,7 +243,7 @@ const PlaylistForm = ({
                   <FormLabel>{t("form.labels.name")}</FormLabel>
                   <FormControl>
                     <View style={styles.nameRow}>
-                      <TextInput
+                      <Input
                         style={styles.nameInput}
                         placeholder={t("form.labels.name")}
                         value={field.value}
@@ -295,7 +298,7 @@ const PlaylistForm = ({
         </View>
         {children?.(renderProps)}
       </Form>
-      <KeyboardSpacer />
+      {!asSheet && <KeyboardSpacer />}
     </AsyncState>
   )
 

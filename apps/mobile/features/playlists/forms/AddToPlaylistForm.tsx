@@ -17,9 +17,12 @@ import { useFetchPlaylists } from "../hooks/useFetchPlaylists"
 
 import { FlashList } from "@shopify/flash-list"
 
+import { debounce } from "lodash"
+
 import {
   AsyncState,
   BottomSheetFlashList,
+  BottomSheetTextInput,
   Button,
   Form,
   FormControl,
@@ -27,6 +30,7 @@ import {
   FormItem,
   FormMessage,
   KeyboardSpacer,
+  Pagination,
   Separator,
   Sheet,
   SheetContent,
@@ -37,9 +41,8 @@ import {
   Spinner
 } from "@components/ui"
 
-import { PlaylistItemSelect } from "../components/PlaylistItem"
-
 import { type Playlist } from "@repo/api"
+import { PlaylistItemSelect } from "../components/PlaylistItem"
 
 export type AddToPlaylistFormRenderProps = {
   isSubmitting: boolean
@@ -76,10 +79,18 @@ const AddToPlaylistForm = ({
   const { t } = useTranslation()
 
   const [internalOpen, setInternalOpen] = useState(false)
+
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const [searchTerm, setSearchTerm] = useState("")
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
 
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
+
+  const itemsPerPage = 25
 
   const addSongsToPlaylistMutation = useAddSongsToPlaylist()
 
@@ -88,6 +99,7 @@ const AddToPlaylistForm = ({
     isLoading: isPlaylistsLoading,
     isError: isPlaylistsError
   } = useFetchPlaylists({
+    filters: debouncedSearchTerm ? { search: debouncedSearchTerm } : undefined,
     orderBy: { column: "name", direction: "asc" }
   })
 
@@ -98,6 +110,19 @@ const AddToPlaylistForm = ({
       playlistIds: []
     }
   })
+
+  useEffect(() => {
+    const debouncedUpdate = debounce(() => {
+      setDebouncedSearchTerm(searchTerm)
+      setCurrentPage(1)
+    }, 300)
+
+    debouncedUpdate()
+
+    return () => {
+      debouncedUpdate.cancel()
+    }
+  }, [searchTerm])
 
   const handleFormSubmit = async (values: AddToPlaylistType) => {
     if (onSubmit) {
@@ -138,6 +163,9 @@ const AddToPlaylistForm = ({
     if (form.formState.isSubmitted && form.formState.isSubmitSuccessful && form.formState.isValid) {
       form.reset()
       setSelectedIds(new Set())
+      setCurrentPage(1)
+      setSearchTerm("")
+      setDebouncedSearchTerm("")
     }
   }, [form.formState.isSubmitted, form.formState.isSubmitSuccessful, form.formState.isValid])
 
@@ -145,6 +173,9 @@ const AddToPlaylistForm = ({
     if (!isOpen && asSheet) {
       form.reset()
       setSelectedIds(new Set())
+      setCurrentPage(1)
+      setSearchTerm("")
+      setDebouncedSearchTerm("")
     }
   }, [isOpen, asSheet])
 
@@ -158,16 +189,27 @@ const AddToPlaylistForm = ({
     reset: () => {
       form.reset()
       setSelectedIds(new Set())
+      setSearchTerm("")
+      setDebouncedSearchTerm("")
     },
     submit: () => form.handleSubmit(handleFormSubmit)()
   } as AddToPlaylistFormRenderProps
+
+  const paginatedData = useCallback(() => {
+    if (!playlists) return []
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return playlists.slice(startIndex, endIndex)
+  }, [playlists, currentPage, itemsPerPage])()
+
+  const totalPages = Math.ceil((playlists?.length ?? 0) / itemsPerPage)
 
   const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
 
   const renderItem = useCallback(
     ({ item, index }: { item: Playlist; index: number }) => {
       const isSelected = selectedIds.has(item.id)
-      const isLastItem = index === (playlists?.length ?? 0) - 1
+      const isLastItem = index === (paginatedData?.length ?? 0) - 1
 
       return (
         <View style={styles.listItem(isLastItem)}>
@@ -179,23 +221,34 @@ const AddToPlaylistForm = ({
         </View>
       )
     },
-    [selectedIds, handleToggle, playlists?.length, styles]
+    [selectedIds, handleToggle, paginatedData?.length, styles]
+  )
+
+  const SearchInputContent = (
+    <View style={styles.searchContainer}>
+      <BottomSheetTextInput
+        placeholder={t("common.search")}
+        value={searchTerm}
+        onChangeText={setSearchTerm}
+      />
+    </View>
   )
 
   const FormContent = (
-    <AsyncState
-      data={playlists}
-      isLoading={isPlaylistsLoading}
-      isError={isPlaylistsError}
-      LoadingComponent={
-        <View style={styles.loadingContainer}>
-          <Spinner />
-        </View>
-      }
-    >
-      {(data) => (
-        <Form {...form}>
-          <View style={styles.fill}>
+    <Form {...form}>
+      <View style={styles.fill}>
+        {!asSheet && SearchInputContent}
+        <AsyncState
+          data={paginatedData}
+          isLoading={isPlaylistsLoading}
+          isError={isPlaylistsError}
+          LoadingComponent={
+            <View style={styles.loadingContainer}>
+              <Spinner />
+            </View>
+          }
+        >
+          {(data) => (
             <FormField
               control={form.control}
               name="playlistIds"
@@ -226,11 +279,21 @@ const AddToPlaylistForm = ({
                 </FormItem>
               )}
             />
-          </View>
-          {children?.(renderProps)}
-        </Form>
+          )}
+        </AsyncState>
+      </View>
+      {totalPages > 1 && (
+        <View style={styles.paginationContainer}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </View>
       )}
-    </AsyncState>
+      {children?.(renderProps)}
+      {!asSheet && <KeyboardSpacer />}
+    </Form>
   )
 
   if (!asSheet) return FormContent
@@ -249,6 +312,7 @@ const AddToPlaylistForm = ({
             <SheetTitle>{title ?? t("form.titles.addToPlaylist")}</SheetTitle>
           </SheetHeader>
           <Separator />
+          {SearchInputContent}
           <View style={styles.fill}>{FormContent}</View>
           <Separator />
           <SheetFooter>
@@ -266,7 +330,6 @@ const AddToPlaylistForm = ({
             />
           </SheetFooter>
         </View>
-        <KeyboardSpacer />
       </SheetContent>
     </Sheet>
   )
@@ -279,6 +342,13 @@ const addToPlaylistFormStyles = createStyleSheet(({ theme, runtime }) => ({
   sheetContainer: {
     flex: 1,
     paddingBottom: theme.space("lg") + runtime.insets.bottom
+  },
+  searchContainer: {
+    paddingHorizontal: theme.space(3),
+    paddingTop: theme.space(3),
+    paddingBottom: theme.space(3),
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border
   },
   listContent: (isEmpty: boolean) =>
     viewStyle({
@@ -296,6 +366,12 @@ const addToPlaylistFormStyles = createStyleSheet(({ theme, runtime }) => ({
     alignItems: "center",
     justifyContent: "center",
     padding: theme.space(8)
+  },
+  paginationContainer: {
+    paddingVertical: theme.space(3),
+    paddingHorizontal: theme.space(3),
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border
   }
 }))
 

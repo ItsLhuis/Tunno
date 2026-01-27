@@ -24,6 +24,7 @@ import { useFetchArtistById } from "../hooks/useFetchArtistById"
 
 import {
   AsyncState,
+  BottomSheetTextInput,
   Button,
   Form,
   FormControl,
@@ -217,6 +218,8 @@ const ArtistForm = ({
     submit: () => form.handleSubmit(handleFormSubmit)()
   } as ArtistFormRenderProps<"insert" | "update">
 
+  const Input = asSheet ? BottomSheetTextInput : TextInput
+
   const FormContent = (
     <AsyncState
       data={mode === "update" ? artist : true}
@@ -239,7 +242,7 @@ const ArtistForm = ({
                   <FormLabel>{t("form.labels.name")}</FormLabel>
                   <FormControl>
                     <View style={styles.nameRow}>
-                      <TextInput
+                      <Input
                         style={styles.nameInput}
                         placeholder={t("form.labels.name")}
                         value={field.value}
@@ -294,7 +297,7 @@ const ArtistForm = ({
         </View>
         {children?.(renderProps)}
       </Form>
-      <KeyboardSpacer />
+      {!asSheet && <KeyboardSpacer />}
     </AsyncState>
   )
 
