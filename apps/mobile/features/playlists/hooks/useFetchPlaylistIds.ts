@@ -20,9 +20,6 @@ import { getPlaylistIdsOnly } from "../api/queries"
  * // Fetch all playlist IDs
  * const { data: allPlaylistIds, isLoading: isLoadingAll } = useFetchPlaylistIds();
  *
- * // Fetch public playlist IDs
- * const { data: publicPlaylistIds, isLoading: isLoadingPublic } = useFetchPlaylistIds({ isPublic: true });
- *
  * if (isLoadingAll) return <Text>Loading all playlist IDs...</Text>;
  *
  * return (

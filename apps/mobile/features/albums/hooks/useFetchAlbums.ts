@@ -20,9 +20,6 @@ import { getAllAlbums } from "../api/queries"
  * // Fetch all albums
  * const { data: allAlbums, isLoading: isLoadingAll } = useFetchAlbums();
  *
- * // Fetch albums filtered by an artist
- * const { data: artistAlbums, isLoading: isLoadingArtist } = useFetchAlbums({ artistId: 1 });
- *
  * if (isLoadingAll) return <Text>Loading all albums...</Text>;
  *
  * return (

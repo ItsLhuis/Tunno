@@ -2,35 +2,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { useTranslation } from "@repo/i18n"
 
-import { invalidateQueries, playlistKeys, isCustomError } from "@repo/api"
+import { invalidateQueries, isCustomError, playlistKeys } from "@repo/api"
 
 import { updatePlaylist } from "../api/mutations"
 
 import { toast } from "@components/ui"
-
-import { type UpdatePlaylistType } from "@repo/schemas"
-
-/**
- * Parameters for the `useUpdatePlaylist` hook's mutation function.
- */
-type UpdatePlaylistParams = {
-  /**
-   * The ID of the playlist to update.
-   */
-  id: number
-  /**
-   * An object containing the playlist data to be updated, excluding the `thumbnail` property.
-   */
-  updates: Omit<UpdatePlaylistType, "thumbnail">
-  /**
-   * (Optional) Specifies how to handle the thumbnail: 'keep', 'update', or 'remove'.
-   */
-  thumbnailAction?: "keep" | "update" | "remove"
-  /**
-   * (Optional) The path to the new thumbnail image file if `thumbnailAction` is 'update'.
-   */
-  thumbnailPath?: string
-}
 
 /**
  * Custom hook for updating an existing playlist.
@@ -42,7 +18,7 @@ type UpdatePlaylistParams = {
  * - Error and success handling with toast notifications.
  *
  * @returns A `UseMutationResult` object from `@tanstack/react-query` containing the mutation function (`mutate`) and its state (`isLoading`, `isError`, etc.).
- *          The `mutate` function expects an {@link UpdatePlaylistParams} object as its argument.
+ *          The `mutate` function expects an object with `id`, `updates`, `thumbnailAction`, and `thumbnailPath` properties.
  *
  * @example
  * ```tsx
@@ -67,10 +43,17 @@ export function useUpdatePlaylist() {
   const { t } = useTranslation()
 
   return useMutation({
-    mutationFn: async ({ id, updates, thumbnailAction, thumbnailPath }: UpdatePlaylistParams) => {
-      const updatedPlaylist = await updatePlaylist(id, updates, thumbnailAction, thumbnailPath, t)
-      return updatedPlaylist
-    },
+    mutationFn: ({
+      id,
+      updates,
+      thumbnailAction,
+      thumbnailPath
+    }: {
+      id: Parameters<typeof updatePlaylist>[0]
+      updates: Parameters<typeof updatePlaylist>[1]
+      thumbnailAction?: Parameters<typeof updatePlaylist>[2]
+      thumbnailPath?: Parameters<typeof updatePlaylist>[3]
+    }) => updatePlaylist(id, updates, thumbnailAction, thumbnailPath, t),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: playlistKeys.all })
     },

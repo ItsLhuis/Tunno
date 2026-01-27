@@ -21,7 +21,6 @@ import { getAlbumIdsOnly } from "../api/queries"
  * const { data: allAlbumIds, isLoading: isLoadingAll } = useFetchAlbumIds();
  *
  * // Fetch album IDs filtered by an artist
- * const { data: artistAlbumIds, isLoading: isLoadingArtist } = useFetchAlbumIds({ artistId: 1 });
  *
  * if (isLoadingAll) return <Text>Loading all album IDs...</Text>;
  *

@@ -20,9 +20,6 @@ import { getArtistIdsOnly } from "../api/queries"
  * // Fetch all artist IDs
  * const { data: allArtistIds, isLoading: isLoadingAll } = useFetchArtistIds();
  *
- * // Fetch artist IDs filtered by a search term
- * const { data: searchedArtistIds, isLoading: isLoadingSearch } = useFetchArtistIds({ search: "John" });
- *
  * if (isLoadingAll) return <Text>Loading all artist IDs...</Text>;
  *
  * return (

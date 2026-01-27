@@ -20,9 +20,6 @@ import { getAllArtists } from "../api/queries"
  * // Fetch all artists
  * const { data: allArtists, isLoading: isLoadingAll } = useFetchArtists();
  *
- * // Fetch artists filtered by a search term
- * const { data: searchedArtists, isLoading: isLoadingSearch } = useFetchArtists({ search: "Pop" });
- *
  * if (isLoadingAll) return <Text>Loading all artists...</Text>;
  *
  * return (

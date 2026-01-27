@@ -20,9 +20,6 @@ import { getAllPlaylists } from "../api/queries"
  * // Fetch all playlists
  * const { data: allPlaylists, isLoading: isLoadingAll } = useFetchPlaylists();
  *
- * // Fetch public playlists
- * const { data: publicPlaylists, isLoading: isLoadingPublic } = useFetchPlaylists({ isPublic: true });
- *
  * if (isLoadingAll) return <Text>Loading all playlists...</Text>;
  *
  * return (
