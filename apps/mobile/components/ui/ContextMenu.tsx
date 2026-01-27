@@ -10,6 +10,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type ComponentProps,
   type ReactElement,
   type ReactNode,
   type Ref,
@@ -37,8 +38,8 @@ import Animated, {
 
 import {
   BottomSheet,
-  BottomSheetFlatList,
   BottomSheetFlashList,
+  BottomSheetFlatList,
   BottomSheetLegendList,
   BottomSheetScrollView,
   type BottomSheetProps,
@@ -625,7 +626,7 @@ const ContextMenuShortcut = ({ style, ...props }: ContextMenuShortcutProps) => {
   return <Text size="xs" color="mutedForeground" style={[styles.shortcut, style]} {...props} />
 }
 
-export type ContextMenuScrollViewProps = React.ComponentProps<typeof BottomSheetScrollView>
+export type ContextMenuScrollViewProps = ComponentProps<typeof BottomSheetScrollView>
 
 const ContextMenuScrollView = (props: ContextMenuScrollViewProps) => {
   return <BottomSheetScrollView {...props} />
@@ -700,8 +701,8 @@ export {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
-  ContextMenuFlatList,
   ContextMenuFlashList,
+  ContextMenuFlatList,
   ContextMenuGroup,
   ContextMenuItem,
   ContextMenuLabel,

@@ -17,6 +17,7 @@ import Animated, {
   withTiming
 } from "react-native-reanimated"
 
+import { BottomSheetTextInput } from "@components/ui/BottomSheet"
 import { IconButton } from "@components/ui/IconButton"
 import { Separator } from "@components/ui/Separator"
 import { TextInput } from "@components/ui/TextInput"
@@ -34,6 +35,7 @@ export type NumberInputProps = {
   disabled?: boolean
   placeholder?: string
   style?: StyleProp<ViewStyle>
+  insideBottomSheet?: boolean
 }
 
 const NumberInput = ({
@@ -48,7 +50,8 @@ const NumberInput = ({
   allowUndefined = true,
   disabled = false,
   placeholder,
-  style
+  style,
+  insideBottomSheet = false
 }: NumberInputProps) => {
   const styles = useStyles(numberInputStyles)
 
@@ -196,6 +199,8 @@ const NumberInput = ({
   const canDecrement = !disabled && (min === undefined || (currentValue ?? 0) > min)
   const canIncrement = !disabled && (max === undefined || (currentValue ?? 0) < max)
 
+  const Input = insideBottomSheet ? BottomSheetTextInput : TextInput
+
   return (
     <Animated.View style={[borderStyle, styles.container({ disabled }), style]}>
       <IconButton
@@ -206,7 +211,7 @@ const NumberInput = ({
         style={styles.button}
       />
       <Separator orientation="vertical" />
-      <TextInput
+      <Input
         value={displayValue}
         onChangeText={handleInputChange}
         onFocus={handleFocus}
@@ -216,7 +221,7 @@ const NumberInput = ({
         returnKeyType="done"
         placeholder={placeholder}
         disabled={disabled}
-        disableBorderAnimation
+        {...(!insideBottomSheet && { disableBorderAnimation: true })}
         style={styles.input}
       />
       <Separator orientation="vertical" />

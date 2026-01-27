@@ -10,23 +10,37 @@ import {
 
 import {
   BackHandler,
+  type BlurEvent,
+  ColorValue,
   FlatList,
   type FlatListProps,
+  type FocusEvent,
+  type TextInputProps as RNTextInputProps,
   type StyleProp,
-  StyleSheet,
   type ViewStyle
 } from "react-native"
 
 import {
+  type ColorKey,
   createStyleSheet,
+  createVariant,
   durationTokens,
+  resolveColor,
+  type StyleVariants,
   ThemeContext,
+  useAnimatedTheme,
   useBaseTheme,
   useStyles,
   useTheme
 } from "@styles"
 
-import { Easing } from "react-native-reanimated"
+import Animated, {
+  Easing,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from "react-native-reanimated"
 
 import {
   BottomSheetBackdrop,
@@ -35,6 +49,7 @@ import {
   type BottomSheetModalProps,
   BottomSheetView,
   BottomSheetScrollView as GorhomBottomSheetScrollView,
+  BottomSheetTextInput as GorhomBottomSheetTextInput,
   type SNAP_POINT_TYPE,
   useBottomSheetModal,
   useBottomSheetScrollableCreator,
@@ -190,8 +205,6 @@ const BottomSheetScrollView = (props: BottomSheetScrollViewProps) => {
 }
 
 function BottomSheetFlashList<T>(props: FlashListProps<T>) {
-  const styles = useStyles(bottomSheetListStyles)
-
   const ScrollComponent = useBottomSheetScrollableCreator()
 
   return (
@@ -205,15 +218,12 @@ function BottomSheetFlashList<T>(props: FlashListProps<T>) {
       }}
       bounces={false}
       {...props}
-      style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
     />
   )
 }
 
 function BottomSheetLegendList<T>(props: LegendListProps<T>) {
-  const styles = useStyles(bottomSheetListStyles)
-
   const ScrollComponent = useBottomSheetScrollableCreator()
 
   return (
@@ -228,7 +238,6 @@ function BottomSheetLegendList<T>(props: LegendListProps<T>) {
       }}
       recycleItems
       {...props}
-      style={StyleSheet.flatten([styles.container, props.style])}
       renderScrollComponent={ScrollComponent}
     />
   )
@@ -249,11 +258,110 @@ function BottomSheetFlatList<T>(props: FlatListProps<T>) {
   )
 }
 
-const bottomSheetListStyles = createStyleSheet(() => ({
-  container: {
-    flex: 1,
-    minHeight: 0.1
+const AnimatedBottomSheetTextInput = Animated.createAnimatedComponent(GorhomBottomSheetTextInput)
+
+export type BottomSheetTextInputProps = Omit<
+  RNTextInputProps,
+  "placeholderTextColor" | "selectionColor" | "editable"
+> &
+  StyleVariants<typeof bottomSheetTextInputStyles, "input"> & {
+    disableBorderAnimation?: boolean
+    placeholderTextColor?: ColorKey | undefined
+    selectionColor?: ColorKey | undefined
   }
+
+const BottomSheetTextInput = ({
+  disableBorderAnimation = false,
+  disabled = false,
+  style,
+  onFocus,
+  onBlur,
+  placeholderTextColor,
+  selectionColor,
+  ...props
+}: BottomSheetTextInputProps) => {
+  const styles = useStyles(bottomSheetTextInputStyles)
+
+  const { theme } = useTheme()
+
+  const animatedTheme = useAnimatedTheme()
+
+  const isFocused = useSharedValue(0)
+
+  const resolvedPlaceholderColor = placeholderTextColor
+    ? resolveColor(theme, placeholderTextColor)
+    : undefined
+  const finalPlaceholderColor: ColorValue = resolvedPlaceholderColor ?? theme.colors.mutedForeground
+
+  const resolvedSelectionColor = selectionColor ? resolveColor(theme, selectionColor) : undefined
+  const finalSelectionColor: ColorValue = resolvedSelectionColor ?? theme.colors.primary
+
+  const borderStyle = useAnimatedStyle(() => {
+    if (disableBorderAnimation) {
+      return {}
+    }
+
+    return {
+      borderColor: interpolateColor(
+        isFocused.value,
+        [0, 1],
+        [String(animatedTheme.value.colors.input), String(animatedTheme.value.colors.primary)]
+      )
+    }
+  })
+
+  const handleFocus = (event: FocusEvent) => {
+    if (!disableBorderAnimation) {
+      isFocused.value = withTiming(1, { duration: durationTokens[300] })
+    }
+    onFocus?.(event)
+  }
+
+  const handleBlur = (event: BlurEvent) => {
+    if (!disableBorderAnimation) {
+      isFocused.value = withTiming(0, { duration: durationTokens[300] })
+    }
+    onBlur?.(event)
+  }
+
+  return (
+    <AnimatedBottomSheetTextInput
+      editable={!disabled}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      maxFontSizeMultiplier={1}
+      selectionColor={finalSelectionColor}
+      placeholderTextColor={finalPlaceholderColor}
+      style={[styles.input({ disabled }), borderStyle, style]}
+      {...props}
+    />
+  )
+}
+
+const bottomSheetTextInputStyles = createStyleSheet(({ theme }) => ({
+  input: createVariant({
+    base: {
+      backgroundColor: theme.withOpacity(theme.colors.tabbar, theme.opacity(75)),
+      fontSize: theme.fontSize("sm"),
+      fontFamily: "SpaceGrotesk-Regular",
+      color: theme.colors.foreground,
+      padding: theme.space("sm"),
+      borderRadius: theme.radius(),
+      borderWidth: theme.borderWidth(),
+      borderColor: theme.colors.input
+    },
+    variants: {
+      disabled: {
+        true: {
+          opacity: theme.opacity(50)
+        },
+        false: {}
+      }
+    },
+    defaultVariants: {
+      disabled: false
+    }
+  })
 }))
 
 export {
@@ -262,6 +370,7 @@ export {
   BottomSheetFlatList,
   BottomSheetLegendList,
   BottomSheetScrollView,
+  BottomSheetTextInput,
   BottomSheetView,
   useBottomSheetModal,
   type SNAP_POINT_TYPE

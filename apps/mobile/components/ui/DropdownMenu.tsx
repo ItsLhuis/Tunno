@@ -10,6 +10,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type ComponentProps,
   type ReactElement,
   type ReactNode,
   type Ref,
@@ -35,8 +36,8 @@ import Animated, {
 
 import {
   BottomSheet,
-  BottomSheetFlatList,
   BottomSheetFlashList,
+  BottomSheetFlatList,
   BottomSheetLegendList,
   BottomSheetScrollView,
   type BottomSheetProps,
@@ -626,7 +627,7 @@ const DropdownMenuShortcut = ({ style, ...props }: DropdownMenuShortcutProps) =>
   return <Text size="xs" color="mutedForeground" style={[styles.shortcut, style]} {...props} />
 }
 
-export type DropdownMenuScrollViewProps = React.ComponentProps<typeof BottomSheetScrollView>
+export type DropdownMenuScrollViewProps = ComponentProps<typeof BottomSheetScrollView>
 
 const DropdownMenuScrollView = (props: DropdownMenuScrollViewProps) => {
   return <BottomSheetScrollView {...props} />
@@ -701,8 +702,8 @@ export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuFlatList,
   DropdownMenuFlashList,
+  DropdownMenuFlatList,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,

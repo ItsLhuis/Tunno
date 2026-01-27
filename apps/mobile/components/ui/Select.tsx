@@ -10,6 +10,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type ComponentProps,
   type ReactElement,
   type ReactNode,
   type Ref,
@@ -38,8 +39,8 @@ import { useTranslation } from "@repo/i18n"
 import { Badge } from "@components/ui/Badge"
 import {
   BottomSheet,
-  BottomSheetFlatList,
   BottomSheetFlashList,
+  BottomSheetFlatList,
   BottomSheetLegendList,
   BottomSheetScrollView,
   type BottomSheetProps,
@@ -516,7 +517,7 @@ const SelectGroupHeader = ({ children, title, style }: SelectGroupHeaderProps) =
   )
 }
 
-export type SelectScrollViewProps = React.ComponentProps<typeof BottomSheetScrollView>
+export type SelectScrollViewProps = ComponentProps<typeof BottomSheetScrollView>
 
 const SelectScrollView = ({ contentContainerStyle, ...props }: SelectScrollViewProps) => {
   const styles = useStyles(selectStyles)
@@ -667,8 +668,8 @@ export {
   Select,
   SelectCheckboxItem,
   SelectContent,
-  SelectFlatList,
   SelectFlashList,
+  SelectFlatList,
   SelectGroup,
   SelectGroupHeader,
   SelectItem,
