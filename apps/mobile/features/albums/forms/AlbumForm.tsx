@@ -154,18 +154,20 @@ const AlbumForm = ({
     }
   })
 
+  const debouncedSetArtistSearchTerm = useMemo(
+    () =>
+      debounce((term: string) => {
+        setDebouncedArtistSearchTerm(term)
+        setArtistCurrentPage(1)
+      }, 300),
+    []
+  )
+
   useEffect(() => {
-    const debouncedUpdate = debounce(() => {
-      setDebouncedArtistSearchTerm(artistSearchTerm)
-      setArtistCurrentPage(1)
-    }, 300)
-
-    debouncedUpdate()
-
     return () => {
-      debouncedUpdate.cancel()
+      debouncedSetArtistSearchTerm.cancel()
     }
-  }, [artistSearchTerm])
+  }, [debouncedSetArtistSearchTerm])
 
   useEffect(() => {
     if (mode === "insert") {
@@ -466,7 +468,10 @@ const AlbumForm = ({
                         <BottomSheetTextInput
                           placeholder={t("common.search")}
                           value={artistSearchTerm}
-                          onChangeText={setArtistSearchTerm}
+                          onChangeText={(text) => {
+                            setArtistSearchTerm(text)
+                            debouncedSetArtistSearchTerm(text)
+                          }}
                         />
                       </View>
                       <SelectFlashList

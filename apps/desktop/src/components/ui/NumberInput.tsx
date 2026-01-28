@@ -49,7 +49,6 @@ const NumberInput = ({
   const isControlled = value !== undefined
   const currentValue = isControlled ? value : internalValue
 
-  // Estado separado para o que é exibido no input
   const [displayValue, setDisplayValue] = useState<string>(() => {
     if (currentValue !== undefined) {
       return format ? format(currentValue) : String(currentValue)

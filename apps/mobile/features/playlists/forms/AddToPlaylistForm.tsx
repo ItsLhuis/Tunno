@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
 
 import { View } from "react-native"
 
@@ -111,18 +111,20 @@ const AddToPlaylistForm = ({
     }
   })
 
+  const debouncedSetSearchTerm = useMemo(
+    () =>
+      debounce((term: string) => {
+        setDebouncedSearchTerm(term)
+        setCurrentPage(1)
+      }, 300),
+    []
+  )
+
   useEffect(() => {
-    const debouncedUpdate = debounce(() => {
-      setDebouncedSearchTerm(searchTerm)
-      setCurrentPage(1)
-    }, 300)
-
-    debouncedUpdate()
-
     return () => {
-      debouncedUpdate.cancel()
+      debouncedSetSearchTerm.cancel()
     }
-  }, [searchTerm])
+  }, [debouncedSetSearchTerm])
 
   const handleFormSubmit = async (values: AddToPlaylistType) => {
     if (onSubmit) {
@@ -229,7 +231,10 @@ const AddToPlaylistForm = ({
       <BottomSheetTextInput
         placeholder={t("common.search")}
         value={searchTerm}
-        onChangeText={setSearchTerm}
+        onChangeText={(text) => {
+          setSearchTerm(text)
+          debouncedSetSearchTerm(text)
+        }}
       />
     </View>
   )
@@ -262,7 +267,7 @@ const AddToPlaylistForm = ({
                           extraData={selectedIds}
                           keyExtractor={keyExtractor}
                           renderItem={renderItem}
-                          contentContainerStyle={styles.listContent(data.length === 0)}
+                          contentContainerStyle={styles.listContent}
                         />
                       ) : (
                         <FlashList
@@ -270,7 +275,7 @@ const AddToPlaylistForm = ({
                           keyExtractor={keyExtractor}
                           renderItem={renderItem}
                           showsVerticalScrollIndicator={false}
-                          contentContainerStyle={styles.listContent(data.length === 0)}
+                          contentContainerStyle={styles.listContent}
                         />
                       )}
                     </View>
@@ -350,13 +355,10 @@ const addToPlaylistFormStyles = createStyleSheet(({ theme, runtime }) => ({
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border
   },
-  listContent: (isEmpty: boolean) =>
-    viewStyle({
-      padding: theme.space(3),
-      ...(isEmpty && {
-        flex: 1
-      })
-    }),
+  listContent: {
+    flexGrow: 1,
+    padding: theme.space(3)
+  },
   listItem: (isLast: boolean) =>
     viewStyle({
       marginBottom: isLast ? 0 : theme.space(2)

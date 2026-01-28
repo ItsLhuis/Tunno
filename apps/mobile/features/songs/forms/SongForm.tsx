@@ -183,31 +183,35 @@ const SongForm = ({
     }
   )
 
+  const debouncedSetArtistSearchTerm = useMemo(
+    () =>
+      debounce((term: string) => {
+        setDebouncedArtistSearchTerm(term)
+        setArtistCurrentPage(1)
+      }, 300),
+    []
+  )
+
+  const debouncedSetAlbumSearchTerm = useMemo(
+    () =>
+      debounce((term: string) => {
+        setDebouncedAlbumSearchTerm(term)
+        setAlbumCurrentPage(1)
+      }, 300),
+    []
+  )
+
   useEffect(() => {
-    const debouncedUpdate = debounce(() => {
-      setDebouncedArtistSearchTerm(artistSearchTerm)
-      setArtistCurrentPage(1)
-    }, 300)
-
-    debouncedUpdate()
-
     return () => {
-      debouncedUpdate.cancel()
+      debouncedSetArtistSearchTerm.cancel()
     }
-  }, [artistSearchTerm])
+  }, [debouncedSetArtistSearchTerm])
 
   useEffect(() => {
-    const debouncedUpdate = debounce(() => {
-      setDebouncedAlbumSearchTerm(albumSearchTerm)
-      setAlbumCurrentPage(1)
-    }, 300)
-
-    debouncedUpdate()
-
     return () => {
-      debouncedUpdate.cancel()
+      debouncedSetAlbumSearchTerm.cancel()
     }
-  }, [albumSearchTerm])
+  }, [debouncedSetAlbumSearchTerm])
 
   const { isSubmitting, isDirty, isValid, errors } = form.formState
 
@@ -621,8 +625,11 @@ const SongForm = ({
                       <View style={styles.searchContainer}>
                         <BottomSheetTextInput
                           placeholder={t("common.search")}
-                          value={albumSearchTerm}
-                          onChangeText={setAlbumSearchTerm}
+                          value={artistSearchTerm}
+                          onChangeText={(text) => {
+                            setArtistSearchTerm(text)
+                            debouncedSetArtistSearchTerm(text)
+                          }}
                         />
                       </View>
                       <SelectFlashList
@@ -670,7 +677,10 @@ const SongForm = ({
                         <BottomSheetTextInput
                           placeholder={t("common.search")}
                           value={albumSearchTerm}
-                          onChangeText={setAlbumSearchTerm}
+                          onChangeText={(text) => {
+                            setAlbumSearchTerm(text)
+                            debouncedSetAlbumSearchTerm(text)
+                          }}
                         />
                       </View>
                       <SelectFlashList
