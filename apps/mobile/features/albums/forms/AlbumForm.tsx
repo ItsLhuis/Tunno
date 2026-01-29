@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, useRuntime, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -45,7 +45,7 @@ import {
   Select,
   SelectCheckboxItem,
   SelectContent,
-  SelectFlashList,
+  SelectFlatList,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -94,6 +94,16 @@ type UpdateAlbumFormProps = BaseAlbumFormProps & {
 
 export type AlbumFormProps = InsertAlbumFormProps | UpdateAlbumFormProps
 
+const ArtistCheckboxItem = memo(function ArtistCheckboxItem({
+  value,
+  label
+}: {
+  value: string
+  label: string
+}) {
+  return <SelectCheckboxItem value={value} title={label} />
+})
+
 const AlbumForm = ({
   albumId,
   mode = "insert",
@@ -118,7 +128,23 @@ const AlbumForm = ({
   const [debouncedArtistSearchTerm, setDebouncedArtistSearchTerm] = useState("")
   const [artistCurrentPage, setArtistCurrentPage] = useState(1)
 
-  const artistsPerPage = 25
+  const runtime = useRuntime()
+
+  const ITEM_HEIGHTS = {
+    selectCheckboxItem: 36,
+    searchInput: 65,
+    sheetHeader: 60,
+    pagination: 65
+  } as const
+
+  const artistsPerPage = useMemo(() => {
+    const fixedElementsHeight =
+      ITEM_HEIGHTS.sheetHeader + ITEM_HEIGHTS.searchInput + ITEM_HEIGHTS.pagination + 80
+
+    const availableHeight = runtime.dimensions.height - fixedElementsHeight
+    const itemsCount = Math.floor(availableHeight / ITEM_HEIGHTS.selectCheckboxItem)
+    return Math.max(10, Math.min(itemsCount, 50))
+  }, [runtime.dimensions.height])
 
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
@@ -287,7 +313,7 @@ const AlbumForm = ({
 
   const renderArtistItem = useCallback(
     ({ item }: { item: (typeof artistOptions)[0] }) => (
-      <SelectCheckboxItem value={item.value} title={item.label} />
+      <ArtistCheckboxItem value={item.value} label={item.label} />
     ),
     []
   )
@@ -301,7 +327,7 @@ const AlbumForm = ({
       ) : (
         <NotFound />
       ),
-    [isArtistsLoading, styles.emptySelect]
+    [isArtistsLoading]
   )
 
   const Input = asSheet ? BottomSheetTextInput : TextInput
@@ -474,7 +500,7 @@ const AlbumForm = ({
                           }}
                         />
                       </View>
-                      <SelectFlashList
+                      <SelectFlatList
                         data={paginatedArtists}
                         keyExtractor={artistKeyExtractor}
                         contentContainerStyle={styles.selectContent(paginatedArtists.length === 0)}

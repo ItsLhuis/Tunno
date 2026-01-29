@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
+import { memo, useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
 
-import { View } from "react-native"
+import { FlatList, View } from "react-native"
 
-import { createStyleSheet, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, useRuntime, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -15,13 +15,11 @@ import { useAddSongsToPlaylist } from "../hooks/useAddSongsToPlaylist"
 
 import { useFetchPlaylists } from "../hooks/useFetchPlaylists"
 
-import { FlashList } from "@shopify/flash-list"
-
 import { debounce } from "lodash"
 
 import {
   AsyncState,
-  BottomSheetFlashList,
+  BottomSheetFlatList,
   BottomSheetTextInput,
   Button,
   Form,
@@ -43,6 +41,25 @@ import {
 
 import { type Playlist } from "@repo/api"
 import { PlaylistItemSelect } from "../components/PlaylistItem"
+
+const MemoizedPlaylistItem = memo(function MemoizedPlaylistItem({
+  playlist,
+  selected,
+  onToggle,
+  isLast
+}: {
+  playlist: Playlist
+  selected: boolean
+  onToggle: () => void
+  isLast: boolean
+}) {
+  const styles = useStyles(addToPlaylistFormStyles)
+  return (
+    <View style={styles.listItem(isLast)}>
+      <PlaylistItemSelect playlist={playlist} selected={selected} onToggle={onToggle} />
+    </View>
+  )
+})
 
 export type AddToPlaylistFormRenderProps = {
   isSubmitting: boolean
@@ -90,7 +107,23 @@ const AddToPlaylistForm = ({
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
 
-  const itemsPerPage = 25
+  const runtime = useRuntime()
+
+  const ITEM_HEIGHTS = {
+    playlistItem: 76,
+    searchInput: 65,
+    sheetHeader: 60,
+    pagination: 65
+  } as const
+
+  const itemsPerPage = useMemo(() => {
+    const fixedElementsHeight =
+      ITEM_HEIGHTS.sheetHeader + ITEM_HEIGHTS.searchInput + ITEM_HEIGHTS.pagination + 80
+
+    const availableHeight = runtime.dimensions.height - fixedElementsHeight
+    const itemsCount = Math.floor(availableHeight / ITEM_HEIGHTS.playlistItem)
+    return Math.max(5, Math.min(itemsCount, 30))
+  }, [runtime.dimensions.height])
 
   const addSongsToPlaylistMutation = useAddSongsToPlaylist()
 
@@ -214,16 +247,15 @@ const AddToPlaylistForm = ({
       const isLastItem = index === (paginatedData?.length ?? 0) - 1
 
       return (
-        <View style={styles.listItem(isLastItem)}>
-          <PlaylistItemSelect
-            playlist={item}
-            selected={isSelected}
-            onToggle={() => handleToggle(item.id)}
-          />
-        </View>
+        <MemoizedPlaylistItem
+          playlist={item}
+          selected={isSelected}
+          onToggle={() => handleToggle(item.id)}
+          isLast={isLastItem}
+        />
       )
     },
-    [selectedIds, handleToggle, paginatedData?.length, styles]
+    [selectedIds, handleToggle, paginatedData?.length]
   )
 
   const SearchInputContent = (
@@ -262,7 +294,7 @@ const AddToPlaylistForm = ({
                   <FormControl style={styles.fill}>
                     <View style={styles.fill}>
                       {asSheet ? (
-                        <BottomSheetFlashList
+                        <BottomSheetFlatList
                           data={data}
                           extraData={selectedIds}
                           keyExtractor={keyExtractor}
@@ -270,7 +302,7 @@ const AddToPlaylistForm = ({
                           contentContainerStyle={styles.listContent}
                         />
                       ) : (
-                        <FlashList
+                        <FlatList
                           data={data}
                           keyExtractor={keyExtractor}
                           renderItem={renderItem}

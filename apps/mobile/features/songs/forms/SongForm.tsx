@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, useRuntime, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -47,7 +47,7 @@ import {
   Select,
   SelectCheckboxItem,
   SelectContent,
-  SelectFlashList,
+  SelectFlatList,
   SelectGroupHeader,
   SelectItem,
   SelectTrigger,
@@ -105,6 +105,30 @@ type UpdateSongFormProps = BaseSongFormProps & {
 
 export type SongFormProps = InsertSongFormProps | UpdateSongFormProps
 
+const ArtistCheckboxItem = memo(function ArtistCheckboxItem({
+  value,
+  label
+}: {
+  value: string
+  label: string
+}) {
+  return <SelectCheckboxItem value={value} title={label} />
+})
+
+const AlbumGroupHeader = memo(function AlbumGroupHeader({ title }: { title: string }) {
+  return <SelectGroupHeader title={title} />
+})
+
+const AlbumSelectItem = memo(function AlbumSelectItem({
+  value,
+  label
+}: {
+  value: string
+  label: string
+}) {
+  return <SelectItem value={value} title={label} />
+})
+
 const SongForm = ({
   songId,
   mode = "insert",
@@ -133,11 +157,53 @@ const SongForm = ({
   const [debouncedAlbumSearchTerm, setDebouncedAlbumSearchTerm] = useState("")
   const [albumCurrentPage, setAlbumCurrentPage] = useState(1)
 
-  const artistsPerPage = 25
-  const albumsPerPage = 25
+  const runtime = useRuntime()
+
+  const ITEM_HEIGHTS = {
+    selectCheckboxItem: 36,
+    selectGroupHeader: 35,
+    selectItem: 30,
+    searchInput: 65,
+    pagination: 65
+  } as const
+
+  const artistsPerPage = useMemo(() => {
+    const fixedElementsHeight = ITEM_HEIGHTS.searchInput + ITEM_HEIGHTS.pagination + 80
+
+    const availableHeight = runtime.dimensions.height - fixedElementsHeight
+    const itemsCount = Math.floor(availableHeight / ITEM_HEIGHTS.selectCheckboxItem)
+    return Math.max(10, Math.min(itemsCount, 50))
+  }, [runtime.dimensions.height])
+
+  const albumsPerPage = useMemo(() => {
+    const fixedElementsHeight = ITEM_HEIGHTS.searchInput + ITEM_HEIGHTS.pagination + 80
+
+    const availableHeight = runtime.dimensions.height - fixedElementsHeight
+    const avgItemHeight = (ITEM_HEIGHTS.selectGroupHeader + ITEM_HEIGHTS.selectItem) / 2
+    const itemsCount = Math.floor(availableHeight / avgItemHeight)
+    return Math.max(10, Math.min(itemsCount, 50))
+  }, [runtime.dimensions.height])
 
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
+
+  const debouncedArtistSearchUpdate = useMemo(
+    () =>
+      debounce((term: string) => {
+        setDebouncedArtistSearchTerm(term)
+        setArtistCurrentPage(1)
+      }, 300),
+    []
+  )
+
+  const debouncedAlbumSearchUpdate = useMemo(
+    () =>
+      debounce((term: string) => {
+        setDebouncedAlbumSearchTerm(term)
+        setAlbumCurrentPage(1)
+      }, 300),
+    []
+  )
 
   const {
     data: song,
@@ -183,35 +249,12 @@ const SongForm = ({
     }
   )
 
-  const debouncedSetArtistSearchTerm = useMemo(
-    () =>
-      debounce((term: string) => {
-        setDebouncedArtistSearchTerm(term)
-        setArtistCurrentPage(1)
-      }, 300),
-    []
-  )
-
-  const debouncedSetAlbumSearchTerm = useMemo(
-    () =>
-      debounce((term: string) => {
-        setDebouncedAlbumSearchTerm(term)
-        setAlbumCurrentPage(1)
-      }, 300),
-    []
-  )
-
   useEffect(() => {
     return () => {
-      debouncedSetArtistSearchTerm.cancel()
+      debouncedArtistSearchUpdate.cancel()
+      debouncedAlbumSearchUpdate.cancel()
     }
-  }, [debouncedSetArtistSearchTerm])
-
-  useEffect(() => {
-    return () => {
-      debouncedSetAlbumSearchTerm.cancel()
-    }
-  }, [debouncedSetAlbumSearchTerm])
+  }, [debouncedArtistSearchUpdate, debouncedAlbumSearchUpdate])
 
   const { isSubmitting, isDirty, isValid, errors } = form.formState
 
@@ -223,6 +266,22 @@ const SongForm = ({
     reset: () => form.reset(),
     submit: () => form.handleSubmit(handleFormSubmit)()
   } as SongFormRenderProps<"insert" | "update">
+
+  const handleArtistSearchChange = useCallback(
+    (text: string) => {
+      setArtistSearchTerm(text)
+      debouncedArtistSearchUpdate(text)
+    },
+    [debouncedArtistSearchUpdate]
+  )
+
+  const handleAlbumSearchChange = useCallback(
+    (text: string) => {
+      setAlbumSearchTerm(text)
+      debouncedAlbumSearchUpdate(text)
+    },
+    [debouncedAlbumSearchUpdate]
+  )
 
   const artistOptions = useMemo(() => {
     return (artistsData ?? []).map((artist) => ({
@@ -287,7 +346,7 @@ const SongForm = ({
 
   const renderArtistItem = useCallback(
     ({ item }: { item: (typeof artistOptions)[0] }) => (
-      <SelectCheckboxItem value={item.value} title={item.label} />
+      <ArtistCheckboxItem value={item.value} label={item.label} />
     ),
     []
   )
@@ -313,9 +372,9 @@ const SongForm = ({
   const renderAlbumItem = useCallback(
     ({ item }: { item: GroupedAlbumItem }) =>
       item.type === "group" ? (
-        <SelectGroupHeader title={item.title} />
+        <AlbumGroupHeader title={item.title} />
       ) : (
-        <SelectItem value={item.data.value} title={item.data.label} />
+        <AlbumSelectItem value={item.data.value} label={item.data.label} />
       ),
     []
   )
@@ -626,13 +685,10 @@ const SongForm = ({
                         <BottomSheetTextInput
                           placeholder={t("common.search")}
                           value={artistSearchTerm}
-                          onChangeText={(text) => {
-                            setArtistSearchTerm(text)
-                            debouncedSetArtistSearchTerm(text)
-                          }}
+                          onChangeText={handleArtistSearchChange}
                         />
                       </View>
-                      <SelectFlashList
+                      <SelectFlatList
                         data={paginatedArtists}
                         keyExtractor={artistKeyExtractor}
                         contentContainerStyle={styles.selectContent(paginatedArtists.length === 0)}
@@ -677,13 +733,10 @@ const SongForm = ({
                         <BottomSheetTextInput
                           placeholder={t("common.search")}
                           value={albumSearchTerm}
-                          onChangeText={(text) => {
-                            setAlbumSearchTerm(text)
-                            debouncedSetAlbumSearchTerm(text)
-                          }}
+                          onChangeText={handleAlbumSearchChange}
                         />
                       </View>
-                      <SelectFlashList
+                      <SelectFlatList
                         data={paginatedAlbums}
                         keyExtractor={albumKeyExtractor}
                         contentContainerStyle={styles.selectContent(paginatedAlbums.length === 0)}
