@@ -1,14 +1,12 @@
-import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
+import { Fragment, memo, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, spacingTokens, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, spacingTokens, useRuntime, useStyles, viewStyle } from "@styles"
 
 import { useResponsiveColumns } from "@components/ui/ListWithHeader/hooks"
 
 import { useBottomPlayerHeight } from "@features/player/contexts/BottomPlayerLayoutContext"
-
-import { useShallow } from "zustand/shallow"
 
 import { usePlaylistsStore } from "../../stores/usePlaylistsStore"
 
@@ -26,7 +24,12 @@ import {
   type ScrollHeaderProps
 } from "@components/ui"
 
-import { PlaylistItemCard, PlaylistItemList } from "../PlaylistItem"
+import {
+  PlaylistItemCard,
+  PlaylistItemList,
+  type PlaylistItemCardProps,
+  type PlaylistItemListProps
+} from "../PlaylistItem"
 import { PlaylistsListFilters } from "./PlaylistsListFilters"
 import { PlaylistsListHeader } from "./PlaylistsListHeader"
 import { PlaylistsListSearch } from "./PlaylistsListSearch"
@@ -34,8 +37,70 @@ import { PlaylistsListStickyHeader } from "./PlaylistsListStickyHeader"
 
 import { type Playlist, type QueryPlaylistParams } from "@repo/api"
 
+type PLaylistItemType = "list" | "grid"
+
+const LIST_ITEM_HEIGHT = 56
+const LIST_ITEM_MARGIN = spacingTokens.md
+
+const GRID_ITEM_MARGIN = spacingTokens.md
+const GRID_INFO_ROW_HEIGHT = 39
+
+const CONTENT_PADDING = spacingTokens.lg
+
+type GridItemWrapperProps = PlaylistItemCardProps & {
+  index: number
+  numColumns: number
+  playlistsLength: number
+  gap: number
+}
+
+const PlaylistGridItemWrapper = memo(function PlaylistGridItemWrapper({
+  playlist,
+  index,
+  numColumns,
+  playlistsLength,
+  gap
+}: GridItemWrapperProps) {
+  const styles = useStyles(playlistsListStyles)
+
+  const itemGap = (gap * (numColumns - 1)) / numColumns
+  const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
+  const marginRight = itemGap - marginLeft
+  const isLastRow = index >= playlistsLength - (playlistsLength % numColumns || numColumns)
+
+  return (
+    <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+      <PlaylistItemCard playlist={playlist} />
+    </View>
+  )
+})
+
+type ListItemWrapperProps = PlaylistItemListProps & {
+  index: number
+  playlistsLength: number
+}
+
+const PlaylistListItemWrapper = memo(function PlaylistListItemWrapper({
+  playlist,
+  index,
+  playlistsLength
+}: ListItemWrapperProps) {
+  const styles = useStyles(playlistsListStyles)
+  const isLastItem = index === playlistsLength - 1
+
+  return (
+    <View style={styles.listItemWrapper(isLastItem)}>
+      <PlaylistItemList playlist={playlist} />
+    </View>
+  )
+})
+
 const PlaylistsList = () => {
   const styles = useStyles(playlistsListStyles)
+
+  const {
+    dimensions: { width: screenWidth }
+  } = useRuntime()
 
   const numColumns = useResponsiveColumns()
 
@@ -45,13 +110,17 @@ const PlaylistsList = () => {
 
   const [isRefreshing, setIsRefreshing] = useState(false)
 
-  const { debouncedFilters, orderBy, viewMode } = usePlaylistsStore(
-    useShallow((state) => ({
-      debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy,
-      viewMode: state.viewMode
-    }))
-  )
+  const debouncedFilters = usePlaylistsStore((state) => state.debouncedFilters)
+  const orderBy = usePlaylistsStore((state) => state.orderBy)
+  const viewMode = usePlaylistsStore((state) => state.viewMode)
+
+  const gridItemHeight = useMemo(() => {
+    const availableWidth = screenWidth - CONTENT_PADDING * 2
+    const totalGapWidth = gap * (numColumns - 1)
+    const itemWidth = (availableWidth - totalGapWidth) / numColumns
+
+    return itemWidth + spacingTokens.sm + GRID_INFO_ROW_HEIGHT
+  }, [screenWidth, numColumns, gap])
 
   const queryParams: QueryPlaylistParams = {
     orderBy: orderBy || { column: "createdAt", direction: "desc" },
@@ -82,6 +151,26 @@ const PlaylistsList = () => {
 
   const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
 
+  const getItemType = useCallback(
+    (_item: Playlist): PLaylistItemType => {
+      return viewMode === "grid" ? "grid" : "list"
+    },
+    [viewMode]
+  )
+
+  const overrideItemLayout = useCallback(
+    (layout: { span?: number; size?: number }, _item: Playlist, index: number) => {
+      if (viewMode === "list") {
+        const isLastItem = index === playlists.length - 1
+        layout.size = LIST_ITEM_HEIGHT + (isLastItem ? 0 : LIST_ITEM_MARGIN)
+      } else {
+        const isLastRow = index >= playlists.length - (playlists.length % numColumns || numColumns)
+        layout.size = gridItemHeight + (isLastRow ? 0 : GRID_ITEM_MARGIN)
+      }
+    },
+    [viewMode, playlists.length, numColumns, gridItemHeight]
+  )
+
   const handleEndReached = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
@@ -97,7 +186,7 @@ const PlaylistsList = () => {
       )
     }
     return <NotFound />
-  }, [isLoading, styles.centered])
+  }, [isLoading])
 
   const ListFooterComponent = useMemo(() => {
     if (hasNextPage) {
@@ -108,7 +197,7 @@ const PlaylistsList = () => {
       )
     }
     return null
-  }, [hasNextPage, styles.footer])
+  }, [hasNextPage])
 
   const HeaderComponent = useCallback(
     ({ scrollY, showHeader }: ScrollHeaderProps) => (
@@ -124,7 +213,7 @@ const PlaylistsList = () => {
 
   const LargeHeaderComponent = useCallback(
     () => <PlaylistsListHeader allSongIds={allSongIds ?? []} />,
-    [playlistIds, allSongIds]
+    [allSongIds]
   )
 
   const LargeHeaderSubtitleComponent = useCallback(
@@ -136,33 +225,30 @@ const PlaylistsList = () => {
     []
   )
 
-  const renderGridItem = useCallback(
+  const renderItem = useCallback(
     ({ item, index }: { item: Playlist; index: number }): ReactElement => {
-      const itemGap = (gap * (numColumns - 1)) / numColumns
-      const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-      const marginRight = itemGap - marginLeft
-      const isLastRow = index >= playlists.length - (playlists.length % numColumns || numColumns)
+      if (viewMode === "grid") {
+        return (
+          <PlaylistGridItemWrapper
+            playlist={item}
+            index={index}
+            numColumns={numColumns}
+            playlistsLength={playlists.length}
+            gap={gap}
+          />
+        )
+      }
 
       return (
-        <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-          <PlaylistItemCard playlist={item} />
-        </View>
+        <PlaylistListItemWrapper playlist={item} index={index} playlistsLength={playlists.length} />
       )
     },
-    [numColumns, playlists.length]
+    [viewMode, numColumns, playlists.length, gap]
   )
 
-  const renderListItem = useCallback(
-    ({ item, index }: { item: Playlist; index: number }): ReactElement => {
-      const isLastItem = index === playlists.length - 1
-
-      return (
-        <View style={styles.listItemWrapper(isLastItem)}>
-          <PlaylistItemList playlist={item} />
-        </View>
-      )
-    },
-    [playlists.length]
+  const contentContainerStyleMemo = useMemo(
+    () => styles.contentContainer(bottomPlayerHeight),
+    [styles, bottomPlayerHeight]
   )
 
   return (
@@ -174,20 +260,16 @@ const PlaylistsList = () => {
         LargeHeaderSubtitleComponent={LargeHeaderSubtitleComponent}
         data={playlists}
         keyExtractor={keyExtractor}
+        getItemType={getItemType}
+        overrideItemLayout={overrideItemLayout}
         numColumns={viewMode === "grid" ? numColumns : 1}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         ListEmptyComponent={ListEmptyComponent}
         ListFooterComponent={ListFooterComponent}
-        contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
+        contentContainerStyle={contentContainerStyleMemo}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-        renderItem={({ item, index }) => {
-          if (viewMode === "grid") {
-            return renderGridItem({ item, index })
-          }
-
-          return renderListItem({ item, index })
-        }}
+        renderItem={renderItem}
       />
       <KeyboardSpacer />
     </Fragment>

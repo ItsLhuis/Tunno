@@ -1,14 +1,12 @@
-import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
+import { Fragment, memo, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
-import { createStyleSheet, spacingTokens, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, spacingTokens, useRuntime, useStyles, viewStyle } from "@styles"
 
 import { useResponsiveColumns } from "@components/ui/ListWithHeader/hooks"
 
 import { useBottomPlayerHeight } from "@features/player/contexts/BottomPlayerLayoutContext"
-
-import { useShallow } from "zustand/shallow"
 
 import { useArtistsStore } from "../../stores/useArtistsStore"
 
@@ -24,7 +22,12 @@ import {
   type ScrollHeaderProps
 } from "@components/ui"
 
-import { ArtistItemCard, ArtistItemList } from "../ArtistItem"
+import {
+  ArtistItemCard,
+  ArtistItemList,
+  type ArtistItemCardProps,
+  type ArtistItemListProps
+} from "../ArtistItem"
 import { ArtistsListFilters } from "./ArtistsListFilters"
 import { ArtistsListHeader } from "./ArtistsListHeader"
 import { ArtistsListSearch } from "./ArtistsListSearch"
@@ -32,8 +35,70 @@ import { ArtistsListStickyHeader } from "./ArtistsListStickyHeader"
 
 import { type Artist, type QueryArtistParams } from "@repo/api"
 
+type ArtistItemType = "list" | "grid"
+
+const LIST_ITEM_HEIGHT = 56
+const LIST_ITEM_MARGIN = spacingTokens.md
+
+const GRID_ITEM_MARGIN = spacingTokens.md
+const GRID_INFO_ROW_HEIGHT = 39
+
+const CONTENT_PADDING = spacingTokens.lg
+
+type GridItemWrapperProps = ArtistItemCardProps & {
+  index: number
+  numColumns: number
+  artistsLength: number
+  gap: number
+}
+
+const ArtistGridItemWrapper = memo(function ArtistGridItemWrapper({
+  artist,
+  index,
+  numColumns,
+  artistsLength,
+  gap
+}: GridItemWrapperProps) {
+  const styles = useStyles(artistsListStyles)
+
+  const itemGap = (gap * (numColumns - 1)) / numColumns
+  const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
+  const marginRight = itemGap - marginLeft
+  const isLastRow = index >= artistsLength - (artistsLength % numColumns || numColumns)
+
+  return (
+    <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
+      <ArtistItemCard artist={artist} />
+    </View>
+  )
+})
+
+type ListItemWrapperProps = ArtistItemListProps & {
+  index: number
+  artistsLength: number
+}
+
+const ArtistListItemWrapper = memo(function ArtistListItemWrapper({
+  artist,
+  index,
+  artistsLength
+}: ListItemWrapperProps) {
+  const styles = useStyles(artistsListStyles)
+  const isLastItem = index === artistsLength - 1
+
+  return (
+    <View style={styles.listItemWrapper(isLastItem)}>
+      <ArtistItemList artist={artist} />
+    </View>
+  )
+})
+
 const ArtistsList = () => {
   const styles = useStyles(artistsListStyles)
+
+  const {
+    dimensions: { width: screenWidth }
+  } = useRuntime()
 
   const numColumns = useResponsiveColumns()
 
@@ -43,13 +108,17 @@ const ArtistsList = () => {
 
   const [isRefreshing, setIsRefreshing] = useState(false)
 
-  const { debouncedFilters, orderBy, viewMode } = useArtistsStore(
-    useShallow((state) => ({
-      debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy,
-      viewMode: state.viewMode
-    }))
-  )
+  const debouncedFilters = useArtistsStore((state) => state.debouncedFilters)
+  const orderBy = useArtistsStore((state) => state.orderBy)
+  const viewMode = useArtistsStore((state) => state.viewMode)
+
+  const gridItemHeight = useMemo(() => {
+    const availableWidth = screenWidth - CONTENT_PADDING * 2
+    const totalGapWidth = gap * (numColumns - 1)
+    const itemWidth = (availableWidth - totalGapWidth) / numColumns
+
+    return itemWidth + spacingTokens.sm + GRID_INFO_ROW_HEIGHT
+  }, [screenWidth, numColumns, gap])
 
   const queryParams: QueryArtistParams = {
     orderBy: orderBy || { column: "createdAt", direction: "desc" },
@@ -76,6 +145,26 @@ const ArtistsList = () => {
 
   const keyExtractor = useCallback((item: Artist) => item.id.toString(), [])
 
+  const getItemType = useCallback(
+    (_item: Artist): ArtistItemType => {
+      return viewMode === "grid" ? "grid" : "list"
+    },
+    [viewMode]
+  )
+
+  const overrideItemLayout = useCallback(
+    (layout: { span?: number; size?: number }, _item: Artist, index: number) => {
+      if (viewMode === "list") {
+        const isLastItem = index === artists.length - 1
+        layout.size = LIST_ITEM_HEIGHT + (isLastItem ? 0 : LIST_ITEM_MARGIN)
+      } else {
+        const isLastRow = index >= artists.length - (artists.length % numColumns || numColumns)
+        layout.size = gridItemHeight + (isLastRow ? 0 : GRID_ITEM_MARGIN)
+      }
+    },
+    [viewMode, artists.length, numColumns, gridItemHeight]
+  )
+
   const handleEndReached = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
@@ -91,7 +180,7 @@ const ArtistsList = () => {
       )
     }
     return <NotFound />
-  }, [isLoading, styles.centered])
+  }, [isLoading])
 
   const ListFooterComponent = useMemo(() => {
     if (hasNextPage) {
@@ -102,7 +191,7 @@ const ArtistsList = () => {
       )
     }
     return null
-  }, [hasNextPage, styles.footer])
+  }, [hasNextPage])
 
   const HeaderComponent = useCallback(
     ({ scrollY, showHeader }: ScrollHeaderProps) => (
@@ -125,33 +214,28 @@ const ArtistsList = () => {
     []
   )
 
-  const renderGridItem = useCallback(
+  const renderItem = useCallback(
     ({ item, index }: { item: Artist; index: number }): ReactElement => {
-      const itemGap = (gap * (numColumns - 1)) / numColumns
-      const marginLeft = ((index % numColumns) / (numColumns - 1)) * itemGap
-      const marginRight = itemGap - marginLeft
-      const isLastRow = index >= artists.length - (artists.length % numColumns || numColumns)
+      if (viewMode === "grid") {
+        return (
+          <ArtistGridItemWrapper
+            artist={item}
+            index={index}
+            numColumns={numColumns}
+            artistsLength={artists.length}
+            gap={gap}
+          />
+        )
+      }
 
-      return (
-        <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-          <ArtistItemCard artist={item} />
-        </View>
-      )
+      return <ArtistListItemWrapper artist={item} index={index} artistsLength={artists.length} />
     },
-    [numColumns, artists.length]
+    [viewMode, numColumns, artists.length, gap]
   )
 
-  const renderListItem = useCallback(
-    ({ item, index }: { item: Artist; index: number }): ReactElement => {
-      const isLastItem = index === artists.length - 1
-
-      return (
-        <View style={styles.listItemWrapper(isLastItem)}>
-          <ArtistItemList artist={item} />
-        </View>
-      )
-    },
-    [artists.length]
+  const contentContainerStyleMemo = useMemo(
+    () => styles.contentContainer(bottomPlayerHeight),
+    [styles, bottomPlayerHeight]
   )
 
   return (
@@ -163,20 +247,16 @@ const ArtistsList = () => {
         LargeHeaderSubtitleComponent={LargeHeaderSubtitleComponent}
         data={artists}
         keyExtractor={keyExtractor}
+        getItemType={getItemType}
+        overrideItemLayout={overrideItemLayout}
         numColumns={viewMode === "grid" ? numColumns : 1}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         ListEmptyComponent={ListEmptyComponent}
         ListFooterComponent={ListFooterComponent}
-        contentContainerStyle={styles.contentContainer(bottomPlayerHeight)}
+        contentContainerStyle={contentContainerStyleMemo}
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-        renderItem={({ item, index }) => {
-          if (viewMode === "grid") {
-            return renderGridItem({ item, index })
-          }
-
-          return renderListItem({ item, index })
-        }}
+        renderItem={renderItem}
       />
       <KeyboardSpacer />
     </Fragment>

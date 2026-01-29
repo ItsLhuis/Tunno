@@ -1,12 +1,10 @@
-import { useCallback, useMemo, type ReactElement } from "react"
+import { memo, useCallback, useMemo, type ReactElement } from "react"
 
 import { View } from "react-native"
 
 import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
-
-import { useShallow } from "zustand/shallow"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
@@ -49,6 +47,21 @@ type QueueListItem = SectionHeader | QueueSongItem
 const MAX_UPCOMING_SONGS = 50
 const MAX_PREVIOUS_SONGS = 50
 
+type QueueSongItemProps = {
+  song: SongWithMainRelations
+  queueIndex: number
+}
+
+const QueueSongItem = memo(({ song, queueIndex }: QueueSongItemProps) => {
+  const styles = useStyles(queueScreenStyles)
+
+  return (
+    <View style={styles.songItemWrapper}>
+      <SongItemList song={song} queueIndex={queueIndex} queuePlayback />
+    </View>
+  )
+})
+
 const QueueScreen = () => {
   const styles = useStyles(queueScreenStyles)
 
@@ -56,14 +69,10 @@ const QueueScreen = () => {
 
   const bottomPlayerHeight = useBottomPlayerHeight()
 
-  const { queueIds, currentTrackIndex, cachedSongs, clearQueue } = usePlayerStore(
-    useShallow((state) => ({
-      queueIds: state.queueIds,
-      currentTrackIndex: state.currentTrackIndex,
-      cachedSongs: state.cachedSongs,
-      clearQueue: state.clearQueue
-    }))
-  )
+  const queueIds = usePlayerStore((state) => state.queueIds)
+  const currentTrackIndex = usePlayerStore((state) => state.currentTrackIndex)
+  const cachedSongs = usePlayerStore((state) => state.cachedSongs)
+  const clearQueue = usePlayerStore((state) => state.clearQueue)
 
   const { listItems, songCount } = useMemo(() => {
     if (queueIds.length === 0 || cachedSongs.size === 0) {
@@ -155,6 +164,25 @@ const QueueScreen = () => {
     [t]
   )
 
+  const getItemType = useCallback((item: QueueListItem) => {
+    return item.type
+  }, [])
+
+  const overrideItemLayout = useCallback(
+    (layout: { span?: number; size?: number }, item: QueueListItem, index: number) => {
+      if (item.type === "header") {
+        if (index === 0) {
+          layout.size = 26
+        } else {
+          layout.size = 42
+        }
+      } else {
+        layout.size = 72
+      }
+    },
+    []
+  )
+
   const renderItem = useCallback(
     ({ item, index }: { item: QueueListItem; index: number }): ReactElement => {
       if (item.type === "header") {
@@ -167,16 +195,9 @@ const QueueScreen = () => {
         )
       }
 
-      const nextItem = listItems[index + 1]
-      const isLastInSection = !nextItem || nextItem.type === "header"
-
-      return (
-        <View style={isLastInSection ? undefined : styles.itemContainer}>
-          <SongItemList song={item.song} queueIndex={item.originalIndex} queuePlayback />
-        </View>
-      )
+      return <QueueSongItem song={item.song} queueIndex={item.originalIndex} />
     },
-    [styles, getSectionTitle, listItems]
+    [styles.sectionHeader, styles.sectionHeaderFirst, getSectionTitle]
   )
 
   const handleClearQueue = useCallback(async () => {
@@ -202,6 +223,8 @@ const QueueScreen = () => {
       <FlashListWithHeaders
         data={listItems}
         keyExtractor={keyExtractor}
+        getItemType={getItemType}
+        overrideItemLayout={overrideItemLayout}
         renderItem={renderItem}
         HeaderComponent={HeaderComponent}
         LargeHeaderComponent={LargeHeaderComponent}
@@ -232,13 +255,13 @@ const queueScreenStyles = createStyleSheet(({ theme, runtime }) => ({
     flex: 1
   },
   sectionHeader: {
-    paddingTop: theme.space("lg"),
+    paddingTop: theme.space("md"),
     paddingBottom: theme.space("sm")
   },
   sectionHeaderFirst: {
     paddingBottom: theme.space("sm")
   },
-  itemContainer: {
+  songItemWrapper: {
     marginBottom: theme.space("md")
   },
   contentContainer: (bottomOffset: number) =>
