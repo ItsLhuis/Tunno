@@ -32,7 +32,10 @@ const ArtistItemCompactPlaceholder = () => (
   </div>
 )
 
-const ArtistItemCompact = memo(({ artist, index = 0 }: ArtistItemCompactProps) => {
+const ArtistItemCompact = memo(function ArtistItemCompact({
+  artist,
+  index = 0
+}: ArtistItemCompactProps) {
   const { t } = useTranslation()
 
   const { shouldRender } = useDelayedRender({ index })

@@ -24,7 +24,7 @@ const ArtistItemCardPlaceholder = () => (
   </div>
 )
 
-const ArtistItemCard = memo(({ artist, index = 0 }: ArtistItemCardProps) => {
+const ArtistItemCard = memo(function ArtistItemCard({ artist, index = 0 }: ArtistItemCardProps) {
   const { t } = useTranslation()
 
   const { isLoading, isTrackLoading, handlePlayArtist } = useArtistPlayback(artist.id)

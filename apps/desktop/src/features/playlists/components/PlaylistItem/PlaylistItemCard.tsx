@@ -24,7 +24,10 @@ const PlaylistItemCardPlaceholder = () => (
   </div>
 )
 
-const PlaylistItemCard = memo(({ playlist, index = 0 }: PlaylistItemCardProps) => {
+const PlaylistItemCard = memo(function PlaylistItemCard({
+  playlist,
+  index = 0
+}: PlaylistItemCardProps) {
   const { t } = useTranslation()
 
   const { isLoading, isTrackLoading, handlePlayPlaylist } = usePlaylistPlayback(

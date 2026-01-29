@@ -157,7 +157,7 @@ const Select = (props: SelectProps) => {
     (itemValue: string, closeOnSelect?: boolean) => {
       if (multiple) {
         const currentValues = Array.isArray(value) ? value : []
-        const newValues = currentValues.includes(itemValue)
+        const newValues = selectedSet.has(itemValue)
           ? currentValues.filter((v) => v !== itemValue)
           : [...currentValues, itemValue]
 
@@ -176,7 +176,7 @@ const Select = (props: SelectProps) => {
         }
       }
     },
-    [multiple, value, isValueControlled, props, handleOpenChange]
+    [multiple, value, selectedSet, isValueControlled, props, handleOpenChange]
   )
 
   useEffect(() => {
@@ -219,6 +219,8 @@ export type SelectValueProps = {
   style?: StyleProp<ViewStyle>
 }
 
+const BADGE_TEXT_PROPS = { numberOfLines: 1 } as const
+
 const SelectValue = ({ placeholder, style }: SelectValueProps) => {
   const styles = useStyles(selectStyles)
 
@@ -247,7 +249,7 @@ const SelectValue = ({ placeholder, style }: SelectValueProps) => {
               variant="muted"
               title={title}
               style={styles.valueBadge}
-              textProps={{ numberOfLines: 1 }}
+              textProps={BADGE_TEXT_PROPS}
             />
           )
         })}

@@ -32,7 +32,10 @@ const AlbumItemCompactPlaceholder = () => (
   </div>
 )
 
-const AlbumItemCompact = memo(({ album, index = 0 }: AlbumItemCompactProps) => {
+const AlbumItemCompact = memo(function AlbumItemCompact({
+  album,
+  index = 0
+}: AlbumItemCompactProps) {
   const { t } = useTranslation()
 
   const { shouldRender } = useDelayedRender({ index })

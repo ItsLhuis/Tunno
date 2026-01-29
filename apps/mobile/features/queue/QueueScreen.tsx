@@ -52,7 +52,7 @@ type QueueSongItemProps = {
   queueIndex: number
 }
 
-const QueueSongItem = memo(({ song, queueIndex }: QueueSongItemProps) => {
+const QueueSongItem = memo(function QueueSongItem({ song, queueIndex }: QueueSongItemProps) {
   const styles = useStyles(queueScreenStyles)
 
   return (

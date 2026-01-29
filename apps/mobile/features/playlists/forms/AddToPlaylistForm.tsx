@@ -230,21 +230,23 @@ const AddToPlaylistForm = ({
     submit: () => form.handleSubmit(handleFormSubmit)()
   } as AddToPlaylistFormRenderProps
 
-  const paginatedData = useCallback(() => {
+  const paginatedData = useMemo(() => {
     if (!playlists) return []
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
     return playlists.slice(startIndex, endIndex)
-  }, [playlists, currentPage, itemsPerPage])()
+  }, [playlists, currentPage, itemsPerPage])
 
   const totalPages = Math.ceil((playlists?.length ?? 0) / itemsPerPage)
 
   const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
 
+  const paginatedDataLength = paginatedData.length
+
   const renderItem = useCallback(
     ({ item, index }: { item: Playlist; index: number }) => {
       const isSelected = selectedIds.has(item.id)
-      const isLastItem = index === (paginatedData?.length ?? 0) - 1
+      const isLastItem = index === paginatedDataLength - 1
 
       return (
         <MemoizedPlaylistItem
@@ -255,7 +257,7 @@ const AddToPlaylistForm = ({
         />
       )
     },
-    [selectedIds, handleToggle, paginatedData?.length]
+    [selectedIds, handleToggle, paginatedDataLength]
   )
 
   const SearchInputContent = (

@@ -16,7 +16,9 @@ import { PlaylistActions } from "../PlaylistActions"
 
 import { type PlaylistItemCompactProps } from "./types"
 
-const PlaylistItemCompact = memo(({ playlist }: PlaylistItemCompactProps) => {
+const PlaylistItemCompact = memo(function PlaylistItemCompact({
+  playlist
+}: PlaylistItemCompactProps) {
   const styles = useStyles(playlistItemCompactStyles)
 
   const buttonStyle = useStyles(buttonStyles)

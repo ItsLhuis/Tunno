@@ -1,4 +1,4 @@
-import { Fragment, memo, useCallback, useMemo, useState, type ReactElement } from "react"
+import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
@@ -22,12 +22,7 @@ import {
   type ScrollHeaderProps
 } from "@components/ui"
 
-import {
-  AlbumItemCard,
-  AlbumItemList,
-  type AlbumItemCardProps,
-  type AlbumItemListProps
-} from "../AlbumItem"
+import { AlbumItemCard, AlbumItemList } from "../AlbumItem"
 import { AlbumsListFilters } from "./AlbumsListFilters"
 import { AlbumsListHeader } from "./AlbumsListHeader"
 import { AlbumsListSearch } from "./AlbumsListSearch"
@@ -44,54 +39,6 @@ const GRID_ITEM_MARGIN = spacingTokens.md
 const GRID_INFO_ROW_HEIGHT = 39
 
 const CONTENT_PADDING = spacingTokens.lg
-
-type GridItemWrapperProps = AlbumItemCardProps & {
-  index: number
-  numColumns: number
-  albumsLength: number
-  gap: number
-}
-
-const AlbumGridItemWrapper = memo(function AlbumGridItemWrapper({
-  album,
-  index,
-  numColumns,
-  albumsLength,
-  gap
-}: GridItemWrapperProps) {
-  const styles = useStyles(albumsListStyles)
-
-  const itemGap = (gap * (numColumns - 1)) / numColumns
-  const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
-  const marginRight = itemGap - marginLeft
-  const isLastRow = index >= albumsLength - (albumsLength % numColumns || numColumns)
-
-  return (
-    <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-      <AlbumItemCard album={album} />
-    </View>
-  )
-})
-
-type ListItemWrapperProps = AlbumItemListProps & {
-  index: number
-  albumsLength: number
-}
-
-const AlbumListItemWrapper = memo(function AlbumListItemWrapper({
-  album,
-  index,
-  albumsLength
-}: ListItemWrapperProps) {
-  const styles = useStyles(albumsListStyles)
-  const isLastItem = index === albumsLength - 1
-
-  return (
-    <View style={styles.listItemWrapper(isLastItem)}>
-      <AlbumItemList album={album} />
-    </View>
-  )
-})
 
 const AlbumsList = () => {
   const styles = useStyles(albumsListStyles)
@@ -142,6 +89,37 @@ const AlbumsList = () => {
   }, [data?.pages])
 
   const albumIds = allAlbumIds ?? []
+
+  const gridItemStyles = useMemo(() => {
+    if (viewMode !== "grid") return []
+
+    const itemGap = (gap * (numColumns - 1)) / numColumns
+    const albumsLength = albums.length
+
+    return albums.map((_, index) => {
+      const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
+      const marginRight = itemGap - marginLeft
+      const isLastRow = index >= albumsLength - (albumsLength % numColumns || numColumns)
+
+      return viewStyle({
+        flexGrow: 1,
+        marginLeft,
+        marginRight,
+        marginBottom: isLastRow ? 0 : spacingTokens.md
+      })
+    })
+  }, [viewMode, gap, numColumns, albums.length])
+
+  const listItemStyles = useMemo(() => {
+    if (viewMode !== "list") return []
+
+    return albums.map((_, index) => {
+      const isLastItem = index === albums.length - 1
+      return viewStyle({
+        marginBottom: isLastItem ? 0 : spacingTokens.md
+      })
+    })
+  }, [viewMode, albums.length])
 
   const keyExtractor = useCallback((item: Album) => item.id.toString(), [])
 
@@ -218,19 +196,19 @@ const AlbumsList = () => {
     ({ item, index }: { item: Album; index: number }): ReactElement => {
       if (viewMode === "grid") {
         return (
-          <AlbumGridItemWrapper
-            album={item}
-            index={index}
-            numColumns={numColumns}
-            albumsLength={albums.length}
-            gap={gap}
-          />
+          <View style={gridItemStyles[index]}>
+            <AlbumItemCard album={item} />
+          </View>
         )
       }
 
-      return <AlbumListItemWrapper album={item} index={index} albumsLength={albums.length} />
+      return (
+        <View style={listItemStyles[index]}>
+          <AlbumItemList album={item} />
+        </View>
+      )
     },
-    [viewMode, numColumns, albums.length, gap]
+    [viewMode, gridItemStyles, listItemStyles]
   )
 
   const contentContainerStyleMemo = useMemo(
@@ -282,17 +260,6 @@ const albumsListStyles = createStyleSheet(({ theme }) => ({
       flexGrow: 1,
       padding: theme.space("lg"),
       paddingBottom: theme.space("lg") + bottomOffset
-    }),
-  gridItemWrapper: (marginLeft: number, marginRight: number, isLastRow: boolean) =>
-    viewStyle({
-      flexGrow: 1,
-      marginLeft,
-      marginRight,
-      marginBottom: isLastRow ? 0 : theme.space()
-    }),
-  listItemWrapper: (isLastItem: boolean) =>
-    viewStyle({
-      marginBottom: isLastItem ? 0 : theme.space()
     })
 }))
 

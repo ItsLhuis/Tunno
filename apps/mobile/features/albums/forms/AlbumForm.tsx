@@ -301,6 +301,10 @@ const AlbumForm = ({
     }))
   }, [artistsData])
 
+  const artistLabelMap = useMemo(() => {
+    return new Map(artistOptions.map((opt) => [opt.value, opt.label]))
+  }, [artistOptions])
+
   const paginatedArtists = useMemo(() => {
     const startIndex = (artistCurrentPage - 1) * artistsPerPage
     const endIndex = startIndex + artistsPerPage
@@ -478,9 +482,7 @@ const AlbumForm = ({
                   <Select
                     multiple
                     value={field.value?.map(String) ?? []}
-                    getDisplayValue={(id) =>
-                      artistOptions.find((option) => option.value === id)?.label
-                    }
+                    getDisplayValue={(id) => artistLabelMap.get(id)}
                     onValueChange={(value) => {
                       const newArtistIds = value.map(Number)
                       field.onChange(newArtistIds)

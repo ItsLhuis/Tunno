@@ -16,7 +16,7 @@ import { AlbumActions } from "../AlbumActions"
 
 import { type AlbumItemCompactProps } from "./types"
 
-const AlbumItemCompact = memo(({ album }: AlbumItemCompactProps) => {
+const AlbumItemCompact = memo(function AlbumItemCompact({ album }: AlbumItemCompactProps) {
   const styles = useStyles(albumItemCompactStyles)
 
   const buttonStyle = useStyles(buttonStyles)

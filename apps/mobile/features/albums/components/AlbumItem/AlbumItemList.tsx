@@ -16,7 +16,7 @@ import { AlbumActions } from "../AlbumActions"
 
 import { type AlbumItemListProps } from "./types"
 
-const AlbumItemList = memo(({ album }: AlbumItemListProps) => {
+const AlbumItemList = memo(function AlbumItemList({ album }: AlbumItemListProps) {
   const styles = useStyles(albumItemListStyles)
 
   const { t } = useTranslation()

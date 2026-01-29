@@ -1,4 +1,4 @@
-import { Fragment, memo, useCallback, useMemo, useState, type ReactElement } from "react"
+import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
@@ -24,12 +24,7 @@ import {
   type ScrollHeaderProps
 } from "@components/ui"
 
-import {
-  PlaylistItemCard,
-  PlaylistItemList,
-  type PlaylistItemCardProps,
-  type PlaylistItemListProps
-} from "../PlaylistItem"
+import { PlaylistItemCard, PlaylistItemList } from "../PlaylistItem"
 import { PlaylistsListFilters } from "./PlaylistsListFilters"
 import { PlaylistsListHeader } from "./PlaylistsListHeader"
 import { PlaylistsListSearch } from "./PlaylistsListSearch"
@@ -46,54 +41,6 @@ const GRID_ITEM_MARGIN = spacingTokens.md
 const GRID_INFO_ROW_HEIGHT = 39
 
 const CONTENT_PADDING = spacingTokens.lg
-
-type GridItemWrapperProps = PlaylistItemCardProps & {
-  index: number
-  numColumns: number
-  playlistsLength: number
-  gap: number
-}
-
-const PlaylistGridItemWrapper = memo(function PlaylistGridItemWrapper({
-  playlist,
-  index,
-  numColumns,
-  playlistsLength,
-  gap
-}: GridItemWrapperProps) {
-  const styles = useStyles(playlistsListStyles)
-
-  const itemGap = (gap * (numColumns - 1)) / numColumns
-  const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
-  const marginRight = itemGap - marginLeft
-  const isLastRow = index >= playlistsLength - (playlistsLength % numColumns || numColumns)
-
-  return (
-    <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-      <PlaylistItemCard playlist={playlist} />
-    </View>
-  )
-})
-
-type ListItemWrapperProps = PlaylistItemListProps & {
-  index: number
-  playlistsLength: number
-}
-
-const PlaylistListItemWrapper = memo(function PlaylistListItemWrapper({
-  playlist,
-  index,
-  playlistsLength
-}: ListItemWrapperProps) {
-  const styles = useStyles(playlistsListStyles)
-  const isLastItem = index === playlistsLength - 1
-
-  return (
-    <View style={styles.listItemWrapper(isLastItem)}>
-      <PlaylistItemList playlist={playlist} />
-    </View>
-  )
-})
 
 const PlaylistsList = () => {
   const styles = useStyles(playlistsListStyles)
@@ -148,6 +95,37 @@ const PlaylistsList = () => {
   }, [data?.pages])
 
   const playlistIds = allPlaylistIds ?? []
+
+  const gridItemStyles = useMemo(() => {
+    if (viewMode !== "grid") return []
+
+    const itemGap = (gap * (numColumns - 1)) / numColumns
+    const playlistsLength = playlists.length
+
+    return playlists.map((_, index) => {
+      const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
+      const marginRight = itemGap - marginLeft
+      const isLastRow = index >= playlistsLength - (playlistsLength % numColumns || numColumns)
+
+      return viewStyle({
+        flexGrow: 1,
+        marginLeft,
+        marginRight,
+        marginBottom: isLastRow ? 0 : spacingTokens.md
+      })
+    })
+  }, [viewMode, gap, numColumns, playlists.length])
+
+  const listItemStyles = useMemo(() => {
+    if (viewMode !== "list") return []
+
+    return playlists.map((_, index) => {
+      const isLastItem = index === playlists.length - 1
+      return viewStyle({
+        marginBottom: isLastItem ? 0 : spacingTokens.md
+      })
+    })
+  }, [viewMode, playlists.length])
 
   const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
 
@@ -229,21 +207,19 @@ const PlaylistsList = () => {
     ({ item, index }: { item: Playlist; index: number }): ReactElement => {
       if (viewMode === "grid") {
         return (
-          <PlaylistGridItemWrapper
-            playlist={item}
-            index={index}
-            numColumns={numColumns}
-            playlistsLength={playlists.length}
-            gap={gap}
-          />
+          <View style={gridItemStyles[index]}>
+            <PlaylistItemCard playlist={item} />
+          </View>
         )
       }
 
       return (
-        <PlaylistListItemWrapper playlist={item} index={index} playlistsLength={playlists.length} />
+        <View style={listItemStyles[index]}>
+          <PlaylistItemList playlist={item} />
+        </View>
       )
     },
-    [viewMode, numColumns, playlists.length, gap]
+    [viewMode, gridItemStyles, listItemStyles]
   )
 
   const contentContainerStyleMemo = useMemo(
@@ -295,17 +271,6 @@ const playlistsListStyles = createStyleSheet(({ theme }) => ({
       flexGrow: 1,
       padding: theme.space("lg"),
       paddingBottom: theme.space("lg") + bottomOffset
-    }),
-  gridItemWrapper: (marginLeft: number, marginRight: number, isLastRow: boolean) =>
-    viewStyle({
-      flexGrow: 1,
-      marginLeft,
-      marginRight,
-      marginBottom: isLastRow ? 0 : theme.space()
-    }),
-  listItemWrapper: (isLastItem: boolean) =>
-    viewStyle({
-      marginBottom: isLastItem ? 0 : theme.space()
     })
 }))
 

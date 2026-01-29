@@ -16,7 +16,7 @@ import { PlaylistActions } from "../PlaylistActions"
 
 import { type PlaylistItemCardProps } from "./types"
 
-const PlaylistItemCard = memo(({ playlist }: PlaylistItemCardProps) => {
+const PlaylistItemCard = memo(function PlaylistItemCard({ playlist }: PlaylistItemCardProps) {
   const styles = useStyles(playlistItemCardStyles)
 
   const { t } = useTranslation()

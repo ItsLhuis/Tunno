@@ -32,7 +32,10 @@ const PlaylistItemCompactPlaceholder = () => (
   </div>
 )
 
-const PlaylistItemCompact = memo(({ playlist, index = 0 }: PlaylistItemCompactProps) => {
+const PlaylistItemCompact = memo(function PlaylistItemCompact({
+  playlist,
+  index = 0
+}: PlaylistItemCompactProps) {
   const { t } = useTranslation()
 
   const { shouldRender } = useDelayedRender({ index })

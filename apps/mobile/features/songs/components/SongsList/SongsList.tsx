@@ -1,4 +1,4 @@
-import { Fragment, memo, useCallback, useMemo, useState, type ReactElement } from "react"
+import { Fragment, useCallback, useMemo, useState, type ReactElement } from "react"
 
 import { View } from "react-native"
 
@@ -22,12 +22,7 @@ import {
   type ScrollHeaderProps
 } from "@components/ui"
 
-import {
-  SongItemCard,
-  SongItemList,
-  type SongItemCardProps,
-  type SongItemListProps
-} from "../SongItem"
+import { SongItemCard, SongItemList } from "../SongItem"
 import { SongsListFilters } from "./SongsListFilters"
 import { SongsListHeader } from "./SongsListHeader"
 import { SongsListSearch } from "./SongsListSearch"
@@ -44,56 +39,6 @@ const GRID_ITEM_MARGIN = spacingTokens.md
 const GRID_INFO_ROW_HEIGHT = 39
 
 const CONTENT_PADDING = spacingTokens.lg
-
-type GridItemWrapperProps = SongItemCardProps & {
-  index: number
-  numColumns: number
-  songsLength: number
-  gap: number
-}
-
-const SongGridItemWrapper = memo(function SongGridItemWrapper({
-  song,
-  allSongIds,
-  index,
-  numColumns,
-  songsLength,
-  gap
-}: GridItemWrapperProps) {
-  const styles = useStyles(songsListStyles)
-
-  const itemGap = (gap * (numColumns - 1)) / numColumns
-  const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
-  const marginRight = itemGap - marginLeft
-  const isLastRow = index >= songsLength - (songsLength % numColumns || numColumns)
-
-  return (
-    <View style={styles.gridItemWrapper(marginLeft, marginRight, isLastRow)}>
-      <SongItemCard song={song} allSongIds={allSongIds} />
-    </View>
-  )
-})
-
-type ListItemWrapperProps = SongItemListProps & {
-  index: number
-  songsLength: number
-}
-
-const SongListItemWrapper = memo(function SongListItemWrapper({
-  song,
-  allSongIds,
-  index,
-  songsLength
-}: ListItemWrapperProps) {
-  const styles = useStyles(songsListStyles)
-  const isLastItem = index === songsLength - 1
-
-  return (
-    <View style={styles.listItemWrapper(isLastItem)}>
-      <SongItemList song={song} allSongIds={allSongIds} />
-    </View>
-  )
-})
 
 const SongsList = () => {
   const styles = useStyles(songsListStyles)
@@ -144,6 +89,37 @@ const SongsList = () => {
   }, [data?.pages])
 
   const songIds = allSongIds ?? []
+
+  const gridItemStyles = useMemo(() => {
+    if (viewMode !== "grid") return []
+
+    const itemGap = (gap * (numColumns - 1)) / numColumns
+    const songsLength = songs.length
+
+    return songs.map((_, index) => {
+      const marginLeft = numColumns > 1 ? ((index % numColumns) / (numColumns - 1)) * itemGap : 0
+      const marginRight = itemGap - marginLeft
+      const isLastRow = index >= songsLength - (songsLength % numColumns || numColumns)
+
+      return viewStyle({
+        flexGrow: 1,
+        marginLeft,
+        marginRight,
+        marginBottom: isLastRow ? 0 : spacingTokens.md
+      })
+    })
+  }, [viewMode, gap, numColumns, songs.length])
+
+  const listItemStyles = useMemo(() => {
+    if (viewMode !== "list") return []
+
+    return songs.map((_, index) => {
+      const isLastItem = index === songs.length - 1
+      return viewStyle({
+        marginBottom: isLastItem ? 0 : spacingTokens.md
+      })
+    })
+  }, [viewMode, songs.length])
 
   const keyExtractor = useCallback((item: SongWithMainRelations) => item.id.toString(), [])
 
@@ -220,27 +196,19 @@ const SongsList = () => {
     ({ item, index }: { item: SongWithMainRelations; index: number }): ReactElement => {
       if (viewMode === "grid") {
         return (
-          <SongGridItemWrapper
-            song={item}
-            index={index}
-            numColumns={numColumns}
-            songsLength={songs.length}
-            gap={gap}
-            allSongIds={songIds}
-          />
+          <View style={gridItemStyles[index]}>
+            <SongItemCard song={item} allSongIds={songIds} />
+          </View>
         )
       }
 
       return (
-        <SongListItemWrapper
-          song={item}
-          index={index}
-          songsLength={songs.length}
-          allSongIds={songIds}
-        />
+        <View style={listItemStyles[index]}>
+          <SongItemList song={item} allSongIds={songIds} />
+        </View>
       )
     },
-    [viewMode, numColumns, songs.length, gap, songIds]
+    [viewMode, gridItemStyles, listItemStyles, songIds]
   )
 
   const contentContainerStyleMemo = useMemo(
@@ -292,17 +260,6 @@ const songsListStyles = createStyleSheet(({ theme }) => ({
       flexGrow: 1,
       padding: theme.space("lg"),
       paddingBottom: theme.space("lg") + bottomOffset
-    }),
-  gridItemWrapper: (marginLeft: number, marginRight: number, isLastRow: boolean) =>
-    viewStyle({
-      flexGrow: 1,
-      marginLeft,
-      marginRight,
-      marginBottom: isLastRow ? 0 : theme.space()
-    }),
-  listItemWrapper: (isLastItem: boolean) =>
-    viewStyle({
-      marginBottom: isLastItem ? 0 : theme.space()
     })
 }))
 

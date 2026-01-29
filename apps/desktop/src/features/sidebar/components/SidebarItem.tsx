@@ -14,7 +14,7 @@ type SidebarItemProps = {
   item: SidebarItemWithDetails
 }
 
-const SidebarItem = memo(({ item }: SidebarItemProps) => {
+const SidebarItem = memo(function SidebarItem({ item }: SidebarItemProps) {
   const route = {
     album: "/albums/$id",
     artist: "/artists/$id",

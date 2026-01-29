@@ -28,7 +28,10 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
-const DominantColorGradient = memo(({ thumbnail, style }: DominantColorGradientProps) => {
+const DominantColorGradient = memo(function DominantColorGradient({
+  thumbnail,
+  style
+}: DominantColorGradientProps) {
   const styles = useStyles(dominantColorGradientStyles)
 
   const thumbnailUri = useThumbnailUri({ fileName: thumbnail })

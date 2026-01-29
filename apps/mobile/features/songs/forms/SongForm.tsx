@@ -290,6 +290,10 @@ const SongForm = ({
     }))
   }, [artistsData])
 
+  const artistLabelMap = useMemo(() => {
+    return new Map(artistOptions.map((opt) => [opt.value, opt.label]))
+  }, [artistOptions])
+
   const albumOptions = useMemo(() => {
     const list = albumsData ?? []
     return list.map((album) => ({
@@ -302,6 +306,14 @@ const SongForm = ({
             .join(", ")
         : undefined
     }))
+  }, [albumsData])
+
+  const albumLabelMap = useMemo(() => {
+    return new Map(albumOptions.map((opt) => [opt.value, opt.label]))
+  }, [albumOptions])
+
+  const albumsDataMap = useMemo(() => {
+    return new Map((albumsData ?? []).map((album) => [album.id, album]))
   }, [albumsData])
 
   const groupedAlbumOptions = useMemo((): GroupedAlbumItem[] => {
@@ -437,13 +449,14 @@ const SongForm = ({
       const currentAlbumId = form.getValues("albumId")
 
       if (currentAlbumId && newArtistIds.length > 0) {
-        const currentAlbum = albumsData?.find((album) => album.id === currentAlbumId)
+        const currentAlbum = albumsDataMap.get(currentAlbumId)
 
         if (currentAlbum) {
           const albumArtistIds =
             currentAlbum.artists?.map((link) => link.artist?.id).filter(Boolean) || []
+          const newArtistIdSet = new Set(newArtistIds)
           const hasMatchingArtist = albumArtistIds.some((artistId) =>
-            newArtistIds.includes(artistId as number)
+            newArtistIdSet.has(artistId as number)
           )
 
           if (!hasMatchingArtist) {
@@ -460,7 +473,7 @@ const SongForm = ({
         })
       }
     },
-    [form, albumsData]
+    [form, albumsDataMap]
   )
 
   const handleBeforeFileSelect = useCallback(
@@ -672,9 +685,7 @@ const SongForm = ({
                   <Select
                     multiple
                     value={field.value?.map(String) ?? []}
-                    getDisplayValue={(id) =>
-                      artistOptions.find((option) => option.value === id)?.label
-                    }
+                    getDisplayValue={(id) => artistLabelMap.get(id)}
                     onValueChange={handleArtistsChange}
                   >
                     <SelectTrigger disabled={renderProps.isSubmitting}>
@@ -721,9 +732,7 @@ const SongForm = ({
                   <Select
                     value={field.value !== null ? String(field.value) : ""}
                     onValueChange={(value) => field.onChange(value ? Number(value) : null)}
-                    getDisplayValue={(id) =>
-                      albumOptions.find((option) => option.value === id)?.label
-                    }
+                    getDisplayValue={(id) => albumLabelMap.get(id)}
                   >
                     <SelectTrigger disabled={renderProps.isSubmitting}>
                       <SelectValue placeholder={t("form.labels.album")} />

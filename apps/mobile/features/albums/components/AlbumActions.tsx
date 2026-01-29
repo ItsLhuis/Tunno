@@ -80,7 +80,11 @@ type AlbumActionsContentProps = {
   ) => void
 }
 
-const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActionsContentProps) => {
+const AlbumActionsContent = memo(function AlbumActionsContent({
+  albumId,
+  variant,
+  onOpenDialog
+}: AlbumActionsContentProps) {
   const styles = useStyles(albumActionsStyles)
 
   const { t } = useTranslation()
@@ -312,123 +316,85 @@ const AlbumActionsContent = memo(({ albumId, variant, onOpenDialog }: AlbumActio
   )
 })
 
-const AlbumActions = memo(
-  ({
-    albumId,
-    variant = "dropdown",
-    children,
-    onEditAlbum,
-    onDeleteAlbum,
-    stackBehavior
-  }: AlbumActionsProps) => {
-    const router = useRouter()
+const AlbumActions = memo(function AlbumActions({
+  albumId,
+  variant = "dropdown",
+  children,
+  onEditAlbum,
+  onDeleteAlbum,
+  stackBehavior
+}: AlbumActionsProps) {
+  const router = useRouter()
 
-    const [isOpen, setIsOpen] = useState(false)
-    const [dialogState, setDialogState] = useState<DialogState>({
-      type: null,
-      album: null,
-      songIds: []
-    })
+  const [isOpen, setIsOpen] = useState(false)
+  const [dialogState, setDialogState] = useState<DialogState>({
+    type: null,
+    album: null,
+    songIds: []
+  })
 
-    const lastValidAlbumRef = useRef<AlbumWithSongsAndArtists | null>(null)
-    const lastValidSongIdsRef = useRef<number[]>([])
+  const lastValidAlbumRef = useRef<AlbumWithSongsAndArtists | null>(null)
+  const lastValidSongIdsRef = useRef<number[]>([])
 
-    useEffect(() => {
-      if (dialogState.album) {
-        lastValidAlbumRef.current = dialogState.album
-      }
-    }, [dialogState.album])
-
-    useEffect(() => {
-      if (dialogState.songIds.length > 0) {
-        lastValidSongIdsRef.current = dialogState.songIds
-      }
-    }, [dialogState.songIds])
-
-    const handleOpenDialog = useCallback(
-      (type: DialogType, album: AlbumWithSongsAndArtists | null, songIds: number[]) => {
-        if (type === "edit" && onEditAlbum && album) {
-          onEditAlbum(album)
-          return
-        }
-
-        if (type === "delete" && onDeleteAlbum && album) {
-          onDeleteAlbum(album)
-          return
-        }
-
-        if (type === "edit" && album) {
-          router.push(`/albums/${album.id}/update`)
-          return
-        }
-
-        setDialogState({ type, album, songIds })
-      },
-      [onEditAlbum, onDeleteAlbum, router]
-    )
-
-    const closeDialog = useCallback(() => {
-      setDialogState({ type: null, album: null, songIds: [] })
-    }, [])
-
-    const dialogAlbum = dialogState.album ?? lastValidAlbumRef.current
-    const dialogSongIds =
-      dialogState.songIds.length > 0 ? dialogState.songIds : lastValidSongIdsRef.current
-
-    if (variant === "context") {
-      return (
-        <Fragment>
-          <ContextMenu open={isOpen} onOpenChange={setIsOpen}>
-            <ContextMenuTrigger>
-              {({ onLongPress }) =>
-                typeof children === "function" ? children({ onLongPress }) : children
-              }
-            </ContextMenuTrigger>
-            <ContextMenuContent stackBehavior={stackBehavior}>
-              <AlbumActionsContent
-                albumId={albumId}
-                variant={variant}
-                onOpenDialog={handleOpenDialog}
-              />
-            </ContextMenuContent>
-          </ContextMenu>
-          {dialogAlbum && (
-            <DeleteAlbumDialog
-              album={dialogAlbum}
-              open={dialogState.type === "delete"}
-              onOpenChange={(open) => !open && closeDialog()}
-            />
-          )}
-          {dialogSongIds.length > 0 && (
-            <AddToPlaylistForm
-              songIds={dialogSongIds}
-              open={dialogState.type === "playlist"}
-              onOpen={(open) => !open && closeDialog()}
-            />
-          )}
-        </Fragment>
-      )
+  useEffect(() => {
+    if (dialogState.album) {
+      lastValidAlbumRef.current = dialogState.album
     }
+  }, [dialogState.album])
 
-    const trigger =
-      typeof children === "function" ? (
-        <IconButton name="Ellipsis" variant="ghost" />
-      ) : (
-        (children ?? <IconButton name="Ellipsis" variant="ghost" />)
-      )
+  useEffect(() => {
+    if (dialogState.songIds.length > 0) {
+      lastValidSongIdsRef.current = dialogState.songIds
+    }
+  }, [dialogState.songIds])
 
+  const handleOpenDialog = useCallback(
+    (type: DialogType, album: AlbumWithSongsAndArtists | null, songIds: number[]) => {
+      if (type === "edit" && onEditAlbum && album) {
+        onEditAlbum(album)
+        return
+      }
+
+      if (type === "delete" && onDeleteAlbum && album) {
+        onDeleteAlbum(album)
+        return
+      }
+
+      if (type === "edit" && album) {
+        router.push(`/albums/${album.id}/update`)
+        return
+      }
+
+      setDialogState({ type, album, songIds })
+    },
+    [onEditAlbum, onDeleteAlbum, router]
+  )
+
+  const closeDialog = useCallback(() => {
+    setDialogState({ type: null, album: null, songIds: [] })
+  }, [])
+
+  const dialogAlbum = dialogState.album ?? lastValidAlbumRef.current
+  const dialogSongIds =
+    dialogState.songIds.length > 0 ? dialogState.songIds : lastValidSongIdsRef.current
+
+  if (variant === "context") {
     return (
       <Fragment>
-        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-          <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-          <DropdownMenuContent stackBehavior={stackBehavior}>
+        <ContextMenu open={isOpen} onOpenChange={setIsOpen}>
+          <ContextMenuTrigger>
+            {({ onLongPress }) =>
+              typeof children === "function" ? children({ onLongPress }) : children
+            }
+          </ContextMenuTrigger>
+          <ContextMenuContent stackBehavior={stackBehavior}>
             <AlbumActionsContent
               albumId={albumId}
               variant={variant}
               onOpenDialog={handleOpenDialog}
             />
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </ContextMenuContent>
+        </ContextMenu>
         {dialogAlbum && (
           <DeleteAlbumDialog
             album={dialogAlbum}
@@ -446,7 +412,43 @@ const AlbumActions = memo(
       </Fragment>
     )
   }
-)
+
+  const trigger =
+    typeof children === "function" ? (
+      <IconButton name="Ellipsis" variant="ghost" />
+    ) : (
+      (children ?? <IconButton name="Ellipsis" variant="ghost" />)
+    )
+
+  return (
+    <Fragment>
+      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+        <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+        <DropdownMenuContent stackBehavior={stackBehavior}>
+          <AlbumActionsContent
+            albumId={albumId}
+            variant={variant}
+            onOpenDialog={handleOpenDialog}
+          />
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {dialogAlbum && (
+        <DeleteAlbumDialog
+          album={dialogAlbum}
+          open={dialogState.type === "delete"}
+          onOpenChange={(open) => !open && closeDialog()}
+        />
+      )}
+      {dialogSongIds.length > 0 && (
+        <AddToPlaylistForm
+          songIds={dialogSongIds}
+          open={dialogState.type === "playlist"}
+          onOpen={(open) => !open && closeDialog()}
+        />
+      )}
+    </Fragment>
+  )
+})
 
 const albumActionsStyles = createStyleSheet(({ theme, runtime }) => ({
   header: {

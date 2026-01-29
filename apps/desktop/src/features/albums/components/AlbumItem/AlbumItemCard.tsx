@@ -24,7 +24,7 @@ const AlbumItemCardPlaceholder = () => (
   </div>
 )
 
-const AlbumItemCard = memo(({ album, index = 0 }: AlbumItemCardProps) => {
+const AlbumItemCard = memo(function AlbumItemCard({ album, index = 0 }: AlbumItemCardProps) {
   const { t } = useTranslation()
 
   const { isLoading, isTrackLoading, handlePlayAlbum } = useAlbumPlayback(album.id)

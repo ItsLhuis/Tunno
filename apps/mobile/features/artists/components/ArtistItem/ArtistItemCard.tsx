@@ -16,7 +16,7 @@ import { ArtistActions } from "../ArtistActions"
 
 import { type ArtistItemCardProps } from "./types"
 
-const ArtistItemCard = memo(({ artist }: ArtistItemCardProps) => {
+const ArtistItemCard = memo(function ArtistItemCard({ artist }: ArtistItemCardProps) {
   const styles = useStyles(artistItemCardStyles)
 
   const { t } = useTranslation()

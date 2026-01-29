@@ -69,7 +69,7 @@ const TrackItemPlaceholder = ({
   </div>
 )
 
-const TrackItem = memo(({ index = 0, track, processId }: TrackItemProps) => {
+const TrackItem = memo(function TrackItem({ index = 0, track, processId }: TrackItemProps) {
   const { t } = useTranslation()
 
   const { isBelow } = useBreakpoint()

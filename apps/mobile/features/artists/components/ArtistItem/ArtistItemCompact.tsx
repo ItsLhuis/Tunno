@@ -16,7 +16,7 @@ import { ArtistActions } from "../ArtistActions"
 
 import { type ArtistItemCompactProps } from "./types"
 
-const ArtistItemCompact = memo(({ artist }: ArtistItemCompactProps) => {
+const ArtistItemCompact = memo(function ArtistItemCompact({ artist }: ArtistItemCompactProps) {
   const styles = useStyles(artistItemCompactStyles)
 
   const buttonStyle = useStyles(buttonStyles)
