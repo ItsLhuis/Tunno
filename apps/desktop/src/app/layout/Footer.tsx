@@ -2,7 +2,7 @@ import { Player } from "@features/player/components"
 
 const Footer = () => {
   return (
-    <footer className="flex w-full flex-col items-center border-t bg-sidebar">
+    <footer className="bg-sidebar flex w-full flex-col items-center border-t">
       <Player />
     </footer>
   )

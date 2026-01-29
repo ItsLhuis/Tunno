@@ -12,8 +12,6 @@ import { createStyleSheet, ThemeProvider, useStyles, useTheme, type ThemeMode } 
 
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin"
 
-import { useFonts } from "expo-font"
-
 import { useAllStoresHydrated } from "@utils/stores"
 
 import { useShallow } from "zustand/shallow"
@@ -29,7 +27,7 @@ import * as Updates from "expo-updates"
 
 import { initializeStorage } from "@services/storage"
 
-import { expoDatabase, databaseName } from "@database/client"
+import { databaseName, expoDatabase } from "@database/client"
 import migrations from "@migrations/migrations"
 import { drizzle } from "drizzle-orm/expo-sqlite"
 import { migrate } from "drizzle-orm/expo-sqlite/migrator"
@@ -92,13 +90,6 @@ function Main() {
 
   const { isUpdatePending, isUpdateAvailable } = Updates.useUpdates()
 
-  const [fontsLoaded] = useFonts({
-    "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf"),
-    "SpaceGrotesk-Regular": require("@assets/fonts/SpaceGrotesk-Regular.ttf"),
-    "SpaceGrotesk-Medium": require("@assets/fonts/SpaceGrotesk-Medium.ttf"),
-    "SpaceGrotesk-Bold": require("@assets/fonts/SpaceGrotesk-Bold.ttf")
-  })
-
   useLayoutEffect(() => {
     SystemUI.setBackgroundColorAsync(theme.colors.background)
   }, [theme.colors.background])
@@ -118,7 +109,7 @@ function Main() {
   }, [isUpdateAvailable])
 
   useEffect(() => {
-    if (isAppReady || isUpdatePending || !allStoresHydrated || !fontsLoaded) return
+    if (isAppReady || isUpdatePending || !allStoresHydrated) return
 
     const startApp = async () => {
       await prepareApp()
@@ -126,7 +117,7 @@ function Main() {
     }
 
     startApp()
-  }, [isUpdatePending, allStoresHydrated, fontsLoaded])
+  }, [isUpdatePending, allStoresHydrated])
 
   useEffect(() => {
     const handleUrl = (url: string | null) => {

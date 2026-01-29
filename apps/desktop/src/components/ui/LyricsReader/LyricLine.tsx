@@ -17,7 +17,7 @@ const LyricLine = memo(function LyricLine({ lyric, isActive, onClick, index }: L
       onClick={onClick}
       className={cn(
         "relative h-auto w-fit justify-start text-left transition-[font-size,font-weight,color]",
-        isActive ? "text-2xl font-bold" : "text-base text-muted-foreground"
+        isActive ? "text-2xl font-bold" : "text-muted-foreground text-base"
       )}
     >
       {isEmpty ? <Icon name="Ellipsis" /> : lyric.text}

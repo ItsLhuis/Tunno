@@ -37,8 +37,8 @@ Tunno is made up of three main applications, each playing a key role in the ecos
   favorites for quick access.
 - **Smart Downloading**: Download songs and playlists from YouTube, with rich metadata powered by
   Spotify integration.
-- **Device Sync**: Keep your library in sync between desktop and mobile, either manually or
-  automatically when both apps are connected.
+- **Device Sync**: Keep your library in sync between desktop and mobile, automatically when both
+  apps are connected.
 - **Full Data Ownership**: All your data is stored locally and remains under your control—portable,
   private, and secure.
 

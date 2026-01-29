@@ -30,8 +30,8 @@ const Titlebar = () => {
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className={cn(
-        "shrink-0 overflow-hidden bg-sidebar",
-        isWindowFocused && "border-b border-border"
+        "bg-sidebar shrink-0 overflow-hidden",
+        isWindowFocused && "border-border border-b"
       )}
       style={{ originY: 0 }}
     >
