@@ -1,7 +1,5 @@
 import { Fragment, useCallback, useMemo } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlaylistsStore } from "../../stores/usePlaylistsStore"
 
 import { useFetchPlaylistsInfinite } from "../../hooks/useFetchPlaylistsInfinite"
@@ -31,13 +29,9 @@ import { type Playlist, type QueryPlaylistParams } from "@repo/api"
 type PlaylistsListProps = { list: VirtualizedListController<Playlist> }
 
 const PlaylistsList = () => {
-  const { debouncedFilters, orderBy, viewMode } = usePlaylistsStore(
-    useShallow((state) => ({
-      debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy,
-      viewMode: state.viewMode
-    }))
-  )
+  const debouncedFilters = usePlaylistsStore((state) => state.debouncedFilters)
+  const orderBy = usePlaylistsStore((state) => state.orderBy)
+  const viewMode = usePlaylistsStore((state) => state.viewMode)
 
   const queryParams: QueryPlaylistParams = {
     orderBy: orderBy || { column: "createdAt", direction: "desc" },

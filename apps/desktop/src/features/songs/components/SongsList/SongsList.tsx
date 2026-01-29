@@ -1,7 +1,5 @@
 import { Fragment, useCallback, useMemo } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSongsStore } from "../../stores/useSongsStore"
 
 import { useFetchSongIds } from "../../hooks/useFetchSongIds"
@@ -35,13 +33,9 @@ import { type QuerySongsParams, type SongWithMainRelations } from "@repo/api"
 type SongListProps = { list: VirtualizedListController<SongWithMainRelations> }
 
 const SongsList = () => {
-  const { debouncedFilters, orderBy, viewMode } = useSongsStore(
-    useShallow((state) => ({
-      debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy,
-      viewMode: state.viewMode
-    }))
-  )
+  const debouncedFilters = useSongsStore((state) => state.debouncedFilters)
+  const orderBy = useSongsStore((state) => state.orderBy)
+  const viewMode = useSongsStore((state) => state.viewMode)
 
   const queryParams: QuerySongsParams = {
     orderBy: orderBy || { column: "createdAt", direction: "desc" },

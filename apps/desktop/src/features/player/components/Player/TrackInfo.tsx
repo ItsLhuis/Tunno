@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useBreakpoint } from "@hooks/useBreakpoint"
@@ -16,11 +14,7 @@ const TrackInfo = () => {
   const { isBelow } = useBreakpoint()
   const isCompact = isBelow("md")
 
-  const { currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   const toggleFavoriteMutation = useToggleSongFavorite()
 

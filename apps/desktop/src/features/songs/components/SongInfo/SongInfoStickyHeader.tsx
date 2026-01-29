@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { IconButton, Marquee, SafeLink, StickyHeader, Thumbnail, Typography } from "@components/ui"
@@ -17,16 +15,12 @@ type SongInfoStickyHeaderProps = {
 const SongInfoStickyHeader = ({ song }: SongInfoStickyHeaderProps) => {
   const { t } = useTranslation()
 
-  const { play, pause, playbackState, isTrackLoading, currentTrackId, loadTracks } = usePlayerStore(
-    useShallow((state) => ({
-      play: state.play,
-      pause: state.pause,
-      playbackState: state.playbackState,
-      isTrackLoading: state.isTrackLoading,
-      currentTrackId: state.currentTrackId,
-      loadTracks: state.loadTracks
-    }))
-  )
+  const playbackState = usePlayerStore((state) => state.playbackState)
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const currentTrackId = usePlayerStore((state) => state.currentTrackId)
+  const play = usePlayerStore((state) => state.play)
+  const pause = usePlayerStore((state) => state.pause)
+  const loadTracks = usePlayerStore((state) => state.loadTracks)
 
   const isCurrentSong = currentTrackId === song.id
   const isCurrentlyPlaying = playbackState === State.Playing && isCurrentSong

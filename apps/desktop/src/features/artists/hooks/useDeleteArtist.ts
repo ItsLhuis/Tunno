@@ -9,8 +9,6 @@ import { artistKeys, invalidateQueries, isCustomError } from "@repo/api"
 import { getSongByIdWithMainRelations } from "../../songs/api/queries"
 import { deleteArtist } from "../api/mutations"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
@@ -51,12 +49,8 @@ export function useDeleteArtist() {
 
   const { t } = useTranslation()
 
-  const { currentTrackId, updateTrackMetadata } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrackId: state.currentTrackId,
-      updateTrackMetadata: state.updateTrackMetadata
-    }))
-  )
+  const currentTrackId = usePlayerStore((state) => state.currentTrackId)
+  const updateTrackMetadata = usePlayerStore((state) => state.updateTrackMetadata)
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deleteArtist(id, t),

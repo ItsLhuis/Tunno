@@ -8,8 +8,6 @@ import { useBreakpoint } from "@hooks/useBreakpoint"
 
 import { useBreadcrumbs } from "./hooks"
 
-import { useShallow } from "zustand/shallow"
-
 import { useRefreshStore } from "./stores/useRefreshStore"
 
 import { getCurrentWindow } from "@tauri-apps/api/window"
@@ -56,17 +54,12 @@ const Titlebar = ({ isSplashVisible }: TitlebarProps) => {
 
   const { breadcrumbs } = useBreadcrumbs()
 
-  const { canRefresh, tooltip, isLoading, showSuccess, showError, executeRefresh } =
-    useRefreshStore(
-      useShallow((state) => ({
-        canRefresh: state.canRefresh,
-        tooltip: state.tooltip,
-        isLoading: state.isLoading,
-        showSuccess: state.showSuccess,
-        showError: state.showError,
-        executeRefresh: state.executeRefresh
-      }))
-    )
+  const canRefresh = useRefreshStore((state) => state.canRefresh)
+  const tooltip = useRefreshStore((state) => state.tooltip)
+  const isLoading = useRefreshStore((state) => state.isLoading)
+  const showSuccess = useRefreshStore((state) => state.showSuccess)
+  const showError = useRefreshStore((state) => state.showError)
+  const executeRefresh = useRefreshStore((state) => state.executeRefresh)
 
   const toggleFullScreen = async () => {
     const window = getCurrentWindow()

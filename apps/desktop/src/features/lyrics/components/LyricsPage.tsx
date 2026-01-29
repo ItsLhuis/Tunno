@@ -1,7 +1,5 @@
 import { useCallback } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { LyricsReader, NotFound } from "@components/ui"
@@ -10,14 +8,10 @@ import { LyricsHeader } from "./LyricsHeader"
 import { LyricsStickyHeader } from "./LyricsStickyHeader"
 
 const LyricsPage = () => {
-  const { currentTrackId, seekTo, cachedSongs, position } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrackId: state.currentTrackId,
-      seekTo: state.seekTo,
-      cachedSongs: state.cachedSongs,
-      position: state.position
-    }))
-  )
+  const currentTrackId = usePlayerStore((state) => state.currentTrackId)
+  const cachedSongs = usePlayerStore((state) => state.cachedSongs)
+  const position = usePlayerStore((state) => state.position)
+  const seekTo = usePlayerStore((state) => state.seekTo)
 
   if (!currentTrackId) {
     return <NotFound />

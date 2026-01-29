@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { formatTime } from "@repo/utils"
@@ -9,29 +7,15 @@ import { formatTime } from "@repo/utils"
 import { Slider, Typography } from "@components/ui"
 
 const PlaybackProgress = () => {
-  const {
-    play,
-    pause,
-    playbackState,
-    position,
-    duration,
-    seekTo,
-    seekBy,
-    isTrackLoading,
-    currentTrack
-  } = usePlayerStore(
-    useShallow((state) => ({
-      play: state.play,
-      pause: state.pause,
-      playbackState: state.playbackState,
-      position: state.position,
-      duration: state.duration,
-      seekTo: state.seekTo,
-      seekBy: state.seekBy,
-      isTrackLoading: state.isTrackLoading,
-      currentTrack: state.currentTrack
-    }))
-  )
+  const playbackState = usePlayerStore((state) => state.playbackState)
+  const position = usePlayerStore((state) => state.position)
+  const duration = usePlayerStore((state) => state.duration)
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
+  const play = usePlayerStore((state) => state.play)
+  const pause = usePlayerStore((state) => state.pause)
+  const seekTo = usePlayerStore((state) => state.seekTo)
+  const seekBy = usePlayerStore((state) => state.seekBy)
 
   const [wasPlaying, setWasPlaying] = useState(false)
   const [isDragging, setIsDragging] = useState(false)

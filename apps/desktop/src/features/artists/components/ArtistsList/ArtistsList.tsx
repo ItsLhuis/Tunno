@@ -1,7 +1,5 @@
 import { Fragment, useCallback, useMemo } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { useArtistsStore } from "../../stores/useArtistsStore"
 
 import { useFetchArtistsInfinite } from "../../hooks/useFetchArtistsInfinite"
@@ -31,13 +29,9 @@ import { type Artist, type QueryArtistParams } from "@repo/api"
 type ArtistsListProps = { list: VirtualizedListController<Artist> }
 
 const ArtistsList = () => {
-  const { debouncedFilters, orderBy, viewMode } = useArtistsStore(
-    useShallow((state) => ({
-      debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy,
-      viewMode: state.viewMode
-    }))
-  )
+  const debouncedFilters = useArtistsStore((state) => state.debouncedFilters)
+  const orderBy = useArtistsStore((state) => state.orderBy)
+  const viewMode = useArtistsStore((state) => state.viewMode)
 
   const queryParams: QueryArtistParams = {
     orderBy: orderBy || { column: "createdAt", direction: "desc" },

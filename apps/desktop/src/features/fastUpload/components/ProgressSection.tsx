@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useFastUploadStore } from "../stores/useFastUploadStore"
 
 import { formatNumber } from "@repo/utils"
@@ -15,13 +13,9 @@ type ProgressSectionProps = {
 const ProgressSection = ({ className }: ProgressSectionProps) => {
   const { t } = useTranslation()
 
-  const { status, currentTrackIndex, totalTracks } = useFastUploadStore(
-    useShallow((state) => ({
-      status: state.status,
-      currentTrackIndex: state.currentTrackIndex,
-      totalTracks: state.totalTracks
-    }))
-  )
+  const status = useFastUploadStore((state) => state.status)
+  const currentTrackIndex = useFastUploadStore((state) => state.currentTrackIndex)
+  const totalTracks = useFastUploadStore((state) => state.totalTracks)
 
   const progress = totalTracks > 0 ? (currentTrackIndex / totalTracks) * 100 : 0
 

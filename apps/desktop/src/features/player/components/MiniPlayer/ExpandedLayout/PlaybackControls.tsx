@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../../stores/usePlayerStore"
 
 import { IconButton } from "@components/ui"
@@ -11,39 +9,20 @@ import { RepeatMode, State } from "@track-player/web"
 const PlaybackControls = () => {
   const { t } = useTranslation()
 
-  const {
-    play,
-    pause,
-    playNext,
-    playPrevious,
-    playbackState,
-    toggleShuffle,
-    isShuffleEnabled,
-    repeatMode,
-    setRepeatMode,
-    isTrackLoading,
-    currentTrack,
-    canPlayNext,
-    canPlayPrevious,
-    isTransitioning
-  } = usePlayerStore(
-    useShallow((state) => ({
-      play: state.play,
-      pause: state.pause,
-      playNext: state.playNext,
-      playPrevious: state.playPrevious,
-      playbackState: state.playbackState,
-      toggleShuffle: state.toggleShuffle,
-      isShuffleEnabled: state.isShuffleEnabled,
-      repeatMode: state.repeatMode,
-      setRepeatMode: state.setRepeatMode,
-      isTrackLoading: state.isTrackLoading,
-      currentTrack: state.currentTrack,
-      canPlayNext: state.canPlayNext,
-      canPlayPrevious: state.canPlayPrevious,
-      isTransitioning: state.isTransitioning
-    }))
-  )
+  const playbackState = usePlayerStore((state) => state.playbackState)
+  const isShuffleEnabled = usePlayerStore((state) => state.isShuffleEnabled)
+  const repeatMode = usePlayerStore((state) => state.repeatMode)
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
+  const canPlayNext = usePlayerStore((state) => state.canPlayNext)
+  const canPlayPrevious = usePlayerStore((state) => state.canPlayPrevious)
+  const isTransitioning = usePlayerStore((state) => state.isTransitioning)
+  const play = usePlayerStore((state) => state.play)
+  const pause = usePlayerStore((state) => state.pause)
+  const playNext = usePlayerStore((state) => state.playNext)
+  const playPrevious = usePlayerStore((state) => state.playPrevious)
+  const toggleShuffle = usePlayerStore((state) => state.toggleShuffle)
+  const setRepeatMode = usePlayerStore((state) => state.setRepeatMode)
 
   const isPlaying = playbackState === State.Playing
   const canPlay = currentTrack !== null && !isTrackLoading

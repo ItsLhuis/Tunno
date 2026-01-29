@@ -1,7 +1,5 @@
 import { useCallback } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { State } from "@track-player/web"
@@ -22,18 +20,13 @@ export function useSongPlayback(
 ) {
   const { queuePlayback = false, queueIndex } = options ?? {}
 
-  const { loadTracks, play, pause, skipToTrack, currentTrackId, playbackState, isTrackLoading } =
-    usePlayerStore(
-      useShallow((state) => ({
-        loadTracks: state.loadTracks,
-        play: state.play,
-        pause: state.pause,
-        skipToTrack: state.skipToTrack,
-        currentTrackId: state.currentTrackId,
-        playbackState: state.playbackState,
-        isTrackLoading: state.isTrackLoading
-      }))
-    )
+  const currentTrackId = usePlayerStore((state) => state.currentTrackId)
+  const playbackState = usePlayerStore((state) => state.playbackState)
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const loadTracks = usePlayerStore((state) => state.loadTracks)
+  const play = usePlayerStore((state) => state.play)
+  const pause = usePlayerStore((state) => state.pause)
+  const skipToTrack = usePlayerStore((state) => state.skipToTrack)
 
   const isCurrentlyPlaying = currentTrackId === songId && playbackState === State.Playing
 

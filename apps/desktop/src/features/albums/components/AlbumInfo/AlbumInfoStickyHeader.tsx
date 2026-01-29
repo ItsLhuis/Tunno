@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { cn } from "@lib/utils"
@@ -28,12 +26,8 @@ type AlbumInfoStickyHeaderProps = {
 const AlbumInfoStickyHeader = ({ album, list, className }: AlbumInfoStickyHeaderProps) => {
   const { t } = useTranslation()
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || !album.songs || album.songs.length === 0) return

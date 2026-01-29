@@ -2,8 +2,6 @@ import { useCallback } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSyncStore } from "../stores/useSyncStore"
 
 import pkg from "../../../../package.json"
@@ -174,35 +172,18 @@ function collectThumbnails(song: SongForExport): string[] {
 export function useSyncProcessor() {
   const { t } = useTranslation()
 
-  const {
-    status,
-    outputPath,
-    totalSongs,
-    currentSongIndex,
-    exportedCount,
-    bundlePath,
-    setStatus,
-    setOutputPath,
-    setTotalSongs,
-    setError,
-    setBundlePath,
-    resetStore
-  } = useSyncStore(
-    useShallow((state) => ({
-      status: state.status,
-      outputPath: state.outputPath,
-      totalSongs: state.totalSongs,
-      currentSongIndex: state.currentSongIndex,
-      exportedCount: state.exportedCount,
-      bundlePath: state.bundlePath,
-      setStatus: state.setStatus,
-      setOutputPath: state.setOutputPath,
-      setTotalSongs: state.setTotalSongs,
-      setError: state.setError,
-      setBundlePath: state.setBundlePath,
-      resetStore: state.resetStore
-    }))
-  )
+  const status = useSyncStore((state) => state.status)
+  const outputPath = useSyncStore((state) => state.outputPath)
+  const totalSongs = useSyncStore((state) => state.totalSongs)
+  const currentSongIndex = useSyncStore((state) => state.currentSongIndex)
+  const exportedCount = useSyncStore((state) => state.exportedCount)
+  const bundlePath = useSyncStore((state) => state.bundlePath)
+  const setStatus = useSyncStore((state) => state.setStatus)
+  const setOutputPath = useSyncStore((state) => state.setOutputPath)
+  const setTotalSongs = useSyncStore((state) => state.setTotalSongs)
+  const setError = useSyncStore((state) => state.setError)
+  const setBundlePath = useSyncStore((state) => state.setBundlePath)
+  const resetStore = useSyncStore((state) => state.resetStore)
 
   const isExporting = status === "exporting" || status === "preparing"
 

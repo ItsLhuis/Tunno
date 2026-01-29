@@ -4,8 +4,6 @@ import { useRouter } from "@tanstack/react-router"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { albumKeys, invalidateQueries } from "@repo/api"
@@ -50,12 +48,8 @@ export function useDeleteAlbum() {
 
   const { t } = useTranslation()
 
-  const { currentTrackId, updateTrackMetadata } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrackId: state.currentTrackId,
-      updateTrackMetadata: state.updateTrackMetadata
-    }))
-  )
+  const currentTrackId = usePlayerStore((state) => state.currentTrackId)
+  const updateTrackMetadata = usePlayerStore((state) => state.updateTrackMetadata)
 
   return useMutation({
     mutationFn: ({ id }: { id: number }) => deleteAlbum(id),

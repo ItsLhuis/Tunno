@@ -12,8 +12,6 @@ import {
 import { updateSong } from "../api/mutations"
 import { getSongByIdWithMainRelations } from "../api/queries"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
@@ -54,11 +52,7 @@ export function useUpdateSong() {
 
   const { t } = useTranslation()
 
-  const { updateTrackMetadata } = usePlayerStore(
-    useShallow((state) => ({
-      updateTrackMetadata: state.updateTrackMetadata
-    }))
-  )
+  const updateTrackMetadata = usePlayerStore((state) => state.updateTrackMetadata)
 
   return useMutation({
     mutationFn: ({

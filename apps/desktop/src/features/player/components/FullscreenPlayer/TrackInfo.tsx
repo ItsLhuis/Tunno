@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { Marquee, Typography } from "@components/ui"
@@ -20,11 +18,7 @@ type TrackInfoProps = {
 const TrackInfo = ({ onPaletteChange, onDominantColorChange }: TrackInfoProps) => {
   const { t } = useTranslation()
 
-  const { currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   return (
     <motion.div layout className="flex w-full items-end gap-[2.5vh]">

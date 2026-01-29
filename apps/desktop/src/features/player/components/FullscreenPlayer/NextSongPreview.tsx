@@ -2,8 +2,6 @@ import { type CSSProperties, useMemo } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
@@ -21,29 +19,15 @@ import { RepeatMode } from "@track-player/web"
 const NextSongPreview = () => {
   const { t } = useTranslation()
 
-  const {
-    queueIds,
-    currentTrackIndex,
-    cachedSongs,
-    duration,
-    position,
-    repeatMode,
-    playNext,
-    canPlayNext,
-    isTransitioning
-  } = usePlayerStore(
-    useShallow((state) => ({
-      queueIds: state.queueIds,
-      currentTrackIndex: state.currentTrackIndex,
-      cachedSongs: state.cachedSongs,
-      duration: state.duration,
-      position: state.position,
-      repeatMode: state.repeatMode,
-      playNext: state.playNext,
-      canPlayNext: state.canPlayNext,
-      isTransitioning: state.isTransitioning
-    }))
-  )
+  const queueIds = usePlayerStore((state) => state.queueIds)
+  const currentTrackIndex = usePlayerStore((state) => state.currentTrackIndex)
+  const cachedSongs = usePlayerStore((state) => state.cachedSongs)
+  const duration = usePlayerStore((state) => state.duration)
+  const position = usePlayerStore((state) => state.position)
+  const repeatMode = usePlayerStore((state) => state.repeatMode)
+  const canPlayNext = usePlayerStore((state) => state.canPlayNext)
+  const isTransitioning = usePlayerStore((state) => state.isTransitioning)
+  const playNext = usePlayerStore((state) => state.playNext)
 
   const { nextSong, shouldShow } = useMemo(() => {
     if (currentTrackIndex === null || queueIds.length === 0 || duration === 0) {

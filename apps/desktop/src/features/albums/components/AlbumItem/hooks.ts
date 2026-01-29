@@ -1,21 +1,15 @@
 import { useMemo } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchSongIdsByAlbumIds } from "@features/songs/hooks/useFetchSongIdsByAlbumIds"
 
 export function useAlbumPlayback(albumId: number) {
-  const { loadTracks, play, isTrackLoading, shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      loadTracks: state.loadTracks,
-      play: state.play,
-      isTrackLoading: state.isTrackLoading,
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const loadTracks = usePlayerStore((state) => state.loadTracks)
+  const play = usePlayerStore((state) => state.play)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const { data, isLoading } = useFetchSongIdsByAlbumIds([albumId])
 

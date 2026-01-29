@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { SongForm } from "../../forms"
@@ -26,12 +24,8 @@ type SongsListStickyHeaderProps = {
 const SongsListStickyHeader = ({ list, allSongIds, className }: SongsListStickyHeaderProps) => {
   const { t } = useTranslation()
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || allSongIds.length === 0) return

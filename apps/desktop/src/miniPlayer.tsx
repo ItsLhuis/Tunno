@@ -3,8 +3,6 @@ import ReactDOM from "react-dom/client"
 
 import { listen } from "@tauri-apps/api/event"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { ThemeProvider } from "@contexts/ThemeContext"
@@ -18,11 +16,7 @@ import { i18n, type LocaleKeys } from "@repo/i18n"
 import "./global.css"
 
 const Main = () => {
-  const { language } = useSettingsStore(
-    useShallow((state) => ({
-      language: state.language
-    }))
-  )
+  const language = useSettingsStore((state) => state.language)
 
   useEffect(() => {
     i18n.changeLanguage(language)

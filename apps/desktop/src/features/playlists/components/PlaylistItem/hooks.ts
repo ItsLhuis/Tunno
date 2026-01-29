@@ -1,21 +1,15 @@
 import { useMemo } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchSongIdsByPlaylistIds } from "@features/songs/hooks/useFetchSongIdsByPlaylistIds"
 
 export function usePlaylistPlayback(playlistId: number, totalTracks: number) {
-  const { loadTracks, play, isTrackLoading, shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      loadTracks: state.loadTracks,
-      play: state.play,
-      isTrackLoading: state.isTrackLoading,
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const loadTracks = usePlayerStore((state) => state.loadTracks)
+  const play = usePlayerStore((state) => state.play)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const { data, isLoading } = useFetchSongIdsByPlaylistIds([playlistId])
 
@@ -25,7 +19,7 @@ export function usePlaylistPlayback(playlistId: number, totalTracks: number) {
   }, [data])
 
   const handlePlayPlaylist = async () => {
-    if (totalTracks === 0) return
+    if (totalTracks === 0 || songIds.length === 0) return
 
     await loadTracks(songIds, 0, "playlist", playlistId)
     await play()

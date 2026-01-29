@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../../stores/usePlayerStore"
 
 import { cn } from "@lib/utils"
@@ -11,11 +9,7 @@ import { Marquee, Thumbnail, Typography } from "@components/ui"
 const TrackInfo = () => {
   const { t } = useTranslation()
 
-  const { currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   return (
     <div className="flex h-full items-center gap-3 truncate">

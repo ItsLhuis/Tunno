@@ -4,8 +4,6 @@ import { useEffect, useState } from "react"
 
 import { createRootRoute } from "@tanstack/react-router"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@repo/i18n"
@@ -42,11 +40,7 @@ function RootComponent() {
 
   const isWindowVisible = useWindowVisibility()
 
-  const { language } = useSettingsStore(
-    useShallow((state) => ({
-      language: state.language
-    }))
-  )
+  const language = useSettingsStore((state) => state.language)
 
   const { i18n, t } = useTranslation()
 

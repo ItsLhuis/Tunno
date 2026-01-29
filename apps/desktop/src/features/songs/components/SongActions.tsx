@@ -4,8 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useDelayedUnmount } from "@hooks/useDelayedUnmount"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchSongByIdWithMainRelations } from "../hooks/useFetchSongByIdWithMainRelations"
@@ -94,27 +92,14 @@ const SongActionsContent = memo(
       []
     )
 
-    const {
-      loadTracks,
-      play,
-      pause,
-      currentTrack,
-      playbackState,
-      isTrackLoading,
-      addToQueue,
-      removeFromQueue
-    } = usePlayerStore(
-      useShallow((state) => ({
-        loadTracks: state.loadTracks,
-        play: state.play,
-        pause: state.pause,
-        currentTrack: state.currentTrack,
-        playbackState: state.playbackState,
-        isTrackLoading: state.isTrackLoading,
-        addToQueue: state.addToQueue,
-        removeFromQueue: state.removeFromQueue
-      }))
-    )
+    const currentTrack = usePlayerStore((state) => state.currentTrack)
+    const playbackState = usePlayerStore((state) => state.playbackState)
+    const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+    const loadTracks = usePlayerStore((state) => state.loadTracks)
+    const play = usePlayerStore((state) => state.play)
+    const pause = usePlayerStore((state) => state.pause)
+    const addToQueue = usePlayerStore((state) => state.addToQueue)
+    const removeFromQueue = usePlayerStore((state) => state.removeFromQueue)
 
     const toggleFavoriteMutation = useToggleSongFavorite()
     const removeFromPlaylistMutation = useRemoveSongsFromPlaylist()

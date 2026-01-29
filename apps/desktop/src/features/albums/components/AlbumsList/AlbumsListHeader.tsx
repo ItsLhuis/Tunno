@@ -4,8 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useNavigate, useSearch } from "@tanstack/react-router"
 
-import { useShallow } from "zustand/shallow"
-
 import { useAlbumsStore } from "@features/albums/stores/useAlbumsStore"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -59,19 +57,11 @@ const AlbumsListHeader = ({ list, allAlbumIds }: AlbumsListHeaderProps) => {
     }
   }
 
-  const { viewMode, setViewMode } = useAlbumsStore(
-    useShallow((state) => ({
-      viewMode: state.viewMode,
-      setViewMode: state.setViewMode
-    }))
-  )
+  const viewMode = useAlbumsStore((state) => state.viewMode)
+  const setViewMode = useAlbumsStore((state) => state.setViewMode)
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const { data: allSongIds, isLoading } = useFetchSongIdsByAlbumIds(allAlbumIds)
 

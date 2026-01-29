@@ -1,7 +1,5 @@
 import { useEffect } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
@@ -21,11 +19,7 @@ type TrackArtworkProps = {
 }
 
 const TrackArtwork = ({ onPaletteChange, onDominantColorChange }: TrackArtworkProps) => {
-  const { currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   const thumbnailSrc = useThumbnailSrc({ fileName: currentTrack?.thumbnail })
 

@@ -2,8 +2,6 @@ import { useCallback, useMemo, useRef } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { formatNumber } from "@repo/utils"
@@ -54,15 +52,11 @@ const MAX_PREVIOUS_SONGS = 50
 const QueueSheet = () => {
   const { t } = useTranslation()
 
-  const { queueIds, currentTrackIndex, cachedSongs, clearQueue, moveInQueue } = usePlayerStore(
-    useShallow((state) => ({
-      queueIds: state.queueIds,
-      currentTrackIndex: state.currentTrackIndex,
-      cachedSongs: state.cachedSongs,
-      clearQueue: state.clearQueue,
-      moveInQueue: state.moveInQueue
-    }))
-  )
+  const queueIds = usePlayerStore((state) => state.queueIds)
+  const currentTrackIndex = usePlayerStore((state) => state.currentTrackIndex)
+  const cachedSongs = usePlayerStore((state) => state.cachedSongs)
+  const clearQueue = usePlayerStore((state) => state.clearQueue)
+  const moveInQueue = usePlayerStore((state) => state.moveInQueue)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useFastUploadStore } from "../stores/useFastUploadStore"
 
 import { useBundleValidation } from "../hooks/useBundleValidation"
@@ -23,15 +21,11 @@ const ProcessingControls = ({ className }: ProcessingControlsProps) => {
 
   const { startProcessing, cleanupCache, isProcessing } = useFastUploadProcessor()
 
-  const { status, cachePath, initializeProcess, setStatus, resetStore } = useFastUploadStore(
-    useShallow((state) => ({
-      status: state.status,
-      cachePath: state.cachePath,
-      initializeProcess: state.initializeProcess,
-      setStatus: state.setStatus,
-      resetStore: state.resetStore
-    }))
-  )
+  const status = useFastUploadStore((state) => state.status)
+  const cachePath = useFastUploadStore((state) => state.cachePath)
+  const initializeProcess = useFastUploadStore((state) => state.initializeProcess)
+  const setStatus = useFastUploadStore((state) => state.setStatus)
+  const resetStore = useFastUploadStore((state) => state.resetStore)
 
   const isValidating = status === "validating"
   const isReady = status === "ready"

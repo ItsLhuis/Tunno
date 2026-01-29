@@ -1,7 +1,5 @@
 import { useCallback, useEffect } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow"
@@ -46,9 +44,8 @@ const MAX_ZOOM = 1.5
  * ```
  */
 export function useZoom() {
-  const { zoomLevel, setZoomLevel } = useSettingsStore(
-    useShallow((state) => ({ zoomLevel: state.zoomLevel, setZoomLevel: state.setZoomLevel }))
-  )
+  const zoomLevel = useSettingsStore((state) => state.zoomLevel)
+  const setZoomLevel = useSettingsStore((state) => state.setZoomLevel)
 
   const applyZoom = useCallback(async (level: number) => {
     try {

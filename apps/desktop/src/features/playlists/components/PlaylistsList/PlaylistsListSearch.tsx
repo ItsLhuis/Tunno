@@ -1,7 +1,5 @@
 import { type ChangeEvent, type ReactNode, useCallback } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlaylistsStore } from "../../stores/usePlaylistsStore"
 
 import { cn } from "@lib/utils"
@@ -14,12 +12,8 @@ type PlaylistsListSearchProps = {
 }
 
 const PlaylistsListSearch = ({ renderRight, className }: PlaylistsListSearchProps) => {
-  const { searchTerm, setSearchTerm } = usePlaylistsStore(
-    useShallow((state) => ({
-      searchTerm: state.searchTerm,
-      setSearchTerm: state.setSearchTerm
-    }))
-  )
+  const searchTerm = usePlaylistsStore((state) => state.searchTerm)
+  const setSearchTerm = usePlaylistsStore((state) => state.setSearchTerm)
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

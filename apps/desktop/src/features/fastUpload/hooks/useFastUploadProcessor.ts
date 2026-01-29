@@ -2,8 +2,6 @@ import { useCallback, useEffect, useRef } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useFastUploadStore } from "../stores/useFastUploadStore"
 
 import { useTrackProcessor } from "./useTrackProcessor"
@@ -40,31 +38,16 @@ export function useFastUploadProcessor() {
 
   const entityCacheRef = useRef<EntityCache | null>(null)
 
-  const {
-    status,
-    tracks,
-    cachePath,
-    setStatus,
-    updateTrackStatus,
-    incrementProgress,
-    incrementSuccessCount,
-    incrementErrorCount,
-    incrementSkippedCount,
-    addError
-  } = useFastUploadStore(
-    useShallow((state) => ({
-      status: state.status,
-      tracks: state.tracks,
-      cachePath: state.cachePath,
-      setStatus: state.setStatus,
-      updateTrackStatus: state.updateTrackStatus,
-      incrementProgress: state.incrementProgress,
-      incrementSuccessCount: state.incrementSuccessCount,
-      incrementErrorCount: state.incrementErrorCount,
-      incrementSkippedCount: state.incrementSkippedCount,
-      addError: state.addError
-    }))
-  )
+  const status = useFastUploadStore((state) => state.status)
+  const tracks = useFastUploadStore((state) => state.tracks)
+  const cachePath = useFastUploadStore((state) => state.cachePath)
+  const setStatus = useFastUploadStore((state) => state.setStatus)
+  const updateTrackStatus = useFastUploadStore((state) => state.updateTrackStatus)
+  const incrementProgress = useFastUploadStore((state) => state.incrementProgress)
+  const incrementSuccessCount = useFastUploadStore((state) => state.incrementSuccessCount)
+  const incrementErrorCount = useFastUploadStore((state) => state.incrementErrorCount)
+  const incrementSkippedCount = useFastUploadStore((state) => state.incrementSkippedCount)
+  const addError = useFastUploadStore((state) => state.addError)
 
   const { processTrack } = useTrackProcessor()
 

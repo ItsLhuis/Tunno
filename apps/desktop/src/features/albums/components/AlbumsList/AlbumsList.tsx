@@ -1,7 +1,5 @@
 import { Fragment, useCallback, useMemo } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { useAlbumsStore } from "../../stores/useAlbumsStore"
 
 import { useFetchAlbumsInfinite } from "../../hooks/useFetchAlbumsInfinite"
@@ -33,13 +31,9 @@ import { type Album, type QueryAlbumParams } from "@repo/api"
 type AlbumsListProps = { list: VirtualizedListController<Album> }
 
 const AlbumsList = () => {
-  const { debouncedFilters, orderBy, viewMode } = useAlbumsStore(
-    useShallow((state) => ({
-      debouncedFilters: state.debouncedFilters,
-      orderBy: state.orderBy,
-      viewMode: state.viewMode
-    }))
-  )
+  const debouncedFilters = useAlbumsStore((state) => state.debouncedFilters)
+  const orderBy = useAlbumsStore((state) => state.orderBy)
+  const viewMode = useAlbumsStore((state) => state.viewMode)
 
   const queryParams: QueryAlbumParams = {
     orderBy: orderBy || { column: "createdAt", direction: "desc" },

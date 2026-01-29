@@ -4,8 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useDelayedUnmount } from "@hooks/useDelayedUnmount"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchArtistByIdWithSongs } from "../hooks/useFetchArtistByIdWithSongs"
@@ -82,14 +80,10 @@ const ArtistActionsContent = memo(
   ({ artistId, list, variant, onOpenDialog }: ArtistActionsContentProps) => {
     const { t } = useTranslation()
 
-    const { loadTracks, play, isTrackLoading, addToQueue } = usePlayerStore(
-      useShallow((state) => ({
-        loadTracks: state.loadTracks,
-        play: state.play,
-        isTrackLoading: state.isTrackLoading,
-        addToQueue: state.addToQueue
-      }))
-    )
+    const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+    const loadTracks = usePlayerStore((state) => state.loadTracks)
+    const play = usePlayerStore((state) => state.play)
+    const addToQueue = usePlayerStore((state) => state.addToQueue)
 
     const toggleFavoriteMutation = useToggleArtistFavorite()
     const toggleSidebarMutation = useToggleSidebarItem()

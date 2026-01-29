@@ -1,7 +1,5 @@
 import { Fragment } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { useTranslation } from "@repo/i18n"
 
 import { useSettingsStore } from "@stores/useSettingsStore"
@@ -27,25 +25,13 @@ import { type EqualizerPreset } from "@track-player/web"
 const EqualizerSection = () => {
   const { t } = useTranslation()
 
-  const {
-    equalizerEnabled,
-    equalizerPreset,
-    equalizerBandGains,
-    setEqualizerEnabled,
-    setEqualizerPreset,
-    setEqualizerBandGain,
-    resetEqualizer
-  } = useSettingsStore(
-    useShallow((state) => ({
-      equalizerEnabled: state.equalizerEnabled,
-      equalizerPreset: state.equalizerPreset,
-      equalizerBandGains: state.equalizerBandGains,
-      setEqualizerEnabled: state.setEqualizerEnabled,
-      setEqualizerPreset: state.setEqualizerPreset,
-      setEqualizerBandGain: state.setEqualizerBandGain,
-      resetEqualizer: state.resetEqualizer
-    }))
-  )
+  const equalizerEnabled = useSettingsStore((state) => state.equalizerEnabled)
+  const equalizerPreset = useSettingsStore((state) => state.equalizerPreset)
+  const equalizerBandGains = useSettingsStore((state) => state.equalizerBandGains)
+  const setEqualizerEnabled = useSettingsStore((state) => state.setEqualizerEnabled)
+  const setEqualizerPreset = useSettingsStore((state) => state.setEqualizerPreset)
+  const setEqualizerBandGain = useSettingsStore((state) => state.setEqualizerBandGain)
+  const resetEqualizer = useSettingsStore((state) => state.resetEqualizer)
 
   const equalizerBands = [
     { index: 0, frequency: 32, label: "32 Hz" },

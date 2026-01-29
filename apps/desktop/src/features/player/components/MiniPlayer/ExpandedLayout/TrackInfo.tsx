@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../../stores/usePlayerStore"
 
 import { Marquee, Typography } from "@components/ui"
@@ -9,11 +7,7 @@ import { Marquee, Typography } from "@components/ui"
 const TrackInfo = () => {
   const { t } = useTranslation()
 
-  const { currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   return (
     <div className="border-border bg-sidebar h-auto w-full border-t p-3">

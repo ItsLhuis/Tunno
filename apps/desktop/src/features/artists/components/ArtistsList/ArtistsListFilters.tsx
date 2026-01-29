@@ -1,7 +1,5 @@
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useArtistsStore } from "../../stores/useArtistsStore"
 
 import {
@@ -33,15 +31,11 @@ import { type OrderableArtistColumns } from "@repo/api"
 const ArtistsListFilters = () => {
   const { t } = useTranslation()
 
-  const { filters, orderBy, setFilters, clearFilters, setOrderBy } = useArtistsStore(
-    useShallow((state) => ({
-      filters: state.filters,
-      orderBy: state.orderBy,
-      setFilters: state.setFilters,
-      clearFilters: state.clearFilters,
-      setOrderBy: state.setOrderBy
-    }))
-  )
+  const filters = useArtistsStore((state) => state.filters)
+  const orderBy = useArtistsStore((state) => state.orderBy)
+  const setFilters = useArtistsStore((state) => state.setFilters)
+  const clearFilters = useArtistsStore((state) => state.clearFilters)
+  const setOrderBy = useArtistsStore((state) => state.setOrderBy)
 
   const defaultOrderBy = { column: "createdAt", direction: "desc" as const }
   const isOrderByDefault =

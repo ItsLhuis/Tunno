@@ -2,8 +2,6 @@ import { createContext, type ReactNode, useContext, useEffect, useRef, useState 
 
 import { flushSync } from "react-dom"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 /**
@@ -38,12 +36,8 @@ const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undef
  * @param children - React children to be rendered within this provider's context.
  */
 const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const { theme, setTheme } = useSettingsStore(
-    useShallow((state) => ({
-      theme: state.theme,
-      setTheme: state.setTheme
-    }))
-  )
+  const theme = useSettingsStore((state) => state.theme)
+  const setTheme = useSettingsStore((state) => state.setTheme)
 
   const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">(() => {
     if (theme === "system") {

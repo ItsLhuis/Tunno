@@ -1,7 +1,5 @@
 import { useCallback, useRef } from "react"
 
-import { useShallow } from "zustand/shallow"
-
 import { useFastUploadStore } from "../stores/useFastUploadStore"
 
 import { useStickToIndex } from "@hooks/useStickToIndex"
@@ -16,14 +14,10 @@ import { TrackItem } from "./TrackItem"
 import { type Virtualizer } from "@tanstack/react-virtual"
 
 const FastUploadPage = () => {
-  const { status, tracks, processId, currentTrackIndex } = useFastUploadStore(
-    useShallow((state) => ({
-      status: state.status,
-      tracks: state.tracks,
-      processId: state.processId,
-      currentTrackIndex: state.currentTrackIndex
-    }))
-  )
+  const status = useFastUploadStore((state) => state.status)
+  const tracks = useFastUploadStore((state) => state.tracks)
+  const processId = useFastUploadStore((state) => state.processId)
+  const currentTrackIndex = useFastUploadStore((state) => state.currentTrackIndex)
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const virtualizerRef = useRef<Virtualizer<HTMLElement, Element> | null>(null)

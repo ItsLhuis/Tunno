@@ -1,5 +1,3 @@
-import { useShallow } from "zustand/shallow"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation } from "@repo/i18n"
@@ -21,12 +19,8 @@ import { SettingButton, type SettingButtonProps } from "@features/settings/compo
 const LanguageSection = () => {
   const { t } = useTranslation()
 
-  const { setLanguage, language } = useSettingsStore(
-    useShallow((state) => ({
-      setLanguage: state.setLanguage,
-      language: state.language
-    }))
-  )
+  const language = useSettingsStore((state) => state.language)
+  const setLanguage = useSettingsStore((state) => state.setLanguage)
 
   const { locales } = useTranslation()
 

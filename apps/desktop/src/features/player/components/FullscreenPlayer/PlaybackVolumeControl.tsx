@@ -2,8 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { throttle } from "lodash"
@@ -15,14 +13,10 @@ import { IconButton, Slider } from "@components/ui"
 const PlaybackVolumeControl = () => {
   const { t } = useTranslation()
 
-  const { volume, setVolume, isMuted, setIsMuted } = usePlayerStore(
-    useShallow((state) => ({
-      volume: state.volume,
-      setVolume: state.setVolume,
-      isMuted: state.isMuted,
-      setIsMuted: state.setIsMuted
-    }))
-  )
+  const volume = usePlayerStore((state) => state.volume)
+  const isMuted = usePlayerStore((state) => state.isMuted)
+  const setVolume = usePlayerStore((state) => state.setVolume)
+  const setIsMuted = usePlayerStore((state) => state.setIsMuted)
 
   const [isDragging, setIsDragging] = useState(false)
 

@@ -4,8 +4,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useNavigate, useSearch } from "@tanstack/react-router"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSongsStore } from "../../stores/useSongsStore"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -57,19 +55,11 @@ const SongsListHeader = ({ list, allSongIds }: SongsListHeaderProps) => {
     }
   }
 
-  const { viewMode, setViewMode } = useSongsStore(
-    useShallow((state) => ({
-      viewMode: state.viewMode,
-      setViewMode: state.setViewMode
-    }))
-  )
+  const viewMode = useSongsStore((state) => state.viewMode)
+  const setViewMode = useSongsStore((state) => state.setViewMode)
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || allSongIds.length === 0) return
