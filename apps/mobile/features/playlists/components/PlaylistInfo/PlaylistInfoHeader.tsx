@@ -4,8 +4,6 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useTogglePlaylistFavorite } from "../../hooks/useTogglePlaylistFavorite"
@@ -36,12 +34,8 @@ const PlaylistInfoHeader = ({ playlist, songIds }: PlaylistInfoHeaderProps) => {
 
   const { t } = useTranslation()
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || songIds.length === 0) return

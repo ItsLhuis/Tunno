@@ -14,8 +14,6 @@ import { useDrizzleStudio } from "expo-drizzle-studio-plugin"
 
 import { useAllStoresHydrated } from "@utils/stores"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -76,17 +74,9 @@ function Main() {
 
   const { i18n } = useTranslation()
 
-  const { language } = useSettingsStore(
-    useShallow((state) => ({
-      language: state.language
-    }))
-  )
+  const language = useSettingsStore((state) => state.language)
 
-  const { playerSheetRef } = usePlayerStore(
-    useShallow((state) => ({
-      playerSheetRef: state.playerSheetRef
-    }))
-  )
+  const playerSheetRef = usePlayerStore((state) => state.playerSheetRef)
 
   const { isUpdatePending, isUpdateAvailable } = Updates.useUpdates()
 
@@ -187,12 +177,8 @@ const mainStyles = createStyleSheet(({ theme }) => ({
 }))
 
 export default function RootLayout() {
-  const { theme, setTheme } = useSettingsStore(
-    useShallow((state) => ({
-      theme: state.theme,
-      setTheme: state.setTheme
-    }))
-  )
+  const theme = useSettingsStore((state) => state.theme)
+  const setTheme = useSettingsStore((state) => state.setTheme)
 
   return (
     <QueryClientProvider client={queryClient}>

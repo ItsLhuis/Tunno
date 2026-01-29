@@ -8,8 +8,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { usePathname, useRouter } from "expo-router"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 import { useRemoveSongsFromPlaylist } from "@features/playlists/hooks/useRemoveSongsFromPlaylist"
 
@@ -93,29 +91,15 @@ const SongActionsContent = memo(
     const router = useRouter()
     const pathname = usePathname()
 
-    const {
-      playerSheetRef,
-      loadTracks,
-      play,
-      pause,
-      currentTrack,
-      playbackState,
-      isTrackLoading,
-      addToQueue,
-      removeFromQueue
-    } = usePlayerStore(
-      useShallow((state) => ({
-        playerSheetRef: state.playerSheetRef,
-        loadTracks: state.loadTracks,
-        play: state.play,
-        pause: state.pause,
-        currentTrack: state.currentTrack,
-        playbackState: state.playbackState,
-        isTrackLoading: state.isTrackLoading,
-        addToQueue: state.addToQueue,
-        removeFromQueue: state.removeFromQueue
-      }))
-    )
+    const playerSheetRef = usePlayerStore((state) => state.playerSheetRef)
+    const currentTrack = usePlayerStore((state) => state.currentTrack)
+    const playbackState = usePlayerStore((state) => state.playbackState)
+    const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+    const loadTracks = usePlayerStore((state) => state.loadTracks)
+    const play = usePlayerStore((state) => state.play)
+    const pause = usePlayerStore((state) => state.pause)
+    const addToQueue = usePlayerStore((state) => state.addToQueue)
+    const removeFromQueue = usePlayerStore((state) => state.removeFromQueue)
 
     const toggleFavoriteMutation = useToggleSongFavorite()
     const removeFromPlaylistMutation = useRemoveSongsFromPlaylist()

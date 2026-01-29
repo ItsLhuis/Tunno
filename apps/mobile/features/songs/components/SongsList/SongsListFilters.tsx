@@ -6,8 +6,6 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSongsStore } from "../../stores/useSongsStore"
 
 import { formatFilterDate, formatTime, parseTime } from "@repo/utils"
@@ -53,15 +51,11 @@ const SongsListFilters = () => {
   const [playedAfterOpen, setPlayedAfterOpen] = useState(false)
   const [playedBeforeOpen, setPlayedBeforeOpen] = useState(false)
 
-  const { filters, orderBy, setFilters, clearFilters, setOrderBy } = useSongsStore(
-    useShallow((state) => ({
-      filters: state.filters,
-      orderBy: state.orderBy,
-      setFilters: state.setFilters,
-      clearFilters: state.clearFilters,
-      setOrderBy: state.setOrderBy
-    }))
-  )
+  const filters = useSongsStore((state) => state.filters)
+  const orderBy = useSongsStore((state) => state.orderBy)
+  const setFilters = useSongsStore((state) => state.setFilters)
+  const clearFilters = useSongsStore((state) => state.clearFilters)
+  const setOrderBy = useSongsStore((state) => state.setOrderBy)
 
   const defaultOrderBy = { column: "createdAt", direction: "desc" }
   const isOrderByDefault =

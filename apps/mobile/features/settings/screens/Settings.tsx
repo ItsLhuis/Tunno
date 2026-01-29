@@ -1,3 +1,5 @@
+import { useCallback } from "react"
+
 import { View } from "react-native"
 
 import { useRouter } from "expo-router"
@@ -14,7 +16,8 @@ import {
   Pressable,
   ScrollViewWithHeaders,
   Text,
-  type IconProps
+  type IconProps,
+  type ScrollHeaderProps
 } from "@components/ui"
 
 type SettingsItem = {
@@ -66,28 +69,38 @@ const Settings = () => {
 
   const router = useRouter()
 
+  const HeaderComponent = useCallback(
+    ({ scrollY, showHeader }: ScrollHeaderProps) => (
+      <Header
+        scrollY={scrollY}
+        showHeader={showHeader}
+        headerCenter={
+          <Text weight="semibold" numberOfLines={1}>
+            {t("settings.title")}
+          </Text>
+        }
+        headerLeft={<BackButton />}
+      />
+    ),
+    [t]
+  )
+
+  const LargeHeaderComponent = useCallback(
+    () => (
+      <LargeHeader>
+        <Text variant="h1" numberOfLines={1}>
+          {t("settings.title")}
+        </Text>
+      </LargeHeader>
+    ),
+    [t]
+  )
+
   return (
     <View style={styles.container}>
       <ScrollViewWithHeaders
-        HeaderComponent={({ scrollY, showHeader }) => (
-          <Header
-            scrollY={scrollY}
-            showHeader={showHeader}
-            headerCenter={
-              <Text weight="semibold" numberOfLines={1}>
-                {t("settings.title")}
-              </Text>
-            }
-            headerLeft={<BackButton />}
-          />
-        )}
-        LargeHeaderComponent={() => (
-          <LargeHeader>
-            <Text variant="h1" numberOfLines={1}>
-              {t("settings.title")}
-            </Text>
-          </LargeHeader>
-        )}
+        HeaderComponent={HeaderComponent}
+        LargeHeaderComponent={LargeHeaderComponent}
         contentContainerStyle={styles.contentContainer}
       >
         <View style={styles.itemsContainer}>

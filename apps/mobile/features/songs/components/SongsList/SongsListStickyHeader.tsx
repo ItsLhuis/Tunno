@@ -6,8 +6,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useRouter } from "expo-router"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { FadingView, Header, IconButton, Text, type HeaderProps } from "@components/ui"
@@ -28,12 +26,8 @@ const SongsListStickyHeader = ({
 
   const { t } = useTranslation()
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || allSongIds.length === 0) return

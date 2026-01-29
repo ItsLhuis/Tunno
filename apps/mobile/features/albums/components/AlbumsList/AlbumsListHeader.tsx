@@ -4,8 +4,6 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useAlbumsStore } from "../../stores/useAlbumsStore"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -23,19 +21,11 @@ const AlbumsListHeader = ({ allAlbumIds }: AlbumsListHeaderProps) => {
 
   const { t } = useTranslation()
 
-  const { viewMode, setViewMode } = useAlbumsStore(
-    useShallow((state) => ({
-      viewMode: state.viewMode,
-      setViewMode: state.setViewMode
-    }))
-  )
+  const viewMode = useAlbumsStore((state) => state.viewMode)
+  const setViewMode = useAlbumsStore((state) => state.setViewMode)
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const { data: allSongIds, isLoading } = useFetchSongIdsByAlbumIds(allAlbumIds)
 

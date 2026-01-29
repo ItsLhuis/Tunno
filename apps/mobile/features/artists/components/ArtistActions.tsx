@@ -8,8 +8,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { usePathname, useRouter } from "expo-router"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchArtistByIdWithSongs } from "../hooks/useFetchArtistByIdWithSongs"
@@ -85,15 +83,11 @@ const ArtistActionsContent = memo(
     const router = useRouter()
     const pathname = usePathname()
 
-    const { playerSheetRef, loadTracks, play, isTrackLoading, addToQueue } = usePlayerStore(
-      useShallow((state) => ({
-        playerSheetRef: state.playerSheetRef,
-        loadTracks: state.loadTracks,
-        play: state.play,
-        isTrackLoading: state.isTrackLoading,
-        addToQueue: state.addToQueue
-      }))
-    )
+    const playerSheetRef = usePlayerStore((state) => state.playerSheetRef)
+    const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+    const loadTracks = usePlayerStore((state) => state.loadTracks)
+    const play = usePlayerStore((state) => state.play)
+    const addToQueue = usePlayerStore((state) => state.addToQueue)
 
     const toggleFavoriteMutation = useToggleArtistFavorite()
 

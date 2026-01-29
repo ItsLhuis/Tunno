@@ -6,8 +6,6 @@ import { useTranslation } from "@repo/i18n"
 
 import { useRouter } from "expo-router"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useFetchSongIdsByAlbumIds } from "@features/songs/hooks/useFetchSongIdsByAlbumIds"
@@ -30,12 +28,8 @@ const AlbumsListStickyHeader = ({
 
   const { t } = useTranslation()
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const { data: allSongIds, isLoading } = useFetchSongIdsByAlbumIds(allAlbumIds)
 

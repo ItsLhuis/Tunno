@@ -7,8 +7,6 @@ import { albumKeys, invalidateQueries, isCustomError } from "@repo/api"
 import { getSongByIdWithMainRelations } from "../../songs/api/queries"
 import { updateAlbum } from "../api/mutations"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { toast } from "@components/ui"
@@ -48,12 +46,8 @@ export function useUpdateAlbum() {
 
   const { t } = useTranslation()
 
-  const { currentTrackId, updateTrackMetadata } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrackId: state.currentTrackId,
-      updateTrackMetadata: state.updateTrackMetadata
-    }))
-  )
+  const currentTrackId = usePlayerStore((state) => state.currentTrackId)
+  const updateTrackMetadata = usePlayerStore((state) => state.updateTrackMetadata)
 
   return useMutation({
     mutationFn: ({

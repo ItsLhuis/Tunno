@@ -4,8 +4,6 @@ import { createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSongsStore } from "../../stores/useSongsStore"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
@@ -21,19 +19,11 @@ const SongsListHeader = ({ allSongIds }: SongsListHeaderProps) => {
 
   const { t } = useTranslation()
 
-  const { viewMode, setViewMode } = useSongsStore(
-    useShallow((state) => ({
-      viewMode: state.viewMode,
-      setViewMode: state.setViewMode
-    }))
-  )
+  const viewMode = useSongsStore((state) => state.viewMode)
+  const setViewMode = useSongsStore((state) => state.setViewMode)
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || allSongIds.length === 0) return

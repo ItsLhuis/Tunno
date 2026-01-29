@@ -4,8 +4,6 @@ import { createStyleSheet, imageStyle, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { AnimatedText, Thumbnail } from "@components/ui"
@@ -15,11 +13,7 @@ const TrackInfo = () => {
 
   const { t } = useTranslation()
 
-  const { currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   const artistsText =
     currentTrack?.artists && currentTrack.artists.length > 0

@@ -2,8 +2,6 @@ import { View } from "react-native"
 
 import { createStyleSheet, ScopedPalette, spacingTokens, useStyles, viewStyle } from "@styles"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import {
@@ -35,12 +33,8 @@ const BottomPlayer = () => {
 
   const resetHeight = useResetBottomPlayerHeight()
 
-  const { playerSheetRef, currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      playerSheetRef: state.playerSheetRef,
-      currentTrack: state.currentTrack
-    }))
-  )
+  const playerSheetRef = usePlayerStore((state) => state.playerSheetRef)
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   const thumbnailUri = useThumbnailUri({ fileName: currentTrack?.thumbnail })
 

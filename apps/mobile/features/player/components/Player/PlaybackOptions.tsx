@@ -2,8 +2,6 @@ import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useRouter } from "expo-router"
@@ -15,12 +13,8 @@ const PlaybackOptions = () => {
 
   const router = useRouter()
 
-  const { playerSheetRef, currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      playerSheetRef: state.playerSheetRef,
-      currentTrack: state.currentTrack
-    }))
-  )
+  const playerSheetRef = usePlayerStore((state) => state.playerSheetRef)
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   const handleLyricsPress = () => {
     playerSheetRef?.dismiss()

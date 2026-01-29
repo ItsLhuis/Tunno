@@ -4,8 +4,6 @@ import { createStyleSheet, imageStyle, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useToggleSongFavorite } from "@features/songs/hooks/useToggleSongFavorite"
@@ -17,11 +15,7 @@ const TrackInfo = () => {
 
   const { t } = useTranslation()
 
-  const { currentTrack } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
 
   const toggleFavoriteMutation = useToggleSongFavorite()
 

@@ -2,8 +2,6 @@ import { View } from "react-native"
 
 import { createStyleSheet, ScopedPalette, useStyles } from "@styles"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
@@ -32,12 +30,8 @@ const PlaylistInfoStickyHeader = ({
 
   const { palette, dominantColor } = useImageColorAndPalette({ imageUri: thumbnailUri })
 
-  const { shuffleAndPlay, isShuffling } = usePlayerStore(
-    useShallow((state) => ({
-      shuffleAndPlay: state.shuffleAndPlay,
-      isShuffling: state.isShuffling
-    }))
-  )
+  const isShuffling = usePlayerStore((state) => state.isShuffling)
+  const shuffleAndPlay = usePlayerStore((state) => state.shuffleAndPlay)
 
   const handleShuffleAndPlay = () => {
     if (isShuffling || songIds.length === 0) return

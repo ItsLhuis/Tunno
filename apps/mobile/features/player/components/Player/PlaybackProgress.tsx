@@ -4,8 +4,6 @@ import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { formatTime } from "@repo/utils"
@@ -17,19 +15,14 @@ import { State } from "react-native-track-player"
 const PlaybackProgress = () => {
   const styles = useStyles(playbackProgressStyles)
 
-  const { play, pause, playbackState, position, duration, seekTo, isTrackLoading, currentTrack } =
-    usePlayerStore(
-      useShallow((state) => ({
-        play: state.play,
-        pause: state.pause,
-        playbackState: state.playbackState,
-        position: state.position,
-        duration: state.duration,
-        seekTo: state.seekTo,
-        isTrackLoading: state.isTrackLoading,
-        currentTrack: state.currentTrack
-      }))
-    )
+  const playbackState = usePlayerStore((state) => state.playbackState)
+  const position = usePlayerStore((state) => state.position)
+  const duration = usePlayerStore((state) => state.duration)
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
+  const play = usePlayerStore((state) => state.play)
+  const pause = usePlayerStore((state) => state.pause)
+  const seekTo = usePlayerStore((state) => state.seekTo)
 
   const [wasPlaying, setWasPlaying] = useState(false)
   const [isDragging, setIsDragging] = useState(false)

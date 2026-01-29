@@ -2,8 +2,6 @@ import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { AnimatedIconButton } from "@components/ui"
@@ -13,27 +11,14 @@ import { State } from "react-native-track-player"
 const PlaybackControls = () => {
   const styles = useStyles(playbackControlsStyles)
 
-  const {
-    play,
-    pause,
-    playNext,
-    playbackState,
-    isTrackLoading,
-    currentTrack,
-    canPlayNext,
-    isTransitioning
-  } = usePlayerStore(
-    useShallow((state) => ({
-      play: state.play,
-      pause: state.pause,
-      playNext: state.playNext,
-      playbackState: state.playbackState,
-      isTrackLoading: state.isTrackLoading,
-      currentTrack: state.currentTrack,
-      canPlayNext: state.canPlayNext,
-      isTransitioning: state.isTransitioning
-    }))
-  )
+  const playbackState = usePlayerStore((state) => state.playbackState)
+  const isTrackLoading = usePlayerStore((state) => state.isTrackLoading)
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
+  const canPlayNext = usePlayerStore((state) => state.canPlayNext)
+  const isTransitioning = usePlayerStore((state) => state.isTransitioning)
+  const play = usePlayerStore((state) => state.play)
+  const pause = usePlayerStore((state) => state.pause)
+  const playNext = usePlayerStore((state) => state.playNext)
 
   const isPlaying = playbackState === State.Playing
   const canPlay = currentTrack !== null && !isTrackLoading

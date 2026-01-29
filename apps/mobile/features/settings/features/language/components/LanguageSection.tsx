@@ -1,7 +1,5 @@
 import { createStyleSheet, useStyles } from "@styles"
 
-import { useShallow } from "zustand/shallow"
-
 import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { useTranslation, type LocaleKeys } from "@repo/i18n"
@@ -25,12 +23,8 @@ const LanguageSection = () => {
 
   const { t, i18n, locales } = useTranslation()
 
-  const { setLanguage, language } = useSettingsStore(
-    useShallow((state) => ({
-      setLanguage: state.setLanguage,
-      language: state.language
-    }))
-  )
+  const language = useSettingsStore((state) => state.language)
+  const setLanguage = useSettingsStore((state) => state.setLanguage)
 
   const settings: (SettingButtonProps & { key: string })[] = [
     {

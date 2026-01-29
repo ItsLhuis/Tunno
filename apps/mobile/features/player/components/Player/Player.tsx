@@ -6,8 +6,6 @@ import { AnimatedScopedPalette, createStyleSheet, useStyles } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "../../stores/usePlayerStore"
 
 import { useImageColorAndPalette } from "@hooks/useImageColorAndPalette"
@@ -38,12 +36,8 @@ const Player = () => {
 
   const sheetRef = useRef<BottomSheetRef>(null)
 
-  const { currentTrack, setPlayerSheetRef } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrack: state.currentTrack,
-      setPlayerSheetRef: state.setPlayerSheetRef
-    }))
-  )
+  const currentTrack = usePlayerStore((state) => state.currentTrack)
+  const setPlayerSheetRef = usePlayerStore((state) => state.setPlayerSheetRef)
 
   const thumbnailUri = useThumbnailUri({ fileName: currentTrack?.thumbnail })
 

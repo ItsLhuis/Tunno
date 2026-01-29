@@ -4,8 +4,6 @@ import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { useBottomPlayerHeight } from "@features/player/contexts/BottomPlayerLayoutContext"
 
-import { useShallow } from "zustand/shallow"
-
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
 import { KeyboardSpacer, LyricsReader, NotFound, type ScrollHeaderProps } from "@components/ui"
@@ -18,14 +16,10 @@ const LyricsScreen = () => {
 
   const bottomPlayerHeight = useBottomPlayerHeight()
 
-  const { currentTrackId, seekTo, cachedSongs, position } = usePlayerStore(
-    useShallow((state) => ({
-      currentTrackId: state.currentTrackId,
-      seekTo: state.seekTo,
-      cachedSongs: state.cachedSongs,
-      position: state.position
-    }))
-  )
+  const currentTrackId = usePlayerStore((state) => state.currentTrackId)
+  const seekTo = usePlayerStore((state) => state.seekTo)
+  const cachedSongs = usePlayerStore((state) => state.cachedSongs)
+  const position = usePlayerStore((state) => state.position)
 
   const currentSong = useMemo(
     () => (currentTrackId ? cachedSongs.get(currentTrackId) : undefined),
