@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useMemo, useRef, useState } from "react"
 
 import { type LayoutChangeEvent, type NativeScrollEvent } from "react-native"
 
@@ -6,6 +6,7 @@ import Animated, {
   AnimatedRef,
   interpolate,
   scrollTo,
+  useAnimatedReaction,
   useAnimatedScrollHandler,
   useDerivedValue,
   useSharedValue,
@@ -67,18 +68,21 @@ export function useScroll<T = any>({
 
     if (largeHeaderHeight.value < adjustmentOffset) return 0
 
-    if (largeHeaderShown) {
-      largeHeaderShown.value = withTiming(
-        scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
-        { duration: 300 }
-      )
-    }
-
     return withTiming(
       scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
       { duration: 300 }
     )
-  }, [largeHeaderExists])
+  }, [largeHeaderExists, adjustmentOffset, headerFadeInThreshold])
+
+  useAnimatedReaction(
+    () => showHeader.value,
+    (current) => {
+      if (largeHeaderShown) {
+        largeHeaderShown.value = current
+      }
+    },
+    [largeHeaderShown]
+  )
 
   const largeHeaderOpacity = useDerivedValue(() => {
     return interpolate(showHeader.value, [0, 1], [1, 0])
@@ -102,22 +106,27 @@ export function useScroll<T = any>({
     [scrollRef]
   )
 
+  const scrollYRef = useRef(scrollY)
+  const largeHeaderHeightRef = useRef(largeHeaderHeight)
+  scrollYRef.current = scrollY
+  largeHeaderHeightRef.current = largeHeaderHeight
+
   const debouncedFixScroll = useMemo(() => {
     return debounce(() => {
       if (disableAutoFixScroll) return
 
-      if (largeHeaderHeight.value !== 0 && scrollRef && scrollRef.current) {
-        if (
-          scrollY.value >= largeHeaderHeight.value / 2 &&
-          scrollY.value < largeHeaderHeight.value
-        ) {
-          scrollToPosition(largeHeaderHeight.value, true)
-        } else if (scrollY.value >= 0 && scrollY.value < largeHeaderHeight.value / 2) {
+      const currentScrollY = scrollYRef.current.value
+      const headerHeight = largeHeaderHeightRef.current.value
+
+      if (headerHeight !== 0 && scrollRef?.current) {
+        if (currentScrollY >= headerHeight / 2 && currentScrollY < headerHeight) {
+          scrollToPosition(headerHeight, true)
+        } else if (currentScrollY >= 0 && currentScrollY < headerHeight / 2) {
           scrollToPosition(0, true)
         }
       }
     }, 50)
-  }, [disableAutoFixScroll, largeHeaderHeight, scrollY, scrollRef, scrollToPosition])
+  }, [disableAutoFixScroll, scrollRef, scrollToPosition])
 
   const onAbsoluteHeaderLayout = useCallback(
     (event: LayoutChangeEvent) => {

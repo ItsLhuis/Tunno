@@ -1,18 +1,31 @@
-import { useImperativeHandle, type ComponentClass, type ComponentProps, type Ref } from "react"
+import {
+  memo,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  type ComponentClass,
+  type ComponentProps,
+  type Ref
+} from "react"
 
-import { View } from "react-native"
+import { View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native"
 
 import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
 import { FlashList, type FlashListProps, type FlashListRef } from "@shopify/flash-list"
 
-import Animated, { useAnimatedRef, type AnimatedProps } from "react-native-reanimated"
+import Animated, {
+  useAnimatedRef,
+  type AnimatedProps,
+  type DerivedValue,
+  type SharedValue
+} from "react-native-reanimated"
 
 import { useScroll } from "./hooks"
 
 import { FadingView } from "./components"
 
-import { type SharedScrollContainerProps } from "./types"
+import { type ScrollHeaderProps, type SharedScrollContainerProps } from "./types"
 
 type AnimatedFlashListType<ItemT> = ComponentProps<
   ComponentClass<AnimatedProps<FlashListProps<ItemT>>, any>
@@ -27,6 +40,53 @@ const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as unknown
 export type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, "onScroll"> & {
   ref?: Ref<FlashListRef<ItemT>>
 }
+
+type ListHeaderProps = {
+  LargeHeaderComponent?: (props: ScrollHeaderProps) => React.ReactNode
+  LargeHeaderSubtitleComponent?: (props: ScrollHeaderProps) => React.ReactNode
+  largeHeaderContainerStyle?: any
+  disableLargeHeaderFadeAnim: boolean
+  largeHeaderOpacity: DerivedValue<number>
+  scrollY: SharedValue<number>
+  showHeader: DerivedValue<0 | 1>
+  onLayout: (event: {
+    nativeEvent: { layout: { height: number; width: number; x: number; y: number } }
+  }) => void
+}
+
+const ListHeader = memo(function ListHeader({
+  LargeHeaderComponent,
+  LargeHeaderSubtitleComponent,
+  largeHeaderContainerStyle,
+  disableLargeHeaderFadeAnim,
+  largeHeaderOpacity,
+  scrollY,
+  showHeader,
+  onLayout
+}: ListHeaderProps) {
+  if (!LargeHeaderComponent && !LargeHeaderSubtitleComponent) {
+    return null
+  }
+
+  return (
+    <View>
+      {LargeHeaderComponent && (
+        <View onLayout={onLayout}>
+          {!disableLargeHeaderFadeAnim ? (
+            <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+              {LargeHeaderComponent({ scrollY, showHeader })}
+            </FadingView>
+          ) : (
+            <View style={largeHeaderContainerStyle}>
+              {LargeHeaderComponent({ scrollY, showHeader })}
+            </View>
+          )}
+        </View>
+      )}
+      {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showHeader, scrollY })}
+    </View>
+  )
+})
 
 const FlashListWithHeaders = <ItemT extends any = any>({
   largeHeaderShown,
@@ -87,13 +147,98 @@ const FlashListWithHeaders = <ItemT extends any = any>({
     headerFadeInThreshold,
     onScrollWorklet
   })
+
+  const containerStyleMemo = useMemo(
+    () => [
+      styles.container(ignoreLeftSafeArea ?? false, ignoreRightSafeArea ?? false),
+      containerStyle
+    ],
+    [styles, ignoreLeftSafeArea, ignoreRightSafeArea, containerStyle]
+  )
+
+  const handleScrollBeginDrag = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      debouncedFixScroll.cancel()
+      onScrollBeginDrag?.(event)
+    },
+    [debouncedFixScroll, onScrollBeginDrag]
+  )
+
+  const handleScrollEndDrag = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      debouncedFixScroll()
+      onScrollEndDrag?.(event)
+    },
+    [debouncedFixScroll, onScrollEndDrag]
+  )
+
+  const handleMomentumScrollBegin = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      debouncedFixScroll.cancel()
+      onMomentumScrollBegin?.(event)
+    },
+    [debouncedFixScroll, onMomentumScrollBegin]
+  )
+
+  const handleMomentumScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      debouncedFixScroll()
+      onMomentumScrollEnd?.(event)
+    },
+    [debouncedFixScroll, onMomentumScrollEnd]
+  )
+
+  const handleLargeHeaderLayout = useCallback(
+    (event: {
+      nativeEvent: { layout: { height: number; width: number; x: number; y: number } }
+    }) => {
+      largeHeaderHeight.value = event.nativeEvent.layout.height
+      onLargeHeaderLayout?.(event.nativeEvent.layout)
+    },
+    [largeHeaderHeight, onLargeHeaderLayout]
+  )
+
+  const mergedScrollIndicatorInsets = useMemo(
+    () => ({
+      ...scrollViewAdjustments.scrollIndicatorInsets,
+      ...scrollIndicatorInsets
+    }),
+    [scrollViewAdjustments.scrollIndicatorInsets, scrollIndicatorInsets]
+  )
+
+  // Memoize content container style
+  const mergedContentContainerStyle = useMemo(
+    () => [scrollViewAdjustments.contentContainerStyle, contentContainerStyle],
+    [scrollViewAdjustments.contentContainerStyle, contentContainerStyle]
+  )
+
+  const ListHeaderComponentMemo = useMemo(
+    () => (
+      <ListHeader
+        LargeHeaderComponent={LargeHeaderComponent}
+        LargeHeaderSubtitleComponent={LargeHeaderSubtitleComponent}
+        largeHeaderContainerStyle={largeHeaderContainerStyle}
+        disableLargeHeaderFadeAnim={disableLargeHeaderFadeAnim}
+        largeHeaderOpacity={largeHeaderOpacity}
+        scrollY={scrollY}
+        showHeader={showHeader}
+        onLayout={handleLargeHeaderLayout}
+      />
+    ),
+    [
+      LargeHeaderComponent,
+      LargeHeaderSubtitleComponent,
+      largeHeaderContainerStyle,
+      disableLargeHeaderFadeAnim,
+      largeHeaderOpacity,
+      scrollY,
+      showHeader,
+      handleLargeHeaderLayout
+    ]
+  )
+
   return (
-    <View
-      style={[
-        styles.container(ignoreLeftSafeArea ?? false, ignoreRightSafeArea ?? false),
-        containerStyle
-      ]}
-    >
+    <View style={containerStyleMemo}>
       {!absoluteHeader && HeaderComponent({ showHeader, scrollY })}
       <AnimatedFlashList
         ref={scrollRef}
@@ -105,56 +250,19 @@ const FlashListWithHeaders = <ItemT extends any = any>({
         onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
         removeClippedSubviews
-        onScrollBeginDrag={(event) => {
-          debouncedFixScroll.cancel()
-          if (onScrollBeginDrag) onScrollBeginDrag(event)
-        }}
-        onScrollEndDrag={(event) => {
-          debouncedFixScroll()
-          if (onScrollEndDrag) onScrollEndDrag(event)
-        }}
-        onMomentumScrollBegin={(event) => {
-          debouncedFixScroll.cancel()
-          if (onMomentumScrollBegin) onMomentumScrollBegin(event)
-        }}
-        onMomentumScrollEnd={(event) => {
-          debouncedFixScroll()
-          if (onMomentumScrollEnd) onMomentumScrollEnd(event)
-        }}
-        contentContainerStyle={[scrollViewAdjustments.contentContainerStyle, contentContainerStyle]}
+        drawDistance={500}
+        onScrollBeginDrag={handleScrollBeginDrag}
+        onScrollEndDrag={handleScrollEndDrag}
+        onMomentumScrollBegin={handleMomentumScrollBegin}
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+        contentContainerStyle={mergedContentContainerStyle}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
             ? automaticallyAdjustsScrollIndicatorInsets
             : !absoluteHeader
         }
-        scrollIndicatorInsets={{
-          ...scrollViewAdjustments.scrollIndicatorInsets,
-          ...scrollIndicatorInsets
-        }}
-        ListHeaderComponent={
-          <View>
-            {LargeHeaderComponent && (
-              <View
-                onLayout={(event) => {
-                  largeHeaderHeight.value = event.nativeEvent.layout.height
-
-                  if (onLargeHeaderLayout) onLargeHeaderLayout(event.nativeEvent.layout)
-                }}
-              >
-                {!disableLargeHeaderFadeAnim ? (
-                  <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                    {LargeHeaderComponent({ scrollY, showHeader })}
-                  </FadingView>
-                ) : (
-                  <View style={largeHeaderContainerStyle}>
-                    {LargeHeaderComponent({ scrollY, showHeader })}
-                  </View>
-                )}
-              </View>
-            )}
-            {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showHeader, scrollY })}
-          </View>
-        }
+        scrollIndicatorInsets={mergedScrollIndicatorInsets}
+        ListHeaderComponent={ListHeaderComponentMemo}
         {...props}
       />
       {absoluteHeader && (
