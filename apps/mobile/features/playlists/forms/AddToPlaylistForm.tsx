@@ -1,8 +1,8 @@
-import { memo, useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
 
 import { FlatList, View } from "react-native"
 
-import { createStyleSheet, useRuntime, useStyles, viewStyle } from "@styles"
+import { createStyleSheet, spacingTokens, useRuntime, useStyles, viewStyle } from "@styles"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -39,27 +39,9 @@ import {
   Spinner
 } from "@components/ui"
 
-import { type Playlist } from "@repo/api"
 import { PlaylistItemSelect } from "../components/PlaylistItem"
 
-const MemoizedPlaylistItem = memo(function MemoizedPlaylistItem({
-  playlist,
-  selected,
-  onToggle,
-  isLast
-}: {
-  playlist: Playlist
-  selected: boolean
-  onToggle: () => void
-  isLast: boolean
-}) {
-  const styles = useStyles(addToPlaylistFormStyles)
-  return (
-    <View style={styles.listItem(isLast)}>
-      <PlaylistItemSelect playlist={playlist} selected={selected} onToggle={onToggle} />
-    </View>
-  )
-})
+import { type Playlist } from "@repo/api"
 
 export type AddToPlaylistFormRenderProps = {
   isSubmitting: boolean
@@ -237,27 +219,34 @@ const AddToPlaylistForm = ({
     return playlists.slice(startIndex, endIndex)
   }, [playlists, currentPage, itemsPerPage])
 
+  const playlistItemStyles = useMemo(() => {
+    return paginatedData.map((_, index) => {
+      const isLastItem = index === paginatedData.length - 1
+      return viewStyle({
+        marginBottom: isLastItem ? 0 : spacingTokens.md
+      })
+    })
+  }, [paginatedData.length])
+
   const totalPages = Math.ceil((playlists?.length ?? 0) / itemsPerPage)
 
   const keyExtractor = useCallback((item: Playlist) => item.id.toString(), [])
 
-  const paginatedDataLength = paginatedData.length
-
   const renderItem = useCallback(
     ({ item, index }: { item: Playlist; index: number }) => {
       const isSelected = selectedIds.has(item.id)
-      const isLastItem = index === paginatedDataLength - 1
 
       return (
-        <MemoizedPlaylistItem
-          playlist={item}
-          selected={isSelected}
-          onToggle={() => handleToggle(item.id)}
-          isLast={isLastItem}
-        />
+        <View style={playlistItemStyles[index]}>
+          <PlaylistItemSelect
+            playlist={item}
+            selected={isSelected}
+            onToggle={() => handleToggle(item.id)}
+          />
+        </View>
       )
     },
-    [selectedIds, handleToggle, paginatedDataLength]
+    [selectedIds, handleToggle, playlistItemStyles]
   )
 
   const SearchInputContent = (
@@ -393,10 +382,6 @@ const addToPlaylistFormStyles = createStyleSheet(({ theme, runtime }) => ({
     flexGrow: 1,
     padding: theme.space(3)
   },
-  listItem: (isLast: boolean) =>
-    viewStyle({
-      marginBottom: isLast ? 0 : theme.space(2)
-    }),
   loadingContainer: {
     flex: 1,
     alignItems: "center",
