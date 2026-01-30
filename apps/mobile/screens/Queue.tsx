@@ -2,7 +2,7 @@ import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
-import { QueueScreen } from "@features/queue"
+import { QueueScreen } from "@features/queue/components"
 
 const Queue = () => {
   const styles = useStyles(queueStyles)
