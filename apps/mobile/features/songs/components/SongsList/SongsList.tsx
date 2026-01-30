@@ -213,7 +213,7 @@ const SongsList = () => {
 
   const contentContainerStyleMemo = useMemo(
     () => styles.contentContainer(bottomPlayerHeight),
-    [styles, bottomPlayerHeight]
+    [bottomPlayerHeight]
   )
 
   return (

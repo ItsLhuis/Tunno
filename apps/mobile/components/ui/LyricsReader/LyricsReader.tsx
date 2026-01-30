@@ -89,6 +89,24 @@ const LyricsReader = ({
 
   const keyExtractor = useCallback((_: Lyric, index: number) => String(index), [])
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: Lyric; index: number }) => {
+      const isActive = index === filteredActiveIndex
+
+      return (
+        <LyricLine
+          lyric={item}
+          isActive={isActive}
+          onPress={() => {
+            onSeek(item.startTime)
+            enableStick()
+          }}
+        />
+      )
+    },
+    [filteredActiveIndex, onSeek, enableStick]
+  )
+
   return (
     <View style={styles.container}>
       <FlatListWithHeaders
@@ -100,20 +118,7 @@ const LyricsReader = ({
         onMomentumScrollEnd={handleMomentumScrollEnd}
         contentContainerStyle={contentContainerStyle}
         ListEmptyComponent={props.ListEmptyComponent ?? <NotFound />}
-        renderItem={({ item, index }) => {
-          const isActive = index === filteredActiveIndex
-
-          return (
-            <LyricLine
-              lyric={item}
-              isActive={isActive}
-              onPress={() => {
-                onSeek(item.startTime)
-                enableStick()
-              }}
-            />
-          )
-        }}
+        renderItem={renderItem}
         {...props}
       />
       <Fade show={enabled && !isStuck} style={styles.syncButtonContainer}>

@@ -224,7 +224,7 @@ const PlaylistsList = () => {
 
   const contentContainerStyleMemo = useMemo(
     () => styles.contentContainer(bottomPlayerHeight),
-    [styles, bottomPlayerHeight]
+    [bottomPlayerHeight]
   )
 
   return (
