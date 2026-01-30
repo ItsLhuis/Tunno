@@ -23,6 +23,8 @@ import { useTranslation } from "@repo/i18n"
 
 import { createSelectionManager, useSelection } from "@repo/utils"
 
+import { debounce } from "lodash"
+
 import * as SelectPrimitive from "@radix-ui/react-select"
 
 import { Badge, badgeVariants } from "@components/ui/Badge"
@@ -41,6 +43,7 @@ import { Icon } from "@components/ui/Icon"
 import { ScrollArea } from "@components/ui/ScrollArea"
 import { Separator } from "@components/ui/Separator"
 import { Spinner } from "@components/ui/Spinner"
+import { TextInput } from "@components/ui/TextInput"
 import { Typography } from "@components/ui/Typography"
 
 const Select = ({ ...props }: ComponentProps<typeof SelectPrimitive.Root>) => (
@@ -228,6 +231,9 @@ type VirtualizedSelectBaseProps = Omit<ComponentProps<"button">, "onSelect"> &
     maxHeight?: number
     minWidth?: number
     overscan?: number
+    searchable?: boolean
+    searchPlaceholder?: string
+    onSearchChange?: (value: string) => void
   }
 
 type VirtualizedSelectSingleProps = VirtualizedSelectBaseProps & {
@@ -263,11 +269,35 @@ const VirtualizedSelect = ({
   maxHeight = 300,
   minWidth = 200,
   overscan = 5,
+  searchable = false,
+  searchPlaceholder,
+  onSearchChange,
   ...props
 }: VirtualizedSelectProps) => {
   const { t } = useTranslation()
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+
+  const [searchTerm, setSearchTerm] = useState("")
+
+  const debouncedOnSearchChange = useMemo(
+    () => (onSearchChange ? debounce(onSearchChange, 300) : undefined),
+    [onSearchChange]
+  )
+
+  useEffect(() => {
+    return () => {
+      debouncedOnSearchChange?.cancel()
+    }
+  }, [debouncedOnSearchChange])
+
+  useEffect(() => {
+    if (!isPopoverOpen && searchTerm) {
+      setSearchTerm("")
+      debouncedOnSearchChange?.cancel()
+      onSearchChange?.("")
+    }
+  }, [isPopoverOpen])
 
   const keyExtractor = useCallback((option: VirtualizedSelectOption) => option.value, [])
 
@@ -574,6 +604,23 @@ const VirtualizedSelect = ({
             </div>
           ) : (
             <div className={cn("flex flex-col", popoverClassName)}>
+              {searchable && (
+                <Fragment>
+                  <div className="px-2 py-2">
+                    <TextInput
+                      placeholder={searchPlaceholder ?? t("common.search")}
+                      value={searchTerm}
+                      onChange={(e) => {
+                        const newValue = e.target.value
+                        setSearchTerm(newValue)
+                        debouncedOnSearchChange?.(newValue)
+                      }}
+                      autoFocus
+                    />
+                  </div>
+                  <DropdownMenuSeparator />
+                </Fragment>
+              )}
               {multiple && (
                 <Fragment>
                   <DropdownMenuItem
