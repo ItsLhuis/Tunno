@@ -98,6 +98,9 @@ const SongForm = ({
 
   const [internalOpen, setInternalOpen] = useState(false)
 
+  const [artistSearchTerm, setArtistSearchTerm] = useState("")
+  const [albumSearchTerm, setAlbumSearchTerm] = useState("")
+
   const hasResetFormRef = useRef(false)
   const hasLoadedInitialDataRef = useRef(false)
 
@@ -136,12 +139,14 @@ const SongForm = ({
   const selectedArtistIds = form.watch("artists")
 
   const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
+    filters: artistSearchTerm ? { search: artistSearchTerm } : undefined,
     orderBy: { column: "name", direction: "asc" }
   })
 
   const { data: albumsData, isLoading: isAlbumsLoading } = useFetchAlbumsByArtistsWithArtists(
     selectedArtistIds?.length ? selectedArtistIds : [],
     {
+      filters: albumSearchTerm ? { search: albumSearchTerm } : undefined,
       orderBy: { column: "name", direction: "asc" }
     }
   )
@@ -192,6 +197,8 @@ const SongForm = ({
       form.reset()
       hasResetFormRef.current = false
       hasLoadedInitialDataRef.current = false
+      setArtistSearchTerm("")
+      setAlbumSearchTerm("")
     }
   }, [isOpen, asModal])
 
@@ -450,6 +457,8 @@ const SongForm = ({
                         }
                       }}
                       disabled={renderProps.isSubmitting}
+                      searchable
+                      onSearchChange={setArtistSearchTerm}
                     />
                   </FormControl>
                   <FormMessage />
@@ -475,6 +484,8 @@ const SongForm = ({
                           minWidth={300}
                           maxHeight={200}
                           disabled={renderProps.isSubmitting}
+                          searchable
+                          onSearchChange={setAlbumSearchTerm}
                         />
                       </FormControl>
                       <FormMessage />

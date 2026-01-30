@@ -100,6 +100,8 @@ const AlbumForm = ({
 
   const [internalOpen, setInternalOpen] = useState(false)
 
+  const [artistSearchTerm, setArtistSearchTerm] = useState("")
+
   const hasResetFormRef = useRef(false)
 
   const isOpen = open !== undefined ? open : internalOpen
@@ -132,6 +134,7 @@ const AlbumForm = ({
   })
 
   const { data: artistsData, isLoading: isArtistsLoading } = useFetchArtists({
+    filters: artistSearchTerm ? { search: artistSearchTerm } : undefined,
     orderBy: { column: "name", direction: "asc" }
   })
 
@@ -170,6 +173,7 @@ const AlbumForm = ({
     if (!isOpen && asModal && form.formState.isDirty && !form.formState.isSubmitSuccessful) {
       form.reset()
       hasResetFormRef.current = false
+      setArtistSearchTerm("")
     }
   }, [isOpen, asModal])
 
@@ -359,6 +363,8 @@ const AlbumForm = ({
                           field.onChange(newArtistIds)
                         }}
                         disabled={renderProps.isSubmitting}
+                        searchable
+                        onSearchChange={setArtistSearchTerm}
                       />
                     </FormControl>
                     <FormMessage />

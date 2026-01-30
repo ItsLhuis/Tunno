@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 
 import { cn } from "@lib/utils"
 
@@ -12,6 +12,8 @@ import { createAddToPlaylistSchema, type AddToPlaylistType } from "@repo/schemas
 import { useAddSongsToPlaylist } from "../hooks/useAddSongsToPlaylist"
 
 import { useFetchPlaylists } from "../hooks/useFetchPlaylists"
+
+import { debounce } from "lodash"
 
 import {
   AsyncState,
@@ -29,6 +31,7 @@ import {
   FormItem,
   FormMessage,
   ScrollArea,
+  TextInput,
   Typography,
   VirtualizedList,
   type VirtualizedListController
@@ -71,6 +74,9 @@ const AddToPlaylistForm = ({
 
   const [internalOpen, setInternalOpen] = useState(false)
 
+  const [searchTerm, setSearchTerm] = useState("")
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
+
   const isOpen = open !== undefined ? open : internalOpen
   const setIsOpen = onOpen || setInternalOpen
 
@@ -81,6 +87,7 @@ const AddToPlaylistForm = ({
     isLoading: isPlaylistsLoading,
     isError: isPlaylistsError
   } = useFetchPlaylists({
+    filters: debouncedSearchTerm ? { search: debouncedSearchTerm } : undefined,
     orderBy: { column: "name", direction: "asc" }
   })
 
@@ -94,6 +101,17 @@ const AddToPlaylistForm = ({
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const listControllerRef = useRef<VirtualizedListController<Playlist> | null>(null)
+
+  const debouncedSetSearchTerm = useMemo(
+    () => debounce((term: string) => setDebouncedSearchTerm(term), 300),
+    []
+  )
+
+  useEffect(() => {
+    return () => {
+      debouncedSetSearchTerm.cancel()
+    }
+  }, [debouncedSetSearchTerm])
 
   const handleFormSubmit = async (values: AddToPlaylistType) => {
     if (onSubmit) {
@@ -124,8 +142,17 @@ const AddToPlaylistForm = ({
     if (form.formState.isSubmitted && form.formState.isValid) {
       form.reset()
       listControllerRef.current?.clearSelection()
+      setSearchTerm("")
+      setDebouncedSearchTerm("")
     }
   }, [form.formState.isSubmitted, form.formState.isValid, form])
+
+  useEffect(() => {
+    if (!isOpen && asModal) {
+      setSearchTerm("")
+      setDebouncedSearchTerm("")
+    }
+  }, [isOpen, asModal])
 
   const renderProps = {
     isSubmitting: form.formState.isSubmitting || addSongsToPlaylistMutation.isPending,
@@ -195,11 +222,20 @@ const AddToPlaylistForm = ({
     >
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className="flex flex-col gap-0 p-0">
-        <DialogHeader className="shrink-0 border-b p-6">
+        <DialogHeader className="shrink-0 space-y-4 border-b p-6">
           <DialogTitle>{title ?? t("form.titles.addToPlaylist")}</DialogTitle>
+          <TextInput
+            placeholder={t("common.search")}
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value)
+              debouncedSetSearchTerm(e.target.value)
+            }}
+            disabled={renderProps.isSubmitting}
+          />
         </DialogHeader>
         <ScrollArea ref={scrollRef} className="flex max-h-full flex-col">
-          <div className={cn("p-3", playlists?.length === 0 && "p-9")}>{FormContent}</div>
+          <div className={cn(playlists?.length === 0 && "p-9")}>{FormContent}</div>
         </ScrollArea>
         <DialogFooter className="shrink-0 border-t p-6">
           <DialogClose asChild>
