@@ -91,7 +91,7 @@ export default function youtube(program: Command) {
             await download(item.id, {
               basicDownload: basic,
               extension: ext,
-              addMetadata: addMetadata
+              addMetadata
             })
 
             if (i < playlistItems.length - 1) {
@@ -117,7 +117,7 @@ export default function youtube(program: Command) {
         releaseYear: year,
         basicDownload: basic,
         extension: ext,
-        addMetadata: addMetadata,
+        addMetadata,
         spotifyId
       })
     })

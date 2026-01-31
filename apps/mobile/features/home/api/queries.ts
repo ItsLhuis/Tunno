@@ -62,7 +62,7 @@ export async function getQuickAccess(limit: number = 12): Promise<QuickAccess> {
   const items: QuickAccessItem[] = allItems
     .sort((a, b) => (b.lastPlayedAt?.getTime() ?? 0) - (a.lastPlayedAt?.getTime() ?? 0))
     .slice(0, limit)
-    .map(({ lastPlayedAt, ...item }) => item)
+    .map(({ lastPlayedAt: _lastPlayedAt, ...item }) => item)
 
   return {
     items,
@@ -436,7 +436,7 @@ export async function getRecentlyAdded(
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
     .slice(0, limit)
 
-  const items: RecentlyAddedItem[] = sortedItems.map(({ createdAt, ...item }) => item)
+  const items: RecentlyAddedItem[] = sortedItems.map(({ createdAt: _createdAt, ...item }) => item)
 
   const dates = sortedItems.map((item) => item.createdAt)
   const addedDateRange =

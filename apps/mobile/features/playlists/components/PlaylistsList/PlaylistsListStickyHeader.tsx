@@ -11,12 +11,10 @@ import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 import { FadingView, Header, IconButton, Text, type HeaderProps } from "@components/ui"
 
 type PlaylistsListStickyHeaderProps = {
-  allPlaylistIds: number[]
   allSongIds: number[]
 } & HeaderProps
 
 const PlaylistsListStickyHeader = ({
-  allPlaylistIds,
   allSongIds,
   scrollY,
   showHeader,

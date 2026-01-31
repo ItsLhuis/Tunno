@@ -183,7 +183,7 @@ export const download = async (
       fs.mkdirSync(videoDir, { recursive: true })
 
       const videoMetadata: Song = {
-        song: songUUID + "." + (options?.extension || (options?.basicDownload ? "m4a" : "opus")),
+        song: `${songUUID}.${options?.extension || (options?.basicDownload ? "m4a" : "opus")}`,
         title: track.title,
         thumbnail: "",
         duration: videoInfo.duration,
@@ -192,11 +192,11 @@ export const download = async (
         lyrics: lyrics ?? null
       }
 
-      const trackThumbnailUUID = uuid() + ".jpg"
+      const trackThumbnailUUID = `${uuid()}.jpg`
       await downloadThumbnail(track.album.thumbnail, path.join(videoDir, trackThumbnailUUID), 640)
       videoMetadata.thumbnail = trackThumbnailUUID
 
-      const albumThumbnailUUID = uuid() + ".jpg"
+      const albumThumbnailUUID = `${uuid()}.jpg`
       await downloadThumbnail(track.album.thumbnail, path.join(videoDir, albumThumbnailUUID), 640)
       videoMetadata.album.thumbnail = albumThumbnailUUID
 
@@ -204,7 +204,7 @@ export const download = async (
 
       for (const artist of track.artists) {
         if (artist.thumbnail) {
-          const artistThumbnailUUID = uuid() + ".jpg"
+          const artistThumbnailUUID = `${uuid()}.jpg`
           await downloadThumbnail(artist.thumbnail, path.join(videoDir, artistThumbnailUUID), 640)
 
           artistThumbnailMap[artist.name] = artistThumbnailUUID
@@ -229,7 +229,7 @@ export const download = async (
         if (found) {
           albumArtist.thumbnail = found
         } else if (albumArtist.thumbnail) {
-          const albumArtistThumbnailUUID = uuid() + ".jpg"
+          const albumArtistThumbnailUUID = `${uuid()}.jpg`
           await downloadThumbnail(
             albumArtist.thumbnail,
             path.join(videoDir, albumArtistThumbnailUUID),

@@ -242,7 +242,7 @@ export async function fileToBase64DataUri(fileUri: string): Promise<string | nul
     const mimeType = mimeTypes[extension ?? ""] ?? "image/jpeg"
 
     return `data:${mimeType};base64,${base64String}`
-  } catch (error) {
+  } catch {
     return null
   }
 }

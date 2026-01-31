@@ -18,6 +18,7 @@
     "check-deps": "expo install --check",
     "fix-deps": "expo install --fix",
     "eas-build-post-install": "turbo run build --filter='@repo/*'",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "version:patch": "tsx ../../scripts/bump-version.ts patch",
     "version:minor": "tsx ../../scripts/bump-version.ts minor",

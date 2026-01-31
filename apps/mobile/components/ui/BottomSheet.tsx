@@ -66,7 +66,6 @@ export type BottomSheetProps = BottomSheetModalProps & {
   ref?: Ref<BottomSheetModal>
   backgroundStyle?: StyleProp<Omit<ViewStyle, "position" | "top" | "left" | "bottom" | "right">>
   handleIndicatorStyle?: StyleProp<ViewStyle>
-  containerViewStyle?: StyleProp<ViewStyle>
   inheritPalette?: boolean
   children: ReactNode
 }
@@ -75,7 +74,6 @@ const BottomSheet = ({
   snapPoints,
   backgroundStyle,
   handleIndicatorStyle,
-  containerViewStyle,
   topInset,
   bottomInset,
   children,

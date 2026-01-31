@@ -31,7 +31,6 @@ const VirtualizedList = <TItem,>({
     "2xl": 6
   },
   gap = 0,
-  minItemWidth,
   containerClassName,
   rowClassName = "",
   rowStyle = {},
@@ -43,7 +42,6 @@ const VirtualizedList = <TItem,>({
   onEndReached,
   onEndReachedThreshold = 0.1,
   scrollRef: externalScrollRef,
-  className,
   ...props
 }: VirtualizedListProps<TItem>) => {
   const internalScrollRef = useRef<HTMLDivElement | null>(null)

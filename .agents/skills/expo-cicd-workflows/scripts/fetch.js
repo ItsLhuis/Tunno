@@ -11,7 +11,7 @@ const DEFAULT_TTL_SECONDS = 15 * 60 // 15 minutes
 export async function fetchCached(url) {
   await mkdir(CACHE_DIRECTORY, { recursive: true })
 
-  const cacheFile = resolve(CACHE_DIRECTORY, hashUrl(url) + ".json")
+  const cacheFile = resolve(CACHE_DIRECTORY, `${hashUrl(url)}.json`)
   const cached = await loadCacheEntry(cacheFile)
   if (cached && cached.expires > Math.floor(Date.now() / 1000)) {
     return cached.data

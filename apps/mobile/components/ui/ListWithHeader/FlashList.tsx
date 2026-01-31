@@ -88,7 +88,7 @@ const ListHeader = memo(function ListHeader({
   )
 })
 
-const FlashListWithHeaders = <ItemT extends any = any>({
+const FlashListWithHeaders = <ItemT = unknown,>({
   largeHeaderShown,
   containerStyle,
   LargeHeaderSubtitleComponent,
@@ -104,7 +104,7 @@ const FlashListWithHeaders = <ItemT extends any = any>({
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
   disableAutoFixScroll = false,
-  // @ts-ignore
+  // @ts-expect-error - onScroll is handled internally
   onScroll: _unusedOnScroll,
   absoluteHeader = false,
   initialAbsoluteHeaderHeight = 0,
@@ -206,7 +206,6 @@ const FlashListWithHeaders = <ItemT extends any = any>({
     [scrollViewAdjustments.scrollIndicatorInsets, scrollIndicatorInsets]
   )
 
-  // Memoize content container style
   const mergedContentContainerStyle = useMemo(
     () => [scrollViewAdjustments.contentContainerStyle, contentContainerStyle],
     [scrollViewAdjustments.contentContainerStyle, contentContainerStyle]

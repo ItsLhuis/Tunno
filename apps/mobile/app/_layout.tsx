@@ -18,7 +18,6 @@ import { useSettingsStore } from "@stores/useSettingsStore"
 
 import { usePlayerStore } from "@features/player/stores/usePlayerStore"
 
-import "@repo/i18n"
 import { useTranslation } from "@repo/i18n"
 
 import * as Updates from "expo-updates"

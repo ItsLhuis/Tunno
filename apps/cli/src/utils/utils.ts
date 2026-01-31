@@ -9,8 +9,7 @@ import { spawn, exec } from "child_process"
 
 import { promisify } from "util"
 
-import { JaroWinklerDistance } from "natural"
-import natural from "natural"
+import natural, { JaroWinklerDistance } from "natural"
 
 const TfIdf = natural.TfIdf
 

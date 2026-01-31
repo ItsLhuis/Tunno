@@ -183,14 +183,11 @@ const SheetClose = ({ onPress, children, asChild, ...props }: SheetCloseProps) =
   )
 }
 
-export type SheetContentProps = Omit<BottomSheetProps, "ref"> & {
-  side?: "top" | "bottom" | "left" | "right"
-}
+export type SheetContentProps = Omit<BottomSheetProps, "ref">
 
 const SheetContent = ({
   children,
   onChange,
-  side = "bottom",
   enableDynamicSizing = true,
   ...props
 }: SheetContentProps) => {

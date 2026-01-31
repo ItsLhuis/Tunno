@@ -276,11 +276,7 @@ export function useAnimatedPaletteColors(): AnimatedPaletteColors {
     accentForeground
   ])
 
-  if (context) {
-    return context.animatedColors
-  }
-
-  return useMemo(
+  const fallbackColors = useMemo(
     () => ({
       background,
       foreground,
@@ -302,6 +298,12 @@ export function useAnimatedPaletteColors(): AnimatedPaletteColors {
       accentForeground
     ]
   )
+
+  if (context) {
+    return context.animatedColors
+  }
+
+  return fallbackColors
 }
 
 export type { AnimatedPaletteColorKey, AnimatedPaletteColors }

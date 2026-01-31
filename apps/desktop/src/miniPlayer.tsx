@@ -11,7 +11,6 @@ import { ScopedTheme, Toaster } from "@components/ui"
 
 import { MiniPlayer } from "@features/player/components/MiniPlayer"
 
-import "@repo/i18n"
 import { i18n, type LocaleKeys } from "@repo/i18n"
 import "./global.css"
 

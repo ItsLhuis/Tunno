@@ -13,17 +13,7 @@ const LyricsPage = () => {
   const position = usePlayerStore((state) => state.position)
   const seekTo = usePlayerStore((state) => state.seekTo)
 
-  if (!currentTrackId) {
-    return <NotFound />
-  }
-
-  const currentSong = cachedSongs.get(currentTrackId)
-
-  if (!currentSong) {
-    return <NotFound />
-  }
-
-  const lyrics = currentSong.lyrics ?? []
+  const currentSong = currentTrackId ? cachedSongs.get(currentTrackId) : undefined
 
   const Header = useCallback(() => {
     if (!currentSong) return null
@@ -34,6 +24,12 @@ const LyricsPage = () => {
     if (!currentSong) return null
     return <LyricsStickyHeader song={currentSong} />
   }, [currentSong])
+
+  if (!currentTrackId || !currentSong) {
+    return <NotFound />
+  }
+
+  const lyrics = currentSong.lyrics ?? []
 
   return (
     <LyricsReader

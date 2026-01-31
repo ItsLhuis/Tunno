@@ -12,7 +12,6 @@ import { ScopedTheme, Toaster } from "@components/ui"
 
 import { FullscreenPlayer } from "@features/player/components/FullscreenPlayer"
 
-import "@repo/i18n"
 import { i18n, type LocaleKeys } from "@repo/i18n"
 import "./global.css"
 

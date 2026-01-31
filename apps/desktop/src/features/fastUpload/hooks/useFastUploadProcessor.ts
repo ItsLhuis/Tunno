@@ -73,8 +73,6 @@ export function useFastUploadProcessor() {
       }
     }
 
-    let processedCount = 0
-
     for (const track of tracks) {
       if (track.status !== "pending") {
         continue
@@ -113,7 +111,6 @@ export function useFastUploadProcessor() {
       }
 
       incrementProgress()
-      processedCount++
 
       await new Promise((resolve) => setTimeout(resolve, 100))
     }

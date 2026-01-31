@@ -36,13 +36,13 @@ export function calculateRetentionRate(
  */
 export function formatNumber(num: number): string {
   if (num >= 1000000000) {
-    return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "B"
+    return `${(num / 1000000000).toFixed(1).replace(/\.0$/, "")}B`
   }
   if (num >= 1000000) {
-    return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "M"
+    return `${(num / 1000000).toFixed(1).replace(/\.0$/, "")}M`
   }
   if (num >= 1000) {
-    return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K"
+    return `${(num / 1000).toFixed(1).replace(/\.0$/, "")}K`
   }
   return num.toString()
 }
@@ -90,7 +90,7 @@ export function calculateStreak(playHistory: Array<{ playedAt: Date | string }>)
     return 0
   }
 
-  let currentDate = hasPlayToday ? new Date(today) : new Date(yesterday)
+  const currentDate = hasPlayToday ? new Date(today) : new Date(yesterday)
 
   for (const date of sortedDates) {
     if (date.getTime() === currentDate.getTime()) {

@@ -36,7 +36,7 @@ const VirtualRow = memo(function VirtualRow<TItem>({
   const gridStyle = useMemo(
     () => ({
       gridTemplateColumns: `repeat(${effectiveColumns}, minmax(0, 1fr))`,
-      gap: gap,
+      gap,
       ...rowStyle
     }),
     [effectiveColumns, gap, rowStyle]

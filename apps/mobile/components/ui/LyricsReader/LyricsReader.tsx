@@ -70,8 +70,8 @@ const LyricsReader = ({
   } = useStickToIndex({
     targetIndex: filteredActiveIndex,
     data: filteredLyrics,
-    enabled: enabled,
-    listRef: listRef,
+    enabled,
+    listRef,
     initialScroll: true
   })
 

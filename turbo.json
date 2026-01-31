@@ -13,6 +13,11 @@
       "cache": false,
       "persistent": true
     },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": [],
+      "inputs": ["**/*.ts", "**/*.tsx", "**/*.mjs", "!**/node_modules/**", "!**/dist/**"]
+    },
     "typecheck": {
       "dependsOn": ["^typecheck"],
       "outputs": []

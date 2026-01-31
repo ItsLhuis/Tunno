@@ -17,10 +17,9 @@ import {
   processArtist,
   retryWithBackoff,
   updateAlbumThumbnailIfNeeded,
+  type EntityCache,
   type LocalArtistCache
 } from "../utils"
-
-import { type EntityCache } from "../utils"
 
 import { type CLISong, type ProcessingTrack, type ProcessResult } from "../types"
 
@@ -451,7 +450,7 @@ export function useTrackProcessor() {
                 name: metadata.title,
                 duration: metadata.duration,
                 releaseYear: albumMeta.releaseYear || null,
-                albumId: albumId,
+                albumId,
                 lyrics: metadata.lyrics ?? [],
                 isFavorite: false
               },

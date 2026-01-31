@@ -42,7 +42,7 @@ const ScrollViewWithHeaders = ({
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
   disableAutoFixScroll = false,
-  // @ts-ignore
+  // @ts-expect-error - onScroll is handled internally
   onScroll: _unusedOnScroll,
   absoluteHeader = false,
   initialAbsoluteHeaderHeight = 0,

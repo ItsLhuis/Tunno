@@ -55,7 +55,7 @@ const TrackInfo = () => {
           />
         )}
         <Marquee>
-          <SafeLink to={`/songs/$id`} params={{ id: currentTrack?.id?.toString() }}>
+          <SafeLink to="/songs/$id" params={{ id: currentTrack?.id?.toString() }}>
             <Typography variant="h5">{currentTrack?.title}</Typography>
           </SafeLink>
         </Marquee>

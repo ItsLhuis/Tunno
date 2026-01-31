@@ -184,7 +184,7 @@ export async function getTrackById(trackId: string): Promise<SpotifyTrack | null
     }
 
     return null
-  } catch (error) {
+  } catch {
     console.log("[spotify]", chalk.red("Could not find track by ID"))
     return null
   }
@@ -247,7 +247,7 @@ export async function getTrack(
     }
 
     if (!options.onlySearchTrackTitle) {
-      let track = tracks.find((track: any) => track.name.toLowerCase() === name.toLowerCase())
+      const track = tracks.find((track: any) => track.name.toLowerCase() === name.toLowerCase())
       if (track) {
         console.log("[spotify]", chalk.green("Track found"))
         return await buildTrackResult(track)
@@ -361,7 +361,7 @@ export async function getTrack(
         ])
 
         isCorrect = answer.isCorrect
-      } catch (error) {
+      } catch {
         isCorrect = false
       } finally {
         clearTimeout(timeoutId)
@@ -371,7 +371,7 @@ export async function getTrack(
 
       return null
     }
-  } catch (error) {
+  } catch {
     return null
   }
 }

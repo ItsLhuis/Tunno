@@ -26,7 +26,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         } as CSSProperties
       }
       className="toaster group"
-      offset={"0.75rem"}
+      offset="0.75rem"
       icons={{
         close: <Icon name="X" className="size-3" />,
         loading: <Spinner />,

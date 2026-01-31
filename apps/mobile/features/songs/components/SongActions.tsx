@@ -126,7 +126,11 @@ const SongActionsContent = memo(
     const handlePlaySong = useCallback(async () => {
       if (targetSong) {
         if (currentTrack?.id === targetSong.id) {
-          playbackState === State.Playing ? await pause() : await play()
+          if (playbackState === State.Playing) {
+            await pause()
+          } else {
+            await play()
+          }
           return
         }
         await loadTracks([targetSong.id], 0, "songs")

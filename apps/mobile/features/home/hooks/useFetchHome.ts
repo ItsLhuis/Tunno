@@ -2,7 +2,18 @@ import { useCallback, useMemo } from "react"
 
 import { useQueries } from "@tanstack/react-query"
 
-import { homeKeys } from "@repo/api"
+import {
+  homeKeys,
+  type Discover,
+  type FavoriteArtists,
+  type JumpBackIn,
+  type NewReleases,
+  type OnRepeat,
+  type QuickAccess,
+  type RecentlyAdded,
+  type TopAlbums,
+  type YourPlaylists
+} from "@repo/api"
 
 import {
   getDiscover,
@@ -15,18 +26,6 @@ import {
   getTopAlbums,
   getYourPlaylists
 } from "../api/queries"
-
-import {
-  type Discover,
-  type FavoriteArtists,
-  type JumpBackIn,
-  type NewReleases,
-  type OnRepeat,
-  type QuickAccess,
-  type RecentlyAdded,
-  type TopAlbums,
-  type YourPlaylists
-} from "@repo/api"
 
 /**
  * Defines the options available for customizing the data fetched by {@link useFetchHome}.

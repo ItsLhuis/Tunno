@@ -52,7 +52,11 @@ const PlaylistInfoSubHeader = ({ list, className }: PlaylistInfoSubHeaderProps) 
           checked={isAllSelected ? true : hasSelectedRows ? "indeterminate" : false}
           onCheckedChange={(value) => {
             if (!list) return
-            value ? list.selectAll() : list.clearSelection()
+            if (value) {
+              list.selectAll()
+            } else {
+              list.clearSelection()
+            }
           }}
         />
       )}

@@ -18,7 +18,7 @@ function getBundleId() {
   try {
     const config = JSON.parse(fs.readFileSync(tauriConfigPath, "utf8"))
     return config.identifier || defaultBundleId
-  } catch (error) {
+  } catch {
     return defaultBundleId
   }
 }

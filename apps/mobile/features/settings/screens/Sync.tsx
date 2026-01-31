@@ -54,7 +54,7 @@ const Sync = () => {
         LargeHeaderComponent={LargeHeaderComponent}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.sectionsContainer}></View>
+        <View style={styles.sectionsContainer} />
       </ScrollViewWithHeaders>
     </View>
   )

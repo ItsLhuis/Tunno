@@ -209,7 +209,7 @@ const SongItemList = memo(
               <Thumbnail placeholderIcon="Music" fileName={song.thumbnail} alt={song.name} />
               <div className="flex w-full flex-col gap-1 truncate">
                 <Marquee>
-                  <SafeLink to={`/songs/$id`} params={{ id: song.id.toString() }}>
+                  <SafeLink to="/songs/$id" params={{ id: song.id.toString() }}>
                     <Typography className="truncate">{song.name}</Typography>
                   </SafeLink>
                 </Marquee>

@@ -57,7 +57,7 @@ const Spotlight = ({
             width: `${width}px`,
             height: `${height}px`
           }}
-          className={`absolute top-0 left-0`}
+          className="absolute top-0 left-0"
         />
         <div
           style={{
@@ -66,7 +66,7 @@ const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`
           }}
-          className={`absolute top-0 left-0 origin-top-left`}
+          className="absolute top-0 left-0 origin-top-left"
         />
         <div
           style={{
@@ -75,7 +75,7 @@ const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`
           }}
-          className={`absolute top-0 left-0 origin-top-left`}
+          className="absolute top-0 left-0 origin-top-left"
         />
       </motion.div>
       <motion.div
@@ -97,7 +97,7 @@ const Spotlight = ({
             width: `${width}px`,
             height: `${height}px`
           }}
-          className={`absolute top-0 right-0`}
+          className="absolute top-0 right-0"
         />
         <div
           style={{
@@ -106,7 +106,7 @@ const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`
           }}
-          className={`absolute top-0 right-0 origin-top-right`}
+          className="absolute top-0 right-0 origin-top-right"
         />
         <div
           style={{
@@ -115,7 +115,7 @@ const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`
           }}
-          className={`absolute top-0 right-0 origin-top-right`}
+          className="absolute top-0 right-0 origin-top-right"
         />
       </motion.div>
     </motion.div>

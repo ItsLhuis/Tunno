@@ -11,6 +11,7 @@
     "dev": "tsc --watch --preserveWatchOutput && pnpm copy-assets",
     "build": "tsc && pnpm copy-assets",
     "copy-assets": "node scripts/dirCopy.js ./src/assets ./dist/assets",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

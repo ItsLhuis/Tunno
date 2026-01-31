@@ -11,11 +11,14 @@ import {
 
 import TrackPlayer, { RepeatMode, State } from "react-native-track-player"
 
-import { clearTrackCaches, resolveTrack } from "../utils/player"
+import {
+  clearTrackCaches,
+  resolveTrack,
+  getSongFromCacheOrFetch,
+  prefetchSongs
+} from "../utils/player"
 
 import { LRUCache, shuffleArray } from "@repo/utils"
-
-import { getSongFromCacheOrFetch, prefetchSongs } from "../utils/player"
 
 import { type BottomSheetRef } from "@components/ui"
 
@@ -151,7 +154,7 @@ function calculateOptimalWindow(
   // Calculate a tentative start index, trying to center the window around currentIndex
   let start = Math.max(0, currentIndex - halfWindow)
   // Calculate the end index based on the tentative start and clamped window size
-  let end = Math.min(queueLength, start + clampedWindowSize)
+  const end = Math.min(queueLength, start + clampedWindowSize)
 
   // Adjust start index if the end index hit the queue boundary but there's still room to shift left
   if (end === queueLength && queueLength > clampedWindowSize) {
@@ -703,7 +706,7 @@ export const usePlayerStore = create<PlayerStore>()(
           currentTrackIndex: newCurrentIndex,
           windowStartIndex: newStart,
           currentTrack: newCurrentTrack,
-          currentTrackId: currentTrackId,
+          currentTrackId,
           duration: newCurrentTrack?.duration || 0,
           isQueueLoading: false
         })

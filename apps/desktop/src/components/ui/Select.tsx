@@ -220,7 +220,6 @@ type VirtualizedSelectBaseProps = Omit<ComponentProps<"button">, "onSelect"> &
     options: VirtualizedSelectOption[]
     placeholder?: string
     maxCount?: number
-    disabled?: boolean
     loading?: boolean
     modalPopover?: boolean
     className?: string
@@ -257,7 +256,6 @@ const VirtualizedSelect = ({
   placeholder,
   maxCount = 3,
   multiple = false,
-  disabled = false,
   loading = false,
   modalPopover = false,
   className,

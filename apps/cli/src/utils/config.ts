@@ -94,7 +94,7 @@ const validateDownloadPath = async (downloadPath: string): Promise<string> => {
     if (createDir) {
       try {
         fs.mkdirSync(resolvedPath, { recursive: true })
-      } catch (error) {
+      } catch {
         return defaultDownloadPath
       }
     } else {
@@ -120,14 +120,14 @@ const ensureConfigFileExists = async (validatePath = true): Promise<void> => {
     fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), "utf-8")
   } else {
     try {
-      let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+      const config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
       if (validatePath) {
         config.downloadPath = await validateDownloadPath(config.downloadPath || defaultDownloadPath)
 
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
       }
-    } catch (error) {
+    } catch {
       const defaultConfig: Config = { downloadPath: defaultDownloadPath, env: {} }
 
       fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), "utf-8")
@@ -145,7 +145,7 @@ const ensureConfigFileExists = async (validatePath = true): Promise<void> => {
 export const setDownloadPath = async (downloadPath: string): Promise<string> => {
   await ensureConfigFileExists(false)
 
-  let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+  const config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
   const resolvedPath = await validateDownloadPath(downloadPath)
   config.downloadPath = resolvedPath
@@ -181,7 +181,7 @@ type EnvKey = keyof Config["env"]
 export const setEnvKey = async (key: EnvKey, value: string): Promise<void> => {
   await ensureConfigFileExists()
 
-  let config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+  const config: Config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
 
   if (!config.env) {
     config.env = {}

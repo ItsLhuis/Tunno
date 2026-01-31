@@ -98,8 +98,8 @@ const Fade = ({
     },
     visible: {
       opacity: 1,
-      scale: scale,
-      rotate: rotate,
+      scale,
+      rotate,
       x: 0,
       y: 0,
       filter: "blur(0px)"

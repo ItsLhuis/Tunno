@@ -43,7 +43,7 @@ function updateFile(filePath: string, updater: (content: Record<string, unknown>
 
   updater(content)
 
-  fs.writeFileSync(filePath, JSON.stringify(content, null, 2) + "\n")
+  fs.writeFileSync(filePath, `${JSON.stringify(content, null, 2)}\n`)
 }
 
 function updateCargoToml(filePath: string, newVersion: string): void {

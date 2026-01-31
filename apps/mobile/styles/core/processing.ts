@@ -50,8 +50,8 @@ export function processStyleSheet<T extends StyleSheetDefinition>(
     if (isVariantFunction(value)) {
       processed[key] = value
     } else if (typeof value === "function") {
-      processed[key] = (...args: any[]) => {
-        const rawStyle = (value as Function)(...args)
+      processed[key] = (...args: unknown[]) => {
+        const rawStyle = (value as (...args: unknown[]) => Style)(...args)
         return StyleSheet.create({ temp: rawStyle }).temp
       }
     }

@@ -2,7 +2,7 @@ import { getRenderableFileSrc } from "@services/storage"
 
 import { queryClient } from "@lib/queryClient"
 
-import { songKeys } from "@repo/api"
+import { songKeys, type SongWithMainRelations } from "@repo/api"
 
 import { LRUCache } from "@repo/utils"
 
@@ -12,8 +12,6 @@ import {
 } from "@features/songs/api/queries"
 
 import defaultArtwork from "@assets/images/app/icon.png"
-
-import { type SongWithMainRelations } from "@repo/api"
 
 import { type Track } from "../types/player"
 

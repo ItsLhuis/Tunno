@@ -7,10 +7,9 @@ import {
   type Style,
   type VariantConfig,
   type VariantProps,
-  type VariantsConfig
+  type VariantsConfig,
+  VARIANT_MARKER
 } from "./types"
-
-import { VARIANT_MARKER } from "./types"
 
 /**
  * Creates a variant function for conditional styling

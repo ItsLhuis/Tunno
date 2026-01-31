@@ -130,7 +130,11 @@ const SongActionsContent = memo(
     const handlePlaySong = async () => {
       if (targetSong && !hasMultipleSelections) {
         if (currentTrack?.id === targetSong.id) {
-          playbackState === State.Playing ? await pause() : await play()
+          if (playbackState === State.Playing) {
+            await pause()
+          } else {
+            await play()
+          }
           return
         }
         await loadTracks([targetSong.id], 0, "songs")

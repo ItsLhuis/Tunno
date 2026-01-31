@@ -31,7 +31,6 @@ export type VirtualizedListProps<TItem> = ComponentProps<"div"> & {
     "2xl"?: number
   }
   gap?: number
-  minItemWidth?: number
   containerClassName?: string
   rowClassName?: string
   rowStyle?: CSSProperties

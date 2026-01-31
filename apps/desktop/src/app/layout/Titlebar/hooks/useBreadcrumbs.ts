@@ -108,7 +108,7 @@ export function useBreadcrumbs() {
     const items: BreadcrumbItem[] = [{ label: t("breadcrumbs.home.title"), path: "/" }]
 
     pathSegments.forEach((segment, index) => {
-      const path = "/" + pathSegments.slice(0, index + 1).join("/")
+      const path = `/${pathSegments.slice(0, index + 1).join("/")}`
       const isLast = index === pathSegments.length - 1
       const isId = isNumericId(segment)
 

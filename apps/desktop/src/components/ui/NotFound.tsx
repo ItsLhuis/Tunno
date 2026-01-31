@@ -33,7 +33,7 @@ const NotFound = ({ className, message, ...props }: NotFoundProps) => {
           }}
         />
       </div>
-      <Typography affects={"muted"}>{message ?? t("common.noResultsFound")}</Typography>
+      <Typography affects="muted">{message ?? t("common.noResultsFound")}</Typography>
     </div>
   )
 }

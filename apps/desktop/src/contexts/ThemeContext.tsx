@@ -86,7 +86,7 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
             pseudoElement: "::view-transition-new(root)"
           }
         )
-      } catch (error) {
+      } catch {
         root.classList.remove("light", "dark")
         root.classList.add(newTheme)
       }

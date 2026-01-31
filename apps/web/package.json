@@ -7,6 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "exit 0",
     "start": "next start",
+    "lint": "exit 0",
     "typecheck": "exit 0",
     "version:patch": "tsx ../../scripts/bump-version.ts patch",
     "version:minor": "tsx ../../scripts/bump-version.ts minor",

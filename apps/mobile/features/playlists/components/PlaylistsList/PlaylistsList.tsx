@@ -94,8 +94,6 @@ const PlaylistsList = () => {
     return data.pages.flatMap((page) => page.items)
   }, [data?.pages])
 
-  const playlistIds = allPlaylistIds ?? []
-
   const gridItemStyles = useMemo(() => {
     if (viewMode !== "grid") return []
 
@@ -182,11 +180,10 @@ const PlaylistsList = () => {
       <PlaylistsListStickyHeader
         scrollY={scrollY}
         showHeader={showHeader}
-        allPlaylistIds={playlistIds}
         allSongIds={allSongIds ?? []}
       />
     ),
-    [playlistIds, allSongIds]
+    [allSongIds]
   )
 
   const LargeHeaderComponent = useCallback(

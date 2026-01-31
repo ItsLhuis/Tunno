@@ -50,10 +50,10 @@ const LyricsReader = ({ lyrics, currentTime, onSeek, ...props }: LyricsReaderPro
 
   const { isStuck, stick, enableStick } = useStickToIndex({
     targetIndex: filteredActiveIndex,
-    enabled: enabled,
+    enabled,
     behavior: "smooth",
     selector: (index) => `[data-lyric-index="${index}"]`,
-    scrollRef: scrollRef,
+    scrollRef,
     initialScroll: true,
     virtualizer: virtualizerRef
   })

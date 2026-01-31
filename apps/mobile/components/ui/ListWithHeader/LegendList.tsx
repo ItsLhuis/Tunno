@@ -87,7 +87,7 @@ const ListHeader = memo(function ListHeader({
   )
 })
 
-const LegendListWithHeaders = <ItemT extends any = any>({
+const LegendListWithHeaders = <ItemT = unknown,>({
   largeHeaderShown,
   containerStyle,
   LargeHeaderSubtitleComponent,
@@ -103,7 +103,7 @@ const LegendListWithHeaders = <ItemT extends any = any>({
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
   disableAutoFixScroll = false,
-  // @ts-ignore
+  // @ts-expect-error - onScroll is handled internally
   onScroll: _unusedOnScroll,
   absoluteHeader = false,
   initialAbsoluteHeaderHeight = 0,

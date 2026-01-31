@@ -16,6 +16,7 @@
     "build": "tauri build",
     "tauri": "tauri",
     "preview": "vite preview",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "version:patch": "tsx ../../scripts/bump-version.ts patch",
     "version:minor": "tsx ../../scripts/bump-version.ts minor",

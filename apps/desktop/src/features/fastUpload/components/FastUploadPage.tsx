@@ -31,7 +31,7 @@ const FastUploadPage = () => {
     enabled: isProcessing,
     behavior: "smooth",
     selector: (index) => `[data-track-index="${index}"]`,
-    scrollRef: scrollRef,
+    scrollRef,
     initialScroll: true,
     virtualizer: virtualizerRef
   })
