@@ -215,7 +215,7 @@ export type PlayHistory = typeof schema.playHistory.$inferSelect
  * Represents a Song entity with custom specified relations.
  * @template T - A record defining the custom relations to include.
  */
-export type SongWithCustomRelations<T extends Record<string, any>> = InferQueryModel<"songs", T>
+export type SongWithCustomRelations<T extends Record<string, unknown>> = InferQueryModel<"songs", T>
 
 /**
  * Represents the data required to insert a new Song into the database.

@@ -50,7 +50,11 @@ type SongUpdateFields = {
  * @returns An object indicating `needsUpdate` (boolean) and the `updates` (object of changed fields).
  */
 export function compareAndGetSongUpdates(
-  existingSong: { lyrics: any; duration: number; releaseYear: number | null },
+  existingSong: {
+    lyrics: { text: string; startTime: number }[] | null
+    duration: number
+    releaseYear: number | null
+  },
   newMetadata: CLISong
 ): { needsUpdate: boolean; updates: SongUpdateFields } {
   const updates: SongUpdateFields = {}

@@ -247,7 +247,7 @@ export async function getTrack(
     }
 
     if (!options.onlySearchTrackTitle) {
-      const track = tracks.find((track: any) => track.name.toLowerCase() === name.toLowerCase())
+      const track = tracks.find((track) => track.name.toLowerCase() === name.toLowerCase())
       if (track) {
         console.log("[spotify]", chalk.green("Track found"))
         return await buildTrackResult(track)
@@ -267,7 +267,7 @@ export async function getTrack(
     } else {
       let wasTrackFound = true
 
-      let track = tracks.find((item: any) => item.name.toLowerCase() === name)
+      let track = tracks.find((item) => item.name.toLowerCase() === name)
       let bestTrackMatch = tracks[0]
 
       let highestTrackScore = 0
@@ -275,7 +275,7 @@ export async function getTrack(
       if (!track && tracks.length > 0) {
         for (const track of tracks) {
           if (track.artists) {
-            track.artists.forEach((artist: any) => {
+            track.artists.forEach((artist) => {
               name = name.replace(new RegExp(artist.name, "i"), "").trim()
             })
           }
@@ -302,7 +302,7 @@ export async function getTrack(
       // perform additional checks for artist and year similarity.
       if (highestTrackScore < 0.9) {
         if (track && track.artists) {
-          const trackArtistNames = track.artists.map((artist: any) => artist.name.toLowerCase())
+          const trackArtistNames = track.artists.map((artist) => artist.name.toLowerCase())
           // Check if any of the track artists are similar to the provided artist name using Jaro-Winkler distance.
           const artistSimilarity = trackArtistNames.some(
             (name: string) => JaroWinklerDistance(artistName.toLowerCase(), name) > 0.7
@@ -354,7 +354,7 @@ export async function getTrack(
             message: `[spotify] ${chalk.red("Track not found.")} The best match found is ${chalk.blue(
               bestTrackMatch.name
             )} by ${chalk.blue(
-              bestTrackMatch.artists.map((artist: any) => artist.name).join(", ")
+              bestTrackMatch.artists.map((artist) => artist.name).join(", ")
             )}. ${chalk.yellow("Does this match what you were looking for?")}`,
             default: false
           }

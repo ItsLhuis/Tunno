@@ -37,7 +37,7 @@ const FavoriteArtists = ({ favoriteArtists }: FavoriteArtistsProps) => {
       <Carousel className="-mx-2">
         <CarouselContent>
           {favoriteArtists.artists.map((artist, index) => (
-            <CarouselItem key={`${artist.id}-${index}`} className="w-50">
+            <CarouselItem key={artist.id} className="w-50">
               <ArtistItemCard artist={artist} index={index} />
             </CarouselItem>
           ))}

@@ -166,6 +166,18 @@ export type DatabaseError = Error & {
 }
 
 /**
+ * Represents a database error with an optional cause containing error details.
+ * Used for type-safe error handling in constraint checks.
+ */
+type DatabaseErrorWithCause = Error & {
+  cause?: {
+    code?: string
+    message?: string
+  }
+  code?: string
+}
+
+/**
  * Type guard to check if an unknown error is a DatabaseError instance.
  * @param error - The error to check.
  * @returns True if the error is a DatabaseError, false otherwise.
@@ -267,11 +279,11 @@ function isDrizzleQueryError(
         if (code) {
           ;(error as DatabaseError).code = code
           // Create a fake cause structure for compatibility
-          const fakeError = error as any
-          if (!fakeError.cause) {
-            fakeError.cause = error
+          const typedError = error as DatabaseErrorWithCause
+          if (!typedError.cause) {
+            typedError.cause = error
           }
-          return true as any
+          return true
         }
       }
     }
@@ -355,7 +367,8 @@ export function isConstraintError(
   }
 
   // Handle both DrizzleQueryError with cause and plain Error
-  const code = (error as any).cause?.code || (error as any).code
+  const code =
+    (error as DatabaseErrorWithCause).cause?.code || (error as DatabaseErrorWithCause).code
 
   if (constraintType) {
     return code === constraintType
@@ -444,8 +457,10 @@ export function extractConstraintInfo(error: unknown): ConstraintErrorInfo | nul
   }
 
   // Handle both DrizzleQueryError with cause and plain Error
-  const errorObj = (error as any).cause || error
-  const { code, message } = errorObj
+  // After isDrizzleQueryError passes, error is guaranteed to have cause.code
+  const typedError = error as DatabaseErrorWithCause
+  const code = typedError.cause?.code ?? typedError.code ?? ""
+  const message = typedError.cause?.message ?? typedError.message
 
   let type: ConstraintErrorInfo["type"]
   switch (code) {

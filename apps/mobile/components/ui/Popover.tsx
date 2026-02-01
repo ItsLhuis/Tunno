@@ -144,7 +144,7 @@ const PopoverTrigger = ({ onPress, children, asChild, ...props }: PopoverTrigger
 }
 
 const PopoverAnchor = ({ children }: { children: ReactNode }) => {
-  return <Fragment>{children}</Fragment>
+  return children
 }
 
 type PopoverCloseRenderProps = {

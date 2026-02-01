@@ -163,7 +163,7 @@ const DialogTrigger = ({ onPress, children, asChild, ...props }: DialogTriggerPr
 }
 
 const DialogPortal = ({ children }: { children: ReactNode }) => {
-  return <Fragment>{children}</Fragment>
+  return children
 }
 
 type DialogCloseRenderProps = {

@@ -131,7 +131,10 @@ export type ArtistWithAllRelations = InferQueryModel<
  * Represents an Artist entity with custom specified relations.
  * @template T - A record defining the custom relations to include.
  */
-export type ArtistWithCustomRelations<T extends Record<string, any>> = InferQueryModel<"artists", T>
+export type ArtistWithCustomRelations<T extends Record<string, unknown>> = InferQueryModel<
+  "artists",
+  T
+>
 
 /**
  * Represents the data required to insert a new Artist into the database.

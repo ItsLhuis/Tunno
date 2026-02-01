@@ -69,7 +69,7 @@ const Windows = ({
     return <div className="flex w-full flex-col">{buttons}</div>
   }
 
-  return <Fragment>{buttons}</Fragment>
+  return buttons
 }
 
 export { Windows }

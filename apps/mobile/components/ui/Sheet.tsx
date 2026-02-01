@@ -143,7 +143,7 @@ const SheetTrigger = ({ onPress, children, asChild, ...props }: SheetTriggerProp
 }
 
 const SheetPortal = ({ children }: { children: ReactNode }) => {
-  return <Fragment>{children}</Fragment>
+  return children
 }
 
 type SheetCloseRenderProps = {

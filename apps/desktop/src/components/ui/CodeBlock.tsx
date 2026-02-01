@@ -78,9 +78,11 @@ const CodeBlock = ({ language, children, className }: CodeBlockProps) => {
             }}
           >
             {tokens.map((line, i) => (
+              // eslint-disable-next-line react/no-array-index-key -- Static code tokens from syntax highlighter, never reordered
               <div key={i} {...getLineProps({ line })}>
                 <span className="mr-4 inline-block w-8 text-right opacity-50">{i + 1}</span>
                 {line.map((token, key) => (
+                  // eslint-disable-next-line react/no-array-index-key -- Static tokens within a line, never reordered
                   <span key={key} {...getTokenProps({ token })} />
                 ))}
               </div>

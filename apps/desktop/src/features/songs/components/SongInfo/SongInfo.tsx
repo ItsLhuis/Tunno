@@ -94,8 +94,8 @@ const SongInfo = () => {
               <Typography variant="h3">{t("artists.title")}</Typography>
               <Carousel className="-mx-2">
                 <CarouselContent>
-                  {data.artists.map((artist, index) => (
-                    <CarouselItem key={artist.artist.id || index} className="w-50">
+                  {data.artists.map((artist) => (
+                    <CarouselItem key={artist.artist.id} className="w-50">
                       <ArtistItemCard artist={artist.artist} />
                     </CarouselItem>
                   ))}
@@ -110,8 +110,8 @@ const SongInfo = () => {
               <Typography variant="h3">{t("common.appearsIn")}</Typography>
               <Carousel className="-mx-2">
                 <CarouselContent>
-                  {data.playlists.map((playlist, index) => (
-                    <CarouselItem key={playlist.playlist.id || index} className="w-50">
+                  {data.playlists.map((playlist) => (
+                    <CarouselItem key={playlist.playlist.id} className="w-50">
                       <PlaylistItemCard playlist={playlist.playlist} />
                     </CarouselItem>
                   ))}
@@ -125,8 +125,8 @@ const SongInfo = () => {
             <section className="flex w-full flex-col gap-3 pt-3">
               <Typography variant="h3">{t("form.labels.lyrics")}</Typography>
               <div className="w-full space-y-3">
-                {data.lyrics.map((line, index) => (
-                  <div key={index} className="flex w-full gap-2">
+                {data.lyrics.map((line) => (
+                  <div key={line.startTime} className="flex w-full gap-2">
                     <Typography affects="muted" className="shrink-0">
                       [{formatTime(line.startTime)}]
                     </Typography>

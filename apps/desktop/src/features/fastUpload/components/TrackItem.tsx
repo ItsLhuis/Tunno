@@ -154,7 +154,8 @@ const TrackItem = memo(function TrackItem({ index = 0, track, processId }: Track
           <Marquee>
             {track.artists.length > 0 ? (
               track.artists.map((artist, index) => (
-                <span key={index}>
+                // eslint-disable-next-line react/no-array-index-key -- Artist names can be duplicated, index ensures uniqueness
+                <span key={`${artist}-${index}`}>
                   <Typography affects={["muted", "small"]}>{artist}</Typography>
                   {index < track.artists.length - 1 && (
                     <Typography affects={["muted", "small"]}>, </Typography>

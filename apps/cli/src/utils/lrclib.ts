@@ -8,6 +8,16 @@ const LRCLIB_API_BASE_URL = "https://lrclib.net/api"
 
 import { type Song } from "../shared/types"
 
+type LrcLibResponse = {
+  id: number
+  syncedLyrics: string | null
+  plainLyrics: string | null
+  trackName: string
+  artistName: string
+  albumName: string
+  duration: number
+}
+
 type SearchParams = {
   title: string
   artists: string[]
@@ -46,7 +56,7 @@ function parseSyncedLyrics(syncedLyrics: string): { text: string; startTime: num
  * @returns A Promise that resolves to the response data on successful request (type `any`),
  *          or `null` if an error occurs during the request.
  */
-const makeRequest = async (url: string): Promise<any> => {
+const makeRequest = async (url: string): Promise<LrcLibResponse | null> => {
   try {
     const response = await axios.get(url)
     return response.data

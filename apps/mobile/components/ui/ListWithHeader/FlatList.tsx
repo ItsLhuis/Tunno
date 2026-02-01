@@ -1,10 +1,12 @@
-import { memo, useCallback, useImperativeHandle, useMemo, type Ref } from "react"
+import { memo, useCallback, useImperativeHandle, useMemo, type ReactNode, type Ref } from "react"
 
 import {
   View,
   type FlatListProps,
   type NativeScrollEvent,
-  type NativeSyntheticEvent
+  type NativeSyntheticEvent,
+  type StyleProp,
+  type ViewStyle
 } from "react-native"
 
 import { createStyleSheet, useStyles, viewStyle } from "@styles"
@@ -32,9 +34,9 @@ export type FlatListWithHeadersProps<ItemT> = Omit<
 }
 
 type ListHeaderProps = {
-  LargeHeaderComponent?: (props: ScrollHeaderProps) => React.ReactNode
-  LargeHeaderSubtitleComponent?: (props: ScrollHeaderProps) => React.ReactNode
-  largeHeaderContainerStyle?: any
+  LargeHeaderComponent?: (props: ScrollHeaderProps) => ReactNode
+  LargeHeaderSubtitleComponent?: (props: ScrollHeaderProps) => ReactNode
+  largeHeaderContainerStyle?: StyleProp<ViewStyle>
   disableLargeHeaderFadeAnim: boolean
   largeHeaderOpacity: DerivedValue<number>
   scrollY: SharedValue<number>

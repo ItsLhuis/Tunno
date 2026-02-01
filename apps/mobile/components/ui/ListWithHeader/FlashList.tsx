@@ -5,10 +5,17 @@ import {
   useMemo,
   type ComponentClass,
   type ComponentProps,
+  type ReactNode,
   type Ref
 } from "react"
 
-import { View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native"
+import {
+  View,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+  type StyleProp,
+  type ViewStyle
+} from "react-native"
 
 import { createStyleSheet, useStyles, viewStyle } from "@styles"
 
@@ -28,11 +35,13 @@ import { FadingView } from "./components"
 import { type ScrollHeaderProps, type SharedScrollContainerProps } from "./types"
 
 type AnimatedFlashListType<ItemT> = ComponentProps<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ComponentClass<AnimatedProps<FlashListProps<ItemT>>, any>
 > &
   SharedScrollContainerProps
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as unknown as ComponentClass<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   AnimatedProps<FlashListProps<any>>,
   unknown
 >
@@ -42,9 +51,9 @@ export type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>
 }
 
 type ListHeaderProps = {
-  LargeHeaderComponent?: (props: ScrollHeaderProps) => React.ReactNode
-  LargeHeaderSubtitleComponent?: (props: ScrollHeaderProps) => React.ReactNode
-  largeHeaderContainerStyle?: any
+  LargeHeaderComponent?: (props: ScrollHeaderProps) => ReactNode
+  LargeHeaderSubtitleComponent?: (props: ScrollHeaderProps) => ReactNode
+  largeHeaderContainerStyle?: StyleProp<ViewStyle>
   disableLargeHeaderFadeAnim: boolean
   largeHeaderOpacity: DerivedValue<number>
   scrollY: SharedValue<number>
@@ -125,6 +134,7 @@ const FlashListWithHeaders = <ItemT = unknown,>({
 
   const styles = useStyles(flashListStyles)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const scrollRef = useAnimatedRef<any>()
   useImperativeHandle(ref, () => scrollRef.current as FlashListRef<ItemT>)
 

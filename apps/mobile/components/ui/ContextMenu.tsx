@@ -186,7 +186,7 @@ const ContextMenuTrigger = ({
 }
 
 const ContextMenuPortal = ({ children }: { children: ReactNode }) => {
-  return <Fragment>{children}</Fragment>
+  return children
 }
 
 export type ContextMenuGroupProps = {

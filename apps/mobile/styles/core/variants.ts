@@ -83,10 +83,12 @@ export function createVariant<
       // Convert boolean props to strings to match variant keys (e.g., true -> "true", false -> "false")
       // This allows boolean variants like { disabled: { true: {...}, false: {...} } }
       if (typeof selectedOption === "boolean") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         selectedOption = String(selectedOption) as any
       }
 
       if (!selectedOption && typeof propsTyped[variantKey] === "boolean") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         selectedOption = String(propsTyped[variantKey]) as any
       }
 
@@ -129,6 +131,7 @@ export function createVariant<
     // Later styles have higher precedence and will override earlier ones
     const mergedStyle = Object.assign({}, ...stylesToMerge)
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return StyleSheet.create({ style: mergedStyle }).style as any as CompatibleStyle
   }
 

@@ -101,9 +101,9 @@ const Pagination = ({
     <View style={[styles.pagination, style]} {...props}>
       <View style={styles.content}>
         <PaginationPrevious disabled={currentPage === 1} onPress={handlePreviousPress} />
-        {pages.map((page, index) => {
+        {pages.map((page) => {
           if (typeof page === "string") {
-            return <PaginationEllipsis key={`${page}-${index}`} />
+            return <PaginationEllipsis key={page} />
           }
 
           return (

@@ -16,8 +16,9 @@ const Linkify = ({ text, ...props }: LinkifyProps) => {
     <Typography variant="span" {...props}>
       {parts.map((part, index) =>
         linkRegex.test(part) ? (
-          <span key={index} className="whitespace-normal">
-            <SafeLink to={part as any}>{part}</SafeLink>
+          // eslint-disable-next-line react/no-array-index-key -- Parts from text split have no unique ID, index ensures uniqueness for duplicate URLs
+          <span key={`${part}-${index}`} className="whitespace-normal">
+            <SafeLink to={part as unknown as "/"}>{part}</SafeLink>
           </span>
         ) : (
           part

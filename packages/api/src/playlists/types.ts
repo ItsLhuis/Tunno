@@ -98,7 +98,7 @@ export type PlaylistWithAllRelations = PlaylistWithSongsAndStats
  * Represents a Playlist entity with custom specified relations.
  * @template T - A record defining the custom relations to include.
  */
-export type PlaylistWithCustomRelations<T extends Record<string, any>> = InferQueryModel<
+export type PlaylistWithCustomRelations<T extends Record<string, unknown>> = InferQueryModel<
   "playlists",
   T
 >

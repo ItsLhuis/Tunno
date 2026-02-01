@@ -33,7 +33,7 @@ const TopAlbums = ({ topAlbums }: TopAlbumsProps) => {
       <Carousel className="-mx-2">
         <CarouselContent>
           {topAlbums.albums.map((album, index) => (
-            <CarouselItem key={`${album.id}-${index}`} className="w-50">
+            <CarouselItem key={album.id} className="w-50">
               <AlbumItemCard album={album} index={index} />
             </CarouselItem>
           ))}

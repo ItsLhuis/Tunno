@@ -25,6 +25,7 @@ export type Style = ViewStyle | TextStyle | ImageStyle
 /**
  * Style type compatible with React Native StyleSheet
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CompatibleStyle = any
 
 /**
@@ -266,11 +267,13 @@ export type MarkedVariantFunction<
  * Uses Record<string, any> to allow more flexible return types
  * that will be validated at runtime by React Native
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StyleFunction = (...args: any[]) => Record<string, any>
 
 /**
  * Single style definition - can be a static style, variant function, or style factory
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StyleDefinition = Style | StyleFunction | MarkedVariantFunction<any, any>
 
 /**
@@ -296,7 +299,8 @@ export type StyleSheetFactory<T extends StyleSheetDefinition = StyleSheetDefinit
 export type ProcessedStyle<T> =
   T extends MarkedVariantFunction<infer V, infer D>
     ? MarkedVariantFunction<V, D>
-    : T extends (...args: infer Args) => any
+    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      T extends (...args: infer Args) => any
       ? (...args: Args) => CompatibleStyle
       : CompatibleStyle
 
@@ -333,6 +337,7 @@ export type ThemeMode = "light" | "dark" | "system"
  * // Result: { size?: 'sm' | 'md' | 'lg', variant?: 'primary' | 'secondary' | 'destructive' }
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ExtractVariantProps<T> =
   T extends MarkedVariantFunction<infer V, any>
     ? {
@@ -364,6 +369,7 @@ export type ExtractVariantProps<T> =
  * // Result: 'primary' | 'secondary'
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ExtractVariantValues<T, Key extends string> =
   T extends MarkedVariantFunction<infer V, any>
     ? Key extends keyof V
@@ -374,12 +380,14 @@ export type ExtractVariantValues<T, Key extends string> =
 /**
  * Safe return type helper - extracts return type from function or returns type as-is
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SafeReturnType<T> = T extends (...args: any[]) => infer R ? R : T
 
 /**
  * Helper to extract keys from a variant option object while preserving literal types
  * Uses distributive conditional types and string literal preservation
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ExtractVariantKeys<T> =
   T extends Record<infer K, any> ? (K extends "true" | "false" ? boolean : K) : never
 
@@ -394,7 +402,8 @@ type ExtractStyleVariants<T> = T extends { config: VariantConfig<infer V> }
   ? {
       [K in keyof V]?: ExtractVariantKeys<V[K]> | undefined
     }
-  : T extends MarkedVariantFunction<infer V, any>
+  : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    T extends MarkedVariantFunction<infer V, any>
     ? {
         [K in keyof V]?: ExtractVariantKeys<V[K]> | undefined
       }

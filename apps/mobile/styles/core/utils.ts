@@ -40,6 +40,7 @@ export function extendTheme(
 
   for (const key in overrides) {
     if (key !== "colors" && key in base) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(extended as any)[key] = overrides[key]
     }
   }

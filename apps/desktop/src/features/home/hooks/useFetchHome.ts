@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react"
 
-import { useQueries } from "@tanstack/react-query"
+import { useQueries, type UseQueryResult } from "@tanstack/react-query"
 
 import {
   homeKeys,
@@ -162,7 +162,7 @@ export function useFetchHome(options: HomeOptions = {}): HomeResult {
     ]
   )
 
-  const combineFunction = useCallback((queryResults: any[]) => {
+  const combineFunction = useCallback((queryResults: UseQueryResult<unknown>[]) => {
     const [
       quickAccessResult,
       jumpBackInResult,

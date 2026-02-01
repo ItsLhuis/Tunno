@@ -123,7 +123,10 @@ export type AlbumWithAllRelations = InferQueryModel<
  * Represents an Album entity with custom specified relations.
  * @template T - A record defining the custom relations to include.
  */
-export type AlbumWithCustomRelations<T extends Record<string, any>> = InferQueryModel<"albums", T>
+export type AlbumWithCustomRelations<T extends Record<string, unknown>> = InferQueryModel<
+  "albums",
+  T
+>
 
 /**
  * Represents the data required to insert a new Album into the database.

@@ -183,7 +183,7 @@ const DropdownMenuTrigger = ({
 }
 
 const DropdownMenuPortal = ({ children }: { children: ReactNode }) => {
-  return <Fragment>{children}</Fragment>
+  return children
 }
 
 export type DropdownMenuGroupProps = {

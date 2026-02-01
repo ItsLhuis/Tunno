@@ -33,7 +33,7 @@ const Discover = ({ discover }: DiscoverProps) => {
       <Carousel className="-mx-2">
         <CarouselContent>
           {discover.songs.map((song, index) => (
-            <CarouselItem key={`${song.id}-${index}`} className="w-50">
+            <CarouselItem key={song.id} className="w-50">
               <SongItemCard song={song} index={index} />
             </CarouselItem>
           ))}

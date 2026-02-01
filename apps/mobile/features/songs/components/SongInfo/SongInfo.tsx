@@ -126,8 +126,8 @@ const SongInfo = () => {
               <View style={[styles.section, styles.sectionPadded]}>
                 <Text variant="h3">{t("form.labels.lyrics")}</Text>
                 <View style={styles.lyricsContainer}>
-                  {data.lyrics.map((line, index) => (
-                    <View key={index} style={styles.lyricLine}>
+                  {data.lyrics.map((line) => (
+                    <View key={line.startTime} style={styles.lyricLine}>
                       <Text size="sm" color="mutedForeground">
                         [{formatTime(line.startTime)}]
                       </Text>

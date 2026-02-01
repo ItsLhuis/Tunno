@@ -157,7 +157,7 @@ export async function getSQLiteDatabase(name: string): Promise<Database> {
  * @param results - The raw results received from the underlying SQLite driver.
  * @returns An array of processed results.
  */
-function processResults(results: any[]): any[] {
+function processResults(results: unknown[]): unknown[] {
   if (!results || results.length === 0) return []
 
   return results.map((row) => {
@@ -198,7 +198,7 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
       queryContext.isReturningQuery = isReturningQuery(sql)
       queryContext.tableName = extractTableName(sql)
 
-      let result: any[] = []
+      let result: unknown[] = []
 
       if (queryContext.isReturningQuery) {
         queryContext.returningColumns = extractReturningColumns(sql)
@@ -213,7 +213,7 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
         } else if (isUpdateQuery(cleanSql) && queryContext.tableName) {
           // Simulate RETURNING for UPDATE
           const whereClause = extractWhereClause(cleanSql)
-          let affectedRows: any[] = []
+          let affectedRows: unknown[] = []
 
           if (whereClause) {
             const whereParams = extractWhereParams(cleanSql, params)
@@ -254,7 +254,7 @@ export function drizzle<TSchema extends Record<string, unknown> = Record<string,
       const finalResult =
         method === "all" ? processedRows : processedRows.length > 0 ? processedRows[0] : {}
 
-      return { rows: finalResult }
+      return { rows: finalResult as unknown[] }
     } catch (error) {
       throw new Error(typeof error === "string" ? error : JSON.stringify(error))
     }

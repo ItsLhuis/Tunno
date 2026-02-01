@@ -41,6 +41,7 @@ export function processStyleSheet<T extends StyleSheetDefinition>(
 
   for (const key in processedStaticStyles) {
     const registeredStyle = processedStaticStyles[key as keyof typeof processedStaticStyles]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     processed[key] = registeredStyle as any
   }
 
@@ -66,6 +67,7 @@ export function processStyleSheet<T extends StyleSheetDefinition>(
  * @param styles - Array of styles (can include nested arrays)
  * @returns Flattened array of styles
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function flattenStyles(styles: (Style | undefined | false | null | Array<any>)[]): Style[] {
   const result: Style[] = []
 
@@ -88,6 +90,7 @@ export function flattenStyles(styles: (Style | undefined | false | null | Array<
  * @param styles - Styles to merge (supports nested arrays)
  * @returns Merged style object
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mergeStyles(...styles: (Style | undefined | false | null | Array<any>)[]): Style {
   const flattened = flattenStyles(styles)
   return Object.assign({}, ...flattened)

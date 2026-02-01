@@ -36,8 +36,8 @@ const OnRepeat = ({ onRepeat }: OnRepeatProps) => {
         </Text>
       </View>
       <View style={styles.songsList}>
-        {onRepeat.songs.map((song, index) => (
-          <SongItemList key={`${song.id}-${index}`} song={song} allSongIds={allSongIds} />
+        {onRepeat.songs.map((song) => (
+          <SongItemList key={song.id} song={song} allSongIds={allSongIds} />
         ))}
       </View>
     </View>

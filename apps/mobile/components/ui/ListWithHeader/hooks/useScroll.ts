@@ -19,8 +19,10 @@ import { debounce } from "lodash"
 
 import { SharedScrollContainerProps } from "../types"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ScrollableRef<T = any> = AnimatedRef<Animated.ScrollView> | AnimatedRef<Animated.FlatList<T>>
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UseScrollProps<T = any> = {
   scrollRef: ScrollableRef<T>
   adjustmentOffset?: number
@@ -34,6 +36,7 @@ type UseScrollProps<T = any> = {
   onScrollWorklet?: (evt: NativeScrollEvent) => void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useScroll<T = any>({
   scrollRef,
   largeHeaderShown,

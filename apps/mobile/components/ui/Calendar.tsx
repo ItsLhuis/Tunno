@@ -144,8 +144,8 @@ const CustomHeader = ({ month, addMonth, firstDay = 0 }: CalendarHeaderProps) =>
         </Pressable>
       </View>
       <View style={styles.weekDaysRow}>
-        {weekDays.map((day, index) => (
-          <View key={index} style={styles.weekDayCell}>
+        {weekDays.map((day) => (
+          <View key={day} style={styles.weekDayCell}>
             <Text size="xs" color="mutedForeground" style={styles.weekDayText}>
               {day}
             </Text>

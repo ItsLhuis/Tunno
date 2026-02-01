@@ -13,7 +13,9 @@ export type StickToIndexOptions = {
   block?: ScrollLogicalPosition
   scrollRef?: RefObject<HTMLElement | null>
   initialScroll?: boolean
-  virtualizer?: Virtualizer<any, any> | RefObject<Virtualizer<any, any> | null>
+  virtualizer?:
+    | Virtualizer<HTMLElement, Element>
+    | RefObject<Virtualizer<HTMLElement, Element> | null>
   effectiveColumns?: number
   preventUserScroll?: boolean
 }
@@ -190,7 +192,7 @@ export function useStickToIndex({
     return () => {
       container.removeEventListener("wheel", handleUserScroll)
       container.removeEventListener("touchmove", handleUserScroll)
-      container.removeEventListener("keydown", handleUserScroll as any)
+      container.removeEventListener("keydown", handleUserScroll as EventListener)
     }
   }, [enabled, scrollRef, preventUserScroll])
 

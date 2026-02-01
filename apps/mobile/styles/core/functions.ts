@@ -289,6 +289,7 @@ export function createPlatformFunction() {
       "worklet"
 
       if (Platform.OS in options) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (options as any)[Platform.OS] ?? options.default
       }
       return options.default

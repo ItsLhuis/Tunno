@@ -585,6 +585,7 @@ const CarouselDots = ({ style, dotStyle, activeDotStyle, onDotPress }: CarouselD
     <View style={[styles.dotsContainer(isHorizontal), style]}>
       {Array.from({ length: itemCount }).map((_, index) => (
         <CarouselDot
+          // eslint-disable-next-line react/no-array-index-key -- Dots represent fixed positions 0 through n-1, index is semantically correct
           key={index}
           index={index}
           isActive={index === currentIndex}

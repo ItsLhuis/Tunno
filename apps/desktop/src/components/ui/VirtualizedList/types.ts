@@ -6,7 +6,7 @@ import {
   type RefObject
 } from "react"
 
-import { type Virtualizer } from "@tanstack/react-virtual"
+import { type VirtualItem, type Virtualizer } from "@tanstack/react-virtual"
 import { type SelectionController } from "@repo/utils"
 
 export type VirtualizedListController<TItem> = SelectionController<TItem>
@@ -60,7 +60,7 @@ export type VirtualizedItemProps<TItem> = {
 }
 
 export type VirtualRowProps<TItem> = {
-  virtualRow: any
+  virtualRow: VirtualItem
   data: TItem[]
   effectiveColumns: number
   keyExtractor: (item: TItem, index: number) => string

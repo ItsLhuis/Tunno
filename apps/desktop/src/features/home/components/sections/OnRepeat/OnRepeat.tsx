@@ -33,7 +33,7 @@ const OnRepeat = ({ onRepeat }: OnRepeatProps) => {
       <div className="flex flex-col gap-2">
         {onRepeat.songs.map((song, index) => (
           <SongItemList
-            key={`${song.id}-${index}`}
+            key={song.id}
             song={song}
             index={index}
             allSongIds={allSongIds}
