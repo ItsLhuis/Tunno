@@ -8,7 +8,6 @@
     "scheme": "tunno",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "jsEngine": "hermes",
     "ios": {
       "icon": {
         "light": "./assets/images/ios/icons/default.png",
