@@ -38,7 +38,7 @@ type TabIndicatorProps = {
   tabCount: number
 }
 
-function TabIndicator({ activeIndex, tabCount }: TabIndicatorProps) {
+const TabIndicator = ({ activeIndex, tabCount }: TabIndicatorProps) => {
   const styles = useStyles(tabIndicatorStyles)
 
   const { width: screenWidth } = useWindowDimensions()
@@ -82,7 +82,7 @@ const tabIndicatorStyles = createStyleSheet(({ theme }) => ({
   }
 }))
 
-function TabLayoutContent() {
+const TabLayoutContent = () => {
   const styles = useStyles(tabLayoutStyles)
 
   const { theme } = useTheme()

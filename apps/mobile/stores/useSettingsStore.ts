@@ -13,17 +13,8 @@ const SETTINGS_STORE_NAME = "settings"
  * Represents the state structure of the {@link useSettingsStore}.
  */
 type SettingsState = {
-  /**
-   * The currently selected application theme ("dark", "light", or "system").
-   */
   theme: "dark" | "light" | "system"
-  /**
-   * The currently selected language/locale for the application.
-   */
   language: LocaleKeys
-  /**
-   * Indicates whether the store has been rehydrated from persistent storage.
-   */
   hasHydrated: boolean
 }
 
@@ -31,20 +22,8 @@ type SettingsState = {
  * Defines the available actions (methods) that can be dispatched on the {@link useSettingsStore}.
  */
 type SettingsActions = {
-  /**
-   * Sets the application theme.
-   * @param theme - The new theme ("dark", "light", or "system").
-   */
   setTheme: (theme: "dark" | "light" | "system") => void
-  /**
-   * Sets the application language/locale and dynamically changes the i18n language.
-   * @param code - The new language code (e.g., "en", "es").
-   */
   setLanguage: (code: LocaleKeys) => void
-  /**
-   * Sets the hydration status of the store, typically used after rehydration from persistence.
-   * @param hasHydrated - `true` if the store has been hydrated, `false` otherwise.
-   */
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
