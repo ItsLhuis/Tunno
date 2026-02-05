@@ -33,7 +33,7 @@ const features: Feature[] = [
     highlightWord: "downloads",
     description:
       "Download from YouTube with one command. Enrich metadata from Spotify. Batch process entire playlists.",
-    image: "/tunno/assets/automateyourdownloads.jpg",
+    image: "/Tunno/assets/automateyourdownloads.jpg",
     cta: "View CLI Docs",
     ctaHref: "https://github.com/ItsLhuis/Tunno/blob/main/apps/cli/README.md",
     layout: "left"
@@ -45,7 +45,7 @@ const features: Feature[] = [
     highlightWord: "center",
     description:
       "Beautiful organization. Smart search. Listening stats. The ultimate home for your local library.",
-    image: "/tunno/assets/yourmusiccommandcenter.jpg",
+    image: "/Tunno/assets/yourmusiccommandcenter.jpg",
     cta: "Download for Windows",
     ctaHref: "#download",
     layout: "center"
@@ -57,7 +57,7 @@ const features: Feature[] = [
     highlightWord: "anywhere",
     description:
       "Full library on the go. Offline playback. Auto-sync with desktop. No internet needed.",
-    image: "/tunno/assets/listenanywhere.jpg",
+    image: "/Tunno/assets/listenanywhere.jpg",
     cta: "Get Android App",
     ctaHref: "#download",
     layout: "right"

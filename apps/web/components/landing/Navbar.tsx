@@ -20,7 +20,7 @@ const navbarConfig: {
   cta: { href: string; label: string; icon: IconProps["name"] }
 } = {
   logo: {
-    src: "/tunno/assets/images/app/icon.png",
+    src: "/Tunno/assets/images/app/icon.png",
     alt: "Logo",
     width: 40,
     height: 40

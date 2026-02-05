@@ -56,9 +56,9 @@ const Hero = ({ className, ...props }: HeroProps) => {
   }, [])
 
   const themePath = mounted ? (resolvedTheme === "dark" ? "dark" : "light") : "light"
-  const mobileImageSrc = `/tunno/assets/${themePath}/mobile.jpg`
-  const tabletImageSrc = `/tunno/assets/${themePath}/tablet.jpg`
-  const desktopImageSrc = `/tunno/assets/${themePath}/desktop.jpg`
+  const mobileImageSrc = `/Tunno/assets/${themePath}/mobile.jpg`
+  const tabletImageSrc = `/Tunno/assets/${themePath}/tablet.jpg`
+  const desktopImageSrc = `/Tunno/assets/${themePath}/desktop.jpg`
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {

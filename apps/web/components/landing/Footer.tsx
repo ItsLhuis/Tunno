@@ -15,7 +15,7 @@ const Footer = () => {
         <div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
           <div className="flex flex-col items-start justify-start md:max-w-50">
             <div className="flex items-start">
-              <Image src="/tunno/assets/images/app/icon.png" alt="Logo" height={30} width={30} />
+              <Image src="/Tunno/assets/images/app/icon.png" alt="Logo" height={30} width={30} />
             </div>
             <p className="text-muted-foreground mt-4 text-start text-sm">
               Enjoy your music anywhere, anytime.
@@ -31,7 +31,7 @@ const Footer = () => {
             <div className="text-muted-foreground flex items-center gap-1 pt-2">
               <Link href="https://github.com/ItsLhuis/tunno" target="_blank">
                 <Image
-                  src="/tunno/assets/images/github.svg"
+                  src="/Tunno/assets/images/github.svg"
                   alt="GitHub"
                   width={16}
                   height={16}
@@ -107,14 +107,14 @@ const Footer = () => {
                   </li>
                   <li className="mt-2">
                     <Button variant="link" asChild>
-                      <Link href="https://github.com/ItsLhuis/tunno/issues" target="_blank">
+                      <Link href="https://github.com/ItsLhuis/Tunno/issues" target="_blank">
                         Report Issue
                       </Link>
                     </Button>
                   </li>
                   <li className="mt-2">
                     <Button variant="link" asChild>
-                      <Link href="https://github.com/ItsLhuis/tunno/releases" target="_blank">
+                      <Link href="https://github.com/ItsLhuis/Tunno/releases" target="_blank">
                         Releases
                       </Link>
                     </Button>
