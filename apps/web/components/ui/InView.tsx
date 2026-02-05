@@ -28,7 +28,7 @@ export type InViewProps = {
   className?: string
 }
 
-function InView({
+const InView = ({
   children,
   variants,
   transition,
@@ -40,7 +40,7 @@ function InView({
   blur = "6px",
   delay = 0.1,
   className
-}: InViewProps) {
+}: InViewProps) => {
   const ref = useRef(null)
 
   const isInView = useInView(ref, viewOptions)

@@ -9,7 +9,7 @@ interface MousePosition {
   y: number
 }
 
-const useMousePosition = (): MousePosition => {
+function useMousePosition(): MousePosition {
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 })
 
   useEffect(() => {
@@ -38,16 +38,20 @@ type ParticlesProps = ComponentPropsWithoutRef<"div"> & {
 
 const hexToRgb = (hex: string): number[] => {
   hex = hex.replace("#", "")
+
   if (hex.length === 3) {
     hex = hex
       .split("")
       .map((char) => char + char)
       .join("")
   }
+
   const hexInt = parseInt(hex, 16)
+
   const red = (hexInt >> 16) & 255
   const green = (hexInt >> 8) & 255
   const blue = hexInt & 255
+
   return [red, green, blue]
 }
 
@@ -69,7 +73,7 @@ const Particles = ({
   quantity = 100,
   staticity = 50,
   ease = 50,
-  size = 0.4,
+  size = 1,
   refresh = false,
   color = "#FC3C44",
   vx = 0,

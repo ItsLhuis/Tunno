@@ -6,27 +6,27 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state"
 
 import { cn } from "@lib/utils"
 
-import { Monitor, Moon, Sun } from "lucide-react"
-
 import { motion } from "motion/react"
+
+import { Icon } from "./Icon"
 
 const themes = [
   {
     key: "system",
-    icon: Monitor,
+    icon: "Monitor",
     label: "System theme"
   },
   {
     key: "light",
-    icon: Sun,
+    icon: "Sun",
     label: "Light theme"
   },
   {
     key: "dark",
-    icon: Moon,
+    icon: "Moon",
     label: "Dark theme"
   }
-]
+] as const
 
 export type ThemeSwitcherProps = {
   value?: "light" | "dark" | "system"
@@ -59,7 +59,7 @@ const ThemeSwitcher = ({ value, onChange, defaultValue, className }: ThemeSwitch
         className
       )}
     >
-      {themes.map(({ key, icon: Icon, label }) => {
+      {themes.map(({ key, icon, label }) => {
         const isActive = theme === key
 
         return (
@@ -67,7 +67,7 @@ const ThemeSwitcher = ({ value, onChange, defaultValue, className }: ThemeSwitch
             type="button"
             key={key}
             className="relative h-6 w-6 cursor-pointer rounded-full"
-            onClick={() => setTheme(key as "light" | "dark" | "system")}
+            onClick={() => setTheme(key)}
             aria-label={label}
           >
             {isActive && (
@@ -78,6 +78,7 @@ const ThemeSwitcher = ({ value, onChange, defaultValue, className }: ThemeSwitch
               />
             )}
             <Icon
+              name={icon}
               className={cn(
                 "relative m-auto h-4 w-4",
                 isActive ? "text-foreground" : "text-muted-foreground"

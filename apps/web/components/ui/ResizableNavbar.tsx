@@ -13,6 +13,7 @@ type ResizableNavbarProps = {
 
 const ResizableNavbar = ({ children, className }: ResizableNavbarProps) => {
   const ref = useRef<HTMLDivElement>(null)
+
   const isMobile = useIsMobile()
 
   const { scrollY } = useScroll({
@@ -31,12 +32,11 @@ const ResizableNavbar = ({ children, className }: ResizableNavbarProps) => {
   })
 
   return (
-    <motion.header ref={ref} className={cn("group sticky inset-x-0 top-4 z-40 w-full", className)}>
+    <motion.header ref={ref} className={cn("group fixed inset-x-0 top-4 z-40 w-full", className)}>
       <motion.div
         animate={{
-          backdropFilter: isScrolled ? "blur(20px)" : "none",
           width: isScrolled ? "60%" : "100%",
-          y: !isMobile && isScrolled ? 20 : 0
+          y: !isMobile && isScrolled ? 10 : 0
         }}
         transition={{
           type: "spring",
@@ -44,7 +44,7 @@ const ResizableNavbar = ({ children, className }: ResizableNavbarProps) => {
           damping: 50
         }}
         className={cn(
-          "relative z-[60] mx-auto w-full max-w-full min-w-full flex-row items-center justify-between self-start rounded-full border border-transparent bg-transparent px-4 py-2 lg:max-w-7xl lg:min-w-[800px] dark:bg-transparent",
+          "bg-background relative z-60 mx-auto max-w-450 flex-row items-center justify-between self-start rounded-full border border-transparent px-4 py-2",
           isScrolled && "border-border",
           className
         )}
