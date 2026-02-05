@@ -337,7 +337,7 @@ export type ThemeMode = "light" | "dark" | "system"
  * // Result: { size?: 'sm' | 'md' | 'lg', variant?: 'primary' | 'secondary' | 'destructive' }
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export type ExtractVariantProps<T> =
   T extends MarkedVariantFunction<infer V, any>
     ? {
@@ -369,7 +369,7 @@ export type ExtractVariantProps<T> =
  * // Result: 'primary' | 'secondary'
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export type ExtractVariantValues<T, Key extends string> =
   T extends MarkedVariantFunction<infer V, any>
     ? Key extends keyof V
@@ -387,7 +387,7 @@ type SafeReturnType<T> = T extends (...args: any[]) => infer R ? R : T
  * Helper to extract keys from a variant option object while preserving literal types
  * Uses distributive conditional types and string literal preservation
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 type ExtractVariantKeys<T> =
   T extends Record<infer K, any> ? (K extends "true" | "false" ? boolean : K) : never
 
