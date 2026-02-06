@@ -18,7 +18,11 @@ import {
   ValidationErrorCode
 } from "@repo/api"
 
-import { extractConstraintInfo, isUniqueConstraintError } from "@repo/database"
+import {
+  extractConstraintInfo,
+  generatePlaylistFingerprint,
+  isUniqueConstraintError
+} from "@repo/database"
 
 import { type TFunction } from "@repo/i18n"
 
@@ -47,9 +51,11 @@ export async function insertPlaylist(
       ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
       : null
 
+    const fingerprint = await generatePlaylistFingerprint(playlist.name)
+
     const [createdPlaylist] = await database
       .insert(schema.playlists)
-      .values({ ...playlist, thumbnail: thumbnailName })
+      .values({ ...playlist, thumbnail: thumbnailName, fingerprint })
       .returning()
 
     return createdPlaylist

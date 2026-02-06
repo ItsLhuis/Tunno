@@ -1,6 +1,6 @@
 import { database, schema } from "@database/client"
 
-import { eq } from "drizzle-orm"
+import { eq, inArray } from "drizzle-orm"
 
 import {
   deleteFile,
@@ -13,6 +13,8 @@ import { updateArtistStatsForSong } from "./stats/artist"
 import { updatePlaylistStatsForSong } from "./stats/playlist"
 
 import { type InsertSong, type Song, type UpdateSong } from "@repo/api"
+
+import { generateSongFingerprint } from "@repo/database"
 
 /**
  * Inserts a new song into the database, handling file storage and related artist/album statistics.
@@ -41,12 +43,39 @@ export async function insertSong(
     ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
     : null
 
+  const artistNames =
+    artists.length > 0
+      ? (
+          await database
+            .select({ name: schema.artists.name })
+            .from(schema.artists)
+            .where(inArray(schema.artists.id, artists))
+        ).map((a) => a.name)
+      : []
+
+  let albumName: string | null = null
+  if (song.albumId) {
+    const [album] = await database
+      .select({ name: schema.albums.name })
+      .from(schema.albums)
+      .where(eq(schema.albums.id, song.albumId))
+    albumName = album?.name ?? null
+  }
+
+  const fingerprint = await generateSongFingerprint(
+    song.name,
+    song.duration,
+    artistNames,
+    albumName
+  )
+
   const [createdSong] = await database
     .insert(schema.songs)
     .values({
       ...song,
       file: fileName,
-      thumbnail: thumbnailName
+      thumbnail: thumbnailName,
+      fingerprint
     })
     .returning()
 

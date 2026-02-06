@@ -1,6 +1,6 @@
 import { database, schema } from "@database/client"
 
-import { eq } from "drizzle-orm"
+import { eq, inArray } from "drizzle-orm"
 
 import {
   deleteFile,
@@ -19,6 +19,8 @@ import {
 import { checkAlbumArtistIntegrity } from "@features/songs/api/validations"
 
 import { checkDuplicateAlbum } from "./validations"
+
+import { generateAlbumFingerprint } from "@repo/database"
 
 import { type TFunction } from "@repo/i18n"
 
@@ -57,9 +59,21 @@ export async function insertAlbum(
     ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
     : null
 
+  const artistNames =
+    artists && artists.length > 0
+      ? (
+          await database
+            .select({ name: schema.artists.name })
+            .from(schema.artists)
+            .where(inArray(schema.artists.id, artists))
+        ).map((a) => a.name)
+      : []
+
+  const fingerprint = await generateAlbumFingerprint(album.name, album.albumType, artistNames)
+
   const [createdAlbum] = await database
     .insert(schema.albums)
-    .values({ ...album, thumbnail: thumbnailName })
+    .values({ ...album, thumbnail: thumbnailName, fingerprint })
     .returning()
 
   if (artists && artists.length > 0) {

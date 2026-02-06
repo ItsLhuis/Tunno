@@ -16,7 +16,11 @@ import {
   ValidationErrorCode
 } from "@repo/api"
 
-import { extractConstraintInfo, isUniqueConstraintError } from "@repo/database"
+import {
+  extractConstraintInfo,
+  generateArtistFingerprint,
+  isUniqueConstraintError
+} from "@repo/database"
 
 import { type TFunction } from "@repo/i18n"
 
@@ -47,9 +51,11 @@ export async function insertArtist(
       ? await saveFileWithUniqueNameFromPath("thumbnails", thumbnailPath)
       : null
 
+    const fingerprint = await generateArtistFingerprint(artist.name)
+
     const [createdArtist] = await database
       .insert(schema.artists)
-      .values({ ...artist, thumbnail: thumbnailName })
+      .values({ ...artist, thumbnail: thumbnailName, fingerprint })
       .returning()
 
     return createdArtist
