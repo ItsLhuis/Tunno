@@ -51,6 +51,7 @@ export const songs = sqliteTable(
         }[]
       >()
       .default([]),
+    fingerprint: text("fingerprint", { length: 64 }),
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     createdAt: integer("created_at", { mode: "timestamp" })
@@ -73,7 +74,8 @@ export const songs = sqliteTable(
     index("songs_lastplayed_id_idx").on(desc(table.lastPlayedAt), table.id),
     index("songs_name_id_idx").on(table.name, table.id),
     index("songs_album_created_id_idx").on(table.albumId, desc(table.createdAt), table.id),
-    index("songs_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id)
+    index("songs_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id),
+    uniqueIndex("songs_fingerprint_idx").on(table.fingerprint)
   ]
 )
 
@@ -135,6 +137,7 @@ export const artists = sqliteTable(
       .$defaultFn(() => randomUUID()),
     name: text("name", { length: 100 }).unique().notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
+    fingerprint: text("fingerprint", { length: 64 }),
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
@@ -159,7 +162,12 @@ export const artists = sqliteTable(
     index("artists_playcount_id_idx").on(desc(table.playCount), table.id),
     index("artists_lastplayed_id_idx").on(desc(table.lastPlayedAt), table.id),
     index("artists_name_id_idx").on(table.name, table.id),
-    index("artists_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id)
+    index("artists_favorite_playcount_id_idx").on(
+      table.isFavorite,
+      desc(table.playCount),
+      table.id
+    ),
+    uniqueIndex("artists_fingerprint_idx").on(table.fingerprint)
   ]
 )
 
@@ -203,6 +211,7 @@ export const albums = sqliteTable(
     playCount: integer("play_count").notNull().default(0),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
     albumType: text("album_type", { enum: ["single", "album", "compilation"] }).notNull(),
+    fingerprint: text("fingerprint", { length: 64 }),
     totalTracks: integer("total_tracks").notNull().default(0),
     totalDuration: integer("total_duration").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
@@ -226,7 +235,8 @@ export const albums = sqliteTable(
     index("albums_playcount_id_idx").on(desc(table.playCount), table.id),
     index("albums_lastplayed_id_idx").on(desc(table.lastPlayedAt), table.id),
     index("albums_name_id_idx").on(table.name, table.id),
-    index("albums_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id)
+    index("albums_favorite_playcount_id_idx").on(table.isFavorite, desc(table.playCount), table.id),
+    uniqueIndex("albums_fingerprint_idx").on(table.fingerprint)
   ]
 )
 
@@ -288,6 +298,7 @@ export const playlists = sqliteTable(
       .$defaultFn(() => randomUUID()),
     name: text("name", { length: 100 }).unique().notNull(),
     thumbnail: text("thumbnail", { length: 50 }),
+    fingerprint: text("fingerprint", { length: 64 }),
     playCount: integer("play_count").notNull().default(0),
     lastPlayedAt: integer("last_played_at", { mode: "timestamp" }),
     isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
@@ -315,7 +326,8 @@ export const playlists = sqliteTable(
       table.isFavorite,
       desc(table.playCount),
       table.id
-    )
+    ),
+    uniqueIndex("playlists_fingerprint_idx").on(table.fingerprint)
   ]
 )
 
