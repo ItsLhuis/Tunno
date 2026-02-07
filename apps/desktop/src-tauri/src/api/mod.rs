@@ -6,14 +6,22 @@ use serde_json::json;
 use local_ip_address::local_ip;
 
 use std::net::{SocketAddr, TcpListener};
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::LazyLock;
 
 use tokio::sync::{oneshot, Mutex};
 
+pub mod auth;
+pub mod commands;
+pub mod db;
+pub mod file_routes;
+pub mod sync_routes;
+
 pub struct ApiServer {
     shutdown_tx: Option<oneshot::Sender<()>>,
     server_info: Option<ServerInfo>,
+    token: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -22,6 +30,7 @@ pub struct ServerInfo {
     pub port: u16,
     pub url: String,
     pub endpoints: Vec<String>,
+    pub token: Option<String>,
 }
 
 impl ApiServer {
@@ -29,6 +38,7 @@ impl ApiServer {
         Self {
             shutdown_tx: None,
             server_info: None,
+            token: None,
         }
     }
 
@@ -41,18 +51,31 @@ impl ApiServer {
         Err("No available ports found".into())
     }
 
-    pub async fn start(&mut self) -> Result<ServerInfo, Box<dyn std::error::Error>> {
+    pub async fn start(
+        &mut self,
+        app_data_dir: PathBuf,
+    ) -> Result<ServerInfo, Box<dyn std::error::Error>> {
         let port = Self::find_available_port(3030)?;
         let local_ip = local_ip()?;
         let server_url = format!("http://{}:{}", local_ip, port);
 
-        let endpoints = vec!["/ping".to_string(), "/connection".to_string()];
+        let token = auth::generate_token();
+
+        let endpoints = vec![
+            "/ping".to_string(),
+            "/connection".to_string(),
+            "/api/sync/compare".to_string(),
+            "/api/sync/batch".to_string(),
+            "/api/files/audio/:fingerprint".to_string(),
+            "/api/files/thumbnail/:fingerprint/:type".to_string(),
+        ];
 
         let server_info = ServerInfo {
             ip: local_ip,
             port,
             url: server_url.clone(),
             endpoints: endpoints.clone(),
+            token: Some(token.clone()),
         };
 
         let info_for_routes = server_info.clone();
@@ -74,15 +97,29 @@ impl ApiServer {
             }))
         });
 
+        let token_arc = Arc::new(token.clone());
+        let db_path = Arc::new(db::resolve_db_path(&app_data_dir));
+        let app_data_arc = Arc::new(app_data_dir);
+
+        let sync = sync_routes::sync_routes(token_arc.clone(), db_path.clone());
+        let files = file_routes::file_routes(token_arc, db_path, app_data_arc);
+
         let cors = warp::cors()
             .allow_any_origin()
             .allow_headers(vec!["content-type", "authorization"])
             .allow_methods(vec!["GET", "POST"]);
 
-        let routes = ping.or(connection_info).with(cors).with(warp::log("api"));
+        let routes = ping
+            .or(connection_info)
+            .or(sync)
+            .or(files)
+            .recover(auth::handle_rejection)
+            .with(cors)
+            .with(warp::log("api"));
 
         let (shutdown_tx, shutdown_rx) = oneshot::channel();
         self.shutdown_tx = Some(shutdown_tx);
+        self.token = Some(token);
         self.server_info = Some(server_info.clone());
 
         let server_addr: SocketAddr = ([0, 0, 0, 0], port).into();
@@ -100,6 +137,7 @@ impl ApiServer {
             let _ = shutdown_tx.send(());
         }
         self.server_info = None;
+        self.token = None;
     }
 
     pub fn is_running(&self) -> bool {
@@ -113,13 +151,11 @@ impl ApiServer {
     pub fn generate_qr_data(&self) -> Option<String> {
         self.server_info.as_ref().map(|info| {
             json!({
-                "server": {
-                    "ip": info.ip,
-                    "port": info.port,
-                    "url": info.url,
-                    "endpoints": info.endpoints
-                },
-                "timestamp": chrono::Utc::now().to_rfc3339()
+                "version": "1.0",
+                "host": info.ip,
+                "port": info.port,
+                "token": info.token,
+                "url": info.url
             })
             .to_string()
         })
@@ -129,9 +165,11 @@ impl ApiServer {
 static API_SERVER: LazyLock<Arc<Mutex<ApiServer>>> =
     LazyLock::new(|| Arc::new(Mutex::new(ApiServer::new())));
 
-pub async fn start_api_server() -> Result<ServerInfo, Box<dyn std::error::Error>> {
+pub async fn start_api_server(
+    app_data_dir: PathBuf,
+) -> Result<ServerInfo, Box<dyn std::error::Error>> {
     let mut server = API_SERVER.lock().await;
-    server.start().await
+    server.start(app_data_dir).await
 }
 
 pub async fn stop_api_server() {
@@ -153,5 +191,3 @@ pub async fn generate_qr_data() -> Option<String> {
     let server = API_SERVER.lock().await;
     server.generate_qr_data()
 }
-
-pub mod commands;
