@@ -1,6 +1,6 @@
 import { Header, ScrollAreaWithHeaders, StickyHeader, Typography } from "@components/ui"
 
-import { ExportSection } from "@features/settings/features/sync/components"
+import { ExportSection, SyncSection } from "@features/settings/features/sync/components"
 import { SidebarTrigger } from "@features/settings/layout"
 
 const Sync = () => {
@@ -28,6 +28,7 @@ const Sync = () => {
       }}
     >
       <div className="flex flex-col gap-9">
+        <SyncSection />
         <ExportSection />
       </div>
     </ScrollAreaWithHeaders>

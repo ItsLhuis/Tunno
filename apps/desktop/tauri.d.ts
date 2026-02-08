@@ -13,6 +13,17 @@ declare module "@tauri-apps/api/core" {
     fast_upload_cleanup_cache_directory: { cachePath: string }
     fast_upload_check_cache_exists: { cachePath: string }
     fast_upload_cleanup_all_cache: void
+    sync_create_bundle: {
+      outputDir: string
+      manifestJson: string
+      tracksData: {
+        dir_name: string
+        audio_file: string
+        thumbnails: string[]
+        metadata_json: string
+      }[]
+    }
+    backfill_fingerprints: void
   }
 
   interface InvokeReturns {
@@ -37,6 +48,8 @@ declare module "@tauri-apps/api/core" {
     fast_upload_cleanup_cache_directory: void
     fast_upload_check_cache_exists: boolean
     fast_upload_cleanup_all_cache: void
+    sync_create_bundle: string
+    backfill_fingerprints: number
   }
 
   function invoke<T extends keyof InvokeArgs>(

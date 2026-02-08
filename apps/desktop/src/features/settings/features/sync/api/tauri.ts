@@ -9,6 +9,37 @@ type TauriTrackExportData = {
   metadata_json: string
 }
 
+export type ServerInfo = {
+  ip: string
+  port: number
+  url: string
+  endpoints: string[]
+}
+
+export async function startServer(): Promise<ServerInfo> {
+  return await invoke<ServerInfo>("start_server")
+}
+
+export async function stopServer(): Promise<void> {
+  return await invoke<void>("stop_server")
+}
+
+export async function isServerRunning(): Promise<boolean> {
+  return await invoke<boolean>("is_server_running")
+}
+
+export async function getServerInfo(): Promise<ServerInfo | null> {
+  return await invoke<ServerInfo | null>("get_server_info")
+}
+
+export async function getQrData(): Promise<string | null> {
+  return await invoke<string | null>("get_qr_data")
+}
+
+export async function backfillFingerprints(): Promise<number> {
+  return await invoke<number>("backfill_fingerprints")
+}
+
 export async function createExportBundle(
   outputDir: string,
   manifestJson: string,
