@@ -15,6 +15,8 @@ import {
   type ScrollHeaderProps
 } from "@components/ui"
 
+import { SyncSection } from "@features/settings/features/sync/components"
+
 const Sync = () => {
   const styles = useStyles(syncStyles)
 
@@ -54,7 +56,9 @@ const Sync = () => {
         LargeHeaderComponent={LargeHeaderComponent}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.sectionsContainer} />
+        <View style={styles.sectionsContainer}>
+          <SyncSection />
+        </View>
       </ScrollViewWithHeaders>
     </View>
   )
