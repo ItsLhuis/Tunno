@@ -62,7 +62,11 @@ export async function insertPlaylist(
   } catch (error: unknown) {
     if (isUniqueConstraintError(error)) {
       const constraintInfo = extractConstraintInfo(error)
-      if (constraintInfo?.table === "playlists" && constraintInfo?.column?.includes("name")) {
+      if (
+        constraintInfo?.table === "playlists" &&
+        (constraintInfo?.column?.includes("name") ||
+          constraintInfo?.column?.includes("fingerprint"))
+      ) {
         const message = t
           ? t("validation.playlist.duplicate")
           : "A playlist with this name already exists"
@@ -129,7 +133,11 @@ export async function updatePlaylist(
   } catch (error: unknown) {
     if (isUniqueConstraintError(error)) {
       const constraintInfo = extractConstraintInfo(error)
-      if (constraintInfo?.table === "playlists" && constraintInfo?.column?.includes("name")) {
+      if (
+        constraintInfo?.table === "playlists" &&
+        (constraintInfo?.column?.includes("name") ||
+          constraintInfo?.column?.includes("fingerprint"))
+      ) {
         const message = t
           ? t("validation.playlist.duplicate")
           : "A playlist with this name already exists"

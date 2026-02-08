@@ -62,7 +62,11 @@ export async function insertArtist(
   } catch (error: unknown) {
     if (isUniqueConstraintError(error)) {
       const constraintInfo = extractConstraintInfo(error)
-      if (constraintInfo?.table === "artists" && constraintInfo?.column?.includes("name")) {
+      if (
+        constraintInfo?.table === "artists" &&
+        (constraintInfo?.column?.includes("name") ||
+          constraintInfo?.column?.includes("fingerprint"))
+      ) {
         const message = t
           ? t("validation.artist.duplicate")
           : "An artist with this name already exists"
@@ -129,7 +133,11 @@ export async function updateArtist(
   } catch (error: unknown) {
     if (isUniqueConstraintError(error)) {
       const constraintInfo = extractConstraintInfo(error)
-      if (constraintInfo?.table === "artists" && constraintInfo?.column?.includes("name")) {
+      if (
+        constraintInfo?.table === "artists" &&
+        (constraintInfo?.column?.includes("name") ||
+          constraintInfo?.column?.includes("fingerprint"))
+      ) {
         const message = t
           ? t("validation.artist.duplicate")
           : "An artist with this name already exists"
