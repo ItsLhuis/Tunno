@@ -6,17 +6,8 @@ import { eq } from "drizzle-orm"
  * Represents a cached entry for an artist, storing essential information for quick lookup.
  */
 export type ArtistCacheEntry = {
-  /**
-   * The unique ID of the artist in the database.
-   */
   id: number
-  /**
-   * The name of the artist.
-   */
   name: string
-  /**
-   * The filename of the artist's thumbnail image, or `null` if none.
-   */
   thumbnail: string | null
 }
 
@@ -24,25 +15,10 @@ export type ArtistCacheEntry = {
  * Represents a cached entry for an album, storing essential information for quick lookup.
  */
 export type AlbumCacheEntry = {
-  /**
-   * The unique ID of the album in the database.
-   */
   id: number
-  /**
-   * The name of the album.
-   */
   name: string
-  /**
-   * The type of the album (e.g., "album", "single", "compilation").
-   */
   albumType: string
-  /**
-   * An array of artist IDs associated with this album.
-   */
   artistIds: number[]
-  /**
-   * The filename of the album's thumbnail image, or `null` if none.
-   */
   thumbnail: string | null
 }
 

@@ -1,5 +1,11 @@
+/**
+ * Represents the possible states of the library export process.
+ */
 export type SyncStatus = "idle" | "preparing" | "exporting" | "completed" | "error"
 
+/**
+ * Represents the overall state of a library synchronization or export process.
+ */
 export type SyncState = {
   status: SyncStatus
   outputPath: string | null
@@ -13,6 +19,10 @@ export type SyncState = {
   bundlePath: string | null
 }
 
+/**
+ * Represents the manifest file structure included in the exported bundle.
+ * Contains metadata about the export source and all exported tracks.
+ */
 export type SyncManifest = {
   version: number
   createdAt: string
@@ -27,6 +37,9 @@ export type SyncManifest = {
   tracks: SyncTrackMeta[]
 }
 
+/**
+ * Represents a simplified metadata structure for a track within the sync manifest.
+ */
 export type SyncTrackMeta = {
   dirName: string
   title: string
@@ -35,12 +48,18 @@ export type SyncTrackMeta = {
   thumbnail: string | null
 }
 
+/**
+ * Represents the metadata for an artist within the synchronization context.
+ */
 export type SyncArtist = {
   name: string
   thumbnail: string | null
   genres: string[] | null
 }
 
+/**
+ * Represents the metadata for an album within the synchronization context.
+ */
 export type SyncAlbum = {
   name: string
   thumbnail: string
@@ -49,6 +68,9 @@ export type SyncAlbum = {
   artists: SyncArtist[]
 }
 
+/**
+ * Represents the detailed metadata for a song, embedded within the exported track bundle.
+ */
 export type SyncSongMetadata = {
   song: string
   title: string
@@ -59,6 +81,9 @@ export type SyncSongMetadata = {
   lyrics: { text: string; startTime: number }[] | null
 }
 
+/**
+ * Represents the raw data for a single track passed to the native Tauri export function.
+ */
 export type TrackExportData = {
   dirName: string
   audioFile: string

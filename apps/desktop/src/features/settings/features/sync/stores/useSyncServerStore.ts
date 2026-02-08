@@ -29,24 +29,18 @@ type SyncServerActions = {
  */
 type SyncServerStore = SyncServerState & SyncServerActions
 
-const initialState: SyncServerState = {
-  isServerRunning: false,
-  serverUrl: null,
-  qrData: null,
-  syncStatus: "idle"
-}
-
 /**
  * Zustand store for managing the state and actions of the sync server.
  *
  * This store centralizes all information related to the local sync server,
  * tracking whether it's running, its URL, QR code data for mobile pairing,
  * and the current sync status throughout the connection lifecycle.
- *
- * @returns A Zustand store instance with sync server state and actions.
  */
 export const useSyncServerStore = create<SyncServerStore>()((set) => ({
-  ...initialState,
+  isServerRunning: false,
+  serverUrl: null,
+  qrData: null,
+  syncStatus: "idle",
   setServerRunning: (running, url, qrData) => {
     set({
       isServerRunning: running,
@@ -59,6 +53,11 @@ export const useSyncServerStore = create<SyncServerStore>()((set) => ({
     set({ syncStatus })
   },
   reset: () => {
-    set(initialState)
+    set({
+      isServerRunning: false,
+      serverUrl: null,
+      qrData: null,
+      syncStatus: "idle"
+    })
   }
 }))

@@ -4,6 +4,10 @@ import { database, schema } from "@database/client"
 
 import { type Album } from "@repo/api"
 
+/**
+ * Defines the data structure for a song prepared for export, including
+ * nested album and artist metadata for synchronization.
+ */
 export type SongForExport = {
   id: number
   name: string
@@ -35,6 +39,12 @@ export type SongForExport = {
   }[]
 }
 
+/**
+ * Retrieves all songs from the database with their full relational data,
+ * formatted specifically for export or synchronization.
+ *
+ * @returns A Promise that resolves to an array of {@link SongForExport} objects.
+ */
 export async function getAllSongsForExport(): Promise<SongForExport[]> {
   const songs = await database.query.songs.findMany({
     columns: {
