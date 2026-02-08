@@ -42,24 +42,36 @@ impl ApiServer {
         }
     }
 
-    fn find_available_port(start_port: u16) -> Result<u16, Box<dyn std::error::Error>> {
+    fn find_available_port(start_port: u16) -> Result<u16, String> {
         for port in start_port..start_port + 100 {
-            if let Ok(_) = TcpListener::bind(format!("127.0.0.1:{}", port)) {
+            if TcpListener::bind(SocketAddr::from(([0, 0, 0, 0], port))).is_ok() {
                 return Ok(port);
             }
         }
-        Err("No available ports found".into())
+        Err(format!(
+            "All ports {}-{} are in use",
+            start_port,
+            start_port + 99
+        ))
     }
 
     pub async fn start(
         &mut self,
         app_data_dir: PathBuf,
-    ) -> Result<ServerInfo, Box<dyn std::error::Error>> {
+    ) -> Result<ServerInfo, String> {
         let port = Self::find_available_port(3030)?;
-        let local_ip = local_ip()?;
-        let server_url = format!("http://{}:{}", local_ip, port);
+
+        let local_ip = local_ip().map_err(|e| {
+            format!("Failed to detect local network IP: {}", e)
+        })?;
+
+        let db_path = db::resolve_db_path(&app_data_dir);
+        if !db_path.exists() {
+            return Err(format!("Database not found at {:?}", db_path));
+        }
 
         let token = auth::generate_token();
+        let server_url = format!("http://{}:{}", local_ip, port);
 
         let endpoints = vec![
             "/ping".to_string(),
@@ -98,11 +110,11 @@ impl ApiServer {
         });
 
         let token_arc = Arc::new(token.clone());
-        let db_path = Arc::new(db::resolve_db_path(&app_data_dir));
+        let db_path_arc = Arc::new(db_path);
         let app_data_arc = Arc::new(app_data_dir);
 
-        let sync = sync_routes::sync_routes(token_arc.clone(), db_path.clone());
-        let files = file_routes::file_routes(token_arc, db_path, app_data_arc);
+        let sync = sync_routes::sync_routes(token_arc.clone(), db_path_arc.clone());
+        let files = file_routes::file_routes(token_arc, db_path_arc, app_data_arc);
 
         let cors = warp::cors()
             .allow_any_origin()
@@ -118,16 +130,20 @@ impl ApiServer {
             .with(warp::log("api"));
 
         let (shutdown_tx, shutdown_rx) = oneshot::channel();
+
+        let server_addr: SocketAddr = ([0, 0, 0, 0], port).into();
+
+        let (_addr, server) = warp::serve(routes)
+            .try_bind_with_graceful_shutdown(server_addr, async {
+                shutdown_rx.await.ok();
+            })
+            .map_err(|e| format!("Port {} already in use: {}", port, e))?;
+
+        tokio::spawn(server);
+
         self.shutdown_tx = Some(shutdown_tx);
         self.token = Some(token);
         self.server_info = Some(server_info.clone());
-
-        let server_addr: SocketAddr = ([0, 0, 0, 0], port).into();
-        let (_addr, server) = warp::serve(routes).bind_with_graceful_shutdown(server_addr, async {
-            shutdown_rx.await.ok();
-        });
-
-        tokio::spawn(server);
 
         Ok(server_info)
     }
@@ -165,9 +181,7 @@ impl ApiServer {
 static API_SERVER: LazyLock<Arc<Mutex<ApiServer>>> =
     LazyLock::new(|| Arc::new(Mutex::new(ApiServer::new())));
 
-pub async fn start_api_server(
-    app_data_dir: PathBuf,
-) -> Result<ServerInfo, Box<dyn std::error::Error>> {
+pub async fn start_api_server(app_data_dir: PathBuf) -> Result<ServerInfo, String> {
     let mut server = API_SERVER.lock().await;
     server.start(app_data_dir).await
 }

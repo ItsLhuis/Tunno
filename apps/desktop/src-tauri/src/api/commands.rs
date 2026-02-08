@@ -15,9 +15,7 @@ pub async fn start_server(app: tauri::AppHandle) -> Result<ServerInfo, String> {
         .app_data_dir()
         .map_err(|e| format!("Failed to get app data directory: {}", e))?;
 
-    start_api_server(app_data_dir)
-        .await
-        .map_err(|e| e.to_string())
+    start_api_server(app_data_dir).await
 }
 
 #[command]
