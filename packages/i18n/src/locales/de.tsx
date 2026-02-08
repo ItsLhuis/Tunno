@@ -599,11 +599,45 @@ export const german: Language = {
           description: "Übertrage deine Bibliothek auf Tunno Mobile über dein lokales Netzwerk",
           generateQr: "QR-Code generieren",
           stopServer: "Server stoppen",
-          waitingConnection: "Warte auf Verbindung des mobilen Geräts...",
+          waitingConnection: "Warte auf Verbindung des mobilen Geräts",
           deviceConnected: "Gerät verbunden",
           syncInProgress: "Synchronisierung läuft",
           syncCompleted: "Synchronisierung erfolgreich abgeschlossen",
-          serverError: "Synchronisierungsserver konnte nicht gestartet werden"
+          serverError: "Synchronisierungsserver konnte nicht gestartet werden",
+          scanQr: "QR-Code scannen",
+          scanQrDescription:
+            "Scanne den QR-Code auf deinem Desktop, um deine Musikbibliothek über WiFi zu synchronisieren",
+          connecting: "Verbinden",
+          comparing: "Bibliotheken vergleichen",
+          syncing: "Synchronisieren",
+          finalizing: "Abschließen",
+          completed: "Synchronisierung abgeschlossen",
+          completedDescription: "Deine Musikbibliothek wurde erfolgreich synchronisiert",
+          alreadySynced: "Bereits synchronisiert",
+          failed: "Synchronisierung fehlgeschlagen",
+          retry: "Erneut versuchen",
+          cancel: "Abbrechen",
+          done: "Fertig",
+          itemsSynced: "{synced} / {total} Elemente",
+          batchProgress: "Batch {current} / {total}",
+          cameraPermissionTitle: "Kamerazugriff erforderlich",
+          cameraPermissionDescription:
+            "Erteile die Kameraberechtigung, um den QR-Code auf deinem Desktop zu scannen",
+          grantPermission: "Berechtigung erteilen",
+          cameraLoading: "Kamera wird geladen",
+          scanInstruction: "Richte deine Kamera auf den QR-Code auf deinem Desktop",
+          connectionFailed: "Desktop-Server nicht erreichbar",
+          insufficientStorage: "Unzureichender Speicherplatz",
+          insufficientStorageDescription:
+            "Nicht genug freier Speicherplatz zum Synchronisieren. Benötigt {required}, aber nur {available} verfügbar",
+          syncInterrupted:
+            "Synchronisierung wurde unterbrochen, weil die App in den Hintergrund gewechselt ist",
+          downloadingItem: 'Lade "{name}" herunter',
+          fetchingBatch: "Lade Batch {batch} Metadaten",
+          updatingStats: "Statistiken werden aktualisiert",
+          syncComplete: "Synchronisierung abgeschlossen",
+          comparingLibraries: "Bibliotheken vergleichen",
+          connectingToDesktop: "Verbindung zum Desktop herstellen"
         }
       },
       about: {

@@ -603,11 +603,45 @@ export const french: Language = {
           description: "Transférez votre bibliothèque vers Tunno Mobile sur votre réseau local",
           generateQr: "Générer le code QR",
           stopServer: "Arrêter le serveur",
-          waitingConnection: "En attente de la connexion du périphérique mobile...",
+          waitingConnection: "En attente de la connexion du périphérique mobile",
           deviceConnected: "Périphérique connecté",
           syncInProgress: "Synchronisation en cours",
           syncCompleted: "Synchronisation terminée avec succès",
-          serverError: "Impossible de démarrer le serveur de synchronisation"
+          serverError: "Impossible de démarrer le serveur de synchronisation",
+          scanQr: "Scanner le code QR",
+          scanQrDescription:
+            "Scannez le code QR sur votre ordinateur pour synchroniser votre bibliothèque musicale via WiFi",
+          connecting: "Connexion",
+          comparing: "Comparaison des bibliothèques",
+          syncing: "Synchronisation",
+          finalizing: "Finalisation",
+          completed: "Synchronisation terminée",
+          completedDescription: "Votre bibliothèque musicale a été synchronisée avec succès",
+          alreadySynced: "Déjà synchronisé",
+          failed: "Échec de la synchronisation",
+          retry: "Réessayer",
+          cancel: "Annuler",
+          done: "Terminé",
+          itemsSynced: "{synced} / {total} éléments",
+          batchProgress: "Lot {current} / {total}",
+          cameraPermissionTitle: "Accès à la caméra requis",
+          cameraPermissionDescription:
+            "Autorisez l'accès à la caméra pour scanner le code QR affiché sur votre ordinateur",
+          grantPermission: "Autoriser l'accès",
+          cameraLoading: "Chargement de la caméra",
+          scanInstruction: "Dirigez votre caméra vers le code QR sur votre ordinateur",
+          connectionFailed: "Impossible de joindre le serveur de bureau",
+          insufficientStorage: "Espace de stockage insuffisant",
+          insufficientStorageDescription:
+            "Pas assez d'espace libre pour synchroniser. {required} nécessaire, mais seulement {available} disponible",
+          syncInterrupted:
+            "La synchronisation a été interrompue car l'application est passée en arrière-plan",
+          downloadingItem: 'Téléchargement de "{name}"',
+          fetchingBatch: "Récupération des métadonnées du lot {batch}",
+          updatingStats: "Mise à jour des statistiques",
+          syncComplete: "Synchronisation terminée",
+          comparingLibraries: "Comparaison des bibliothèques",
+          connectingToDesktop: "Connexion au bureau"
         }
       },
       about: {

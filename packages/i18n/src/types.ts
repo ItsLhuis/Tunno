@@ -608,6 +608,36 @@ export type Translations = {
         syncInProgress: string
         syncCompleted: string
         serverError: string
+        scanQr: string
+        scanQrDescription: string
+        connecting: string
+        comparing: string
+        syncing: string
+        finalizing: string
+        completed: string
+        completedDescription: string
+        alreadySynced: string
+        failed: string
+        retry: string
+        cancel: string
+        done: string
+        itemsSynced: string
+        batchProgress: string
+        cameraPermissionTitle: string
+        cameraPermissionDescription: string
+        grantPermission: string
+        cameraLoading: string
+        scanInstruction: string
+        connectionFailed: string
+        insufficientStorage: string
+        insufficientStorageDescription: string
+        syncInterrupted: string
+        downloadingItem: string
+        fetchingBatch: string
+        updatingStats: string
+        syncComplete: string
+        comparingLibraries: string
+        connectingToDesktop: string
       }
     }
     about: {

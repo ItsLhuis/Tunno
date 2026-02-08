@@ -602,11 +602,45 @@ export const italian: Language = {
           description: "Trasferisci la tua libreria a Tunno Mobile sulla tua rete locale",
           generateQr: "Genera codice QR",
           stopServer: "Arresta server",
-          waitingConnection: "In attesa della connessione del dispositivo mobile...",
+          waitingConnection: "In attesa della connessione del dispositivo mobile",
           deviceConnected: "Dispositivo connesso",
           syncInProgress: "Sincronizzazione in corso",
           syncCompleted: "Sincronizzazione completata",
-          serverError: "Impossibile avviare il server di sincronizzazione"
+          serverError: "Impossibile avviare il server di sincronizzazione",
+          scanQr: "Scansiona il codice QR",
+          scanQrDescription:
+            "Scansiona il codice QR sul tuo desktop per sincronizzare la libreria musicale tramite WiFi",
+          connecting: "Connessione in corso",
+          comparing: "Confronto delle librerie",
+          syncing: "Sincronizzazione in corso",
+          finalizing: "Finalizzazione",
+          completed: "Sincronizzazione completata",
+          completedDescription: "La tua libreria musicale è stata sincronizzata con successo",
+          alreadySynced: "Già sincronizzato",
+          failed: "Sincronizzazione fallita",
+          retry: "Riprova",
+          cancel: "Annulla",
+          done: "Fatto",
+          itemsSynced: "{synced} / {total} elementi",
+          batchProgress: "Lotto {current} / {total}",
+          cameraPermissionTitle: "Accesso alla fotocamera richiesto",
+          cameraPermissionDescription:
+            "Concedi l'accesso alla fotocamera per scansionare il codice QR visualizzato sul tuo desktop",
+          grantPermission: "Concedi autorizzazione",
+          cameraLoading: "Caricamento fotocamera",
+          scanInstruction: "Punta la fotocamera verso il codice QR sul tuo desktop",
+          connectionFailed: "Impossibile raggiungere il server desktop",
+          insufficientStorage: "Spazio di archiviazione insufficiente",
+          insufficientStorageDescription:
+            "Spazio libero insufficiente per la sincronizzazione. Necessari {required}, ma solo {available} disponibili",
+          syncInterrupted:
+            "La sincronizzazione è stata interrotta perché l'app è passata in background",
+          downloadingItem: 'Download di "{name}"',
+          fetchingBatch: "Recupero metadati del lotto {batch}",
+          updatingStats: "Aggiornamento statistiche",
+          syncComplete: "Sincronizzazione completata",
+          comparingLibraries: "Confronto delle librerie",
+          connectingToDesktop: "Connessione al desktop"
         }
       },
       about: {

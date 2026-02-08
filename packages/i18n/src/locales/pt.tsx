@@ -603,11 +603,45 @@ export const portuguese: Language = {
           description: "Transfere a tua biblioteca para Tunno Mobile através da tua rede local",
           generateQr: "Gerar código QR",
           stopServer: "Parar servidor",
-          waitingConnection: "Aguardando ligação do dispositivo móvel...",
+          waitingConnection: "Aguardando ligação do dispositivo móvel",
           deviceConnected: "Dispositivo ligado",
           syncInProgress: "Sincronização em andamento",
           syncCompleted: "Sincronização concluída com sucesso",
-          serverError: "Falha ao iniciar servidor de sincronização"
+          serverError: "Falha ao iniciar servidor de sincronização",
+          scanQr: "Ler código QR",
+          scanQrDescription:
+            "Leia o código QR no seu computador para sincronizar a sua biblioteca de música por WiFi",
+          connecting: "A ligar",
+          comparing: "A comparar bibliotecas",
+          syncing: "A sincronizar",
+          finalizing: "A finalizar",
+          completed: "Sincronização concluída",
+          completedDescription: "A sua biblioteca de música foi sincronizada com sucesso",
+          alreadySynced: "Já sincronizado",
+          failed: "Sincronização falhou",
+          retry: "Tentar novamente",
+          cancel: "Cancelar",
+          done: "Concluído",
+          itemsSynced: "{synced} / {total} itens",
+          batchProgress: "Lote {current} / {total}",
+          cameraPermissionTitle: "Acesso à câmara necessário",
+          cameraPermissionDescription:
+            "Conceda permissão de câmara para ler o código QR exibido no seu computador",
+          grantPermission: "Conceder permissão",
+          cameraLoading: "A carregar câmara",
+          scanInstruction: "Aponte a câmara para o código QR no seu computador",
+          connectionFailed: "Não foi possível contactar o servidor do computador",
+          insufficientStorage: "Armazenamento insuficiente",
+          insufficientStorageDescription:
+            "Espaço livre insuficiente para sincronizar. Necessário {required}, mas apenas {available} disponível",
+          syncInterrupted:
+            "A sincronização foi interrompida porque a aplicação foi para segundo plano",
+          downloadingItem: 'A transferir "{name}"',
+          fetchingBatch: "A obter metadados do lote {batch}",
+          updatingStats: "A atualizar estatísticas",
+          syncComplete: "Sincronização concluída",
+          comparingLibraries: "A comparar bibliotecas",
+          connectingToDesktop: "A ligar ao computador"
         }
       },
       about: {
