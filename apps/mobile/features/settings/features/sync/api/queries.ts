@@ -2,7 +2,7 @@ import { database, schema } from "@database/client"
 
 import { eq, isNotNull } from "drizzle-orm"
 
-import type { SyncCompareRequest } from "../types"
+import { type SyncCompareRequest } from "../types"
 
 /**
  * Retrieves all non-null fingerprints from the local database, grouped by entity type.

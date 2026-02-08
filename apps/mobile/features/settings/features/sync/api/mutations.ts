@@ -2,7 +2,12 @@ import { database, schema } from "@database/client"
 
 import { eq, sql } from "drizzle-orm"
 
-import type { SyncAlbumData, SyncArtistData, SyncPlaylistData, SyncSongData } from "../types"
+import {
+  type SyncAlbumData,
+  type SyncArtistData,
+  type SyncPlaylistData,
+  type SyncSongData
+} from "../types"
 
 /**
  * Inserts a synced artist into the local database.

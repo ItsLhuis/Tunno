@@ -1,6 +1,11 @@
 import { create } from "zustand"
 
-import type { SyncConnectionData, SyncError, SyncProgress, SyncState } from "../types"
+import {
+  type SyncConnectionData,
+  type SyncError,
+  type SyncProgress,
+  type SyncState
+} from "../types"
 
 /**
  * Represents the state structure of the {@link useSyncStore}.

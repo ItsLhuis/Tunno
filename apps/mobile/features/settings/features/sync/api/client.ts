@@ -4,13 +4,13 @@ import { v4 as uuidv4 } from "uuid"
 
 import { getFilePath } from "@services/storage"
 
-import type {
-  SyncBatchRequest,
-  SyncBatchResponse,
-  SyncCompareRequest,
-  SyncCompareResponse,
-  SyncConnectionData,
-  SyncError
+import {
+  type SyncBatchRequest,
+  type SyncBatchResponse,
+  type SyncCompareRequest,
+  type SyncCompareResponse,
+  type SyncConnectionData,
+  type SyncError
 } from "../types"
 
 /** Timeout in milliseconds for metadata API requests. */
@@ -53,6 +53,7 @@ function getExtensionFromContentType(contentType: string | null): string {
   }
 
   const base = contentType.split(";")[0]?.trim().toLowerCase() ?? ""
+
   return mimeMap[base] ?? "bin"
 }
 
@@ -88,15 +89,18 @@ export function createSyncClient(connectionData: SyncConnectionData) {
     timeout: number
   ): Promise<Response> {
     const controller = new AbortController()
+
     const timer = setTimeout(() => controller.abort(), timeout)
 
     try {
       const response = await fetch(input, { ...init, signal: controller.signal })
+
       return response
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
         throw createSyncError("network", `Request timed out after ${timeout}ms`)
       }
+
       throw createSyncError(
         "network",
         error instanceof Error ? error.message : "Network request failed"
@@ -117,6 +121,7 @@ export function createSyncClient(connectionData: SyncConnectionData) {
         { method: "GET", headers: { Authorization: `Bearer ${token}` } },
         API_TIMEOUT
       )
+
       return response.ok
     } catch {
       return false
@@ -198,8 +203,10 @@ export function createSyncClient(connectionData: SyncConnectionData) {
     const fileName = `${uuidv4()}.${extension}`
 
     const filePath = await getFilePath("songs", fileName)
+
     const bytes = new Uint8Array(await response.arrayBuffer())
     const file = new File(filePath)
+
     file.write(bytes)
 
     return fileName
@@ -233,8 +240,10 @@ export function createSyncClient(connectionData: SyncConnectionData) {
       const fileName = `${uuidv4()}.${extension}`
 
       const filePath = await getFilePath("thumbnails", fileName)
+
       const bytes = new Uint8Array(await response.arrayBuffer())
       const file = new File(filePath)
+
       file.write(bytes)
 
       return fileName
