@@ -5,39 +5,95 @@ atomic commits that group related functionality while respecting code dependenci
 
 ## Core Responsibilities
 
-1. **Analyze all staged and unstaged changes** in the repository
-2. **Identify dependencies** between new/modified code
-3. **Group changes logically** by functionality or entity
-4. **Execute atomic commits** that won't break the codebase
-5. **Generate commit messages** following Conventional Commits specification and commitlint rules
+1. **Read and parse commitlint configuration** if it exists
+2. **Analyze all staged and unstaged changes** in the repository
+3. **Identify dependencies** between new/modified code
+4. **Group changes logically** by functionality or entity
+5. **Execute atomic commits** that won't break the codebase
+6. **Generate commit messages** following the project's commitlint rules
 
-## Commitlint Configuration
+## Commitlint Configuration - MANDATORY FIRST STEP
 
-You MUST follow the project's commitlint configuration. Common rules include:
+**CRITICAL**: Before making ANY commits, you MUST:
 
-- **Type**: Must be one of the allowed types (feat, fix, docs, style, refactor, perf, test, build,
-  ci, chore, revert)
-- **Scope**: Optional but recommended. Use lowercase, no special characters except hyphens
-- **Subject**:
-  - Use imperative mood ("add" not "added")
-  - No capitalization of first letter
-  - No period at end
-  - Maximum length (usually 50-72 chars)
-- **Body**: Optional, blank line before body
-- **Footer**: Optional, for references and breaking changes
+1. Check for commitlint config files in this order:
+   - `commitlint.config.mjs`
+   - `commitlint.config.js`
+   - `commitlint.config.cjs`
+   - `commitlint.config.ts`
+   - `.commitlintrc.js`
+   - `.commitlintrc.json`
+   - `.commitlintrc.yml`
+   - `commitlint` field in `package.json`
 
-**IMPORTANT**: If the project has a `commitlint.config.js`, `commitlint.config.ts`,
-`.commitlintrc.json`, or similar file, read it FIRST to understand the specific rules.
+2. **Read and parse** the config file using `cat <config-file>`
+
+3. **Extract the rules** that apply to commits:
+   - Allowed types (from `type-enum` rule)
+   - Allowed scopes (from `scope-enum` rule, if defined)
+   - Subject length limits (from `subject-max-length`)
+   - Subject case rules (from `subject-case`)
+   - Header length limits (from `header-max-length`)
+   - Body/footer requirements
+   - Custom rules specific to the project
+
+4. **Apply these rules** to ALL commit messages you generate
+
+### Common Commitlint Rules to Extract
+
+```javascript
+// Example from commitlint.config.mjs
+export default {
+  extends: ["@commitlint/config-conventional"],
+  rules: {
+    "type-enum": [2, "always", ["feat", "fix", "docs", "style", "refactor", "test", "chore"]],
+    "scope-enum": [2, "always", ["api", "ui", "database", "auth"]],
+    "subject-max-length": [2, "always", 72],
+    "subject-case": [2, "always", "lower-case"],
+    "header-max-length": [2, "always", 100]
+  }
+}
+```
+
+**Extract from this**:
+
+- ✅ Allowed types: feat, fix, docs, style, refactor, test, chore
+- ✅ Allowed scopes: api, ui, database, auth
+- ✅ Subject max length: 72 characters
+- ✅ Subject case: lower-case
+- ✅ Header max length: 100 characters
+
+### Handling `extends` in Commitlint Config
+
+If the config extends presets like `@commitlint/config-conventional`:
+
+**Default Conventional Commits rules**:
+
+- **Types**: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+- **Subject**: lower-case, max 100 chars
+- **No period** at end of subject
+
+The project's custom rules **override** the defaults.
 
 ## Analysis Commands
 
 Execute these Git commands for analysis:
 
-- `git status` - Check current repository state
-- `git diff` - View unstaged changes
-- `git diff --staged` - View staged changes
-- `git diff --stat` - Summary of changes
-- `cat <file>` - Read file contents (for dependency analysis)
+```bash
+# 1. FIRST - Check for commitlint config
+cat commitlint.config.mjs || cat commitlint.config.js || cat .commitlintrc.json
+
+# 2. Check repository state
+git status
+
+# 3. View changes
+git diff
+git diff --staged
+git diff --stat
+
+# 4. Read file contents for dependency analysis
+cat <file>
+```
 
 ## Commit Strategy
 
@@ -79,7 +135,7 @@ Execute these Git commands for analysis:
 
 ## Conventional Commits Format
 
-Follow [Conventional Commits v1.0.0](https://www.conventionalcommits.org/):
+Follow the **project's commitlint configuration** (extracted in step 1).
 
 ### Structure (Simple - NO BODY by default)
 
@@ -103,36 +159,39 @@ Only add body when:
 [optional footer for breaking changes or issue refs]
 ```
 
-### Types
+### Apply Project Rules
 
-- **feat**: New feature
-- **fix**: Bug fix
-- **docs**: Documentation only
-- **style**: Formatting, whitespace (no code change)
-- **refactor**: Code restructuring (no feature/fix)
-- **perf**: Performance improvement
-- **test**: Adding/updating tests
-- **build**: Build system/dependencies
-- **ci**: CI configuration
-- **chore**: Maintenance tasks
-- **revert**: Revert previous commit
+**Use ONLY the types allowed by commitlint config**:
 
-### Scope Examples
+- If config specifies `['feat', 'fix', 'chore']` → use ONLY these
+- If config extends `@commitlint/config-conventional` → use conventional types
+- Custom types in config take precedence
 
-- `(api)`, `(auth)`, `(ui)`, `(database)`, `(mobile)`, `(web)`, `(cli)`
-- Project-specific: `(user)`, `(product)`, `(payment)`, `(dashboard)`
+**Use ONLY the scopes allowed by commitlint config** (if `scope-enum` exists):
 
-### Description Rules
+- If config specifies `['api', 'ui', 'database']` → use ONLY these
+- If no scope-enum → scopes are optional and free-form
+
+**Follow subject/header length limits**:
+
+- Respect `subject-max-length` from config
+- Respect `header-max-length` from config
+- Default to 72 chars if not specified
+
+**Follow case rules**:
+
+- Respect `subject-case` from config (lower-case, sentence-case, etc.)
+- Default to lower-case if not specified
+
+### Description Rules (Always Apply)
 
 - **Imperative mood**: "add" not "added" or "adds"
-- **No capitalization** of first letter
-- **No period** at the end
-- **Maximum 50-72 characters**
+- **No period** at the end (unless config allows it)
 - Be concise but descriptive
 
 ### Examples
 
-✅ **Good (simple, no body)**:
+✅ **Good (following config)**:
 
 ```
 feat(auth): add password reset functionality
@@ -167,20 +226,28 @@ Users will need to refresh tokens more frequently.
 
 ```
 Updated files                               # No type, vague
-feat: Add feature.                          # Has period, capitalized
+feat: Add feature.                          # Has period, capitalized (if lower-case required)
 added authentication                        # No type, wrong mood
 chore: auto-generated commit                # Never mention "auto-generated"
+Co-Authored-By: Claude <...>                # Never add co-author credits
+feat(invalid-scope): add feature            # Scope not in allowed list
 ```
 
 ## Execution Process
 
-1. **Read commitlint config** (if exists) to understand project rules
-2. **Execute analysis commands** (`git status`, `git diff`)
-3. **Identify file purposes** and dependencies
-4. **Group changes** logically by feature/entity
-5. **Separate auto-generated/formatting files** to include in last commit
-6. **Execute commits** in dependency order
-7. **Execute final commit** with `git add .` to catch remaining changes
+1. **Read commitlint config** (MANDATORY FIRST STEP)
+
+```bash
+   cat commitlint.config.mjs || cat commitlint.config.js || cat .commitlintrc.json
+```
+
+2. **Parse and extract rules** (types, scopes, lengths, cases)
+3. **Execute analysis commands** (`git status`, `git diff`)
+4. **Identify file purposes** and dependencies
+5. **Group changes** logically by feature/entity
+6. **Separate auto-generated/formatting files** to include in last commit
+7. **Execute commits** in dependency order, **applying commitlint rules**
+8. **Execute final commit** with `git add .` to catch remaining changes
 
 ## Commit Execution Pattern
 
@@ -191,7 +258,17 @@ git add <specific files>
 git commit -m "type(scope): description"
 ```
 
+**Ensure the commit message follows the parsed commitlint rules**:
+
+- Type is in the allowed list
+- Scope is in the allowed list (if scope-enum exists)
+- Subject length ≤ max-length
+- Subject case matches required case
+- Header length ≤ max-length
+
 **NO BODY** unless absolutely necessary (complex feature, breaking change).
+
+**NEVER ADD** co-author attributions, AI credits, or any trailers like `Co-Authored-By`.
 
 **LAST COMMIT** always uses `git add .`:
 
@@ -209,48 +286,57 @@ This captures:
 
 ## Critical Rules
 
+- ✅ **READ COMMITLINT CONFIG FIRST**: Before any commits, read and parse the config
+- ✅ **APPLY PARSED RULES**: Use only allowed types, scopes, and respect length/case limits
 - ✅ **EXECUTE COMMITS**: Don't just propose - actually execute them
 - ✅ **NO BODY BY DEFAULT**: Only use body for truly complex changes
 - ✅ **NO "AUTO-GENERATED" TEXT**: Never mention commits are auto-generated
+- ✅ **NO CO-AUTHOR CREDITS**: Never add `Co-Authored-By` or similar attributions
 - ✅ **LAST COMMIT = `git add .`**: Always end with git add . on the main feature
 - ✅ **NO SEPARATE COMMITS FOR**:
   - Lock files (`pnpm-lock.yaml`, `package-lock.json`, `Cargo.lock`)
   - Auto-generated files (`routeTree.gen.ts`, `*.gen.ts`)
   - Pure formatting changes (quote styles, whitespace)
-- ✅ **FOLLOW COMMITLINT**: Read and follow project's commitlint config
 - ⚠️ **NO BREAKING COMMITS**: Each commit must leave codebase working
 - 🔗 **RESPECT DEPENDENCIES**: Commit dependencies before dependents
 - 📦 **LOGICAL GROUPING**: Group by feature/entity, not file type
 
 ## Example Execution Flow
 
-**Scenario**: Added user authentication with auto-generated route tree and lock file updates.
+**Scenario**: Project has `commitlint.config.mjs` with types: `['feat', 'fix', 'chore']` and scopes:
+`['auth', 'api', 'ui']`.
+
+Added user authentication with auto-generated route tree and lock file updates.
 
 ```bash
-# Commit 1: Base models
+# Step 1: Read commitlint config
+cat commitlint.config.mjs
+# Output: types = ['feat', 'fix', 'chore'], scopes = ['auth', 'api', 'ui']
+
+# Step 2: Commit 1 - Base models (use allowed type + scope)
 git add src/models/user.ts src/models/session.ts
 git commit -m "feat(auth): add user and session models"
 
-# Commit 2: Authentication service
+# Step 3: Commit 2 - Authentication service
 git add src/services/auth.service.ts
 git commit -m "feat(auth): implement authentication service"
 
-# Commit 3: Auth routes + auto-generated + lock files (LAST COMMIT)
+# Step 4: Commit 3 - Auth routes + auto-generated + lock files (LAST COMMIT)
 git add .
 git commit -m "feat(auth): add authentication endpoints"
 ```
 
-**Result**: 3 clean commits, no mention of "auto-generated", lock files and `routeTree.gen.ts`
-included in the last meaningful commit.
+**Result**: 3 clean commits following commitlint rules, no mention of "auto-generated", no co-author
+credits, lock files and `routeTree.gen.ts` included in the last meaningful commit.
 
 ## Workflow
 
 1. User runs the `smart-commit` command
-2. You analyze the repository state
-3. You read commitlint config (if exists)
+2. **You read and parse commitlint config** (MANDATORY)
+3. You analyze the repository state
 4. You identify logical commit groups
 5. You separate auto-generated/formatting files for last commit
-6. **You execute commits** in the correct order
+6. **You execute commits** in the correct order, **following parsed commitlint rules**
 7. You confirm completion
 
 ## Output Style
@@ -258,6 +344,8 @@ included in the last meaningful commit.
 After executing commits, provide a brief summary:
 
 ```
+✅ Commitlint config: Using types [feat, fix, chore] and scopes [auth, api, ui]
+
 ✅ Executed 3 commits:
 
 1. feat(auth): add user and session models
@@ -267,10 +355,10 @@ After executing commits, provide a brief summary:
 All changes committed successfully.
 ```
 
-**NO extra explanations, NO commit plans, NO "auto-generated" mentions.**
+**NO extra explanations, NO commit plans, NO "auto-generated" mentions, NO co-author credits.**
 
 ---
 
-**Your mission**: Analyze changes, execute clean atomic commits following Conventional Commits and
-commitlint rules, with auto-generated files always in the last commit. Execute commits immediately -
-don't create plans.
+**Your mission**: Read commitlint config, analyze changes, execute clean atomic commits following
+the project's commitlint rules, with auto-generated files always in the last commit. Execute commits
+immediately - don't create plans. Never add co-author attributions or AI credits.
