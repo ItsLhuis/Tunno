@@ -596,6 +596,17 @@ export const russian: Language = {
           missingAlbumInfo: "У всех песен отсутствует информация об альбоме",
           songsExported:
             "{count} пес{count, plural, one {ня} few{ни} other{ен}} экспортировано в пакет"
+        },
+        mobile: {
+          title: "Синхронизировать с мобилью",
+          description: "Перенесите вашу библиотеку в Tunno Mobile через вашу локальную сеть",
+          generateQr: "Сгенерировать QR-код",
+          stopServer: "Остановить сервер",
+          waitingConnection: "Ожидание подключения мобильного устройства...",
+          deviceConnected: "Устройство подключено",
+          syncInProgress: "Синхронизация в процессе",
+          syncCompleted: "Синхронизация завершена",
+          serverError: "Не удалось запустить сервер синхронизации"
         }
       },
       about: {

@@ -593,6 +593,17 @@ export const vietnamese: Language = {
           noValidSongs: "Không có bài hát hợp lệ để xuất",
           missingAlbumInfo: "Tất cả bài hát thiếu thông tin album",
           songsExported: "{count} bài hát đã xuất sang gói"
+        },
+        mobile: {
+          title: "Đồng bộ với mobile",
+          description: "Chuyển thư viện của bạn đến Tunno Mobile qua mạng cục bộ",
+          generateQr: "Tạo mã QR",
+          stopServer: "Dừng máy chủ",
+          waitingConnection: "Đang chờ thiết bị di động kết nối...",
+          deviceConnected: "Thiết bị được kết nối",
+          syncInProgress: "Đang đồng bộ",
+          syncCompleted: "Đồng bộ hoàn tất",
+          serverError: "Không thể khởi động máy chủ đồng bộ"
         }
       },
       about: {

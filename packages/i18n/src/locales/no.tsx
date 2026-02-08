@@ -593,6 +593,17 @@ export const norwegian: Language = {
           noValidSongs: "Ingen gyldige sanger å eksportere",
           missingAlbumInfo: "Alle sanger mangler albuminformasjon",
           songsExported: "{count} sang{count, plural, one {} other{er}} eksportert til pakke"
+        },
+        mobile: {
+          title: "Synkroniser med mobil",
+          description: "Overfør biblioteket ditt til Tunno Mobile over ditt lokale nettverk",
+          generateQr: "Generer QR-kode",
+          stopServer: "Stopp server",
+          waitingConnection: "Venter på tilkobling fra mobilenhet...",
+          deviceConnected: "Enhet tilkoblet",
+          syncInProgress: "Synkronisering pågår",
+          syncCompleted: "Synkronisering fullført",
+          serverError: "Kunne ikke starte synkroniseringsserver"
         }
       },
       about: {

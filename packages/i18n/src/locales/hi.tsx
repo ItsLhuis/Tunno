@@ -595,6 +595,18 @@ export const hindi: Language = {
           missingAlbumInfo: "सभी गानों में एल्बम जानकारी नहीं है",
           songsExported:
             "{count} गाना{count, plural, one {} other {ने}} बंडल में निर्यात किया{count, plural, one {} other {ए}} गया{count, plural, one {} other {ए}}"
+        },
+        mobile: {
+          title: "मोबाइल के साथ सिंक करें",
+          description:
+            "अपनी लाइब्रेरी को अपने स्थानीय नेटवर्क के माध्यम से Tunno मोबाइल में स्थानांतरित करें",
+          generateQr: "QR कोड बनाएं",
+          stopServer: "सर्वर बंद करें",
+          waitingConnection: "मोबाइल डिवाइस के कनेक्शन की प्रतीक्षा में...",
+          deviceConnected: "डिवाइस कनेक्ट हो गया",
+          syncInProgress: "सिंक चल रहा है",
+          syncCompleted: "सिंक सफलतापूर्वक पूर्ण हुआ",
+          serverError: "सिंक सर्वर शुरू करने में विफल"
         }
       },
       about: {

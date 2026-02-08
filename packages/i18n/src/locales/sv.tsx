@@ -594,6 +594,17 @@ export const swedish: Language = {
           missingAlbumInfo: "Alla låtar saknar albuminformation",
           songsExported:
             "{count} låt{count, plural, one {} other{ar}} exporterad{count, plural, one {} other{e}} till paket"
+        },
+        mobile: {
+          title: "Synkronisera med mobil",
+          description: "Överför ditt bibliotek till Tunno Mobile via ditt lokala nätverk",
+          generateQr: "Generera QR-kod",
+          stopServer: "Stoppa server",
+          waitingConnection: "Väntar på anslutning från mobil enhet...",
+          deviceConnected: "Enhet ansluten",
+          syncInProgress: "Synkronisering pågår",
+          syncCompleted: "Synkronisering slutförd",
+          serverError: "Kunde inte starta synkroniseringsserver"
         }
       },
       about: {

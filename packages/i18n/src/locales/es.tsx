@@ -596,6 +596,17 @@ export const spanish: Language = {
           missingAlbumInfo: "Todas las canciones carecen de información del álbum",
           songsExported:
             "{count} canción{count, plural, one {} other{es}} exportada{count, plural, one {} other{s}} al paquete"
+        },
+        mobile: {
+          title: "Sincronizar con móvil",
+          description: "Transfiere tu biblioteca a Tunno Mobile a través de tu red local",
+          generateQr: "Generar código QR",
+          stopServer: "Detener servidor",
+          waitingConnection: "Esperando que el dispositivo móvil se conecte...",
+          deviceConnected: "Dispositivo conectado",
+          syncInProgress: "Sincronización en progreso",
+          syncCompleted: "Sincronización completada exitosamente",
+          serverError: "Error al iniciar servidor de sincronización"
         }
       },
       about: {

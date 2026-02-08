@@ -593,6 +593,17 @@ export const english: Language = {
           noValidSongs: "No valid songs to export",
           missingAlbumInfo: "All songs are missing album information",
           songsExported: "{count} song{count, plural, one {} other{s}} exported to bundle"
+        },
+        mobile: {
+          title: "Sync with mobile",
+          description: "Transfer your library to Tunno Mobile over your local network",
+          generateQr: "Generate QR code",
+          stopServer: "Stop server",
+          waitingConnection: "Waiting for mobile device to connect...",
+          deviceConnected: "Device connected",
+          syncInProgress: "Sync in progress",
+          syncCompleted: "Sync completed successfully",
+          serverError: "Failed to start sync server"
         }
       },
       about: {

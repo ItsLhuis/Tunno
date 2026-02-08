@@ -596,6 +596,17 @@ export const italian: Language = {
           missingAlbumInfo: "Tutte le canzoni mancano di informazioni sull'album",
           songsExported:
             "{count} canzon{count, plural, one {e} other{i}} esportat{count, plural, one {a} other{e}} nel bundle"
+        },
+        mobile: {
+          title: "Sincronizza con mobile",
+          description: "Trasferisci la tua libreria a Tunno Mobile sulla tua rete locale",
+          generateQr: "Genera codice QR",
+          stopServer: "Arresta server",
+          waitingConnection: "In attesa della connessione del dispositivo mobile...",
+          deviceConnected: "Dispositivo connesso",
+          syncInProgress: "Sincronizzazione in corso",
+          syncCompleted: "Sincronizzazione completata",
+          serverError: "Impossibile avviare il server di sincronizzazione"
         }
       },
       about: {

@@ -598,6 +598,17 @@ export type Translations = {
         missingAlbumInfo: string
         songsExported: string
       }
+      mobile: {
+        title: string
+        description: string
+        generateQr: string
+        stopServer: string
+        waitingConnection: string
+        deviceConnected: string
+        syncInProgress: string
+        syncCompleted: string
+        serverError: string
+      }
     }
     about: {
       title: string

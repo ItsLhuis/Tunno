@@ -593,6 +593,17 @@ export const japanese: Language = {
           noValidSongs: "エクスポートできる有効な曲がありません",
           missingAlbumInfo: "すべての曲にアルバム情報がありません",
           songsExported: "{count}曲をバンドルにエクスポートしました"
+        },
+        mobile: {
+          title: "モバイルと同期",
+          description: "ローカルネットワークを介してライブラリをTunnoモバイルに転送します",
+          generateQr: "QRコード生成",
+          stopServer: "サーバーを停止",
+          waitingConnection: "モバイルデバイスの接続を待機中...",
+          deviceConnected: "デバイスが接続されました",
+          syncInProgress: "同期中",
+          syncCompleted: "同期が完了しました",
+          serverError: "同期サーバーを起動できませんでした"
         }
       },
       about: {

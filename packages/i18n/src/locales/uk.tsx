@@ -595,6 +595,17 @@ export const ukrainian: Language = {
           missingAlbumInfo: "Усі пісні не мають інформації про альбом",
           songsExported:
             "{count} пісн{count, plural, one {я} few{і} other{ень}} експортовано до пакету"
+        },
+        mobile: {
+          title: "Синхронізація з мобіллю",
+          description: "Перенесіть вашу бібліотеку в Tunno Mobile через вашу локальну мережу",
+          generateQr: "Генерувати QR-код",
+          stopServer: "Зупинити сервер",
+          waitingConnection: "Очікування підключення мобільного пристрою...",
+          deviceConnected: "Пристрій підключено",
+          syncInProgress: "Синхронізація в процесі",
+          syncCompleted: "Синхронізація завершена",
+          serverError: "Не вдалося запустити сервер синхронізації"
         }
       },
       about: {

@@ -594,6 +594,17 @@ export const dutch: Language = {
           noValidSongs: "Geen geldige nummers om te exporteren",
           missingAlbumInfo: "Alle nummers missen albuminformatie",
           songsExported: "{count} nummer{count, plural, one {} other{s}} geëxporteerd naar bundel"
+        },
+        mobile: {
+          title: "Synchroniseer met mobiel",
+          description: "Verplaats je bibliotheek naar Tunno Mobile via je lokale netwerk",
+          generateQr: "QR-code genereren",
+          stopServer: "Server stoppen",
+          waitingConnection: "Wacht op verbinding van mobiel apparaat...",
+          deviceConnected: "Apparaat verbonden",
+          syncInProgress: "Synchronisatie bezig",
+          syncCompleted: "Synchronisatie voltooid",
+          serverError: "Synchronisatieserver kon niet worden gestart"
         }
       },
       about: {

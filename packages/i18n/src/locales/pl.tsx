@@ -595,6 +595,17 @@ export const polish: Language = {
           missingAlbumInfo: "Wszystkie utwory nie mają informacji o albumie",
           songsExported:
             "{count} utwór{count, plural, one {} few{y} other{ów}} wyeksportowano do pakietu"
+        },
+        mobile: {
+          title: "Synchronizuj z mobilnym",
+          description: "Przenieś swoją bibliotekę do Tunno Mobile za pośrednictwem sieci lokalnej",
+          generateQr: "Generuj kod QR",
+          stopServer: "Zatrzymaj serwer",
+          waitingConnection: "Oczekiwanie na połączenie urządzenia mobilnego...",
+          deviceConnected: "Urządzenie połączone",
+          syncInProgress: "Synchronizacja w toku",
+          syncCompleted: "Synchronizacja ukończona",
+          serverError: "Nie udało się uruchomić serwera synchronizacji"
         }
       },
       about: {

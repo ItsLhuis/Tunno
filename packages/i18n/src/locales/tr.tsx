@@ -594,6 +594,17 @@ export const turkish: Language = {
           noValidSongs: "Dışa aktarılacak geçerli şarkı yok",
           missingAlbumInfo: "Tüm şarkılarda albüm bilgisi eksik",
           songsExported: "{count} şarkı pakete dışa aktarıldı"
+        },
+        mobile: {
+          title: "Mobille senkronize et",
+          description: "Kütüphanenizi yerel ağınız üzerinden Tunno Mobile'a aktarın",
+          generateQr: "QR kodu oluştur",
+          stopServer: "Sunucuyu durdur",
+          waitingConnection: "Mobil cihazın bağlanması bekleniyor...",
+          deviceConnected: "Cihaz bağlandı",
+          syncInProgress: "Senkronizasyon devam ediyor",
+          syncCompleted: "Senkronizasyon tamamlandı",
+          serverError: "Senkronizasyon sunucusu başlatılamadı"
         }
       },
       about: {

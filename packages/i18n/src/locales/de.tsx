@@ -593,6 +593,17 @@ export const german: Language = {
           noValidSongs: "Keine gültigen Songs zum Exportieren",
           missingAlbumInfo: "Allen Songs fehlen Albuminformationen",
           songsExported: "{count} Song{count, plural, one {} other{s}} in Bundle exportiert"
+        },
+        mobile: {
+          title: "Mit mobile synchronisieren",
+          description: "Übertrage deine Bibliothek auf Tunno Mobile über dein lokales Netzwerk",
+          generateQr: "QR-Code generieren",
+          stopServer: "Server stoppen",
+          waitingConnection: "Warte auf Verbindung des mobilen Geräts...",
+          deviceConnected: "Gerät verbunden",
+          syncInProgress: "Synchronisierung läuft",
+          syncCompleted: "Synchronisierung erfolgreich abgeschlossen",
+          serverError: "Synchronisierungsserver konnte nicht gestartet werden"
         }
       },
       about: {

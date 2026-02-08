@@ -592,6 +592,17 @@ export const korean: Language = {
           noValidSongs: "내보낼 수 있는 유효한 곡이 없습니다",
           missingAlbumInfo: "모든 곡에 앨범 정보가 없습니다",
           songsExported: "{count}곡을 번들로 내보냈습니다"
+        },
+        mobile: {
+          title: "모바일과 동기화",
+          description: "로컬 네트워크를 통해 라이브러리를 Tunno 모바일로 전송",
+          generateQr: "QR 코드 생성",
+          stopServer: "서버 중지",
+          waitingConnection: "모바일 기기 연결 대기 중...",
+          deviceConnected: "기기 연결됨",
+          syncInProgress: "동기화 중",
+          syncCompleted: "동기화 완료",
+          serverError: "동기화 서버를 시작할 수 없습니다"
         }
       },
       about: {

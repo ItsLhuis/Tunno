@@ -593,6 +593,17 @@ export const finnish: Language = {
           noValidSongs: "Ei kelvollisia kappaleita vietäväksi",
           missingAlbumInfo: "Kaikista kappaleista puuttuu albumitiedot",
           songsExported: "{count} kappale{count, plural, one {} other{tta}} viety pakettiin"
+        },
+        mobile: {
+          title: "Synkronoi mobiilisovelluksen kanssa",
+          description: "Siirrä kirjastosi Tunno Mobileen paikallisen verkkosi kautta",
+          generateQr: "Luo QR-koodi",
+          stopServer: "Pysäytä palvelin",
+          waitingConnection: "Odotetaan mobiililaitteen yhdistämistä...",
+          deviceConnected: "Laite yhdistetty",
+          syncInProgress: "Synkronointi käynnissä",
+          syncCompleted: "Synkronointi valmis",
+          serverError: "Synkronointipalvelimen käynnistäminen epäonnistui"
         }
       },
       about: {

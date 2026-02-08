@@ -589,6 +589,17 @@ export const chinese: Language = {
           noValidSongs: "没有有效的歌曲可导出",
           missingAlbumInfo: "所有歌曲都缺少专辑信息",
           songsExported: "已将 {count} 首歌曲导出到包"
+        },
+        mobile: {
+          title: "与移动应用同步",
+          description: "通过您的本地网络将音乐库传输到 Tunno 移动应用",
+          generateQr: "生成二维码",
+          stopServer: "停止服务器",
+          waitingConnection: "等待移动设备连接...",
+          deviceConnected: "设备已连接",
+          syncInProgress: "同步中",
+          syncCompleted: "同步成功",
+          serverError: "无法启动同步服务器"
         }
       },
       about: {

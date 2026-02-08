@@ -593,6 +593,17 @@ export const danish: Language = {
           noValidSongs: "Ingen gyldige sange at eksportere",
           missingAlbumInfo: "Alle sange mangler albuminformation",
           songsExported: "{count} sang{count, plural, one {} other{e}} eksporteret til pakke"
+        },
+        mobile: {
+          title: "Synkroniser med mobile",
+          description: "Overfør dit bibliotek til Tunno Mobile over dit lokale netværk",
+          generateQr: "Generer QR-kode",
+          stopServer: "Stop server",
+          waitingConnection: "Venter på mobilenhedens forbindelse...",
+          deviceConnected: "Enhed forbundet",
+          syncInProgress: "Synkronisering i gang",
+          syncCompleted: "Synkronisering fuldført",
+          serverError: "Kunne ikke starte synkroniseringsserver"
         }
       },
       about: {
