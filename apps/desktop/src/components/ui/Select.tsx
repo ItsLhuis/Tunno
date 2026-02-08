@@ -278,6 +278,11 @@ const VirtualizedSelect = ({
 
   const [searchTerm, setSearchTerm] = useState("")
 
+  const selectedOptionCacheRef = useRef(
+    new Map<string, { label: string; icon?: ComponentType<{ className?: string }> }>()
+  )
+  const isSyncingRef = useRef(false)
+
   const debouncedOnSearchChange = useMemo(
     () => (onSearchChange ? debounce(onSearchChange, 300) : undefined),
     [onSearchChange]
@@ -297,6 +302,26 @@ const VirtualizedSelect = ({
     }
   }, [isPopoverOpen])
 
+  useEffect(() => {
+    const cache = selectedOptionCacheRef.current
+    for (const opt of options) {
+      cache.set(opt.value, { label: opt.label, icon: opt.icon })
+    }
+    const normalizedValues = multiple
+      ? Array.isArray(value)
+        ? value
+        : []
+      : value !== undefined && value !== null && value !== ""
+        ? [String(value)]
+        : []
+    const valueSet = new Set(normalizedValues)
+    for (const key of cache.keys()) {
+      if (!valueSet.has(key)) {
+        cache.delete(key)
+      }
+    }
+  }, [options, value, multiple])
+
   const keyExtractor = useCallback((option: VirtualizedSelectOption) => option.value, [])
 
   const keyExtractorRef = useRef(keyExtractor)
@@ -314,6 +339,7 @@ const VirtualizedSelect = ({
 
   const handleSelectionChange = useCallback(
     (selectedIds: readonly string[]) => {
+      if (isSyncingRef.current) return
       if (multiple) {
         ;(onValueChange as (value: string[]) => void)([...selectedIds])
       } else {
@@ -353,14 +379,14 @@ const VirtualizedSelect = ({
     if (valueChanged) {
       previousValueRef.current = value
 
+      isSyncingRef.current = true
       selectionManager.clearSelection()
       normalizedValue.forEach((id) => {
-        if (options.some((opt) => opt.value === id && !opt.disabled)) {
-          selectionManager.toggleSelect(id, true)
-        }
+        selectionManager.toggleSelect(id, true)
       })
+      isSyncingRef.current = false
     }
-  }, [value, multiple, options, selectionManager])
+  }, [value, multiple, selectionManager])
 
   const groupedOptions = useMemo(() => {
     const groups: Record<string, VirtualizedSelectOption[]> = {}
@@ -541,13 +567,15 @@ const VirtualizedSelect = ({
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
           {visibleValues.map((value) => {
             const option = options.find((option) => option.value === value)
+            const cachedOption = selectedOptionCacheRef.current.get(value)
 
-            const IconComponent = option?.icon
+            const label = option?.label ?? cachedOption?.label
+            const IconComponent = option?.icon ?? cachedOption?.icon
 
             return (
               <Badge key={value} className={cn("max-w-40", virtualizedSelectVariants({ variant }))}>
                 {IconComponent && <IconComponent className="mr-2" />}
-                <span className="truncate">{option?.label}</span>
+                <span className="truncate">{label}</span>
               </Badge>
             )
           })}

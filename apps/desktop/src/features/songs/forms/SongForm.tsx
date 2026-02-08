@@ -266,6 +266,10 @@ const SongForm = ({
     }))
   }, [albumsData])
 
+  const albumsDataMap = useMemo(() => {
+    return new Map((albumsData ?? []).map((album) => [album.id, album]))
+  }, [albumsData])
+
   const FormContent = (
     <AsyncState
       data={mode === "update" ? song : true}
@@ -429,17 +433,16 @@ const SongForm = ({
                         const currentAlbumId = form.getValues("albumId")
 
                         if (currentAlbumId && newArtistIds.length > 0) {
-                          const currentAlbum = albumsData?.find(
-                            (album) => album.id === currentAlbumId
-                          )
+                          const currentAlbum = albumsDataMap.get(currentAlbumId)
 
                           if (currentAlbum) {
                             const albumArtistIds =
                               currentAlbum.artists
                                 ?.map((link) => link.artist?.id)
                                 .filter(Boolean) || []
+                            const newArtistIdSet = new Set(newArtistIds)
                             const hasMatchingArtist = albumArtistIds.some((artistId) =>
-                              newArtistIds.includes(artistId)
+                              newArtistIdSet.has(artistId as number)
                             )
 
                             if (!hasMatchingArtist) {
