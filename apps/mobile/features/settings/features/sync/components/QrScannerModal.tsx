@@ -1,4 +1,4 @@
-import { Modal, View } from "react-native"
+import { Modal, StyleSheet, View } from "react-native"
 
 import { useTranslation } from "@repo/i18n"
 
@@ -72,18 +72,23 @@ const QrScannerModal = ({ visible, onScanned, onClose }: QrScannerModalProps) =>
           <Text size="sm" color="mutedForeground" style={styles.permissionDescription}>
             {t("settings.sync.mobile.cameraPermissionDescription")}
           </Text>
-          <Button title={t("settings.sync.mobile.grantPermission")} onPress={requestPermission} />
+          <Button
+            title={t("settings.sync.mobile.grantPermission")}
+            containerStyle={styles.grantPermissionContainerStyle}
+            onPress={requestPermission}
+          />
         </View>
       )
     }
 
     return (
-      <CameraView
-        style={styles.camera}
-        facing="back"
-        barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-        onBarcodeScanned={handleBarcodeScanned}
-      >
+      <View style={styles.cameraContainer}>
+        <CameraView
+          style={StyleSheet.absoluteFill}
+          facing="back"
+          barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
+          onBarcodeScanned={handleBarcodeScanned}
+        />
         <View style={styles.overlay}>
           <View style={styles.overlayTop} />
           <View style={styles.overlayMiddle}>
@@ -100,7 +105,7 @@ const QrScannerModal = ({ visible, onScanned, onClose }: QrScannerModalProps) =>
             <Text style={styles.instructionText}>{t("settings.sync.mobile.scanInstruction")}</Text>
           </View>
         </View>
-      </CameraView>
+      </View>
     )
   }
 
@@ -123,15 +128,16 @@ const qrScannerModalStyles = createStyleSheet(({ theme }) => ({
     flex: 1,
     backgroundColor: theme.colors.background
   },
-  camera: {
+  cameraContainer: {
     flex: 1
   },
   overlay: {
-    flex: 1
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 1
   },
   overlayTop: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)"
+    backgroundColor: "rgba(0, 0, 0, 0.5)"
   },
   overlayMiddle: {
     flexDirection: "row",
@@ -139,7 +145,7 @@ const qrScannerModalStyles = createStyleSheet(({ theme }) => ({
   },
   overlaySide: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)"
+    backgroundColor: "rgba(0, 0, 0, 0.5)"
   },
   scanFrame: {
     width: SCAN_FRAME_SIZE,
@@ -147,7 +153,7 @@ const qrScannerModalStyles = createStyleSheet(({ theme }) => ({
   },
   overlayBottom: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     alignItems: "center",
     paddingTop: theme.space("xl")
   },
@@ -215,6 +221,9 @@ const qrScannerModalStyles = createStyleSheet(({ theme }) => ({
   permissionDescription: {
     textAlign: "center",
     marginBottom: theme.space("md")
+  },
+  grantPermissionContainerStyle: {
+    alignSelf: "center"
   }
 }))
 

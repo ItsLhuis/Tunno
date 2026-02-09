@@ -110,6 +110,7 @@ export function useSyncOrchestrator() {
   }, [addError, setSyncState, t])
 
   const cancelSync = useCallback(() => {
+    clientRef.current?.abort()
     cancelledRef.current = true
     isSyncingRef.current = false
     deactivateKeepAwake(KEEP_AWAKE_TAG)
@@ -131,13 +132,13 @@ export function useSyncOrchestrator() {
         const client = createSyncClient(connectionData)
         clientRef.current = client
 
-        const isReachable = await client.ping()
+        const pingResult = await client.ping()
 
-        if (!isReachable) {
+        if (!pingResult.ok) {
           setSyncState("failed")
           addError({
             type: "network",
-            message: t("settings.sync.mobile.connectionFailed"),
+            message: `${t("settings.sync.mobile.connectionFailed")}: ${pingResult.error}`,
             timestamp: Date.now()
           })
           return
@@ -158,6 +159,7 @@ export function useSyncOrchestrator() {
           compareResult.totals.playlists
 
         if (totalItems === 0) {
+          await client.complete()
           setSyncState("completed")
           updateProgress({ currentOperation: t("settings.sync.mobile.alreadySynced") })
           deactivateKeepAwake(KEEP_AWAKE_TAG)
@@ -254,13 +256,21 @@ export function useSyncOrchestrator() {
 
         entityCache.clear()
 
+        await client.complete()
+
         setSyncState("completed")
         updateProgress({
           currentOperation: t("settings.sync.mobile.syncComplete"),
           syncedItems: totalItems
         })
       } catch (error) {
-        const message = error instanceof Error ? error.message : "An unexpected error occurred"
+        const raw = error instanceof Error ? error.message : "An unexpected error occurred"
+        const isConnectionLost =
+          raw.includes("Network request failed") ||
+          raw.includes("Failed to fetch") ||
+          raw.includes("Connection refused") ||
+          raw.includes("timed out")
+        const message = isConnectionLost ? t("settings.sync.mobile.connectionLost") : raw
 
         addError({ type: "network", message, timestamp: Date.now() })
         setSyncState("failed")
@@ -370,7 +380,18 @@ async function processBatch(
       updateProgress({ syncedItems: currentSynced })
     }
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Batch processing failed"
+    const detail = error instanceof Error ? error.message : "Unknown error"
+    const isConnectionLost =
+      detail.includes("Network request failed") ||
+      detail.includes("Failed to fetch") ||
+      detail.includes("Connection refused") ||
+      detail.includes("timed out")
+
+    if (isConnectionLost) {
+      cancelledRef.current = true
+    }
+
+    const message = `Batch ${batchIndex + 1} failed: ${detail}`
     addError({ type: "network", message, timestamp: Date.now() })
   }
 }

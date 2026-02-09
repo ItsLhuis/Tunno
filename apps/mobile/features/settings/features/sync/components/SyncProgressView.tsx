@@ -1,12 +1,16 @@
-import { View } from "react-native"
+import { useEffect } from "react"
 
-import { useTranslation } from "@repo/i18n"
+import { View } from "react-native"
 
 import { createStyleSheet, useStyles } from "@styles"
 
+import { useTranslation } from "@repo/i18n"
+
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
+
 import { useSyncStore } from "../stores/useSyncStore"
 
-import { Button, Icon, Spinner, Text, type IconName } from "@components/ui"
+import { Button, Card, Icon, Spinner, Text, type IconName } from "@components/ui"
 
 import { type SyncState } from "../types"
 
@@ -25,13 +29,30 @@ const SyncProgressView = ({ onCancel, onReset }: SyncProgressViewProps) => {
   const percentage =
     progress.totalItems > 0 ? Math.round((progress.syncedItems / progress.totalItems) * 100) : 0
 
+  const progressWidth = useSharedValue(0)
+
+  useEffect(() => {
+    progressWidth.value = withTiming(percentage, { duration: 300 })
+  }, [percentage])
+
+  const progressBarAnimatedStyle = useAnimatedStyle(() => ({
+    width: `${progressWidth.value}%`
+  }))
+
+  const cardStyle =
+    syncState === "completed"
+      ? styles.cardSuccess
+      : syncState === "failed"
+        ? styles.cardDestructive
+        : undefined
+
   return (
-    <View style={styles.container}>
+    <Card style={cardStyle}>
       <StateHeader syncState={syncState} />
       {syncState === "syncing" && (
         <View style={styles.progressSection}>
           <View style={styles.progressBarBackground}>
-            <View style={[styles.progressBarFill, { width: `${percentage}%` }]} />
+            <Animated.View style={[styles.progressBarFill, progressBarAnimatedStyle]} />
           </View>
           <View style={styles.statsRow}>
             <Text size="sm" color="mutedForeground">
@@ -55,8 +76,13 @@ const SyncProgressView = ({ onCancel, onReset }: SyncProgressViewProps) => {
         </View>
       )}
       {progress.currentOperation && (
-        <Text size="sm" color="mutedForeground" numberOfLines={1} style={styles.operationText}>
+        <Text size="sm" color="mutedForeground" numberOfLines={1}>
           {progress.currentOperation}
+        </Text>
+      )}
+      {syncState === "completed" && (
+        <Text size="sm" color="success">
+          {t("settings.sync.mobile.completedDescription")}
         </Text>
       )}
       <View style={styles.actions}>
@@ -74,13 +100,13 @@ const SyncProgressView = ({ onCancel, onReset }: SyncProgressViewProps) => {
         {(syncState === "completed" || syncState === "failed") && (
           <Button
             title={t("settings.sync.mobile.done")}
-            variant="secondary"
+            variant="outline"
             size="sm"
             onPress={onReset}
           />
         )}
       </View>
-    </View>
+    </Card>
   )
 }
 
@@ -118,6 +144,7 @@ const StateHeader = ({ syncState }: { syncState: SyncState }) => {
   >
 
   const config = stateConfig[syncState as keyof typeof stateConfig]
+
   if (!config) return null
 
   const iconColor =
@@ -130,19 +157,26 @@ const StateHeader = ({ syncState }: { syncState: SyncState }) => {
       ) : (
         <Icon name={config.icon} size="xl" color={iconColor} />
       )}
-      <Text variant="h5">{t(config.labelKey)}</Text>
+      <Text
+        variant="h5"
+        color={
+          syncState === "completed" ? "success" : syncState === "failed" ? "destructive" : undefined
+        }
+      >
+        {t(config.labelKey)}
+      </Text>
     </View>
   )
 }
 
 const syncProgressViewStyles = createStyleSheet(({ theme }) => ({
-  container: {
-    gap: theme.space("md"),
-    padding: theme.space("md"),
-    borderRadius: theme.radius("lg"),
-    backgroundColor: theme.colors.card,
-    borderWidth: theme.borderWidth(),
-    borderColor: theme.colors.border
+  cardSuccess: {
+    borderColor: theme.withOpacity(theme.colors.success, 0.25),
+    backgroundColor: theme.withOpacity(theme.colors.success, 0.05)
+  },
+  cardDestructive: {
+    borderColor: theme.withOpacity(theme.colors.destructive, 0.25),
+    backgroundColor: theme.withOpacity(theme.colors.destructive, 0.05)
   },
   headerRow: {
     flexDirection: "row",
@@ -153,7 +187,7 @@ const syncProgressViewStyles = createStyleSheet(({ theme }) => ({
     gap: theme.space("xs")
   },
   progressBarBackground: {
-    height: 8,
+    height: theme.size(1),
     borderRadius: theme.radius("full"),
     backgroundColor: theme.colors.muted,
     overflow: "hidden"
@@ -166,9 +200,6 @@ const syncProgressViewStyles = createStyleSheet(({ theme }) => ({
   statsRow: {
     flexDirection: "row",
     justifyContent: "space-between"
-  },
-  operationText: {
-    fontStyle: "italic"
   },
   actions: {
     flexDirection: "row",

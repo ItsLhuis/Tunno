@@ -114,17 +114,23 @@ export function createSyncClient(connectionData: SyncConnectionData) {
    * Pings the desktop server to verify connectivity.
    * @returns A Promise that resolves to `true` if the server responds with a 2xx status, `false` otherwise.
    */
-  async function ping(): Promise<boolean> {
+  async function ping(): Promise<{ ok: boolean; error?: string }> {
     try {
       const response = await fetchWithTimeout(
-        `${url}/api/ping`,
+        `${url}/ping`,
         { method: "GET", headers: { Authorization: `Bearer ${token}` } },
         API_TIMEOUT
       )
 
-      return response.ok
-    } catch {
-      return false
+      if (!response.ok) {
+        return { ok: false, error: `Server responded with status ${response.status}` }
+      }
+
+      return { ok: true }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown network error"
+
+      return { ok: false, error: message }
     }
   }
 
@@ -252,7 +258,26 @@ export function createSyncClient(connectionData: SyncConnectionData) {
     }
   }
 
-  return { ping, compare, fetchBatch, downloadAudioFile, downloadThumbnail }
+  /**
+   * Notifies the desktop server that the sync has completed successfully.
+   */
+  async function complete(): Promise<void> {
+    try {
+      await fetchWithTimeout(`${url}/api/sync/complete`, { method: "POST", headers }, API_TIMEOUT)
+    } catch {
+      // Non-critical — desktop will still show stale status but sync succeeded
+    }
+  }
+
+  /**
+   * Notifies the desktop server that the mobile user cancelled the sync.
+   * Fire-and-forget — errors are silently ignored since the server may already be down.
+   */
+  function abort(): void {
+    fetch(`${url}/api/sync/abort`, { method: "POST", headers }).catch(() => {})
+  }
+
+  return { ping, compare, fetchBatch, downloadAudioFile, downloadThumbnail, complete, abort }
 }
 
 /**

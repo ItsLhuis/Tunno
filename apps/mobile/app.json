@@ -33,6 +33,14 @@
     },
     "plugins": [
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      [
         "./plugins/withAndroidDrawableAssets.js",
         ["./assets/drawables/media3_notification_small_icon.xml"]
       ],

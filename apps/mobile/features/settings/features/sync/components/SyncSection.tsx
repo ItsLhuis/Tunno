@@ -59,6 +59,8 @@ const SyncSection = () => {
         ) : (
           <Button
             title={t("settings.sync.mobile.scanQr")}
+            variant="outline"
+            size="sm"
             leftIcon="QrCode"
             onPress={handleOpenScanner}
           />
