@@ -597,9 +597,12 @@ export const italian: Language = {
           songsExported:
             "{count} canzon{count, plural, one {e} other{i}} esportat{count, plural, one {a} other{e}} nel bundle"
         },
-        mobile: {
+        desktop: {
           title: "Sincronizza con mobile",
-          description: "Trasferisci la tua libreria a Tunno Mobile sulla tua rete locale",
+          description: "Trasferisci la tua libreria a Tunno Mobile sulla tua rete locale"
+        },
+        mobile: {
+          title: "Sincronizza con computer",
           generateQr: "Genera codice QR",
           stopServer: "Arresta server",
           waitingConnection: "In attesa della connessione del dispositivo mobile",
@@ -609,7 +612,7 @@ export const italian: Language = {
           serverError: "Impossibile avviare il server di sincronizzazione",
           scanQr: "Scansiona il codice QR",
           scanQrDescription:
-            "Scansiona il codice QR sul tuo desktop per sincronizzare la libreria musicale tramite WiFi",
+            "Scansiona il codice QR sul tuo desktop per trasferire la libreria musicale tramite la tua rete locale",
           connecting: "Connessione in corso",
           comparing: "Confronto delle librerie",
           syncing: "Sincronizzazione in corso",
@@ -618,7 +621,6 @@ export const italian: Language = {
           completedDescription: "La tua libreria musicale è stata sincronizzata con successo",
           alreadySynced: "Già sincronizzato",
           failed: "Sincronizzazione fallita",
-          retry: "Riprova",
           cancel: "Annulla",
           done: "Fatto",
           itemsSynced: "{synced} / {total} elementi",
@@ -630,7 +632,6 @@ export const italian: Language = {
           cameraLoading: "Caricamento fotocamera",
           scanInstruction: "Punta la fotocamera verso il codice QR sul tuo desktop",
           connectionFailed: "Impossibile raggiungere il server desktop",
-          insufficientStorage: "Spazio di archiviazione insufficiente",
           insufficientStorageDescription:
             "Spazio libero insufficiente per la sincronizzazione. Necessari {required}, ma solo {available} disponibili",
           syncInterrupted:
@@ -640,7 +641,10 @@ export const italian: Language = {
           updatingStats: "Aggiornamento statistiche",
           syncComplete: "Sincronizzazione completata",
           comparingLibraries: "Confronto delle librerie",
-          connectingToDesktop: "Connessione al desktop"
+          connectingToDesktop: "Connessione al desktop",
+          cancelledByMobile: "Sincronizzazione annullata dal dispositivo mobile",
+          syncTimedOut: "Il dispositivo mobile non ha risposto",
+          connectionLost: "Server desktop disconnesso"
         }
       },
       about: {

@@ -594,9 +594,12 @@ export const danish: Language = {
           missingAlbumInfo: "Alle sange mangler albuminformation",
           songsExported: "{count} sang{count, plural, one {} other{e}} eksporteret til pakke"
         },
-        mobile: {
+        desktop: {
           title: "Synkroniser med mobile",
-          description: "Overfør dit bibliotek til Tunno Mobile over dit lokale netværk",
+          description: "Overfør dit bibliotek til Tunno Mobile over dit lokale netværk"
+        },
+        mobile: {
+          title: "Synkroniser med computer",
           generateQr: "Generer QR-kode",
           stopServer: "Stop server",
           waitingConnection: "Venter på mobilenhedens forbindelse",
@@ -606,7 +609,7 @@ export const danish: Language = {
           serverError: "Kunne ikke starte synkroniseringsserver",
           scanQr: "Scan QR-kode",
           scanQrDescription:
-            "Scan QR-koden på din computer for at synkronisere dit musikbibliotek over WiFi",
+            "Scan QR-koden på din computer for at overføre dit musikbibliotek over dit lokale netværk",
           connecting: "Forbinder",
           comparing: "Sammenligner biblioteker",
           syncing: "Synkroniserer",
@@ -615,7 +618,6 @@ export const danish: Language = {
           completedDescription: "Dit musikbibliotek er blevet synkroniseret",
           alreadySynced: "Allerede synkroniseret",
           failed: "Synkronisering mislykkedes",
-          retry: "Prøv igen",
           cancel: "Annullér",
           done: "Færdig",
           itemsSynced: "{synced} / {total} elementer",
@@ -627,7 +629,6 @@ export const danish: Language = {
           cameraLoading: "Indlæser kamera",
           scanInstruction: "Ret dit kamera mod QR-koden på din computer",
           connectionFailed: "Kunne ikke nå desktopserveren",
-          insufficientStorage: "Utilstrækkelig lagerplads",
           insufficientStorageDescription:
             "Ikke nok ledig plads til synkronisering. Kræver {required}, men kun {available} tilgængelig",
           syncInterrupted: "Synkroniseringen blev afbrudt, fordi appen gik i baggrunden",
@@ -636,7 +637,10 @@ export const danish: Language = {
           updatingStats: "Opdaterer statistik",
           syncComplete: "Synkronisering fuldført",
           comparingLibraries: "Sammenligner biblioteker",
-          connectingToDesktop: "Forbinder til computer"
+          connectingToDesktop: "Forbinder til computer",
+          cancelledByMobile: "Synkronisering annulleret af mobil enhed",
+          syncTimedOut: "Mobil enhed svarede ikke",
+          connectionLost: "Forbindelse til desktopserver gik tabt"
         }
       },
       about: {

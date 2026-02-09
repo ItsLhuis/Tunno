@@ -594,9 +594,12 @@ export const vietnamese: Language = {
           missingAlbumInfo: "Tất cả bài hát thiếu thông tin album",
           songsExported: "{count} bài hát đã xuất sang gói"
         },
-        mobile: {
+        desktop: {
           title: "Đồng bộ với mobile",
-          description: "Chuyển thư viện của bạn đến Tunno Mobile qua mạng cục bộ",
+          description: "Chuyển thư viện của bạn đến Tunno Mobile qua mạng cục bộ"
+        },
+        mobile: {
+          title: "Đồng bộ với máy tính",
           generateQr: "Tạo mã QR",
           stopServer: "Dừng máy chủ",
           waitingConnection: "Đang chờ thiết bị di động kết nối",
@@ -605,7 +608,7 @@ export const vietnamese: Language = {
           syncCompleted: "Đồng bộ hoàn tất",
           serverError: "Không thể khởi động máy chủ đồng bộ",
           scanQr: "Quét mã QR",
-          scanQrDescription: "Quét mã QR trên máy tính để đồng bộ thư viện nhạc qua WiFi",
+          scanQrDescription: "Quét mã QR trên máy tính để chuyển thư viện nhạc qua mạng cục bộ",
           connecting: "Đang kết nối",
           comparing: "Đang so sánh thư viện",
           syncing: "Đang đồng bộ",
@@ -614,7 +617,6 @@ export const vietnamese: Language = {
           completedDescription: "Thư viện nhạc của bạn đã được đồng bộ thành công",
           alreadySynced: "Đã đồng bộ rồi",
           failed: "Đồng bộ thất bại",
-          retry: "Thử lại",
           cancel: "Hủy",
           done: "Xong",
           itemsSynced: "{synced} / {total} mục",
@@ -626,7 +628,6 @@ export const vietnamese: Language = {
           cameraLoading: "Đang tải camera",
           scanInstruction: "Hướng camera vào mã QR trên máy tính của bạn",
           connectionFailed: "Không thể kết nối đến máy tính",
-          insufficientStorage: "Không đủ dung lượng",
           insufficientStorageDescription:
             "Không đủ dung lượng trống để đồng bộ. Cần {required}, nhưng chỉ có {available} khả dụng",
           syncInterrupted: "Đồng bộ bị gián đoạn do ứng dụng chuyển sang nền",
@@ -635,7 +636,10 @@ export const vietnamese: Language = {
           updatingStats: "Đang cập nhật thống kê",
           syncComplete: "Đồng bộ hoàn tất",
           comparingLibraries: "Đang so sánh thư viện",
-          connectingToDesktop: "Đang kết nối đến máy tính"
+          connectingToDesktop: "Đang kết nối đến máy tính",
+          cancelledByMobile: "Đồng bộ bị hủy bởi thiết bị di động",
+          syncTimedOut: "Thiết bị di động không phản hồi",
+          connectionLost: "Máy chủ máy tính bị ngắt kết nối"
         }
       },
       about: {

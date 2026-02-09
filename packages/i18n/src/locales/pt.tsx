@@ -598,9 +598,12 @@ export const portuguese: Language = {
           songsExported:
             "{count} música{count, plural, one {} other{s}} exportada{count, plural, one {} other{s}} para o pacote"
         },
-        mobile: {
+        desktop: {
           title: "Sincronizar com móvel",
-          description: "Transfere a tua biblioteca para Tunno Mobile através da tua rede local",
+          description: "Transfere a tua biblioteca para Tunno Mobile através da tua rede local"
+        },
+        mobile: {
+          title: "Sincronizar com computador",
           generateQr: "Gerar código QR",
           stopServer: "Parar servidor",
           waitingConnection: "Aguardando ligação do dispositivo móvel",
@@ -610,7 +613,7 @@ export const portuguese: Language = {
           serverError: "Falha ao iniciar servidor de sincronização",
           scanQr: "Ler código QR",
           scanQrDescription:
-            "Leia o código QR no seu computador para sincronizar a sua biblioteca de música por WiFi",
+            "Leia o código QR no seu computador para transferir a sua biblioteca pela tua rede local",
           connecting: "A ligar",
           comparing: "A comparar bibliotecas",
           syncing: "A sincronizar",
@@ -619,7 +622,6 @@ export const portuguese: Language = {
           completedDescription: "A sua biblioteca de música foi sincronizada com sucesso",
           alreadySynced: "Já sincronizado",
           failed: "Sincronização falhou",
-          retry: "Tentar novamente",
           cancel: "Cancelar",
           done: "Concluído",
           itemsSynced: "{synced} / {total} itens",
@@ -631,7 +633,6 @@ export const portuguese: Language = {
           cameraLoading: "A carregar câmara",
           scanInstruction: "Aponte a câmara para o código QR no seu computador",
           connectionFailed: "Não foi possível contactar o servidor do computador",
-          insufficientStorage: "Armazenamento insuficiente",
           insufficientStorageDescription:
             "Espaço livre insuficiente para sincronizar. Necessário {required}, mas apenas {available} disponível",
           syncInterrupted:
@@ -641,7 +642,10 @@ export const portuguese: Language = {
           updatingStats: "A atualizar estatísticas",
           syncComplete: "Sincronização concluída",
           comparingLibraries: "A comparar bibliotecas",
-          connectingToDesktop: "A ligar ao computador"
+          connectingToDesktop: "A ligar ao computador",
+          cancelledByMobile: "Sincronização cancelada pelo dispositivo móvel",
+          syncTimedOut: "O dispositivo móvel não respondeu",
+          connectionLost: "Servidor de desktop desconectado"
         }
       },
       about: {

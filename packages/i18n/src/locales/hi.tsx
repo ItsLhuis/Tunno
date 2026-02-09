@@ -596,10 +596,13 @@ export const hindi: Language = {
           songsExported:
             "{count} गाना{count, plural, one {} other {ने}} बंडल में निर्यात किया{count, plural, one {} other {ए}} गया{count, plural, one {} other {ए}}"
         },
-        mobile: {
+        desktop: {
           title: "मोबाइल के साथ सिंक करें",
           description:
-            "अपनी लाइब्रेरी को अपने स्थानीय नेटवर्क के माध्यम से Tunno मोबाइल में स्थानांतरित करें",
+            "अपनी लाइब्रेरी को अपने स्थानीय नेटवर्क के माध्यम से Tunno मोबाइल में स्थानांतरित करें"
+        },
+        mobile: {
+          title: "कंप्यूटर के साथ सिंक करें",
           generateQr: "QR कोड बनाएं",
           stopServer: "सर्वर बंद करें",
           waitingConnection: "मोबाइल डिवाइस के कनेक्शन की प्रतीक्षा में",
@@ -609,7 +612,7 @@ export const hindi: Language = {
           serverError: "सिंक सर्वर शुरू करने में विफल",
           scanQr: "QR कोड स्कैन करें",
           scanQrDescription:
-            "अपनी संगीत लाइब्रेरी को WiFi के माध्यम से सिंक करने के लिए अपने डेस्कटॉप पर QR कोड स्कैन करें",
+            "अपनी संगीत लाइब्रेरी को स्थानीय नेटवर्क के माध्यम से ट्रांसफर करने के लिए अपने डेस्कटॉप पर QR कोड स्कैन करें",
           connecting: "कनेक्ट हो रहा है",
           comparing: "लाइब्रेरी की तुलना",
           syncing: "सिंक हो रहा है",
@@ -618,7 +621,6 @@ export const hindi: Language = {
           completedDescription: "आपकी संगीत लाइब्रेरी सफलतापूर्वक सिंक हो गई",
           alreadySynced: "पहले से सिंक है",
           failed: "सिंक विफल",
-          retry: "पुनः प्रयास करें",
           cancel: "रद्द करें",
           done: "हो गया",
           itemsSynced: "{synced} / {total} आइटम",
@@ -630,7 +632,6 @@ export const hindi: Language = {
           cameraLoading: "कैमरा लोड हो रहा है",
           scanInstruction: "अपने कैमरे को अपने डेस्कटॉप पर QR कोड की ओर रखें",
           connectionFailed: "डेस्कटॉप सर्वर तक नहीं पहुँच सका",
-          insufficientStorage: "अपर्याप्त संग्रहण",
           insufficientStorageDescription:
             "सिंक के लिए पर्याप्त खाली जगह नहीं है। {required} आवश्यक, लेकिन केवल {available} उपलब्ध",
           syncInterrupted: "ऐप बैकग्राउंड में जाने के कारण सिंक बाधित हुआ",
@@ -639,7 +640,10 @@ export const hindi: Language = {
           updatingStats: "आंकड़े अपडेट हो रहे हैं",
           syncComplete: "सिंक पूर्ण",
           comparingLibraries: "लाइब्रेरी की तुलना हो रही है",
-          connectingToDesktop: "डेस्कटॉप से कनेक्ट हो रहा है"
+          connectingToDesktop: "डेस्कटॉप से कनेक्ट हो रहा है",
+          cancelledByMobile: "मोबाइल डिवाइस द्वारा सिंक रद्द किया गया",
+          syncTimedOut: "मोबाइल डिवाइस ने जवाब नहीं दिया",
+          connectionLost: "डेस्कटॉप सर्वर डिस्कनेक्ट हो गया"
         }
       },
       about: {

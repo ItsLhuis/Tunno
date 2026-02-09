@@ -595,9 +595,12 @@ export const dutch: Language = {
           missingAlbumInfo: "Alle nummers missen albuminformatie",
           songsExported: "{count} nummer{count, plural, one {} other{s}} geëxporteerd naar bundel"
         },
-        mobile: {
+        desktop: {
           title: "Synchroniseer met mobiel",
-          description: "Verplaats je bibliotheek naar Tunno Mobile via je lokale netwerk",
+          description: "Verplaats je bibliotheek naar Tunno Mobile via je lokale netwerk"
+        },
+        mobile: {
+          title: "Synchroniseer met computer",
           generateQr: "QR-code genereren",
           stopServer: "Server stoppen",
           waitingConnection: "Wacht op verbinding van mobiel apparaat",
@@ -607,7 +610,7 @@ export const dutch: Language = {
           serverError: "Synchronisatieserver kon niet worden gestart",
           scanQr: "QR-code scannen",
           scanQrDescription:
-            "Scan de QR-code op je desktop om je muziekbibliotheek via WiFi te synchroniseren",
+            "Scan de QR-code op je desktop om je muziekbibliotheek via je lokale netwerk te synchroniseren",
           connecting: "Verbinden",
           comparing: "Bibliotheken vergelijken",
           syncing: "Synchroniseren",
@@ -616,7 +619,6 @@ export const dutch: Language = {
           completedDescription: "Je muziekbibliotheek is succesvol gesynchroniseerd",
           alreadySynced: "Al gesynchroniseerd",
           failed: "Synchronisatie mislukt",
-          retry: "Opnieuw proberen",
           cancel: "Annuleren",
           done: "Klaar",
           itemsSynced: "{synced} / {total} items",
@@ -627,7 +629,6 @@ export const dutch: Language = {
           cameraLoading: "Camera laden",
           scanInstruction: "Richt je camera op de QR-code op je desktop",
           connectionFailed: "Kan desktopserver niet bereiken",
-          insufficientStorage: "Onvoldoende opslagruimte",
           insufficientStorageDescription:
             "Niet genoeg vrije ruimte om te synchroniseren. {required} nodig, maar slechts {available} beschikbaar",
           syncInterrupted:
@@ -637,7 +638,10 @@ export const dutch: Language = {
           updatingStats: "Statistieken bijwerken",
           syncComplete: "Synchronisatie voltooid",
           comparingLibraries: "Bibliotheken vergelijken",
-          connectingToDesktop: "Verbinden met desktop"
+          connectingToDesktop: "Verbinden met desktop",
+          cancelledByMobile: "Synchronisatie geannuleerd door mobiel apparaat",
+          syncTimedOut: "Mobiel apparaat reageert niet",
+          connectionLost: "Desktopserver verbroken"
         }
       },
       about: {

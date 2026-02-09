@@ -594,9 +594,12 @@ export const english: Language = {
           missingAlbumInfo: "All songs are missing album information",
           songsExported: "{count} song{count, plural, one {} other{s}} exported to bundle"
         },
-        mobile: {
+        desktop: {
           title: "Sync with mobile",
-          description: "Transfer your library to Tunno Mobile over your local network",
+          description: "Transfer your library to Tunno Mobile over your local network"
+        },
+        mobile: {
+          title: "Sync with desktop",
           generateQr: "Generate QR code",
           stopServer: "Stop server",
           waitingConnection: "Waiting for mobile device to connect",
@@ -606,7 +609,7 @@ export const english: Language = {
           serverError: "Failed to start sync server",
           scanQr: "Scan QR code",
           scanQrDescription:
-            "Scan the QR code on your desktop to sync your music library over WiFi",
+            "Scan the QR code on your desktop to transfer your library over your local network",
           connecting: "Connecting",
           comparing: "Comparing libraries",
           syncing: "Syncing",
@@ -615,7 +618,6 @@ export const english: Language = {
           completedDescription: "Your music library has been synced successfully",
           alreadySynced: "Already synced",
           failed: "Sync failed",
-          retry: "Retry",
           cancel: "Cancel",
           done: "Done",
           itemsSynced: "{synced} / {total} items",
@@ -627,7 +629,6 @@ export const english: Language = {
           cameraLoading: "Loading camera",
           scanInstruction: "Point your camera at the QR code on your desktop",
           connectionFailed: "Could not reach desktop server",
-          insufficientStorage: "Insufficient storage",
           insufficientStorageDescription:
             "Not enough free space to sync. Need {required}, but only {available} available",
           syncInterrupted: "Sync was interrupted because the app went to the background",
@@ -636,7 +637,10 @@ export const english: Language = {
           updatingStats: "Updating statistics",
           syncComplete: "Sync complete",
           comparingLibraries: "Comparing libraries",
-          connectingToDesktop: "Connecting to desktop"
+          connectingToDesktop: "Connecting to desktop",
+          cancelledByMobile: "Sync cancelled by mobile device",
+          syncTimedOut: "Mobile device stopped responding",
+          connectionLost: "Desktop server disconnected"
         }
       },
       about: {

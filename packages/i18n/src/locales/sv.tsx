@@ -595,9 +595,12 @@ export const swedish: Language = {
           songsExported:
             "{count} låt{count, plural, one {} other{ar}} exporterad{count, plural, one {} other{e}} till paket"
         },
-        mobile: {
+        desktop: {
           title: "Synkronisera med mobil",
-          description: "Överför ditt bibliotek till Tunno Mobile via ditt lokala nätverk",
+          description: "Överför ditt bibliotek till Tunno Mobile via ditt lokala nätverk"
+        },
+        mobile: {
+          title: "Synkronisera med dator",
           generateQr: "Generera QR-kod",
           stopServer: "Stoppa server",
           waitingConnection: "Väntar på anslutning från mobil enhet",
@@ -607,7 +610,7 @@ export const swedish: Language = {
           serverError: "Kunde inte starta synkroniseringsserver",
           scanQr: "Skanna QR-kod",
           scanQrDescription:
-            "Skanna QR-koden på din dator för att synkronisera ditt musikbibliotek via WiFi",
+            "Skanna QR-koden på din dator för att överföra ditt musikbibliotek via ditt lokala nätverk",
           connecting: "Ansluter",
           comparing: "Jämför bibliotek",
           syncing: "Synkroniserar",
@@ -616,7 +619,6 @@ export const swedish: Language = {
           completedDescription: "Ditt musikbibliotek har synkroniserats",
           alreadySynced: "Redan synkroniserat",
           failed: "Synkronisering misslyckades",
-          retry: "Försök igen",
           cancel: "Avbryt",
           done: "Klar",
           itemsSynced: "{synced} / {total} objekt",
@@ -628,7 +630,6 @@ export const swedish: Language = {
           cameraLoading: "Laddar kamera",
           scanInstruction: "Rikta kameran mot QR-koden på din dator",
           connectionFailed: "Kunde inte nå datorservern",
-          insufficientStorage: "Otillräckligt lagringsutrymme",
           insufficientStorageDescription:
             "Inte tillräckligt med ledigt utrymme för att synkronisera. Behöver {required}, men bara {available} tillgängligt",
           syncInterrupted: "Synkroniseringen avbröts eftersom appen gick till bakgrunden",
@@ -637,7 +638,10 @@ export const swedish: Language = {
           updatingStats: "Uppdaterar statistik",
           syncComplete: "Synkronisering klar",
           comparingLibraries: "Jämför bibliotek",
-          connectingToDesktop: "Ansluter till dator"
+          connectingToDesktop: "Ansluter till dator",
+          cancelledByMobile: "Synkronisering avbruten av mobil enhet",
+          syncTimedOut: "Mobil enhet svarade inte",
+          connectionLost: "Skrivbordserver frånkopplad"
         }
       },
       about: {

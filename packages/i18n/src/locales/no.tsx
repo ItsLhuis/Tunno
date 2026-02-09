@@ -594,9 +594,12 @@ export const norwegian: Language = {
           missingAlbumInfo: "Alle sanger mangler albuminformasjon",
           songsExported: "{count} sang{count, plural, one {} other{er}} eksportert til pakke"
         },
-        mobile: {
+        desktop: {
           title: "Synkroniser med mobil",
-          description: "Overfør biblioteket ditt til Tunno Mobile over ditt lokale nettverk",
+          description: "Overfør biblioteket ditt til Tunno Mobile over ditt lokale nettverk"
+        },
+        mobile: {
+          title: "Synkroniser med datamaskin",
           generateQr: "Generer QR-kode",
           stopServer: "Stopp server",
           waitingConnection: "Venter på tilkobling fra mobilenhet",
@@ -606,7 +609,7 @@ export const norwegian: Language = {
           serverError: "Kunne ikke starte synkroniseringsserver",
           scanQr: "Skann QR-kode",
           scanQrDescription:
-            "Skann QR-koden på skrivebordet ditt for å synkronisere musikkbiblioteket over WiFi",
+            "Skann QR-koden på skrivebordet ditt for å overføre musikkbiblioteket over ditt lokale nettverk",
           connecting: "Kobler til",
           comparing: "Sammenligner biblioteker",
           syncing: "Synkroniserer",
@@ -615,7 +618,6 @@ export const norwegian: Language = {
           completedDescription: "Musikkbiblioteket ditt er synkronisert",
           alreadySynced: "Allerede synkronisert",
           failed: "Synkronisering mislyktes",
-          retry: "Prøv igjen",
           cancel: "Avbryt",
           done: "Ferdig",
           itemsSynced: "{synced} / {total} elementer",
@@ -627,7 +629,6 @@ export const norwegian: Language = {
           cameraLoading: "Laster kamera",
           scanInstruction: "Rett kameraet mot QR-koden på skrivebordet ditt",
           connectionFailed: "Kunne ikke nå skrivebordsserveren",
-          insufficientStorage: "Utilstrekkelig lagringsplass",
           insufficientStorageDescription:
             "Ikke nok ledig plass til å synkronisere. Trenger {required}, men bare {available} tilgjengelig",
           syncInterrupted: "Synkronisering ble avbrutt fordi appen gikk til bakgrunnen",
@@ -636,7 +637,10 @@ export const norwegian: Language = {
           updatingStats: "Oppdaterer statistikk",
           syncComplete: "Synkronisering fullført",
           comparingLibraries: "Sammenligner biblioteker",
-          connectingToDesktop: "Kobler til skrivebord"
+          connectingToDesktop: "Kobler til skrivebord",
+          cancelledByMobile: "Synkronisering avbrutt av mobilenhet",
+          syncTimedOut: "Mobilenheten responderte ikke",
+          connectionLost: "Skrivebordserveren frakoblet"
         }
       },
       about: {

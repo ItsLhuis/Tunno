@@ -595,9 +595,12 @@ export const turkish: Language = {
           missingAlbumInfo: "Tüm şarkılarda albüm bilgisi eksik",
           songsExported: "{count} şarkı pakete dışa aktarıldı"
         },
-        mobile: {
+        desktop: {
           title: "Mobille senkronize et",
-          description: "Kütüphanenizi yerel ağınız üzerinden Tunno Mobile'a aktarın",
+          description: "Kütüphanenizi yerel ağınız üzerinden Tunno Mobile'a aktarın"
+        },
+        mobile: {
+          title: "Bilgisayarla senkronize et",
           generateQr: "QR kodu oluştur",
           stopServer: "Sunucuyu durdur",
           waitingConnection: "Mobil cihazın bağlanması bekleniyor",
@@ -607,7 +610,7 @@ export const turkish: Language = {
           serverError: "Senkronizasyon sunucusu başlatılamadı",
           scanQr: "QR kodu tara",
           scanQrDescription:
-            "Müzik kütüphanenizi WiFi üzerinden senkronize etmek için masaüstünüzdeki QR kodunu tarayın",
+            "Müzik kütüphanenizi yerel ağınız üzerinden aktarmak için masaüstünüzdeki QR kodunu tarayın",
           connecting: "Bağlanıyor",
           comparing: "Kütüphaneler karşılaştırılıyor",
           syncing: "Senkronize ediliyor",
@@ -616,7 +619,6 @@ export const turkish: Language = {
           completedDescription: "Müzik kütüphaneniz başarıyla senkronize edildi",
           alreadySynced: "Zaten senkronize",
           failed: "Senkronizasyon başarısız",
-          retry: "Tekrar dene",
           cancel: "İptal",
           done: "Tamam",
           itemsSynced: "{synced} / {total} öge",
@@ -628,7 +630,6 @@ export const turkish: Language = {
           cameraLoading: "Kamera yükleniyor",
           scanInstruction: "Kameranızı masaüstünüzdeki QR koduna doğrultun",
           connectionFailed: "Masaüstü sunucusuna ulaşılamadı",
-          insufficientStorage: "Yetersiz depolama alanı",
           insufficientStorageDescription:
             "Senkronizasyon için yeterli boş alan yok. {required} gerekli, ancak yalnızca {available} mevcut",
           syncInterrupted: "Uygulama arka plana geçtiği için senkronizasyon kesildi",
@@ -637,7 +638,10 @@ export const turkish: Language = {
           updatingStats: "İstatistikler güncelleniyor",
           syncComplete: "Senkronizasyon tamamlandı",
           comparingLibraries: "Kütüphaneler karşılaştırılıyor",
-          connectingToDesktop: "Masaüstüne bağlanıyor"
+          connectingToDesktop: "Masaüstüne bağlanıyor",
+          cancelledByMobile: "Senkronizasyon mobil cihaz tarafından iptal edildi",
+          syncTimedOut: "Mobil cihaz yanıt vermedi",
+          connectionLost: "Masaüstü sunucusu bağlantısı kesildi"
         }
       },
       about: {

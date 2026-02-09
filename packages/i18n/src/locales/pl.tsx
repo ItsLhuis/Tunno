@@ -596,9 +596,12 @@ export const polish: Language = {
           songsExported:
             "{count} utwór{count, plural, one {} few{y} other{ów}} wyeksportowano do pakietu"
         },
-        mobile: {
+        desktop: {
           title: "Synchronizuj z mobilnym",
-          description: "Przenieś swoją bibliotekę do Tunno Mobile za pośrednictwem sieci lokalnej",
+          description: "Przenieś swoją bibliotekę do Tunno Mobile za pośrednictwem sieci lokalnej"
+        },
+        mobile: {
+          title: "Synchronizuj z komputerem",
           generateQr: "Generuj kod QR",
           stopServer: "Zatrzymaj serwer",
           waitingConnection: "Oczekiwanie na połączenie urządzenia mobilnego",
@@ -608,7 +611,7 @@ export const polish: Language = {
           serverError: "Nie udało się uruchomić serwera synchronizacji",
           scanQr: "Skanuj kod QR",
           scanQrDescription:
-            "Zeskanuj kod QR na pulpicie, aby zsynchronizować bibliotekę muzyczną przez WiFi",
+            "Zeskanuj kod QR na pulpicie, aby przenieść bibliotekę muzyczną przez sieć lokalną",
           connecting: "Łączenie",
           comparing: "Porównywanie bibliotek",
           syncing: "Synchronizacja",
@@ -617,7 +620,6 @@ export const polish: Language = {
           completedDescription: "Twoja biblioteka muzyczna została pomyślnie zsynchronizowana",
           alreadySynced: "Już zsynchronizowano",
           failed: "Synchronizacja nie powiodła się",
-          retry: "Ponów",
           cancel: "Anuluj",
           done: "Gotowe",
           itemsSynced: "{synced} / {total} elementów",
@@ -629,7 +631,6 @@ export const polish: Language = {
           cameraLoading: "Ładowanie kamery",
           scanInstruction: "Skieruj kamerę na kod QR na pulpicie",
           connectionFailed: "Nie udało się połączyć z serwerem na pulpicie",
-          insufficientStorage: "Niewystarczająca ilość miejsca",
           insufficientStorageDescription:
             "Za mało wolnego miejsca do synchronizacji. Potrzeba {required}, ale dostępne jest tylko {available}",
           syncInterrupted: "Synchronizacja została przerwana, ponieważ aplikacja przeszła w tło",
@@ -638,7 +639,10 @@ export const polish: Language = {
           updatingStats: "Aktualizowanie statystyk",
           syncComplete: "Synchronizacja zakończona",
           comparingLibraries: "Porównywanie bibliotek",
-          connectingToDesktop: "Łączenie z pulpitem"
+          connectingToDesktop: "Łączenie z pulpitem",
+          cancelledByMobile: "Synchronizacja anulowana przez urządzenie mobilne",
+          syncTimedOut: "Urządzenie mobilne nie odpowiada",
+          connectionLost: "Serwer pulpitu rozłączony"
         }
       },
       about: {

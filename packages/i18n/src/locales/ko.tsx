@@ -593,9 +593,12 @@ export const korean: Language = {
           missingAlbumInfo: "모든 곡에 앨범 정보가 없습니다",
           songsExported: "{count}곡을 번들로 내보냈습니다"
         },
-        mobile: {
+        desktop: {
           title: "모바일과 동기화",
-          description: "로컬 네트워크를 통해 라이브러리를 Tunno 모바일로 전송",
+          description: "로컬 네트워크를 통해 라이브러리를 Tunno 모바일로 전송"
+        },
+        mobile: {
+          title: "컴퓨터와 동기화",
           generateQr: "QR 코드 생성",
           stopServer: "서버 중지",
           waitingConnection: "모바일 기기 연결 대기 중",
@@ -605,7 +608,7 @@ export const korean: Language = {
           serverError: "동기화 서버를 시작할 수 없습니다",
           scanQr: "QR 코드 스캔",
           scanQrDescription:
-            "WiFi를 통해 음악 라이브러리를 동기화하려면 데스크톱의 QR 코드를 스캔하세요",
+            "로컬 네트워크를 통해 음악 라이브러리를 전송하려면 데스크톱의 QR 코드를 스캔하세요",
           connecting: "연결 중",
           comparing: "라이브러리 비교 중",
           syncing: "동기화 중",
@@ -614,7 +617,6 @@ export const korean: Language = {
           completedDescription: "음악 라이브러리가 성공적으로 동기화되었습니다",
           alreadySynced: "이미 동기화됨",
           failed: "동기화 실패",
-          retry: "재시도",
           cancel: "취소",
           done: "완료",
           itemsSynced: "{synced} / {total} 항목",
@@ -626,7 +628,6 @@ export const korean: Language = {
           cameraLoading: "카메라 로딩 중",
           scanInstruction: "데스크톱의 QR 코드에 카메라를 맞추세요",
           connectionFailed: "데스크톱 서버에 연결할 수 없습니다",
-          insufficientStorage: "저장 공간 부족",
           insufficientStorageDescription:
             "동기화할 공간이 부족합니다. {required} 필요하지만 {available}만 사용 가능합니다",
           syncInterrupted: "앱이 백그라운드로 전환되어 동기화가 중단되었습니다",
@@ -635,7 +636,10 @@ export const korean: Language = {
           updatingStats: "통계 업데이트 중",
           syncComplete: "동기화 완료",
           comparingLibraries: "라이브러리 비교 중",
-          connectingToDesktop: "데스크톱에 연결 중"
+          connectingToDesktop: "데스크톱에 연결 중",
+          cancelledByMobile: "모바일 기기에서 동기화 취소됨",
+          syncTimedOut: "모바일 기기가 응답하지 않음",
+          connectionLost: "데스크톱 서버 연결 끊김"
         }
       },
       about: {

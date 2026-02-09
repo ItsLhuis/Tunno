@@ -598,9 +598,12 @@ export const french: Language = {
           songsExported:
             "{count} chanson{count, plural, one {} other{s}} exportée{count, plural, one {} other{s}} vers le bundle"
         },
-        mobile: {
+        desktop: {
           title: "Synchroniser avec mobile",
-          description: "Transférez votre bibliothèque vers Tunno Mobile sur votre réseau local",
+          description: "Transférez votre bibliothèque vers Tunno Mobile sur votre réseau local"
+        },
+        mobile: {
+          title: "Synchroniser avec ordinateur",
           generateQr: "Générer le code QR",
           stopServer: "Arrêter le serveur",
           waitingConnection: "En attente de la connexion du périphérique mobile",
@@ -610,7 +613,7 @@ export const french: Language = {
           serverError: "Impossible de démarrer le serveur de synchronisation",
           scanQr: "Scanner le code QR",
           scanQrDescription:
-            "Scannez le code QR sur votre ordinateur pour synchroniser votre bibliothèque musicale via WiFi",
+            "Scannez le code QR sur votre ordinateur pour transférer votre bibliothèque musicale via votre réseau local",
           connecting: "Connexion",
           comparing: "Comparaison des bibliothèques",
           syncing: "Synchronisation",
@@ -619,7 +622,6 @@ export const french: Language = {
           completedDescription: "Votre bibliothèque musicale a été synchronisée avec succès",
           alreadySynced: "Déjà synchronisé",
           failed: "Échec de la synchronisation",
-          retry: "Réessayer",
           cancel: "Annuler",
           done: "Terminé",
           itemsSynced: "{synced} / {total} éléments",
@@ -631,7 +633,6 @@ export const french: Language = {
           cameraLoading: "Chargement de la caméra",
           scanInstruction: "Dirigez votre caméra vers le code QR sur votre ordinateur",
           connectionFailed: "Impossible de joindre le serveur de bureau",
-          insufficientStorage: "Espace de stockage insuffisant",
           insufficientStorageDescription:
             "Pas assez d'espace libre pour synchroniser. {required} nécessaire, mais seulement {available} disponible",
           syncInterrupted:
@@ -641,7 +642,10 @@ export const french: Language = {
           updatingStats: "Mise à jour des statistiques",
           syncComplete: "Synchronisation terminée",
           comparingLibraries: "Comparaison des bibliothèques",
-          connectingToDesktop: "Connexion au bureau"
+          connectingToDesktop: "Connexion au bureau",
+          cancelledByMobile: "Synchronisation annulée par l'appareil mobile",
+          syncTimedOut: "L'appareil mobile n'a pas répondu",
+          connectionLost: "Serveur de bureau déconnecté"
         }
       },
       about: {

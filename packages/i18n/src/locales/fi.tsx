@@ -594,9 +594,12 @@ export const finnish: Language = {
           missingAlbumInfo: "Kaikista kappaleista puuttuu albumitiedot",
           songsExported: "{count} kappale{count, plural, one {} other{tta}} viety pakettiin"
         },
-        mobile: {
+        desktop: {
           title: "Synkronoi mobiilisovelluksen kanssa",
-          description: "Siirrä kirjastosi Tunno Mobileen paikallisen verkkosi kautta",
+          description: "Siirrä kirjastosi Tunno Mobileen paikallisen verkkosi kautta"
+        },
+        mobile: {
+          title: "Synkronoi tietokoneen kanssa",
           generateQr: "Luo QR-koodi",
           stopServer: "Pysäytä palvelin",
           waitingConnection: "Odotetaan mobiililaitteen yhdistämistä",
@@ -606,7 +609,7 @@ export const finnish: Language = {
           serverError: "Synkronointipalvelimen käynnistäminen epäonnistui",
           scanQr: "Skannaa QR-koodi",
           scanQrDescription:
-            "Skannaa tietokoneesi QR-koodi synkronoidaksesi musiikkikirjastosi WiFin kautta",
+            "Skannaa tietokoneesi QR-koodi siirtääksesi musiikkikirjastosi paikallisen verkon kautta",
           connecting: "Yhdistetään",
           comparing: "Vertaillaan kirjastoja",
           syncing: "Synkronoidaan",
@@ -615,7 +618,6 @@ export const finnish: Language = {
           completedDescription: "Musiikkikirjastosi on synkronoitu onnistuneesti",
           alreadySynced: "Jo synkronoitu",
           failed: "Synkronointi epäonnistui",
-          retry: "Yritä uudelleen",
           cancel: "Peruuta",
           done: "Valmis",
           itemsSynced: "{synced} / {total} kohdetta",
@@ -627,7 +629,6 @@ export const finnish: Language = {
           cameraLoading: "Ladataan kameraa",
           scanInstruction: "Osoita kamerasi tietokoneesi QR-koodiin",
           connectionFailed: "Yhteyttä tietokonepalvelimeen ei saatu",
-          insufficientStorage: "Tallennustila ei riitä",
           insufficientStorageDescription:
             "Synkronointiin ei ole tarpeeksi vapaata tilaa. Tarvitaan {required}, mutta vain {available} käytettävissä",
           syncInterrupted: "Synkronointi keskeytyi, koska sovellus siirtyi taustalle",
@@ -636,7 +637,10 @@ export const finnish: Language = {
           updatingStats: "Päivitetään tilastoja",
           syncComplete: "Synkronointi valmis",
           comparingLibraries: "Vertaillaan kirjastoja",
-          connectingToDesktop: "Yhdistetään tietokoneeseen"
+          connectingToDesktop: "Yhdistetään tietokoneeseen",
+          cancelledByMobile: "Synkronointi peruttu mobiililaitteella",
+          syncTimedOut: "Mobiililaite ei vastannut",
+          connectionLost: "Tietokoneen yhteys katkesi"
         }
       },
       about: {

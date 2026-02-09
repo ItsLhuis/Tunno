@@ -594,9 +594,12 @@ export const german: Language = {
           missingAlbumInfo: "Allen Songs fehlen Albuminformationen",
           songsExported: "{count} Song{count, plural, one {} other{s}} in Bundle exportiert"
         },
-        mobile: {
+        desktop: {
           title: "Mit mobile synchronisieren",
-          description: "Übertrage deine Bibliothek auf Tunno Mobile über dein lokales Netzwerk",
+          description: "Übertrage deine Bibliothek auf Tunno Mobile über dein lokales Netzwerk"
+        },
+        mobile: {
+          title: "Mit Computer synchronisieren",
           generateQr: "QR-Code generieren",
           stopServer: "Server stoppen",
           waitingConnection: "Warte auf Verbindung des mobilen Geräts",
@@ -606,7 +609,7 @@ export const german: Language = {
           serverError: "Synchronisierungsserver konnte nicht gestartet werden",
           scanQr: "QR-Code scannen",
           scanQrDescription:
-            "Scanne den QR-Code auf deinem Desktop, um deine Musikbibliothek über WiFi zu synchronisieren",
+            "Scanne den QR-Code auf deinem Desktop, um deine Musikbibliothek über dein lokales Netzwerk zu synchronisieren",
           connecting: "Verbinden",
           comparing: "Bibliotheken vergleichen",
           syncing: "Synchronisieren",
@@ -615,7 +618,6 @@ export const german: Language = {
           completedDescription: "Deine Musikbibliothek wurde erfolgreich synchronisiert",
           alreadySynced: "Bereits synchronisiert",
           failed: "Synchronisierung fehlgeschlagen",
-          retry: "Erneut versuchen",
           cancel: "Abbrechen",
           done: "Fertig",
           itemsSynced: "{synced} / {total} Elemente",
@@ -627,7 +629,6 @@ export const german: Language = {
           cameraLoading: "Kamera wird geladen",
           scanInstruction: "Richte deine Kamera auf den QR-Code auf deinem Desktop",
           connectionFailed: "Desktop-Server nicht erreichbar",
-          insufficientStorage: "Unzureichender Speicherplatz",
           insufficientStorageDescription:
             "Nicht genug freier Speicherplatz zum Synchronisieren. Benötigt {required}, aber nur {available} verfügbar",
           syncInterrupted:
@@ -637,7 +638,10 @@ export const german: Language = {
           updatingStats: "Statistiken werden aktualisiert",
           syncComplete: "Synchronisierung abgeschlossen",
           comparingLibraries: "Bibliotheken vergleichen",
-          connectingToDesktop: "Verbindung zum Desktop herstellen"
+          connectingToDesktop: "Verbindung zum Desktop herstellen",
+          cancelledByMobile: "Synchronisierung vom Mobilgerät abgebrochen",
+          syncTimedOut: "Mobilgerät hat nicht geantwortet",
+          connectionLost: "Desktopserver-Verbindung unterbrochen"
         }
       },
       about: {

@@ -590,9 +590,12 @@ export const chinese: Language = {
           missingAlbumInfo: "所有歌曲都缺少专辑信息",
           songsExported: "已将 {count} 首歌曲导出到包"
         },
-        mobile: {
+        desktop: {
           title: "与移动应用同步",
-          description: "通过您的本地网络将音乐库传输到 Tunno 移动应用",
+          description: "通过您的本地网络将音乐库传输到 Tunno 移动应用"
+        },
+        mobile: {
+          title: "与电脑同步",
           generateQr: "生成二维码",
           stopServer: "停止服务器",
           waitingConnection: "等待移动设备连接",
@@ -601,7 +604,7 @@ export const chinese: Language = {
           syncCompleted: "同步成功",
           serverError: "无法启动同步服务器",
           scanQr: "扫描二维码",
-          scanQrDescription: "扫描电脑上的二维码，通过 WiFi 同步你的音乐库",
+          scanQrDescription: "扫描电脑上的二维码，通过本地网络传输你的音乐库",
           connecting: "正在连接",
           comparing: "正在比较音乐库",
           syncing: "正在同步",
@@ -610,7 +613,6 @@ export const chinese: Language = {
           completedDescription: "你的音乐库已成功同步",
           alreadySynced: "已经同步",
           failed: "同步失败",
-          retry: "重试",
           cancel: "取消",
           done: "完成",
           itemsSynced: "{synced} / {total} 项",
@@ -621,7 +623,6 @@ export const chinese: Language = {
           cameraLoading: "正在加载相机",
           scanInstruction: "将相机对准电脑上的二维码",
           connectionFailed: "无法连接到桌面服务器",
-          insufficientStorage: "存储空间不足",
           insufficientStorageDescription:
             "没有足够的可用空间进行同步。需要 {required}，但仅有 {available} 可用",
           syncInterrupted: "由于应用切换到后台，同步已中断",
@@ -630,7 +631,10 @@ export const chinese: Language = {
           updatingStats: "正在更新统计数据",
           syncComplete: "同步完成",
           comparingLibraries: "正在比较音乐库",
-          connectingToDesktop: "正在连接到电脑"
+          connectingToDesktop: "正在连接到电脑",
+          cancelledByMobile: "同步已被移动设备取消",
+          syncTimedOut: "移动设备没有响应",
+          connectionLost: "桌面服务器已断开连接"
         }
       },
       about: {

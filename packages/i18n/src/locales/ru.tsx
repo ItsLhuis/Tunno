@@ -597,9 +597,12 @@ export const russian: Language = {
           songsExported:
             "{count} пес{count, plural, one {ня} few{ни} other{ен}} экспортировано в пакет"
         },
-        mobile: {
+        desktop: {
           title: "Синхронизировать с мобилью",
-          description: "Перенесите вашу библиотеку в Tunno Mobile через вашу локальную сеть",
+          description: "Перенесите вашу библиотеку в Tunno Mobile через вашу локальную сеть"
+        },
+        mobile: {
+          title: "Синхронизировать с компьютером",
           generateQr: "Сгенерировать QR-код",
           stopServer: "Остановить сервер",
           waitingConnection: "Ожидание подключения мобильного устройства",
@@ -609,7 +612,7 @@ export const russian: Language = {
           serverError: "Не удалось запустить сервер синхронизации",
           scanQr: "Сканировать QR-код",
           scanQrDescription:
-            "Отсканируйте QR-код на компьютере, чтобы синхронизировать музыкальную библиотеку по WiFi",
+            "Отсканируйте QR-код на компьютере, чтобы перенести музыкальную библиотеку через локальную сеть",
           connecting: "Подключение",
           comparing: "Сравнение библиотек",
           syncing: "Синхронизация",
@@ -618,7 +621,6 @@ export const russian: Language = {
           completedDescription: "Ваша музыкальная библиотека успешно синхронизирована",
           alreadySynced: "Уже синхронизировано",
           failed: "Синхронизация не удалась",
-          retry: "Повторить",
           cancel: "Отмена",
           done: "Готово",
           itemsSynced: "{synced} / {total} элементов",
@@ -630,7 +632,6 @@ export const russian: Language = {
           cameraLoading: "Загрузка камеры",
           scanInstruction: "Направьте камеру на QR-код на экране компьютера",
           connectionFailed: "Не удалось связаться с сервером на компьютере",
-          insufficientStorage: "Недостаточно места",
           insufficientStorageDescription:
             "Недостаточно свободного места для синхронизации. Требуется {required}, но доступно только {available}",
           syncInterrupted: "Синхронизация была прервана, потому что приложение ушло в фон",
@@ -639,7 +640,10 @@ export const russian: Language = {
           updatingStats: "Обновление статистики",
           syncComplete: "Синхронизация завершена",
           comparingLibraries: "Сравнение библиотек",
-          connectingToDesktop: "Подключение к компьютеру"
+          connectingToDesktop: "Подключение к компьютеру",
+          cancelledByMobile: "Синхронизация отменена мобильным устройством",
+          syncTimedOut: "Мобильное устройство не ответило",
+          connectionLost: "Сервер рабочего стола отключен"
         }
       },
       about: {

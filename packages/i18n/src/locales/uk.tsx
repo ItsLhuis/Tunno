@@ -596,9 +596,12 @@ export const ukrainian: Language = {
           songsExported:
             "{count} пісн{count, plural, one {я} few{і} other{ень}} експортовано до пакету"
         },
-        mobile: {
+        desktop: {
           title: "Синхронізація з мобіллю",
-          description: "Перенесіть вашу бібліотеку в Tunno Mobile через вашу локальну мережу",
+          description: "Перенесіть вашу бібліотеку в Tunno Mobile через вашу локальну мережу"
+        },
+        mobile: {
+          title: "Синхронізація з комп'ютером",
           generateQr: "Генерувати QR-код",
           stopServer: "Зупинити сервер",
           waitingConnection: "Очікування підключення мобільного пристрою",
@@ -608,7 +611,7 @@ export const ukrainian: Language = {
           serverError: "Не вдалося запустити сервер синхронізації",
           scanQr: "Сканувати QR-код",
           scanQrDescription:
-            "Скануйте QR-код на вашому комп'ютері, щоб синхронізувати бібліотеку через WiFi",
+            "Скануйте QR-код на вашому комп'ютері, щоб перенести бібліотеку через вашу локальну мережу",
           connecting: "Підключення",
           comparing: "Порівняння бібліотек",
           syncing: "Синхронізація",
@@ -617,7 +620,6 @@ export const ukrainian: Language = {
           completedDescription: "Вашу музичну бібліотеку успішно синхронізовано",
           alreadySynced: "Вже синхронізовано",
           failed: "Синхронізація не вдалася",
-          retry: "Повторити",
           cancel: "Скасувати",
           done: "Готово",
           itemsSynced: "{synced} / {total} елементів",
@@ -629,7 +631,6 @@ export const ukrainian: Language = {
           cameraLoading: "Завантаження камери",
           scanInstruction: "Наведіть камеру на QR-код на вашому комп'ютері",
           connectionFailed: "Не вдалося зв'язатися з сервером на комп'ютері",
-          insufficientStorage: "Недостатньо місця",
           insufficientStorageDescription:
             "Недостатньо вільного місця для синхронізації. Потрібно {required}, але доступно лише {available}",
           syncInterrupted: "Синхронізацію перервано через перехід застосунку у фоновий режим",
@@ -638,7 +639,10 @@ export const ukrainian: Language = {
           updatingStats: "Оновлення статистики",
           syncComplete: "Синхронізація завершена",
           comparingLibraries: "Порівняння бібліотек",
-          connectingToDesktop: "Підключення до комп'ютера"
+          connectingToDesktop: "Підключення до комп'ютера",
+          cancelledByMobile: "Синхронізація скасована мобільним пристроєм",
+          syncTimedOut: "Мобільний пристрій не відповів",
+          connectionLost: "Сервер рабочого столу відключено"
         }
       },
       about: {

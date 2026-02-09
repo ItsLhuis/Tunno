@@ -597,9 +597,12 @@ export const spanish: Language = {
           songsExported:
             "{count} canción{count, plural, one {} other{es}} exportada{count, plural, one {} other{s}} al paquete"
         },
-        mobile: {
+        desktop: {
           title: "Sincronizar con móvil",
-          description: "Transfiere tu biblioteca a Tunno Mobile a través de tu red local",
+          description: "Transfiere tu biblioteca a Tunno Mobile a través de tu red local"
+        },
+        mobile: {
+          title: "Sincronizar con escritorio",
           generateQr: "Generar código QR",
           stopServer: "Detener servidor",
           waitingConnection: "Esperando que el dispositivo móvil se conecte",
@@ -609,7 +612,7 @@ export const spanish: Language = {
           serverError: "Error al iniciar servidor de sincronización",
           scanQr: "Escanear código QR",
           scanQrDescription:
-            "Escanea el código QR en tu escritorio para sincronizar tu biblioteca musical por WiFi",
+            "Escanea el código QR en tu escritorio para transferir tu biblioteca musical a través de tu red local",
           connecting: "Conectando",
           comparing: "Comparando bibliotecas",
           syncing: "Sincronizando",
@@ -618,7 +621,6 @@ export const spanish: Language = {
           completedDescription: "Tu biblioteca musical se ha sincronizado correctamente",
           alreadySynced: "Ya sincronizado",
           failed: "Sincronización fallida",
-          retry: "Reintentar",
           cancel: "Cancelar",
           done: "Listo",
           itemsSynced: "{synced} / {total} elementos",
@@ -630,7 +632,6 @@ export const spanish: Language = {
           cameraLoading: "Cargando cámara",
           scanInstruction: "Apunta tu cámara al código QR en tu escritorio",
           connectionFailed: "No se pudo conectar al servidor de escritorio",
-          insufficientStorage: "Almacenamiento insuficiente",
           insufficientStorageDescription:
             "No hay suficiente espacio libre para sincronizar. Se necesitan {required}, pero solo hay {available} disponibles",
           syncInterrupted: "La sincronización se interrumpió porque la app pasó a segundo plano",
@@ -639,7 +640,10 @@ export const spanish: Language = {
           updatingStats: "Actualizando estadísticas",
           syncComplete: "Sincronización completada",
           comparingLibraries: "Comparando bibliotecas",
-          connectingToDesktop: "Conectando al escritorio"
+          connectingToDesktop: "Conectando al escritorio",
+          cancelledByMobile: "Sincronización cancelada por dispositivo móvil",
+          syncTimedOut: "El dispositivo móvil dejó de responder",
+          connectionLost: "Servidor de escritorio desconectado"
         }
       },
       about: {

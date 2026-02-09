@@ -598,9 +598,12 @@ export type Translations = {
         missingAlbumInfo: string
         songsExported: string
       }
-      mobile: {
+      desktop: {
         title: string
         description: string
+      }
+      mobile: {
+        title: string
         generateQr: string
         stopServer: string
         waitingConnection: string
@@ -618,7 +621,6 @@ export type Translations = {
         completedDescription: string
         alreadySynced: string
         failed: string
-        retry: string
         cancel: string
         done: string
         itemsSynced: string
@@ -629,7 +631,6 @@ export type Translations = {
         cameraLoading: string
         scanInstruction: string
         connectionFailed: string
-        insufficientStorage: string
         insufficientStorageDescription: string
         syncInterrupted: string
         downloadingItem: string
@@ -638,6 +639,9 @@ export type Translations = {
         syncComplete: string
         comparingLibraries: string
         connectingToDesktop: string
+        cancelledByMobile: string
+        syncTimedOut: string
+        connectionLost: string
       }
     }
     about: {

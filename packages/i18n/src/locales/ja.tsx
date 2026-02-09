@@ -594,9 +594,12 @@ export const japanese: Language = {
           missingAlbumInfo: "すべての曲にアルバム情報がありません",
           songsExported: "{count}曲をバンドルにエクスポートしました"
         },
-        mobile: {
+        desktop: {
           title: "モバイルと同期",
-          description: "ローカルネットワークを介してライブラリをTunnoモバイルに転送します",
+          description: "ローカルネットワークを介してライブラリをTunnoモバイルに転送します"
+        },
+        mobile: {
+          title: "コンピューターと同期",
           generateQr: "QRコード生成",
           stopServer: "サーバーを停止",
           waitingConnection: "モバイルデバイスの接続を待機中",
@@ -606,7 +609,7 @@ export const japanese: Language = {
           serverError: "同期サーバーを起動できませんでした",
           scanQr: "QRコードをスキャン",
           scanQrDescription:
-            "デスクトップのQRコードをスキャンして、WiFi経由で音楽ライブラリを同期します",
+            "デスクトップのQRコードをスキャンして、ローカルネットワークを介して音楽ライブラリを転送します",
           connecting: "接続中",
           comparing: "ライブラリを比較中",
           syncing: "同期中",
@@ -615,7 +618,6 @@ export const japanese: Language = {
           completedDescription: "音楽ライブラリが正常に同期されました",
           alreadySynced: "同期済み",
           failed: "同期に失敗しました",
-          retry: "再試行",
           cancel: "キャンセル",
           done: "完了",
           itemsSynced: "{synced} / {total} アイテム",
@@ -627,7 +629,6 @@ export const japanese: Language = {
           cameraLoading: "カメラを読み込み中",
           scanInstruction: "デスクトップのQRコードにカメラを向けてください",
           connectionFailed: "デスクトップサーバーに接続できませんでした",
-          insufficientStorage: "ストレージ不足",
           insufficientStorageDescription:
             "同期に十分な空き容量がありません。{required}必要ですが、{available}しか利用できません",
           syncInterrupted: "アプリがバックグラウンドに移動したため同期が中断されました",
@@ -636,7 +637,10 @@ export const japanese: Language = {
           updatingStats: "統計を更新中",
           syncComplete: "同期完了",
           comparingLibraries: "ライブラリを比較中",
-          connectingToDesktop: "デスクトップに接続中"
+          connectingToDesktop: "デスクトップに接続中",
+          cancelledByMobile: "モバイルデバイスによって同期がキャンセルされました",
+          syncTimedOut: "モバイルデバイスが応答しません",
+          connectionLost: "デスクトップサーバーが切断されました"
         }
       },
       about: {
