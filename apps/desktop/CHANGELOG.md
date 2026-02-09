@@ -2,6 +2,25 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.6.0] - 2026-02-09
+
+### Added
+
+- 🔄 **Sync**: The desktop app now acts as a sync server, allowing mobile devices to connect and
+  sync their music library. Pair devices instantly via QR code scanning and stream your library
+  securely over the local network.
+- 🔍 **Form Select Search**: Artist and album select fields in song forms now support search for
+  faster selection in large libraries.
+
+### Fixed
+
+- 🐛 **Select Persistence**: Fixed selected values being lost in select fields when searching.
+
+### Changed
+
+- ⚡ **Select Component**: Unified select components into a single, searchable selection experience.
+- ⚡ **Performance**: Reduced unnecessary re-renders across the application.
+
 ## [1.5.4] - 2026-01-26
 
 ### Changed
