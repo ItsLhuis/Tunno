@@ -2,6 +2,14 @@
 
 All notable changes to the Tunno Desktop project will be documented in this file.
 
+## [1.6.1] - 2026-02-09
+
+### Changed
+
+- 🔄 **Sync Server Persistence**: The sync server now runs in the background, remaining active when
+  navigating away from the Settings page. Previously, leaving the page would stop the server and
+  disconnect the mobile device.
+
 ## [1.6.0] - 2026-02-09
 
 ### Added
