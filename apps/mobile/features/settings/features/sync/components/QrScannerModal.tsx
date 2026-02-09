@@ -2,13 +2,13 @@ import { Modal, StyleSheet, View } from "react-native"
 
 import { useTranslation } from "@repo/i18n"
 
-import { createStyleSheet, useStyles } from "@styles"
+import { createStyleSheet, ScopedTheme, useStyles } from "@styles"
 
 import { useQrScanner } from "../hooks/useQrScanner"
 
 import { CameraView } from "expo-camera"
 
-import { Button, Icon, Pressable, Text } from "@components/ui"
+import { Button, Icon, IconButton, Text } from "@components/ui"
 
 import { type SyncConnectionData } from "../types"
 
@@ -111,14 +111,20 @@ const QrScannerModal = ({ visible, onScanned, onClose }: QrScannerModalProps) =>
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen">
-      <View style={styles.container}>
-        {renderContent()}
-        <View style={styles.closeButtonContainer}>
-          <Pressable onPress={onClose} style={styles.closeButton}>
-            <Icon name="X" size="xl" />
-          </Pressable>
+      <ScopedTheme theme="dark">
+        <View style={styles.container}>
+          {renderContent()}
+          <View style={styles.closeButtonContainer}>
+            <IconButton
+              name="X"
+              iconSize="xl"
+              variant="ghost"
+              onPress={onClose}
+              style={styles.closeButton}
+            />
+          </View>
         </View>
-      </View>
+      </ScopedTheme>
     </Modal>
   )
 }
@@ -201,12 +207,8 @@ const qrScannerModalStyles = createStyleSheet(({ theme }) => ({
     zIndex: 10
   },
   closeButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    alignItems: "center",
-    justifyContent: "center"
+    borderRadius: theme.radius("full")
   },
   centeredContent: {
     flex: 1,
