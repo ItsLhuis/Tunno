@@ -14,6 +14,8 @@ import { useFetchPlaylistByIdWithSongs } from "../hooks/useFetchPlaylistByIdWith
 
 import { useTogglePlaylistFavorite } from "../hooks/useTogglePlaylistFavorite"
 
+import { formatDuration } from "@repo/utils"
+
 import {
   ContextMenu,
   ContextMenuContent,
@@ -191,7 +193,8 @@ const PlaylistActionsContent = memo(
                 </Text>
                 <Text size="xs" color="mutedForeground" numberOfLines={1}>
                   {t("common.songsPlayed", { count: targetPlaylist.totalTracks })}
-                  {targetPlaylist.totalDuration > 0 && ` • ${targetPlaylist.totalDuration}`}
+                  {targetPlaylist.totalDuration > 0 &&
+                    ` • ${formatDuration(targetPlaylist.totalDuration, t)}`}
                 </Text>
               </View>
             </View>
