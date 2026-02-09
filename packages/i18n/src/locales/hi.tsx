@@ -623,7 +623,7 @@ export const hindi: Language = {
           failed: "सिंक विफल",
           cancel: "रद्द करें",
           done: "हो गया",
-          itemsSynced: "{synced} / {total} आइटम",
+          songsSynced: "{synced} / {total} गाने",
           batchProgress: "बैच {current} / {total}",
           cameraPermissionTitle: "कैमरा एक्सेस आवश्यक",
           cameraPermissionDescription:

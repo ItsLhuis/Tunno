@@ -622,7 +622,7 @@ export const ukrainian: Language = {
           failed: "Синхронізація не вдалася",
           cancel: "Скасувати",
           done: "Готово",
-          itemsSynced: "{synced} / {total} елементів",
+          songsSynced: "{synced} / {total} пісень",
           batchProgress: "Пакет {current} / {total}",
           cameraPermissionTitle: "Потрібен доступ до камери",
           cameraPermissionDescription:

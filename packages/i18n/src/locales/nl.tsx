@@ -621,7 +621,7 @@ export const dutch: Language = {
           failed: "Synchronisatie mislukt",
           cancel: "Annuleren",
           done: "Klaar",
-          itemsSynced: "{synced} / {total} items",
+          songsSynced: "{synced} / {total} nummers",
           batchProgress: "Batch {current} / {total}",
           cameraPermissionTitle: "Cameratoegang vereist",
           cameraPermissionDescription: "Geef cameratoegang om de QR-code op je desktop te scannen",

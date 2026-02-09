@@ -621,7 +621,7 @@ export const turkish: Language = {
           failed: "Senkronizasyon başarısız",
           cancel: "İptal",
           done: "Tamam",
-          itemsSynced: "{synced} / {total} öge",
+          songsSynced: "{synced} / {total} şarkı",
           batchProgress: "Parti {current} / {total}",
           cameraPermissionTitle: "Kamera erişimi gerekli",
           cameraPermissionDescription:

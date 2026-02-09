@@ -56,7 +56,7 @@ const SyncProgressView = ({ onCancel, onReset }: SyncProgressViewProps) => {
           </View>
           <View style={styles.statsRow}>
             <Text size="sm" color="mutedForeground">
-              {t("settings.sync.mobile.itemsSynced", {
+              {t("settings.sync.mobile.songsSynced", {
                 synced: progress.syncedItems,
                 total: progress.totalItems
               })}

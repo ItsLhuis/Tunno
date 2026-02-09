@@ -623,7 +623,7 @@ export const spanish: Language = {
           failed: "Sincronización fallida",
           cancel: "Cancelar",
           done: "Listo",
-          itemsSynced: "{synced} / {total} elementos",
+          songsSynced: "{synced} / {total} canciones",
           batchProgress: "Lote {current} / {total}",
           cameraPermissionTitle: "Se requiere acceso a la cámara",
           cameraPermissionDescription:

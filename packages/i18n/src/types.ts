@@ -623,7 +623,7 @@ export type Translations = {
         failed: string
         cancel: string
         done: string
-        itemsSynced: string
+        songsSynced: string
         batchProgress: string
         cameraPermissionTitle: string
         cameraPermissionDescription: string

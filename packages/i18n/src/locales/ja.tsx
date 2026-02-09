@@ -620,7 +620,7 @@ export const japanese: Language = {
           failed: "同期に失敗しました",
           cancel: "キャンセル",
           done: "完了",
-          itemsSynced: "{synced} / {total} アイテム",
+          songsSynced: "{synced} / {total} 曲",
           batchProgress: "バッチ {current} / {total}",
           cameraPermissionTitle: "カメラへのアクセスが必要です",
           cameraPermissionDescription:

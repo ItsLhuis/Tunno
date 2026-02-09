@@ -621,7 +621,7 @@ export const swedish: Language = {
           failed: "Synkronisering misslyckades",
           cancel: "Avbryt",
           done: "Klar",
-          itemsSynced: "{synced} / {total} objekt",
+          songsSynced: "{synced} / {total} låtar",
           batchProgress: "Batch {current} / {total}",
           cameraPermissionTitle: "Kameraåtkomst krävs",
           cameraPermissionDescription:

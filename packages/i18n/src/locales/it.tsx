@@ -623,7 +623,7 @@ export const italian: Language = {
           failed: "Sincronizzazione fallita",
           cancel: "Annulla",
           done: "Fatto",
-          itemsSynced: "{synced} / {total} elementi",
+          songsSynced: "{synced} / {total} brani",
           batchProgress: "Lotto {current} / {total}",
           cameraPermissionTitle: "Accesso alla fotocamera richiesto",
           cameraPermissionDescription:

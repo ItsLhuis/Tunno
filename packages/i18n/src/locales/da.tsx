@@ -620,7 +620,7 @@ export const danish: Language = {
           failed: "Synkronisering mislykkedes",
           cancel: "Annullér",
           done: "Færdig",
-          itemsSynced: "{synced} / {total} elementer",
+          songsSynced: "{synced} / {total} sange",
           batchProgress: "Batch {current} / {total}",
           cameraPermissionTitle: "Kameraadgang påkrævet",
           cameraPermissionDescription:

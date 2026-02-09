@@ -623,7 +623,7 @@ export const russian: Language = {
           failed: "Синхронизация не удалась",
           cancel: "Отмена",
           done: "Готово",
-          itemsSynced: "{synced} / {total} элементов",
+          songsSynced: "{synced} / {total} песен",
           batchProgress: "Пакет {current} / {total}",
           cameraPermissionTitle: "Требуется доступ к камере",
           cameraPermissionDescription:

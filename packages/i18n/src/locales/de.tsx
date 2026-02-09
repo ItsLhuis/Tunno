@@ -620,7 +620,7 @@ export const german: Language = {
           failed: "Synchronisierung fehlgeschlagen",
           cancel: "Abbrechen",
           done: "Fertig",
-          itemsSynced: "{synced} / {total} Elemente",
+          songsSynced: "{synced} / {total} Songs",
           batchProgress: "Batch {current} / {total}",
           cameraPermissionTitle: "Kamerazugriff erforderlich",
           cameraPermissionDescription:

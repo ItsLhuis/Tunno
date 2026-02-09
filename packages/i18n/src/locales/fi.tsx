@@ -620,7 +620,7 @@ export const finnish: Language = {
           failed: "Synkronointi epäonnistui",
           cancel: "Peruuta",
           done: "Valmis",
-          itemsSynced: "{synced} / {total} kohdetta",
+          songsSynced: "{synced} / {total} kappaletta",
           batchProgress: "Erä {current} / {total}",
           cameraPermissionTitle: "Kameran käyttöoikeus vaaditaan",
           cameraPermissionDescription:

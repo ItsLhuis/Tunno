@@ -622,7 +622,7 @@ export const polish: Language = {
           failed: "Synchronizacja nie powiodła się",
           cancel: "Anuluj",
           done: "Gotowe",
-          itemsSynced: "{synced} / {total} elementów",
+          songsSynced: "{synced} / {total} utworów",
           batchProgress: "Partia {current} / {total}",
           cameraPermissionTitle: "Wymagany dostęp do kamery",
           cameraPermissionDescription:

@@ -619,7 +619,7 @@ export const vietnamese: Language = {
           failed: "Đồng bộ thất bại",
           cancel: "Hủy",
           done: "Xong",
-          itemsSynced: "{synced} / {total} mục",
+          songsSynced: "{synced} / {total} bài hát",
           batchProgress: "Lô {current} / {total}",
           cameraPermissionTitle: "Cần quyền truy cập camera",
           cameraPermissionDescription:

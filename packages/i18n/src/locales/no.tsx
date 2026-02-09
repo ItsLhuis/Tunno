@@ -620,7 +620,7 @@ export const norwegian: Language = {
           failed: "Synkronisering mislyktes",
           cancel: "Avbryt",
           done: "Ferdig",
-          itemsSynced: "{synced} / {total} elementer",
+          songsSynced: "{synced} / {total} sanger",
           batchProgress: "Batch {current} / {total}",
           cameraPermissionTitle: "Kameratilgang kreves",
           cameraPermissionDescription:

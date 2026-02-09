@@ -624,7 +624,7 @@ export const french: Language = {
           failed: "Échec de la synchronisation",
           cancel: "Annuler",
           done: "Terminé",
-          itemsSynced: "{synced} / {total} éléments",
+          songsSynced: "{synced} / {total} chansons",
           batchProgress: "Lot {current} / {total}",
           cameraPermissionTitle: "Accès à la caméra requis",
           cameraPermissionDescription:

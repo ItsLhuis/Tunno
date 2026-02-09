@@ -619,7 +619,7 @@ export const korean: Language = {
           failed: "동기화 실패",
           cancel: "취소",
           done: "완료",
-          itemsSynced: "{synced} / {total} 항목",
+          songsSynced: "{synced} / {total} 곡",
           batchProgress: "배치 {current} / {total}",
           cameraPermissionTitle: "카메라 접근 권한 필요",
           cameraPermissionDescription:

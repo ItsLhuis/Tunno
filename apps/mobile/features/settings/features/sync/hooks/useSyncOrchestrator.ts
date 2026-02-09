@@ -152,13 +152,15 @@ export function useSyncOrchestrator() {
         const localFingerprints = await getAllLocalFingerprints()
         const compareResult = await client.compare(localFingerprints)
 
-        const totalItems =
+        const totalAllEntities =
           compareResult.totals.songs +
           compareResult.totals.albums +
           compareResult.totals.artists +
           compareResult.totals.playlists
 
-        if (totalItems === 0) {
+        const totalSongs = compareResult.totals.songs
+
+        if (totalAllEntities === 0) {
           await client.complete()
           setSyncState("completed")
           updateProgress({ currentOperation: t("settings.sync.mobile.alreadySynced") })
@@ -210,9 +212,9 @@ export function useSyncOrchestrator() {
         const songBatches = chunkArray(compareResult.missingSongs, BATCH_SIZE)
         const totalBatches = songBatches.length || 1
 
-        updateProgress({ totalItems, syncedItems: 0, currentBatch: 0, totalBatches })
+        updateProgress({ totalItems: totalSongs, syncedItems: 0, currentBatch: 0, totalBatches })
 
-        if (songBatches.length === 0 && totalItems > 0) {
+        if (songBatches.length === 0 && totalAllEntities > 0) {
           await processBatch(
             client,
             entityCache,
@@ -264,7 +266,7 @@ export function useSyncOrchestrator() {
         setSyncState("completed")
         updateProgress({
           currentOperation: t("settings.sync.mobile.syncComplete"),
-          syncedItems: totalItems
+          syncedItems: totalSongs
         })
       } catch (error) {
         const raw = error instanceof Error ? error.message : "An unexpected error occurred"

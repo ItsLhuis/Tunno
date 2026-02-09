@@ -620,7 +620,7 @@ export const english: Language = {
           failed: "Sync failed",
           cancel: "Cancel",
           done: "Done",
-          itemsSynced: "{synced} / {total} items",
+          songsSynced: "{synced} / {total} songs",
           batchProgress: "Batch {current} / {total}",
           cameraPermissionTitle: "Camera access required",
           cameraPermissionDescription:

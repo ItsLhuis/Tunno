@@ -615,7 +615,7 @@ export const chinese: Language = {
           failed: "同步失败",
           cancel: "取消",
           done: "完成",
-          itemsSynced: "{synced} / {total} 项",
+          songsSynced: "{synced} / {total} 首歌曲",
           batchProgress: "批次 {current} / {total}",
           cameraPermissionTitle: "需要相机权限",
           cameraPermissionDescription: "授予相机权限以扫描电脑上显示的二维码",

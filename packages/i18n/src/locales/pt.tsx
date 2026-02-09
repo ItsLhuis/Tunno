@@ -624,7 +624,7 @@ export const portuguese: Language = {
           failed: "Sincronização falhou",
           cancel: "Cancelar",
           done: "Concluído",
-          itemsSynced: "{synced} / {total} itens",
+          songsSynced: "{synced} / {total} músicas",
           batchProgress: "Lote {current} / {total}",
           cameraPermissionTitle: "Acesso à câmara necessário",
           cameraPermissionDescription:
