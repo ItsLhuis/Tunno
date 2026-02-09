@@ -88,7 +88,7 @@ export type SyncSongData = {
   isFavorite: boolean
   lyrics: string | null
   file: string
-  thumbnail: string | null
+  hasThumbnail: boolean
   albumFingerprint: string | null
   artistFingerprints: SyncArtistOrder[]
   playlistFingerprints: string[]
@@ -104,7 +104,6 @@ export type SyncAlbumData = {
   releaseYear: number | null
   isFavorite: boolean
   hasThumbnail: boolean
-  thumbnail: string | null
   artistFingerprints: SyncArtistOrder[]
 }
 
@@ -116,7 +115,6 @@ export type SyncArtistData = {
   name: string
   isFavorite: boolean
   hasThumbnail: boolean
-  thumbnail: string | null
 }
 
 /**
@@ -126,6 +124,7 @@ export type SyncPlaylistData = {
   fingerprint: string
   name: string
   isFavorite: boolean
+  hasThumbnail: boolean
   songFingerprints: string[]
 }
 

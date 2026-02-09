@@ -65,12 +65,16 @@ export async function insertSyncedAlbum(
  * @param data - The playlist metadata received from the desktop batch API.
  * @returns A Promise that resolves to the newly inserted playlist's database ID.
  */
-export async function insertSyncedPlaylist(data: SyncPlaylistData): Promise<number> {
+export async function insertSyncedPlaylist(
+  data: SyncPlaylistData,
+  thumbnailFilename: string | null
+): Promise<number> {
   const [playlist] = await database
     .insert(schema.playlists)
     .values({
       name: data.name,
       isFavorite: data.isFavorite,
+      thumbnail: thumbnailFilename,
       fingerprint: data.fingerprint
     })
     .returning({ id: schema.playlists.id })

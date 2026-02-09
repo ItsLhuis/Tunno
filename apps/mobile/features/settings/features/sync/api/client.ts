@@ -230,7 +230,7 @@ export function createSyncClient(connectionData: SyncConnectionData) {
    */
   async function downloadThumbnail(
     fingerprint: string,
-    entityType: "song" | "album" | "artist"
+    entityType: "song" | "album" | "artist" | "playlist"
   ): Promise<string | null> {
     try {
       const response = await fetchWithTimeout(

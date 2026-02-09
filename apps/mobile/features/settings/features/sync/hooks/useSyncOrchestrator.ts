@@ -172,7 +172,10 @@ export function useSyncOrchestrator() {
 
         // Validate available storage before downloading
         const totalThumbnails =
-          compareResult.totals.songs + compareResult.totals.albums + compareResult.totals.artists
+          compareResult.totals.songs +
+          compareResult.totals.albums +
+          compareResult.totals.artists +
+          compareResult.totals.playlists
         const requiredBytes =
           compareResult.totals.songs * ESTIMATED_BYTES_PER_SONG +
           totalThumbnails * ESTIMATED_BYTES_PER_THUMBNAIL
@@ -358,7 +361,7 @@ async function processBatch(
 
     for (const playlist of batchData.playlists) {
       if (cancelledRef.current) return
-      const id = await processPlaylist(entityCache, playlist)
+      const id = await processPlaylist(client, entityCache, playlist)
       allPlaylistIds.push(id)
     }
 
@@ -461,9 +464,10 @@ async function processAlbum(
 }
 
 /**
- * Processes a single playlist: checks cache/DB, inserts if new.
+ * Processes a single playlist: checks cache/DB, downloads thumbnail, inserts if new.
  */
 async function processPlaylist(
+  client: SyncClient,
   entityCache: EntityCache,
   playlist: SyncPlaylistData
 ): Promise<number> {
@@ -471,7 +475,13 @@ async function processPlaylist(
 
   if (cached) return cached.id
 
-  const id = await insertSyncedPlaylist(playlist)
+  let thumbnailFilename: string | null = null
+
+  if (playlist.hasThumbnail) {
+    thumbnailFilename = await client.downloadThumbnail(playlist.fingerprint, "playlist")
+  }
+
+  const id = await insertSyncedPlaylist(playlist, thumbnailFilename)
 
   entityCache.addPlaylist(playlist.fingerprint, id)
 
@@ -499,7 +509,7 @@ async function processSong(
 
   let thumbnailFilename: string | null = null
 
-  if (song.thumbnail) {
+  if (song.hasThumbnail) {
     thumbnailFilename = await client.downloadThumbnail(song.fingerprint, "song")
   }
 
