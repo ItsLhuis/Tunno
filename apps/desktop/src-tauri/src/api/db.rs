@@ -31,7 +31,7 @@ pub struct SongRow {
     pub is_favorite: bool,
     pub lyrics: Option<String>,
     pub file: String,
-    pub thumbnail: Option<String>,
+    pub has_thumbnail: bool,
     pub album_fingerprint: Option<String>,
     pub artist_fingerprints: Vec<ArtistOrder>,
     pub playlist_fingerprints: Vec<String>,
@@ -53,7 +53,6 @@ pub struct AlbumRow {
     pub release_year: Option<i64>,
     pub is_favorite: bool,
     pub has_thumbnail: bool,
-    pub thumbnail: Option<String>,
     pub artist_fingerprints: Vec<ArtistOrder>,
 }
 
@@ -64,7 +63,6 @@ pub struct ArtistRow {
     pub name: String,
     pub is_favorite: bool,
     pub has_thumbnail: bool,
-    pub thumbnail: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -73,6 +71,7 @@ pub struct PlaylistRow {
     pub fingerprint: String,
     pub name: String,
     pub is_favorite: bool,
+    pub has_thumbnail: bool,
     pub song_fingerprints: Vec<String>,
 }
 
@@ -156,7 +155,7 @@ pub fn get_songs_by_fingerprints(
             is_favorite: r.is_favorite,
             lyrics: r.lyrics,
             file: r.file,
-            thumbnail: r.thumbnail,
+            has_thumbnail: r.thumbnail.is_some(),
             album_fingerprint: r.album_fingerprint,
             artist_fingerprints: artist_map.get(&r.id).cloned().unwrap_or_default(),
             playlist_fingerprints: playlist_map.get(&r.id).cloned().unwrap_or_default(),
@@ -307,7 +306,6 @@ pub fn get_albums_by_fingerprints(
             release_year: r.release_year,
             is_favorite: r.is_favorite,
             has_thumbnail: r.thumbnail.is_some(),
-            thumbnail: r.thumbnail,
             artist_fingerprints: artist_map.get(&r.id).cloned().unwrap_or_default(),
         })
         .collect();
@@ -390,7 +388,6 @@ pub fn get_artists_by_fingerprints(
                 name: row.get(1)?,
                 is_favorite: row.get::<_, i64>(2).map(|v| v != 0)?,
                 has_thumbnail: thumbnail.is_some(),
-                thumbnail,
             })
         })?
         .collect::<SqliteResult<Vec<_>>>()?;
@@ -408,7 +405,7 @@ pub fn get_playlists_by_fingerprints(
 
     let placeholders = vec!["?"; fingerprints.len()].join(",");
     let sql = format!(
-        "SELECT id, fingerprint, name, is_favorite \
+        "SELECT id, fingerprint, name, is_favorite, thumbnail \
          FROM playlists \
          WHERE fingerprint IN ({})",
         placeholders
@@ -420,13 +417,14 @@ pub fn get_playlists_by_fingerprints(
         .collect();
 
     let mut stmt = conn.prepare(&sql)?;
-    let raw_rows: Vec<(i64, String, String, bool)> = stmt
+    let raw_rows: Vec<(i64, String, String, bool, Option<String>)> = stmt
         .query_map(sql_params.as_slice(), |row| {
             Ok((
                 row.get(0)?,
                 row.get(1)?,
                 row.get(2)?,
                 row.get::<_, i64>(3).map(|v| v != 0)?,
+                row.get(4)?,
             ))
         })?
         .collect::<SqliteResult<Vec<_>>>()?;
@@ -436,12 +434,15 @@ pub fn get_playlists_by_fingerprints(
 
     let playlists = raw_rows
         .into_iter()
-        .map(|(id, fingerprint, name, is_favorite)| PlaylistRow {
-            fingerprint,
-            name,
-            is_favorite,
-            song_fingerprints: song_map.get(&id).cloned().unwrap_or_default(),
-        })
+        .map(
+            |(id, fingerprint, name, is_favorite, thumbnail)| PlaylistRow {
+                fingerprint,
+                name,
+                is_favorite,
+                has_thumbnail: thumbnail.is_some(),
+                song_fingerprints: song_map.get(&id).cloned().unwrap_or_default(),
+            },
+        )
         .collect();
 
     Ok(playlists)
