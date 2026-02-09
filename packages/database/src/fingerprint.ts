@@ -1,61 +1,50 @@
+import { sha256 } from "js-sha256"
+
 function normalizeString(str: string): string {
   return str.toLowerCase().trim().replace(/\s+/g, " ")
 }
 
-async function hashString(input: string): Promise<string> {
-  const encoder = new TextEncoder()
-
-  const data = encoder.encode(input)
-
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
-}
-
-export async function generateSongFingerprint(
+export function generateSongFingerprint(
   name: string,
   duration: number,
   artistNames: string[],
   albumName: string | null
-): Promise<string> {
+): string {
   const normalizedName = normalizeString(name)
-
   const sortedArtists = [...artistNames].map(normalizeString).sort().join(",")
   const normalizedAlbum = albumName ? normalizeString(albumName) : ""
 
   const input = `song:${normalizedName}:${duration}:${sortedArtists}:${normalizedAlbum}`
 
-  return hashString(input)
+  return sha256(input)
 }
 
-export async function generateAlbumFingerprint(
+export function generateAlbumFingerprint(
   name: string,
   albumType: string,
   artistNames: string[]
-): Promise<string> {
+): string {
   const normalizedName = normalizeString(name)
   const normalizedType = normalizeString(albumType)
-
   const sortedArtists = [...artistNames].map(normalizeString).sort().join(",")
 
   const input = `album:${normalizedName}:${normalizedType}:${sortedArtists}`
 
-  return hashString(input)
+  return sha256(input)
 }
 
-export async function generateArtistFingerprint(name: string): Promise<string> {
+export function generateArtistFingerprint(name: string): string {
   const normalizedName = normalizeString(name)
 
   const input = `artist:${normalizedName}`
 
-  return hashString(input)
+  return sha256(input)
 }
 
-export async function generatePlaylistFingerprint(name: string): Promise<string> {
+export function generatePlaylistFingerprint(name: string): string {
   const normalizedName = normalizeString(name)
 
   const input = `playlist:${normalizedName}`
 
-  return hashString(input)
+  return sha256(input)
 }
