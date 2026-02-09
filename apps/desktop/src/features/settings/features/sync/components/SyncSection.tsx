@@ -41,11 +41,13 @@ const SyncSection = () => {
   const isConnected = syncStatus === "connected"
   const isSyncing = syncStatus === "syncing"
   const isCompleted = syncStatus === "completed"
+  const isCancelled = syncStatus === "cancelled"
+  const isTimedOut = syncStatus === "timedOut"
 
   return (
     <SettingButton
-      title={t("settings.sync.mobile.title")}
-      description={t("settings.sync.mobile.description")}
+      title={t("settings.sync.desktop.title")}
+      description={t("settings.sync.desktop.description")}
       renderLeft={() => <Icon name="Smartphone" className="mt-0.5" />}
     >
       <Fade show={isIdle && !error} mode="popLayout" initial={false}>
@@ -80,24 +82,58 @@ const SyncSection = () => {
         </div>
       </Fade>
       <Fade show={isConnected} mode="popLayout" initial={false}>
-        <div className="flex items-center gap-3">
-          <Icon name="CheckCircle" className="text-success" />
-          <Typography affects={["small"]}>{t("settings.sync.mobile.deviceConnected")}</Typography>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <Icon name="CheckCircle" className="text-success" />
+            <Typography affects={["small"]}>{t("settings.sync.mobile.deviceConnected")}</Typography>
+          </div>
+          <Button variant="outline" size="sm" className="w-fit" onClick={handleStopServer}>
+            <Icon name="Square" />
+            {t("settings.sync.mobile.stopServer")}
+          </Button>
         </div>
       </Fade>
       <Fade show={isSyncing} mode="popLayout" initial={false}>
-        <div className="flex items-center gap-3">
-          <Spinner />
-          <Typography affects={["small"]}>{t("settings.sync.mobile.syncInProgress")}</Typography>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <Spinner />
+            <Typography affects={["small"]}>{t("settings.sync.mobile.syncInProgress")}</Typography>
+          </div>
+          <Button variant="outline" size="sm" className="w-fit" onClick={handleStopServer}>
+            <Icon name="Square" />
+            {t("settings.sync.mobile.stopServer")}
+          </Button>
         </div>
       </Fade>
       <Fade show={isCompleted} mode="popLayout" initial={false}>
-        <Card className="border-success/25 bg-success/5 gap-2 rounded-lg">
-          <CardTitle className="text-success">
-            <Icon name="CheckCircle" />
-            {t("settings.sync.mobile.syncCompleted")}
-          </CardTitle>
-        </Card>
+        <div className="flex flex-col gap-3">
+          <Card className="border-success/25 bg-success/5 gap-2 rounded-lg">
+            <CardTitle className="text-success">
+              <Icon name="CheckCircle" />
+              {t("settings.sync.mobile.syncCompleted")}
+            </CardTitle>
+          </Card>
+          <Button variant="outline" size="sm" className="w-fit" onClick={handleStopServer}>
+            <Icon name="RotateCcw" />
+            {t("settings.sync.mobile.generateQr")}
+          </Button>
+        </div>
+      </Fade>
+      <Fade show={isCancelled || isTimedOut} mode="popLayout" initial={false}>
+        <div className="flex flex-col gap-3">
+          <Card className="border-warning/25 bg-warning/5 gap-2 rounded-lg">
+            <CardTitle className="text-warning">
+              <Icon name="AlertTriangle" />
+              {isCancelled
+                ? t("settings.sync.mobile.cancelledByMobile")
+                : t("settings.sync.mobile.syncTimedOut")}
+            </CardTitle>
+          </Card>
+          <Button variant="outline" size="sm" className="w-fit" onClick={handleGenerateQr}>
+            <Icon name="RotateCcw" />
+            {t("settings.sync.mobile.generateQr")}
+          </Button>
+        </div>
       </Fade>
       <Fade show={!!error} mode="popLayout" initial={false}>
         <div className="flex flex-col gap-3">

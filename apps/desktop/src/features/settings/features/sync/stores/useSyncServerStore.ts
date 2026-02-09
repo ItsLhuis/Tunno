@@ -3,7 +3,14 @@ import { create } from "zustand"
 /**
  * Represents the possible states of the sync server lifecycle.
  */
-type SyncServerStatus = "idle" | "waiting" | "connected" | "syncing" | "completed"
+type SyncServerStatus =
+  | "idle"
+  | "waiting"
+  | "connected"
+  | "syncing"
+  | "completed"
+  | "cancelled"
+  | "timedOut"
 
 /**
  * Represents the state structure of the {@link useSyncServerStore}.

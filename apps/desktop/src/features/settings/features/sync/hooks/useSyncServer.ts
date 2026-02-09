@@ -6,6 +6,7 @@ import {
   backfillFingerprints,
   getQrData,
   getServerInfo,
+  getSyncStatus,
   isServerRunning,
   startServer,
   stopServer
@@ -56,6 +57,8 @@ export function useSyncServer() {
         if (!isMounted.current) return
 
         setServerRunning(true, info?.url ?? undefined, qr ?? undefined)
+      } else {
+        reset()
       }
     }
 
@@ -64,7 +67,35 @@ export function useSyncServer() {
     return () => {
       isMounted.current = false
     }
-  }, [setServerRunning])
+  }, [setServerRunning, reset])
+
+  // Poll sync status while server is running
+  useEffect(() => {
+    if (!isRunning) return
+
+    const interval = setInterval(async () => {
+      try {
+        const status = await getSyncStatus()
+        const validStatuses = [
+          "waiting",
+          "connected",
+          "syncing",
+          "completed",
+          "cancelled",
+          "timedOut"
+        ] as const
+        type ValidStatus = (typeof validStatuses)[number]
+
+        if (validStatuses.includes(status as ValidStatus)) {
+          setSyncStatus(status as ValidStatus)
+        }
+      } catch {
+        // Server may have stopped
+      }
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [isRunning, setSyncStatus])
 
   const startSync = useCallback(async () => {
     try {
@@ -94,13 +125,14 @@ export function useSyncServer() {
 
   useEffect(() => {
     return () => {
+      reset()
       isServerRunning().then((running) => {
         if (running) {
           stopServer()
         }
       })
     }
-  }, [])
+  }, [reset])
 
   return {
     isServerRunning: isRunning,

@@ -67,6 +67,15 @@ export async function getQrData(): Promise<string | null> {
 }
 
 /**
+ * Retrieves the current sync status from the running server.
+ *
+ * @returns A Promise that resolves to the sync status string ("waiting" | "connected" | "syncing" | "completed").
+ */
+export async function getSyncStatus(): Promise<string> {
+  return await invoke<string>("get_sync_status")
+}
+
+/**
  * Generates audio fingerprints for songs that are missing them.
  *
  * @returns A Promise that resolves to the number of fingerprints generated.
