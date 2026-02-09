@@ -2,6 +2,16 @@
 
 All notable changes to the Tunno Mobile project will be documented in this file.
 
+## [1.0.1] - 2026-02-09
+
+### Changed
+
+- 🔄 **Sync Progress**: The sync progress bar now tracks only songs instead of all entities (songs,
+  artists, albums, playlists), providing a clearer indication of sync completion.
+- 📷 **QR Scanner**: The QR code scanner modal now uses a scoped dark theme for consistent
+  readability over the camera overlay, and replaced the manual close button with an IconButton
+  component.
+
 ## [1.0.0] - 2026-02-09
 
 ### Added
