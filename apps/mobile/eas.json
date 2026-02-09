@@ -27,6 +27,9 @@
     "production": {
       "extends": "monorepo",
       "autoIncrement": true,
+      "android": {
+        "buildType": "apk"
+      },
       "channel": "production"
     }
   },

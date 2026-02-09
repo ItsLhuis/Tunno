@@ -1,0 +1,139 @@
+name: Release Mobile
+
+on:
+  push:
+    tags:
+      - "mobile/v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  APP_NAME: "Tunno Mobile"
+  NODE_VERSION: "lts/*"
+  PNPM_VERSION: "10.23.0"
+  JAVA_VERSION: "17"
+  GRADLE_OPTS:
+    "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError
+    -Dfile.encoding=UTF-8"
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version without prefix
+        id: extract_version
+        run: |
+          TAG="${{ github.ref_name }}"
+          VERSION=${TAG#mobile/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Read changelog
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_level: warn
+          version: ${{ steps.extract_version.outputs.version }}
+          path: ./apps/mobile/CHANGELOG.md
+
+    outputs:
+      changelog: ${{ steps.changelog_reader.outputs.changes }}
+      version: ${{ steps.extract_version.outputs.version }}
+
+  release:
+    name: Build & Release Android
+    needs: [changelog]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup EAS CLI
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Configure Gradle Memory
+        run: |
+          mkdir -p android
+          cat >> android/gradle.properties << 'EOF'
+          org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+          org.gradle.daemon=true
+          org.gradle.parallel=true
+          org.gradle.configureondemand=true
+          org.gradle.caching=true
+          EOF
+
+      - name: Install dependencies & build monorepo
+        run: |
+          cd ../../
+          pnpm install --no-frozen-lockfile
+          pnpm add -g turbo
+          pnpm turbo run build --filter='@repo/*'
+          cd apps/mobile
+
+      - name: Build Android APK
+        run: |
+          eas build --local \
+            --non-interactive \
+            --platform android \
+            --profile production \
+            --output ./tunno-android-v${{ needs.changelog.outputs.version }}.apk
+        env:
+          CI: true
+          NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "${{ env.APP_NAME }} v${{ needs.changelog.outputs.version }}"
+          body: ${{ needs.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+          files: apps/mobile/tunno-android-v${{ needs.changelog.outputs.version }}.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Summary
+        run: |
+          echo "### Release Completed Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**App:** ${{ env.APP_NAME }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** v${{ needs.changelog.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Platform:** Android (APK)" >> $GITHUB_STEP_SUMMARY
+          echo "**Profile:** \`production\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Asset:** \`tunno-android-v${{ needs.changelog.outputs.version }}.apk\`" >> $GITHUB_STEP_SUMMARY
