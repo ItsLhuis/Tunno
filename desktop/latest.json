@@ -1,15 +1,15 @@
 {
-  "version": "1.6.0",
-  "notes": "### Added\n\n- 🔄 **Sync**: The desktop app now acts as a sync server, allowing mobile devices to connect and\n  sync their music library. Pair devices instantly via QR code scanning and stream your library\n  securely over the local network.\n- 🔍 **Form Select Search**: Artist and album select fields in song forms now support search for\n  faster selection in large libraries.\n\n### Fixed\n\n- 🐛 **Select Persistence**: Fixed selected values being lost in select fields when searching.\n\n### Changed\n\n- ⚡ **Select Component**: Unified select components into a single, searchable selection experience.\n- ⚡ **Performance**: Reduced unnecessary re-renders across the application.",
-  "pub_date": "2026-02-09T20:20:57.794Z",
+  "version": "1.6.1",
+  "notes": "### Changed\n\n- 🔄 **Sync Server Persistence**: The sync server now runs in the background, remaining active when\n  navigating away from the Settings page. Previously, leaving the page would stop the server and\n  disconnect the mobile device.",
+  "pub_date": "2026-02-09T22:24:22.545Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTlEeVBtdDlGZFdDL1BGb2FwTnJiV0RBdTJjbnRTMjdoUWlRd21MQnZycmlJSXdSV1JGQU5iZG1lSkk4RGFoTDAzN0g4WVFnZWgweVY0QUNISk55bGdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNjY4NDU0CWZpbGU6VHVubm9fMS42LjBfeDY0X2VuLVVTLm1zaQpkRWJJSFV5U3I4VUczSi9iK0ZNY3c5YXJmTDVTRnRMcDc2RlRoU3dpUExaeElXdkNFeGpzWjdPVVVoS1NrdGFPb2VPNTU4VVJrWVFMT0g0cGhZSWFDdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.0/Tunno_1.6.0_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXhRTVhtWVh2VHQwZ0ZjaDdLd0tjMU96b1hSbDh4RzRVK2llUHFuSHM2S0RwOGt0WFY2MmtKTk1yQ3Y3aDBoRzk4aFRObEcweFhwdjkvSUhURktQeHdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNjc1ODU5CWZpbGU6VHVubm9fMS42LjFfeDY0X2VuLVVTLm1zaQpIS1FWMDN6aUxMWDhMSUliVk5lZ0VCWmZLb2lFOG84emthaXNsb0E0azcvODNESjM0WWxZRnF5ZjRHNDZxT25oVVluU3pFUUFyWXZHQUI3YWJ3a0lEdz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.1/Tunno_1.6.1_x64_en-US.msi"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTlEeVBtdDlGZFdDL1BGb2FwTnJiV0RBdTJjbnRTMjdoUWlRd21MQnZycmlJSXdSV1JGQU5iZG1lSkk4RGFoTDAzN0g4WVFnZWgweVY0QUNISk55bGdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNjY4NDU0CWZpbGU6VHVubm9fMS42LjBfeDY0X2VuLVVTLm1zaQpkRWJJSFV5U3I4VUczSi9iK0ZNY3c5YXJmTDVTRnRMcDc2RlRoU3dpUExaeElXdkNFeGpzWjdPVVVoS1NrdGFPb2VPNTU4VVJrWVFMT0g0cGhZSWFDdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.0/Tunno_1.6.0_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXhRTVhtWVh2VHQwZ0ZjaDdLd0tjMU96b1hSbDh4RzRVK2llUHFuSHM2S0RwOGt0WFY2MmtKTk1yQ3Y3aDBoRzk4aFRObEcweFhwdjkvSUhURktQeHdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNjc1ODU5CWZpbGU6VHVubm9fMS42LjFfeDY0X2VuLVVTLm1zaQpIS1FWMDN6aUxMWDhMSUliVk5lZ0VCWmZLb2lFOG84emthaXNsb0E0azcvODNESjM0WWxZRnF5ZjRHNDZxT25oVVluU3pFUUFyWXZHQUI3YWJ3a0lEdz09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.1/Tunno_1.6.1_x64_en-US.msi"
     }
   }
 }
