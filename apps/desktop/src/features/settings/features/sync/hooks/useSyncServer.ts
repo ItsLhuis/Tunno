@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect } from "react"
 
 import { useSyncServerStore } from "../stores/useSyncServerStore"
 
@@ -16,9 +16,10 @@ import {
  * A custom hook that manages the sync server lifecycle for desktop-to-mobile pairing.
  *
  * This hook handles starting and stopping the local Warp server, backfilling
- * fingerprints before startup, generating QR code data for mobile pairing,
- * and automatically stopping the server on unmount. It restores server state
- * if the server is already running when the component mounts.
+ * fingerprints before startup, and generating QR code data for mobile pairing.
+ * The server persists across navigation — it is only stopped when the user
+ * explicitly clicks "Stop Server" via `stopSync`. On mount, the hook restores
+ * store state if the server is already running.
  *
  * @returns An object containing:
  * - `isServerRunning`: Whether the sync server is currently active.
@@ -37,37 +38,20 @@ export function useSyncServer() {
   const setSyncStatus = useSyncServerStore((state) => state.setSyncStatus)
   const reset = useSyncServerStore((state) => state.reset)
 
-  const isMounted = useRef(true)
-
   useEffect(() => {
-    isMounted.current = true
-
     const checkServerStatus = async () => {
       const running = await isServerRunning()
 
-      if (!isMounted.current) return
-
       if (running) {
         const qr = await getQrData()
-
-        if (!isMounted.current) return
-
         const info = await getServerInfo()
 
-        if (!isMounted.current) return
-
         setServerRunning(true, info?.url ?? undefined, qr ?? undefined)
-      } else {
-        reset()
       }
     }
 
     checkServerStatus()
-
-    return () => {
-      isMounted.current = false
-    }
-  }, [setServerRunning, reset])
+  }, [setServerRunning])
 
   // Poll sync status while server is running
   useEffect(() => {
@@ -104,34 +88,16 @@ export function useSyncServer() {
       const info = await startServer()
       const qr = await getQrData()
 
-      if (isMounted.current) {
-        setServerRunning(true, info.url, qr ?? undefined)
-      }
+      setServerRunning(true, info.url, qr ?? undefined)
     } catch (error) {
-      if (isMounted.current) {
-        setSyncStatus("idle")
-      }
+      setSyncStatus("idle")
       throw error
     }
   }, [setServerRunning, setSyncStatus])
 
   const stopSync = useCallback(async () => {
     await stopServer()
-
-    if (isMounted.current) {
-      reset()
-    }
-  }, [reset])
-
-  useEffect(() => {
-    return () => {
-      reset()
-      isServerRunning().then((running) => {
-        if (running) {
-          stopServer()
-        }
-      })
-    }
+    reset()
   }, [reset])
 
   return {
