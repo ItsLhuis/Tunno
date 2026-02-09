@@ -69,7 +69,8 @@ pub fn run() {
             fast_upload_check_cache_exists,
             fast_upload_cleanup_all_cache,
             sync_create_bundle,
-            backfill_fingerprints
+            backfill_fingerprints,
+            get_sync_status
         ])
         .setup(|app| {
             #[cfg(desktop)]

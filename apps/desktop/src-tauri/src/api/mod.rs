@@ -7,10 +7,19 @@ use local_ip_address::local_ip;
 
 use std::net::{SocketAddr, TcpListener};
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use std::sync::LazyLock;
+use std::time::{Duration, Instant};
 
 use tokio::sync::{oneshot, Mutex};
+
+pub struct SyncStatusData {
+    pub status: String,
+    pub last_activity: Instant,
+}
+
+pub type SyncStatus = Arc<std::sync::Mutex<SyncStatusData>>;
 
 pub mod auth;
 pub mod commands;
@@ -22,6 +31,8 @@ pub struct ApiServer {
     shutdown_tx: Option<oneshot::Sender<()>>,
     server_info: Option<ServerInfo>,
     token: Option<String>,
+    sync_status: SyncStatus,
+    timeout_running: Option<Arc<AtomicBool>>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -39,6 +50,11 @@ impl ApiServer {
             shutdown_tx: None,
             server_info: None,
             token: None,
+            sync_status: Arc::new(std::sync::Mutex::new(SyncStatusData {
+                status: "waiting".to_string(),
+                last_activity: Instant::now(),
+            })),
+            timeout_running: None,
         }
     }
 
@@ -92,7 +108,20 @@ impl ApiServer {
 
         let info_for_routes = server_info.clone();
 
-        let ping = warp::path("ping").and(warp::get()).map(|| {
+        let sync_status = self.sync_status.clone();
+        {
+            let mut data = sync_status.lock().unwrap();
+            data.status = "waiting".to_string();
+            data.last_activity = Instant::now();
+        }
+
+        let ping_status = sync_status.clone();
+        let ping = warp::path("ping").and(warp::get()).map(move || {
+            let mut data = ping_status.lock().unwrap();
+            if data.status == "waiting" {
+                data.status = "connected".to_string();
+            }
+            data.last_activity = Instant::now();
             warp::reply::json(&json!({
                 "message": "pong",
                 "status": "ok",
@@ -113,8 +142,8 @@ impl ApiServer {
         let db_path_arc = Arc::new(db_path);
         let app_data_arc = Arc::new(app_data_dir);
 
-        let sync = sync_routes::sync_routes(token_arc.clone(), db_path_arc.clone());
-        let files = file_routes::file_routes(token_arc, db_path_arc, app_data_arc);
+        let sync = sync_routes::sync_routes(token_arc.clone(), db_path_arc.clone(), sync_status.clone());
+        let files = file_routes::file_routes(token_arc, db_path_arc, app_data_arc, sync_status.clone());
 
         let cors = warp::cors()
             .allow_any_origin()
@@ -141,19 +170,47 @@ impl ApiServer {
 
         tokio::spawn(server);
 
+        let timeout_running = Arc::new(AtomicBool::new(true));
+        let timeout_flag = timeout_running.clone();
+        let timeout_status = sync_status;
+
+        tokio::spawn(async move {
+            loop {
+                tokio::time::sleep(Duration::from_secs(5)).await;
+
+                if !timeout_flag.load(Ordering::Relaxed) {
+                    break;
+                }
+
+                let mut data = timeout_status.lock().unwrap();
+                let is_active = data.status == "syncing" || data.status == "connected";
+
+                if is_active && data.last_activity.elapsed() > Duration::from_secs(15) {
+                    data.status = "timedOut".to_string();
+                }
+            }
+        });
+
         self.shutdown_tx = Some(shutdown_tx);
         self.token = Some(token);
+        self.timeout_running = Some(timeout_running);
         self.server_info = Some(server_info.clone());
 
         Ok(server_info)
     }
 
     pub fn stop(&mut self) {
+        if let Some(running) = self.timeout_running.take() {
+            running.store(false, Ordering::Relaxed);
+        }
         if let Some(shutdown_tx) = self.shutdown_tx.take() {
             let _ = shutdown_tx.send(());
         }
         self.server_info = None;
         self.token = None;
+        let mut data = self.sync_status.lock().unwrap();
+        data.status = "waiting".to_string();
+        data.last_activity = Instant::now();
     }
 
     pub fn is_running(&self) -> bool {
@@ -162,6 +219,10 @@ impl ApiServer {
 
     pub fn get_server_info(&self) -> Option<&ServerInfo> {
         self.server_info.as_ref()
+    }
+
+    pub fn get_sync_status(&self) -> String {
+        self.sync_status.lock().unwrap().status.clone()
     }
 
     pub fn generate_qr_data(&self) -> Option<String> {
@@ -204,4 +265,9 @@ pub async fn get_server_info() -> Option<ServerInfo> {
 pub async fn generate_qr_data() -> Option<String> {
     let server = API_SERVER.lock().await;
     server.generate_qr_data()
+}
+
+pub async fn get_sync_status() -> String {
+    let server = API_SERVER.lock().await;
+    server.get_sync_status()
 }

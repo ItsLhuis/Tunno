@@ -24,6 +24,7 @@ declare module "@tauri-apps/api/core" {
       }[]
     }
     backfill_fingerprints: void
+    get_sync_status: void
   }
 
   interface InvokeReturns {
@@ -50,6 +51,7 @@ declare module "@tauri-apps/api/core" {
     fast_upload_cleanup_all_cache: void
     sync_create_bundle: string
     backfill_fingerprints: number
+    get_sync_status: string
   }
 
   function invoke<T extends keyof InvokeArgs>(

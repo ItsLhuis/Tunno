@@ -9,6 +9,7 @@ use warp::Filter;
 
 use super::auth::with_auth;
 use super::db;
+use super::SyncStatus;
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -70,7 +71,9 @@ fn compute_missing(desktop: &[String], mobile: &[String]) -> Vec<String> {
 async fn handle_compare(
     body: CompareRequest,
     db_path: Arc<PathBuf>,
+    sync_status: SyncStatus,
 ) -> Result<impl warp::Reply, warp::Rejection> {
+    sync_status.lock().unwrap().last_activity = std::time::Instant::now();
     let result = tokio::task::spawn_blocking(move || {
         let conn = db::open_readonly(&db_path).map_err(|e| e.to_string())?;
 
@@ -118,7 +121,15 @@ async fn handle_compare(
 async fn handle_batch(
     body: BatchRequest,
     db_path: Arc<PathBuf>,
+    sync_status: SyncStatus,
 ) -> Result<impl warp::Reply, warp::Rejection> {
+    {
+        let mut data = sync_status.lock().unwrap();
+        if data.status != "completed" {
+            data.status = "syncing".to_string();
+        }
+        data.last_activity = std::time::Instant::now();
+    }
     let result = tokio::task::spawn_blocking(move || {
         let conn = db::open_readonly(&db_path).map_err(|e| e.to_string())?;
 
@@ -156,23 +167,50 @@ async fn handle_batch(
 pub fn sync_routes(
     token: Arc<String>,
     db_path: Arc<PathBuf>,
+    sync_status: SyncStatus,
 ) -> impl Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     let db_path_compare = db_path.clone();
     let db_path_batch = db_path;
+    let status_compare = sync_status.clone();
+    let status_batch = sync_status.clone();
+    let status_complete = sync_status.clone();
+    let status_abort = sync_status;
 
     let compare = warp::path!("api" / "sync" / "compare")
         .and(warp::post())
         .and(with_auth(token.clone()))
         .and(warp::body::json())
         .and(warp::any().map(move || db_path_compare.clone()))
+        .and(warp::any().map(move || status_compare.clone()))
         .and_then(handle_compare);
 
     let batch = warp::path!("api" / "sync" / "batch")
         .and(warp::post())
-        .and(with_auth(token))
+        .and(with_auth(token.clone()))
         .and(warp::body::json())
         .and(warp::any().map(move || db_path_batch.clone()))
+        .and(warp::any().map(move || status_batch.clone()))
         .and_then(handle_batch);
 
-    compare.or(batch)
+    let complete = warp::path!("api" / "sync" / "complete")
+        .and(warp::post())
+        .and(with_auth(token.clone()))
+        .map(move || {
+            let mut data = status_complete.lock().unwrap();
+            data.status = "completed".to_string();
+            data.last_activity = std::time::Instant::now();
+            warp::reply::json(&serde_json::json!({ "status": "completed" }))
+        });
+
+    let abort = warp::path!("api" / "sync" / "abort")
+        .and(warp::post())
+        .and(with_auth(token))
+        .map(move || {
+            let mut data = status_abort.lock().unwrap();
+            data.status = "cancelled".to_string();
+            data.last_activity = std::time::Instant::now();
+            warp::reply::json(&serde_json::json!({ "status": "cancelled" }))
+        });
+
+    compare.or(batch).or(complete).or(abort)
 }

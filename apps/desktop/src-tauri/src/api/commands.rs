@@ -1,6 +1,7 @@
 use super::{
     generate_qr_data as internal_generate_qr_data, get_server_info as internal_get_server_info,
-    is_server_running as internal_is_server_running, start_api_server, stop_api_server, ServerInfo,
+    get_sync_status as internal_get_sync_status, is_server_running as internal_is_server_running,
+    start_api_server, stop_api_server, ServerInfo,
 };
 
 use super::db;
@@ -37,6 +38,11 @@ pub async fn get_server_info() -> Option<ServerInfo> {
 #[command]
 pub async fn get_qr_data() -> Option<String> {
     internal_generate_qr_data().await
+}
+
+#[command]
+pub async fn get_sync_status() -> String {
+    internal_get_sync_status().await
 }
 
 #[command]

@@ -6,6 +6,7 @@ use warp::Filter;
 
 use super::auth::with_auth;
 use super::db;
+use super::SyncStatus;
 
 fn content_type_for_extension(ext: &str) -> &'static str {
     match ext {
@@ -28,7 +29,9 @@ async fn handle_audio(
     fingerprint: String,
     db_path: Arc<PathBuf>,
     app_data_dir: Arc<PathBuf>,
+    sync_status: SyncStatus,
 ) -> Result<impl warp::Reply, warp::Rejection> {
+    sync_status.lock().unwrap().last_activity = std::time::Instant::now();
     let songs_dir = app_data_dir.join("songs");
 
     let result = tokio::task::spawn_blocking(move || {
@@ -79,7 +82,9 @@ async fn handle_thumbnail(
     entity_type: String,
     db_path: Arc<PathBuf>,
     app_data_dir: Arc<PathBuf>,
+    sync_status: SyncStatus,
 ) -> Result<impl warp::Reply, warp::Rejection> {
+    sync_status.lock().unwrap().last_activity = std::time::Instant::now();
     let thumbnails_dir = app_data_dir.join("thumbnails");
 
     let result = tokio::task::spawn_blocking(move || {
@@ -130,17 +135,21 @@ pub fn file_routes(
     token: Arc<String>,
     db_path: Arc<PathBuf>,
     app_data_dir: Arc<PathBuf>,
+    sync_status: SyncStatus,
 ) -> impl Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     let db_audio = db_path.clone();
     let app_audio = app_data_dir.clone();
+    let status_audio = sync_status.clone();
     let db_thumb = db_path;
     let app_thumb = app_data_dir;
+    let status_thumb = sync_status;
 
     let audio = warp::path!("api" / "files" / "audio" / String)
         .and(warp::get())
         .and(with_auth(token.clone()))
         .and(warp::any().map(move || db_audio.clone()))
         .and(warp::any().map(move || app_audio.clone()))
+        .and(warp::any().map(move || status_audio.clone()))
         .and_then(handle_audio);
 
     let thumbnail = warp::path!("api" / "files" / "thumbnail" / String / String)
@@ -148,6 +157,7 @@ pub fn file_routes(
         .and(with_auth(token))
         .and(warp::any().map(move || db_thumb.clone()))
         .and(warp::any().map(move || app_thumb.clone()))
+        .and(warp::any().map(move || status_thumb.clone()))
         .and_then(handle_thumbnail);
 
     audio.or(thumbnail)
