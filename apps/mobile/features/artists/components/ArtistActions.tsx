@@ -14,6 +14,8 @@ import { useFetchArtistByIdWithSongs } from "../hooks/useFetchArtistByIdWithSong
 
 import { useToggleArtistFavorite } from "../hooks/useToggleArtistFavorite"
 
+import { formatDuration } from "@repo/utils"
+
 import {
   ContextMenu,
   ContextMenuContent,
@@ -94,11 +96,9 @@ const ArtistActionsContent = memo(
     const shouldFetchArtist = artistId !== undefined
     const resolvedArtistId = artistId ?? null
 
-    const {
-      data: fetchedArtist,
-      isPending,
-      isError
-    } = useFetchArtistByIdWithSongs(shouldFetchArtist ? resolvedArtistId : null)
+    const { data: fetchedArtist, isPending } = useFetchArtistByIdWithSongs(
+      shouldFetchArtist ? resolvedArtistId : null
+    )
 
     const targetArtist = fetchedArtist
 
@@ -171,13 +171,11 @@ const ArtistActionsContent = memo(
       }
     }, [targetArtist, onOpenDialog])
 
-    if (shouldFetchArtist && isPending) {
-      return <Spinner />
-    }
-
-    if (shouldFetchArtist && (isError || !targetArtist)) {
+    if (!resolvedArtistId) {
       return <NotFound style={styles.notFound} />
     }
+
+    const isFetchingDetails = shouldFetchArtist && isPending
 
     return (
       <Fragment>
@@ -195,6 +193,8 @@ const ArtistActionsContent = memo(
                 </Text>
                 <Text size="xs" color="mutedForeground" numberOfLines={1}>
                   {t("common.songsPlayed", { count: targetArtist.totalTracks })}
+                  {targetArtist.totalDuration > 0 &&
+                    ` • ${formatDuration(targetArtist.totalDuration, t)}`}
                 </Text>
               </View>
             </View>
@@ -234,7 +234,7 @@ const ArtistActionsContent = memo(
             </MenuSubContent>
           </MenuSub>
         )}
-        {targetArtist && (
+        {targetArtist ? (
           <Fragment>
             <MenuItem onPress={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
               <Icon
@@ -260,7 +260,9 @@ const ArtistActionsContent = memo(
               <Text size="sm">{t("form.buttons.delete")}</Text>
             </MenuItem>
           </Fragment>
-        )}
+        ) : isFetchingDetails ? (
+          <Spinner />
+        ) : null}
       </Fragment>
     )
   }

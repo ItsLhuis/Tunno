@@ -103,11 +103,9 @@ const AlbumActionsContent = memo(function AlbumActionsContent({
   const shouldFetchAlbum = albumId !== undefined
   const resolvedAlbumId = albumId ?? null
 
-  const {
-    data: fetchedAlbum,
-    isPending,
-    isError
-  } = useFetchAlbumByIdWithSongsAndArtists(shouldFetchAlbum ? resolvedAlbumId : null)
+  const { data: fetchedAlbum, isPending } = useFetchAlbumByIdWithSongsAndArtists(
+    shouldFetchAlbum ? resolvedAlbumId : null
+  )
 
   const targetAlbum = fetchedAlbum
 
@@ -203,13 +201,11 @@ const AlbumActionsContent = memo(function AlbumActionsContent({
     [handleGoToArtist]
   )
 
-  if (shouldFetchAlbum && isPending) {
-    return <Spinner />
-  }
-
-  if (shouldFetchAlbum && (isError || !targetAlbum)) {
+  if (!resolvedAlbumId) {
     return <NotFound style={styles.notFound} />
   }
+
+  const isFetchingDetails = shouldFetchAlbum && isPending
 
   return (
     <Fragment>
@@ -264,7 +260,7 @@ const AlbumActionsContent = memo(function AlbumActionsContent({
           </MenuSubContent>
         </MenuSub>
       )}
-      {targetAlbum && (
+      {targetAlbum ? (
         <Fragment>
           <MenuItem onPress={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
             <Icon
@@ -311,7 +307,9 @@ const AlbumActionsContent = memo(function AlbumActionsContent({
             <Text size="sm">{t("form.buttons.delete")}</Text>
           </MenuItem>
         </Fragment>
-      )}
+      ) : isFetchingDetails ? (
+        <Spinner />
+      ) : null}
     </Fragment>
   )
 })

@@ -107,11 +107,9 @@ const SongActionsContent = memo(
     const shouldFetchSong = songId !== undefined
     const resolvedSongId = songId ?? null
 
-    const {
-      data: fetchedSong,
-      isPending,
-      isError
-    } = useFetchSongByIdWithMainRelations(shouldFetchSong ? resolvedSongId : null)
+    const { data: fetchedSong, isPending } = useFetchSongByIdWithMainRelations(
+      shouldFetchSong ? resolvedSongId : null
+    )
 
     const targetSong = fetchedSong
 
@@ -124,8 +122,8 @@ const SongActionsContent = memo(
     const MenuFlashList = variant === "context" ? ContextMenuFlashList : DropdownMenuFlashList
 
     const handlePlaySong = useCallback(async () => {
-      if (targetSong) {
-        if (currentTrack?.id === targetSong.id) {
+      if (resolvedSongId) {
+        if (currentTrack?.id === resolvedSongId) {
           if (playbackState === State.Playing) {
             await pause()
           } else {
@@ -133,22 +131,22 @@ const SongActionsContent = memo(
           }
           return
         }
-        await loadTracks([targetSong.id], 0, "songs")
+        await loadTracks([resolvedSongId], 0, "songs")
         await play()
       }
-    }, [targetSong, currentTrack, playbackState, pause, play, loadTracks])
+    }, [resolvedSongId, currentTrack, playbackState, pause, play, loadTracks])
 
     const handlePlayNext = useCallback(async () => {
-      if (targetSong) {
-        await addToQueue(targetSong.id, "next")
+      if (resolvedSongId) {
+        await addToQueue(resolvedSongId, "next")
       }
-    }, [targetSong, addToQueue])
+    }, [resolvedSongId, addToQueue])
 
     const handleAddToQueue = useCallback(async () => {
-      if (targetSong) {
-        await addToQueue(targetSong.id, "end")
+      if (resolvedSongId) {
+        await addToQueue(resolvedSongId, "end")
       }
-    }, [targetSong, addToQueue])
+    }, [resolvedSongId, addToQueue])
 
     const handleToggleFavorite = useCallback(async () => {
       if (targetSong) {
@@ -163,20 +161,20 @@ const SongActionsContent = memo(
     }, [queueIndex, removeFromQueue])
 
     const handleRemoveFromPlaylist = useCallback(async () => {
-      if (playlistId && targetSong) {
+      if (playlistId && resolvedSongId) {
         await removeFromPlaylistMutation.mutateAsync({
           playlistId,
-          songIds: [targetSong.id]
+          songIds: [resolvedSongId]
         })
       }
-    }, [playlistId, targetSong, removeFromPlaylistMutation])
+    }, [playlistId, resolvedSongId, removeFromPlaylistMutation])
 
     const handleGoToSong = useCallback(() => {
-      if (targetSong && pathname !== `/songs/${targetSong.id}`) {
+      if (resolvedSongId && pathname !== `/songs/${resolvedSongId}`) {
         playerSheetRef?.dismiss()
-        router.push(`/songs/${targetSong.id}`)
+        router.push(`/songs/${resolvedSongId}`)
       }
-    }, [targetSong, router, pathname, playerSheetRef])
+    }, [resolvedSongId, router, pathname, playerSheetRef])
 
     const handleGoToAlbum = useCallback(() => {
       if (targetSong?.album && pathname !== `/albums/${targetSong.album.id}`) {
@@ -196,10 +194,10 @@ const SongActionsContent = memo(
     )
 
     const handleOpenPlaylist = useCallback(() => {
-      if (targetSong) {
-        onOpenDialog("playlist", targetSong, [targetSong.id])
+      if (resolvedSongId) {
+        onOpenDialog("playlist", targetSong ?? null, [resolvedSongId])
       }
-    }, [targetSong, onOpenDialog])
+    }, [resolvedSongId, targetSong, onOpenDialog])
 
     const handleOpenEdit = useCallback(() => {
       if (targetSong) {
@@ -226,17 +224,15 @@ const SongActionsContent = memo(
       []
     )
 
-    const isCurrentlyPlaying = targetSong
-      ? currentTrack?.id === targetSong.id && playbackState === State.Playing
+    const isCurrentlyPlaying = resolvedSongId
+      ? currentTrack?.id === resolvedSongId && playbackState === State.Playing
       : false
 
-    if (shouldFetchSong && isPending) {
-      return <Spinner />
-    }
-
-    if (shouldFetchSong && (isError || !targetSong)) {
+    if (!resolvedSongId) {
       return <NotFound style={styles.notFound} />
     }
+
+    const isFetchingDetails = shouldFetchSong && isPending
 
     const artistsText = targetSong
       ? targetSong.artists.length > 0
@@ -289,7 +285,7 @@ const SongActionsContent = memo(
             </MenuItem>
           </MenuSubContent>
         </MenuSub>
-        {targetSong && (
+        {targetSong ? (
           <Fragment>
             <MenuItem onPress={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
               <Icon
@@ -333,21 +329,6 @@ const SongActionsContent = memo(
                 </MenuSubContent>
               </MenuSub>
             )}
-            {queueIndex !== undefined && (
-              <MenuItem onPress={handleRemoveFromQueue}>
-                <Icon name="ListX" size="sm" />
-                <Text size="sm">{t("common.removeFromQueue")}</Text>
-              </MenuItem>
-            )}
-            {playlistId !== undefined && (
-              <MenuItem
-                onPress={handleRemoveFromPlaylist}
-                disabled={removeFromPlaylistMutation.isPending}
-              >
-                <Icon name="ListMusic" size="sm" />
-                <Text size="sm">{t("common.removeFromPlaylist")}</Text>
-              </MenuItem>
-            )}
             <MenuItem onPress={handleOpenEdit}>
               <Icon name="Pencil" size="sm" />
               <Text size="sm">{t("form.buttons.update")}</Text>
@@ -357,6 +338,23 @@ const SongActionsContent = memo(
               <Text size="sm">{t("form.buttons.delete")}</Text>
             </MenuItem>
           </Fragment>
+        ) : isFetchingDetails ? (
+          <Spinner />
+        ) : null}
+        {queueIndex !== undefined && (
+          <MenuItem onPress={handleRemoveFromQueue}>
+            <Icon name="ListX" size="sm" />
+            <Text size="sm">{t("common.removeFromQueue")}</Text>
+          </MenuItem>
+        )}
+        {playlistId !== undefined && (
+          <MenuItem
+            onPress={handleRemoveFromPlaylist}
+            disabled={removeFromPlaylistMutation.isPending}
+          >
+            <Icon name="ListMusic" size="sm" />
+            <Text size="sm">{t("common.removeFromPlaylist")}</Text>
+          </MenuItem>
         )}
       </Fragment>
     )

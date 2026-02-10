@@ -96,11 +96,9 @@ const PlaylistActionsContent = memo(
     const shouldFetchPlaylist = playlistId !== undefined
     const resolvedPlaylistId = playlistId ?? null
 
-    const {
-      data: fetchedPlaylist,
-      isPending,
-      isError
-    } = useFetchPlaylistByIdWithSongs(shouldFetchPlaylist ? resolvedPlaylistId : null)
+    const { data: fetchedPlaylist, isPending } = useFetchPlaylistByIdWithSongs(
+      shouldFetchPlaylist ? resolvedPlaylistId : null
+    )
 
     const targetPlaylist = fetchedPlaylist
 
@@ -173,13 +171,11 @@ const PlaylistActionsContent = memo(
       }
     }, [targetPlaylist, onOpenDialog])
 
-    if (shouldFetchPlaylist && isPending) {
-      return <Spinner />
-    }
-
-    if (shouldFetchPlaylist && (isError || !targetPlaylist)) {
+    if (!resolvedPlaylistId) {
       return <NotFound style={styles.notFound} />
     }
+
+    const isFetchingDetails = shouldFetchPlaylist && isPending
 
     return (
       <Fragment>
@@ -234,7 +230,7 @@ const PlaylistActionsContent = memo(
             </MenuSubContent>
           </MenuSub>
         )}
-        {targetPlaylist && (
+        {targetPlaylist ? (
           <Fragment>
             <MenuItem onPress={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
               <Icon
@@ -260,7 +256,9 @@ const PlaylistActionsContent = memo(
               <Text size="sm">{t("form.buttons.delete")}</Text>
             </MenuItem>
           </Fragment>
-        )}
+        ) : isFetchingDetails ? (
+          <Spinner />
+        ) : null}
       </Fragment>
     )
   }
