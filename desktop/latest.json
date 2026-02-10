@@ -1,15 +1,15 @@
 {
-  "version": "1.6.1",
-  "notes": "### Changed\n\n- 🔄 **Sync Server Persistence**: The sync server now runs in the background, remaining active when\n  navigating away from the Settings page. Previously, leaving the page would stop the server and\n  disconnect the mobile device.",
-  "pub_date": "2026-02-09T22:24:22.545Z",
+  "version": "1.6.2",
+  "notes": "### Changed\n\n- ⚡ **Action Menus**: Context and dropdown menus for songs, albums, artists, and playlists now open\n  instantly with core actions (play, queue, add to playlist) available immediately, instead of\n  blocking the entire menu with a loading spinner while fetching entity details.",
+  "pub_date": "2026-02-10T11:38:26.131Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXhRTVhtWVh2VHQwZ0ZjaDdLd0tjMU96b1hSbDh4RzRVK2llUHFuSHM2S0RwOGt0WFY2MmtKTk1yQ3Y3aDBoRzk4aFRObEcweFhwdjkvSUhURktQeHdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNjc1ODU5CWZpbGU6VHVubm9fMS42LjFfeDY0X2VuLVVTLm1zaQpIS1FWMDN6aUxMWDhMSUliVk5lZ0VCWmZLb2lFOG84emthaXNsb0E0azcvODNESjM0WWxZRnF5ZjRHNDZxT25oVVluU3pFUUFyWXZHQUI3YWJ3a0lEdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.1/Tunno_1.6.1_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTJNcDRGOWx4QVg5NFByWGRCbW9tcDhVcnNZWUtuU0VOclk0Lzc4Ujg1a28yejlTMkxZaVJRSnE0SUliVit0eWlRYTI2bTd6UlJ0OThNUkVWNUlTR0FJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNzIzNTAzCWZpbGU6VHVubm9fMS42LjJfeDY0X2VuLVVTLm1zaQoxS2NlV0JJMnY4dXNHcmxuNlEvWEhKbzA1WFBYdDJiL2hicU14ZXNKU0d1bVZLRmtsc0h1NGRMUk9mdFNySTFiRlRPTmFYbVBOVEFBQ2NacVBYZXFEQT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.2/Tunno_1.6.2_x64_en-US.msi"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNXhRTVhtWVh2VHQwZ0ZjaDdLd0tjMU96b1hSbDh4RzRVK2llUHFuSHM2S0RwOGt0WFY2MmtKTk1yQ3Y3aDBoRzk4aFRObEcweFhwdjkvSUhURktQeHdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNjc1ODU5CWZpbGU6VHVubm9fMS42LjFfeDY0X2VuLVVTLm1zaQpIS1FWMDN6aUxMWDhMSUliVk5lZ0VCWmZLb2lFOG84emthaXNsb0E0azcvODNESjM0WWxZRnF5ZjRHNDZxT25oVVluU3pFUUFyWXZHQUI3YWJ3a0lEdz09Cg==",
-      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.1/Tunno_1.6.1_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTM1dGWlBtVzNJNTJNcDRGOWx4QVg5NFByWGRCbW9tcDhVcnNZWUtuU0VOclk0Lzc4Ujg1a28yejlTMkxZaVJRSnE0SUliVit0eWlRYTI2bTd6UlJ0OThNUkVWNUlTR0FJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcwNzIzNTAzCWZpbGU6VHVubm9fMS42LjJfeDY0X2VuLVVTLm1zaQoxS2NlV0JJMnY4dXNHcmxuNlEvWEhKbzA1WFBYdDJiL2hicU14ZXNKU0d1bVZLRmtsc0h1NGRMUk9mdFNySTFiRlRPTmFYbVBOVEFBQ2NacVBYZXFEQT09Cg==",
+      "url": "https://github.com/ItsLhuis/Tunno/releases/download/desktop/v1.6.2/Tunno_1.6.2_x64_en-US.msi"
     }
   }
 }
