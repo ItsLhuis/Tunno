@@ -109,11 +109,9 @@ const SongActionsContent = memo(
     const shouldFetchSong = songId !== undefined && !hasSingleSelection
     const resolvedSongId = songId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
-    const {
-      data: fetchedSong,
-      isPending,
-      isError
-    } = useFetchSongByIdWithMainRelations(shouldFetchSong ? resolvedSongId : null)
+    const { data: fetchedSong, isPending } = useFetchSongByIdWithMainRelations(
+      shouldFetchSong ? resolvedSongId : null
+    )
 
     const targetSong: SongWithMainRelations | undefined =
       hasMultipleSelections || hasSingleSelection
@@ -128,8 +126,8 @@ const SongActionsContent = memo(
     const MenuSubContent = variant === "context" ? ContextMenuSubContent : DropdownMenuSubContent
 
     const handlePlaySong = async () => {
-      if (targetSong && !hasMultipleSelections) {
-        if (currentTrack?.id === targetSong.id) {
+      if (!hasMultipleSelections && resolvedSongId) {
+        if (currentTrack?.id === resolvedSongId) {
           if (playbackState === State.Playing) {
             await pause()
           } else {
@@ -137,7 +135,7 @@ const SongActionsContent = memo(
           }
           return
         }
-        await loadTracks([targetSong.id], 0, "songs")
+        await loadTracks([resolvedSongId], 0, "songs")
         await play()
         return
       }
@@ -151,8 +149,8 @@ const SongActionsContent = memo(
     const handlePlayNext = async () => {
       const ids = list?.selectedIds.length
         ? list.selectedIds.map(Number)
-        : targetSong
-          ? [targetSong.id]
+        : resolvedSongId
+          ? [resolvedSongId]
           : []
       if (ids.length) await addToQueue(ids, "next")
     }
@@ -160,8 +158,8 @@ const SongActionsContent = memo(
     const handleAddToQueue = async () => {
       const ids = list?.selectedIds.length
         ? list.selectedIds.map(Number)
-        : targetSong
-          ? [targetSong.id]
+        : resolvedSongId
+          ? [resolvedSongId]
           : []
       if (ids.length) await addToQueue(ids, "end")
     }
@@ -175,10 +173,10 @@ const SongActionsContent = memo(
     }
 
     const handleRemoveFromPlaylist = async () => {
-      if (playlistId && targetSong) {
+      if (playlistId && resolvedSongId) {
         await removeFromPlaylistMutation.mutateAsync({
           playlistId,
-          songIds: [targetSong.id]
+          songIds: [resolvedSongId]
         })
       }
     }
@@ -186,31 +184,25 @@ const SongActionsContent = memo(
     const handleOpenPlaylist = () => {
       const ids = list?.selectedIds.length
         ? list.selectedIds.map(Number)
-        : targetSong
-          ? [targetSong.id]
+        : resolvedSongId
+          ? [resolvedSongId]
           : []
       onOpenDialog("playlist", targetSong ?? null, ids)
     }
 
-    const isCurrentlyPlaying = targetSong
-      ? currentTrack?.id === targetSong.id && playbackState === State.Playing
+    const isCurrentlyPlaying = resolvedSongId
+      ? currentTrack?.id === resolvedSongId && playbackState === State.Playing
       : false
 
-    if (shouldFetchSong && isPending) {
-      return (
-        <div className="flex items-center justify-center p-4">
-          <Spinner />
-        </div>
-      )
-    }
-
-    if (shouldFetchSong && (isError || !targetSong)) {
+    if (!resolvedSongId && !hasMultipleSelections) {
       return (
         <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
           {t("common.noResultsFound")}
         </Typography>
       )
     }
+
+    const isFetchingDetails = shouldFetchSong && isPending
 
     return (
       <Fragment>
@@ -241,69 +233,91 @@ const SongActionsContent = memo(
             </MenuItem>
           </MenuSubContent>
         </MenuSub>
-        {!hasMultipleSelections && targetSong && (
+        {!hasMultipleSelections && (
           <Fragment>
-            <MenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
-              <Icon
-                name="Heart"
-                isFilled={targetSong.isFavorite}
-                className={cn(targetSong.isFavorite && "text-primary!")}
-              />
-              {targetSong.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-            </MenuItem>
-            <MenuItem asChild>
-              <SafeLink to="/songs/$id" params={{ id: targetSong.id.toString() }}>
-                <Icon name="Music" />
-                {t("common.goToSong")}
-              </SafeLink>
-            </MenuItem>
-            {targetSong.album && (
-              <MenuItem asChild>
-                <SafeLink to="/albums/$id" params={{ id: targetSong.album.id.toString() }}>
-                  <Icon name="Disc" />
-                  {t("common.goToAlbum")}
-                </SafeLink>
-              </MenuItem>
-            )}
-            {targetSong.artists?.length === 1 && (
-              <MenuItem asChild>
-                <SafeLink
-                  to="/artists/$id"
-                  params={{ id: targetSong.artists[0].artistId.toString() }}
+            {targetSong ? (
+              <Fragment>
+                <MenuItem
+                  onClick={handleToggleFavorite}
+                  disabled={toggleFavoriteMutation.isPending}
                 >
-                  <Icon name="User" />
-                  {t("common.goToArtist")}
-                </SafeLink>
-              </MenuItem>
-            )}
-            {targetSong.artists && targetSong.artists.length > 1 && (
-              <MenuSub>
-                <MenuSubTrigger>
-                  <Icon name="User" />
-                  {t("common.goToArtist")}
-                </MenuSubTrigger>
-                <MenuSubContent className="p-0">
-                  <ScrollArea className="p-1" ref={artistsScrollRef}>
-                    <VirtualizedList
-                      scrollRef={artistsScrollRef}
-                      data={targetSong.artists}
-                      keyExtractor={keyExtractor}
-                      renderItem={({ item: artist }) => (
-                        <MenuItem asChild>
-                          <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
-                            <Typography className="line-clamp-none truncate">
-                              {artist.artist.name}
-                            </Typography>
-                          </SafeLink>
-                        </MenuItem>
-                      )}
-                      estimateItemHeight={30}
-                      containerClassName="max-h-52"
-                    />
-                  </ScrollArea>
-                </MenuSubContent>
-              </MenuSub>
-            )}
+                  <Icon
+                    name="Heart"
+                    isFilled={targetSong.isFavorite}
+                    className={cn(targetSong.isFavorite && "text-primary!")}
+                  />
+                  {targetSong.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+                </MenuItem>
+                <MenuItem asChild>
+                  <SafeLink to="/songs/$id" params={{ id: targetSong.id.toString() }}>
+                    <Icon name="Music" />
+                    {t("common.goToSong")}
+                  </SafeLink>
+                </MenuItem>
+                {targetSong.album && (
+                  <MenuItem asChild>
+                    <SafeLink to="/albums/$id" params={{ id: targetSong.album.id.toString() }}>
+                      <Icon name="Disc" />
+                      {t("common.goToAlbum")}
+                    </SafeLink>
+                  </MenuItem>
+                )}
+                {targetSong.artists?.length === 1 && (
+                  <MenuItem asChild>
+                    <SafeLink
+                      to="/artists/$id"
+                      params={{ id: targetSong.artists[0].artistId.toString() }}
+                    >
+                      <Icon name="User" />
+                      {t("common.goToArtist")}
+                    </SafeLink>
+                  </MenuItem>
+                )}
+                {targetSong.artists && targetSong.artists.length > 1 && (
+                  <MenuSub>
+                    <MenuSubTrigger>
+                      <Icon name="User" />
+                      {t("common.goToArtist")}
+                    </MenuSubTrigger>
+                    <MenuSubContent className="p-0">
+                      <ScrollArea className="p-1" ref={artistsScrollRef}>
+                        <VirtualizedList
+                          scrollRef={artistsScrollRef}
+                          data={targetSong.artists}
+                          keyExtractor={keyExtractor}
+                          renderItem={({ item: artist }) => (
+                            <MenuItem asChild>
+                              <SafeLink
+                                to="/artists/$id"
+                                params={{ id: artist.artistId.toString() }}
+                              >
+                                <Typography className="line-clamp-none truncate">
+                                  {artist.artist.name}
+                                </Typography>
+                              </SafeLink>
+                            </MenuItem>
+                          )}
+                          estimateItemHeight={30}
+                          containerClassName="max-h-52"
+                        />
+                      </ScrollArea>
+                    </MenuSubContent>
+                  </MenuSub>
+                )}
+                <MenuItem onClick={() => onOpenDialog("edit", targetSong, [targetSong.id])}>
+                  <Icon name="Edit" />
+                  {t("form.buttons.update")}
+                </MenuItem>
+                <MenuItem onClick={() => onOpenDialog("delete", targetSong, [targetSong.id])}>
+                  <Icon name="Trash2" />
+                  {t("form.buttons.delete")}
+                </MenuItem>
+              </Fragment>
+            ) : isFetchingDetails ? (
+              <div className="flex items-center justify-center p-2">
+                <Spinner className="size-4" />
+              </div>
+            ) : null}
             {queueIndex !== undefined && (
               <MenuItem onClick={handleRemoveFromQueue}>
                 <Icon name="ListX" />
@@ -319,14 +333,6 @@ const SongActionsContent = memo(
                 {t("common.removeFromPlaylist")}
               </MenuItem>
             )}
-            <MenuItem onClick={() => onOpenDialog("edit", targetSong, [targetSong.id])}>
-              <Icon name="Edit" />
-              {t("form.buttons.update")}
-            </MenuItem>
-            <MenuItem onClick={() => onOpenDialog("delete", targetSong, [targetSong.id])}>
-              <Icon name="Trash2" />
-              {t("form.buttons.delete")}
-            </MenuItem>
           </Fragment>
         )}
       </Fragment>

@@ -94,11 +94,9 @@ const PlaylistActionsContent = memo(
     const resolvedPlaylistId =
       playlistId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
-    const {
-      data: fetchedPlaylist,
-      isPending,
-      isError
-    } = useFetchPlaylistByIdWithSongs(shouldFetchPlaylist ? resolvedPlaylistId : null)
+    const { data: fetchedPlaylist, isPending } = useFetchPlaylistByIdWithSongs(
+      shouldFetchPlaylist ? resolvedPlaylistId : null
+    )
 
     const selectedPlaylistIds = hasMultipleSelections
       ? list.selectedIds.map((id) => Number(id))
@@ -200,15 +198,7 @@ const PlaylistActionsContent = memo(
       onOpenDialog("playlist", targetPlaylist ?? null, ids)
     }
 
-    if (shouldFetchPlaylist && isPending) {
-      return (
-        <div className="flex items-center justify-center p-4">
-          <Spinner />
-        </div>
-      )
-    }
-
-    if (shouldFetchPlaylist && (isError || !targetPlaylist)) {
+    if (!resolvedPlaylistId && !hasMultipleSelections) {
       return (
         <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
           {t("common.noResultsFound")}
@@ -216,15 +206,7 @@ const PlaylistActionsContent = memo(
       )
     }
 
-    const hasAnyActions = hasSongs || (!hasMultipleSelections && targetPlaylist)
-
-    if (!hasAnyActions) {
-      return (
-        <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
-          {t("common.noResultsFound")}
-        </Typography>
-      )
-    }
+    const isFetchingDetails = shouldFetchPlaylist && isPending
 
     return (
       <Fragment>
@@ -261,34 +243,45 @@ const PlaylistActionsContent = memo(
             </MenuSubContent>
           </MenuSub>
         )}
-        {!hasMultipleSelections && targetPlaylist && (
+        {!hasMultipleSelections && (
           <Fragment>
-            <MenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
-              <Icon
-                name="Heart"
-                isFilled={targetPlaylist.isFavorite}
-                className={cn(targetPlaylist.isFavorite && "text-primary!")}
-              />
-              {targetPlaylist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-            </MenuItem>
-            <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
-              <Icon name="PanelLeft" />
-              {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
-            </MenuItem>
-            <MenuItem asChild>
-              <SafeLink to="/playlists/$id" params={{ id: targetPlaylist.id.toString() }}>
-                <Icon name="ListMusic" />
-                {t("common.goToPlaylist")}
-              </SafeLink>
-            </MenuItem>
-            <MenuItem onClick={() => onOpenDialog("edit", targetPlaylist, [])}>
-              <Icon name="Edit" />
-              {t("form.buttons.update")}
-            </MenuItem>
-            <MenuItem onClick={() => onOpenDialog("delete", targetPlaylist, [])}>
-              <Icon name="Trash2" />
-              {t("form.buttons.delete")}
-            </MenuItem>
+            {targetPlaylist ? (
+              <Fragment>
+                <MenuItem
+                  onClick={handleToggleFavorite}
+                  disabled={toggleFavoriteMutation.isPending}
+                >
+                  <Icon
+                    name="Heart"
+                    isFilled={targetPlaylist.isFavorite}
+                    className={cn(targetPlaylist.isFavorite && "text-primary!")}
+                  />
+                  {targetPlaylist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+                </MenuItem>
+                <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
+                  <Icon name="PanelLeft" />
+                  {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
+                </MenuItem>
+                <MenuItem asChild>
+                  <SafeLink to="/playlists/$id" params={{ id: targetPlaylist.id.toString() }}>
+                    <Icon name="ListMusic" />
+                    {t("common.goToPlaylist")}
+                  </SafeLink>
+                </MenuItem>
+                <MenuItem onClick={() => onOpenDialog("edit", targetPlaylist, [])}>
+                  <Icon name="Edit" />
+                  {t("form.buttons.update")}
+                </MenuItem>
+                <MenuItem onClick={() => onOpenDialog("delete", targetPlaylist, [])}>
+                  <Icon name="Trash2" />
+                  {t("form.buttons.delete")}
+                </MenuItem>
+              </Fragment>
+            ) : isFetchingDetails ? (
+              <div className="flex items-center justify-center p-2">
+                <Spinner className="size-4" />
+              </div>
+            ) : null}
           </Fragment>
         )}
       </Fragment>

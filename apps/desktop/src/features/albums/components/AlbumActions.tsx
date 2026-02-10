@@ -106,11 +106,9 @@ const AlbumActionsContent = memo(
     const shouldFetchAlbum = albumId !== undefined && !hasSingleSelection
     const resolvedAlbumId = albumId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
-    const {
-      data: fetchedAlbum,
-      isPending,
-      isError
-    } = useFetchAlbumByIdWithSongsAndArtists(shouldFetchAlbum ? resolvedAlbumId : null)
+    const { data: fetchedAlbum, isPending } = useFetchAlbumByIdWithSongsAndArtists(
+      shouldFetchAlbum ? resolvedAlbumId : null
+    )
 
     const selectedAlbumIds = hasMultipleSelections ? list.selectedIds.map((id) => Number(id)) : []
     const albumsWithSongs = hasMultipleSelections
@@ -214,15 +212,7 @@ const AlbumActionsContent = memo(
       onOpenDialog("playlist", targetAlbum ?? null, ids)
     }
 
-    if (shouldFetchAlbum && isPending) {
-      return (
-        <div className="flex items-center justify-center p-4">
-          <Spinner />
-        </div>
-      )
-    }
-
-    if (shouldFetchAlbum && (isError || !targetAlbum)) {
+    if (!resolvedAlbumId && !hasMultipleSelections) {
       return (
         <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
           {t("common.noResultsFound")}
@@ -230,15 +220,7 @@ const AlbumActionsContent = memo(
       )
     }
 
-    const hasAnyActions = hasSongs || (!hasMultipleSelections && targetAlbum)
-
-    if (!hasAnyActions) {
-      return (
-        <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
-          {t("common.noResultsFound")}
-        </Typography>
-      )
-    }
+    const isFetchingDetails = shouldFetchAlbum && isPending
 
     return (
       <Fragment>
@@ -275,73 +257,87 @@ const AlbumActionsContent = memo(
             </MenuSubContent>
           </MenuSub>
         )}
-        {!hasMultipleSelections && targetAlbum && (
+        {!hasMultipleSelections && (
           <Fragment>
-            <MenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
-              <Icon
-                name="Heart"
-                isFilled={targetAlbum.isFavorite}
-                className={cn(targetAlbum.isFavorite && "text-primary!")}
-              />
-              {targetAlbum.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-            </MenuItem>
-            <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
-              <Icon name="PanelLeft" />
-              {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
-            </MenuItem>
-            <MenuItem asChild>
-              <SafeLink to="/albums/$id" params={{ id: targetAlbum.id.toString() }}>
-                <Icon name="Disc" />
-                {t("common.goToAlbum")}
-              </SafeLink>
-            </MenuItem>
-            {targetAlbum.artists?.length === 1 && (
-              <MenuItem asChild>
-                <SafeLink
-                  to="/artists/$id"
-                  params={{ id: targetAlbum.artists[0].artistId.toString() }}
+            {targetAlbum ? (
+              <Fragment>
+                <MenuItem
+                  onClick={handleToggleFavorite}
+                  disabled={toggleFavoriteMutation.isPending}
                 >
-                  <Icon name="User" />
-                  {t("common.goToArtist")}
-                </SafeLink>
-              </MenuItem>
-            )}
-            {targetAlbum.artists && targetAlbum.artists.length > 1 && (
-              <MenuSub>
-                <MenuSubTrigger>
-                  <Icon name="User" />
-                  {t("common.goToArtist")}
-                </MenuSubTrigger>
-                <MenuSubContent className="p-0">
-                  <ScrollArea className="p-1" ref={artistsScrollRef}>
-                    <VirtualizedList
-                      scrollRef={artistsScrollRef}
-                      data={targetAlbum.artists}
-                      keyExtractor={keyExtractor}
-                      renderItem={({ item: artist }) => (
-                        <MenuItem asChild>
-                          <SafeLink to="/artists/$id" params={{ id: artist.artistId.toString() }}>
-                            <Typography className="line-clamp-none truncate">
-                              {artist.artist.name}
-                            </Typography>
-                          </SafeLink>
-                        </MenuItem>
-                      )}
-                      estimateItemHeight={30}
-                      containerClassName="max-h-52"
-                    />
-                  </ScrollArea>
-                </MenuSubContent>
-              </MenuSub>
-            )}
-            <MenuItem onClick={() => onOpenDialog("edit", targetAlbum, [])}>
-              <Icon name="Edit" />
-              {t("form.buttons.update")}
-            </MenuItem>
-            <MenuItem onClick={() => onOpenDialog("delete", targetAlbum, [])}>
-              <Icon name="Trash2" />
-              {t("form.buttons.delete")}
-            </MenuItem>
+                  <Icon
+                    name="Heart"
+                    isFilled={targetAlbum.isFavorite}
+                    className={cn(targetAlbum.isFavorite && "text-primary!")}
+                  />
+                  {targetAlbum.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+                </MenuItem>
+                <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
+                  <Icon name="PanelLeft" />
+                  {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
+                </MenuItem>
+                <MenuItem asChild>
+                  <SafeLink to="/albums/$id" params={{ id: targetAlbum.id.toString() }}>
+                    <Icon name="Disc" />
+                    {t("common.goToAlbum")}
+                  </SafeLink>
+                </MenuItem>
+                {targetAlbum.artists?.length === 1 && (
+                  <MenuItem asChild>
+                    <SafeLink
+                      to="/artists/$id"
+                      params={{ id: targetAlbum.artists[0].artistId.toString() }}
+                    >
+                      <Icon name="User" />
+                      {t("common.goToArtist")}
+                    </SafeLink>
+                  </MenuItem>
+                )}
+                {targetAlbum.artists && targetAlbum.artists.length > 1 && (
+                  <MenuSub>
+                    <MenuSubTrigger>
+                      <Icon name="User" />
+                      {t("common.goToArtist")}
+                    </MenuSubTrigger>
+                    <MenuSubContent className="p-0">
+                      <ScrollArea className="p-1" ref={artistsScrollRef}>
+                        <VirtualizedList
+                          scrollRef={artistsScrollRef}
+                          data={targetAlbum.artists}
+                          keyExtractor={keyExtractor}
+                          renderItem={({ item: artist }) => (
+                            <MenuItem asChild>
+                              <SafeLink
+                                to="/artists/$id"
+                                params={{ id: artist.artistId.toString() }}
+                              >
+                                <Typography className="line-clamp-none truncate">
+                                  {artist.artist.name}
+                                </Typography>
+                              </SafeLink>
+                            </MenuItem>
+                          )}
+                          estimateItemHeight={30}
+                          containerClassName="max-h-52"
+                        />
+                      </ScrollArea>
+                    </MenuSubContent>
+                  </MenuSub>
+                )}
+                <MenuItem onClick={() => onOpenDialog("edit", targetAlbum, [])}>
+                  <Icon name="Edit" />
+                  {t("form.buttons.update")}
+                </MenuItem>
+                <MenuItem onClick={() => onOpenDialog("delete", targetAlbum, [])}>
+                  <Icon name="Trash2" />
+                  {t("form.buttons.delete")}
+                </MenuItem>
+              </Fragment>
+            ) : isFetchingDetails ? (
+              <div className="flex items-center justify-center p-2">
+                <Spinner className="size-4" />
+              </div>
+            ) : null}
           </Fragment>
         )}
       </Fragment>

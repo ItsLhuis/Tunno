@@ -93,11 +93,9 @@ const ArtistActionsContent = memo(
     const shouldFetchArtist = artistId !== undefined && !hasSingleSelection
     const resolvedArtistId = artistId ?? (hasSingleSelection ? Number(list.selectedIds[0]) : null)
 
-    const {
-      data: fetchedArtist,
-      isPending,
-      isError
-    } = useFetchArtistByIdWithSongs(shouldFetchArtist ? resolvedArtistId : null)
+    const { data: fetchedArtist, isPending } = useFetchArtistByIdWithSongs(
+      shouldFetchArtist ? resolvedArtistId : null
+    )
 
     const selectedArtistIds = hasMultipleSelections ? list.selectedIds.map((id) => Number(id)) : []
     const artistsWithSongs = hasMultipleSelections
@@ -199,15 +197,7 @@ const ArtistActionsContent = memo(
       onOpenDialog("playlist", targetArtist ?? null, ids)
     }
 
-    if (shouldFetchArtist && isPending) {
-      return (
-        <div className="flex items-center justify-center p-4">
-          <Spinner />
-        </div>
-      )
-    }
-
-    if (shouldFetchArtist && (isError || !targetArtist)) {
+    if (!resolvedArtistId && !hasMultipleSelections) {
       return (
         <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
           {t("common.noResultsFound")}
@@ -215,15 +205,7 @@ const ArtistActionsContent = memo(
       )
     }
 
-    const hasAnyActions = hasSongs || (!hasMultipleSelections && targetArtist)
-
-    if (!hasAnyActions) {
-      return (
-        <Typography affects={["muted"]} className="flex h-full items-center justify-center p-4">
-          {t("common.noResultsFound")}
-        </Typography>
-      )
-    }
+    const isFetchingDetails = shouldFetchArtist && isPending
 
     return (
       <Fragment>
@@ -260,34 +242,45 @@ const ArtistActionsContent = memo(
             </MenuSubContent>
           </MenuSub>
         )}
-        {!hasMultipleSelections && targetArtist && (
+        {!hasMultipleSelections && (
           <Fragment>
-            <MenuItem onClick={handleToggleFavorite} disabled={toggleFavoriteMutation.isPending}>
-              <Icon
-                name="Heart"
-                isFilled={targetArtist.isFavorite}
-                className={cn(targetArtist.isFavorite && "text-primary!")}
-              />
-              {targetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
-            </MenuItem>
-            <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
-              <Icon name="PanelLeft" />
-              {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
-            </MenuItem>
-            <MenuItem asChild>
-              <SafeLink to="/artists/$id" params={{ id: targetArtist.id.toString() }}>
-                <Icon name="User" />
-                {t("common.goToArtist")}
-              </SafeLink>
-            </MenuItem>
-            <MenuItem onClick={() => onOpenDialog("edit", targetArtist, [])}>
-              <Icon name="Edit" />
-              {t("form.buttons.update")}
-            </MenuItem>
-            <MenuItem onClick={() => onOpenDialog("delete", targetArtist, [])}>
-              <Icon name="Trash2" />
-              {t("form.buttons.delete")}
-            </MenuItem>
+            {targetArtist ? (
+              <Fragment>
+                <MenuItem
+                  onClick={handleToggleFavorite}
+                  disabled={toggleFavoriteMutation.isPending}
+                >
+                  <Icon
+                    name="Heart"
+                    isFilled={targetArtist.isFavorite}
+                    className={cn(targetArtist.isFavorite && "text-primary!")}
+                  />
+                  {targetArtist.isFavorite ? t("common.unfavorite") : t("common.favorite")}
+                </MenuItem>
+                <MenuItem onClick={handleToggleSidebar} disabled={toggleSidebarMutation.isPending}>
+                  <Icon name="PanelLeft" />
+                  {isInSidebar ? t("common.removeFromSidebar") : t("common.addToSidebar")}
+                </MenuItem>
+                <MenuItem asChild>
+                  <SafeLink to="/artists/$id" params={{ id: targetArtist.id.toString() }}>
+                    <Icon name="User" />
+                    {t("common.goToArtist")}
+                  </SafeLink>
+                </MenuItem>
+                <MenuItem onClick={() => onOpenDialog("edit", targetArtist, [])}>
+                  <Icon name="Edit" />
+                  {t("form.buttons.update")}
+                </MenuItem>
+                <MenuItem onClick={() => onOpenDialog("delete", targetArtist, [])}>
+                  <Icon name="Trash2" />
+                  {t("form.buttons.delete")}
+                </MenuItem>
+              </Fragment>
+            ) : isFetchingDetails ? (
+              <div className="flex items-center justify-center p-2">
+                <Spinner className="size-4" />
+              </div>
+            ) : null}
           </Fragment>
         )}
       </Fragment>
