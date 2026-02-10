@@ -2,6 +2,16 @@
 
 All notable changes to the Tunno Mobile project will be documented in this file.
 
+## [1.0.2] - 2026-02-10
+
+### Changed
+
+- ⚡ **Action Menus**: Context and dropdown menus for songs, albums, artists, and playlists now open
+  instantly with core actions (play, queue, add to playlist) available immediately, instead of
+  blocking the entire menu with a loading spinner while fetching entity details.
+- 🎤 **Artist Actions**: Artist action menu now displays total duration alongside track count in the
+  header.
+
 ## [1.0.1] - 2026-02-09
 
 ### Changed
