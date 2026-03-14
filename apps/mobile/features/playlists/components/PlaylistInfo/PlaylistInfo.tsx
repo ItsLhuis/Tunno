@@ -108,6 +108,7 @@ const PlaylistInfo = () => {
             allSongIds={allSongIds}
             playSource="playlist"
             sourceContextId={playlist?.id}
+            playlistId={playlist?.id}
           />
         </View>
       )
