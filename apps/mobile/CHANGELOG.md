@@ -2,6 +2,13 @@
 
 All notable changes to the Tunno Mobile project will be documented in this file.
 
+## [1.0.3] - 2026-03-14
+
+### Fixed
+
+- 🎵 **Playlist Songs**: The "Remove from Playlist" option now correctly appears in the song action
+  menu when viewing songs inside a playlist.
+
 ## [1.0.2] - 2026-02-10
 
 ### Changed
